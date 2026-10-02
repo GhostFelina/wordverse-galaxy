@@ -2,7 +2,7 @@
 
 [Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.4.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.7.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
 
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
 
@@ -13,10 +13,12 @@
 | Kelime yıldızları | Her kelime beyaz doğar. Öğrenildiğinden beri geçen günler, sıkıştırılmış görsel yıldız evreleriyle temsil edilir. |
 | İkili yıldız hareketi | Her galaksideki en eski iki kelime ortak kütle merkezi çevresinde döner. Aralarında çizgi yoktur. |
 | Canlı galaksi | Bulutsu ve kozmik toz kelime sayısıyla gelişir. Yıldızlar hareket eder; seyrek meteor ve kuyruklu yıldız geçişleri olur. |
+| Yakın gezegenler | Seçili yıldızların çevresinde sönük, çizgisiz yörüngeli gezegenler yalnız yakın bakışta görünür. |
 | Gizli anlam | Yıldızın üzerine gelince yalnızca kelime görünür. Türkçe anlam, ayrıntıdaki göz ikonuyla açılır. |
 | Galaksiler | İngilizce ve boş İspanyolca galaksileri hazırdır. Yeni dil galaksileri oluşturulabilir, galaksi adları değiştirilebilir. |
 | Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. İkinci yerel kopya otomatik tutulur; JSON yedeği indirilebilir ve içeri alınabilir. |
 | Odak görünümü | Tek ikonla bütün arayüz gizlenir; yalnızca evren ve geri dönüş ikonu kalır. |
+| Yıldız takibi | Kelime ayrıntısındaki **Yıldıza yaklaş** düğmesi kamerayı hareket eden yıldızda tutar. Esc veya evren ikonu geri döner. |
 
 Fareyle sürükle, tekerlekle yakınlaş, dokunmatik ekranda iki parmak kullan. `Shift+F` yerel FPS ve çizim çağrısı göstergesini açar.
 
@@ -47,7 +49,7 @@ Kuyruklu yıldız, küçük çekirdek ve koma ile iki farklı parçacık kuyruğ
 
 ## Teknoloji
 
-Vite, Three.js, GPU nokta çizimi, hafif sprite katmanları ve tarayıcı yerel depolaması. Masaüstü ve mobilde piksel oranı sınırlandırılır. Bulutsu dokusu `public/assets/nebula-gas.png` içindedir.
+Vite, Three.js, GPU nokta çizimi, hafif sprite katmanları ve tarayıcı yerel depolaması. Masaüstü ve mobilde piksel oranı sınırlandırılır. Gaz ve toz dokuları `public/assets/nebula-gas.png` ile `public/assets/galaxy-dust-lanes.png` içindedir.
 
 ## Sürümler ve katkı
 

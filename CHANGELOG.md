@@ -1,5 +1,11 @@
 # Değişiklik kaydı
 
+## [1.7.0] - 2026-10-02
+
+- Kelime yıldızı ayrıntısına “Yıldıza yaklaş” eklendi. Kamera yıldızı yakın planda takip ediyor; sürükleme takibi bırakıyor, Esc veya evren ikonu normal görünüme dönüyor.
+- Yakınlaştırma düğmeleri galaksi merkezini kadrajda tutacak şekilde odaklı yakınlaştırma yapıyor.
+- Yerel Chrome'da yıldız odağı, yakın gezegen görünümü, Esc ile dönüş ve düğmeyle yakınlaştırma doğrulandı.
+
 ## [1.6.0] - 2026-10-02
 
 - Yıldız çekirdeklerinin ışık profili ince kırınım halkalarıyla yenilendi; uzak ve yakın görünüm ayrı ölçeklerde incelendi.

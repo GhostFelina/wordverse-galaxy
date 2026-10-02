@@ -23,6 +23,8 @@ const pointer = { x: 0, y: 0 };
 const pan = { x: 0, y: 0 };
 let zoom = 160;
 let preImmersiveZoom = null;
+let focusedStarId = null;
+let preFocusPan = null;
 const MIN_ZOOM = 19;
 const MAX_ZOOM = 50000;
 let dragging = false;
@@ -378,8 +380,9 @@ function animate(ms) {
   }
   clock = ms * .001;
   const drift = reducedMotion ? 0 : clock;
-  const targetX = pan.x + (dragging ? 0 : pointer.x * 1.9);
-  const targetY = pan.y + (dragging ? 0 : pointer.y * 1.25);
+  const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
+  const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging ? 0 : pointer.x * 1.9);
+  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25);
   camera.position.x += (targetX - camera.position.x) * .035;
   camera.position.y += (targetY - camera.position.y) * .035;
   camera.position.z += (zoom - camera.position.z) * .055;
@@ -556,6 +559,14 @@ function selectWord(id) {
   $('#detail-sun').style.setProperty('--star-core', appearance.color);
   for (const [starId, nodes] of starNodes) nodes.label.classList.toggle('selected', starId === id);
   openPanel('detail');
+}
+function focusStar() {
+  if (!worldStars.has(selectedId)) return;
+  preFocusPan = { ...pan };
+  closePanels();
+  if (!$('#app').classList.contains('immersive')) $('#universe-mode').click();
+  focusedStarId = selectedId;
+  zoom = 36;
 }
 function createPosition(index) {
   if (index >= 2) {
@@ -742,6 +753,14 @@ function setZoom(value, focusX, focusY) {
   pan.x += (focusX / innerWidth - .5) * 2 * halfHeightChange * camera.aspect;
   pan.y += (.5 - focusY / innerHeight) * 2 * halfHeightChange;
 }
+function zoomOnGalaxy(value) {
+  if (!words.length || !camera) { setZoom(value); return; }
+  projected.set(31, 0, 0).project(camera);
+  const x = (projected.x * .5 + .5) * innerWidth;
+  const y = (-projected.y * .5 + .5) * innerHeight;
+  if (x < 0 || x > innerWidth || y < 0 || y > innerHeight) setZoom(value);
+  else setZoom(value, x, y);
+}
 
 function bindUI() {
   $('#universe-mode').addEventListener('click', () => {
@@ -751,12 +770,13 @@ function bindUI() {
     else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; preImmersiveZoom = null; }
     $('#app').classList.toggle('immersive', immersive);
     pan.x += immersive ? 31 : -31;
+    if (!immersive && focusedStarId) { focusedStarId = null; if (preFocusPan) { pan.x = preFocusPan.x; pan.y = preFocusPan.y; preFocusPan = null; } }
     button.setAttribute('aria-pressed', String(immersive));
     button.setAttribute('aria-label', immersive ? 'Arayüzü göster' : 'Sadece evreni göster');
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
-  $('#home-btn').addEventListener('click', () => { closePanels(); pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => { closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -775,6 +795,7 @@ function bindUI() {
     $('#reveal-meaning').setAttribute('aria-label', reveal ? 'Türkçe anlamı gizle' : 'Türkçe anlamı göster');
   });
   $('#close-detail').addEventListener('click', closePanels);
+  $('#focus-star').addEventListener('click', focusStar);
   $('#close-add').addEventListener('click', closePanels);
   $('#close-collection').addEventListener('click', closePanels);
   $('#panel-backdrop').addEventListener('click', closePanels);
@@ -782,17 +803,17 @@ function bindUI() {
   $('#edit-word').addEventListener('click', beginEdit);
   $('#delete-word').addEventListener('click', deleteSelected);
   $('#search-input').addEventListener('input', renderCollection);
-  $('#zoom-in').addEventListener('click', () => setZoom(zoom / 1.38));
-  $('#zoom-out').addEventListener('click', () => setZoom(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => { pan.x = pan.y = 0; zoom = 160; });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanels(); if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
+  $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
+  $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
+  $('#reset-view').addEventListener('click', () => { focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
     if (e.pointerType === 'touch') {
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (touches.size === 2) { const [a, b] = [...touches.values()]; pinchStart = { distance: Math.hypot(a.x - b.x, a.y - b.y), zoom }; dragging = false; dragStart = null; }
     }
-    if (touches.size < 2) { dragging = true; moved = false; dragStart = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y }; }
+    if (touches.size < 2) { if (focusedStarId) { focusedStarId = null; preFocusPan = null; pan.x = camera.position.x; pan.y = camera.position.y; } dragging = true; moved = false; dragStart = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y }; }
     canvas.setPointerCapture(e.pointerId);
   });
   canvas.addEventListener('pointermove', e => {
