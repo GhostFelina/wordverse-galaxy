@@ -28,7 +28,7 @@ for (const [locale, heading, question] of [
     await expect(page.locator('#how')).toHaveText(heading);
     await expect(page.locator('section[aria-labelledby="questions"] h3').first()).toHaveText(question);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
-    await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toHaveAttribute('href', /lang=es$/);
+    await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toHaveAttribute('href', /\/es\/about\.html$/);
     const faq = await page.locator('script[type="application/ld+json"]').textContent();
     expect(JSON.parse(faq).mainEntity[0].name).toBe(question);
     expect(await page.locator('meta[name="description"]').getAttribute('content')).toBeTruthy();
@@ -44,15 +44,21 @@ for (const [locale, heading] of [
     await page.goto(`/?lang=${locale}`);
     await expect(page.locator('.hero h1')).toContainText(heading);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
-    await expect(page.locator('.about-link')).toHaveAttribute('href', `/about.html?lang=${locale}`);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', new RegExp(`lang=${locale}$`));
+    await expect(page.locator('.about-link')).toHaveAttribute(
+      'href',
+      locale === 'tr' ? '/about.html' : `/${locale}/about.html`,
+    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      locale === 'tr' ? 'https://wordverse-galaxy.vercel.app/' : `https://wordverse-galaxy.vercel.app/${locale}/`,
+    );
   });
 }
 
 test('language picker changes the whole page and keeps the choice', async ({ page }) => {
   await page.goto('/?lang=tr');
   await page.locator('#ui-language').selectOption('es');
-  await expect(page).toHaveURL(/lang=es$/);
+  await expect(page).toHaveURL(/\/es\/$/);
   await expect(page.locator('.hero h1')).toContainText('Cada palabra,');
   await page.locator('#open-add').click();
   await expect(page.locator('#form-title')).toContainText('estrella.');
@@ -61,6 +67,15 @@ test('language picker changes the whole page and keeps the choice', async ({ pag
   await page.locator('#collection-btn').click();
   await expect(page.locator('#collection-title')).toContainText('Mis palabras');
   await page.reload();
+  await expect(page.locator('#ui-language')).toHaveValue('es');
+});
+
+test('about language picker follows localized paths', async ({ page }) => {
+  await page.goto('/en/about.html');
+  await expect(page.locator('#how')).toHaveText('How does it work?');
+  await page.locator('#ui-language').selectOption('es');
+  await expect(page).toHaveURL(/\/es\/about\.html$/);
+  await expect(page.locator('#how')).toHaveText('¿Cómo funciona?');
   await expect(page.locator('#ui-language')).toHaveValue('es');
 });
 

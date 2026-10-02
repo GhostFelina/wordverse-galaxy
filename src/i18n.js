@@ -5,6 +5,16 @@ import es from '../locales/es.json';
 export const LOCALES = Object.freeze({ tr, en, es });
 export const LOCALE_KEY = 'wordverse.ui.locale';
 
+export function localeFromPath(pathname) {
+  const code = pathname.match(/^\/(en|es)(?:\/|$)/)?.[1];
+  return code || null;
+}
+
+export function localePath(locale, page = 'home') {
+  const prefix = locale === 'tr' ? '' : `/${locale}`;
+  return page === 'about' ? `${prefix}/about.html` : `${prefix}/`;
+}
+
 export function normalizeLocale(value) {
   const code = String(value || '')
     .toLowerCase()

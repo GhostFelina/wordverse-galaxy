@@ -1,6 +1,16 @@
-import { LOCALE_KEY, normalizeLocale, resolveLocale, translate } from './i18n.js';
+import {
+  LOCALE_KEY,
+  formatUnit,
+  localeFromPath,
+  localePath,
+  normalizeLocale,
+  resolveLocale,
+  translate,
+} from './i18n.js';
 
 export function getHomeLocale() {
+  const pathLocale = localeFromPath(location.pathname);
+  if (pathLocale) return pathLocale;
   const explicit = normalizeLocale(new URLSearchParams(location.search).get('lang'));
   if (explicit) {
     try {
@@ -35,7 +45,7 @@ export function applyHomeTranslations(locale) {
   document.querySelector('meta[name="twitter:title"]').content = t('home.ogTitle');
   document.querySelector('meta[name="twitter:description"]').content = t('home.ogDescription');
   document.querySelector('meta[property="og:locale"]').content = { tr: 'tr_TR', en: 'en_US', es: 'es_ES' }[locale];
-  const canonical = `https://wordverse-galaxy.vercel.app/?lang=${locale}`;
+  const canonical = `https://wordverse-galaxy.vercel.app${localePath(locale)}`;
   document.querySelector('link[rel="canonical"]').href = canonical;
   document.querySelector('meta[property="og:url"]').content = canonical;
   document.querySelector('script[type="application/ld+json"]').textContent = JSON.stringify({
@@ -51,17 +61,18 @@ export function applyHomeTranslations(locale) {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
     featureList: [t('home.feature1'), t('home.feature2'), t('home.feature3')],
   });
+  document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
   for (const code of ['tr', 'en', 'es']) {
     const alternate = document.createElement('link');
     alternate.rel = 'alternate';
     alternate.hreflang = code;
-    alternate.href = `https://wordverse-galaxy.vercel.app/?lang=${code}`;
+    alternate.href = `https://wordverse-galaxy.vercel.app${localePath(code)}`;
     document.head.append(alternate);
   }
   const fallback = document.createElement('link');
   fallback.rel = 'alternate';
   fallback.hreflang = 'x-default';
-  fallback.href = 'https://wordverse-galaxy.vercel.app/?lang=tr';
+  fallback.href = 'https://wordverse-galaxy.vercel.app/';
   document.head.append(fallback);
   setAria('#universe', 'home.universeCanvas');
   setAria('#universe-mode', 'home.universeOnly');
@@ -70,24 +81,37 @@ export function applyHomeTranslations(locale) {
   setText('#explore-btn', 'nav.explore');
   setText('#collection-btn', 'nav.collection');
   setOwnText('.live-indicator', 'home.personalUniverse');
-  document.querySelector('#ui-language').value = locale;
+  document.querySelectorAll('#ui-language option').forEach((option) => {
+    if (option.value === locale) option.setAttribute('selected', '');
+    else option.removeAttribute('selected');
+  });
   setAria('#ui-language', 'home.languagePicker');
   setAria('#galaxy-switch', 'home.galaxySwitch');
+  setText('#active-galaxy-name', 'names.defaultGalaxy.english');
   setText('#open-add span:last-child', 'action.addWord');
   setOwnText('.hero .eyebrow', 'home.eyebrow');
   document.querySelector('.hero h1').replaceChildren(t('hero.titleFirst'), document.createElement('br'));
   const heroEm = document.createElement('em');
   heroEm.textContent = t('hero.titleSecond');
   document.querySelector('.hero h1').append(heroEm);
+  document.querySelector('#hero-description').textContent = t('hero.empty', {
+    galaxy: t('names.defaultGalaxy.english'),
+  });
+  setOwnText('#hero-add', 'action.addFirst');
   setOwnText('#hero-explore', 'home.exploreUniverse');
   setOwnText('#demo-note', 'home.demoNote');
   setText('.about-link', 'home.aboutLink');
-  document.querySelector('.about-link').href = `/about.html?lang=${locale}`;
+  document.querySelector('.about-link').href = localePath(locale, 'about');
   setAria('#star-layer', 'home.starLayer');
   setText('.stat:has(#star-count) span', 'home.starStat');
   setText('.stat:has(#planet-count) span', 'home.planetStat');
   setText('.stat:has(#days-count) span', 'home.dayStat');
   setText('.stat:has(#galaxy-count) span', 'home.galaxyStat');
+  document.querySelector('#star-count').textContent = '00';
+  document.querySelector('#planet-count').textContent = '00';
+  document.querySelector('#days-count').textContent = '00';
+  document.querySelector('#galaxy-count').textContent = '02';
+  setText('#bottom-caption', 'home.emptyCaption');
   setAria('.controls', 'home.controls');
   for (const [selector, key] of [
     ['#zoom-in', 'home.zoomIn'],
@@ -102,6 +126,13 @@ export function applyHomeTranslations(locale) {
 
   for (const selector of ['#close-detail', '#close-add']) setAria(selector, 'panel.close');
   setText('#object-record-label', 'panel.recordStar');
+  document.querySelector('#detail-language').textContent = t('panel.wordType', {
+    language: t('names.language.en').toLocaleUpperCase(locale),
+  });
+  document.querySelector('#detail-meaning-language').textContent = t('panel.meaningOf', {
+    language: t('names.language.tr').toLocaleUpperCase(locale),
+  });
+  setAria('#reveal-meaning', 'action.showMeaning');
   setText('#meaning-hidden', 'panel.hiddenMeaning');
   setText('#object-stage-label', 'panel.starStage');
   setText('#binary-label', 'panel.binaryLabel');
@@ -115,6 +146,12 @@ export function applyHomeTranslations(locale) {
   formEm.textContent = t('panel.newStarSecond');
   formTitle.replaceChildren(t('panel.newStarFirst'), document.createElement('br'), formEm);
   setText('#form-copy', 'panel.newStarCopy');
+  document.querySelector('#word-language-label').textContent = t('panel.wordType', {
+    language: t('names.language.en').toLocaleUpperCase(locale),
+  });
+  document.querySelector('#form-meaning-language').textContent = t('panel.meaningOf', {
+    language: t('names.language.tr').toLocaleUpperCase(locale),
+  });
   setText('.entry-kind legend', 'panel.kind');
   const kinds = document.querySelectorAll('.entry-kind label');
   for (const [index, wordKey, kindKey] of [
@@ -125,6 +162,8 @@ export function applyHomeTranslations(locale) {
     kinds[index].querySelector('small').textContent = t(kindKey);
   }
   document.querySelector('#meaning-input').placeholder = t('panel.meaningPlaceholder');
+  document.querySelector('#word-input').placeholder = t('panel.wordPlaceholder');
+  document.querySelector('#example-input').placeholder = t('panel.examplePlaceholder');
   setOwnText('label[for="example-input"]', 'panel.example');
   setText('label[for="example-input"] small', 'panel.optional');
   setOwnText('#submit-word', 'panel.addStar');
@@ -135,12 +174,15 @@ export function applyHomeTranslations(locale) {
   setAria('#close-collection', 'panel.closeCollection');
   document.querySelector('#search-input').placeholder = t('panel.searchPlaceholder');
   setAria('#search-input', 'panel.searchAria');
+  document.querySelector('#result-count').textContent = formatUnit(locale, 'entry', 0, { uppercase: true });
   setText('.collection-meta span:last-child', 'panel.newestFirst');
   setOwnText('#collection-add', 'panel.addWord');
 
   setOwnText('#galaxy-panel .panel-kicker', 'panel.galaxyMap');
   setOwnText('#galaxy-panel-title', 'panel.myGalaxies');
   setText('#galaxy-panel .collection-top p', 'panel.galaxyDescription');
+  setText('#galaxy-language', 'names.language.en');
+  setText('#galaxy-name-detail', 'names.defaultGalaxy.english');
   setAria('#close-galaxy', 'panel.closeGalaxies');
   setAria('#rename-galaxy', 'panel.renameGalaxy');
   setAria('#rename-galaxy-input', 'panel.newGalaxyName');

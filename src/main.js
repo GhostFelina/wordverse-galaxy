@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import './style.css';
 import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
-import { translate, formatDate, formatUnit } from './i18n.js';
+import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 
 const $ = (selector) => document.querySelector(selector);
@@ -906,9 +906,7 @@ function zoomOnGalaxy(value) {
 function bindUI() {
   $('#ui-language').addEventListener('change', (event) => {
     const nextLocale = event.target.value;
-    const nextUrl = new URL(location.href);
-    nextUrl.searchParams.set('lang', nextLocale);
-    location.assign(nextUrl.href);
+    location.assign(localePath(nextLocale));
   });
   $('#universe-mode').addEventListener('click', () => {
     const button = $('#universe-mode');

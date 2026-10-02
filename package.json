@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender-locales.mjs && node scripts/verify-static-locales.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
     "check:release": "node scripts/check-release-version.mjs",
     "test:e2e": "playwright test",
     "lint": "eslint src tests scripts vite.config.js playwright.config.js",
-    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "eslint": "^10.11.0",
     "fake-indexeddb": "^6.2.5",
     "globals": "^17.13.0",
+    "linkedom": "^0.18.13",
     "prettier": "^3.9.9",
     "typescript": "^7.0.2",
     "vite": "^7.1.0",
