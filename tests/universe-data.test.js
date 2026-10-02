@@ -1,6 +1,6 @@
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
-import { LEGACY_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
+import { LEGACY_KEY, PREVIOUS_UNIVERSE_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
 
 function storage(entries) {
   const values = new Map(Object.entries(entries));
@@ -21,7 +21,18 @@ test('older words migrate into the English galaxy without losing their dates or 
 
 test('existing multi galaxy data remains intact', () => {
   const state = { version: 3, activeGalaxyId: 'es', galaxies: [{ id: 'en' }, { id: 'es' }], words: [{ id: 'luz', galaxyId: 'es' }], events: [{ id: 'event-1' }] };
-  assert.deepEqual(loadUniverse(storage({ [UNIVERSE_KEY]: JSON.stringify(state) })), state);
+  const migrated = loadUniverse(storage({ [PREVIOUS_UNIVERSE_KEY]: JSON.stringify(state) }));
+  assert.equal(migrated.version, 4);
+  assert.equal(migrated.activeGalaxyId, 'es');
+  assert.deepEqual(migrated.words, state.words);
+  assert.deepEqual(migrated.events, state.events);
+  assert.deepEqual(migrated.galaxies.map(g => g.meaningLanguage), ['tr', 'tr']);
+});
+
+test('v4 primary data takes precedence over stale v3 without changing user fields', () => {
+  const state = { version: 4, activeGalaxyId: 'en', galaxies: [{ id: 'en', meaningLanguage: 'es' }], words: [{ id: 'light', galaxyId: 'en' }], events: [] };
+  const loaded = loadUniverse(storage({ [UNIVERSE_KEY]: JSON.stringify(state), [PREVIOUS_UNIVERSE_KEY]: '{broken' }));
+  assert.deepEqual(loaded, state);
 });
 
 test('legacy entries stay stars while conjunction entries remain planets through backup merge', () => {
@@ -50,9 +61,9 @@ test('galaxy appearances are stable for existing galaxies and balanced for new o
 
 test('star light follows the compressed age stages', () => {
   const now = Date.parse('2026-10-02T12:00:00.000Z');
-  assert.match(starAge(new Date(now).toISOString(), now).stage, /beyaz/);
-  assert.match(starAge(new Date(now - 100 * 86400000).toISOString(), now).stage, /Kızıl dev/);
-  assert.match(starAge(new Date(now - 400 * 86400000).toISOString(), now).stage, /Beyaz cüce/);
+  assert.equal(starAge(new Date(now).toISOString(), now).stageId, 'newborn');
+  assert.equal(starAge(new Date(now - 100 * 86400000).toISOString(), now).stageId, 'redGiant');
+  assert.equal(starAge(new Date(now - 400 * 86400000).toISOString(), now).stageId, 'whiteDwarf');
 });
 
 test('backup merge preserves existing words and does not duplicate imported events', () => {

@@ -1,5 +1,7 @@
-export const UNIVERSE_KEY = 'wordverse.universe.v3';
+export const UNIVERSE_KEY = 'wordverse.universe.v4';
+export const PREVIOUS_UNIVERSE_KEY = 'wordverse.universe.v3';
 export const LEGACY_KEY = 'wordverse.words.v2';
+export const SCHEMA_VERSION = 4;
 export const entryKind = item => item?.kind === 'conjunction' ? 'conjunction' : 'word';
 export const PLANET_TYPES = Object.freeze(['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']);
 export const GALAXY_STYLES = Object.freeze(['spiral', 'barred', 'flocculent']);
@@ -25,13 +27,23 @@ export function nextPlanetType(entries, galaxyId, draw = Math.random()) {
   return candidates[Math.min(candidates.length - 1, Math.floor(Math.max(0, draw) * candidates.length))];
 }
 
-const initialGalaxy = () => ({ id: 'galaxy-english', name: 'İngilizce Galaksisi', language: 'İngilizce', createdAt: new Date().toISOString() });
-const secondGalaxy = () => ({ id: 'galaxy-spanish', name: 'İspanyolca Galaksisi', language: 'İspanyolca', createdAt: new Date().toISOString() });
+const initialGalaxy = () => ({ id: 'galaxy-english', name: 'İngilizce Galaksisi', language: 'İngilizce', meaningLanguage: 'tr', createdAt: new Date().toISOString() });
+const secondGalaxy = () => ({ id: 'galaxy-spanish', name: 'İspanyolca Galaksisi', language: 'İspanyolca', meaningLanguage: 'tr', createdAt: new Date().toISOString() });
+
+export function migrateUniverseV3(existing) {
+  if (existing?.version !== 3 || !Array.isArray(existing.galaxies) || !Array.isArray(existing.words) || !Array.isArray(existing.events)) throw new Error('Invalid v3 universe');
+  return { ...existing, version: SCHEMA_VERSION, galaxies: existing.galaxies.map(galaxy => ({ ...galaxy, meaningLanguage: galaxy.meaningLanguage || 'tr' })) };
+}
 
 export function loadUniverse(storage) {
+  let current = null;
+  let previous = null;
+  try { current = JSON.parse(storage.getItem(UNIVERSE_KEY) || 'null'); } catch { /* Try the previous version. */ }
+  try { previous = JSON.parse(storage.getItem(PREVIOUS_UNIVERSE_KEY) || 'null'); } catch { /* Try legacy words. */ }
   try {
-    const existing = JSON.parse(storage.getItem(UNIVERSE_KEY) || 'null');
-    if (existing && existing.version === 3 && Array.isArray(existing.galaxies) && Array.isArray(existing.words) && Array.isArray(existing.events) && existing.galaxies.length) {
+    const currentValid = current?.version === SCHEMA_VERSION && Array.isArray(current.galaxies) && current.galaxies.length && Array.isArray(current.words) && Array.isArray(current.events);
+    const existing = currentValid ? current : migrateUniverseV3(previous);
+    if (existing && existing.version === SCHEMA_VERSION && Array.isArray(existing.galaxies) && Array.isArray(existing.words) && Array.isArray(existing.events) && existing.galaxies.length) {
       if (existing.galaxies.length === 1 && existing.galaxies[0].id === 'galaxy-english') {
         const galaxy = secondGalaxy(); existing.galaxies.push(galaxy);
         existing.events.push({ id: 'seed-galaxy-spanish', type: 'galaxy.seeded', galaxyId: galaxy.id, wordId: null, at: galaxy.createdAt, before: null, after: { ...galaxy } });
@@ -50,17 +62,17 @@ export function loadUniverse(storage) {
   const events = words.map(w => ({ id: `import-${w.id}`, type: 'word.imported', galaxyId: galaxy.id, wordId: w.id, at: w.createdAt || galaxy.createdAt, before: null, after: { ...w } }));
   const spanish = secondGalaxy();
   events.push({ id: 'seed-galaxy-spanish', type: 'galaxy.seeded', galaxyId: spanish.id, wordId: null, at: spanish.createdAt, before: null, after: { ...spanish } });
-  return { version: 3, galaxies: [galaxy, spanish], activeGalaxyId: galaxy.id, words, events };
+  return { version: SCHEMA_VERSION, galaxies: [galaxy, spanish], activeGalaxyId: galaxy.id, words, events };
 }
 
 export function starAge(createdAt, now = Date.now()) {
   const age = Math.max(0, (now - new Date(createdAt).getTime()) / 86400000);
-  if (!Number.isFinite(age) || age < 1) return { stage: 'Yeni doğan · beyaz', color: '#ffffff', glow: '#dceaff', size: 1, ageDays: 0 };
-  if (age < 7) return { stage: 'Genç · beyaz', color: '#f8fbff', glow: '#c5ddff', size: 1.02, ageDays: Math.floor(age) };
-  if (age < 30) return { stage: 'Olgun · sarı beyaz', color: '#fff3d6', glow: '#ffe3a2', size: 1.05, ageDays: Math.floor(age) };
-  if (age < 90) return { stage: 'Yaşlanan · kehribar', color: '#ffd9ac', glow: '#ffad6c', size: 1.15, ageDays: Math.floor(age) };
-  if (age < 365) return { stage: 'Kızıl dev', color: '#ffb09b', glow: '#ef795d', size: 1.36, ageDays: Math.floor(age) };
-  return { stage: 'Beyaz cüce', color: '#e9f5ff', glow: '#a6c9ec', size: .78, ageDays: Math.floor(age) };
+  if (!Number.isFinite(age) || age < 1) return { stageId: 'newborn', color: '#ffffff', glow: '#dceaff', size: 1, ageDays: 0 };
+  if (age < 7) return { stageId: 'young', color: '#f8fbff', glow: '#c5ddff', size: 1.02, ageDays: Math.floor(age) };
+  if (age < 30) return { stageId: 'mature', color: '#fff3d6', glow: '#ffe3a2', size: 1.05, ageDays: Math.floor(age) };
+  if (age < 90) return { stageId: 'aging', color: '#ffd9ac', glow: '#ffad6c', size: 1.15, ageDays: Math.floor(age) };
+  if (age < 365) return { stageId: 'redGiant', color: '#ffb09b', glow: '#ef795d', size: 1.36, ageDays: Math.floor(age) };
+  return { stageId: 'whiteDwarf', color: '#e9f5ff', glow: '#a6c9ec', size: .78, ageDays: Math.floor(age) };
 }
 
 export function appendEvent(universe, type, galaxyId, wordId = null, before = null, after = null) {
@@ -69,7 +81,7 @@ export function appendEvent(universe, type, galaxyId, wordId = null, before = nu
 
 export function normalizeBackup(backup) {
   const legacy = Array.isArray(backup) ? backup : backup?.version === 2 && Array.isArray(backup.words) ? backup.words : null;
-  if (!legacy) return backup;
+  if (!legacy) return backup?.version === 3 ? migrateUniverseV3(backup) : backup;
   if (legacy.length > 100000 || legacy.some(item => !item || typeof item.word !== 'string' || typeof item.meaning !== 'string')) throw new Error('Invalid Wordverse backup');
   const galaxy = { id: 'galaxy-english', name: 'İngilizce Galaksisi', language: 'İngilizce' };
   return {
@@ -81,7 +93,8 @@ export function normalizeBackup(backup) {
 
 export function mergeUniverse(target, backup) {
   backup = normalizeBackup(backup);
-  if (backup?.version !== 3 || !Array.isArray(backup.galaxies) || !Array.isArray(backup.words) || !Array.isArray(backup.events) || backup.galaxies.length > 1000 || backup.words.length > 100000 || backup.events.length > 200000) throw new Error('Invalid Wordverse backup');
+  if (backup?.version === 3) backup = migrateUniverseV3(backup);
+  if (backup?.version !== SCHEMA_VERSION || !Array.isArray(backup.galaxies) || !Array.isArray(backup.words) || !Array.isArray(backup.events) || backup.galaxies.length > 1000 || backup.words.length > 100000 || backup.events.length > 200000) throw new Error('Invalid Wordverse backup');
   const galaxyIds = new Set(target.galaxies.map(g => g.id));
   for (const galaxy of backup.galaxies) if (typeof galaxy?.id === 'string' && typeof galaxy.name === 'string' && typeof galaxy.language === 'string' && !galaxyIds.has(galaxy.id)) { target.galaxies.push(galaxy); galaxyIds.add(galaxy.id); }
   const wordIds = new Set(target.words.map(w => w.id));

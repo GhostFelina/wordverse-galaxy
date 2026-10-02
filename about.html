@@ -13,15 +13,17 @@
   <meta property="og:title" content="Wordverse Nasıl Çalışır?" />
   <meta property="og:description" content="Kelimelerini galaksi yıldızlarına dönüştürme, dil başına ayrı evren oluşturma ve veri yedekleme hakkında kısa yanıtlar." />
   <meta property="og:image" content="https://wordverse-galaxy.vercel.app/assets/nebula-gas.png" />
+  <meta property="og:image:alt" content="Karanlık uzayda mavi ve mor bulutsu" />
   <title>Wordverse Nasıl Çalışır? | Kelime Galaksisi ve Veri Yedeği</title>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kelimelerim nerede saklanıyor?","acceptedAnswer":{"@type":"Answer","text":"Kelimeler tarayıcıda tutulur; ikinci bir yerel kopya otomatik yazılır. Tüm site verilerini silmek iki kopyayı da silebilir. Başka cihaz veya adresler arasında otomatik eşitleme yoktur; JSON yedeğiyle taşıyabilirsin."}},{"@type":"Question","name":"Yıldızlar gerçekten yaşlanıyor mu?","acceptedAnswer":{"@type":"Answer","text":"Kelime öğreniminden beri geçen günler sıkıştırılmış görsel yıldız evreleriyle temsil edilir. Bu astronomik zaman simülasyonu değildir."}},{"@type":"Question","name":"Galaksiyi nasıl gezebilirim?","acceptedAnswer":{"@type":"Answer","text":"Fareyle sürükleyebilir, tekerlekle yakınlaşabilir ve dokunmatik ekranda iki parmak kullanabilirsin."}}]}</script>
   <style>
     :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#e9efff;background:#02040a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 78% 12%,#142445 0,#02040a 50%)}main{max-width:810px;margin:auto;padding:42px 25px 95px}a{color:#b7d1ff}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:85px}header a{text-decoration:none}header strong{font-size:20px;letter-spacing:-.06em}.eyebrow{font-size:11px;letter-spacing:.22em;color:#95abd0;text-transform:uppercase}h1{font:400 clamp(49px,8vw,84px)/1 Georgia,serif;letter-spacing:-.06em;margin:18px 0 23px}h2{font:400 34px Georgia,serif;margin:75px 0 18px}h3{font-size:18px;font-weight:600;margin:36px 0 8px}p,li{color:#aab9d4;line-height:1.8;font-size:16px}p.lead{font-size:19px;max-width:650px}.button{display:inline-block;padding:14px 19px;margin-top:23px;text-decoration:none;background:#d7e4ff;color:#0d1930;border-radius:4px;font-size:13px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:30px}.card{border:1px solid #2a3d61;background:#0b1528cc;padding:23px;border-radius:5px}.card strong{font-size:17px}.card p{font-size:14px;margin:9px 0 0}.faq{border-top:1px solid #283a59;padding:6px 0}.note{border-left:2px solid #8caee8;padding-left:17px;font-size:14px}@media(max-width:620px){header{margin-bottom:65px}.grid{grid-template-columns:1fr}}
+    .header-actions{display:flex;align-items:center;gap:14px}.about-language{height:34px;min-width:56px;border:1px solid #385078;border-radius:4px;background:#101a2c;color:#dbe7ff;padding:0 5px;font-size:12px;font-weight:700;cursor:pointer}.about-language:focus-visible{outline:2px solid #9bafff;outline-offset:3px}@media(max-width:620px){header{gap:12px}header strong{font-size:17px}.header-actions{gap:8px}.header-actions a{font-size:12px;max-width:142px;text-align:right}}
   </style>
 </head>
 <body>
   <main>
-    <header><strong>wordverse ✦</strong><a href="/">Evrene dön ↗</a></header>
+    <header><strong>wordverse ✦</strong><div class="header-actions"><select id="ui-language" class="about-language" aria-label="Arayüz dili"><option value="tr">TR</option><option value="en">EN</option><option value="es">ES</option></select><a href="/">Evrene dön ↗</a></div></header>
     <div class="eyebrow">KELİME ÖĞRENMEYİ GÖRSELLEŞTİR</div>
     <h1>Her kelime,<br />bir yıldız.</h1>
     <p class="lead">Wordverse, öğrendiğin kelimelerle büyüyen etkileşimli bir galaksidir. İngilizce, İspanyolca veya yeni başladığın başka bir dil için ayrı bir gökyüzü açarsın. Her kelime kendi yıldızı olarak doğar.</p>
@@ -31,5 +33,6 @@
     <section aria-labelledby="planets"><h2 id="planets">Bağlaç gezegenleri</h2><p>Aynı galakside kelimeler yıldız, bağlaçlar gezegen olarak yaşar. Her gezegen Merkür, Venüs, Dünya, Mars, Jüpiter, Satürn, Uranüs veya Neptün dokusundan sabit bir seçim alır; kayıt yenilendiğinde görünümü korunur. Haritalar NASA/JPL-Caltech ve USGS kaynaklıdır. Bazı gaz devi haritaları değişen atmosferleri temsil eden görsel yaklaşımlardır; bilimsel analiz için kullanılmaz. <a href="https://space.jpl.nasa.gov/tmaps/">Doku kaynakları</a> · <a href="https://www.jpl.nasa.gov/jpl-image-use-policy/">Görsel kullanım koşulları</a>. Courtesy NASA/JPL-Caltech.</p></section>
     <p class="note">Wordverse bir kelime atlası ve sanatsal görselleştirmedir. Fiziksel ölçüler ve zaman ölçeği, etkileşim için uyarlanmıştır.</p>
   </main>
+  <script type="module" src="/src/about.js"></script>
 </body>
 </html>

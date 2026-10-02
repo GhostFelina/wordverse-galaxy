@@ -1,9 +1,10 @@
-import { LEGACY_KEY, UNIVERSE_KEY, loadUniverse } from './universe-data.js';
+import { LEGACY_KEY, PREVIOUS_UNIVERSE_KEY, SCHEMA_VERSION, UNIVERSE_KEY, loadUniverse } from './universe-data.js';
 
 const DATABASE = 'wordverse-local-backup';
 const STORE = 'snapshots';
 const ARCHIVE = 'pre-migration';
-const SNAPSHOT = 'universe-v3';
+const SNAPSHOT = 'universe-v4';
+const PREVIOUS_SNAPSHOT = 'universe-v3';
 export const SCHEMA_VERSION_KEY = 'wordverse.schema.version';
 let openPromise;
 
@@ -31,10 +32,10 @@ function openDatabase() {
 // Keep the original bytes before loadUniverse or persist can change a legacy record.
 // An archive is written only once per source key so later launches cannot replace it.
 export async function archiveBeforeMigration(storage) {
-  const sources = [LEGACY_KEY, UNIVERSE_KEY]
+  const sources = [LEGACY_KEY, PREVIOUS_UNIVERSE_KEY, UNIVERSE_KEY]
     .map(key => ({ key, raw: storage.getItem(key) }))
     .filter(item => item.raw !== null);
-  if (!sources.length) return { archived: false, schemaVersion: 3 };
+  if (!sources.length) return { archived: false, schemaVersion: SCHEMA_VERSION };
   const database = await openDatabase();
   await new Promise((resolve, reject) => {
     const transaction = database.transaction(ARCHIVE, 'readwrite');
@@ -49,12 +50,12 @@ export async function archiveBeforeMigration(storage) {
     transaction.onerror = () => reject(transaction.error);
     transaction.onabort = () => reject(transaction.error);
   });
-  storage.setItem(SCHEMA_VERSION_KEY, '3');
-  return { archived: true, schemaVersion: 3 };
+  storage.setItem(SCHEMA_VERSION_KEY, String(SCHEMA_VERSION));
+  return { archived: true, schemaVersion: SCHEMA_VERSION };
 }
 
 export async function readMigrationArchive(key) {
-  if (key !== LEGACY_KEY && key !== UNIVERSE_KEY) throw new Error('Unknown archive key');
+  if (key !== LEGACY_KEY && key !== PREVIOUS_UNIVERSE_KEY && key !== UNIVERSE_KEY) throw new Error('Unknown archive key');
   const database = await openDatabase();
   return new Promise((resolve, reject) => {
     const request = database.transaction(ARCHIVE, 'readonly').objectStore(ARCHIVE).get(key);
@@ -66,8 +67,14 @@ export async function readMigrationArchive(key) {
 export async function readUniverseMirror() {
   const database = await openDatabase();
   return new Promise((resolve, reject) => {
-    const request = database.transaction(STORE, 'readonly').objectStore(STORE).get(SNAPSHOT);
-    request.onsuccess = () => resolve(request.result ?? null);
+    const store = database.transaction(STORE, 'readonly').objectStore(STORE);
+    const request = store.get(SNAPSHOT);
+    request.onsuccess = () => {
+      if (request.result) { resolve(request.result); return; }
+      const previous = store.get(PREVIOUS_SNAPSHOT);
+      previous.onsuccess = () => resolve(previous.result ?? null);
+      previous.onerror = () => reject(previous.error);
+    };
     request.onerror = () => reject(request.error);
   });
 }
@@ -84,21 +91,23 @@ export async function writeUniverseMirror(snapshot) {
 }
 
 function validUniverse(value) {
-  return value?.version === 3 && Array.isArray(value.galaxies) && value.galaxies.length > 0 && Array.isArray(value.words) && Array.isArray(value.events);
+  return (value?.version === 3 || value?.version === SCHEMA_VERSION) && Array.isArray(value.galaxies) && value.galaxies.length > 0 && Array.isArray(value.words) && Array.isArray(value.events);
 }
 
 export async function recoverUniverse(storage, readMirror = readUniverseMirror) {
   let primary = null;
+  let previous = null;
   let legacy = null;
   try { primary = JSON.parse(storage.getItem(UNIVERSE_KEY) || 'null'); } catch { /* Try the mirror. */ }
+  try { previous = JSON.parse(storage.getItem(PREVIOUS_UNIVERSE_KEY) || 'null'); } catch { /* Try the mirror. */ }
   try { legacy = JSON.parse(storage.getItem(LEGACY_KEY) || 'null'); } catch { /* Try the mirror. */ }
-  if (validUniverse(primary) || (Array.isArray(legacy) && legacy.length > 0)) return { universe: loadUniverse(storage), recovered: false };
+  if ((primary?.version === SCHEMA_VERSION && validUniverse(primary)) || (previous?.version === 3 && validUniverse(previous)) || (Array.isArray(legacy) && legacy.length > 0)) return { universe: loadUniverse(storage), recovered: false };
 
   let timer;
   try {
     const snapshot = await Promise.race([readMirror(), new Promise(resolve => { timer = setTimeout(() => resolve(null), 1200); })]);
     if (validUniverse(snapshot)) {
-      const mirrorStorage = { getItem: key => key === UNIVERSE_KEY ? JSON.stringify(snapshot) : null };
+      const mirrorStorage = { getItem: key => key === (snapshot.version === 3 ? PREVIOUS_UNIVERSE_KEY : UNIVERSE_KEY) ? JSON.stringify(snapshot) : null };
       return { universe: loadUniverse(mirrorStorage), recovered: true };
     }
   } catch { /* The primary storage remains usable. */ }

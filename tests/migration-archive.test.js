@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import { indexedDB } from 'fake-indexeddb';
-import { LEGACY_KEY, loadUniverse, mergeUniverse } from '../src/universe-data.js';
+import { LEGACY_KEY, PREVIOUS_UNIVERSE_KEY, loadUniverse, mergeUniverse } from '../src/universe-data.js';
 import { archiveBeforeMigration, readMigrationArchive, SCHEMA_VERSION_KEY } from '../src/storage-mirror.js';
 
 globalThis.indexedDB = indexedDB;
@@ -17,12 +17,26 @@ test('archives exact v2 bytes before migration and never overwrites them', async
   const original = JSON.stringify([{ id: 'old', word: 'eager', meaning: 'hevesli', createdAt: '2025-01-01' }]);
   const browserStorage = storage({ [LEGACY_KEY]: original });
   await archiveBeforeMigration(browserStorage);
-  expect(browserStorage.getItem(SCHEMA_VERSION_KEY)).toBe('3');
+  expect(browserStorage.getItem(SCHEMA_VERSION_KEY)).toBe('4');
   await expect(readMigrationArchive(LEGACY_KEY)).resolves.toMatchObject({ raw: original });
   expect(loadUniverse(browserStorage).words[0].meaning).toBe('hevesli');
   browserStorage.setItem(LEGACY_KEY, '[]');
   await archiveBeforeMigration(browserStorage);
   expect((await readMigrationArchive(LEGACY_KEY)).raw).toBe(original);
+});
+
+test('archives an existing v3 record exactly before writing v4', async () => {
+  const raw = JSON.stringify({
+    version: 3,
+    galaxies: [{ id: 'en' }],
+    activeGalaxyId: 'en',
+    words: [{ id: 'one', galaxyId: 'en' }],
+    events: [],
+  });
+  const browserStorage = storage({ [PREVIOUS_UNIVERSE_KEY]: raw });
+  await archiveBeforeMigration(browserStorage);
+  expect((await readMigrationArchive(PREVIOUS_UNIVERSE_KEY)).raw).toBe(raw);
+  expect(loadUniverse(browserStorage).words).toHaveLength(1);
 });
 
 test('existing v3 JSON backups remain importable without replacing words', () => {
