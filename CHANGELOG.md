@@ -1,5 +1,12 @@
 # Değişiklik kaydı
 
+## [1.6.0] - 2026-10-02
+
+- Yıldız çekirdeklerinin ışık profili ince kırınım halkalarıyla yenilendi; uzak ve yakın görünüm ayrı ölçeklerde incelendi.
+- Seçili kelime yıldızlarına çizgisiz yörüngelerde, yalnız yakınlaşınca görünen sönük gezegenler eklendi. Bir gaz devinde katmanlı halka, yüzey bantları ve yıldıza dönük aydınlık taraf bulunuyor.
+- Kısa meteor geçişi kamera alanına göre konumlanıyor; çok uzak ve çok yakın bakışta ekranın dışında kalması önlendi.
+- NASA/Webb, Satürn ve ötegezegen ışığı referansları ile Gaia Sky, NASA mission-viz ve OpenSpace incelemesi belgelendi.
+
 ## [1.5.0] - 2026-10-02
 
 - NASA galaksi gözlemlerinden esinlenen yeni toz şeridi dokusu, mevcut bulutsu dokusuyla ayrı katmanlarda işlendi; dokularda sözcük yıldızı bulunmuyor.

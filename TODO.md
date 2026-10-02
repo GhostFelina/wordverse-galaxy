@@ -19,6 +19,8 @@ Bu dosya yeni isteklerle güncellenir. Tamamlanan işler sürüm notuna taşın�
 - [x] 200 yıldızda çizim çağrısı 644'ten 20'ye indirildi; 80 yıldızdan sonra toplu çizim kullanılır.
 - [x] Teleskop gözlemlerinden esinlenen yıldızsız toz şeridi katmanı, katmanlı gaz ve derinlik tozu; az kelimede daha geniş yıldız aralıkları ve tam ekran yakın görünüm.
 - [x] Boş galaksiye geçişte önceki galaksinin bulutsu görüntüsünü hemen temizleme.
+- [x] Yakın bakışta seçili kelime yıldızları çevresinde 3B gezegen, yıldıza göre aydınlanan yüzey ve sönük halkalar; uzak görünümde gezegenlerin kaybolması.
+- [x] Yıldız çekirdeğinde ince kırınım halkaları ve kısa meteorun kamera alanına uyarlanması.
 - [ ] Ön plandaki gerçek tarayıcı oturumunda farklı donanımlarla FPS ölçümü; otomasyon sekmesindeki sayaç hem eski hem yeni çizimde 1 FPS'e kısıtlandı.
 
 ## Kelime ve veri

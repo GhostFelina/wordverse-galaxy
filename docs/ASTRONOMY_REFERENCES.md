@@ -4,6 +4,8 @@ Bu proje fiziksel ölçekli simülasyon değil, öğrenme verisinin astronomiden
 
 ## Yıldız ve hareket
 
+- [NASA/Webb: kırınım sivrileri](https://science.nasa.gov/asset/webb/webbs-diffraction-spikes/) — Parlak yıldızların çevresindeki ince sivriler teleskop optiğinin görünümüdür. Yeni çekirdek dokusundaki kırınım halkaları ve sivriler seçici, ölçülü bir görüntü efekti olarak kullanılır.
+- [NASA: ötegezegen ve yıldız parlaklığı karşıtlığı](https://science.nasa.gov/astrophysics/programs/exep/technology/) — Gezegenler ana yıldızlarından çok sönüktür. Wordverse gezegenleri yalnız yakın bakışta ve düşük ışıkla gösterir; ölçülen fiziksel parlaklık oranlarını bire bir simüle etmez.
 - [NASA: yıldız rengi ve sıcaklığı](https://science.nasa.gov/exoplanets/stars/) — Sıcak yıldızlar mavi/beyaz, soğuk yıldızlar turuncu/kırmızı görünür. Kelime yaşına bağlı renk yolculuğu bilimsel yaşam süresinin sanatsal sıkıştırmasıdır.
 - [NASA: Güneş benzeri yıldız yaşam döngüsü](https://science.nasa.gov/resource/the-life-cycle-of-a-sun-like-star-annotated/) — Kızıl dev ve beyaz cüce evrelerinin görsel adları için referans.
 - [ESA Gaia: yıldızların galaktik yörüngeleri](https://www.cosmos.esa.int/web/gaia/dr3-where-do-the-stars-go-or-come-from) — Yıldızlar galaksinin ortak kütleçekim alanında dolanır. Wordverse bu hareketi kararlı, yavaş yörüngelerle temsil eder.
@@ -16,14 +18,20 @@ Bu proje fiziksel ölçekli simülasyon değil, öğrenme verisinin astronomiden
 - [NASA: açık yıldız kümeleri](https://science.nasa.gov/mission/hubble/science/universe-uncovered/hubble-star-clusters/) — Yeni kelimeler yedi yıldızlık gevşek kümelere dağılır. Küme yıldızları aynı yönde yakın hızlarla hareket eder.
 - [NASA/Hubble: takım yıldızları](https://science.nasa.gov/image-detail/galactic-conjunction-2/) — Takım yıldızları bakış açısından görünen örüntülerdir. Wordverse örüntüyü bağlantı çizgileri olmadan yıldızların konumuyla kurar.
 
-## Kuyruklu yıldız ve meteor
+## Gezegen ve halka
 
+- [NASA: Satürn halkaları ve gölge](https://science.nasa.gov/resource/shadow-and-ringshine/) — Yakın plandaki halkalı gezegenin sönük halka katmanları ve gölgeli diski için referans.
+
+## Kuyruklu yıldız ve meteor
 - [NASA: kuyruklu yıldızın çekirdeği, koması ve iki kuyruğu](https://science.nasa.gov/solar-system/comets/nov2024-night-sky-notes/) — Beyazımsı toz kuyruğu geniş ve hafif kavisli; mavi iyon kuyruğu daha ince ve düzdür. İki kuyruk parçacıklarla çizilir.
 - [NASA/JWST: kuyruklu yıldız 238P/Read](https://science.nasa.gov/asset/webb/comet-238pread-nircam-image/) ve [ESA Rosetta görüntüleri](https://www.esa.int/ESA_Multimedia/Images/2014/09/Rosetta_comet_observed_with_Very_Large_Telescope) — Küçük çekirdek ve yumuşak koma yoğunluğu için görsel referans.
 - [NASA: meteor tanımı](https://science.nasa.gov/sun/the-atmosphere-after-dark/) — Kayan yıldız meteor, atmosferdeki kısa ışık çizgisidir. Uygulamadaki kısa geçiş bir uzay sahnesi efekti olarak açıkça sanatsaldır; yavaş kuyruklu yıldızdan ayrıdır.
 
 ## Açık kaynak incelemesi
 
+- [ESA Gaia Sky](https://github.com/pandygui/gaiasky) — Gözlemci uzaklığına göre yıldız görünümü ve galaksi içinde gezinme yaklaşımı incelendi.
+- [NASA mission-viz](https://github.com/nasa/mission-viz) — Three.js tabanlı yörünge ve gezegen sahnesi incelendi.
+- [OpenSpace](https://github.com/OpenSpace/OpenSpace) — Gezegen görüntüsü ile derin uzay nesnelerini farklı ölçeklerde sunma yaklaşımı incelendi.
 - [andrewdcampbell/galaxy-sim](https://github.com/andrewdcampbell/galaxy-sim) — WebGL'de yüksek sayıda parçacık ve kamera etkileşimi.
 - [N0rvel/galaxy_sim](https://github.com/N0rvel/galaxy_sim) — GPU tabanlı galaksi parçacıkları ve performans ayarları.
 - [BasilOmsha/Galaxy-Simulator](https://github.com/BasilOmsha/Galaxy-Simulator) — Spiral kollarda diferansiyel dönüş yaklaşımı.
