@@ -2,7 +2,7 @@
 
 [Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.2.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.3.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
 
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
 
@@ -18,7 +18,7 @@
 | Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. JSON yedeği indirilebilir ve içeri alınabilir. |
 | Odak görünümü | Tek ikonla bütün arayüz gizlenir; yalnızca evren ve geri dönüş ikonu kalır. |
 
-Fareyle sürükle, tekerlekle yakınlaş, dokunmatik ekranda iki parmak kullan. `Shift+F` yerel FPS göstergesini açar.
+Fareyle sürükle, tekerlekle yakınlaş, dokunmatik ekranda iki parmak kullan. `Shift+F` yerel FPS ve çizim çağrısı göstergesini açar.
 
 ## Hemen çalıştır
 
@@ -30,6 +30,8 @@ npm run dev
 ```
 
 Vite'ın gösterdiği yerel adresi aç. Kontroller için `npm run check` çalıştır.
+
+Kalabalık bir galaksiyi kişisel verileri kullanmadan denemek için `node scripts/generate-benchmark-fixture.mjs 200` komutu geçici dizine JSON yedeği üretir. Bu yedeği ayrı bir yerel test adresinde **Galaksilerim → Yedekten geri yükle** ile aç. 200 yıldızlı testte toplu çizim, çizim çağrısını 644'ten 20'ye düşürdü. Tarayıcı otomasyonunda FPS 1'e kısıtlandığından gerçek ön plan FPS ölçümü ayrıca yapılacak.
 
 ## Veriler ve gizlilik
 

@@ -29,3 +29,7 @@ Bu proje fiziksel ölçekli simülasyon değil, öğrenme verisinin astronomiden
 - [BlindByte98/ASTRO](https://github.com/BlindByte98/ASTRO) — Çoklu yıldızlarda kütle merkezi hareketi.
 
 Bu depolardan kod veya varlık kopyalanmadı. Tasarım ve performans yaklaşımları incelendi. Dünya dışı uzay görünümü ve kullanıcının çizgi istememesi nedeniyle gezegen yörüngesi çizgileri kullanılmadı.
+
+## Kullanıcının paylaştığı hareket referansı
+
+- [Dain'in X videosu](https://x.com/dain0x/status/2105666705938665789) bir yapay zekâ ajan haritasını renkli kümeler ve bağlantı çizgileriyle gösteriyor. Hareket ve derinlik duygusu incelendi; Wordverse gerçek uzay estetiği hedefi ve çizgisiz yıldız tercihi nedeniyle ağ bağlantılarını kullanmıyor.

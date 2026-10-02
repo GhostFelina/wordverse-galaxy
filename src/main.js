@@ -12,6 +12,10 @@ let toastTimer;
 let renderer, scene, camera, galaxyGroup, wordGroup;
 const worldStars = new Map();
 const starNodes = new Map();
+const DENSE_STAR_THRESHOLD = 80;
+let denseStarMeshes = null;
+const denseMatrix = new THREE.Matrix4();
+let lastOverlayUpdate = -Infinity;
 const pointer = { x: 0, y: 0 };
 const pan = { x: 0, y: 0 };
 let zoom = 160;
@@ -25,6 +29,7 @@ let pinchStart = null;
 let clock = 0;
 let fpsFrames = 0;
 let fpsLast = 0;
+let drawCalls = 0;
 let lastStarAgeDay = Math.floor(Date.now() / 86400000);
 let comet, cometTip, spaceComet, spaceCometDust, spaceCometIon, spaceCometComa, coreGlow, innerGlow, cloudHaze, cloudHaze2, cloudHaze3, cloudHaze4, galaxyDust, deepDust;
 let galaxyGrowth = 0;
@@ -256,8 +261,26 @@ function rebuildWordStars() {
   if (!wordGroup) return;
   births.length = 0;
   for (const group of worldStars.values()) { group.traverse(obj => { if (obj.material) obj.material.dispose(); }); wordGroup.remove(group); }
+  if (denseStarMeshes) {
+    for (const mesh of Object.values(denseStarMeshes)) { wordGroup.remove(mesh); mesh.material.dispose(); mesh.dispose?.(); }
+    denseStarMeshes.outer.geometry.dispose();
+    denseStarMeshes = null;
+  }
   worldStars.clear();
   $('#star-layer').replaceChildren(); starNodes.clear();
+  lastOverlayUpdate = -Infinity;
+  if (words.length > DENSE_STAR_THRESHOLD) {
+    const geometry = new THREE.PlaneGeometry(1, 1);
+    const layer = (map, opacity) => {
+      const material = new THREE.MeshBasicMaterial({ map, color: 0xffffff, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false });
+      const mesh = new THREE.InstancedMesh(geometry, material, words.length);
+      mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+      mesh.frustumCulled = false;
+      wordGroup.add(mesh);
+      return mesh;
+    };
+    denseStarMeshes = { outer: layer(glowMap, .32), inner: layer(glowMap, .74), center: layer(starCoreMap, 1) };
+  }
   const oldestPair = words.length >= 2 ? [...words].sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || words.indexOf(a) - words.indexOf(b)).slice(0, 2) : [];
   words.forEach((word, index) => {
     const group = new THREE.Group(); group.position.set(word.x, word.y, word.z || 18);
@@ -265,18 +288,23 @@ function rebuildWordStars() {
     const tint = new THREE.Color(appearance.glow);
     let hash = 0; for (const char of word.id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
     const magnitude = .66 + hash % 100 / 100 * .62;
-    const outer = sprite(tint, 24 * magnitude * appearance.size, .32);
-    const inner = sprite(tint, 8 * magnitude * appearance.size, .74);
-    const center = sprite(new THREE.Color(appearance.color), 4.7 * magnitude * appearance.size, 1, starCoreMap);
-    const glint = hash % 6 === 0 ? sprite(new THREE.Color(appearance.color), 8, .17, starCoreMap) : null;
+    const outer = denseStarMeshes ? null : sprite(tint, 24 * magnitude * appearance.size, .32);
+    const inner = denseStarMeshes ? null : sprite(tint, 8 * magnitude * appearance.size, .74);
+    const center = denseStarMeshes ? null : sprite(new THREE.Color(appearance.color), 4.7 * magnitude * appearance.size, 1, starCoreMap);
+    const glint = !denseStarMeshes && hash % 6 === 0 ? sprite(new THREE.Color(appearance.color), 8, .17, starCoreMap) : null;
     const dx = word.x - 31, dy = word.y;
     const orbitX = dx * Math.cos(.17) - dy * Math.sin(.17);
     const orbitY = dx * Math.sin(.17) + dy * Math.cos(.17);
     const radius = Math.max(4, Math.hypot(orbitX, orbitY / .57));
-    group.add(outer, inner, center);
+    if (outer) group.add(outer, inner, center);
     if (glint) group.add(glint);
+    if (denseStarMeshes) {
+      denseStarMeshes.outer.setColorAt(index, tint);
+      denseStarMeshes.inner.setColorAt(index, tint);
+      denseStarMeshes.center.setColorAt(index, new THREE.Color(appearance.color));
+    }
     const cluster = index >= 2 ? Math.floor((index - 2) / 7) : -1;
-    group.userData = { outer, inner, center, glint, index, radius, phase: Math.atan2(orbitY / .57, orbitX), z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: oldestPair.findIndex(w => w.id === word.id) };
+    group.userData = { outer, inner, center, glint, index, magnitude, appearanceSize: appearance.size, radius, phase: Math.atan2(orbitY / .57, orbitX), z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: oldestPair.findIndex(w => w.id === word.id) };
     wordGroup.add(group); worldStars.set(word.id, group);
     const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', `${word.word} yıldızını aç`);
     button.addEventListener('click', () => selectWord(word.id));
@@ -285,6 +313,7 @@ function rebuildWordStars() {
     label.append(name); $('#star-layer').append(button, label);
     starNodes.set(word.id, { button, label });
   });
+  if (denseStarMeshes) for (const mesh of Object.values(denseStarMeshes)) mesh.instanceColor.needsUpdate = true;
 }
 const projected = new THREE.Vector3();
 function animate(ms) {
@@ -292,7 +321,7 @@ function animate(ms) {
   const fpsMonitor = $('#fps-monitor');
   if (!fpsMonitor.hidden) {
     fpsFrames++;
-    if (ms - fpsLast >= 1000) { fpsMonitor.textContent = `FPS ${Math.round(fpsFrames * 1000 / (ms - fpsLast))}`; fpsFrames = 0; fpsLast = ms; }
+    if (ms - fpsLast >= 1000) { fpsMonitor.textContent = `FPS ${Math.round(fpsFrames * 1000 / (ms - fpsLast))} · ${drawCalls} çizim`; fpsFrames = 0; fpsLast = ms; }
   }
   clock = ms * .001;
   const drift = reducedMotion ? 0 : clock;
@@ -358,6 +387,8 @@ function animate(ms) {
   const today = Math.floor(Date.now() / 86400000);
   const refreshStarAge = today !== lastStarAgeDay;
   if (refreshStarAge) lastStarAgeDay = today;
+  const updateOverlays = !denseStarMeshes || ms - lastOverlayUpdate >= 33;
+  if (updateOverlays) lastOverlayUpdate = ms;
   for (const [id, group] of worldStars) {
     const orbit = group.userData;
     if (orbit.binarySlot >= 0) {
@@ -367,27 +398,43 @@ function animate(ms) {
       const binaryAngle = drift * .52 + orbit.binarySlot * Math.PI;
       const binaryRadius = orbit.binarySlot === 0 ? 5.63 : 6.37;
       group.position.set(cx + Math.cos(binaryAngle) * binaryRadius, cy + Math.sin(binaryAngle) * binaryRadius * .72, 18 + Math.sin(binaryAngle) * 1.1);
-      orbit.outer.material.opacity = .39 + Math.sin(drift * 3.1 + orbit.binarySlot * 2.3) * .075;
+      if (orbit.outer) orbit.outer.material.opacity = .39 + Math.sin(drift * 3.1 + orbit.binarySlot * 2.3) * .075;
     } else {
       const angle = orbit.phase + drift * orbit.speed;
       const wobble = Math.sin(angle * 3 + orbit.index) * orbit.radius * .018;
       const radius = orbit.radius + wobble;
       const ox = Math.cos(angle) * radius, oy = Math.sin(angle) * radius * .57;
       group.position.set(31 + ox * Math.cos(-.17) - oy * Math.sin(-.17), ox * Math.sin(-.17) + oy * Math.cos(-.17), orbit.z + Math.sin(angle * 2 + orbit.index) * .55);
-      orbit.outer.material.opacity = .31 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .065;
+      if (orbit.outer) orbit.outer.material.opacity = .31 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .065;
     }
     if (refreshStarAge) {
       const appearance = starAge(orbit.word.createdAt);
       orbit.appearanceDay = appearance.ageDays;
+      orbit.appearanceSize = appearance.size;
       const tint = new THREE.Color(appearance.glow);
-      orbit.outer.material.color.copy(tint); orbit.inner.material.color.copy(tint);
-      orbit.center.material.color.set(appearance.color);
+      if (denseStarMeshes) {
+        denseStarMeshes.outer.setColorAt(orbit.index, tint);
+        denseStarMeshes.inner.setColorAt(orbit.index, tint);
+        denseStarMeshes.center.setColorAt(orbit.index, new THREE.Color(appearance.color));
+      } else {
+        orbit.outer.material.color.copy(tint); orbit.inner.material.color.copy(tint);
+        orbit.center.material.color.set(appearance.color);
+      }
       if (orbit.glint) orbit.glint.material.color.set(appearance.color);
+    }
+    if (denseStarMeshes) {
+      const scale = orbit.magnitude * orbit.appearanceSize;
+      const binaryPulse = orbit.binarySlot >= 0 ? 1.12 + Math.sin(drift * 3.1 + orbit.binarySlot * 2.3) * .12 : 1 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .035;
+      for (const [mesh, size] of [[denseStarMeshes.outer, 24 * scale * binaryPulse], [denseStarMeshes.inner, 8 * scale], [denseStarMeshes.center, 4.7 * scale]]) {
+        denseMatrix.makeScale(size, size, 1).setPosition(group.position);
+        mesh.setMatrixAt(orbit.index, denseMatrix);
+      }
     }
     if (orbit.glint) {
       orbit.glint.scale.setScalar(Math.min(42, 5 + Math.sqrt(zoom) * .3));
       orbit.glint.material.opacity = .13 + Math.sin(drift * .95 + orbit.index * 4.2) * .05;
     }
+    if (!updateOverlays) continue;
     group.getWorldPosition(projected); projected.project(camera);
     const x = (projected.x * .5 + .5) * innerWidth;
     const y = (-projected.y * .5 + .5) * innerHeight;
@@ -397,7 +444,9 @@ function animate(ms) {
     nodes.button.style.display = nodes.label.style.display = visible ? '' : 'none';
     if (visible) { nodes.button.style.left = nodes.label.style.left = `${x}px`; nodes.button.style.top = nodes.label.style.top = `${y}px`; }
   }
+  if (denseStarMeshes) for (const mesh of Object.values(denseStarMeshes)) { mesh.instanceMatrix.needsUpdate = true; if (refreshStarAge) mesh.instanceColor.needsUpdate = true; }
   renderer.render(scene, camera);
+  drawCalls = renderer.info.render.calls;
 }
 
 function openPanel(which) {
@@ -443,13 +492,16 @@ function createPosition(index) {
   if (index >= 2) {
     const cluster = Math.floor((index - 2) / 7);
     const slot = (index - 2) % 7;
-    const seed = random((cluster + 1) * 42197);
+    const seed = random((cluster + 1) * 42197 + slot * 7919);
     const radius = 22 + Math.sqrt(cluster) * 20;
     const angle = cluster * 2.399 + .7;
     const cx = Math.cos(angle) * radius, cy = Math.sin(angle) * radius * .57;
     const pattern = [[0, 0], [-4.2, 3.4], [4.6, 2.6], [-7.1, -2.3], [7.8, -2], [-2.4, -6.7], [5.1, -7.4]][slot];
-    const x = cx + pattern[0] + (seed() - .5) * 1.6;
-    const y = cy + pattern[1] + (seed() - .5) * 1.6;
+    const rotation = cluster * 2.399;
+    const px = pattern[0] * Math.cos(rotation) - pattern[1] * Math.sin(rotation);
+    const py = pattern[0] * Math.sin(rotation) + pattern[1] * Math.cos(rotation);
+    const x = cx + px + (seed() - .5) * 2.4;
+    const y = cy + py + (seed() - .5) * 2.4;
     return { x: 31 + x * Math.cos(-.17) - y * Math.sin(-.17), y: x * Math.sin(-.17) + y * Math.cos(-.17), z: 17 + slot * .62 };
   }
   const arm = index % 4;

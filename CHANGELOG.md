@@ -1,5 +1,12 @@
 # Değişiklik kaydı
 
+## [1.3.0] - 2026-10-02
+
+- Kalabalık galaksilerde yıldız ışıkları üç toplu katman halinde çiziliyor. 200 yıldızlı Chrome testinde çizim çağrısı 644'ten 20'ye düştü.
+- Az yıldızlı galaksiler mevcut ayrıntılı parıltıları koruyor; toplu çizimde yıldız seçimi ve anlam gizliliği doğrulandı.
+- Yeni yıldız kümeleri farklı açılarda ve küçük doğal sapmalarla oluşuyor; tekrar eden dizilim azaltıldı.
+- Yeniden üretilebilir yoğunluk testi için sahte kelime yedeği üreten betik ve FPS göstergesinde çizim çağrısı sayısı eklendi.
+
 ## [1.2.0] - 2026-10-02
 
 - Herkese açık ürün açıklaması ve SSS, arama ve sosyal paylaşım meta verileri, yapılandırılmış veri, site haritası ve favicon.

@@ -15,7 +15,9 @@ Bu dosya yeni isteklerle güncellenir. Tamamlanan işler sürüm notuna taşın�
 - [x] NASA/ESA referanslı, yavaş çekirdek ve parçacık kuyruklu kuyruklu yıldız; ayrı kısa meteor geçişleri.
 - [x] Sözcük sayısıyla açılan farklı yansıma/ışıma bulutsuları ve doğal yıldız kümeleri.
 - [x] Takım yıldızı hissi veren rastgele konum örüntüleri; hiçbir bağlantı çizgisi gösterilmez.
-- [ ] Daha yoğun kelime kümelerinde görsel kalite ve kare hızı ölçümü.
+- [x] 200 yıldızlı ayrı test galaksisinde görsel kalite, yıldız seçimi ve anlam gizliliği kontrol edildi; tekrar eden küme yönleri çeşitlendirildi.
+- [x] 200 yıldızda çizim çağrısı 644'ten 20'ye indirildi; 80 yıldızdan sonra toplu çizim kullanılır.
+- [ ] Ön plandaki gerçek tarayıcı oturumunda farklı donanımlarla FPS ölçümü; otomasyon sekmesindeki sayaç hem eski hem yeni çizimde 1 FPS'e kısıtlandı.
 
 ## Kelime ve veri
 
@@ -39,3 +41,4 @@ Bu dosya yeni isteklerle güncellenir. Tamamlanan işler sürüm notuna taşın�
 - [x] Arama için açıklayıcı başlık, meta veriler, herkese açık ürün açıklaması, yapılandırılmış veri, site haritası ve sosyal paylaşım görseli.
 - [x] Yeni Vercel projesi ve canlı sürüm kontrolü.
 - [x] Yerel Chrome'da ve canlı adreste işlevsel/görsel doğrulama; DevTools kullanılmaz.
+- [ ] Dependabot bağımlılık güncellemelerini sürüm artırma kuralıyla birlikte gözden geçir; otomatik PR'daki kırmızı sürüm denetimini çöz.
