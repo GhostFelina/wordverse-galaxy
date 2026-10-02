@@ -24,5 +24,19 @@
 ## ADR-004 — Hakkında sayfasında açık dil bağlantıları
 
 - **Bağlam:** Hakkında sayfası üç dilde okunmalı; saklanan tercih ve tarayıcı dili farklı olabilir. Dil bağlantılarının açıldığında beklenen dili göstermesi gerekir.
-- **Karar:** `?lang=tr|en|es` açık URL dilini seçer ve tercihi saklar. Açık parametre yoksa `resolveLocale` profil→yerel kayıt→tarayıcı→TR sırasını uygular. Hakkında içeriği ve FAQ JSON-LD aynı sözlükten üretilir; canonical ve `hreflang` açık dil URL'lerini gösterir.
-- **Sonuç:** Paylaşılabilir dil bağlantıları çalışır. Meta/JSON-LD istemci tarafında güncellendiği için JavaScript çalıştırmayan arama botları Türkçe kaynak HTML'i görür; SEO kabulü için statik dil çıktısı ayrıca gerekir.
+- **Karar:** Açık URL dili tercihi saklar. İlk uygulamada `?lang=tr|en|es` kullanıldı; ADR-006 ile kanonik yol adreslerine geçildi. Açık dil yoksa `resolveLocale` profil→yerel kayıt→tarayıcı→TR sırasını uygular. Hakkında içeriği ve FAQ JSON-LD aynı sözlükten üretilir.
+- **Sonuç:** Paylaşılabilir dil bağlantıları çalışır. Statik arama çıktısı ADR-006 ile sağlanır.
+
+## ADR-005 — Arayüz dilini veri dilinden ayır ve seçimde sayfayı yenile
+
+- **Bağlam:** Galaksi verisindeki `language` ve `meaningLanguage` kullanıcı içeriğinin dilidir; arayüz dili değişince bu veriler çevrilmemeli veya yeniden yazılmamalıdır. Ana uygulama tek dosyada birçok DOM metni üretiyor.
+- **Karar:** UI tercihini `wordverse.ui.locale` anahtarında tut. Üst bar seçicisi kanonik dil adresine gider; açılışta statik DOM/metalar ve dinamik metinler aynı sözlükten uygulanır. Dil değişimi sayfayı yeniler. Başlangıç galaksilerinin saklanan Türkçe adları yalnız gösterimde çevrilir. Çoğullar `Intl.PluralRules`, tarih/sayılar `Intl` ile biçimlenir.
+- **Alternatifler:** Her görünüm için ayrı HTML/JS uygulaması; seçicide DOM'u anında yeniden yazmak (mevcut tek dosya durum yönetiminde eski dil metni bırakma riski).
+- **Sonuç:** Seçim kalıcı ve veri değişmeden çalışır. URL ile açık dil seçimi paylaşılır.
+
+## ADR-006 — Kanonik dil yolları ve build sırasında statik HTML
+
+- **Bağlam:** İstemci JavaScript'iyle güncellenen meta ve FAQ içeriği JavaScript çalıştırmayan tarayıcılarda Türkçe kalıyordu. Dile özgü paylaşılabilir adres ve arama çıktısı gerekiyor.
+- **Karar:** TR `/` ve `/about.html`, EN `/en/` ve `/en/about.html`, ES `/es/` ve `/es/about.html` adreslerini kullan. Eski `?lang=` bağlantılarını geriye dönük destekle. Vite build sonrası aynı uygulama çeviri fonksiyonlarını `linkedom` ile çalıştırıp altı gerçek HTML üret; statik meta, canonical, `hreflang` ve FAQ JSON-LD'yi build doğrulamasına dahil et. Geliştirme sunucusunda dil yollarını Vite middleware ile şablonlara yönlendir.
+- **Alternatifler:** Altı ayrı elle tutulan HTML dosyası (içerik sapması); yalnız istemci JavaScript'i (statik SEO eksikliği); tüm uygulamayı yeni SSR çatısına taşımak (bu faz için geniş kapsam).
+- **Sonuç:** Tek sözlük iki dağıtım yolunu besler. JavaScript kapalıyken sayfa tanıtımı okunur; etkileşimli evren için JavaScript gerekir. Kök adresin istemci açılışında kayıtlı dile dönmesi bilinen davranıştır.

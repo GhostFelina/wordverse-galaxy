@@ -11,14 +11,14 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Eski v2 kelime dizisi ve v3 JSON yedeklerini içe alma testini ekle.
 - [x] Vitest, Playwright, ESLint, Prettier ve TypeScript hazırlığını bağla; yerel kontrolleri geçir. CI uzakta push sonrası doğrulanacak.
 - [x] Yerel tarayıcıda 1440/768/390, aydınlık/karanlık, azaltılmış hareket kontrolünü yap ve kanıt kaydet. Tablet/mobil taşmalar düzeltildi.
-- [~] Changelog ve SemVer; PR #3 ile main merge; GitHub CI, Vercel preview/prod ve canlı duman testi geçti. Tag ve GitHub Release kapanış commit'inden sonra yapılacak.
+- [x] Changelog ve SemVer; PR #3 main merge, GitHub CI, Vercel preview/prod, canlı duman testi, `v1.10.0` tag ve GitHub Release tamamlandı.
 
 ## Faz 1 · `phase/1-i18n` · codex/claude
 
-- [~] Çeviri dosyaları ve anahtar bütünlüğü CI testi başladı. Hakkında görünür metinleri, FAQ/JSON-LD ve meta üç dilde; ana uygulama HTML/UI/hata/meta metinleri bekliyor. E-posta şablonu Faz 2'de oluşturulacak.
-- [ ] Profil→localStorage→tarayıcı→TR dil sırası, üst bar seçici, mobil erişim, Intl biçimleri.
-- [~] Öğrenilen dil/anlam dili ayrımı ve v3 verisi koruyan v4 migrasyonu yapıldı; Hakkında `hreflang` eklendi. Ana uygulama dil seçenekleri ve SEO işi sürüyor.
-- [ ] Üç dilde tüm ekranlar ve iki doğrulama yolu; sürüm/deploy/handoff.
+- [x] Ana uygulama ve Hakkında görünür metinleri, hata/boş durum/tooltip/meta/JSON-LD üç dilde; eş anahtar testi var. Altı statik SEO sayfası üretildi. E-posta şablonları Faz 2 auth ile oluşturulacak.
+- [x] Profil→localStorage→tarayıcı→TR önceliği yardımcıda/testte; iki sayfada mobil dil seçimi ve Intl tarih/sayı/çoğul çalışıyor. Gerçek profil tercihi Faz 3 veri modeliyle bağlanacak.
+- [x] Öğrenilen dil/anlam dili ayrımı ve v3 koruyan v4 migrasyonu yapıldı; altı statik sayfada canonical ve `hreflang` doğrulandı.
+- [~] Üç dilde ana/ekle/ayrıntı/koleksiyon/galaksi ve Hakkında akışları otomatik geçti; 1440/768/390, tema ve hareket kanıtı var. CI/preview geçti; PR merge, sürüm ve prod duman testi bekliyor.
 
 ## Faz 2 · `phase/2-auth-sync` · codex/claude
 

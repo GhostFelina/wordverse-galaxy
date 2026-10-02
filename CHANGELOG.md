@@ -1,9 +1,15 @@
 # Değişiklik kaydı
 
-## [Unreleased] — Faz 1 / 1.11.0 hazırlığı
+## [Unreleased]
 
-- Arayüz dili için TR/EN/ES sözlükleri, tercih sırası ve anahtar eşliği testi başlatıldı. Tüm ekran çevirileri henüz tamamlanmadı.
+- Henüz değişiklik yok.
+
+## [1.11.0] - 2026-10-02
+
+- Ana uygulama ve Hakkında sayfası TR/EN/ES sözlüklerine taşındı; görünür metinler, hata ve boş durumlar, erişilebilirlik etiketleri, meta ve FAQ JSON-LD çevrildi. İki sayfaya mobil dil seçimi eklendi.
+- Tercih sırası, `Intl` tarih/sayı/çoğul biçimleri ve eksik çeviri anahtarı testi eklendi. Altı kanonik dil sayfası build sırasında statik HTML olarak üretiliyor; eski `?lang=` bağlantıları çalışıyor.
 - Galaksi başına anlam dili eklendi. v3 yerel verisi ve eski yedekleri v4'e kayıpsız taşınırken eski kayıt korunuyor.
+- Üç dilde 15 Playwright akışı, 20 birim testi, statik sayfaların JavaScript açık/kapalı tarayıcı kontrolü ve farklı ekran/tema/hareket görselleri doğrulandı.
 
 ## [1.10.0] - 2026-10-02
 

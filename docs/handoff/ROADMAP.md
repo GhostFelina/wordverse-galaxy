@@ -5,7 +5,7 @@
 | Faz | İlerleme | Kabul ölçütü |
 | --- | ---: | --- |
 | 0 Denetim ve altyapı | 100% | Audit ve ADR; devir dosyaları; v2/v3 kayıpsız arşiv/migrasyon; Vitest, Playwright, lint, format ve CI; 1440/768/390 ile tema/hareket kanıtları |
-| 1 TR/EN/ES | 30% | Tüm UI, about, meta, hata ve e-posta metinleri üç dilde; tercih sırası; anlam dili ayrı; eksik anahtar CI testi |
+| 1 TR/EN/ES | 95% | Tüm UI, about, meta, hata ve e-posta metinleri üç dilde; tercih sırası; anlam dili ayrı; eksik anahtar CI testi |
 | 2 Hesap ve senkron | 0% | Misafir modu; e-posta/Google auth; RLS izolasyon testi; güvenli yerel→bulut merge; offline ve JSON geri yükleme |
 | 3 Profil | 0% | Profil, hedefler, istatistik, tekrar durumu, dışa aktarma, hesap silme ve varsayılan kapalı paylaşım |
 | 4 Evren/katalog | 5% | ≥50 gerçek galaksi, ≥100 bulutsu, ≥250 gezegen, ≥25 takım yıldızı; kaynak/lisans; LOD, kamera, sürükleme |
