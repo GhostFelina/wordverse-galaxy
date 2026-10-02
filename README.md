@@ -1,0 +1,50 @@
+# Wordverse ✦
+
+**Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
+
+## Özellikler
+
+| Özellik | Davranış |
+| --- | --- |
+| Kelime yıldızları | Her kelime beyaz doğar. Öğrenildiğinden beri geçen günler, sıkıştırılmış görsel yıldız evreleriyle temsil edilir. |
+| İkili yıldız hareketi | Her galaksideki en eski iki kelime ortak kütle merkezi çevresinde döner. Aralarında çizgi yoktur. |
+| Canlı galaksi | Bulutsu ve kozmik toz kelime sayısıyla gelişir. Yıldızlar hareket eder; seyrek meteor ve kuyruklu yıldız geçişleri olur. |
+| Gizli anlam | Yıldızın üzerine gelince yalnızca kelime görünür. Türkçe anlam, ayrıntıdaki göz ikonuyla açılır. |
+| Galaksiler | İngilizce ve boş İspanyolca galaksileri hazırdır. Yeni dil galaksileri oluşturulabilir, galaksi adları değiştirilebilir. |
+| Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. JSON yedeği indirilebilir ve içeri alınabilir. |
+| Odak görünümü | Tek ikonla bütün arayüz gizlenir; yalnızca evren ve geri dönüş ikonu kalır. |
+
+Fareyle sürükle, tekerlekle yakınlaş, dokunmatik ekranda iki parmak kullan. `Shift+F` yerel FPS göstergesini açar.
+
+## Hemen çalıştır
+
+Node.js ve npm gerekir. Windows PowerShell veya macOS Terminal içinde:
+
+```bash
+npm ci
+npm run dev
+```
+
+Vite'ın gösterdiği yerel adresi aç. Kontroller için `npm run check` çalıştır.
+
+## Veriler ve gizlilik
+
+Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Sayfayı yenilemek verileri silmez. Başka tarayıcıya, cihaza veya yerel adresten Vercel adresine otomatik eşitleme henüz yoktur. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
+
+Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Uygulamada hesap veya sunucu tarafı veri toplama yoktur.
+
+## Astronomi ve görsel yaklaşım
+
+Gerçek yıldız rengi esas olarak sıcaklık ve kütleyle ilişkilidir. Wordverse, kelimenin öğrenilmesinden beri geçen günleri beyaz → sıcak beyaz → sarı → kehribar → kızıl dev → beyaz cüce biçiminde **sanatsal olarak sıkıştırılmış** bir yaşam döngüsüne çevirir. En eski iki kelime, çift nötron yıldızlarının ortak kütle merkezi hareketinden esinlenir; bu bilimsel ölçekte bir simülasyon değildir. Yörünge çizgileri gösterilmez.
+
+Kuyruklu yıldız, küçük çekirdek ve koma ile iki farklı parçacık kuyruğu kullanır. Kısa kayan yıldız geçişleri ayrı bir meteor etkisidir. Kaynaklar ve tasarım kararları: [Astronomi referansları](docs/ASTRONOMY_REFERENCES.md).
+
+## Teknoloji
+
+Vite, Three.js, GPU nokta çizimi, hafif sprite katmanları ve tarayıcı yerel depolaması. Masaüstü ve mobilde piksel oranı sınırlandırılır. Bulutsu dokusu `public/assets/nebula-gas.png` içindedir.
+
+## Sürümler ve katkı
+
+Her yayımlanan güncellemede [SemVer](https://semver.org/) sürümü yükseltilir, [CHANGELOG.md](CHANGELOG.md) güncellenir ve `vX.Y.Z` Git etiketi oluşturulur. Özellikler için küçük sürüm, hata düzeltmeleri için yama sürümü kullanılır. Güvenlik bildirimleri için [SECURITY.md](SECURITY.md) dosyasına bak. Katkı adımları [CONTRIBUTING.md](CONTRIBUTING.md) içindedir.
+
+MIT lisanslıdır.
