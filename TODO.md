@@ -26,6 +26,7 @@ Bu dosya yeni isteklerle güncellenir. Tamamlanan işler sürüm notuna taşın�
 - [x] Ekleme, düzenleme ve silme için zaman damgalı olay geçmişi.
 - [x] Eski tarayıcı verisini yeni galaksi yapısına kayıpsız taşıma.
 - [x] JSON yedeği indirme ve mevcut veriyi koruyarak geri yükleme.
+- [x] Her kayıtta ikinci yerel kopyayı otomatik yazma; ana kayıt bozulursa açılışta kurtarma.
 - [x] İkinci galaksi boş başlıyor; yeni galaksiler oluşturulabiliyor.
 - [x] Hazır İngilizce ve İspanyolca seçenekleri; dil başına ayrı kelimeler ve kayıtlar.
 - [x] Kelime düzenleme ve silme.

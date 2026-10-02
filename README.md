@@ -2,7 +2,7 @@
 
 [Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.3.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.4.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
 
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
 
@@ -15,7 +15,7 @@
 | Canlı galaksi | Bulutsu ve kozmik toz kelime sayısıyla gelişir. Yıldızlar hareket eder; seyrek meteor ve kuyruklu yıldız geçişleri olur. |
 | Gizli anlam | Yıldızın üzerine gelince yalnızca kelime görünür. Türkçe anlam, ayrıntıdaki göz ikonuyla açılır. |
 | Galaksiler | İngilizce ve boş İspanyolca galaksileri hazırdır. Yeni dil galaksileri oluşturulabilir, galaksi adları değiştirilebilir. |
-| Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. JSON yedeği indirilebilir ve içeri alınabilir. |
+| Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. İkinci yerel kopya otomatik tutulur; JSON yedeği indirilebilir ve içeri alınabilir. |
 | Odak görünümü | Tek ikonla bütün arayüz gizlenir; yalnızca evren ve geri dönüş ikonu kalır. |
 
 Fareyle sürükle, tekerlekle yakınlaş, dokunmatik ekranda iki parmak kullan. `Shift+F` yerel FPS ve çizim çağrısı göstergesini açar.
@@ -35,7 +35,7 @@ Kalabalık bir galaksiyi kişisel verileri kullanmadan denemek için `node scrip
 
 ## Veriler ve gizlilik
 
-Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Sayfayı yenilemek verileri silmez. Başka tarayıcıya, cihaza veya yerel adresten Vercel adresine otomatik eşitleme henüz yoktur. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
+Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Her kayıttan sonra IndexedDB içinde ikinci bir yerel kopya oluşturulur; ana kayıt bozulursa uygulama açılışta bu kopyadan kurtarmayı dener. Sayfayı yenilemek verileri silmez. Tarayıcının **tüm site verilerini silmek iki yerel kopyayı da silebilir**. Başka tarayıcıya, cihaza veya yerel adresten Vercel adresine otomatik eşitleme henüz yoktur. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
 
 Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Uygulamada hesap veya sunucu tarafı veri toplama yoktur.
 

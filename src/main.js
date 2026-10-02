@@ -1,9 +1,12 @@
 import * as THREE from 'three';
 import './style.css';
-import { UNIVERSE_KEY, loadUniverse, starAge, appendEvent, mergeUniverse } from './universe-data.js';
+import { UNIVERSE_KEY, starAge, appendEvent, mergeUniverse } from './universe-data.js';
+import { recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
 
 const $ = (selector) => document.querySelector(selector);
-const universe = loadUniverse(localStorage);
+const { universe, recovered: recoveredFromMirror } = await recoverUniverse(localStorage);
+let mirrorWrites = Promise.resolve();
+let mirrorWarningShown = false;
 let words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
 let selectedId = null;
 let editingId = null;
@@ -42,7 +45,14 @@ const births = [];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function persist() {
-  try { localStorage.setItem(UNIVERSE_KEY, JSON.stringify(universe)); return true; }
+  try {
+    const serialized = JSON.stringify(universe);
+    localStorage.setItem(UNIVERSE_KEY, serialized);
+    mirrorWrites = mirrorWrites.catch(() => {}).then(() => writeUniverseMirror(JSON.parse(serialized))).catch(() => {
+      if (!mirrorWarningShown) { mirrorWarningShown = true; showToast('İkinci yerel kayıt kullanılamıyor. JSON yedeğini indir.'); }
+    });
+    return true;
+  }
   catch { showToast('Tarayıcı depolaması dolu veya kapalı. Evren yedeğini indir.'); return false; }
 }
 function fmtDate(date) { return new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(date || Date.now())); }
@@ -753,3 +763,4 @@ function resetPageScroll() {
 resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 persist(); refreshCounts(); bindUI(); initScene();
+if (recoveredFromMirror) showToast('Evrenin otomatik yerel yedekten geri getirildi.');

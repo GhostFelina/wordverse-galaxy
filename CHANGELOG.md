@@ -1,5 +1,12 @@
 # Değişiklik kaydı
 
+## [1.4.0] - 2026-10-02
+
+- Her değişiklikten sonra evrenin ikinci bir yerel kopyası IndexedDB'ye otomatik yazılıyor.
+- Ana tarayıcı kaydı eksik veya bozuksa uygulama açılırken yerel kopyadan kelimeler ve olay geçmişi geri getiriliyor.
+- Geçerli ana kayıt ve eski sürümden taşınacak kelimeler, eski bir yedek kopyaya karşı öncelikli kalıyor.
+- Kurtarma ve hata durumları için dört yeni veri testi eklendi; JSON yedeği cihazlar arası taşıma için kullanılmaya devam ediyor.
+
 ## [1.3.0] - 2026-10-02
 
 - Kalabalık galaksilerde yıldız ışıkları üç toplu katman halinde çiziliyor. 200 yıldızlı Chrome testinde çizim çağrısı 644'ten 20'ye düştü.
