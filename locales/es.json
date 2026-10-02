@@ -18,5 +18,62 @@
     "storageError": "El almacenamiento del navegador está lleno o no está disponible. Descarga una copia de tu universo.",
     "archiveError": "No se pudo archivar tus datos anteriores. Descarga una copia JSON."
   },
+  "about": {
+    "title": "Cómo funciona Wordverse | Galaxias de palabras y copias de seguridad",
+    "metaDescription": "Descubre cómo Wordverse convierte el vocabulario en estrellas, organiza idiomas en galaxias y protege tus datos con copias locales.",
+    "ogTitle": "¿Cómo funciona Wordverse?",
+    "ogDescription": "Respuestas breves sobre palabras estrella, galaxias de idiomas y copias de seguridad.",
+    "ogImageAlt": "Nebulosa azul y violeta en el espacio oscuro",
+    "back": "Volver a tu universo ↗",
+    "eyebrow": "HAZ VISIBLE TU APRENDIZAJE",
+    "heroFirst": "Cada palabra,",
+    "heroSecond": "una estrella.",
+    "lead": "Wordverse es una galaxia interactiva que crece con las palabras que aprendes. Abre un cielo distinto para el inglés, el español o cualquier idioma que empieces a estudiar. Cada palabra nace como una estrella.",
+    "cta": "Abre tu universo gratis ↗",
+    "howTitle": "¿Cómo funciona?",
+    "steps": [
+      {
+        "title": "01 · Elige una galaxia",
+        "body": "Tienes una galaxia de inglés y otra de español vacía para empezar. Crea tantas galaxias como necesites para otros idiomas."
+      },
+      {
+        "title": "02 · Añade una palabra",
+        "body": "Escribe la palabra y su significado. La nueva palabra nace como una estrella blanca y la nebulosa crece con tu vocabulario."
+      },
+      {
+        "title": "03 · Explora",
+        "body": "Pasa el cursor sobre una estrella para ver la palabra. Para revelar el significado, pulsa el icono del ojo en su panel de detalles."
+      },
+      {
+        "title": "04 · Guarda una copia",
+        "body": "Se guarda automáticamente una segunda copia local. Descarga una copia JSON desde el panel de galaxias y recupérala en otro navegador."
+      }
+    ],
+    "faqTitle": "Preguntas frecuentes",
+    "faq": [
+      {
+        "question": "¿Dónde se guardan mis palabras?",
+        "answer": "Tus palabras se guardan en el almacenamiento de este sitio en tu navegador y en una segunda copia local. Recargar la página no las borra, pero eliminar todos los datos del sitio puede borrar ambas copias. Todavía no hay sincronización automática entre navegadores, dispositivos o direcciones; usa una copia JSON para trasladar tus datos."
+      },
+      {
+        "question": "¿Las estrellas envejecen de verdad?",
+        "answer": "Las estrellas nuevas se ven blancas. Los días transcurridos desde que aprendiste una palabra se representan con un ciclo visual comprimido que pasa a tonos más cálidos. No es una simulación del tiempo astronómico; el color real de una estrella depende sobre todo de su temperatura y masa."
+      },
+      {
+        "question": "¿Por qué orbitan juntas las dos estrellas más antiguas?",
+        "answer": "Las dos palabras más antiguas de cada galaxia giran alrededor de un centro de masa compartido, como un sistema binario. Es un énfasis visual; no significa que las palabras se hayan convertido físicamente en estrellas de neutrones."
+      },
+      {
+        "question": "¿Cómo recorro mi galaxia?",
+        "answer": "Arrastra con el ratón y usa la rueda para acercarte o alejarte. En pantallas táctiles, acerca la imagen con dos dedos. El icono de cuatro esquinas a la derecha oculta textos y paneles para mostrar solo el universo."
+      }
+    ],
+    "planetsTitle": "Planetas conjunción",
+    "planetsBody": "En la misma galaxia, las palabras viven como estrellas y las conjunciones como planetas. Cada planeta conserva una textura elegida de Mercurio, Venus, la Tierra, Marte, Júpiter, Saturno, Urano o Neptuno, incluso al volver a cargar la página. Los mapas proceden de NASA/JPL-Caltech y USGS. Algunos mapas de gigantes gaseosos son aproximaciones visuales de atmósferas cambiantes y no sirven para análisis científicos.",
+    "textureSource": "Fuentes de las texturas",
+    "imageTerms": "Política de uso de imágenes",
+    "courtesy": "Imágenes cortesía de NASA/JPL-Caltech.",
+    "note": "Wordverse es un atlas de vocabulario y una visualización artística. Los tamaños físicos y las escalas de tiempo se adaptan a la interacción."
+  },
   "count": { "star": "{count} estrellas", "planet": "{count} planetas", "galaxy": "{count} galaxias" }
 }

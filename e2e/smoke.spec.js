@@ -18,6 +18,23 @@ test('about page opens', async ({ page }) => {
   await expect(page).toHaveTitle(/Wordverse/);
 });
 
+for (const [locale, heading, question] of [
+  ['tr', 'Nasıl çalışır?', 'Kelimelerim nerede saklanıyor?'],
+  ['en', 'How does it work?', 'Where are my words stored?'],
+  ['es', '¿Cómo funciona?', '¿Dónde se guardan mis palabras?'],
+]) {
+  test(`about content, metadata and FAQ are localized in ${locale}`, async ({ page }) => {
+    await page.goto(`/about.html?lang=${locale}`);
+    await expect(page.locator('#how')).toHaveText(heading);
+    await expect(page.locator('section[aria-labelledby="questions"] h3').first()).toHaveText(question);
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toHaveAttribute('href', /lang=es$/);
+    const faq = await page.locator('script[type="application/ld+json"]').textContent();
+    expect(JSON.parse(faq).mainEntity[0].name).toBe(question);
+    expect(await page.locator('meta[name="description"]').getAttribute('content')).toBeTruthy();
+  });
+}
+
 test('v3 data migrates to v4 without replacing its original record', async ({ page }) => {
   const oldState = {
     version: 3,

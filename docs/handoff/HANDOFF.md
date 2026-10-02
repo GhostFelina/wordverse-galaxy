@@ -2,41 +2,36 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: `cce710c` (Faz 1 sürüm düzeltmesi), taban `daa46ac` / `v1.10.0`.
+2026-10-02 · codex · Faz 1 Hakkında yerelleştirme çalışması. Ana dal tabanı `v1.10.0`; aktif sürüm adayı `1.11.0`.
 
 ## Şu an aktif faz ve branch
 
-Faz 0 tamamlandı. Aktif Faz 1 · `phase/1-i18n`.
+Faz 0 tamamlandı ve yayımlandı. Aktif Faz 1 · `phase/1-i18n` · taslak PR #4.
 
-## Son oturumda yapılanlar
+## Tamamlananlar
 
-- `git pull --ff-only` yapıldı; başlangıçta çalışma ağacı temizdi.
-- Mevcut 11 Node testi ve Vite build geçti. Three.js WebGL, v3 localStorage ve IndexedDB ayna yapısı incelendi.
-- Ana görev tanımı, devir belgeleri ve migrasyon öncesi ham veri arşivi eklendi.
-- V2 ve v3 JSON içe alma testleri dahil 14 birim testi; lint, typecheck, build ve Playwright e2e geçti.
-- Chrome'da yıldız ayrıntısı, anlam açma ve zoom manuel denendi. 12 ekran görüntüsü `evidence/` içinde; tablet ve mobil taşmalar düzeltildi.
-- PR #3 CI geçti; Vercel preview ve prod deploy hazır. Canlı URL'de izole Chromium ile kelime ekleme/yenileme kalıcılığı ve about sayfası geçti.
-- `v1.10.0` tag ve GitHub Release yayımlandı; main CI tekrar geçti. Faz 1 için metin envanteri ve ilk çeviri altyapısı oluşturuldu.
-- v4 anlam dili migrasyonu, galaksi ayarı ve eski yedek uyumluluğu geliştirildi; yerelde 19 birim ve 4 Playwright testi geçti. 390/1440 kanıt görüntüsü alındı.
+- Faz 0 denetim, ADR, ham v2/v3 arşiv, test/CI, responsive düzeltmeler ve 12 görsel kanıtla tamamlandı. PR #3 ana dala alındı, `v1.10.0` tag ve GitHub Release yayımlandı, prod duman testi geçti.
+- Faz 1 için TR/EN/ES sözlükleri, eş anahtar testi ve `src/i18n.js` tercih/Intl yardımcıları oluşturuldu.
+- Galaksi öğrenilen dili ile anlam dili v4 şemada ayrıldı. v3 verisi ve orijinal anahtar korunarak migrasyon ile eski JSON yedek içe alma doğrulandı.
+- `about.html` başlık, kullanım kartları, SSS, gezegen kaynakları, alt not ve SEO metinleri üç dilde çalışıyor. `?lang=` açık dil seçimi, canonical, `hreflang` ve çevrilmiş FAQ JSON-LD eklendi.
+- Hakkında için TR/EN/ES × 1440/390 görüntüleri `docs/handoff/evidence/2026-10-02-about-*.png` içinde. Yerelde 20 birim, 7 Playwright testi, lint, typecheck, build ve format kontrolü geçti.
 
 ## Yarım kalan iş
 
-- Faz 1 taslak PR #4 açık. Çeviri JSON'ları yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. UI dil seçici henüz yok.
-- PR #4 ilk CI çalışmasında sürüm kapısı `1.10.0` nedeniyle durdu. Dal sürümü `1.11.0` olarak düzeltildi; sonraki GitHub CI tüm adımlarıyla geçti. Vercel preview hazır.
+- Ana uygulama `index.html`, `src/main.js` ve `src/universe-data.js` görünür metinleri henüz sözlüğe taşınmadı; üst bar dil seçici yok.
+- Hakkında meta/FAQ JSON-LD JavaScript ile güncelleniyor. Arama botları için statik dil çıktısı değerlendirilmeli.
+- E-posta şablonu henüz yok; Faz 2 kimlik doğrulamada üç dilde oluşturulacak.
+- PR #4 taslak. Faz 1 kabulünün tüm ekranlar ve dil seçici tamamlanmadan verilmemesi gerekir.
 
 ## Sıradaki ilk 3 adım
 
-1. `index.html` ve `src/main.js` görünür metinlerini eksiksiz üç dil sözlüğüne taşı; dil seçiciyi bağla.
-2. `about.html`, meta/OG/JSON-LD ve `hreflang` için yerelleştirme stratejisini uygula.
-3. Üç dilde masaüstü/tablet/mobil, iki sistem teması ve azaltılmış hareket kontrolü yap; Faz 1'i ancak tüm anahtarlar tamamlanınca birleştir.
+1. Ana sayfanın statik DOM, erişilebilirlik, meta ve boş durum metinlerini üç dile bağla.
+2. `src/main.js` dinamik metinlerini ve `src/universe-data.js` görünür adlarını sözlüğe taşı; dil seçiciyi bağla.
+3. Üç dilde masaüstü/tablet/mobil, sistem temaları ve azaltılmış hareket kontrolünden sonra Faz 1 PR'ını gözden geçir.
 
 ## Dikkat edilmesi gerekenler
 
-- `main` v3 anahtarı ile çalışır; Faz 1 dalı v4'e yazar. Eski v3 ve v2 anahtarları kesinlikle silinmemeli.
-- `.env.local` repoya eklenmez. Mevcut yerel veriye test sırasında dokunma; testler ayrı localhost origin kullanmalı.
+- `main` v3 anahtarı ile çalışır; Faz 1 dalı v4'e yazar. Eski v3 ve v2 anahtarları silinmemeli.
+- `.env.local` repoya eklenmez. Gerçek yerel veriye test sırasında dokunma; testler ayrı localhost origin kullanmalı.
 - Prod dağıtımı ancak otomatik ve görsel kontrollerden sonra yapılır.
-
-## Doğrulanmamış iddialar
-
-- 5.000 kayıt/60 FPS hedefi ölçülmedi. Önceki 200 kayıt testi yalnız çizim çağrısı bulgusu.
-- IndexedDB engelli gerçek tarayıcı senaryosu henüz manuel sınanmadı; uygulama uyarı göstererek localStorage ile sürer.
+- 5.000 kayıt/60 FPS hedefi ölçülmedi; IndexedDB engelli gerçek tarayıcı senaryosu manuel sınanmadı.

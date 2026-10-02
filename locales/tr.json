@@ -18,5 +18,62 @@
     "storageError": "Tarayıcı depolaması dolu veya kapalı. Evren yedeğini indir.",
     "archiveError": "Önceki verinin güvenlik kopyası alınamadı. JSON yedeğini indir."
   },
+  "about": {
+    "title": "Wordverse Nasıl Çalışır? | Kelime Galaksisi ve Veri Yedeği",
+    "metaDescription": "Wordverse nasıl çalışır? Kelimeleri yıldızlara dönüştürme, dil başına galaksi açma ve veri yedekleme hakkında yanıtlar.",
+    "ogTitle": "Wordverse Nasıl Çalışır?",
+    "ogDescription": "Kelime yıldızları, dil galaksileri ve veri yedekleme hakkında kısa yanıtlar.",
+    "ogImageAlt": "Karanlık uzayda mavi ve mor bulutsu",
+    "back": "Evrene dön ↗",
+    "eyebrow": "KELİME ÖĞRENMEYİ GÖRSELLEŞTİR",
+    "heroFirst": "Her kelime,",
+    "heroSecond": "bir yıldız.",
+    "lead": "Wordverse, öğrendiğin kelimelerle büyüyen etkileşimli bir galaksidir. İngilizce, İspanyolca veya yeni başladığın başka bir dil için ayrı bir gökyüzü açarsın. Her kelime kendi yıldızı olarak doğar.",
+    "cta": "Ücretsiz evrenini aç ↗",
+    "howTitle": "Nasıl çalışır?",
+    "steps": [
+      {
+        "title": "01 · Galaksini seç",
+        "body": "İngilizce ve boş İspanyolca galaksisi hazır gelir. Yeni diller için istediğin kadar galaksi oluşturabilirsin."
+      },
+      {
+        "title": "02 · Kelime ekle",
+        "body": "Kelimeyi ve anlamını yaz. Yeni kelime beyaz bir yıldız olarak doğar; bulutsu kelimelerinle büyür."
+      },
+      {
+        "title": "03 · Keşfet",
+        "body": "Yıldızların üzerine gelince kelime görünür. Anlamı görmek için ayrıntı panelindeki göz ikonuna basarsın."
+      },
+      {
+        "title": "04 · Yedekle",
+        "body": "İkinci yerel kopya otomatik tutulur. Galaksi panelinden JSON yedeği indirip başka tarayıcıda geri yükleyebilirsin."
+      }
+    ],
+    "faqTitle": "Sık sorulan sorular",
+    "faq": [
+      {
+        "question": "Kelimelerim nerede saklanıyor?",
+        "answer": "Kelimeler kullandığın tarayıcıda, o sitenin yerel depolamasında ve ikinci bir yerel kopyada tutulur. Sayfayı yenilemek kayıtları silmez; tüm site verilerini silmek iki kopyayı da silebilir. Farklı tarayıcı, cihaz veya adresler arasında otomatik eşitleme henüz yoktur; taşımak için JSON yedeğini kullan."
+      },
+      {
+        "question": "Yıldızlar gerçekten yaşlanıyor mu?",
+        "answer": "Yeni yıldızlar beyaz görünür. Kelimenin öğrenilmesinden sonra geçen günler, beyazdan sıcak tonlara uzanan sıkıştırılmış bir görsel yaşam döngüsüyle temsil edilir. Bu bir astronomik zaman simülasyonu değildir; gerçek yıldızlarda renk esas olarak sıcaklık ve kütleyle ilişkilidir."
+      },
+      {
+        "question": "En eski iki yıldız neden beraber dönüyor?",
+        "answer": "Her galaksideki en eski iki kelime, çift yıldızları andıran ortak kütle merkezi hareketi yapar. Bu kelimelere verilen görsel bir vurgudur; sözcüklerin fiziksel nötron yıldızına dönüştüğü anlamına gelmez."
+      },
+      {
+        "question": "Galaksiyi nasıl gezebilirim?",
+        "answer": "Fareyle sürükleyebilir, tekerlekle yakınlaşıp uzaklaşabilirsin. Dokunmatik ekranda iki parmakla yakınlaştırma çalışır. Sağdaki dört köşe ikonu tüm metin ve panelleri gizleyerek yalnızca evreni gösterir."
+      }
+    ],
+    "planetsTitle": "Bağlaç gezegenleri",
+    "planetsBody": "Aynı galakside kelimeler yıldız, bağlaçlar gezegen olarak yaşar. Her gezegen Merkür, Venüs, Dünya, Mars, Jüpiter, Satürn, Uranüs veya Neptün dokusundan sabit bir seçim alır; kayıt yenilendiğinde görünümü korunur. Haritalar NASA/JPL-Caltech ve USGS kaynaklıdır. Bazı gaz devi haritaları değişen atmosferleri temsil eden görsel yaklaşımlardır; bilimsel analiz için kullanılmaz.",
+    "textureSource": "Doku kaynakları",
+    "imageTerms": "Görsel kullanım koşulları",
+    "courtesy": "Görseller: NASA/JPL-Caltech.",
+    "note": "Wordverse bir kelime atlası ve sanatsal görselleştirmedir. Fiziksel ölçüler ve zaman ölçeği, etkileşim için uyarlanmıştır."
+  },
   "count": { "star": "{count} yıldız", "planet": "{count} gezegen", "galaxy": "{count} galaksi" }
 }

@@ -12,7 +12,7 @@
     "check:release": "node scripts/check-release-version.mjs",
     "test:e2e": "playwright test",
     "lint": "eslint src tests scripts vite.config.js playwright.config.js",
-    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js e2e/smoke.spec.js",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

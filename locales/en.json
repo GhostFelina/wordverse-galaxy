@@ -18,5 +18,62 @@
     "storageError": "Browser storage is full or unavailable. Download a backup of your universe.",
     "archiveError": "Your previous data could not be archived. Download a JSON backup."
   },
+  "about": {
+    "title": "How Wordverse Works | Word Galaxies and Data Backups",
+    "metaDescription": "Learn how Wordverse turns vocabulary into stars, organizes languages in galaxies, and keeps your data backed up.",
+    "ogTitle": "How Does Wordverse Work?",
+    "ogDescription": "Quick answers about word stars, language galaxies, and data backups.",
+    "ogImageAlt": "Blue and violet nebula in dark space",
+    "back": "Return to your universe ↗",
+    "eyebrow": "MAKE LEARNING VISIBLE",
+    "heroFirst": "Every word,",
+    "heroSecond": "a star.",
+    "lead": "Wordverse is an interactive galaxy that grows with the words you learn. Give English, Spanish, or any language you are starting its own sky. Every word is born as a star.",
+    "cta": "Open your free universe ↗",
+    "howTitle": "How does it work?",
+    "steps": [
+      {
+        "title": "01 · Choose a galaxy",
+        "body": "An English galaxy and an empty Spanish galaxy are ready for you. Create as many galaxies as you need for other languages."
+      },
+      {
+        "title": "02 · Add a word",
+        "body": "Enter the word and its meaning. A new word is born as a white star, and the nebula grows with your vocabulary."
+      },
+      {
+        "title": "03 · Explore",
+        "body": "Hover over a star to see its word. To reveal the meaning, select the eye icon in its detail panel."
+      },
+      {
+        "title": "04 · Back up",
+        "body": "A second local copy is saved automatically. Download a JSON backup from the galaxy panel and restore it in another browser."
+      }
+    ],
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      {
+        "question": "Where are my words stored?",
+        "answer": "Your words are stored in this site's browser storage and in a second local copy. Refreshing the page does not erase them, but clearing all site data may remove both copies. There is no automatic sync between browsers, devices, or site addresses yet; use a JSON backup to move your data."
+      },
+      {
+        "question": "Do the stars really age?",
+        "answer": "New stars appear white. The days since you learned a word are represented by a compressed visual life cycle that shifts toward warmer colors. This is not an astronomical time simulation; real star colors depend mainly on temperature and mass."
+      },
+      {
+        "question": "Why do the two oldest stars orbit together?",
+        "answer": "The two oldest words in each galaxy move around a shared center of mass, like a binary star system. This gives those words a visual emphasis; it does not mean they have physically become neutron stars."
+      },
+      {
+        "question": "How do I navigate my galaxy?",
+        "answer": "Drag with a mouse and use the wheel to zoom. On touchscreens, use two fingers to zoom. The four-corner icon on the right hides the text and panels so you can view only the universe."
+      }
+    ],
+    "planetsTitle": "Conjunction planets",
+    "planetsBody": "In the same galaxy, words live as stars and conjunctions as planets. Each planet keeps one selected texture from Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, or Neptune, even after reloading. The maps come from NASA/JPL-Caltech and USGS. Some gas giant maps are visual approximations of changing atmospheres and are not intended for scientific analysis.",
+    "textureSource": "Texture sources",
+    "imageTerms": "Image use policy",
+    "courtesy": "Courtesy NASA/JPL-Caltech.",
+    "note": "Wordverse is a vocabulary atlas and an artistic visualization. Physical sizes and timescales are adapted for interaction."
+  },
   "count": { "star": "{count} stars", "planet": "{count} planets", "galaxy": "{count} galaxies" }
 }
