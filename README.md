@@ -2,7 +2,7 @@
 
 [Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.7.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.8.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
 
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
 
@@ -12,8 +12,8 @@
 | --- | --- |
 | Kelime yıldızları | Her kelime beyaz doğar. Öğrenildiğinden beri geçen günler, sıkıştırılmış görsel yıldız evreleriyle temsil edilir. |
 | İkili yıldız hareketi | Her galaksideki en eski iki kelime ortak kütle merkezi çevresinde döner. Aralarında çizgi yoktur. |
-| Canlı galaksi | Bulutsu ve kozmik toz kelime sayısıyla gelişir. Yıldızlar hareket eder; seyrek meteor ve kuyruklu yıldız geçişleri olur. |
-| Yakın gezegenler | Seçili yıldızların çevresinde sönük, çizgisiz yörüngeli gezegenler yalnız yakın bakışta görünür. |
+| Canlı galaksi | Bulutsu ve kozmik toz kayıt sayısıyla gelişir. Yıldızlar ve gezegenler hareket eder; kısa meteor ve seyrek kuyruklu yıldız geçişleri olur. |
+| Bağlaç gezegenleri | Formdan “Bağlaç ekle” seçildiğinde kayıt, yıldız yerine NASA/JPL kaynaklı gezegen haritalarından birini taşıyan üç boyutlu bir gezegen olur. Seçim ve konum kaydedilir; düzenleme, arama, geçmiş ve JSON yedeği türünü korur. |
 | Gizli anlam | Yıldızın üzerine gelince yalnızca kelime görünür. Türkçe anlam, ayrıntıdaki göz ikonuyla açılır. |
 | Galaksiler | İngilizce ve boş İspanyolca galaksileri hazırdır. Yeni dil galaksileri oluşturulabilir, galaksi adları değiştirilebilir. |
 | Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. İkinci yerel kopya otomatik tutulur; JSON yedeği indirilebilir ve içeri alınabilir. |
@@ -45,7 +45,7 @@ Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek 
 
 Gerçek yıldız rengi esas olarak sıcaklık ve kütleyle ilişkilidir. Wordverse, kelimenin öğrenilmesinden beri geçen günleri beyaz → sıcak beyaz → sarı → kehribar → kızıl dev → beyaz cüce biçiminde **sanatsal olarak sıkıştırılmış** bir yaşam döngüsüne çevirir. En eski iki kelime, çift nötron yıldızlarının ortak kütle merkezi hareketinden esinlenir; bu bilimsel ölçekte bir simülasyon değildir. Yörünge çizgileri gösterilmez.
 
-Kuyruklu yıldız, küçük çekirdek ve koma ile iki farklı parçacık kuyruğu kullanır. Kısa kayan yıldız geçişleri ayrı bir meteor etkisidir. Kaynaklar ve tasarım kararları: [Astronomi referansları](docs/ASTRONOMY_REFERENCES.md).
+Kısa kayan yıldız geçişi sanatsal bir meteor etkisidir. Önceki spiral kuyruklu yıldız kaldırıldı; yeni kuyruklu yıldızın geniş toz kuyruğu ve dar iyon kuyruğu NASA tanımlarına göre ayrı çizilir. Fotoğraf veya video doğrudan kopyalanmadı. Kaynaklar ve tasarım kararları: [Astronomi referansları](docs/ASTRONOMY_REFERENCES.md).
 
 ## Teknoloji
 
@@ -55,6 +55,6 @@ Vite, Three.js, GPU nokta çizimi, hafif sprite katmanları ve tarayıcı yerel 
 
 Her yayımlanan güncellemede [SemVer](https://semver.org/) sürümü yükseltilir, [CHANGELOG.md](CHANGELOG.md) güncellenir ve `vX.Y.Z` Git etiketi oluşturulur. Özellikler için küçük sürüm, hata düzeltmeleri için yama sürümü kullanılır. Güvenlik bildirimleri için [SECURITY.md](SECURITY.md) dosyasına bak. Katkı adımları [CONTRIBUTING.md](CONTRIBUTING.md) içindedir.
 
-MIT lisanslıdır.
+Uygulama kodu MIT lisanslıdır. NASA/JPL kaynaklı gezegen haritaları MIT kapsamında değildir; [kaynak ve kullanım koşulları](docs/ASTRONOMY_REFERENCES.md) ayrıca belirtilmiştir.
 
 Projeyi yararlı bulduysan [GitHub'da yıldız ver](https://github.com/GhostFelina/wordverse-galaxy).

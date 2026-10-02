@@ -21,11 +21,14 @@ Bu proje fiziksel ölçekli simülasyon değil, öğrenme verisinin astronomiden
 ## Gezegen ve halka
 
 - [NASA: Satürn halkaları ve gölge](https://science.nasa.gov/resource/shadow-and-ringshine/) — Yakın plandaki halkalı gezegenin sönük halka katmanları ve gölgeli diski için referans.
+- [NASA/JPL-Caltech Solar System Simulator texture maps](https://space.jpl.nasa.gov/tmaps/) — `public/assets/planets/` içindeki sekiz equirectangular JPEG haritanın kaynağı. Merkür/Mariner 10, Venüs/Magellan radar, Dünya/USGS, Mars/Viking görüntülerinden türetilmiştir. Jüpiter/Voyager haritası temsili ve düşük çözünürlüklüdür; Satürn, Uranüs, Neptün haritaları kaynak sitede açıkça kurgusal/temsili olarak belirtilir. Bu nedenle gezegenler veri tabanındaki gerçek gezegenlerin anlık, bire bir fotoğrafları değildir.
+- [NASA/JPL-Caltech görsel kullanım koşulları](https://www.jpl.nasa.gov/jpl-image-use-policy/) — Kaynak görseller için atıf: Courtesy NASA/JPL-Caltech. Kaynak sitedeki özel kullanım durumları kontrol edildi; logo veya onay ima eden unsur kullanılmadı. Doku üreticileri ilgili [Merkür](https://space.jpl.nasa.gov/tmaps/mercury.html), [Venüs](https://space.jpl.nasa.gov/tmaps/venus.html), [Dünya](https://space.jpl.nasa.gov/tmaps/earth.html), [Mars](https://space.jpl.nasa.gov/tmaps/mars.html), [Jüpiter](https://space.jpl.nasa.gov/tmaps/jupiter.html), [Satürn](https://space.jpl.nasa.gov/tmaps/saturn.html), [Uranüs](https://space.jpl.nasa.gov/tmaps/uranus.html) ve [Neptün](https://space.jpl.nasa.gov/tmaps/neptune.html) kayıtlarında listelenir.
 
-## Kuyruklu yıldız ve meteor
-- [NASA: kuyruklu yıldızın çekirdeği, koması ve iki kuyruğu](https://science.nasa.gov/solar-system/comets/nov2024-night-sky-notes/) — Beyazımsı toz kuyruğu geniş ve hafif kavisli; mavi iyon kuyruğu daha ince ve düzdür. İki kuyruk parçacıklarla çizilir.
-- [NASA/JWST: kuyruklu yıldız 238P/Read](https://science.nasa.gov/asset/webb/comet-238pread-nircam-image/) ve [ESA Rosetta görüntüleri](https://www.esa.int/ESA_Multimedia/Images/2014/09/Rosetta_comet_observed_with_Very_Large_Telescope) — Küçük çekirdek ve yumuşak koma yoğunluğu için görsel referans.
-- [NASA: meteor tanımı](https://science.nasa.gov/sun/the-atmosphere-after-dark/) — Kayan yıldız meteor, atmosferdeki kısa ışık çizgisidir. Uygulamadaki kısa geçiş bir uzay sahnesi efekti olarak açıkça sanatsaldır; yavaş kuyruklu yıldızdan ayrıdır.
+## Meteor ve kuyruklu yıldız
+
+- [NASA: meteor tanımı](https://science.nasa.gov/sun/the-atmosphere-after-dark/) — Meteor, atmosferde kısa ışık çizgisidir. Uygulamadaki 0,72 saniyelik geçiş, atmosfer bulunmayan bir uzay sahnesinde sanatsal bir katmandır.
+- [NASA: kuyruklu yıldızın çekirdeği, koma ve kuyrukları](https://science.nasa.gov/learn/basics-of-space-flight/chapter1-3/) — Çekirdeğin çevresindeki koma, genişçe ve hafif kavisli toz kuyruğu ile dar, düz iyon kuyruğu v1.8.0 görseline yön verdi. Kuyruklar Güneş'ten uzağa yönelir. Önceki spiral animasyon kaldırıldı.
+- [NASA: toz ve iyon kuyruğunun görünüşü](https://science.nasa.gov/universe/glossary-3/a-g/) — Toz sıcak, yansıyan ışık tonlarında; iyon kuyruğu daha soluk mavi çizildi. NASA fotoğrafı veya belgesel karesi kopyalanmadı; şeffaf doku kodla üretildi.
 
 ## Açık kaynak incelemesi
 

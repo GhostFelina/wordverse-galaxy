@@ -1,5 +1,14 @@
 export const UNIVERSE_KEY = 'wordverse.universe.v3';
 export const LEGACY_KEY = 'wordverse.words.v2';
+export const entryKind = item => item?.kind === 'conjunction' ? 'conjunction' : 'word';
+export const PLANET_TYPES = Object.freeze(['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']);
+export function nextPlanetType(entries, galaxyId, draw = Math.random()) {
+  const counts = new Map(PLANET_TYPES.map(type => [type, 0]));
+  for (const item of entries) if (item.galaxyId === galaxyId && entryKind(item) === 'conjunction' && counts.has(item.planetType)) counts.set(item.planetType, counts.get(item.planetType) + 1);
+  const least = Math.min(...counts.values());
+  const candidates = PLANET_TYPES.filter(type => counts.get(type) === least);
+  return candidates[Math.min(candidates.length - 1, Math.floor(Math.max(0, draw) * candidates.length))];
+}
 
 const initialGalaxy = () => ({ id: 'galaxy-english', name: 'İngilizce Galaksisi', language: 'İngilizce', createdAt: new Date().toISOString() });
 const secondGalaxy = () => ({ id: 'galaxy-spanish', name: 'İspanyolca Galaksisi', language: 'İspanyolca', createdAt: new Date().toISOString() });

@@ -1,5 +1,13 @@
 # Değişiklik kaydı
 
+## [1.8.0] - 2026-10-02
+
+- “Bağlaç ekle” kayıt türü eklendi. Bağlaçlar galakside kendi gezegenleri olarak görünür; yıldız ve gezegen sayısı ayrı gösterilir. Önceki kayıtlar yıldız olarak kalır.
+- Aynı galakside kelime yıldızları ve bağlaç gezegenleri doğal sapmalarla konumlanır. Sekiz NASA/JPL-Caltech gezegen haritası galaksi başına dengeli, eşit kullanımda rastgele seçilir; kayıt başına sabit tutulur. Doku kaynağı uygulamada belgelenir.
+- Bağlaç türü düzenleme, arama listesi, olay geçmişi ve JSON yedeğinde korunur. En eski iki kelimenin ikili hareketi yalnız yıldızlara uygulanır.
+- Spiral kuyruklu yıldız kaldırıldı. NASA'nın koma, toz ve iyon kuyruğu açıklamalarına göre düz yörüngeli yeni bir görsel çizildi. Meteor geçişi kısaltıldı.
+- Yerel Chrome'da kayıt türü formu ve kişisel veriler korunarak galaksi görünümü incelendi.
+
 ## [1.7.0] - 2026-10-02
 
 - Kelime yıldızı ayrıntısına “Yıldıza yaklaş” eklendi. Kamera yıldızı yakın planda takip ediyor; sürükleme takibi bırakıyor, Esc veya evren ikonu normal görünüme dönüyor.

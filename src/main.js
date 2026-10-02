@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import './style.css';
-import { UNIVERSE_KEY, starAge, appendEvent, mergeUniverse } from './universe-data.js';
+import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, starAge, appendEvent, mergeUniverse } from './universe-data.js';
 import { recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
 
 const $ = (selector) => document.querySelector(selector);
@@ -37,7 +37,7 @@ let fpsFrames = 0;
 let fpsLast = 0;
 let drawCalls = 0;
 let lastStarAgeDay = Math.floor(Date.now() / 86400000);
-let comet, cometTip, spaceComet, spaceCometDust, spaceCometIon, spaceCometComa, coreGlow, innerGlow, cloudHaze, cloudHaze2, cloudHaze3, cloudHaze4, galaxyDust, deepDust;
+let meteor, meteorTip, spaceComet, coreGlow, innerGlow, cloudHaze, cloudHaze2, cloudHaze3, cloudHaze4, galaxyDust, deepDust;
 let galaxyGrowth = 0;
 let galaxyGrowthTarget = 0;
 let galaxyExtent = .1;
@@ -45,6 +45,8 @@ let galaxyExtentTarget = .1;
 let birthMap;
 let starCoreMap;
 let planetGeometry, ringGeometry;
+const PLANET_NAMES = { mercury: 'Merkür', venus: 'Venüs', earth: 'Dünya', mars: 'Mars', jupiter: 'Jüpiter', saturn: 'Satürn', uranus: 'Uranüs', neptune: 'Neptün' };
+const planetMaps = new Map();
 const births = [];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -71,7 +73,8 @@ function refreshCounts() {
   $('#word-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? 'Örn. luz' : activeGalaxy?.language === 'İngilizce' ? 'Örn. luminous' : 'Yeni kelime';
   $('#example-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? 'La luz de las estrellas.' : activeGalaxy?.language === 'İngilizce' ? 'The moon looked luminous tonight.' : 'Örnek bir cümle';
   $('#galaxy-count').textContent = String(universe.galaxies.length).padStart(2, '0');
-  $('#star-count').textContent = String(words.length).padStart(2, '0');
+  $('#star-count').textContent = String(words.filter(w => entryKind(w) === 'word').length).padStart(2, '0');
+  $('#planet-count').textContent = String(words.filter(w => entryKind(w) === 'conjunction').length).padStart(2, '0');
   const days = new Set(words.map(w => new Date(w.createdAt).toDateString())).size;
   $('#days-count').textContent = String(days).padStart(2, '0');
   $('#demo-note').hidden = words.length > 0;
@@ -142,6 +145,36 @@ function glowTexture() {
   ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256);
   return new THREE.CanvasTexture(canvas);
 }
+function cometTexture() {
+  const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  const randomDust = random(62731);
+  const headX = 94, headY = 119;
+  // The broad dust tail bends gently; the fainter blue ion tail stays narrow and straight.
+  const dust = ctx.createLinearGradient(headX, 0, 744, 0);
+  dust.addColorStop(0, 'rgba(237,228,207,.56)'); dust.addColorStop(.23, 'rgba(197,190,177,.21)'); dust.addColorStop(1, 'rgba(135,147,162,0)');
+  ctx.fillStyle = dust;
+  ctx.beginPath(); ctx.moveTo(headX, headY - 10); ctx.bezierCurveTo(270, 68, 510, 104, 744, 90); ctx.bezierCurveTo(480, 190, 270, 147, headX, headY + 12); ctx.fill();
+  for (let i = 0; i < 440; i++) {
+    const t = randomDust();
+    const x = headX + t * 640;
+    const centerY = headY - 17 * Math.sin(t * Math.PI * .75) + 10 * t * t;
+    const spread = (4 + t * 44) * (randomDust() + randomDust() - 1);
+    const alpha = (1 - t) * (.035 + randomDust() * .14);
+    ctx.fillStyle = `rgba(242,225,199,${alpha})`;
+    ctx.fillRect(x, centerY + spread, 1 + randomDust() * 2, 1 + randomDust() * 2);
+  }
+  const ion = ctx.createLinearGradient(headX, 0, 768, 0);
+  ion.addColorStop(0, 'rgba(167,209,255,.34)'); ion.addColorStop(.37, 'rgba(119,174,236,.12)'); ion.addColorStop(1, 'rgba(95,142,206,0)');
+  ctx.strokeStyle = ion; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(headX + 6, headY); ctx.lineTo(760, headY + 36); ctx.stroke();
+  const coma = ctx.createRadialGradient(headX, headY, 1, headX, headY, 53);
+  coma.addColorStop(0, 'rgba(252,250,239,.88)'); coma.addColorStop(.14, 'rgba(231,239,233,.51)'); coma.addColorStop(.52, 'rgba(191,216,220,.13)'); coma.addColorStop(1, 'rgba(160,191,217,0)');
+  ctx.fillStyle = coma; ctx.fillRect(headX - 54, headY - 54, 108, 108);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
 function starCoreTexture() {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
   const ctx = canvas.getContext('2d');
@@ -162,19 +195,36 @@ function starCoreTexture() {
   }
   return new THREE.CanvasTexture(canvas);
 }
-function makePlanet(index) {
+function planetType(word) {
+  if (PLANET_TYPES.includes(word.planetType)) return word.planetType;
+  let hash = 0; for (const char of word.id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return PLANET_TYPES[hash % PLANET_TYPES.length];
+}
+function planetMap(type) {
+  if (!planetMaps.has(type)) {
+    const ready = { value: 0 };
+    const texture = new THREE.TextureLoader().load(`/assets/planets/${type}.jpg`, () => { ready.value = 1; });
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+    planetMaps.set(type, { texture, ready });
+  }
+  return planetMaps.get(type);
+}
+function makePlanet(type) {
   if (!planetGeometry) planetGeometry = new THREE.SphereGeometry(1, 32, 24);
   if (!ringGeometry) ringGeometry = new THREE.RingGeometry(1.52, 2.45, 72, 1);
-  const ringed = index % 2 === 0;
-  const color = ringed ? new THREE.Color('#988575') : new THREE.Color('#647d8e');
+  const ringed = type === 'saturn' || type === 'uranus';
+  const { texture, ready } = planetMap(type);
+  const baseColors = { mercury: '#a29d96', venus: '#cfb896', earth: '#9bb9d0', mars: '#b27656', jupiter: '#b5a18b', saturn: '#bfb5a2', uranus: '#a6c9ce', neptune: '#648bbd' };
+  const color = new THREE.Color(baseColors[type]);
   const material = new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: color }, uBands: { value: ringed ? 1 : 0 }, uLight: { value: new THREE.Vector3(-.55, .27, .78) } },
-    vertexShader: 'varying vec3 vNormal;varying vec3 vPosition;void main(){vNormal=normal;vPosition=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-    fragmentShader: 'uniform vec3 uColor;uniform float uBands;uniform vec3 uLight;varying vec3 vNormal;varying vec3 vPosition;void main(){vec3 n=normalize(vNormal);float day=clamp(dot(n,normalize(uLight)),0.0,1.0);float shade=.075+.82*pow(day,.78);float bands=sin(vPosition.y*22.0+sin(vPosition.y*8.0)*1.7)*.085*uBands;float storm=sin(vPosition.y*47.0+vPosition.x*7.0)*.025*uBands;float limb=pow(1.0-abs(n.z),2.7)*.24*day;vec3 c=uColor*(shade+bands+storm)+vec3(.2,.35,.5)*limb;gl_FragColor=vec4(c,1.0);}',
+    uniforms: { uColor: { value: color }, uMap: { value: texture }, uReady: ready, uLight: { value: new THREE.Vector3(-.55, .38, 1.25) } },
+    vertexShader: 'varying vec3 vNormal;varying vec2 vUv;void main(){vNormal=normal;vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+    fragmentShader: 'uniform vec3 uColor;uniform sampler2D uMap;uniform float uReady;uniform vec3 uLight;varying vec3 vNormal;varying vec2 vUv;void main(){vec3 n=normalize(vNormal);float day=max(0.0,dot(n,normalize(uLight)));float shade=.22+.9*pow(day,.72);vec3 albedo=mix(uColor,texture2D(uMap,vUv).rgb,uReady);float rim=pow(1.0-max(0.0,n.z),3.0)*.16*day;vec3 c=albedo*shade+vec3(.2,.32,.42)*rim;gl_FragColor=vec4(c,1.0);}',
   });
   const orbit = new THREE.Group();
   const body = new THREE.Mesh(planetGeometry, material);
-  const radius = ringed ? .82 : .68;
+  const radius = ({ jupiter: .94, saturn: .87, uranus: .76, neptune: .76, earth: .74, venus: .72, mars: .68, mercury: .62 })[type];
   body.scale.setScalar(radius); orbit.add(body);
   if (ringed) {
     const ring = new THREE.Mesh(ringGeometry, new THREE.ShaderMaterial({
@@ -182,11 +232,14 @@ function makePlanet(index) {
       fragmentShader: 'varying vec2 vRing;void main(){float r=length(vRing);float bands=.5+.5*sin(r*46.0);float gap=smoothstep(.025,.085,abs(r-1.94));float edge=smoothstep(1.52,1.7,r)*(1.0-smoothstep(2.25,2.45,r));float alpha=(.11+bands*.17)*gap*edge;gl_FragColor=vec4(vec3(.58,.54,.49),alpha);}',
       transparent: true, side: THREE.DoubleSide, depthWrite: false,
     }));
-    ring.scale.setScalar(radius); ring.rotation.set(.62, -.18, .32); orbit.add(ring);
+    ring.scale.setScalar(radius); ring.rotation.set(1.13, -.18, -.3); orbit.add(ring);
   }
+  const reflectedLight = sprite(color, 5.5, .32);
+  reflectedLight.position.z = -.18;
+  orbit.add(reflectedLight);
   orbit.userData.orbitRadius = ringed ? 6.6 : 5.8;
   orbit.userData.orbitSpeed = ringed ? .16 : .21;
-  orbit.userData.phase = index * 2.37;
+  orbit.userData.type = type;
   return orbit;
 }
 function birthTexture() {
@@ -265,25 +318,11 @@ function initScene() {
   wordGroup = new THREE.Group(); scene.add(wordGroup);
   const streakPoints = new Float32Array(6);
   const streakGeometry = new THREE.BufferGeometry(); streakGeometry.setAttribute('position', new THREE.BufferAttribute(streakPoints, 3));
-  comet = new THREE.Line(streakGeometry, new THREE.LineBasicMaterial({ color: 0xaacaff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-  comet.frustumCulled = false; scene.add(comet);
-  cometTip = sprite(0xddeaff, 5, 0); scene.add(cometTip);
-  spaceComet = sprite(0xf5f8ff, 3.1, 0, starCoreMap); scene.add(spaceComet);
-  spaceCometComa = sprite(0xa7caff, 11, 0); scene.add(spaceCometComa);
-  const makeTail = (count, blue) => {
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
-    const color = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const fade = Math.pow(1 - i / count, 1.3);
-      color.set(blue ? [.38 * fade, .64 * fade, 1 * fade] : [1 * fade, .88 * fade, .72 * fade], i * 3);
-    }
-    geometry.setAttribute('color', new THREE.BufferAttribute(color, 3));
-    const points = new THREE.Points(geometry, new THREE.PointsMaterial({ map: glowMap, color: 0xffffff, vertexColors: true, size: blue ? 2.4 : 3.8, sizeAttenuation: true, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-    points.frustumCulled = false; scene.add(points); return points;
-  };
-  spaceCometDust = makeTail(85, false);
-  spaceCometIon = makeTail(38, true);
+  meteor = new THREE.Line(streakGeometry, new THREE.LineBasicMaterial({ color: 0xaacaff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+  meteor.frustumCulled = false; scene.add(meteor);
+  meteorTip = sprite(0xddeaff, 5, 0); scene.add(meteorTip);
+  spaceComet = new THREE.Sprite(new THREE.SpriteMaterial({ map: cometTexture(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+  spaceComet.frustumCulled = false; scene.add(spaceComet);
   rebuildWordStars();
   updateGalaxyGrowth();
   renderer.setAnimationLoop(animate);
@@ -334,34 +373,36 @@ function rebuildWordStars() {
     };
     denseStarMeshes = { outer: layer(glowMap, .32), inner: layer(glowMap, .74), center: layer(starCoreMap, 1) };
   }
-  const oldestPair = words.length >= 2 ? [...words].sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || words.indexOf(a) - words.indexOf(b)).slice(0, 2) : [];
+  const oldestStars = words.filter(w => entryKind(w) === 'word');
+  const oldestPair = oldestStars.length >= 2 ? oldestStars.sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || words.indexOf(a) - words.indexOf(b)).slice(0, 2) : [];
   words.forEach((word, index) => {
     const group = new THREE.Group(); group.position.set(word.x, word.y, word.z || 18);
+    const isPlanet = entryKind(word) === 'conjunction';
     const appearance = starAge(word.createdAt);
     const tint = new THREE.Color(appearance.glow);
     let hash = 0; for (const char of word.id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
     const magnitude = .66 + hash % 100 / 100 * .62;
-    const outer = denseStarMeshes ? null : sprite(tint, 24 * magnitude * appearance.size, .32);
-    const inner = denseStarMeshes ? null : sprite(tint, 8 * magnitude * appearance.size, .74);
-    const center = denseStarMeshes ? null : sprite(new THREE.Color(appearance.color), 4.7 * magnitude * appearance.size, 1, starCoreMap);
-    const glint = !denseStarMeshes && hash % 6 === 0 ? sprite(new THREE.Color(appearance.color), 8, .17, starCoreMap) : null;
+    const outer = denseStarMeshes || isPlanet ? null : sprite(tint, 24 * magnitude * appearance.size, .32);
+    const inner = denseStarMeshes || isPlanet ? null : sprite(tint, 8 * magnitude * appearance.size, .74);
+    const center = denseStarMeshes || isPlanet ? null : sprite(new THREE.Color(appearance.color), 4.7 * magnitude * appearance.size, 1, starCoreMap);
+    const glint = !denseStarMeshes && !isPlanet && hash % 6 === 0 ? sprite(new THREE.Color(appearance.color), 8, .17, starCoreMap) : null;
     const dx = word.x - 31, dy = word.y;
     const orbitX = dx * Math.cos(.17) - dy * Math.sin(.17);
     const orbitY = dx * Math.sin(.17) + dy * Math.cos(.17);
     const radius = Math.max(4, Math.hypot(orbitX, orbitY / .57));
     if (outer) group.add(outer, inner, center);
     if (glint) group.add(glint);
-    const planet = [2, 5, 12, 20].includes(index) ? makePlanet(index) : null;
-    if (planet) group.add(planet);
-    if (denseStarMeshes) {
+    const planet = isPlanet ? makePlanet(planetType(word)) : null;
+    if (planet) { planet.scale.setScalar(2.25); group.add(planet); }
+    if (denseStarMeshes && !isPlanet) {
       denseStarMeshes.outer.setColorAt(index, tint);
       denseStarMeshes.inner.setColorAt(index, tint);
       denseStarMeshes.center.setColorAt(index, new THREE.Color(appearance.color));
     }
     const cluster = index >= 2 ? Math.floor((index - 2) / 7) : -1;
-    group.userData = { outer, inner, center, glint, planet, index, magnitude, appearanceSize: appearance.size, radius, phase: Math.atan2(orbitY / .57, orbitX), z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: oldestPair.findIndex(w => w.id === word.id) };
+    group.userData = { outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: Math.atan2(orbitY / .57, orbitX), z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
     wordGroup.add(group); worldStars.set(word.id, group);
-    const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', `${word.word} yıldızını aç`);
+    const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', `${word.word} ${isPlanet ? 'gezegenini' : 'yıldızını'} aç`);
     button.addEventListener('click', () => selectWord(word.id));
     const label = document.createElement('div'); label.className = 'star-label';
     const name = document.createElement('b'); name.textContent = word.word;
@@ -408,42 +449,29 @@ function animate(ms) {
     birth.ring.scale.setScalar(4 + t * 43);
     birth.ring.material.opacity = (1 - t) * (1 - t) * .9;
   }
-  const cometCycle = drift % 24;
-  if (words.length && cometCycle > 16 && cometCycle < 18.4) {
-    const t = (cometCycle - 16) / 2.4;
+  const meteorCycle = drift % 24;
+  if (words.length && meteorCycle > 16 && meteorCycle < 16.72) {
+    const t = (meteorCycle - 16) / .72;
     const cycle = Math.floor(drift / 24);
     const halfHeight = (camera.position.z - 2) * Math.tan(THREE.MathUtils.degToRad(25));
     const halfWidth = halfHeight * camera.aspect;
     const side = cycle % 2 ? -1 : 1;
-    const x = camera.position.x + side * (.78 - t * 1.16) * halfWidth;
-    const y = camera.position.y + (.7 - t * .82) * halfHeight;
-    const a = comet.geometry.attributes.position.array;
-    a.set([x + side * halfWidth * .09, y + halfHeight * .065, 2, x, y, 2]); comet.geometry.attributes.position.needsUpdate = true;
-    comet.material.opacity = Math.sin(t * Math.PI) * .48;
-    cometTip.position.set(x, y, 2); cometTip.material.opacity = Math.sin(t * Math.PI) * .78;
-  } else { comet.material.opacity = 0; cometTip.material.opacity = 0; }
-  const spaceCycle = drift % 52;
-  const cometVisible = words.length > 2 && spaceCycle > 5 && spaceCycle < 23;
-  if (cometVisible) {
-    const t = (spaceCycle - 5) / 18;
-    const fade = Math.min(1, t * 5, (1 - t) * 5);
-    const x = 123 - t * 112, y = 33 - t * 41 + Math.sin(t * Math.PI) * 13, z = 9;
-    spaceComet.position.set(x, y, z + 1); spaceCometComa.position.set(x, y, z);
-    spaceComet.material.opacity = fade * .88; spaceCometComa.material.opacity = fade * .28;
-    for (const [tail, count, length, spread, curve] of [[spaceCometDust, 85, 24, 5.7, 3.1], [spaceCometIon, 38, 34, 1.4, -1.1]]) {
-      const positions = tail.geometry.attributes.position.array;
-      for (let i = 0; i < count; i++) {
-        const q = (i + 1) / count;
-        const jitter = Math.sin(i * 9.17 + drift * .7) * spread * q;
-        positions.set([x + q * length, y + q * curve + jitter, z - q * 1.6], i * 3);
-      }
-      tail.geometry.attributes.position.needsUpdate = true;
-      tail.material.opacity = fade * (tail === spaceCometDust ? .7 : .48);
-    }
-  } else {
-    spaceComet.material.opacity = spaceCometComa.material.opacity = 0;
-    spaceCometDust.material.opacity = spaceCometIon.material.opacity = 0;
-  }
+    const x = camera.position.x + side * (.78 - t * .64) * halfWidth;
+    const y = camera.position.y + (.7 - t * .48) * halfHeight;
+    const a = meteor.geometry.attributes.position.array;
+    a.set([x + side * halfWidth * .16, y + halfHeight * .12, 2, x, y, 2]); meteor.geometry.attributes.position.needsUpdate = true;
+    meteor.material.opacity = Math.sin(t * Math.PI) * .58;
+    meteorTip.position.set(x, y, 2); meteorTip.scale.setScalar(Math.max(1.8, halfHeight * .035)); meteorTip.material.opacity = Math.sin(t * Math.PI) * .82;
+  } else { meteor.material.opacity = 0; meteorTip.material.opacity = 0; }
+  const cometCycle = drift % 61;
+  if (words.length > 2 && cometCycle > 29 && cometCycle < 43) {
+    const t = (cometCycle - 29) / 14;
+    const halfHeight = (camera.position.z - 3) * Math.tan(THREE.MathUtils.degToRad(25));
+    const halfWidth = halfHeight * camera.aspect;
+    spaceComet.scale.set(halfWidth * .64, halfHeight * .22, 1);
+    spaceComet.position.set(camera.position.x + halfWidth * (.77 - t * .48), camera.position.y + halfHeight * (-.48 + t * .12), 3);
+    spaceComet.material.opacity = Math.min(1, t * 7, (1 - t) * 7) * .65;
+  } else spaceComet.material.opacity = 0;
   for (const mat of galaxyGroup.userData.materials) mat.uniforms.uTime.value = drift;
   const today = Math.floor(Date.now() / 86400000);
   const refreshStarAge = today !== lastStarAgeDay;
@@ -470,7 +498,7 @@ function animate(ms) {
       group.position.set(31 + ox * Math.cos(-.17) - oy * Math.sin(-.17), ox * Math.sin(-.17) + oy * Math.cos(-.17), orbit.z + Math.sin(angle * 2 + orbit.index) * .55);
       if (orbit.outer) orbit.outer.material.opacity = .31 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .065;
     }
-    if (refreshStarAge) {
+    if (refreshStarAge && !orbit.isPlanet) {
       const appearance = starAge(orbit.word.createdAt);
       orbit.appearanceDay = appearance.ageDays;
       orbit.appearanceSize = appearance.size;
@@ -486,11 +514,16 @@ function animate(ms) {
       if (orbit.glint) orbit.glint.material.color.set(appearance.color);
     }
     if (denseStarMeshes) {
+      if (orbit.isPlanet) {
+        denseMatrix.makeScale(0, 0, 0).setPosition(group.position);
+        for (const mesh of Object.values(denseStarMeshes)) mesh.setMatrixAt(orbit.index, denseMatrix);
+      } else {
       const scale = orbit.magnitude * orbit.appearanceSize;
       const binaryPulse = orbit.binarySlot >= 0 ? 1.12 + Math.sin(drift * 3.1 + orbit.binarySlot * 2.3) * .12 : 1 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .035;
       for (const [mesh, size] of [[denseStarMeshes.outer, 24 * scale * binaryPulse], [denseStarMeshes.inner, 8 * scale], [denseStarMeshes.center, 4.7 * scale]]) {
         denseMatrix.makeScale(size, size, 1).setPosition(group.position);
         mesh.setMatrixAt(orbit.index, denseMatrix);
+      }
       }
     }
     if (orbit.glint) {
@@ -499,12 +532,10 @@ function animate(ms) {
     }
     if (orbit.planet) {
       const body = orbit.planet;
-      const phase = body.userData.phase + drift * body.userData.orbitSpeed;
-      const radius = body.userData.orbitRadius;
-      body.position.set(Math.cos(phase) * radius, Math.sin(phase) * radius * .5, Math.sin(phase) * 1.2);
+      body.position.set(0, 0, 0);
       body.children[0].rotation.y = drift * .035;
-      body.children[0].material.uniforms.uLight.value.set(-body.position.x, -body.position.y, 2).normalize();
-      body.visible = zoom < 55;
+      body.children[0].material.uniforms.uLight.value.set(-.55, .38, 1.25).normalize();
+      body.children[body.children.length - 1].material.opacity = zoom > 350 ? .46 : .2;
     }
     if (!updateOverlays) continue;
     group.getWorldPosition(projected); projected.project(camera);
@@ -541,7 +572,14 @@ function openPanel(which) {
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
 function selectWord(id) {
   const word = words.find(w => w.id === id); if (!word) return;
+  const isPlanet = entryKind(word) === 'conjunction';
   selectedId = id;
+  $('#object-record-label').textContent = isPlanet ? 'GEZEGEN KAYDI' : 'YILDIZ KAYDI';
+  $('#object-stage-label').textContent = isPlanet ? 'GEZEGENİN YAŞI' : 'YILDIZIN EVRESİ';
+  $('#detail-language').textContent = `${(universe.galaxies.find(g => g.id === word.galaxyId)?.language || 'Dil').toLocaleUpperCase('tr')} ${isPlanet ? 'BAĞLAÇ' : 'KELİME'}`;
+  $('#focus-star').firstChild.textContent = isPlanet ? 'Gezegene yaklaş ' : 'Yıldıza yaklaş ';
+  $('#delete-word').textContent = isPlanet ? 'Gezegeni kaldır' : 'Yıldızı kaldır';
+  $('#detail-sun').classList.toggle('planet', isPlanet);
   $('#detail-number').textContent = `NO. ${String(words.indexOf(word) + 1).padStart(3, '0')}`;
   $('#detail-word').textContent = word.word;
   $('#detail-meaning').textContent = word.meaning;
@@ -550,7 +588,7 @@ function selectWord(id) {
   $('#reveal-meaning').setAttribute('aria-pressed', 'false');
   $('#reveal-meaning').setAttribute('aria-label', 'Türkçe anlamı göster');
   const appearance = starAge(word.createdAt);
-  $('#star-age-label').textContent = `${appearance.stage} · ${appearance.ageDays} gün`;
+  $('#star-age-label').textContent = isPlanet ? `${PLANET_NAMES[planetType(word)]} dokusu · ${appearance.ageDays} gün önce eklendi` : `${appearance.stage} · ${appearance.ageDays} gün`;
   $('#binary-label').hidden = worldStars.get(word.id)?.userData.binarySlot < 0;
   $('#detail-example').textContent = word.example || '';
   $('#example-wrap').hidden = !word.example;
@@ -568,7 +606,7 @@ function focusStar() {
   focusedStarId = selectedId;
   zoom = 36;
 }
-function createPosition(index) {
+function createPosition(index, variation = .5) {
   if (index >= 2) {
     const cluster = Math.floor((index - 2) / 7);
     const slot = (index - 2) % 7;
@@ -580,14 +618,14 @@ function createPosition(index) {
     const rotation = cluster * 2.399;
     const px = pattern[0] * Math.cos(rotation) - pattern[1] * Math.sin(rotation);
     const py = pattern[0] * Math.sin(rotation) + pattern[1] * Math.cos(rotation);
-    const x = cx + px + (seed() - .5) * 2.4;
-    const y = cy + py + (seed() - .5) * 2.4;
+    const x = cx + px + (seed() - .5) * 2.4 + (variation - .5) * 5;
+    const y = cy + py + (seed() - .5) * 2.4 + (variation - .5) * 3;
     return { x: 31 + x * Math.cos(-.17) - y * Math.sin(-.17), y: x * Math.sin(-.17) + y * Math.cos(-.17), z: 17 + slot * .62 };
   }
   const arm = index % 4;
   const layer = Math.floor(index / 4);
-  const radius = index === 0 ? 5 : 8 + Math.sqrt(layer + 1) * 10;
-  const angle = arm * Math.PI / 2 + radius * .055 + index * .045;
+  const radius = index === 0 ? 10 + variation * 9 : 15 + variation * 9 + Math.sqrt(layer + 1) * 3;
+  const angle = arm * Math.PI / 2 + radius * .055 + index * .045 + (variation - .5) * 1.5;
   const rx = Math.cos(angle) * radius;
   const ry = Math.sin(angle) * radius * .57;
   const tilt = -.17;
@@ -595,6 +633,7 @@ function createPosition(index) {
 }
 function saveWord(event) {
   event.preventDefault();
+  const kind = $('#word-form input[name="kind"]:checked')?.value === 'conjunction' ? 'conjunction' : 'word';
   const word = $('#word-input').value.trim();
   const meaning = $('#meaning-input').value.trim();
   const example = $('#example-input').value.trim();
@@ -606,15 +645,23 @@ function saveWord(event) {
     const editedId = editingId;
     const item = words.find(w => w.id === editedId);
     const before = item ? { ...item } : null;
-    if (item) { Object.assign(item, { word, meaning, example, updatedAt: new Date().toISOString() }); appendEvent(universe, 'word.updated', item.galaxyId, item.id, before, item); }
-    persist(); rebuildWordStars(); refreshCounts(); closePanels(); selectWord(editedId); showToast('Yıldızın bilgileri güncellendi.');
+    if (item) { Object.assign(item, { word, meaning, example, kind, planetType: kind === 'conjunction' ? (entryKind(item) === 'conjunction' ? planetType(item) : nextPlanetType(universe.words, item.galaxyId)) : undefined, updatedAt: new Date().toISOString() }); appendEvent(universe, 'word.updated', item.galaxyId, item.id, before, item); }
+    persist(); rebuildWordStars(); refreshCounts(); closePanels(); selectWord(editedId); showToast('Gök cisminin bilgileri güncellendi.');
     return;
   }
-  const position = createPosition(words.length);
-  const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word, meaning, example, createdAt: new Date().toISOString(), ...position };
+  const position = createPosition(words.length, Math.random());
+  const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word, meaning, example, kind, createdAt: new Date().toISOString(), ...position };
+  if (kind === 'conjunction') item.planetType = nextPlanetType(universe.words, item.galaxyId);
   universe.words.push(item); words.push(item); appendEvent(universe, 'word.created', item.galaxyId, item.id, null, item);
   persist(); rebuildWordStars(); refreshCounts(); spawnBirth(item.id); closePanels(); selectWord(item.id);
-  showToast(`“${word}” artık evreninde parlıyor.`);
+  showToast(`“${word}” evrenine ${kind === 'conjunction' ? 'gezegen' : 'yıldız'} olarak eklendi.`);
+}
+function updateEntryKindForm() {
+  const isPlanet = $('#word-form input[name="kind"]:checked')?.value === 'conjunction';
+  $('#word-language-label').textContent = `${(universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language || 'Dil').toLocaleUpperCase('tr')} ${isPlanet ? 'BAĞLAÇ' : 'KELİME'}`;
+  $('#form-title').innerHTML = editingId ? (isPlanet ? 'Gezegenini<br /><em>yenile.</em>' : 'Yıldızını<br /><em>yenile.</em>') : (isPlanet ? 'Yeni bir gezegen<br /><em>doğuyor.</em>' : 'Yeni bir yıldız<br /><em>doğuyor.</em>');
+  $('#form-copy').textContent = isPlanet ? 'Öğrendiğin bağlacı ekle. Galaksinde bir gezegen olarak görünecek.' : 'Bugün öğrendiğin kelimeyi ekle. Evreninde ona özel bir yer açalım.';
+  $('#submit-word').firstChild.textContent = editingId ? 'Değişiklikleri kaydet ' : (isPlanet ? 'Gezegeni evrene ekle ' : 'Yıldızı evrene ekle ');
 }
 function beginEdit() {
   const word = words.find(w => w.id === selectedId); if (!word) return;
@@ -623,6 +670,8 @@ function beginEdit() {
   $('#form-title').innerHTML = 'Yıldızını<br /><em>yenile.</em>';
   $('#form-copy').textContent = 'Kelimenin bilgilerini güncelle. Yıldızının doğum tarihi ve geçmişi korunur.';
   $('#word-input').value = word.word; $('#meaning-input').value = word.meaning; $('#example-input').value = word.example || '';
+  $(`#word-form input[name="kind"][value="${entryKind(word)}"]`).checked = true;
+  updateEntryKindForm();
   $('#submit-word').firstChild.textContent = 'Değişiklikleri kaydet ';
   openPanel('add');
 }
@@ -632,29 +681,30 @@ function openAdd() {
   $('#form-title').innerHTML = 'Yeni bir yıldız<br /><em>doğuyor.</em>';
   $('#form-copy').textContent = 'Bugün öğrendiğin kelimeyi ekle. Evreninde ona özel bir yer açalım.';
   $('#submit-word').firstChild.textContent = 'Yıldızı evrene ekle ';
+  updateEntryKindForm();
   openPanel('add');
 }
 function deleteSelected() {
   const word = words.find(w => w.id === selectedId); if (!word) return;
-  if (!window.confirm(`“${word.word}” yıldızını evreninden kaldırmak istiyor musun?`)) return;
+  if (!window.confirm(`“${word.word}” ${entryKind(word) === 'conjunction' ? 'gezegenini' : 'yıldızını'} evreninden kaldırmak istiyor musun?`)) return;
   appendEvent(universe, 'word.deleted', word.galaxyId, word.id, word, null);
   universe.words = universe.words.filter(w => w.id !== selectedId);
   words = words.filter(w => w.id !== selectedId);
   persist(); rebuildWordStars(); refreshCounts(); closePanels();
-  showToast('Yıldız evreninden kaldırıldı.');
+  showToast('Gök cismi evreninden kaldırıldı.');
 }
 function renderCollection() {
   const query = $('#search-input').value.trim().toLocaleLowerCase('tr');
   const result = [...words].reverse().filter(w => `${w.word} ${w.meaning}`.toLocaleLowerCase('tr').includes(query));
-  $('#result-count').textContent = `${result.length} YILDIZ`;
+  $('#result-count').textContent = `${result.length} KAYIT`;
   const list = $('#collection-list'); list.replaceChildren();
   if (!result.length) { const empty = document.createElement('div'); empty.className = 'collection-empty'; empty.textContent = words.length ? 'Bu isimde bir yıldız bulunamadı.' : 'Henüz yıldızın yok. İlk kelimeni ekleyerek evrenini başlat.'; list.append(empty); return; }
   for (const word of result) {
     const row = document.createElement('button'); row.className = 'collection-item'; row.type = 'button';
-    const star = document.createElement('span'); star.className = 'collection-star'; star.style.setProperty('--star-glow', starAge(word.createdAt).glow);
+    const star = document.createElement('span'); star.className = `collection-star${entryKind(word) === 'conjunction' ? ' planet' : ''}`; star.style.setProperty('--star-glow', starAge(word.createdAt).glow);
     const copy = document.createElement('span'); copy.className = 'collection-copy';
     const title = document.createElement('strong'); title.textContent = word.word;
-    const sub = document.createElement('small'); sub.textContent = starAge(word.createdAt).stage;
+    const sub = document.createElement('small'); sub.textContent = entryKind(word) === 'conjunction' ? `Bağlaç · ${PLANET_NAMES[planetType(word)]} dokusu` : starAge(word.createdAt).stage;
     const arrow = document.createElement('span'); arrow.className = 'collection-arrow'; arrow.textContent = '↗';
     copy.append(title, sub); row.append(star, copy, arrow);
     row.addEventListener('click', () => selectWord(word.id)); list.append(row);
@@ -664,13 +714,15 @@ function renderCollection() {
 function renderGalaxies() {
   const list = $('#galaxy-list'); list.replaceChildren();
   for (const galaxy of universe.galaxies) {
-    const count = universe.words.filter(w => w.galaxyId === galaxy.id).length;
+    const galaxyWords = universe.words.filter(w => w.galaxyId === galaxy.id);
+    const starCount = galaxyWords.filter(w => entryKind(w) === 'word').length;
+    const planetCount = galaxyWords.length - starCount;
     const button = document.createElement('button'); button.type = 'button'; button.className = 'galaxy-item';
     if (galaxy.id === universe.activeGalaxyId) button.classList.add('active');
     const icon = document.createElement('span'); icon.className = 'galaxy-item-icon'; icon.textContent = '✧';
     const copy = document.createElement('span'); copy.className = 'galaxy-item-copy';
     const name = document.createElement('strong'); name.textContent = galaxy.name;
-    const sub = document.createElement('small'); sub.textContent = `${galaxy.language} · ${count} yıldız`;
+    const sub = document.createElement('small'); sub.textContent = `${galaxy.language} · ${starCount} yıldız · ${planetCount} gezegen`;
     copy.append(name, sub); button.append(icon, copy);
     button.addEventListener('click', () => switchGalaxy(galaxy.id)); list.append(button);
   }
@@ -800,6 +852,7 @@ function bindUI() {
   $('#close-collection').addEventListener('click', closePanels);
   $('#panel-backdrop').addEventListener('click', closePanels);
   $('#word-form').addEventListener('submit', saveWord);
+  $('#word-form').addEventListener('change', event => { if (event.target.name === 'kind') updateEntryKindForm(); });
   $('#edit-word').addEventListener('click', beginEdit);
   $('#delete-word').addEventListener('click', deleteSelected);
   $('#search-input').addEventListener('input', renderCollection);

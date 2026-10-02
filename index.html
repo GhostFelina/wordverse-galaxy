@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#02040a" />
-    <meta name="description" content="İngilizce, İspanyolca ve başka dillerde öğrendiğin kelimeleri yaşayan bir galakside yıldızlara dönüştür. Kişisel kelime evrenini oluştur, keşfet ve yedekle." />
+    <meta name="description" content="İngilizce ve İspanyolca kelimelerini yıldız, bağlaçlarını gerçek gezegen dokulu gezegen olarak aynı galakside keşfet. Kişisel kelime evrenini oluştur ve yedekle." />
     <link rel="canonical" href="https://wordverse-galaxy.vercel.app/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="robots" content="index,follow" />
@@ -13,7 +13,7 @@
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content="Wordverse" />
     <meta property="og:title" content="Wordverse — Öğrendiğin Her Kelime Bir Yıldız" />
-    <meta property="og:description" content="Kelimelerinle büyüyen kişisel galaksini oluştur. Her dil için ayrı evren, canlı yıldızlar ve güvenli yerel yedek." />
+    <meta property="og:description" content="Kelimelerin yıldız, bağlaçların gezegen olsun. Her dil için ayrı canlı galaksi ve yerel yedek." />
     <meta property="og:image" content="https://wordverse-galaxy.vercel.app/assets/nebula-gas.png" />
     <meta property="og:image:alt" content="Karanlık uzayda mavi ve mor bulutsu" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -66,6 +66,7 @@
 
         <aside class="bottom-left">
           <div class="stat"><strong id="star-count">06</strong><span>YILDIZ</span></div>
+          <div class="stat"><strong id="planet-count">00</strong><span>GEZEGEN</span></div>
           <div class="stat-separator"></div>
           <div class="stat"><strong id="days-count">00</strong><span>KEŞİF GÜNÜ</span></div>
           <div class="stat stat-galaxies"><strong id="galaxy-count">01</strong><span>GALAKSİ</span></div>
@@ -85,7 +86,7 @@
       <div class="panel-backdrop" id="panel-backdrop"></div>
       <section class="side-panel" id="detail-panel" aria-labelledby="detail-word" aria-hidden="true" inert>
         <button class="panel-close" id="close-detail" aria-label="Paneli kapat">×</button>
-        <div class="panel-kicker"><span class="panel-kicker-dot"></span> YILDIZ KAYDI <span id="detail-number">NO. 001</span></div>
+        <div class="panel-kicker"><span class="panel-kicker-dot"></span> <span id="object-record-label">YILDIZ KAYDI</span> <span id="detail-number">NO. 001</span></div>
         <div class="detail-visual"><div class="detail-orbit orbit-one"></div><div class="detail-orbit orbit-two"></div><div class="detail-sun" id="detail-sun"></div></div>
         <div class="detail-content">
           <div class="detail-type" id="detail-language">İNGİLİZCE KELİME</div>
@@ -94,7 +95,7 @@
           <div class="meaning-heading"><div class="field-label">TÜRKÇE ANLAMI</div><button id="reveal-meaning" class="reveal-meaning" type="button" aria-label="Türkçe anlamı göster" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.4-5.5 9.5-5.5 9.5 5.5 9.5 5.5-3.4 5.5-9.5 5.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.6"/></svg></button></div>
           <p class="detail-meaning" id="detail-meaning" hidden></p>
           <p class="meaning-hidden" id="meaning-hidden">Görmek için göz ikonuna bas.</p>
-          <div class="field-label">YILDIZIN EVRESİ</div><p class="star-age-label" id="star-age-label"></p><p class="binary-label" id="binary-label" hidden>✦ En eski iki kelime · ikili nötron yörüngesi</p>
+          <div class="field-label" id="object-stage-label">YILDIZIN EVRESİ</div><p class="star-age-label" id="star-age-label"></p><p class="binary-label" id="binary-label" hidden>✦ En eski iki kelime · ikili nötron yörüngesi</p>
           <div class="example-wrap" id="example-wrap"><div class="field-label">ÖRNEK CÜMLE</div><p id="detail-example"></p></div>
           <div class="detail-date" id="detail-date"></div>
           <button class="focus-star" id="focus-star" type="button">Yıldıza yaklaş <span aria-hidden="true">↗</span></button>
@@ -107,6 +108,7 @@
         <div class="panel-kicker"><span class="panel-kicker-dot"></span> YENİ BİR IŞIK <span>NO. <span id="next-number">001</span></span></div>
         <div class="form-heading"><div class="form-asterisk">✳</div><h2 id="form-title">Yeni bir yıldız<br /><em>doğuyor.</em></h2><p id="form-copy">Bugün öğrendiğin kelimeyi ekle. Evreninde ona özel bir yer açalım.</p></div>
         <form id="word-form">
+          <fieldset class="entry-kind"><legend>KAYIT TÜRÜ</legend><label><input type="radio" name="kind" value="word" checked /><span>✦ Kelime <small>Yıldız</small></span></label><label><input type="radio" name="kind" value="conjunction" /><span>◐ Bağlaç ekle <small>Gezegen</small></span></label></fieldset>
           <label for="word-input"><span id="word-language-label">İNGİLİZCE KELİME</span> <span>*</span></label>
           <input id="word-input" name="word" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="Örn. luminous" required />
           <label for="meaning-input">TÜRKÇE ANLAMI <span>*</span></label>

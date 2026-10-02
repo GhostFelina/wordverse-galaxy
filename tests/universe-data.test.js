@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { LEGACY_KEY, UNIVERSE_KEY, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
+import { LEGACY_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
 
 function storage(entries) {
   const values = new Map(Object.entries(entries));
@@ -22,6 +22,22 @@ test('older words migrate into the English galaxy without losing their dates or 
 test('existing multi galaxy data remains intact', () => {
   const state = { version: 3, activeGalaxyId: 'es', galaxies: [{ id: 'en' }, { id: 'es' }], words: [{ id: 'luz', galaxyId: 'es' }], events: [{ id: 'event-1' }] };
   assert.deepEqual(loadUniverse(storage({ [UNIVERSE_KEY]: JSON.stringify(state) })), state);
+});
+
+test('legacy entries stay stars while conjunction entries remain planets through backup merge', () => {
+  assert.equal(entryKind({ word: 'light' }), 'word');
+  assert.equal(entryKind({ word: 'and', kind: 'conjunction' }), 'conjunction');
+  const target = { version: 3, galaxies: [{ id: 'en', name: 'English', language: 'English' }], words: [], events: [] };
+  mergeUniverse(target, { version: 3, galaxies: [], words: [{ id: 'and', galaxyId: 'en', word: 'and', meaning: 've', kind: 'conjunction' }], events: [] });
+  assert.equal(entryKind(target.words[0]), 'conjunction');
+});
+
+test('planet models are balanced per galaxy and randomized among least-used models', () => {
+  const entries = PLANET_TYPES.slice(0, 7).map((planetType, index) => ({ id: String(index), kind: 'conjunction', galaxyId: 'en', planetType }));
+  entries.push({ id: 'other', kind: 'conjunction', galaxyId: 'es', planetType: 'neptune' });
+  assert.equal(nextPlanetType(entries, 'en', .3), 'neptune');
+  assert.equal(nextPlanetType([], 'en', .99), 'neptune');
+  assert.equal(nextPlanetType([], 'en', 0), 'mercury');
 });
 
 test('star light follows the compressed age stages', () => {
