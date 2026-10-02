@@ -33,4 +33,3 @@ test('mirror failure still permits an empty universe to open', async () => {
   assert.equal(result.recovered, false);
   assert.equal(result.universe.galaxies.length, 2);
 });
-

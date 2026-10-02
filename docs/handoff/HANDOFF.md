@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: çalışma dalında henüz yeni commit yok; taban `ebd9c6b`.
+2026-10-02 · codex · commit: `b4ff83a` (Faz 0 ilk teslimi).
 
 ## Şu an aktif faz ve branch
 
@@ -18,7 +18,7 @@ Faz 0 — denetim ve altyapı · `phase/0-audit-infrastructure`.
 
 ## Yarım kalan iş
 
-- Değişiklikler çalışma dalında commit/push bekliyor. CI, preview ve prod henüz uzakta doğrulanmadı.
+- İlk değişiklikler `b4ff83a` commit'inde. Push, CI, preview ve prod henüz uzakta doğrulanmadı.
 
 ## Sıradaki ilk 3 adım
 

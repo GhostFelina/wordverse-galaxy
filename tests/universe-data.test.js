@@ -65,4 +65,3 @@ test('backup merge preserves existing words and does not duplicate imported even
   assert.equal(target.events.length, 2);
   assert.equal(target.words[0].word, 'light');
 });
-
