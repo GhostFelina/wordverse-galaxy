@@ -92,7 +92,7 @@
           <div class="detail-type" id="detail-language">İNGİLİZCE KELİME</div>
           <h2 id="detail-word">Serendipity</h2>
           <div class="detail-divider"></div>
-          <div class="meaning-heading"><div class="field-label">TÜRKÇE ANLAMI</div><button id="reveal-meaning" class="reveal-meaning" type="button" aria-label="Türkçe anlamı göster" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.4-5.5 9.5-5.5 9.5 5.5 9.5 5.5-3.4 5.5-9.5 5.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.6"/></svg></button></div>
+          <div class="meaning-heading"><div class="field-label" id="detail-meaning-language">TÜRKÇE ANLAMI</div><button id="reveal-meaning" class="reveal-meaning" type="button" aria-label="Türkçe anlamı göster" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.4-5.5 9.5-5.5 9.5 5.5 9.5 5.5-3.4 5.5-9.5 5.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.6"/></svg></button></div>
           <p class="detail-meaning" id="detail-meaning" hidden></p>
           <p class="meaning-hidden" id="meaning-hidden">Görmek için göz ikonuna bas.</p>
           <div class="field-label" id="object-stage-label">YILDIZIN EVRESİ</div><p class="star-age-label" id="star-age-label"></p><p class="binary-label" id="binary-label" hidden>✦ En eski iki kelime · ikili nötron yörüngesi</p>
@@ -111,7 +111,7 @@
           <fieldset class="entry-kind"><legend>KAYIT TÜRÜ</legend><label><input type="radio" name="kind" value="word" checked /><span>✦ Kelime <small>Yıldız</small></span></label><label><input type="radio" name="kind" value="conjunction" /><span>◐ Bağlaç ekle <small>Gezegen</small></span></label></fieldset>
           <label for="word-input"><span id="word-language-label">İNGİLİZCE KELİME</span> <span>*</span></label>
           <input id="word-input" name="word" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="Örn. luminous" required />
-          <label for="meaning-input">TÜRKÇE ANLAMI <span>*</span></label>
+          <label for="meaning-input"><span id="form-meaning-language">TÜRKÇE ANLAMI</span> <span>*</span></label>
           <input id="meaning-input" name="meaning" type="text" maxlength="120" autocomplete="off" placeholder="Örn. ışık saçan, parlak" required />
           <label for="example-input">ÖRNEK CÜMLE <small>İSTEĞE BAĞLI</small></label>
           <textarea id="example-input" name="example" maxlength="240" rows="3" placeholder="The moon looked luminous tonight."></textarea>
@@ -129,12 +129,14 @@
       </section>
       <section class="collection-panel galaxy-panel" id="galaxy-panel" aria-labelledby="galaxy-panel-title" aria-hidden="true" inert>
         <div class="collection-top"><div><div class="panel-kicker"><span class="panel-kicker-dot"></span> GALAKSİ HARİTASI</div><h2 id="galaxy-panel-title">Galaksilerim<span>.</span></h2><p>Her dilin kendine ait boş bir göğü olsun.</p></div><button class="panel-close collection-close" id="close-galaxy" aria-label="Galaksileri kapat">×</button></div>
-        <div class="galaxy-current"><span id="galaxy-language">İngilizce</span><div class="galaxy-current-title"><strong id="galaxy-name-detail">İngilizce Galaksisi</strong><button id="rename-galaxy" type="button" aria-label="Galaksi adını düzenle">✎</button></div><form id="rename-galaxy-form" hidden><input id="rename-galaxy-input" type="text" maxlength="60" aria-label="Yeni galaksi adı" required /><button type="submit">Kaydet</button><button id="cancel-rename-galaxy" type="button" aria-label="Vazgeç">×</button></form></div>
+        <div class="galaxy-current"><span id="galaxy-language">İngilizce</span><div class="galaxy-current-title"><strong id="galaxy-name-detail">İngilizce Galaksisi</strong><button id="rename-galaxy" type="button" aria-label="Galaksi adını düzenle">✎</button></div><form id="rename-galaxy-form" hidden><input id="rename-galaxy-input" type="text" maxlength="60" aria-label="Yeni galaksi adı" required /><button type="submit">Kaydet</button><button id="cancel-rename-galaxy" type="button" aria-label="Vazgeç">×</button></form><label class="meaning-language-label" for="meaning-language-current">Anlam dili</label><select id="meaning-language-current"><option value="tr">Türkçe</option><option value="en">English</option><option value="es">Español</option></select></div>
         <div id="galaxy-list" class="galaxy-list"></div>
         <form id="galaxy-form" class="galaxy-form">
           <div class="field-label">YENİ GALAKSİ OLUŞTUR</div>
           <label for="language-input">ÖĞRENECEĞİN DİL</label>
           <input id="language-input" name="language" type="text" maxlength="40" placeholder="Örn. İspanyolca" autocomplete="off" required />
+          <label for="meaning-language-input">ANLAM DİLİ</label>
+          <select id="meaning-language-input" name="meaningLanguage"><option value="tr">Türkçe</option><option value="en">English</option><option value="es">Español</option></select>
           <label for="galaxy-name-input">GALAKSİ ADI <small>İSTEĞE BAĞLI</small></label>
           <input id="galaxy-name-input" name="name" type="text" maxlength="60" placeholder="Örn. İspanyolca Galaksisi" autocomplete="off" />
           <button class="submit-button" type="submit">Yeni galaksi yarat <span>↗</span></button>

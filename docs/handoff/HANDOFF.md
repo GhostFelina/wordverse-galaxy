@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: `daa46ac` (Faz 0 kapanışı), `v1.10.0` release. Faz 1 çalışma dalında yeni commit henüz yok.
+2026-10-02 · codex · commit: `0de52ed` (Faz 1 i18n temeli), taban `daa46ac` / `v1.10.0`.
 
 ## Şu an aktif faz ve branch
 
@@ -17,20 +17,21 @@ Faz 0 tamamlandı. Aktif Faz 1 · `phase/1-i18n`.
 - Chrome'da yıldız ayrıntısı, anlam açma ve zoom manuel denendi. 12 ekran görüntüsü `evidence/` içinde; tablet ve mobil taşmalar düzeltildi.
 - PR #3 CI geçti; Vercel preview ve prod deploy hazır. Canlı URL'de izole Chromium ile kelime ekleme/yenileme kalıcılığı ve about sayfası geçti.
 - `v1.10.0` tag ve GitHub Release yayımlandı; main CI tekrar geçti. Faz 1 için metin envanteri ve ilk çeviri altyapısı oluşturuldu.
+- v4 anlam dili migrasyonu, galaksi ayarı ve eski yedek uyumluluğu geliştirildi; yerelde 19 birim ve 4 Playwright testi geçti. 390/1440 kanıt görüntüsü alındı.
 
 ## Yarım kalan iş
 
-- Faz 1 çeviri JSON'ları şu an yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. Dil seçici henüz yok.
+- v4 migrasyonu ve anlam dili UI değişiklikleri çalışma ağacında henüz commit edilmedi. Çeviri JSON'ları yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. UI dil seçici henüz yok.
 
 ## Sıradaki ilk 3 adım
 
-1. `index.html` ve `src/main.js` görünür metinlerini eksiksiz üç dil sözlüğüne taşı; dil seçiciyi bağla.
-2. `about.html`, meta/OG/JSON-LD ve `hreflang` için yerelleştirme stratejisini uygula.
-3. Anlam dili için v3 verisini koruyan sürümlü migrasyon ve eski yedek testlerini yaz.
+1. v4 migrasyon ve anlam dili UI değişikliklerini son kez doğrula, commit/push et.
+2. `index.html` ve `src/main.js` görünür metinlerini eksiksiz üç dil sözlüğüne taşı; dil seçiciyi bağla.
+3. `about.html`, meta/OG/JSON-LD ve `hreflang` için yerelleştirme stratejisini uygula.
 
 ## Dikkat edilmesi gerekenler
 
-- `wordverse.universe.v3` anahtarı ve eski `wordverse.words.v2` kayıtları korunmalı; şema v3 şu an uygulamanın tek yazma biçimi.
+- `main` v3 anahtarı ile çalışır; Faz 1 dalı v4'e yazar. Eski v3 ve v2 anahtarları kesinlikle silinmemeli.
 - `.env.local` repoya eklenmez. Mevcut yerel veriye test sırasında dokunma; testler ayrı localhost origin kullanmalı.
 - Prod dağıtımı ancak otomatik ve görsel kontrollerden sonra yapılır.
 

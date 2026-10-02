@@ -60,6 +60,8 @@ let birthMap;
 let starCoreMap;
 let planetGeometry, ringGeometry;
 const PLANET_NAMES = { mercury: 'Merkür', venus: 'Venüs', earth: 'Dünya', mars: 'Mars', jupiter: 'Jüpiter', saturn: 'Satürn', uranus: 'Uranüs', neptune: 'Neptün' };
+const MEANING_LANGUAGE_NAMES = { tr: 'Türkçe', en: 'İngilizce', es: 'İspanyolca' };
+const meaningLanguageLabel = galaxy => `${MEANING_LANGUAGE_NAMES[galaxy?.meaningLanguage] || 'Türkçe'} anlamı`;
 const planetMaps = new Map();
 const births = [];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -82,6 +84,8 @@ function refreshCounts() {
   $('#active-galaxy-name').textContent = activeGalaxy?.name || 'Galaksi';
   $('#galaxy-language').textContent = activeGalaxy?.language || 'Dil';
   $('#galaxy-name-detail').textContent = activeGalaxy?.name || 'Galaksi';
+  $('#meaning-language-current').value = activeGalaxy?.meaningLanguage || 'tr';
+  $('#form-meaning-language').textContent = meaningLanguageLabel(activeGalaxy).toLocaleUpperCase('tr');
   $('#word-language-label').textContent = `${(activeGalaxy?.language || 'Dil').toLocaleUpperCase('tr')} KELİME`;
   $('#detail-language').textContent = `${(activeGalaxy?.language || 'Dil').toLocaleUpperCase('tr')} KELİME`;
   $('#word-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? 'Örn. luz' : activeGalaxy?.language === 'İngilizce' ? 'Örn. luminous' : 'Yeni kelime';
@@ -631,6 +635,8 @@ function selectWord(id) {
   $('#object-record-label').textContent = isPlanet ? 'GEZEGEN KAYDI' : 'YILDIZ KAYDI';
   $('#object-stage-label').textContent = isPlanet ? 'GEZEGENİN YAŞI' : 'YILDIZIN EVRESİ';
   $('#detail-language').textContent = `${(universe.galaxies.find(g => g.id === word.galaxyId)?.language || 'Dil').toLocaleUpperCase('tr')} ${isPlanet ? 'BAĞLAÇ' : 'KELİME'}`;
+  const meaningLabel = meaningLanguageLabel(universe.galaxies.find(g => g.id === word.galaxyId));
+  $('#detail-meaning-language').textContent = meaningLabel.toLocaleUpperCase('tr');
   $('#focus-star').firstChild.textContent = isPlanet ? 'Gezegene yaklaş ' : 'Yıldıza yaklaş ';
   $('#delete-word').textContent = isPlanet ? 'Gezegeni kaldır' : 'Yıldızı kaldır';
   $('#detail-sun').classList.toggle('planet', isPlanet);
@@ -640,7 +646,7 @@ function selectWord(id) {
   $('#detail-meaning').hidden = true;
   $('#meaning-hidden').hidden = false;
   $('#reveal-meaning').setAttribute('aria-pressed', 'false');
-  $('#reveal-meaning').setAttribute('aria-label', 'Türkçe anlamı göster');
+  $('#reveal-meaning').setAttribute('aria-label', `${meaningLabel} göster`);
   const appearance = starAge(word.createdAt);
   $('#star-age-label').textContent = isPlanet ? `${PLANET_NAMES[planetType(word)]} dokusu · ${appearance.ageDays} gün önce eklendi` : `${appearance.stage} · ${appearance.ageDays} gün`;
   $('#binary-label').hidden = worldStars.get(word.id)?.userData.binarySlot < 0;
@@ -812,6 +818,16 @@ function renameGalaxy(event) {
   toggleGalaxyRename(false);
 }
 
+function updateMeaningLanguage(event) {
+  const galaxy = universe.galaxies.find(g => g.id === universe.activeGalaxyId);
+  if (!galaxy || !MEANING_LANGUAGE_NAMES[event.target.value] || galaxy.meaningLanguage === event.target.value) return;
+  const before = { ...galaxy };
+  galaxy.meaningLanguage = event.target.value;
+  appendEvent(universe, 'galaxy.meaningLanguageChanged', galaxy.id, null, before, galaxy);
+  persist(); refreshCounts();
+  showToast('Galaksinin anlam dili güncellendi. Mevcut anlamları gerekirse düzenle.');
+}
+
 function switchGalaxy(id) {
   if (!universe.galaxies.some(g => g.id === id)) return;
   universe.activeGalaxyId = id;
@@ -828,7 +844,8 @@ function createGalaxy(event) {
   const language = $('#language-input').value.trim();
   const name = $('#galaxy-name-input').value.trim() || `${language} Galaksisi`;
   if (!language) return;
-  const galaxy = { id: crypto.randomUUID(), name, language, visualStyle: nextGalaxyStyle(universe.galaxies), createdAt: new Date().toISOString() };
+  const meaningLanguage = $('#meaning-language-input').value;
+  const galaxy = { id: crypto.randomUUID(), name, language, meaningLanguage, visualStyle: nextGalaxyStyle(universe.galaxies), createdAt: new Date().toISOString() };
   universe.galaxies.push(galaxy);
   appendEvent(universe, 'galaxy.created', galaxy.id, null, null, galaxy);
   $('#galaxy-form').reset();
@@ -897,6 +914,7 @@ function bindUI() {
   $('#galaxy-form').addEventListener('submit', createGalaxy);
   $('#rename-galaxy').addEventListener('click', () => toggleGalaxyRename(true));
   $('#rename-galaxy-form').addEventListener('submit', renameGalaxy);
+  $('#meaning-language-current').addEventListener('change', updateMeaningLanguage);
   $('#cancel-rename-galaxy').addEventListener('click', () => toggleGalaxyRename(false));
   $('#export-universe').addEventListener('click', exportUniverse);
   $('#import-universe').addEventListener('change', importUniverse);
@@ -905,7 +923,8 @@ function bindUI() {
     $('#detail-meaning').hidden = !reveal;
     $('#meaning-hidden').hidden = reveal;
     $('#reveal-meaning').setAttribute('aria-pressed', String(reveal));
-    $('#reveal-meaning').setAttribute('aria-label', reveal ? 'Türkçe anlamı gizle' : 'Türkçe anlamı göster');
+    const meaningLabel = meaningLanguageLabel(universe.galaxies.find(g => g.id === universe.activeGalaxyId));
+    $('#reveal-meaning').setAttribute('aria-label', `${meaningLabel} ${reveal ? 'gizle' : 'göster'}`);
   });
   $('#close-detail').addEventListener('click', closePanels);
   $('#focus-star').addEventListener('click', focusStar);

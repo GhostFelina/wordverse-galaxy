@@ -17,7 +17,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 
 - [~] Çeviri dosyaları ve anahtar bütünlüğü CI testi başladı; bütün HTML/UI/hata/meta/e-posta metinleri bekliyor.
 - [ ] Profil→localStorage→tarayıcı→TR dil sırası, üst bar seçici, mobil erişim, Intl biçimleri.
-- [ ] Öğrenilen dil/anlam dili ayrımı ve v3 verisi koruyan migrasyon; hreflang.
+- [~] Öğrenilen dil/anlam dili ayrımı ve v3 verisi koruyan v4 migrasyonu yapıldı; dil seçenekleri ve hreflang işi sürüyor.
 - [ ] Üç dilde tüm ekranlar ve iki doğrulama yolu; sürüm/deploy/handoff.
 
 ## Faz 2 · `phase/2-auth-sync` · codex/claude
