@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { LEGACY_KEY, UNIVERSE_KEY } from '../src/universe-data.js';
 import { recoverUniverse } from '../src/storage-mirror.js';
@@ -33,3 +33,4 @@ test('mirror failure still permits an empty universe to open', async () => {
   assert.equal(result.recovered, false);
   assert.equal(result.universe.galaxies.length, 2);
 });
+

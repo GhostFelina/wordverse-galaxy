@@ -1,5 +1,12 @@
 # Değişiklik kaydı
 
+## [1.10.0] - 2026-10-02
+
+- Faz 0 denetimi, mimari kararlar, ayrıntılı yol haritası ve ajanlar arası devir sistemi eklendi.
+- Eski v2 ve mevcut v3 yerel kayıtlarının ham hâli, açılışta ilk kez IndexedDB arşivine yazılıyor; şema sürümü ayrıca tutuluyor. V2 kelime dizileri ve v3 JSON yedekleri içe alınabiliyor.
+- Vitest, Playwright, ESLint, Prettier, TypeScript kontrolü ve GitHub Actions doğrulama hattı kuruldu.
+- Tablet üst barı ve mobil alt istatistik taşması düzeltildi. Üç genişlik, iki tema ve iki hareket tercihi için yerel görüntü kanıtları kaydedildi.
+
 ## [1.9.0] - 2026-10-02
 
 - Spiral, çubuklu spiral ve parçalı spiral için üç ayrı galaksi görünümü eklendi. Yeni galaksiler en az kullanılan biçimler arasından rastgele seçim yapar; seçim kayıtta ve yedekte kalıcıdır.

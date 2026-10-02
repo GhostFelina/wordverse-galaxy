@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { LEGACY_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
 
@@ -65,3 +65,4 @@ test('backup merge preserves existing words and does not duplicate imported even
   assert.equal(target.events.length, 2);
   assert.equal(target.words[0].word, 'light');
 });
+

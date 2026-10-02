@@ -5,7 +5,9 @@ dist/
 .vercel/
 .env
 .env.*
+!.env.example
 wordverse-yedek-*.json
+test-results/
 
 .vercel
 .env*

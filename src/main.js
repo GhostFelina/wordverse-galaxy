@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import './style.css';
-import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse } from './universe-data.js';
-import { recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
+import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
+import { archiveBeforeMigration, recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
 
 const $ = (selector) => document.querySelector(selector);
+let archiveFailure = false;
+try { await archiveBeforeMigration(localStorage); } catch { archiveFailure = true; }
 const { universe, recovered: recoveredFromMirror } = await recoverUniverse(localStorage);
 let mirrorWrites = Promise.resolve();
 let mirrorWarningShown = false;
@@ -394,7 +396,6 @@ function updateGalaxyGrowth() {
 }
 function spawnBirth(id) {
   const group = worldStars.get(id); if (!group || !birthMap) return;
-  const word = words.find(w => w.id === id);
   const ring = new THREE.Sprite(new THREE.SpriteMaterial({ map: birthMap, color: 0xe9f3ff, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false }));
   ring.scale.set(4, 4, 1); group.add(ring);
   births.push({ ring, group, start: clock });
@@ -847,7 +848,7 @@ async function importUniverse(event) {
   const file = event.target.files?.[0]; if (!file) return;
   try {
     if (file.size > 10_000_000) throw new Error('too-large');
-    const backup = JSON.parse(await file.text());
+    const backup = normalizeBackup(JSON.parse(await file.text()));
     mergeUniverse(universe, backup);
     appendEvent(universe, 'universe.imported', universe.activeGalaxyId, null, null, { fileName: file.name, galaxyCount: backup.galaxies.length, wordCount: backup.words.length });
     words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
@@ -958,3 +959,4 @@ resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 persist(); refreshCounts(); bindUI(); initScene();
 if (recoveredFromMirror) showToast('Evrenin otomatik yerel yedekten geri getirildi.');
+if (archiveFailure) showToast('Önceki verinin güvenlik kopyası alınamadı. JSON yedeğini indir.');
