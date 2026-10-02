@@ -18,7 +18,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Ana uygulama ve Hakkında görünür metinleri, hata/boş durum/tooltip/meta/JSON-LD üç dilde; eş anahtar testi var. Altı statik SEO sayfası üretildi. E-posta şablonları Faz 2 auth ile oluşturulacak.
 - [x] Profil→localStorage→tarayıcı→TR önceliği yardımcıda/testte; iki sayfada mobil dil seçimi ve Intl tarih/sayı/çoğul çalışıyor. Gerçek profil tercihi Faz 3 veri modeliyle bağlanacak.
 - [x] Öğrenilen dil/anlam dili ayrımı ve v3 koruyan v4 migrasyonu yapıldı; altı statik sayfada canonical ve `hreflang` doğrulandı.
-- [~] Üç dilde ana/ekle/ayrıntı/koleksiyon/galaksi ve Hakkında akışları otomatik geçti; 1440/768/390, tema ve hareket kanıtı var. CI/preview geçti; PR merge, sürüm ve prod duman testi bekliyor.
+- [x] Üç dilde ana/ekle/ayrıntı/koleksiyon/galaksi ve Hakkında akışları otomatik geçti; 1440/768/390, tema ve hareket kanıtı var. PR #4 merge, main CI, Vercel prod ve altı dil sayfası/izole kelime ekleme duman testi geçti.
 
 ## Faz 2 · `phase/2-auth-sync` · codex/claude
 
