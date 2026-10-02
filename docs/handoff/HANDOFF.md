@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: `8131f68` (Faz 1 anlam dili migrasyonu), taban `daa46ac` / `v1.10.0`.
+2026-10-02 · codex · commit: `292901e` (Faz 1 devir güncellemesi), taban `daa46ac` / `v1.10.0`.
 
 ## Şu an aktif faz ve branch
 
@@ -22,6 +22,7 @@ Faz 0 tamamlandı. Aktif Faz 1 · `phase/1-i18n`.
 ## Yarım kalan iş
 
 - Faz 1 taslak PR #4 açık. Çeviri JSON'ları yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. UI dil seçici henüz yok.
+- PR #4 ilk CI çalışmasında sürüm kapısı `1.10.0` nedeniyle durdu. Dal sürümü `1.11.0` olarak düzeltildi; yeni CI sonucu bekleniyor.
 
 ## Sıradaki ilk 3 adım
 

@@ -1,5 +1,10 @@
 # Değişiklik kaydı
 
+## [Unreleased] — Faz 1 / 1.11.0 hazırlığı
+
+- Arayüz dili için TR/EN/ES sözlükleri, tercih sırası ve anahtar eşliği testi başlatıldı. Tüm ekran çevirileri henüz tamamlanmadı.
+- Galaksi başına anlam dili eklendi. v3 yerel verisi ve eski yedekleri v4'e kayıpsız taşınırken eski kayıt korunuyor.
+
 ## [1.10.0] - 2026-10-02
 
 - Faz 0 denetimi, mimari kararlar, ayrıntılı yol haritası ve ajanlar arası devir sistemi eklendi.
