@@ -33,9 +33,9 @@ Bu dosya yeni isteklerle güncellenir. Tamamlanan işler sürüm notuna taşın�
 
 ## Yayın ve keşfedilebilirlik
 
-- [ ] GitHub deposu, açık lisans, açıklayıcı README, değişiklik kaydı ve sürüm etiketleri.
+- [x] GitHub deposu, açık lisans, açıklayıcı README, değişiklik kaydı ve sürüm etiketleri.
 - [x] Güvenlik politikası, bağımlılık kontrolü, CI ve özel kullanıcı verilerinin depodan dışlanması.
 - [x] Her özellik güncellemesinde sürüm yükseltme kuralı.
-- [ ] Arama için açıklayıcı başlık, meta veriler, herkese açık ürün açıklaması, yapılandırılmış veri, site haritası ve sosyal paylaşım görseli.
-- [ ] Yeni Vercel projesi ve canlı sürüm kontrolü.
-- [ ] Yerel Chrome'da ve canlı adreste işlevsel/görsel doğrulama; DevTools kullanılmaz.
+- [x] Arama için açıklayıcı başlık, meta veriler, herkese açık ürün açıklaması, yapılandırılmış veri, site haritası ve sosyal paylaşım görseli.
+- [x] Yeni Vercel projesi ve canlı sürüm kontrolü.
+- [x] Yerel Chrome'da ve canlı adreste işlevsel/görsel doğrulama; DevTools kullanılmaz.

@@ -1,5 +1,9 @@
 # Wordverse ✦
 
+[Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
+
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.2.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
 
 ## Özellikler
@@ -48,3 +52,5 @@ Vite, Three.js, GPU nokta çizimi, hafif sprite katmanları ve tarayıcı yerel 
 Her yayımlanan güncellemede [SemVer](https://semver.org/) sürümü yükseltilir, [CHANGELOG.md](CHANGELOG.md) güncellenir ve `vX.Y.Z` Git etiketi oluşturulur. Özellikler için küçük sürüm, hata düzeltmeleri için yama sürümü kullanılır. Güvenlik bildirimleri için [SECURITY.md](SECURITY.md) dosyasına bak. Katkı adımları [CONTRIBUTING.md](CONTRIBUTING.md) içindedir.
 
 MIT lisanslıdır.
+
+Projeyi yararlı bulduysan [GitHub'da yıldız ver](https://github.com/GhostFelina/wordverse-galaxy).
