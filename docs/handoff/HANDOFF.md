@@ -16,6 +16,7 @@ Faz 0 ve Faz 1 tamamlandı. Aktif Faz 2 · `phase/2-auth-sync`; ana dal sürüm�
 - Yerelde lint, typecheck, build, format, 20 birim ve 15 Playwright testi geçti. Altı prod preview sayfası JavaScript açık/kapalı tarayıcıda doğrulandı; tarihli görseller `docs/handoff/evidence/` altında. 3 dil × 1440/768/390 × iki sistem teması × iki hareket ayarı kontrol edildi.
 - PR #4 `94bb7d2` ile birleşti. Main CI ve Vercel prod geçti. Canlı sitede altı dil sayfası JavaScript açık/kapalı, site haritası ve izole misafir oturumunda kelime ekleme/yenileme geçti. Yerel uygulama kullanıcı için görünür Chrome sekmesinde `http://127.0.0.1:5360/?lang=tr` adresinde açık.
 - `v1.11.0` tag ve GitHub Release oluşturuldu. Faz 2 dalında Supabase CLI yerel yapılandırması başlatıldı ve ADR-007 senkron/RLS tasarımı kaydedildi.
+- `src/sync-merge.js` yerel ve bulut kayıtlarının kimlik çakışmasında iki kopyayı koruyan ilk giriş çekirdeğini içeriyor; üç birim testi geçti. Uygulamaya bağlanmadı. Faz 2 geliştirme sürümü `1.12.0`.
 
 ## Yarım kalan iş
 
@@ -26,7 +27,7 @@ Faz 0 ve Faz 1 tamamlandı. Aktif Faz 2 · `phase/2-auth-sync`; ana dal sürüm�
 
 ## Sıradaki ilk 3 adım
 
-1. Hedef Supabase proje erişimi yanıtını beklerken yerel IndexedDB birincil depo ve kayıpsız merge testlerini geliştir.
+1. Hedef Supabase proje erişimi yanıtını beklerken yerel IndexedDB birincil depo ve saf merge çekirdeğini uygulama akışına bağla.
 2. Doğru Supabase hesabı bağlanınca proje kimliği, mevcut tablolar ve auth ayarlarını yalnız okuyarak doğrula; sonra migration ve RLS testlerini uygula.
 3. Üç dilde auth ekranları, gizlilik/koşullar ve misafirden hesaba geçişi tamamla.
 

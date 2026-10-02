@@ -1,8 +1,9 @@
 # Değişiklik kaydı
 
-## [Unreleased]
+## [Unreleased] — Faz 2 / 1.12.0 hazırlığı
 
-- Henüz değişiklik yok.
+- Supabase CLI yerel proje yapılandırması ve kullanıcıya ait kayıtlar için RLS/senkron mimari kararı eklendi.
+- İlk girişte yerel ve bulut evrenlerini veri kaybı olmadan birleştiren saf çekirdek ve çakışma testleri eklendi; uygulama akışına bağlanması sürüyor.
 
 ## [1.11.0] - 2026-10-02
 
