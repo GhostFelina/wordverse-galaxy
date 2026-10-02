@@ -11,7 +11,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Eski v2 kelime dizisi ve v3 JSON yedeklerini içe alma testini ekle.
 - [x] Vitest, Playwright, ESLint, Prettier ve TypeScript hazırlığını bağla; yerel kontrolleri geçir. CI uzakta push sonrası doğrulanacak.
 - [x] Yerel tarayıcıda 1440/768/390, aydınlık/karanlık, azaltılmış hareket kontrolünü yap ve kanıt kaydet. Tablet/mobil taşmalar düzeltildi.
-- [~] Changelog ve SemVer hazır; faz dalı merge, tag, release, preview/prod ve canlı duman testi sırada.
+- [~] Changelog ve SemVer; PR #3 ile main merge; GitHub CI, Vercel preview/prod ve canlı duman testi geçti. Tag ve GitHub Release kapanış commit'inden sonra yapılacak.
 
 ## Faz 1 · `phase/1-i18n` · codex/claude
 

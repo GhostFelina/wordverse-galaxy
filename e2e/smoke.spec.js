@@ -12,3 +12,8 @@ test('guest can add a word and retain it after reload', async ({ page }) => {
   await page.locator('#collection-btn').click();
   await expect(page.locator('#collection-list')).toContainText('luminous');
 });
+
+test('about page opens', async ({ page }) => {
+  await page.goto('/about.html');
+  await expect(page).toHaveTitle(/Wordverse/);
+});

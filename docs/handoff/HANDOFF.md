@@ -2,11 +2,11 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: `b4ff83a` (Faz 0 ilk teslimi).
+2026-10-02 · codex · commit: `bff3024` (Faz 0 PR #3 merge). Bu dosyanın kapanış commit'i ve `v1.10.0` etiketi sırada.
 
 ## Şu an aktif faz ve branch
 
-Faz 0 — denetim ve altyapı · `phase/0-audit-infrastructure`.
+Faz 0 tamamlandı · `main`. Sıradaki aktif çalışma Faz 1, `phase/1-i18n` dalı açılacak.
 
 ## Son oturumda yapılanlar
 
@@ -15,16 +15,17 @@ Faz 0 — denetim ve altyapı · `phase/0-audit-infrastructure`.
 - Ana görev tanımı, devir belgeleri ve migrasyon öncesi ham veri arşivi eklendi.
 - V2 ve v3 JSON içe alma testleri dahil 14 birim testi; lint, typecheck, build ve Playwright e2e geçti.
 - Chrome'da yıldız ayrıntısı, anlam açma ve zoom manuel denendi. 12 ekran görüntüsü `evidence/` içinde; tablet ve mobil taşmalar düzeltildi.
+- PR #3 CI geçti; Vercel preview ve prod deploy hazır. Canlı URL'de izole Chromium ile kelime ekleme/yenileme kalıcılığı ve about sayfası geçti.
 
 ## Yarım kalan iş
 
-- İlk değişiklikler `b4ff83a` commit'inde. Push, CI, preview ve prod henüz uzakta doğrulanmadı.
+- Faz 0 için kapanış commit'i, `v1.10.0` tag'i ve GitHub Release henüz oluşturulmadı.
 
 ## Sıradaki ilk 3 adım
 
-1. Çalışma dalını commit/push et; GitHub CI ve Vercel preview durumunu doğrula.
-2. `main` ile birleştir, `v1.10.0` tag ve GitHub Release oluştur; prod duman testi yap.
-3. Faz 1 dalına geç ve i18n envanterini çıkar.
+1. Kapanış commit'ini push et, `v1.10.0` tag ve GitHub Release oluştur.
+2. `phase/1-i18n` dalını aç; UI metinlerinin envanterini çıkar.
+3. Çeviri altyapısını veri şeması ve anlam dili ayrımını koruyarak başlat.
 
 ## Dikkat edilmesi gerekenler
 
