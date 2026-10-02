@@ -35,6 +35,63 @@ for (const [locale, heading, question] of [
   });
 }
 
+for (const [locale, heading] of [
+  ['tr', 'Her kelime,'],
+  ['en', 'Every word,'],
+  ['es', 'Cada palabra,'],
+]) {
+  test(`home hero and metadata are localized in ${locale}`, async ({ page }) => {
+    await page.goto(`/?lang=${locale}`);
+    await expect(page.locator('.hero h1')).toContainText(heading);
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.locator('.about-link')).toHaveAttribute('href', `/about.html?lang=${locale}`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', new RegExp(`lang=${locale}$`));
+  });
+}
+
+test('language picker changes the whole page and keeps the choice', async ({ page }) => {
+  await page.goto('/?lang=tr');
+  await page.locator('#ui-language').selectOption('es');
+  await expect(page).toHaveURL(/lang=es$/);
+  await expect(page.locator('.hero h1')).toContainText('Cada palabra,');
+  await page.locator('#open-add').click();
+  await expect(page.locator('#form-title')).toContainText('estrella.');
+  await expect(page.locator('#submit-word')).toContainText('Añadir estrella al universo');
+  await page.locator('#close-add').click();
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-title')).toContainText('Mis palabras');
+  await page.reload();
+  await expect(page.locator('#ui-language')).toHaveValue('es');
+});
+
+for (const [locale, formTitle, collectionTitle, galaxyTitle] of [
+  ['tr', 'Yeni bir yıldız', 'Kelimelerim', 'Galaksilerim'],
+  ['en', 'A new star', 'My words', 'My galaxies'],
+  ['es', 'Nace una', 'Mis palabras', 'Mis galaxias'],
+]) {
+  test(`add, detail, collection and galaxy screens work in ${locale}`, async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto(`/?lang=${locale}`);
+    await page.locator('#open-add').click();
+    await expect(page.locator('#form-title')).toContainText(formTitle);
+    await page.locator('#word-input').fill('luminous');
+    await page.locator('#meaning-input').fill('parlak');
+    await page.locator('#submit-word').click();
+    await expect(page.locator('#detail-word')).toHaveText('luminous');
+    await page.locator('#reveal-meaning').click();
+    await expect(page.locator('#detail-meaning')).toBeVisible();
+    await page.locator('#close-detail').click();
+    await page.keyboard.press('/');
+    await expect(page.locator('#collection-title')).toContainText(collectionTitle);
+    await expect(page.locator('.collection-item')).toHaveCount(1);
+    await page.locator('#close-collection').click();
+    await page.locator('#galaxy-switch').click();
+    await expect(page.locator('#galaxy-panel-title')).toContainText(galaxyTitle);
+    expect(errors).toEqual([]);
+  });
+}
+
 test('v3 data migrates to v4 without replacing its original record', async ({ page }) => {
   const oldState = {
     version: 3,
@@ -71,7 +128,7 @@ test('v3 data migrates to v4 without replacing its original record', async ({ pa
 });
 
 test('a galaxy stores its meaning language separately from the learned language', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?lang=tr');
   await page.locator('#galaxy-switch').click();
   await page.locator('#meaning-language-current').selectOption('es');
   await expect(page.locator('#galaxy-language')).toHaveText('İngilizce');

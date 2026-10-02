@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { LOCALES, LOCALE_KEY, resolveLocale, translate, formatDate, formatNumber } from '../src/i18n.js';
+import { LOCALES, LOCALE_KEY, resolveLocale, translate, formatDate, formatNumber, formatUnit } from '../src/i18n.js';
 
 const leaves = (value, prefix = '') =>
   Object.entries(value).flatMap(([key, child]) =>
@@ -23,4 +23,7 @@ test('translations interpolate and dates and numbers use the chosen locale', () 
   expect(translate('es', 'count.star', { count: 2 })).toBe('2 estrellas');
   expect(formatNumber('en', 1000)).toBe('1,000');
   expect(formatDate('tr', '2026-10-02T12:00:00Z')).toContain('Ekim');
+  expect(formatUnit('en', 'star', 1)).toBe('1 star');
+  expect(formatUnit('en', 'star', 2)).toBe('2 stars');
+  expect(formatUnit('es', 'day', 1)).toBe('1 día');
 });

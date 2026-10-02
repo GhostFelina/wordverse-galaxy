@@ -46,3 +46,11 @@ html,body{position:fixed;inset:0;width:100%;height:100%;overflow:clip}#app{posit
 .about-link{display:inline-block;pointer-events:auto;color:#7487a7;font-size:11px;text-decoration:none;margin-top:20px}.about-link:hover{color:#c7d9ff;text-decoration:underline}
 .galaxy-current-title{display:flex;align-items:center;justify-content:space-between;gap:12px}.galaxy-current-title strong{min-width:0;overflow-wrap:anywhere}.galaxy-current-title button{flex:none;width:28px;height:28px;border:1px solid #45618e;border-radius:4px;color:#a9c7fb;background:rgba(58,83,128,.2);font-size:18px}.galaxy-current-title button:hover{background:rgba(88,125,189,.32)}#rename-galaxy-form{display:flex;gap:5px;margin-top:12px}#rename-galaxy-form[hidden]{display:none}#rename-galaxy-input{min-width:0;flex:1;background:#111e33;border:1px solid #405982;border-radius:3px;padding:8px;color:#edf3ff;font-size:12px}#rename-galaxy-form button{background:#1c3152;color:#d6e6ff;border:1px solid #4b6899;border-radius:3px;font-size:11px;padding:0 9px}
 .meaning-language-label{margin-top:13px;color:#9bb0d0;font-size:10px;letter-spacing:.12em;font-weight:700}.galaxy-current select,.galaxy-form select{width:100%;height:42px;background:#101a2c;border:1px solid #2a3853;border-radius:3px;color:#ecf2ff;padding:0 11px;font-size:13px}.galaxy-form select{margin-bottom:15px}.galaxy-current select:focus-visible,.galaxy-form select:focus-visible{outline:2px solid #9bafff;outline-offset:3px}
+.ui-language{height:39px;min-width:58px;border:1px solid rgba(155,179,223,.35);border-radius:4px;background:#101a2c;color:#dbe7ff;padding:0 6px;font:700 11px 'Space Grotesk',sans-serif;letter-spacing:.04em;cursor:pointer}.ui-language:hover{border-color:#9bb7e8}.ui-language:focus-visible{outline:2px solid #9bafff;outline-offset:3px}
+@media(max-width:760px){.ui-language{min-width:52px;height:39px;padding:0 3px}.top-actions{gap:7px}}
+@media(max-width:380px){.brand-mark{display:none}.brand{gap:0}}
+@media(max-width:1600px){.live-indicator{display:none}}
+.panel-kicker>span:last-child:not(:first-child){margin-left:auto}
+.collection-panel .panel-kicker{padding-right:43px}
+.panel-kicker>span:first-child:last-child{margin-left:0}
+@media(min-width:761px) and (max-width:900px){.stat-galaxies{display:none}}

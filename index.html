@@ -17,6 +17,8 @@
     <meta property="og:image" content="https://wordverse-galaxy.vercel.app/assets/nebula-gas.png" />
     <meta property="og:image:alt" content="Karanlık uzayda mavi ve mor bulutsu" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wordverse — Öğrendiğin Her Kelime Bir Yıldız" />
+    <meta name="twitter:description" content="Kelimelerin yıldız, bağlaçların gezegen olsun. Her dil için ayrı canlı galaksi ve yerel yedek." />
     <meta name="twitter:image" content="https://wordverse-galaxy.vercel.app/assets/nebula-gas.png" />
     <title>Wordverse | Kelimelerden Canlı Bir Galaksi</title>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Wordverse","url":"https://wordverse-galaxy.vercel.app/","description":"Öğrenilen kelimeleri dil başına ayrı, yaşayan bir galakside yıldızlara dönüştüren kişisel kelime atlası.","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"tr","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"featureList":["İngilizce ve İspanyolca kelime galaksileri","Etkileşimli kelime yıldızları","Yerel veri yedeği"]}</script>
@@ -44,6 +46,7 @@
         </nav>
         <div class="top-actions">
           <span class="live-indicator"><span class="live-dot"></span> KİŞİSEL EVRENİN</span>
+          <select id="ui-language" class="ui-language" aria-label="Arayüz dili"><option value="tr">TR</option><option value="en">EN</option><option value="es">ES</option></select>
           <button class="galaxy-switch" id="galaxy-switch" type="button" aria-label="Galaksi seç veya oluştur"><span class="galaxy-switch-orbit">✧</span><span id="active-galaxy-name">İngilizce Galaksisi</span><span class="galaxy-switch-arrow">⌄</span></button>
           <button class="add-button" id="open-add"><span class="plus">+</span><span>Yeni yıldız ekle</span></button>
         </div>

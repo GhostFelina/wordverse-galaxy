@@ -37,3 +37,10 @@ export function formatDate(locale, value, options = { day: 'numeric', month: 'lo
 export function formatNumber(locale, value) {
   return new Intl.NumberFormat({ tr: 'tr-TR', en: 'en-US', es: 'es-ES' }[locale] || 'tr-TR').format(value);
 }
+
+export function formatUnit(locale, unit, count, { uppercase = false } = {}) {
+  const languageTag = { tr: 'tr-TR', en: 'en-US', es: 'es-ES' }[locale] || 'tr-TR';
+  const category = new Intl.PluralRules(languageTag).select(count);
+  const label = translate(locale, `unit.${unit}.${category}`);
+  return `${formatNumber(locale, count)} ${uppercase ? label.toLocaleUpperCase(languageTag) : label}`;
+}
