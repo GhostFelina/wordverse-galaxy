@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: `0de52ed` (Faz 1 i18n temeli), taban `daa46ac` / `v1.10.0`.
+2026-10-02 · codex · commit: `8131f68` (Faz 1 anlam dili migrasyonu), taban `daa46ac` / `v1.10.0`.
 
 ## Şu an aktif faz ve branch
 
@@ -21,13 +21,13 @@ Faz 0 tamamlandı. Aktif Faz 1 · `phase/1-i18n`.
 
 ## Yarım kalan iş
 
-- v4 migrasyonu ve anlam dili UI değişiklikleri çalışma ağacında henüz commit edilmedi. Çeviri JSON'ları yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. UI dil seçici henüz yok.
+- Faz 1 taslak PR #4 açık. Çeviri JSON'ları yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. UI dil seçici henüz yok.
 
 ## Sıradaki ilk 3 adım
 
-1. v4 migrasyon ve anlam dili UI değişikliklerini son kez doğrula, commit/push et.
-2. `index.html` ve `src/main.js` görünür metinlerini eksiksiz üç dil sözlüğüne taşı; dil seçiciyi bağla.
-3. `about.html`, meta/OG/JSON-LD ve `hreflang` için yerelleştirme stratejisini uygula.
+1. `index.html` ve `src/main.js` görünür metinlerini eksiksiz üç dil sözlüğüne taşı; dil seçiciyi bağla.
+2. `about.html`, meta/OG/JSON-LD ve `hreflang` için yerelleştirme stratejisini uygula.
+3. Üç dilde masaüstü/tablet/mobil, iki sistem teması ve azaltılmış hareket kontrolü yap; Faz 1'i ancak tüm anahtarlar tamamlanınca birleştir.
 
 ## Dikkat edilmesi gerekenler
 
