@@ -1,5 +1,12 @@
 # Değişiklik kaydı
 
+## [1.9.0] - 2026-10-02
+
+- Spiral, çubuklu spiral ve parçalı spiral için üç ayrı galaksi görünümü eklendi. Yeni galaksiler en az kullanılan biçimler arasından rastgele seçim yapar; seçim kayıtta ve yedekte kalıcıdır.
+- Galaksi başına farklı tohumla disk parçacıkları, gaz katmanları ve renkler çeşitlendirildi. Üç yerel bulutsu bölgesi kelime sayısı büyüdükçe belirir; boş galaksi karanlık kalır.
+- Yeni kelime yıldızları dört çizgisiz küme örüntüsüne dağıtılır. Bağlaç gezegenleri bağımsız konumlandırılır; en eski iki yıldızın hareketi korunur.
+- Yerel Chrome'da çubuklu ve parçalı sarmal biçimler ayrı test galaksilerinde doğrulandı. NASA/ESA kaynakları ve özgün doku üretimi belgelendi.
+
 ## [1.8.0] - 2026-10-02
 
 - “Bağlaç ekle” kayıt türü eklendi. Bağlaçlar galakside kendi gezegenleri olarak görünür; yıldız ve gezegen sayısı ayrı gösterilir. Önceki kayıtlar yıldız olarak kalır.

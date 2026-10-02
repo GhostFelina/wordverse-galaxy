@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { LEGACY_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
+import { LEGACY_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
 
 function storage(entries) {
   const values = new Map(Object.entries(entries));
@@ -38,6 +38,14 @@ test('planet models are balanced per galaxy and randomized among least-used mode
   assert.equal(nextPlanetType(entries, 'en', .3), 'neptune');
   assert.equal(nextPlanetType([], 'en', .99), 'neptune');
   assert.equal(nextPlanetType([], 'en', 0), 'mercury');
+});
+
+test('galaxy appearances are stable for existing galaxies and balanced for new ones', () => {
+  const galaxies = [{ id: 'galaxy-english' }, { id: 'galaxy-spanish' }];
+  assert.equal(galaxyStyle(galaxies[0]), 'spiral');
+  assert.equal(galaxyStyle(galaxies[1]), 'barred');
+  assert.equal(nextGalaxyStyle(galaxies, .9), 'flocculent');
+  assert.equal(galaxyStyle({ id: 'new', visualStyle: 'flocculent' }), 'flocculent');
 });
 
 test('star light follows the compressed age stages', () => {

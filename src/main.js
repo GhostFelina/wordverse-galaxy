@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import './style.css';
-import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, starAge, appendEvent, mergeUniverse } from './universe-data.js';
+import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse } from './universe-data.js';
 import { recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
 
 const $ = (selector) => document.querySelector(selector);
@@ -38,10 +38,22 @@ let fpsLast = 0;
 let drawCalls = 0;
 let lastStarAgeDay = Math.floor(Date.now() / 86400000);
 let meteor, meteorTip, spaceComet, coreGlow, innerGlow, cloudHaze, cloudHaze2, cloudHaze3, cloudHaze4, galaxyDust, deepDust;
+const nebulaRegions = [];
 let galaxyGrowth = 0;
 let galaxyGrowthTarget = 0;
 let galaxyExtent = .1;
 let galaxyExtentTarget = .1;
+let visualGalaxyId = null;
+let activeVisualStyle = 'spiral';
+const galaxyTextures = new Map();
+const GALAXY_IMAGE = { spiral: '/assets/galaxy-dust-lanes.png', barred: '/assets/galaxy-barred-v1.png', flocculent: '/assets/galaxy-flocculent-v1.png' };
+const GALAXY_NAME = { spiral: 'Spiral', barred: 'Çubuklu spiral', flocculent: 'Parçalı spiral' };
+const STAR_PATTERNS = [
+  [[0, 0], [-3.8, 3.4], [4.2, 3.6], [-2.2, -.3], [2.4, -.8], [-4.8, -5.8], [5.2, -5.3]],
+  [[-7, 2.8], [-3.4, -.8], [0, 2.4], [3.5, -1.1], [7, 2.5], [-1.8, -5.3], [4.8, -5.2]],
+  [[-2.9, 2.9], [2.4, 3.6], [-4.8, -.5], [0, 0], [4.9, -.8], [-1.9, -4.9], [2.2, -4.1]],
+  [[0, 5.4], [-4.4, 1.8], [4.3, 1.4], [0, -2.1], [-6.3, -3.7], [5.6, -4.8], [1.4, -6.9]],
+];
 let birthMap;
 let starCoreMap;
 let planetGeometry, ringGeometry;
@@ -86,23 +98,26 @@ function refreshCounts() {
 }
 
 function random(seed) { let n = seed >>> 0; return () => { n = (1664525 * n + 1013904223) >>> 0; return n / 4294967296; }; }
-const rand = random(19483);
-function pointCloud(count, galaxy = false) {
+function hashText(value) { let hash = 0; for (const char of value) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
+function pointCloud(count, galaxy = false, style = 'spiral', seed = 19483) {
+  const rand = random(seed);
   const positions = new Float32Array(count * 3);
   const rgb = new Float32Array(count * 3);
   const sizes = new Float32Array(count);
   const phases = new Float32Array(count);
-  const palette = galaxy ? [new THREE.Color('#b9cbff'), new THREE.Color('#9bafff'), new THREE.Color('#ffe4c1'), new THREE.Color('#8a9ecf'), new THREE.Color('#e9f4ff')] : [new THREE.Color('#7f91b9'), new THREE.Color('#bccce8'), new THREE.Color('#f8e9da')];
+  const palette = galaxy ? (style === 'barred' ? ['#b8caff', '#e2d5bd', '#f5d6a6', '#d1d9f3', '#b9c5e7'] : style === 'flocculent' ? ['#d2dcf3', '#acc9f5', '#e8d8c2', '#b5bce6', '#f3e6d2'] : ['#b9cbff', '#9bafff', '#ffe4c1', '#8a9ecf', '#e9f4ff']).map(color => new THREE.Color(color)) : [new THREE.Color('#7f91b9'), new THREE.Color('#bccce8'), new THREE.Color('#f8e9da')];
   for (let i = 0; i < count; i++) {
     let x, y, z;
     if (galaxy) {
-      const arm = i % 4;
-      const radius = Math.pow(rand(), .68) * 91;
-      const spread = (rand() - .5) * (.16 + radius * .011);
-      const angle = arm * Math.PI / 2 + radius * .054 + spread;
+      const arms = style === 'flocculent' ? 6 : style === 'barred' ? 2 : 4;
+      const arm = i % arms;
+      const radius = Math.pow(rand(), style === 'flocculent' ? .78 : .68) * 91;
+      const spread = (rand() - .5) * (style === 'flocculent' ? .42 + radius * .015 : .16 + radius * .011);
+      const angle = arm * Math.PI * 2 / arms + radius * (style === 'flocculent' ? .04 : .054) + spread + (style === 'flocculent' ? Math.sin(radius * .19 + arm * 2.1) * .18 : 0);
       const c = Math.cos(angle), s = Math.sin(angle);
       x = 31 + radius * c + (rand() - .5) * 6;
       y = radius * s * .53 + (rand() - .5) * (2 + radius * .075);
+      if (style === 'barred' && radius < 30 && i % 3 === 0) { x = 31 + (rand() - .5) * 65; y = (rand() - .5) * 8 + (x - 31) * .14; }
       z = -17 + (rand() - .5) * (4 + radius * .14);
       const tilt = -.17;
       const dx = x - 31;
@@ -250,9 +265,9 @@ function birthTexture() {
   ctx.fillStyle = halo; ctx.fillRect(0, 0, 256, 256);
   return new THREE.CanvasTexture(canvas);
 }
-function nebulaTexture() {
+function nebulaTexture(seed = 41982) {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512;
-  const ctx = canvas.getContext('2d'); const r = random(41982);
+  const ctx = canvas.getContext('2d'); const r = random(seed);
   for (let i = 0; i < 190; i++) {
     const x = 40 + r() * 430, y = 90 + r() * 330, radius = 18 + r() * 100;
     const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
@@ -261,6 +276,14 @@ function nebulaTexture() {
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill();
   }
   const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace; return texture;
+}
+function galaxyTexture(style) {
+  if (!galaxyTextures.has(style)) {
+    const texture = new THREE.TextureLoader().load(GALAXY_IMAGE[style]);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    galaxyTextures.set(style, texture);
+  }
+  return galaxyTextures.get(style);
 }
 let glowMap;
 function sprite(color, size, opacity = 1, map = glowMap) {
@@ -294,23 +317,26 @@ function initScene() {
   const haze2 = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebula, color: 0x647fc8, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   haze2.position.set(28, -3, -33); haze2.scale.set(201, 130, 1); haze2.material.rotation = .32; galaxyGroup.add(haze2);
   cloudHaze2 = haze2;
-  const localCloud = nebulaTexture();
+  const localCloud = nebulaTexture(91573);
   cloudHaze3 = new THREE.Sprite(new THREE.SpriteMaterial({ map: localCloud, color: 0xb16c83, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   cloudHaze3.scale.set(116, 72, 1); cloudHaze3.position.set(6, -15, -29); cloudHaze3.material.rotation = -.4; galaxyGroup.add(cloudHaze3);
   cloudHaze4 = new THREE.Sprite(new THREE.SpriteMaterial({ map: localCloud, color: 0x8cbdeb, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   cloudHaze4.scale.set(92, 66, 1); cloudHaze4.position.set(65, 18, -30); cloudHaze4.material.rotation = .27; galaxyGroup.add(cloudHaze4);
-  new THREE.TextureLoader().load('/assets/galaxy-dust-lanes.png', texture => {
-    texture.colorSpace = THREE.SRGBColorSpace;
-    cloudHaze.material.map = texture;
-    cloudHaze.material.needsUpdate = true;
-  });
+  for (let i = 0; i < 3; i++) {
+    const tint = [0x8db9df, 0xc17f8d, 0xafa4d1][i];
+    const region = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebulaTexture(107219 + i * 1949), color: tint, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+    region.position.z = -28 + i;
+    region.scale.set(46 + i * 9, 31 + i * 7, 1);
+    galaxyGroup.add(region); nebulaRegions.push(region);
+  }
   new THREE.TextureLoader().load('/assets/nebula-gas.png', texture => {
     texture.colorSpace = THREE.SRGBColorSpace;
     cloudHaze2.material.map = texture;
     cloudHaze2.material.needsUpdate = true;
   });
   const deep = pointCloud(1800); scene.add(deep); deepDust = deep;
-  const disk = pointCloud(innerWidth < 760 ? 8200 : 15500, true); galaxyGroup.add(disk); galaxyDust = disk;
+  const activeStyle = galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId));
+  const disk = pointCloud(innerWidth < 760 ? 8200 : 15500, true, activeStyle, hashText(universe.activeGalaxyId)); galaxyGroup.add(disk); galaxyDust = disk;
   galaxyGroup.userData.materials = [deep.material, disk.material];
   const outerCore = sprite(0x778fe0, 69, 0); outerCore.position.set(31, 0, -17); galaxyGroup.add(outerCore);
   coreGlow = outerCore;
@@ -330,12 +356,36 @@ function initScene() {
 function updateGalaxyGrowth() {
   if (!galaxyDust) return;
   const n = words.length;
-  let seed = 0; for (const char of universe.activeGalaxyId) seed = (seed * 31 + char.charCodeAt(0)) >>> 0;
+  const seed = hashText(universe.activeGalaxyId);
   const variation = random(seed);
+  const style = galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId));
+  if (visualGalaxyId !== universe.activeGalaxyId) {
+    visualGalaxyId = universe.activeGalaxyId;
+    activeVisualStyle = style;
+    const replacement = pointCloud(galaxyDust.geometry.attributes.position.count, true, style, seed);
+    galaxyDust.geometry.dispose(); galaxyDust.geometry = replacement.geometry; replacement.material.dispose();
+    cloudHaze.material.map = galaxyTexture(style); cloudHaze.material.needsUpdate = true;
+    cloudHaze.material.color.set(style === 'barred' ? '#d7c5b2' : style === 'flocculent' ? '#c6d3e8' : '#ffffff');
+    cloudHaze2.material.color.set(style === 'barred' ? '#a3859b' : style === 'flocculent' ? '#829ac3' : '#647fc8');
+    coreGlow.material.color.set(style === 'barred' ? '#c6a6a4' : style === 'flocculent' ? '#a6b1d3' : '#778fe0');
+    innerGlow.material.color.set(style === 'barred' ? '#ffe0b8' : style === 'flocculent' ? '#ffe5c6' : '#ffdbb5');
+  }
+  cloudHaze.scale.set(244 * (.9 + variation() * .2), 153 * (.9 + variation() * .16), 1);
+  cloudHaze.material.rotation = -.3 + variation() * .6;
+  cloudHaze2.scale.set(192 + variation() * 28, 125 + variation() * 21, 1);
+  cloudHaze2.material.rotation = -.45 + variation() * .9;
   cloudHaze3.position.set(-12 + variation() * 36, -22 + variation() * 24, -29);
   cloudHaze4.position.set(49 + variation() * 32, 3 + variation() * 28, -30);
   cloudHaze3.material.rotation = -.6 + variation() * .45;
   cloudHaze4.material.rotation = .1 + variation() * .55;
+  for (let i = 0; i < nebulaRegions.length; i++) {
+    const region = nebulaRegions[i];
+    const angle = variation() * Math.PI * 2;
+    const radius = 24 + variation() * 43;
+    region.position.set(31 + Math.cos(angle) * radius, Math.sin(angle) * radius * .58, -28 + i);
+    region.material.rotation = variation() * Math.PI;
+    region.scale.set(40 + variation() * 31, 27 + variation() * 20, 1);
+  }
   galaxyGrowthTarget = n ? Math.min(1, Math.sqrt(n) / 5) : 0;
   galaxyExtentTarget = n ? (n <= 25 ? .25 + Math.sqrt(n) / 5 * .75 : 1 + Math.log2(n / 25) * .15) : .1;
   if (!n) { galaxyGrowth = 0; galaxyExtent = galaxyExtentTarget; }
@@ -374,7 +424,8 @@ function rebuildWordStars() {
     denseStarMeshes = { outer: layer(glowMap, .32), inner: layer(glowMap, .74), center: layer(starCoreMap, 1) };
   }
   const oldestStars = words.filter(w => entryKind(w) === 'word');
-  const oldestPair = oldestStars.length >= 2 ? oldestStars.sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || words.indexOf(a) - words.indexOf(b)).slice(0, 2) : [];
+  const starOrdinals = new Map(oldestStars.map((star, ordinal) => [star.id, ordinal]));
+  const oldestPair = oldestStars.length >= 2 ? [...oldestStars].sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || starOrdinals.get(a.id) - starOrdinals.get(b.id)).slice(0, 2) : [];
   words.forEach((word, index) => {
     const group = new THREE.Group(); group.position.set(word.x, word.y, word.z || 18);
     const isPlanet = entryKind(word) === 'conjunction';
@@ -399,7 +450,8 @@ function rebuildWordStars() {
       denseStarMeshes.inner.setColorAt(index, tint);
       denseStarMeshes.center.setColorAt(index, new THREE.Color(appearance.color));
     }
-    const cluster = index >= 2 ? Math.floor((index - 2) / 7) : -1;
+    const stellarIndex = starOrdinals.get(word.id) ?? -1;
+    const cluster = stellarIndex >= 2 ? Math.floor((stellarIndex - 2) / 7) : -1;
     group.userData = { outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: Math.atan2(orbitY / .57, orbitX), z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
     wordGroup.add(group); worldStars.set(word.id, group);
     const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', `${word.word} ${isPlanet ? 'gezegenini' : 'yıldızını'} aç`);
@@ -434,10 +486,11 @@ function animate(ms) {
   galaxyGroup.position.x = 31 * (1 - galaxyExtent);
   galaxyGroup.rotation.z = drift * .004 + Math.sin(drift * .055) * .012;
   wordGroup.rotation.z = 0;
-  cloudHaze.material.opacity = galaxyGrowth ? Math.min(.62, .12 + galaxyGrowth * .72) * (.96 + Math.sin(drift * .19) * .04) : 0;
+  cloudHaze.material.opacity = galaxyGrowth ? Math.min(activeVisualStyle === 'spiral' ? .62 : .48, .11 + galaxyGrowth * .7) * (.96 + Math.sin(drift * .19) * .04) : 0;
   cloudHaze2.material.opacity = galaxyGrowth * (.19 + Math.cos(drift * .28) * .025);
   cloudHaze3.material.opacity = Math.max(0, galaxyGrowth - .23) * (.21 + Math.sin(drift * .2) * .02);
   cloudHaze4.material.opacity = Math.max(0, galaxyGrowth - .54) * (.2 + Math.cos(drift * .17) * .02);
+  for (let i = 0; i < nebulaRegions.length; i++) nebulaRegions[i].material.opacity = Math.max(0, Math.min(1, (words.length - 4 - i * 7) / 8)) * (.07 + Math.sin(drift * .12 + i) * .01);
   coreGlow.material.opacity = Math.max(0, galaxyGrowth - .35) * (.22 + Math.sin(drift * 1.1) * .04);
   innerGlow.material.opacity = Math.max(0, galaxyGrowth - .75) * .16;
   galaxyDust.material.uniforms.uIntensity.value = words.length ? .17 + galaxyGrowth * .43 : 0;
@@ -606,7 +659,13 @@ function focusStar() {
   focusedStarId = selectedId;
   zoom = 36;
 }
-function createPosition(index, variation = .5) {
+function createPosition(index, variation = .5, kind = 'word') {
+  if (kind === 'conjunction') {
+    const radius = 17 + Math.sqrt(words.length + 1) * 7 + variation * 8;
+    const angle = variation * Math.PI * 2 + words.length * 2.399;
+    const x = Math.cos(angle) * radius, y = Math.sin(angle) * radius * .57;
+    return { x: 31 + x * Math.cos(-.17) - y * Math.sin(-.17), y: x * Math.sin(-.17) + y * Math.cos(-.17), z: 17 + variation * 3 };
+  }
   if (index >= 2) {
     const cluster = Math.floor((index - 2) / 7);
     const slot = (index - 2) % 7;
@@ -614,8 +673,9 @@ function createPosition(index, variation = .5) {
     const radius = 22 + Math.sqrt(cluster) * 20;
     const angle = cluster * 2.399 + .7;
     const cx = Math.cos(angle) * radius, cy = Math.sin(angle) * radius * .57;
-    const pattern = [[0, 0], [-4.2, 3.4], [4.6, 2.6], [-7.1, -2.3], [7.8, -2], [-2.4, -6.7], [5.1, -7.4]][slot];
-    const rotation = cluster * 2.399;
+    const galaxySeed = hashText(universe.activeGalaxyId);
+    const pattern = STAR_PATTERNS[(cluster + galaxySeed) % STAR_PATTERNS.length][slot];
+    const rotation = cluster * 2.399 + (galaxySeed % 31) * .014;
     const px = pattern[0] * Math.cos(rotation) - pattern[1] * Math.sin(rotation);
     const py = pattern[0] * Math.sin(rotation) + pattern[1] * Math.cos(rotation);
     const x = cx + px + (seed() - .5) * 2.4 + (variation - .5) * 5;
@@ -649,7 +709,7 @@ function saveWord(event) {
     persist(); rebuildWordStars(); refreshCounts(); closePanels(); selectWord(editedId); showToast('Gök cisminin bilgileri güncellendi.');
     return;
   }
-  const position = createPosition(words.length, Math.random());
+  const position = createPosition(kind === 'word' ? words.filter(w => entryKind(w) === 'word').length : words.length, Math.random(), kind);
   const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word, meaning, example, kind, createdAt: new Date().toISOString(), ...position };
   if (kind === 'conjunction') item.planetType = nextPlanetType(universe.words, item.galaxyId);
   universe.words.push(item); words.push(item); appendEvent(universe, 'word.created', item.galaxyId, item.id, null, item);
@@ -722,7 +782,7 @@ function renderGalaxies() {
     const icon = document.createElement('span'); icon.className = 'galaxy-item-icon'; icon.textContent = '✧';
     const copy = document.createElement('span'); copy.className = 'galaxy-item-copy';
     const name = document.createElement('strong'); name.textContent = galaxy.name;
-    const sub = document.createElement('small'); sub.textContent = `${galaxy.language} · ${starCount} yıldız · ${planetCount} gezegen`;
+    const sub = document.createElement('small'); sub.textContent = `${galaxy.language} · ${GALAXY_NAME[galaxyStyle(galaxy)]} · ${starCount} yıldız · ${planetCount} gezegen`;
     copy.append(name, sub); button.append(icon, copy);
     button.addEventListener('click', () => switchGalaxy(galaxy.id)); list.append(button);
   }
@@ -767,7 +827,7 @@ function createGalaxy(event) {
   const language = $('#language-input').value.trim();
   const name = $('#galaxy-name-input').value.trim() || `${language} Galaksisi`;
   if (!language) return;
-  const galaxy = { id: crypto.randomUUID(), name, language, createdAt: new Date().toISOString() };
+  const galaxy = { id: crypto.randomUUID(), name, language, visualStyle: nextGalaxyStyle(universe.galaxies), createdAt: new Date().toISOString() };
   universe.galaxies.push(galaxy);
   appendEvent(universe, 'galaxy.created', galaxy.id, null, null, galaxy);
   $('#galaxy-form').reset();

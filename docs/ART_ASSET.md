@@ -1,5 +1,20 @@
 # Bulutsu dokusu
 
+## v1.9.0: galaksi biçimleri
+
+- `public/assets/galaxy-barred-v1.png`: çubuklu sarmal için merkez çubuğu, iki ana kol, koyu toz şeritleri ve soluk mavi/pembe gaz bölgeleri.
+- `public/assets/galaxy-flocculent-v1.png`: parçalı sarmal için kesintili, tüy gibi kollar ve katmanlı yıldız oluşum bölgeleri.
+- Üretim: yerleşik ImageGen aracı. NASA/Hubble galaksi sınıfları ve parçalı sarmal gözlemlerinden esinlenen özgün dokular; NASA/ESA fotoğrafları kopyalanmadı.
+- Kenarlar şeffaftır. Görseller arka plan gazı olarak kullanılır; kullanıcının kelime yıldızları uygulamada ayrı ve etkileşimli çizilir. Doku içinde ince dekoratif ışık noktaları da bulunabilir; bunlar kelime kaydı değildir.
+
+### Çubuklu sarmal istemi
+
+> Create a photorealistic barred spiral galaxy gas-and-dust cutout for an OLED-black real-time scene, viewed from a shallow oblique angle. A distinctly elongated warm central bar, two sweeping broken arms, dark branching dust lanes, sparse cobalt-blue star-forming gas and muted rose hydrogen knots. Restrained astrophotography exposure, fine turbulent structure, transparent fading border. No interface, text, planets or decorative lens flare.
+
+### Parçalı sarmal istemi
+
+> Create a realistic face-on flocculent spiral galaxy gas-and-dust cutout, inspired by Hubble imagery of feathered spiral arms. Many fragmented wispy segments, dark inter-arm voids, subtle amber central bulge, cold blue star-forming patches and dim violet gas, with natural fine-grain telescope texture. Transparent fading border for compositing on an OLED-black scene. No interface, text, planets or dramatic lens flare.
+
 ## v1.5.0: galaksi toz şeritleri
 
 - Dosya: `public/assets/galaxy-dust-lanes.png`

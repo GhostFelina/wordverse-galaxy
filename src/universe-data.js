@@ -2,6 +2,21 @@ export const UNIVERSE_KEY = 'wordverse.universe.v3';
 export const LEGACY_KEY = 'wordverse.words.v2';
 export const entryKind = item => item?.kind === 'conjunction' ? 'conjunction' : 'word';
 export const PLANET_TYPES = Object.freeze(['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']);
+export const GALAXY_STYLES = Object.freeze(['spiral', 'barred', 'flocculent']);
+export function galaxyStyle(galaxy) {
+  if (GALAXY_STYLES.includes(galaxy?.visualStyle)) return galaxy.visualStyle;
+  if (galaxy?.id === 'galaxy-english') return 'spiral';
+  if (galaxy?.id === 'galaxy-spanish') return 'barred';
+  let hash = 0; for (const char of galaxy?.id || '') hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return GALAXY_STYLES[hash % GALAXY_STYLES.length];
+}
+export function nextGalaxyStyle(galaxies, draw = Math.random()) {
+  const counts = new Map(GALAXY_STYLES.map(style => [style, 0]));
+  for (const galaxy of galaxies) counts.set(galaxyStyle(galaxy), counts.get(galaxyStyle(galaxy)) + 1);
+  const least = Math.min(...counts.values());
+  const choices = GALAXY_STYLES.filter(style => counts.get(style) === least);
+  return choices[Math.min(choices.length - 1, Math.floor(Math.max(0, draw) * choices.length))];
+}
 export function nextPlanetType(entries, galaxyId, draw = Math.random()) {
   const counts = new Map(PLANET_TYPES.map(type => [type, 0]));
   for (const item of entries) if (item.galaxyId === galaxyId && entryKind(item) === 'conjunction' && counts.has(item.planetType)) counts.set(item.planetType, counts.get(item.planetType) + 1);

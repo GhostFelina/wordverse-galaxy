@@ -13,6 +13,11 @@ Bu proje fiziksel ölçekli simülasyon değil, öğrenme verisinin astronomiden
 
 ## Bulutsu ve küme
 
+- [NASA: galaksi biçimleri](https://science.nasa.gov/universe/galaxies/types/) ve [Samanyolu çubuklu sarmal modeli](https://science.nasa.gov/resource/the-milky-way-galaxy/) — Disk, merkez çubuğu ve kolların üç görsel biçimini ayırmak için referans.
+- [NASA/Hubble: parçalı spiral](https://science.nasa.gov/missions/hubble/hubble-spots-feathered-spiral/) — Sürekli iki büyük kol yerine çok sayıda kesintili kol parçası üçüncü galaksi biçimine esin verdi.
+- [ESA/Hubble: koyu toz](https://esahubble.org/images/heic2608a/) — Bulutsu bölgelerinde aydınlık gaz ile ışığı soğuran tozun birlikte görünümü için referans. Uygulamadaki bölgeler prosedürel olarak üretilir.
+- [NASA: Orion yıldızlarının derinliği](https://science.nasa.gov/universe/stories/quick-reads/discovering-the-universe-through-the-constellation-orion/) — Takım yıldızları görüş doğrultusunda bir örüntü gibi görünür; Wordverse dört çizgisiz konum örüntüsü kullanır, gerçek takımyıldız haritası olduğunu iddia etmez.
+
 - [NASA/Hubble: NGC 7331](https://science.nasa.gov/image-detail/c30-1/) ve [NGC 685](https://science.nasa.gov/image-detail/ngc685-1-flat-cont-final/) — Koyu toz şeritlerinin mavi kollar ve sıcak merkez önünde görünümü, v1.5.0 gaz dokusunun renk ve katman düzenine referans oldu. Fotoğraflar uygulamaya kopyalanmadı.
 - [NASA: bulutsu türleri](https://science.nasa.gov/universe/stories/quick-reads/decoding-nebulae/) — Mavi yansıma bulutsusu ve sıcak ışıma bulutsusu farklı ışık katmanlarıyla temsil edilir. Boş galakside bulutsu yoktur.
 - [NASA: açık yıldız kümeleri](https://science.nasa.gov/mission/hubble/science/universe-uncovered/hubble-star-clusters/) — Yeni kelimeler yedi yıldızlık gevşek kümelere dağılır. Küme yıldızları aynı yönde yakın hızlarla hareket eder.
