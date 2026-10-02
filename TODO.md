@@ -17,6 +17,8 @@ Bu dosya yeni isteklerle güncellenir. Tamamlanan işler sürüm notuna taşın�
 - [x] Takım yıldızı hissi veren rastgele konum örüntüleri; hiçbir bağlantı çizgisi gösterilmez.
 - [x] 200 yıldızlı ayrı test galaksisinde görsel kalite, yıldız seçimi ve anlam gizliliği kontrol edildi; tekrar eden küme yönleri çeşitlendirildi.
 - [x] 200 yıldızda çizim çağrısı 644'ten 20'ye indirildi; 80 yıldızdan sonra toplu çizim kullanılır.
+- [x] Teleskop gözlemlerinden esinlenen yıldızsız toz şeridi katmanı, katmanlı gaz ve derinlik tozu; az kelimede daha geniş yıldız aralıkları ve tam ekran yakın görünüm.
+- [x] Boş galaksiye geçişte önceki galaksinin bulutsu görüntüsünü hemen temizleme.
 - [ ] Ön plandaki gerçek tarayıcı oturumunda farklı donanımlarla FPS ölçümü; otomasyon sekmesindeki sayaç hem eski hem yeni çizimde 1 FPS'e kısıtlandı.
 
 ## Kelime ve veri

@@ -1,5 +1,12 @@
 # Değişiklik kaydı
 
+## [1.5.0] - 2026-10-02
+
+- NASA galaksi gözlemlerinden esinlenen yeni toz şeridi dokusu, mevcut bulutsu dokusuyla ayrı katmanlarda işlendi; dokularda sözcük yıldızı bulunmuyor.
+- Galaksi diski ve arka plan tozu yavaş, farklı hızlarda hareket ediyor. Altı sözcüklü galakside yıldız aralıkları ve tam ekran kamera ölçeği artırıldı.
+- Galaksi yoğunluğu kelime sayısıyla büyümeye devam ediyor; boş galaksiye geçildiğinde önceki gaz katmanı hemen temizleniyor.
+- Yerel Chrome'da normal ve yalnız evren görünümleri ile boş İspanyolca galaksisi incelendi.
+
 ## [1.4.0] - 2026-10-02
 
 - Her değişiklikten sonra evrenin ikinci bir yerel kopyası IndexedDB'ye otomatik yazılıyor.

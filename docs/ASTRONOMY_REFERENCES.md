@@ -11,6 +11,7 @@ Bu proje fiziksel ölçekli simülasyon değil, öğrenme verisinin astronomiden
 
 ## Bulutsu ve küme
 
+- [NASA/Hubble: NGC 7331](https://science.nasa.gov/image-detail/c30-1/) ve [NGC 685](https://science.nasa.gov/image-detail/ngc685-1-flat-cont-final/) — Koyu toz şeritlerinin mavi kollar ve sıcak merkez önünde görünümü, v1.5.0 gaz dokusunun renk ve katman düzenine referans oldu. Fotoğraflar uygulamaya kopyalanmadı.
 - [NASA: bulutsu türleri](https://science.nasa.gov/universe/stories/quick-reads/decoding-nebulae/) — Mavi yansıma bulutsusu ve sıcak ışıma bulutsusu farklı ışık katmanlarıyla temsil edilir. Boş galakside bulutsu yoktur.
 - [NASA: açık yıldız kümeleri](https://science.nasa.gov/mission/hubble/science/universe-uncovered/hubble-star-clusters/) — Yeni kelimeler yedi yıldızlık gevşek kümelere dağılır. Küme yıldızları aynı yönde yakın hızlarla hareket eder.
 - [NASA/Hubble: takım yıldızları](https://science.nasa.gov/image-detail/galactic-conjunction-2/) — Takım yıldızları bakış açısından görünen örüntülerdir. Wordverse örüntüyü bağlantı çizgileri olmadan yıldızların konumuyla kurar.

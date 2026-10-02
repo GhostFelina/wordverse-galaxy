@@ -22,6 +22,7 @@ let lastOverlayUpdate = -Infinity;
 const pointer = { x: 0, y: 0 };
 const pan = { x: 0, y: 0 };
 let zoom = 160;
+let preImmersiveZoom = null;
 const MIN_ZOOM = 19;
 const MAX_ZOOM = 50000;
 let dragging = false;
@@ -121,7 +122,7 @@ function pointCloud(count, galaxy = false) {
   geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
   const material = new THREE.ShaderMaterial({
     uniforms: { uTime: { value: 0 }, uRatio: { value: Math.min(devicePixelRatio, 1.7) }, uIntensity: { value: 0 } },
-    vertexShader: `attribute vec3 aColor; attribute float aSize; attribute float aPhase; varying vec3 vColor; varying float vPhase; uniform float uRatio; uniform float uTime; void main(){vColor=aColor;vPhase=aPhase;vec3 p=position;p.xy+=vec2(sin(uTime*.23+aPhase),cos(uTime*.19+aPhase))*.13;vec4 mv=modelViewMatrix*vec4(p,1.0);gl_Position=projectionMatrix*mv;gl_PointSize=clamp(aSize*uRatio*(155.0/-mv.z),.6,18.0);}`,
+    vertexShader: `attribute vec3 aColor; attribute float aSize; attribute float aPhase; varying vec3 vColor; varying float vPhase; uniform float uRatio; uniform float uTime; void main(){vColor=aColor;vPhase=aPhase;vec3 p=position;${galaxy ? 'vec2 q=p.xy-vec2(31.0,0.0);float r=length(q);float a=uTime*(.004+.024/(1.0+r*.04));p.xy=vec2(31.0,0.0)+mat2(cos(a),-sin(a),sin(a),cos(a))*q;' : 'p.xy+=vec2(sin(uTime*.11+aPhase),cos(uTime*.09+aPhase))*.18;'}vec4 mv=modelViewMatrix*vec4(p,1.0);gl_Position=projectionMatrix*mv;gl_PointSize=clamp(aSize*uRatio*(155.0/-mv.z),.6,18.0);}`,
     fragmentShader: `varying vec3 vColor; varying float vPhase; uniform float uTime; uniform float uIntensity; void main(){float r=length(gl_PointCoord-vec2(.5));float core=exp(-r*r*105.0);float halo=exp(-r*r*17.0)*.45;float twinkle=.84+.16*sin(uTime*1.25+vPhase);float a=(core+halo)*twinkle*uIntensity;if(a<.012)discard;gl_FragColor=vec4(vColor*a,a);}`,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
   });
@@ -198,21 +199,25 @@ function initScene() {
   birthMap = birthTexture();
   const nebula = nebulaTexture();
   const haze = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebula, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  haze.position.set(30, 0, -35); haze.scale.set(205, 137, 1); haze.material.rotation = -.18; galaxyGroup.add(haze);
+  haze.position.set(30, 0, -35); haze.scale.set(244, 153, 1); haze.material.rotation = -.18; galaxyGroup.add(haze);
   cloudHaze = haze;
   const haze2 = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebula, color: 0x647fc8, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  haze2.position.set(28, -3, -33); haze2.scale.set(185, 123, 1); haze2.material.rotation = .32; galaxyGroup.add(haze2);
+  haze2.position.set(28, -3, -33); haze2.scale.set(201, 130, 1); haze2.material.rotation = .32; galaxyGroup.add(haze2);
   cloudHaze2 = haze2;
   const localCloud = nebulaTexture();
   cloudHaze3 = new THREE.Sprite(new THREE.SpriteMaterial({ map: localCloud, color: 0xb16c83, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   cloudHaze3.scale.set(116, 72, 1); cloudHaze3.position.set(6, -15, -29); cloudHaze3.material.rotation = -.4; galaxyGroup.add(cloudHaze3);
   cloudHaze4 = new THREE.Sprite(new THREE.SpriteMaterial({ map: localCloud, color: 0x8cbdeb, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   cloudHaze4.scale.set(92, 66, 1); cloudHaze4.position.set(65, 18, -30); cloudHaze4.material.rotation = .27; galaxyGroup.add(cloudHaze4);
-  new THREE.TextureLoader().load('/assets/nebula-gas.png', texture => {
+  new THREE.TextureLoader().load('/assets/galaxy-dust-lanes.png', texture => {
     texture.colorSpace = THREE.SRGBColorSpace;
     cloudHaze.material.map = texture;
+    cloudHaze.material.needsUpdate = true;
+  });
+  new THREE.TextureLoader().load('/assets/nebula-gas.png', texture => {
+    texture.colorSpace = THREE.SRGBColorSpace;
     cloudHaze2.material.map = texture;
-    cloudHaze.material.needsUpdate = cloudHaze2.material.needsUpdate = true;
+    cloudHaze2.material.needsUpdate = true;
   });
   const deep = pointCloud(1800); scene.add(deep); deepDust = deep;
   const disk = pointCloud(innerWidth < 760 ? 8200 : 15500, true); galaxyGroup.add(disk); galaxyDust = disk;
@@ -256,9 +261,10 @@ function updateGalaxyGrowth() {
   cloudHaze3.material.rotation = -.6 + variation() * .45;
   cloudHaze4.material.rotation = .1 + variation() * .55;
   galaxyGrowthTarget = n ? Math.min(1, Math.sqrt(n) / 5) : 0;
-  galaxyExtentTarget = n ? (n <= 25 ? .15 + Math.sqrt(n) / 5 * .85 : 1 + Math.log2(n / 25) * .15) : .1;
-  galaxyDust.geometry.setDrawRange(0, Math.min(galaxyDust.geometry.attributes.position.count, n * 155));
-  deepDust.geometry.setDrawRange(0, Math.min(1800, Math.max(0, n - 18) * 26));
+  galaxyExtentTarget = n ? (n <= 25 ? .25 + Math.sqrt(n) / 5 * .75 : 1 + Math.log2(n / 25) * .15) : .1;
+  if (!n) { galaxyGrowth = 0; galaxyExtent = galaxyExtentTarget; }
+  galaxyDust.geometry.setDrawRange(0, Math.min(galaxyDust.geometry.attributes.position.count, n * 190));
+  deepDust.geometry.setDrawRange(0, Math.min(1800, Math.max(0, n - 1) * 50));
 }
 function spawnBirth(id) {
   const group = worldStars.get(id); if (!group || !birthMap) return;
@@ -345,16 +351,16 @@ function animate(ms) {
   galaxyExtent += (galaxyExtentTarget - galaxyExtent) * .026;
   galaxyGroup.scale.setScalar(galaxyExtent);
   galaxyGroup.position.x = 31 * (1 - galaxyExtent);
-  galaxyGroup.rotation.z = Math.sin(drift * .055) * .02;
+  galaxyGroup.rotation.z = drift * .004 + Math.sin(drift * .055) * .012;
   wordGroup.rotation.z = 0;
-  cloudHaze.material.opacity = galaxyGrowth * (.3 + Math.sin(drift * .36) * .055);
-  cloudHaze2.material.opacity = galaxyGrowth * (.16 + Math.cos(drift * .28) * .035);
+  cloudHaze.material.opacity = galaxyGrowth ? Math.min(.62, .12 + galaxyGrowth * .72) * (.96 + Math.sin(drift * .19) * .04) : 0;
+  cloudHaze2.material.opacity = galaxyGrowth * (.19 + Math.cos(drift * .28) * .025);
   cloudHaze3.material.opacity = Math.max(0, galaxyGrowth - .23) * (.21 + Math.sin(drift * .2) * .02);
   cloudHaze4.material.opacity = Math.max(0, galaxyGrowth - .54) * (.2 + Math.cos(drift * .17) * .02);
   coreGlow.material.opacity = Math.max(0, galaxyGrowth - .35) * (.22 + Math.sin(drift * 1.1) * .04);
   innerGlow.material.opacity = Math.max(0, galaxyGrowth - .75) * .16;
-  galaxyDust.material.uniforms.uIntensity.value = words.length ? .1 + galaxyGrowth * .34 : 0;
-  deepDust.material.uniforms.uIntensity.value = words.length > 18 ? .08 + galaxyGrowth * .2 : 0;
+  galaxyDust.material.uniforms.uIntensity.value = words.length ? .17 + galaxyGrowth * .43 : 0;
+  deepDust.material.uniforms.uIntensity.value = words.length > 1 ? .035 + galaxyGrowth * .11 : 0;
   for (let i = births.length - 1; i >= 0; i--) {
     const birth = births[i]; const age = clock - birth.start;
     if (age > 2.3) { birth.group.remove(birth.ring); birth.ring.material.dispose(); births.splice(i, 1); continue; }
@@ -403,8 +409,9 @@ function animate(ms) {
     const orbit = group.userData;
     if (orbit.binarySlot >= 0) {
       const galacticAngle = .6 + drift * .029;
-      const cx = 31 + Math.cos(galacticAngle) * 14;
-      const cy = Math.sin(galacticAngle) * 8;
+      const sparseSpread = 1 + Math.max(0, 15 - words.length) / 14 * .8;
+      const cx = 31 + Math.cos(galacticAngle) * 14 * sparseSpread;
+      const cy = Math.sin(galacticAngle) * 8 * sparseSpread;
       const binaryAngle = drift * .52 + orbit.binarySlot * Math.PI;
       const binaryRadius = orbit.binarySlot === 0 ? 5.63 : 6.37;
       group.position.set(cx + Math.cos(binaryAngle) * binaryRadius, cy + Math.sin(binaryAngle) * binaryRadius * .72, 18 + Math.sin(binaryAngle) * 1.1);
@@ -412,7 +419,8 @@ function animate(ms) {
     } else {
       const angle = orbit.phase + drift * orbit.speed;
       const wobble = Math.sin(angle * 3 + orbit.index) * orbit.radius * .018;
-      const radius = orbit.radius + wobble;
+      const sparseSpread = 1 + Math.max(0, 15 - words.length) / 14 * .8;
+      const radius = (orbit.radius + wobble) * sparseSpread;
       const ox = Math.cos(angle) * radius, oy = Math.sin(angle) * radius * .57;
       group.position.set(31 + ox * Math.cos(-.17) - oy * Math.sin(-.17), ox * Math.sin(-.17) + oy * Math.cos(-.17), orbit.z + Math.sin(angle * 2 + orbit.index) * .55);
       if (orbit.outer) orbit.outer.material.opacity = .31 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .065;
@@ -688,7 +696,8 @@ function bindUI() {
   $('#universe-mode').addEventListener('click', () => {
     const button = $('#universe-mode');
     const immersive = !$('#app').classList.contains('immersive');
-    if (immersive) closePanels();
+    if (immersive) { closePanels(); preImmersiveZoom = zoom; if (words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
+    else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; preImmersiveZoom = null; }
     $('#app').classList.toggle('immersive', immersive);
     pan.x += immersive ? 31 : -31;
     button.setAttribute('aria-pressed', String(immersive));
