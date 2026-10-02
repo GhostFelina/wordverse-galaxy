@@ -1,0 +1,22 @@
+{
+  "language": "English",
+  "nav": { "explore": "Explore", "collection": "My words", "galaxies": "My galaxies" },
+  "hero": {
+    "titleFirst": "Every word,",
+    "titleSecond": "a star.",
+    "empty": "{galaxy} is still empty. Every new word you learn will become a star here.",
+    "filled": "Every new word adds light to your universe. Move closer to the stars, discover their meanings, and watch your galaxy grow."
+  },
+  "action": {
+    "addWord": "Add a new star",
+    "addFirst": "Create your first star",
+    "showMeaning": "Show meaning",
+    "hideMeaning": "Hide meaning"
+  },
+  "field": { "word": "Word", "meaning": "Meaning", "example": "Example sentence" },
+  "status": {
+    "storageError": "Browser storage is full or unavailable. Download a backup of your universe.",
+    "archiveError": "Your previous data could not be archived. Download a JSON backup."
+  },
+  "count": { "star": "{count} stars", "planet": "{count} planets", "galaxy": "{count} galaxies" }
+}

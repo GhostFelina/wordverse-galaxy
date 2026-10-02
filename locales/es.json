@@ -1,0 +1,22 @@
+{
+  "language": "Español",
+  "nav": { "explore": "Explorar", "collection": "Mis palabras", "galaxies": "Mis galaxias" },
+  "hero": {
+    "titleFirst": "Cada palabra,",
+    "titleSecond": "una estrella.",
+    "empty": "{galaxy} aún está vacía. Cada palabra nueva que aprendas se convertirá aquí en una estrella.",
+    "filled": "Cada palabra nueva ilumina tu universo. Acércate a las estrellas, descubre sus significados y observa cómo crece tu galaxia."
+  },
+  "action": {
+    "addWord": "Añadir una estrella",
+    "addFirst": "Crea tu primera estrella",
+    "showMeaning": "Mostrar significado",
+    "hideMeaning": "Ocultar significado"
+  },
+  "field": { "word": "Palabra", "meaning": "Significado", "example": "Frase de ejemplo" },
+  "status": {
+    "storageError": "El almacenamiento del navegador está lleno o no está disponible. Descarga una copia de tu universo.",
+    "archiveError": "No se pudo archivar tus datos anteriores. Descarga una copia JSON."
+  },
+  "count": { "star": "{count} estrellas", "planet": "{count} planetas", "galaxy": "{count} galaxias" }
+}

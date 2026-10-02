@@ -1,0 +1,22 @@
+{
+  "language": "Türkçe",
+  "nav": { "explore": "Keşfet", "collection": "Kelimelerim", "galaxies": "Galaksilerim" },
+  "hero": {
+    "titleFirst": "Her kelime,",
+    "titleSecond": "bir yıldız.",
+    "empty": "{galaxy} henüz boş. Öğrendiğin her yeni kelime burada bir yıldıza dönüşecek.",
+    "filled": "Her yeni kelime evrenine bir ışık katıyor. Yıldızlara yaklaş, anlamlarını keşfet ve galaksinin büyümesini izle."
+  },
+  "action": {
+    "addWord": "Yeni yıldız ekle",
+    "addFirst": "İlk yıldızını yarat",
+    "showMeaning": "Anlamı göster",
+    "hideMeaning": "Anlamı gizle"
+  },
+  "field": { "word": "Kelime", "meaning": "Anlam", "example": "Örnek cümle" },
+  "status": {
+    "storageError": "Tarayıcı depolaması dolu veya kapalı. Evren yedeğini indir.",
+    "archiveError": "Önceki verinin güvenlik kopyası alınamadı. JSON yedeğini indir."
+  },
+  "count": { "star": "{count} yıldız", "planet": "{count} gezegen", "galaxy": "{count} galaksi" }
+}

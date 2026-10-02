@@ -2,11 +2,11 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · commit: `bff3024` (Faz 0 PR #3 merge). Bu dosyanın kapanış commit'i ve `v1.10.0` etiketi sırada.
+2026-10-02 · codex · commit: `daa46ac` (Faz 0 kapanışı), `v1.10.0` release. Faz 1 çalışma dalında yeni commit henüz yok.
 
 ## Şu an aktif faz ve branch
 
-Faz 0 tamamlandı · `main`. Sıradaki aktif çalışma Faz 1, `phase/1-i18n` dalı açılacak.
+Faz 0 tamamlandı. Aktif Faz 1 · `phase/1-i18n`.
 
 ## Son oturumda yapılanlar
 
@@ -16,16 +16,17 @@ Faz 0 tamamlandı · `main`. Sıradaki aktif çalışma Faz 1, `phase/1-i18n` da
 - V2 ve v3 JSON içe alma testleri dahil 14 birim testi; lint, typecheck, build ve Playwright e2e geçti.
 - Chrome'da yıldız ayrıntısı, anlam açma ve zoom manuel denendi. 12 ekran görüntüsü `evidence/` içinde; tablet ve mobil taşmalar düzeltildi.
 - PR #3 CI geçti; Vercel preview ve prod deploy hazır. Canlı URL'de izole Chromium ile kelime ekleme/yenileme kalıcılığı ve about sayfası geçti.
+- `v1.10.0` tag ve GitHub Release yayımlandı; main CI tekrar geçti. Faz 1 için metin envanteri ve ilk çeviri altyapısı oluşturuldu.
 
 ## Yarım kalan iş
 
-- Faz 0 için kapanış commit'i, `v1.10.0` tag'i ve GitHub Release henüz oluşturulmadı.
+- Faz 1 çeviri JSON'ları şu an yalnız çekirdek anahtarları içeriyor; DOM/dinamik metinler henüz taşınmadı. Dil seçici henüz yok.
 
 ## Sıradaki ilk 3 adım
 
-1. Kapanış commit'ini push et, `v1.10.0` tag ve GitHub Release oluştur.
-2. `phase/1-i18n` dalını aç; UI metinlerinin envanterini çıkar.
-3. Çeviri altyapısını veri şeması ve anlam dili ayrımını koruyarak başlat.
+1. `index.html` ve `src/main.js` görünür metinlerini eksiksiz üç dil sözlüğüne taşı; dil seçiciyi bağla.
+2. `about.html`, meta/OG/JSON-LD ve `hreflang` için yerelleştirme stratejisini uygula.
+3. Anlam dili için v3 verisini koruyan sürümlü migrasyon ve eski yedek testlerini yaz.
 
 ## Dikkat edilmesi gerekenler
 

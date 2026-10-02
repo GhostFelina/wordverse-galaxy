@@ -15,7 +15,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 
 ## Faz 1 · `phase/1-i18n` · codex/claude
 
-- [ ] Çeviri dosyaları ve anahtar bütünlüğü CI testi; bütün HTML/UI/hata/meta/e-posta metinleri.
+- [~] Çeviri dosyaları ve anahtar bütünlüğü CI testi başladı; bütün HTML/UI/hata/meta/e-posta metinleri bekliyor.
 - [ ] Profil→localStorage→tarayıcı→TR dil sırası, üst bar seçici, mobil erişim, Intl biçimleri.
 - [ ] Öğrenilen dil/anlam dili ayrımı ve v3 verisi koruyan migrasyon; hreflang.
 - [ ] Üç dilde tüm ekranlar ve iki doğrulama yolu; sürüm/deploy/handoff.
