@@ -1,20 +1,32 @@
 {
   "name": "kelime-evreni",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --test tests/*.test.js",
-    "check": "npm run test && npm run build",
-    "check:release": "node scripts/check-release-version.mjs"
+    "test": "vitest run",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
+    "check:release": "node scripts/check-release-version.mjs",
+    "test:e2e": "playwright test",
+    "lint": "eslint src tests scripts vite.config.js playwright.config.js",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json tests/migration-archive.test.js e2e/smoke.spec.js",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "three": "^0.180.0"
   },
   "devDependencies": {
-    "vite": "^7.1.0"
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "eslint": "^10.11.0",
+    "fake-indexeddb": "^6.2.5",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2",
+    "vite": "^7.1.0",
+    "vitest": "^5.0.3"
   }
 }

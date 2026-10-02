@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { LEGACY_KEY, UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, loadUniverse, starAge, mergeUniverse } from '../src/universe-data.js';
 

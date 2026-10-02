@@ -67,7 +67,20 @@ export function appendEvent(universe, type, galaxyId, wordId = null, before = nu
   universe.events.push({ id: crypto.randomUUID(), type, galaxyId, wordId, at: new Date().toISOString(), before: before ? { ...before } : null, after: after ? { ...after } : null });
 }
 
+export function normalizeBackup(backup) {
+  const legacy = Array.isArray(backup) ? backup : backup?.version === 2 && Array.isArray(backup.words) ? backup.words : null;
+  if (!legacy) return backup;
+  if (legacy.length > 100000 || legacy.some(item => !item || typeof item.word !== 'string' || typeof item.meaning !== 'string')) throw new Error('Invalid Wordverse backup');
+  const galaxy = { id: 'galaxy-english', name: 'İngilizce Galaksisi', language: 'İngilizce' };
+  return {
+    version: 3, galaxies: [galaxy], activeGalaxyId: galaxy.id,
+    words: legacy.map((item, index) => ({ ...item, id: typeof item.id === 'string' ? item.id : `legacy-${index}-${item.word}`, galaxyId: galaxy.id })),
+    events: [],
+  };
+}
+
 export function mergeUniverse(target, backup) {
+  backup = normalizeBackup(backup);
   if (backup?.version !== 3 || !Array.isArray(backup.galaxies) || !Array.isArray(backup.words) || !Array.isArray(backup.events) || backup.galaxies.length > 1000 || backup.words.length > 100000 || backup.events.length > 200000) throw new Error('Invalid Wordverse backup');
   const galaxyIds = new Set(target.galaxies.map(g => g.id));
   for (const galaxy of backup.galaxies) if (typeof galaxy?.id === 'string' && typeof galaxy.name === 'string' && typeof galaxy.language === 'string' && !galaxyIds.has(galaxy.id)) { target.galaxies.push(galaxy); galaxyIds.add(galaxy.id); }
