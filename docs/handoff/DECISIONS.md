@@ -40,3 +40,10 @@
 - **Karar:** TR `/` ve `/about.html`, EN `/en/` ve `/en/about.html`, ES `/es/` ve `/es/about.html` adreslerini kullan. Eski `?lang=` bağlantılarını geriye dönük destekle. Vite build sonrası aynı uygulama çeviri fonksiyonlarını `linkedom` ile çalıştırıp altı gerçek HTML üret; statik meta, canonical, `hreflang` ve FAQ JSON-LD'yi build doğrulamasına dahil et. Geliştirme sunucusunda dil yollarını Vite middleware ile şablonlara yönlendir.
 - **Alternatifler:** Altı ayrı elle tutulan HTML dosyası (içerik sapması); yalnız istemci JavaScript'i (statik SEO eksikliği); tüm uygulamayı yeni SSR çatısına taşımak (bu faz için geniş kapsam).
 - **Sonuç:** Tek sözlük iki dağıtım yolunu besler. JavaScript kapalıyken sayfa tanıtımı okunur; etkileşimli evren için JavaScript gerekir. Kök adresin istemci açılışında kayıtlı dile dönmesi bilinen davranıştır.
+
+## ADR-007 — Faz 2'de hesaplı senkron için kullanıcıya ait kayıtlar
+
+- **Bağlam:** v4 evreni galaksi, kelime/bağlaç ve olay dizilerinden oluşur. Misafir verisi korunmalı; iki cihazın eşzamanlı değişiklikleri tek bir JSON belgesinin üzerine yazılmamalıdır.
+- **Karar:** Bulutta galaksiler, girdiler, olaylar ve kullanıcı evren ayarları ayrı, kullanıcı kimliğiyle anahtarlanan kayıtlarda tutulacak. Her tabloda RLS ve sahiplik temelli SELECT/INSERT/UPDATE/DELETE politikaları olacak; UPDATE hem `USING` hem `WITH CHECK` içerecek. Veri modelindeki yeni alanlar `payload` JSONB'de kayıpsız korunurken kimlik ve zaman damgaları ayrı sütunlarda tutulacak. Silme `deleted_at` ile işaretlenecek. Yerel IndexedDB birincil kopya olacak; ilk girişte iki tarafın benzersiz kimlikli kayıtları birleşecek, eş kimlikli farklı içerikler ayrı kayıt olarak korunup kullanıcıya özetlenecek. Ağ yokken değişiklikler kuyrukta kalacak.
+- **Alternatifler:** Bütün evreni tek kullanıcı satırında JSON olarak tutmak (eşzamanlı yazılarda kayıp riski); girişte yalnız bulut veya yalnız yerel kopyayı seçmek (veri kaybı).
+- **Sonuç:** RLS ve çapraz kullanıcı testleri ile güvenlik, iki taraflı merge testleri ile veri koruma doğrulanmadan prod senkron açılmayacak. Hedef Supabase projesine erişim sağlanana kadar uzak şema değiştirilmeyecek.
