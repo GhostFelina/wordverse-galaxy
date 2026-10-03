@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 17:23 · Codex / Windows · son doğrulanmış uzak kod `e9f5255` (CI 37128444516 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
+2026-10-03 17:26 · Codex / Windows · son doğrulanmış uzak kod `b2dae52` (CI 37129494430 ve Vercel preview 7KqwXLUe4L1ANjALpSuoVDA7yiTA geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
 
 ## Şu an aktif faz ve branch
 
@@ -12,7 +12,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 - `src/account-cache.ts`: engellenen açılışın sonradan gelen başarılı bağlantısı artık kapatılıyor. Önce bug'ı gösteren unit test yazıldı; fix sonrası retry yeni bağlantı açabiliyor. Hesap IndexedDB SecurityError e2e'sinde buluta 0 okuma/yazma, misafir bytes korunması, erişim geri gelince yeniden bağlanma geçti.
 - `tests/fixtures/account-storage-lab.html`: ayrı yapay namespace'te simulated onblocked, gerçek native geç bağlantının kapatılması (transaction InvalidStateError), retry ve save/load; manual 4 adım geçti. Kanıt `evidence/2026-10-03-account-storage-retry.png`. Playwright 1440/768/390, light/dark/reduced-motion/overflow; manuel kanıt masaüstüdür. Tarayıcı gizlilik politikasının gerçekten IDB engellemesi sınanmadı.
-- Güncel yerel tam gate **82 unit / 40 Playwright**, lint/typecheck/build/format ve ek Go 24 senaryo geçti. Yerel 5360 görünür, gerçek hesap 6 kayıt/2 galaksi/Eşitlendi. Bu oturum commit'i `git log -1`; uzak CI/preview push sonrası kaydedilecek.
+- Güncel yerel tam gate **82 unit / 40 Playwright**, lint/typecheck/build/format ve ek Go 24 senaryo geçti. Yerel 5360 görünür, gerçek hesap 6 kayıt/2 galaksi/Eşitlendi. Kod `b2dae52`: CI 37129494430 ve Vercel preview 7KqwXLUe4L1ANjALpSuoVDA7yiTA başarılı.
 
 - Go `html/template` gerçek yerel kontrolü, nil Data hatasını yakaladı; generator güvenli with/Data + string locale ile düzeltildi. `scripts/verify-auth-emails.go`: **24 senaryo geçti** (3 dil ve missing/null/sayı/bool/nesne/dizi, escaped callback). `npm run emails:check:go` CI'a Go 1.27.1 ile eklendi. Hosted SMTP/Auth kabulü değildir. Go fallback TR görsel kanıtı evidence/2026-10-03-email-go-fallback-tr.png.
 - Yeni `src/avatar-storage.ts`: owner UUID/path, JPEG/PNG/WebP magic bytes ve 2 MiB client sınırı, yeni upload/explicit upsert/private Blob download/cache:no-store/tek path remove; işlem öncesi/sonrası getUser ile hesap değişimi koruması, backend detayları yerine stable hata kodları. Henüz profil UI'ına bağlı değil.
@@ -36,7 +36,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Sıradaki ilk 3 adım
 
-1. Başlangıç OS/git/pull/doctor/test kontrolünden sonra HANDOFF/TASKS ve en son session'ı birlikte kullan. `e9f5255` kod CI/preview kabulü geçti; bu işi tekrar başlatma. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
+1. Başlangıç OS/git/pull/doctor/test kontrolünden sonra HANDOFF/TASKS ve en son session'ı birlikte kullan. `b2dae52` hesap deposu düzeltmesinin CI/preview kabulü geçti; bu işi tekrar başlatma. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
 2. Kullanıcı girişine bağlı olmayan Faz 2 kabul işlerini sürdür: Avatar için izole istemci fixture hazır; gerçek API protokolünü AVATAR_API_ACCEPTANCE.md üzerinden uygula; gerçek hesap verisini değiştirme. Kalan email/CLI/physical-device testlerini doğrulanmış diye işaretleme.
 3. Kullanıcı ertelenen SMTP/giriş/hukuki adımlara döndüğünde tamamla. Tüm kabul geçince Faz 2 main merge/changelog/tag/release/prod smoke; ardından Faz 3.
 
@@ -47,7 +47,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 - Yanlış eski-main Mac denemesi `checkpoint/mac-2026-10-03-paused` (`0f94672`) yalnız arşivdir: merge veya SQL uygulama. Mac local Supabase yedek korunarak durduruldu. [Mac pause kaydı](sessions/2026-10-03-mac-paused-codex.md), [cihaz kurulumu](CROSS_DEVICE.md), [servis erişimi](SERVICE_ACCESS.md).
 - Misafir localStorage v4/v3/v2/arşivler, wordverse-offline ve yerel mirror korunur. Hesap wordverse-accounts sahibiyle ayrı. Testler gerçek 5360 origin'ini değiştirmez. Auth sırları cache/export/commit/log'a girmez.
 - Secret/service_role/DB şifresi/token ve gerçek JSON yedek Git dışıdır. Git kod/devir taşır; cihaz sırlarını veya tarayıcı verisini otomatik taşımaz.
-- Ayrıntılı tarihsel tekrarlar [arşivde](sessions/2026-10-03-1618-handoff-archive.md); güncel görev kaynağı bu dosyadır. Önceki oturum [1600 kaydı](sessions/2026-10-03-1600-codex.md).
+- Ayrıntılı tarihsel tekrarlar [arşivde](sessions/2026-10-03-1618-handoff-archive.md); güncel görev kaynağı bu dosyadır. Son oturum [1723 kaydı](sessions/2026-10-03-1723-codex.md).
 
 ## Doğrulanmamış iddialar
 

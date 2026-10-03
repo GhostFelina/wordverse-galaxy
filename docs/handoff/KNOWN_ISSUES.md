@@ -19,3 +19,5 @@
 - 2026-10-03 gerçek Dashboard, default mail ile custom template düzenlemesine izin vermiyor: custom SMTP veya Pro istiyor. Confirmation/recovery TR/EN/ES şablonları ve preview repoda hazır, hosted'e uygulanmadı. Kullanıcı SMTP/hesap girişlerini sonraya bıraktı; bağımsız kod/test işlerini sürdür, tekrar aynı soruyu sorma.
 
 - Avatar client helper/SDK fixture hazır, profil UI'ına bağlı değil. Oturum upload sonrası koparsa eski hesabın yüklemesi sunucuda kalabilir; late result yeni hesaba verilmez, otomatik cleanup yapılmaz. MIME değişimi için yeni path gerekir. Client signature check tam dosya decode veya hosted boyut/MIME/RLS kabulü değildir; AVATAR_API_ACCEPTANCE.md bu kontrolleri ayırır.
+
+- IndexedDB hesap deposu için simulated onblocked/late native connection close ve SecurityError/recovery kabulü geçti (82 unit/40 e2e). Gerçek tarayıcı gizlilik politikası veya fiziksel cihaz depolama engeli sınanmadı; bu kontroller yerine geçmez.
