@@ -8,7 +8,10 @@ dist/
 !.env.example
 wordverse-yedek-*.json
 test-results/
+private-backups/
 
 .vercel
 .env*
 !.env.example
+.tools/
+tests/fixtures/emails/go-rendered/

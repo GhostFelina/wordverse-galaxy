@@ -22,10 +22,38 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 
 ## Faz 2 · `phase/2-auth-sync` · codex/claude
 
-- [ ] Supabase migration SQL, tüm tablolarda RLS ve çapraz kullanıcı testleri.
-- [ ] E-posta kayıt/giriş/doğrulama/sıfırlama, Google OAuth, üç dilde gizlilik/koşullar.
-- [ ] Misafir modu, IndexedDB birincil depo, ilk girişte kayıpsız merge, offline kuyruk ve soft delete.
-- [ ] JSON import/export, avatar bucket, env ve yedek stratejisi; prod auth duman testi.
+- [x] Dört tablolu sürümlü migration hedef Wordverse Dashboard'da uygulandı. RLS iki hesaplı rollback testi geçti; anonim erişim ve doğrudan silme kapalı. İlk schema advisor kaydı tarihseldir; güncel Security Advisor 0 hata/1 Auth uyarısı, kullanılmamış iki FK indeksi korundu.
+- [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
+- [x] İlk girişte iki tarafı koruyan birleşim, özet ve bulut/misafir seçimi ana uygulamaya bağlandı; kimlik çakışması e2e geçti.
+- [x] Hesap IDB yazma/kota hatası: upload engeli, eski kalıcı kopya/misafir koruması, yeni kayıt memory retention ve retry/reload; e2e + native IDB izole fixture/manual. 82 unit/42 e2e; gerçek disk kotası kabulü değildir.
+- [x] Yerel yazma hatasında kalıcı açık tutma/JSON yedekleme yönlendirmesi (TR/EN/ES, localSaved state, e2e/manual); network hatasından ayrı bildirim. Retry öncesi bellek verisinin reload korunması iddia edilmez.
+- [x] Hesap deposu engellenme/late-open/retry koruması: geç native bağlantı kapatılır, SecurityError sırasında bulut çağrısı yapılmaz ve misafir korunur; erişim geri gelince bağlanma geçti. 82 unit/40 e2e + ayrı fixture manual; gerçek tarayıcı politika engeli kabulü değildir.
+- [x] IndexedDB birincil yerel depo, ayrı hesap cache'i, offline kuyruk, bulut eşitlemesi, durum göstergesi ve retry bağlandı; ağ geri gelince upload ve reload e2e geçti.
+- [x] Bulut okuyucu, hesap başına atomik cache, dayanıklı kuyruk ve tam içerik/sahiplik kontrolüyle yazma onayı ana uygulamada kullanılıyor.
+- [x] Sürüm koşullu SECURITY INVOKER RPC hedefte uygulandı; server timestamp, JWT sahibi, eski sürüm conflict ve tombstone gerçek rollback SQL testinde doğrulandı.
+- [x] Seri senkron motoru, hesap değişimi sırasında geç istek koruması ve üç taraflı conflict kopyası; 63 birim, izole IDB tarayıcı kontrolü ve 25 Playwright geçti.
+- [x] Hesap oturumu controller'ı, ilk giriş özeti, senkron göstergesi ve main/auth UI bağlantısı. Gerçek Google hesabında 5 kayıt/2 galaksi upload/reload/çıkış/misafire dönüş doğrulandı.
+- [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
+- [x] Confirmation/recovery üç dil metinleri locales'e, sürümlü Go şablonları supabase/templates'e; altı yerel preview, üç ekran genişliği kontrolü ve tasarım kanıtı. Yerel html/template 24 senaryo geçti; nil Data/invalid locale hatası düzeltildi ve CI gate eklendi. Hosted uygulama/render/mail teslimatı bekliyor.
+- [ ] Custom SMTP + gerçek mail kabulü: 2026-10-03 Dashboard free planda şablon düzenlemesini custom SMTP/Pro'ya bağlamış. Kullanıcı bu giriş/kurulum adımlarını sonraya bıraktı; ücretli plan açma, sır isteme veya tekrar soru sorma.
+- [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
+- [x] Supabase prod Site URL ve altı prod/proje-preview/yerel dönüş kalıbı Dashboard'da kaydedildi.
+- [x] Kullanıcı Google istemcisi/Secret aktarımını tamamladı. Provider public ayarı etkin; yerel gerçek Google giriş/çıkış ve senkron doğrulandı. Secret okunmadı/kaydedilmedi.
+- [~] Wordverse consent marka/hukuki URL düzeni; mevcut Cortexia ortak marka etkisi çözülecek.
+- [x] Misafir modu, IndexedDB birincil depo, kayıpsız merge, offline kuyruk ve soft delete çekirdek/UI bağlandı.
+- [x] Vercel Production/Preview/Development için üç public env adı tanımlandı; .env.local Google flag etkin.
+- [x] Hesap JSON export + eski v3 import + reload + misafir ayrımı e2e; gerçek hesap JSON indirme manuel geçti. Kısa ekranlarda panel kaydırma düzeltildi.
+- [x] JSON import kimlik çatışmasında iki sürümü korur; galaksi/kelime/olay snapshot bağlantıları remap edilir, tekrar import çoğaltmaz. Üç unit + hesap sync/reload e2e ve ayrı misafir origin manuel kanıtı; 71 unit/37 e2e geçti.
+- [x] Hesap tombstone + reload + açık JSON restore e2e. Boş hesapta gerçek galaksi paneli açılışı ve aria-hidden kontrolü düzeltildi.
+- [x] Sekmeye dönüş/focus/visibility bulut refresh, 15 saniye burst sınırı, açık düzenleme formunda foreground refresh atlama; hata retry durumunu koruma ve görünür liste güncelleme. Otomatik uzak değişim/draft/CAS conflict kabulü geçti; gerçek fiziksel iki cihaz testi bekliyor.
+- [x] Private wordverse-avatars bucket (2 MiB, JPEG/PNG/WebP), folder+owner_id RLS ve geniş izinli policy karşısında restrictive guard hedefte uygulandı; iki hesap/anon/owner reassignment rollback testi ve Dashboard limit kanıtı geçti.
+- [x] Avatar client helper (sahip/path/tür/imza/boyut, upload/upsert/private download/tek nesne remove ve late session guard), 10 unit + izole gerçek SDK transport e2e/manual. 81 unit/38 e2e; üretim profil entegrasyonu ve gerçek Storage API kabulü değildir.
+- [ ] Gerçek Storage API upload/upsert/delete, boyut ve MIME reddi kabulü (profil UI henüz yok).
+- [x] ENVIRONMENT yedek/kurtarma planı, private-backups Git dışlama. RPO/RTO hedef; zamanlanmış dump ve restore tatbikatı henüz yok.
+- [ ] Prod auth duman testi; gerçek e-posta ve üç dil şablon kabulü.
+- [x] Windows Codex/Claude ortak yönlendirme ve HANDOFF; iki CLI/giriş ve GitHub pull/push/admin/dry-run doğrulandı. setup:device, doctor, resume komutları ve Mac bootstrap hazırlanıp Windows/sözdizimi kontrolleri geçti.
+- [ ] Gerçek MacBook ilk kurulum: hesap girişleri, doctor push-check, test/görsel doğrulama. CROSS_DEVICE/SERVICE_ACCESS adımlarından ilerle; sırları cihazlar arasında kopyalama.
+- [x] Vercel env'li preview gerçek Google girişinde ayrı origin'den 6 kayıt/2 galaksi, yalnız bulut seçimi ve reload doğrulandı.
 
 ## Faz 3 · `phase/3-profile` · codex/claude
 

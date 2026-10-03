@@ -1,3 +1,5 @@
+import { mergeRecords } from './record-merge.js';
+
 export const UNIVERSE_KEY = 'wordverse.universe.v4';
 export const PREVIOUS_UNIVERSE_KEY = 'wordverse.universe.v3';
 export const LEGACY_KEY = 'wordverse.words.v2';
@@ -95,11 +97,16 @@ export function mergeUniverse(target, backup) {
   backup = normalizeBackup(backup);
   if (backup?.version === 3) backup = migrateUniverseV3(backup);
   if (backup?.version !== SCHEMA_VERSION || !Array.isArray(backup.galaxies) || !Array.isArray(backup.words) || !Array.isArray(backup.events) || backup.galaxies.length > 1000 || backup.words.length > 100000 || backup.events.length > 200000) throw new Error('Invalid Wordverse backup');
+  // Filter legacy malformed rows as before, then merge a clone atomically.
   const galaxyIds = new Set(target.galaxies.map(g => g.id));
-  for (const galaxy of backup.galaxies) if (typeof galaxy?.id === 'string' && typeof galaxy.name === 'string' && typeof galaxy.language === 'string' && !galaxyIds.has(galaxy.id)) { target.galaxies.push(galaxy); galaxyIds.add(galaxy.id); }
-  const wordIds = new Set(target.words.map(w => w.id));
-  for (const word of backup.words) if (typeof word?.id === 'string' && galaxyIds.has(word.galaxyId) && typeof word.word === 'string' && typeof word.meaning === 'string' && !wordIds.has(word.id)) { target.words.push(word); wordIds.add(word.id); }
-  const eventIds = new Set(target.events.map(e => e.id));
-  for (const entry of backup.events) if (typeof entry?.id === 'string' && typeof entry.type === 'string' && !eventIds.has(entry.id)) { target.events.push(entry); eventIds.add(entry.id); }
+  const galaxies = backup.galaxies.filter(g => typeof g?.id === 'string' && g.id && typeof g.name === 'string' && typeof g.language === 'string');
+  galaxies.forEach(g => galaxyIds.add(g.id));
+  const words = backup.words.filter(w => typeof w?.id === 'string' && w.id && galaxyIds.has(w.galaxyId) && typeof w.word === 'string' && typeof w.meaning === 'string');
+  const events = backup.events.filter(e => typeof e?.id === 'string' && e.id && typeof e.type === 'string');
+  for (const records of [galaxies, words, events]) if (new Set(records.map(record => record.id)).size !== records.length) throw new Error('Duplicate backup IDs');
+  const { universe: merged } = mergeRecords(target, { ...backup, galaxies, words, events }, () => crypto.randomUUID(), true);
+  target.galaxies = merged.galaxies;
+  target.words = merged.words;
+  target.events = merged.events;
   return target;
 }

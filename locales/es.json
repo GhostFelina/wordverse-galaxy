@@ -1,6 +1,10 @@
 {
   "language": "Español",
-  "nav": { "explore": "Explorar", "collection": "Mis palabras", "galaxies": "Mis galaxias" },
+  "nav": {
+    "explore": "Explorar",
+    "collection": "Mis palabras",
+    "galaxies": "Mis galaxias"
+  },
   "hero": {
     "titleFirst": "Cada palabra,",
     "titleSecond": "una estrella.",
@@ -13,12 +17,28 @@
     "showMeaning": "Mostrar significado",
     "hideMeaning": "Ocultar significado"
   },
-  "field": { "word": "Palabra", "meaning": "Significado", "example": "Frase de ejemplo" },
+  "field": {
+    "word": "Palabra",
+    "meaning": "Significado",
+    "example": "Frase de ejemplo"
+  },
   "unit": {
-    "star": { "one": "estrella", "other": "estrellas" },
-    "planet": { "one": "planeta", "other": "planetas" },
-    "day": { "one": "día", "other": "días" },
-    "entry": { "one": "entrada", "other": "entradas" }
+    "star": {
+      "one": "estrella",
+      "other": "estrellas"
+    },
+    "planet": {
+      "one": "planeta",
+      "other": "planetas"
+    },
+    "day": {
+      "one": "día",
+      "other": "días"
+    },
+    "entry": {
+      "one": "entrada",
+      "other": "entradas"
+    }
   },
   "status": {
     "storageError": "El almacenamiento del navegador está lleno o no está disponible. Descarga una copia de tu universo.",
@@ -134,8 +154,15 @@
     "import": "Restaurar copia de seguridad ↑"
   },
   "names": {
-    "defaultGalaxy": { "english": "Galaxia inglesa", "spanish": "Galaxia española" },
-    "language": { "tr": "turco", "en": "inglés", "es": "español" },
+    "defaultGalaxy": {
+      "english": "Galaxia inglesa",
+      "spanish": "Galaxia española"
+    },
+    "language": {
+      "tr": "turco",
+      "en": "inglés",
+      "es": "español"
+    },
     "planet": {
       "mercury": "Mercurio",
       "venus": "Venus",
@@ -146,7 +173,11 @@
       "uranus": "Urano",
       "neptune": "Neptuno"
     },
-    "galaxyStyle": { "spiral": "Espiral", "barred": "Espiral barrada", "flocculent": "Espiral floculenta" },
+    "galaxyStyle": {
+      "spiral": "Espiral",
+      "barred": "Espiral barrada",
+      "flocculent": "Espiral floculenta"
+    },
     "stage": {
       "newborn": "Recién nacida · blanca",
       "young": "Joven · blanca",
@@ -231,7 +262,7 @@
     "faq": [
       {
         "question": "¿Dónde se guardan mis palabras?",
-        "answer": "Tus palabras se guardan en el almacenamiento de este sitio en tu navegador y en una segunda copia local. Recargar la página no las borra, pero eliminar todos los datos del sitio puede borrar ambas copias. Todavía no hay sincronización automática entre navegadores, dispositivos o direcciones; usa una copia JSON para trasladar tus datos."
+        "answer": "El universo de invitado permanece en el almacenamiento de este sitio y en una segunda copia local. Al iniciar sesión, puedes combinarlo o abrir solo el universo de tu cuenta. El contenido de la cuenta se sincroniza con Supabase al conectar; los cambios sin conexión esperan en tu dispositivo. Borrar los datos del navegador puede eliminar las copias locales; conserva copias JSON aparte."
       },
       {
         "question": "¿Las estrellas envejecen de verdad?",
@@ -253,5 +284,142 @@
     "courtesy": "Imágenes cortesía de NASA/JPL-Caltech.",
     "note": "Wordverse es un atlas de vocabulario y una visualización artística. Los tamaños físicos y las escalas de tiempo se adaptan a la interacción."
   },
-  "count": { "star": "{count} estrellas", "planet": "{count} planetas", "galaxy": "{count} galaxias" }
+  "count": {
+    "star": "{count} estrellas",
+    "planet": "{count} planetas",
+    "galaxy": "{count} galaxias"
+  },
+  "auth": {
+    "open": "Cuenta",
+    "close": "Cerrar la ventana de cuenta",
+    "kicker": "TU ÓRBITA PERSONAL",
+    "signin": "Iniciar sesión",
+    "signup": "Crear cuenta",
+    "reset": "Restablece tu contraseña",
+    "update": "Elige una nueva contraseña",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "newPassword": "Nueva contraseña",
+    "passwordHint": "Al menos 8 caracteres.",
+    "guest": "Continuar como invitado",
+    "guestNote": "Tu universo de invitado se guarda en este navegador. Al iniciar sesión, tú eliges si quieres llevarlo a la nube.",
+    "forgot": "Olvidé mi contraseña",
+    "google": "Continuar con Google",
+    "googlePending": "El acceso con Google todavía no está disponible.",
+    "noConfig": "Estamos preparando la conexión de cuentas. Puedes seguir como invitado.",
+    "pending": "Un momento…",
+    "checkEmail": "Revisa tu correo para confirmar tu cuenta.",
+    "resetSent": "Si existe una cuenta para esta dirección, se ha enviado un enlace de recuperación.",
+    "passwordUpdated": "Tu contraseña se ha actualizado.",
+    "signedIn": "Has iniciado sesión.",
+    "signout": "Cerrar sesión",
+    "signedOut": "Sesión cerrada. Tu universo local se ha conservado.",
+    "accountTitle": "Tu cuenta",
+    "syncPending": "Usa Universo y sincronización para abrir el universo de tu cuenta o combinar tus registros locales.",
+    "invalid": "No se pudo verificar el correo o la contraseña.",
+    "unconfirmed": "Confirma tu correo antes de iniciar sesión.",
+    "rateLimit": "Demasiados intentos. Inténtalo más tarde.",
+    "network": "No se pudo conectar. Revisa tu conexión e inténtalo de nuevo.",
+    "error": "No se pudo completar la solicitud. Inténtalo de nuevo.",
+    "weak": "Elige una contraseña de al menos 8 caracteres.",
+    "back": "Volver al inicio de sesión",
+    "syncOpen": "Universo y sincronización",
+    "backToUniverse": "Volver a mi universo"
+  },
+  "legal": {
+    "back": "Volver a tu universo",
+    "language": "Idioma",
+    "updated": "Última actualización: 3 de octubre de 2026",
+    "contact": "Contacto y solicitudes de datos",
+    "privacy": "Privacidad",
+    "terms": "Condiciones de uso",
+    "privacyLead": "Explicamos dónde se guardan tus datos y qué compartes con una cuenta.",
+    "termsLead": "Wordverse es un diario de aprendizaje gratuito en desarrollo y una visualización artística del universo.",
+    "privacySections": [
+      [
+        "Responsable del tratamiento y contacto",
+        "El responsable del tratamiento de Wordverse es Mustafa Kılıç. Contacta con kopukfad@gmail.com para preguntas sobre el proyecto, consultas sobre datos personales y solicitudes para ejercer tus derechos."
+      ],
+      [
+        "Universo de invitado",
+        "Las palabras, significados, galaxias e historial se guardan en el navegador de este sitio (IndexedDB y localStorage). El contenido de invitado no se sube automáticamente. Borrar los datos del navegador puede eliminar las copias locales; conserva una copia JSON separada."
+      ],
+      [
+        "Cuenta y acceso",
+        "Al crear una cuenta, tu correo y contraseña se envían a Supabase para autenticarte. No escribimos contraseñas en documentos ni registros de la aplicación. La sesión se guarda en tu dispositivo. Cuando se habilite Google, la información básica de perfil y correo indicada en su pantalla de permisos se usará para identificar tu cuenta."
+      ],
+      [
+        "Elección de nube y proveedores",
+        "Si eliges sincronizar, tu universo se guarda en Supabase asociado a tu cuenta. Los cambios del universo de la cuenta se sincronizan al conectar; los cambios sin conexión esperan en la cola IndexedDB de este dispositivo. La región del proyecto Supabase es Singapur; Vercel aloja el sitio. Los proveedores pueden procesar datos técnicos, como la dirección IP, para prestar y proteger el servicio. La base legal y las garantías para transferencias fuera de Turquía o del Espacio Económico Europeo deben documentarse antes del uso general de la nube."
+      ],
+      [
+        "Finalidad y conservación",
+        "Los datos de cuenta permiten el acceso solicitado, proteger la sesión y prevenir abusos. El contenido del universo solo se utiliza para la sincronización que elijas. No vendemos datos ni creamos perfiles publicitarios; la aplicación no usa cookies de marketing ni analítica independiente. Los datos de cuenta se conservan mientras esté activa; las solicitudes de borrado se tramitan tras verificar la identidad. Aún deben concretarse los plazos de conservación de registros y copias de los proveedores."
+      ],
+      [
+        "Control y derechos",
+        "Puedes exportar o importar una copia JSON en el panel de galaxias. Según corresponda bajo KVKK o GDPR, puedes solicitar información, acceso, rectificación, supresión, limitación, oposición y portabilidad, y reclamar ante la autoridad competente. Envía la solicitud al correo de contacto. Solo se pide lo necesario para verificar tu identidad; nunca envíes tu contraseña. Cerrar sesión no borra tu universo local."
+      ]
+    ],
+    "termsSections": [
+      [
+        "Uso",
+        "Usa Wordverse para registrar, explorar y repasar vocabulario. Añade contenido que tengas derecho a utilizar; evita datos privados o sensibles de otras personas. No accedas a otras cuentas, eludas la seguridad ni abuses del servicio."
+      ],
+      [
+        "Contenido y copias",
+        "Conservas los derechos sobre tu contenido. La nube opcional solo guarda el contenido de tu cuenta y lo sincroniza entre tus dispositivos. Descarga copias JSON periódicamente; no dependas solo de este sitio al limpiar el navegador o durante interrupciones."
+      ],
+      [
+        "Seguridad de la cuenta",
+        "Elige una contraseña fuerte y única. No compartas enlaces de confirmación ni recuperación. El modo invitado es gratuito y no requiere cuenta. Las solicitudes de eliminación se envían al correo de contacto; no se borran datos ajenos sin verificación."
+      ],
+      [
+        "Límites científicos y educativos",
+        "Las visualizaciones son interpretaciones artísticas; el tiempo y la escala se adaptan para interactuar. Wordverse no garantiza resultados de aprendizaje, precisión de mediciones científicas ni servicio ininterrumpido. Tus derechos legales obligatorios se mantienen."
+      ],
+      [
+        "Cambios y contacto",
+        "El texto puede actualizarse mientras evoluciona el proyecto. Los cambios importantes del tratamiento se explican antes de aplicarse. No se te inscribirá automáticamente en un servicio de pago. Preguntas y solicitudes de datos: kopukfad@gmail.com."
+      ]
+    ]
+  },
+  "email": {
+    "confirmation": {
+      "title": "Bienvenido a tu universo",
+      "body": "Confirma tu correo electrónico para abrir tu cuenta de Wordverse. Tu universo de invitado se conserva en tu dispositivo; después de iniciar sesión, puedes elegir combinarlo con tu cuenta.",
+      "action": "Confirmar mi correo"
+    },
+    "recovery": {
+      "title": "Restablece tu contraseña",
+      "body": "Abre el siguiente enlace para restablecer tu contraseña de Wordverse. Introduce tu nueva contraseña solo en la aplicación Wordverse.",
+      "action": "Elegir una nueva contraseña"
+    },
+    "ignore": "Si no solicitaste esto, puedes ignorar este correo.",
+    "private": "Este enlace permite acceder a tu cuenta. No lo compartas.",
+    "fallback": "Si el botón no funciona, copia este enlace en tu navegador:",
+    "footer": "Cada palabra, una estrella."
+  },
+  "sync": {
+    "guest": "Invitado",
+    "guestNote": "Este universo se guarda solo en este dispositivo.",
+    "loading": "Conectando…",
+    "synced": "Sincronizado",
+    "pending": "Pendiente",
+    "syncing": "Sincronizando…",
+    "offline": "Sin conexión",
+    "conflict": "Conflicto · reintentar",
+    "error": "Error · reintentar",
+    "mergeReady": "Conectar universo",
+    "mergeTitle": "Conecta tu universo",
+    "mergeDescription": "Hay {local} registros en este dispositivo y {cloud} en tu cuenta. La combinación conserva ambas versiones de los registros diferentes. Tu copia de invitado permanece en este dispositivo.",
+    "combine": "Combinar mi universo de invitado",
+    "cloudOnly": "Abrir solo el universo de mi cuenta",
+    "stayGuest": "Seguir como invitado por ahora",
+    "mergeAvailable": "Tu cuenta está lista. Abre el botón de sincronización para conectar tu universo local.",
+    "merged": "Universo de la cuenta abierto · {count} registros",
+    "conflictsPreserved": "Se encontraron {count} conflictos; se conservó el contenido diferente.",
+    "createGalaxy": "Primero crea una galaxia.",
+    "localWriteError": "No se pudo guardar este cambio en este dispositivo. Mantén esta página abierta y reintenta, o descarga una copia JSON desde el menú de galaxias."
+  }
 }

@@ -1,17 +1,22 @@
 import * as THREE from 'three';
 import './style.css';
-import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
-import { archiveBeforeMigration, recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
+import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
+import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
+import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
+import { mountAuthUI } from './auth-ui.js';
+import { mountAccountSync } from './account-sync-ui.js';
 
 const $ = (selector) => document.querySelector(selector);
 const uiLocale = getHomeLocale();
 const t = (key, params) => translate(uiLocale, key, params);
 let archiveFailure = false;
 try { await archiveBeforeMigration(localStorage); } catch { archiveFailure = true; }
-const { universe, recovered: recoveredFromMirror } = await recoverUniverse(localStorage);
+let { universe, recovered: recoveredFromMirror } = await loadLocalUniverse(localStorage);
+let accountSync = null;
 let mirrorWrites = Promise.resolve();
+let primaryWrites = Promise.resolve();
 let mirrorWarningShown = false;
 let words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
 let selectedId = null;
@@ -73,13 +78,17 @@ const births = [];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function persist() {
+  if (accountSync?.persist(universe)) return true;
   try {
     const serialized = JSON.stringify(universe);
-    localStorage.setItem(UNIVERSE_KEY, serialized);
+    const { localSaved, writePrimary } = persistLocalUniverse(universe, localStorage);
+    primaryWrites = primaryWrites.catch(() => {}).then(writePrimary).catch(() => {
+      if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
+    });
     mirrorWrites = mirrorWrites.catch(() => {}).then(() => writeUniverseMirror(JSON.parse(serialized))).catch(() => {
       if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
     });
-    return true;
+    return localSaved;
   }
   catch { showToast(t('status.storageError')); return false; }
 }
@@ -113,7 +122,7 @@ function refreshCounts() {
 }
 
 function random(seed) { let n = seed >>> 0; return () => { n = (1664525 * n + 1013904223) >>> 0; return n / 4294967296; }; }
-function hashText(value) { let hash = 0; for (const char of value) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
+function hashText(value) { let hash = 0; for (const char of String(value ?? 'empty-universe')) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
 function pointCloud(count, galaxy = false, style = 'spiral', seed = 19483) {
   const rand = random(seed);
   const positions = new Float32Array(count * 3);
@@ -709,6 +718,7 @@ function createPosition(index, variation = .5, kind = 'word') {
 }
 function saveWord(event) {
   event.preventDefault();
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { openPanel('galaxy'); showToast(t('sync.createGalaxy')); return; }
   const kind = $('#word-form input[name="kind"]:checked')?.value === 'conjunction' ? 'conjunction' : 'word';
   const word = $('#word-input').value.trim();
   const meaning = $('#meaning-input').value.trim();
@@ -757,6 +767,7 @@ function beginEdit() {
   openPanel('add');
 }
 function openAdd() {
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { renderGalaxies(); openPanel('galaxy'); showToast(t('sync.createGalaxy')); return; }
   editingId = null; $('#word-form').reset(); $('#form-error').textContent = '';
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
   updateEntryKindForm();
@@ -954,7 +965,7 @@ function bindUI() {
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
   $('#reset-view').addEventListener('click', () => { focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
+  document.addEventListener('keydown', e => { if ($('#account-dialog')?.open) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
     if (e.pointerType === 'touch') {
@@ -983,7 +994,6 @@ function bindUI() {
 
 history.scrollRestoration = 'manual';
 function resetPageScroll() {
-  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   window.scrollTo(0, 0);
   document.documentElement.scrollLeft = 0;
   document.body.scrollLeft = 0;
@@ -993,5 +1003,24 @@ resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 applyHomeTranslations(uiLocale);
 persist(); refreshCounts(); bindUI(); initScene();
+accountSync = mountAccountSync({
+  locale: uiLocale,
+  getUniverse: () => universe,
+  beforeSwitch: closePanels,
+  notify: showToast,
+  replaceUniverse: next => {
+    universe = next;
+    words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
+    if (!words.some(w => w.id === selectedId)) selectedId = null;
+    if (!words.some(w => w.id === editingId)) {
+      editingId = null;
+      if (activePanel === 'add') updateEntryKindForm();
+    }
+    rebuildWordStars(); refreshCounts(); renderGalaxies();
+    if (activePanel === 'collection') renderCollection();
+    if (activePanel === 'detail' && !selectedId) closePanels();
+  },
+});
+mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: accountSync.onSession, onSync: accountSync.open });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

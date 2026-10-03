@@ -1,0 +1,22 @@
+{
+  "version": 4,
+  "activeGalaxyId": "galaxy-english",
+  "galaxies": [
+    {
+      "id": "galaxy-english",
+      "name": "İngilizce Galaksisi",
+      "language": "İngilizce",
+      "meaningLanguage": "tr"
+    }
+  ],
+  "words": [
+    {
+      "id": "backup-conflict-demo",
+      "galaxyId": "galaxy-english",
+      "word": "light",
+      "meaning": "ışık (güncel)",
+      "createdAt": "2025-01-01T00:00:00Z"
+    }
+  ],
+  "events": []
+}

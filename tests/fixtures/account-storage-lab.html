@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="tr">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hesap deposu hata doğrulaması</title>
+  <style>
+    body {
+      font: 16px/1.5 system-ui;
+      max-width: 760px;
+      margin: 32px auto;
+      padding: 0 20px;
+      background: #101522;
+      color: #e8edf8;
+    }
+    button {
+      font: inherit;
+      padding: 10px 18px;
+    }
+    li {
+      padding: 8px 0;
+      overflow-wrap: anywhere;
+    }
+  </style>
+  <h1>Hesap deposu hata doğrulaması</h1>
+  <p>
+    Engellenme olayı yapay olarak üretilir; geç gelen bağlantı ve tekrar deneme gerçek IndexedDB kullanır. Yalnız ayrı
+    doğrulama deposuna yapay kayıt yazılır. Kullanıcı deposuna veya Supabase'e erişilmez.
+  </p>
+  <button id="run">Engellenme ve tekrar denemeyi doğrula</button>
+  <p id="state" role="status" aria-live="polite">Hazır</p>
+  <ol id="steps"></ol>
+  <h2>Yazma hatası ve kurtarma</h2>
+  <p>
+    Kota hatası yapay olarak üretilir. Gerçek disk kotası tüketilmez; bekleyen kayıt yalnız bu sayfa açıkken bellekte
+    korunur. Başarılı tekrar denemeden önce sayfayı kapatmak güvenli değildir.
+  </p>
+  <button id="run-quota">Yazma hatası ve kurtarmayı doğrula</button>
+  <p id="quota-state" role="status" aria-live="polite">Hazır</p>
+  <ol id="quota-steps"></ol>
+  <button id="show-warning">Kaydetme bildirimini göster</button>
+  <button id="hide-warning">Kalıcı kayıt sonrası bildirimi kapat</button>
+  <script type="module">
+    import '/src/auth.css';
+    import { mountStorageWarning } from '/src/account-sync-ui.js';
+    const warning = mountStorageWarning('tr');
+    document.querySelector('#show-warning').addEventListener('click', () => warning.setSaved(false));
+    document.querySelector('#hide-warning').addEventListener('click', () => warning.setSaved(true));
+    import { AccountSyncEngine } from '/src/sync-engine.ts';
+    import { loadAccountCache, saveAccountCache } from '/src/account-cache.ts';
+    const state = document.querySelector('#state');
+    const steps = document.querySelector('#steps');
+    function assert(value, message) {
+      if (!value) throw new Error(message);
+    }
+    function step(message) {
+      const li = document.createElement('li');
+      li.textContent = message;
+      steps.append(li);
+    }
+    document.querySelector('#run').addEventListener('click', async (event) => {
+      event.target.disabled = true;
+      steps.replaceChildren();
+      const name = `wordverse-account-open-verification-${crypto.randomUUID()}`;
+      const original = indexedDB.open;
+      const synthetic = {};
+      let lateDatabase;
+      try {
+        indexedDB.open = function (database, version) {
+          if (database !== name) return original.call(this, database, version);
+          queueMicrotask(() => synthetic.onblocked(new Event('blocked')));
+          return synthetic;
+        };
+        let rejected = false;
+        try {
+          await loadAccountCache('fixture-owner', name);
+        } catch (error) {
+          rejected = error.message === 'Account cache blocked';
+        } finally {
+          indexedDB.open = original;
+        }
+        assert(rejected, 'Engellenen açılış reddedilmedi');
+        step('Engellenen açılış güvenli biçimde reddedildi.');
+        lateDatabase = await new Promise((resolve, reject) => {
+          const request = original.call(indexedDB, name, 1);
+          request.onupgradeneeded = () => request.result.createObjectStore('accounts');
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+        let closed = false;
+        const close = lateDatabase.close.bind(lateDatabase);
+        lateDatabase.close = () => {
+          closed = true;
+          close();
+        };
+        synthetic.result = lateDatabase;
+        synthetic.onsuccess(new Event('success'));
+        assert(closed, 'Geç bağlantı açık kaldı');
+        let unusable = false;
+        try {
+          lateDatabase.transaction('accounts');
+        } catch (error) {
+          unusable = error.name === 'InvalidStateError';
+        }
+        assert(unusable, 'Kapatılan bağlantı hâlâ kullanılabiliyor');
+        step('Geç gelen gerçek bağlantı kapandı; yeni işlem kabul etmiyor.');
+        assert((await loadAccountCache('fixture-owner', name)) === null, 'Yeni depo boş değil');
+        step('Yeni deneme gerçek IndexedDB bağlantısını açtı.');
+        const cache = {
+          version: 1,
+          ownerId: 'fixture-owner',
+          universe: { version: 4, activeGalaxyId: 'g', galaxies: [{ id: 'g' }], words: [], events: [] },
+          remote: { galaxies: [], words: [], events: [], settings: [] },
+          pending: [],
+          lastSyncedAt: null,
+        };
+        await saveAccountCache(cache, name);
+        assert(
+          JSON.stringify(await loadAccountCache('fixture-owner', name)) === JSON.stringify(cache),
+          'Yazılan kayıt korunmadı',
+        );
+        step('Tekrar denemeden sonra yapay hesap kaydı yazılıp eksiksiz okundu.');
+        state.textContent = '4 kontrol geçti · gerçek tarayıcı politikası kabulü bekliyor';
+      } catch (error) {
+        state.textContent = `Kontrol başarısız: ${error.message}`;
+      } finally {
+        indexedDB.open = original;
+        lateDatabase?.close();
+        event.target.disabled = false;
+      }
+    });
+
+    document.querySelector('#run-quota').addEventListener('click', async (event) => {
+      event.target.disabled = true;
+      const status = document.querySelector('#quota-state');
+      const items = document.querySelector('#quota-steps');
+      items.replaceChildren();
+      function record(message) {
+        const li = document.createElement('li');
+        li.textContent = message;
+        items.append(li);
+      }
+      const name = `wordverse-account-quota-verification-${crypto.randomUUID()}`;
+      const original = IDBObjectStore.prototype.put;
+      let blocked = true;
+      let engine;
+      let writes = 0;
+      try {
+        const cache = {
+          version: 1,
+          ownerId: 'fixture-owner',
+          universe: { version: 4, activeGalaxyId: 'g', galaxies: [{ id: 'g' }], words: [], events: [] },
+          remote: { galaxies: [], words: [], events: [], settings: [] },
+          pending: [],
+          lastSyncedAt: null,
+        };
+        await saveAccountCache(cache, name);
+        IDBObjectStore.prototype.put = function (...args) {
+          if (this.transaction.db.name === name && blocked)
+            throw new DOMException('Test-only quota rejection', 'QuotaExceededError');
+          return original.apply(this, args);
+        };
+        engine = new AccountSyncEngine({
+          client: null,
+          cache,
+          save: (value) => saveAccountCache(value, name),
+          write: async (change) => {
+            writes++;
+            return { status: 'applied', row: { ...change.row, updated_at: '2026-10-03T10:00:00Z' } };
+          },
+        });
+        const universe = engine.snapshot().cache.universe;
+        universe.words.push({ id: 'w', galaxyId: 'g', word: 'quota fixture star' });
+        let rejected = false;
+        try {
+          await engine.update(universe);
+        } catch (error) {
+          rejected = error.name === 'QuotaExceededError';
+        }
+        assert(rejected && engine.snapshot().status === 'error', 'Kota hatası gösterilmedi');
+        record('Yazma hatası başarı olarak gösterilmedi.');
+        await engine.flush();
+        assert(writes === 0, 'Yerel kayıt kalıcı olmadan gönderildi');
+        assert(
+          (await loadAccountCache('fixture-owner', name)).universe.words.length === 0,
+          'Başarısız yazma kalıcı kopyayı değiştirdi',
+        );
+        record('Kalıcı eski kopya korundu; gönderim sayısı 0.');
+        assert(
+          engine.snapshot().cache.universe.words[0].word === 'quota fixture star',
+          'Bellekteki değişiklik kayboldu',
+        );
+        record('Yeni kayıt ve bekleyen işlemler bellekte tutuldu.');
+        blocked = false;
+        await engine.flush();
+        assert(engine.snapshot().status === 'synced' && writes > 0, 'Tekrar deneme bitmedi');
+        const restored = await loadAccountCache('fixture-owner', name);
+        assert(
+          restored.universe.words[0].word === 'quota fixture star' && restored.pending.length === 0,
+          'Yeni kayıt kalıcı depoda korunmadı',
+        );
+        record('Erişim geri gelince gerçek IndexedDB kaydı ve yapay gönderim tamamlandı.');
+        status.textContent = '4 yazma kontrolü geçti · gerçek disk kotası kabulü değildir';
+      } catch (error) {
+        status.textContent = `Kontrol başarısız: ${error.message}`;
+      } finally {
+        IDBObjectStore.prototype.put = original;
+        engine?.stop();
+        event.target.disabled = false;
+      }
+    });
+  </script>
+</html>

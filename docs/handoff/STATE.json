@@ -1,0 +1,9 @@
+{
+  "project": "wordverse",
+  "repository": "GhostFelina/wordverse-galaxy",
+  "activeBranch": "phase/2-auth-sync",
+  "activePhase": 2,
+  "completedPhases": [0, 1],
+  "handoff": "docs/handoff/HANDOFF.md",
+  "localUrl": "http://127.0.0.1:5360/"
+}

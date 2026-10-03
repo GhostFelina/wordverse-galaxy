@@ -1,21 +1,29 @@
 {
   "name": "kelime-evreni",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "setup:device": "node scripts/setup-device.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "resume:codex": "node scripts/resume.mjs codex",
+    "resume:claude": "node scripts/resume.mjs claude",
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build && node scripts/prerender-locales.mjs && node scripts/verify-static-locales.mjs",
+    "build": "node scripts/generate-auth-emails.mjs && vite build && node scripts/prerender-locales.mjs && node scripts/verify-static-locales.mjs && node scripts/prerender-legal.mjs",
+    "emails:generate": "node scripts/generate-auth-emails.mjs",
+    "emails:check:go": "go run scripts/verify-auth-emails.go",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
     "check:release": "node scripts/check-release-version.mjs",
     "test:e2e": "playwright test",
+    "test:avatars": "vitest run tests/avatar-storage.test.ts && playwright test e2e/avatar-storage.spec.js",
     "lint": "eslint src tests scripts vite.config.js playwright.config.js",
-    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js src/sync-merge.js src/record-merge.js src/local-primary.js src/auth-ui.js src/supabase-client.js src/auth.css locales/*.json tests/i18n.test.js tests/migration-archive.test.js tests/sync-merge.test.js tests/local-primary.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs src/legal-page.js scripts/prerender-legal.mjs scripts/capture-auth-evidence.mjs tests/auth-errors.test.js src/cloud-universe.ts tests/cloud-universe.test.ts src/account-cache.ts tests/account-cache.test.ts src/sync-queue.ts tests/sync-queue.test.ts src/cloud-write.ts tests/cloud-write.test.ts src/sync-engine.ts tests/sync-engine.test.ts src/sync-reconcile.ts tests/sync-reconcile.test.ts src/account-sync-ui.js e2e/account-sync.spec.js tests/fixtures/sync-lab.html scripts/setup-device.mjs scripts/doctor.mjs scripts/resume.mjs tests/setup-device.test.js scripts/generate-auth-emails.mjs e2e/email-previews.spec.js src/avatar-storage.ts tests/avatar-storage.test.ts tests/fixtures/avatar-lab.html e2e/avatar-storage.spec.js tests/fixtures/account-storage-lab.html e2e/account-storage.spec.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.117.2",
     "three": "^0.180.0"
   },
   "devDependencies": {
@@ -26,7 +34,8 @@
     "globals": "^17.13.0",
     "linkedom": "^0.18.13",
     "prettier": "^3.9.9",
-    "typescript": "^7.0.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.0",
     "vite": "^7.1.0",
     "vitest": "^5.0.3"
   }

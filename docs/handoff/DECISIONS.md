@@ -40,3 +40,45 @@
 - **Karar:** TR `/` ve `/about.html`, EN `/en/` ve `/en/about.html`, ES `/es/` ve `/es/about.html` adreslerini kullan. Eski `?lang=` bağlantılarını geriye dönük destekle. Vite build sonrası aynı uygulama çeviri fonksiyonlarını `linkedom` ile çalıştırıp altı gerçek HTML üret; statik meta, canonical, `hreflang` ve FAQ JSON-LD'yi build doğrulamasına dahil et. Geliştirme sunucusunda dil yollarını Vite middleware ile şablonlara yönlendir.
 - **Alternatifler:** Altı ayrı elle tutulan HTML dosyası (içerik sapması); yalnız istemci JavaScript'i (statik SEO eksikliği); tüm uygulamayı yeni SSR çatısına taşımak (bu faz için geniş kapsam).
 - **Sonuç:** Tek sözlük iki dağıtım yolunu besler. JavaScript kapalıyken sayfa tanıtımı okunur; etkileşimli evren için JavaScript gerekir. Kök adresin istemci açılışında kayıtlı dile dönmesi bilinen davranıştır.
+
+## ADR-007 — Faz 2'de hesaplı senkron için kullanıcıya ait kayıtlar
+
+- **Bağlam:** v4 evreni galaksi, kelime/bağlaç ve olay dizilerinden oluşur. Misafir verisi korunmalı; iki cihazın eşzamanlı değişiklikleri tek bir JSON belgesinin üzerine yazılmamalıdır.
+- **Karar:** Bulutta galaksiler, girdiler, olaylar ve kullanıcı evren ayarları ayrı, kullanıcı kimliğiyle anahtarlanan kayıtlarda tutulacak. Her tabloda RLS ve sahiplik temelli SELECT/INSERT/UPDATE politikaları olacak; UPDATE hem `USING` hem `WITH CHECK` içerecek. Anonim erişim ve authenticated doğrudan DELETE yetkisi kaldırılacak. Veri modelindeki yeni alanlar `payload` JSONB'de kayıpsız korunurken kimlik ve zaman damgaları ayrı sütunlarda tutulacak. Silme `deleted_at` ile işaretlenecek. Yerel IndexedDB birincil kopya olacak; ilk girişte iki tarafın benzersiz kimlikli kayıtları birleşecek, eş kimlikli farklı içerikler ayrı kayıt olarak korunup kullanıcıya özetlenecek. Ağ yokken değişiklikler kuyrukta kalacak.
+- **Alternatifler:** Bütün evreni tek kullanıcı satırında JSON olarak tutmak (eşzamanlı yazılarda kayıp riski); girişte yalnız bulut veya yalnız yerel kopyayı seçmek (veri kaybı).
+- **Sonuç:** RLS ve çapraz kullanıcı testleri ile güvenlik, iki taraflı merge testleri ile veri koruma doğrulanmadan prod senkron açılmayacak. 2026-10-03 hedef Dashboard erişimiyle şema uygulandı ve rollback izolasyon testi geçti; CLI geçmişi bağlantı sağlanınca eşleştirilecek.
+
+## ADR-008 — Hesap deposunu misafirden ayır; desteklenen TS araç çiftini sabitle
+
+- **Bağlam:** Giriş/çıkışta aynı yerel anahtara yazmak farklı hesapların verisini misafir verisine karıştırabilir. İlk yeni TypeScript modülünde mevcut TS7, typescript-eslint destek aralığıyla uyuşmadı.
+- **Karar:** Hesap evreni ve bekleyen işlemleri `wordverse-accounts` içinde ownerId ile anahtarla, aynı transaction içinde yaz. Misafir depo/arşivini değiştirme. TS6.0.3 ve typescript-eslint8.71.0 tam sürüm kullan; destek dışı parser için force/legacy-peer-deps kullanma. JS ve TS testlerini Vitest kapsamına al.
+- **Sonuç:** Hesap değişimi veri ayrımını korur; auth sırları bu cache içine girmez. Cloud yazma ve UI bağlanmadan bu çekirdek cihazlar arası senkron sayılmaz. [Resmî destek aralığı](https://typescript-eslint.io/users/dependency-versions/) 2026-10-03 kontrol edildi.
+
+## ADR-009 — Beklenen sunucu sürümüyle koşullu senkron yazma
+
+- **Bağlam:** İstemci saatleri farklı olabilir; bir cihazın eski evreni diğer cihazın yeni kaydını ezmemeli. Ağ yanıtı kaybolunca aynı isteğin tekrar gitmesi normaldir. Auth oturumu istek sürerken değişebilir.
+- **Karar:** RPC yalnız JWT sahibi ile p_owner_id eşleşince, tablo whitelist ve RLS altında çalışır. SECURITY INVOKER ve boş search_path kullanır. Mevcut satır FOR UPDATE kilitlenir; expected_updated_at tutmazsa mevcut satır conflict olarak döner. Yeni kayıt yarışında unique violation conflict olur. updated_at yalnız sunucuda ilerletilir. Bekleyen queue ve evren birlikte IndexedDB'ye yazılır; onay yalnız tam gönderilen içerik için kabul edilir, yeni düzenleme beklemeye devam eder. Soft delete tam payload ile saklanır. JSON kimlik CHECK'leri eksik anahtar NULL kaçışını reddeder.
+- **Alternatifler:** İstemci saatiyle last-write-wins (saat sapması ve kayıp); önce SELECT sonra koşulsuz UPDATE (yarış); SECURITY DEFINER (gereksiz RLS aşma).
+- **Sonuç:** 2026-10-03 Dashboard'da migration ve rollback CAS kontrolü geçti. Çakışmanın iki kopyayla çözümü ve seri UI motoru ayrı adımlardır; bu çekirdek henüz otomatik senkron değildir.
+
+## ADR-010 — Yerel niyet, uzak baseline ve görünür conflict kopyaları
+
+- **Bağlam:** İlk giriş merge'i her refresh'te kullanılırsa değişmeyen eski yerel kayıtlar uzaktaki silmeleri diriltebilir. Ağ ve IndexedDB beklenirken kullanıcı düzenlemeye devam edebilir.
+- **Karar:** Baseline'dan üretilen pending kayıtlar yerel niyeti gösterir; pending olmayan kayıtlar taze bulut görünümünü izler. Farklı canlı uzak içerik yeni kimlikle kopyalanır. Galaksi kopyası uzak alt ağacını, kelime kopyası olay referanslarını remap eder. Silinmiş uzak parent altında canlı yerel düzenleme ulaşılabilir kalır. Çakışan settings karşı sürümü kayıpsız metadata arşivinde tutulur. Tek hesap motorunda yerel mutation ve cache save sıraya girer; ağ beklemesi yerel mutation'ı kilitlemez. Refresh yeni outgoing yazıları bekletir. Stop sonrası geç yanıt yayımlanmaz.
+- **Sonuç:** 2026-10-03 birim ve izole gerçek IndexedDB tarayıcı senaryosu geçti. Ana UI entegrasyonu sırasında cache'in gecikmiş görüntüsüyle daha yeni UI düzenlemesi üzerine yazılmamalı; refresh güncellemesi senkron callback ile görünür modele uygulanmalı. Bu çekirdek henüz prod senkron olarak sunulmaz.
+
+
+## ADR-011 — JSON restore çakışmalarını kayıpsız ve tekrar yüklenebilir birleştir
+
+- **Bağlam:** Aynı kimlikli değişmiş eski yedek mevcut kaydı ezmiyordu fakat yedekteki sürüm sessizce atlanıyordu. İlk girişteki kayıpsız merge davranışı JSON restore'a da gerekli.
+- **Karar:** Ortak record-merge çekirdeği, mevcut kimliği korur, farklı gelen kayıt için yeni kimlik üretir ve çocuk/olay snapshot bağlantılarını yeniden bağlar. JSON restore tekrarlarında aynı içerikli conflict kopyası yeniden kullanılır. Bağımsız farklı kimlikli kayıtlar aynı içerik taşısa da silinmez. JSON property sırası/undefined alanları içerik farkı sayılmaz. Önceki ilk giriş davranışındaki seeded galaksi createdAt farkının tek başına conflict sayılmaması korunur; kelime ve olay tarihleri korunur.
+- **Alternatifler:** Eski sürümü atlamak (yedek kaybı), üstüne yazmak (güncel veri kaybı), her yüklemede yeni kopya (kontrolsüz çoğalma).
+- **Sonuç:** Şema değişmez; eski v2/v3 migration sürer. İşlem clone üzerinde tamamlanır; tekrarlı backup kimlikleri atomik reddedilir. 71 unit/37 e2e ve izole misafir UI iki anlam/tekrar import kabulü geçti. Sonradan değiştirilen conflict kopyası ayrı sürüm olarak korunur.
+
+
+## ADR 012 · Faz 2 kabulünü erteleme ve Faz 3–9 geliştirme
+
+- Tarih: 2026-10-03. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi.
+- Karar: Son yerel yazma bildirimi Faz 2 dalında tamamlanır; `phase/3-profile` bu dalı temel alır. Faz 2 tamamlandı veya prod kabulü yapıldı sayılmaz. SMTP/Storage API/CLI hesap/Mac/iki cihaz/hukuk/prod kabulü TASKS/HANDOFF'ta ertelenmiş kalır.
+- Faz 3 PR base'i phase/2-auth-sync olur; main'e erken merge, Faz 2 release/tag veya prod deploy yapılmaz. Kullanıcı girdisi bekleyen adımlar yeni geliştirmeyi durdurmaz.
+- Faz 3 ilk bölüm: mevcut evrenden salt okunur toplamlar/dil dağılımı/son ve ilk kayıt; ardından profil tercihleri, takvim/seri, hedef/ayarlar ve kalan veri işlevleri. FSRS henüz yokken hatırlama başarısı veya tekrar verisi uydurulmaz.
