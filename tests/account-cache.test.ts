@@ -1,5 +1,5 @@
 import 'fake-indexeddb/auto';
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import { loadAccountCache, saveAccountCache, type AccountCache } from '../src/account-cache';
 
 const cache = (ownerId: string): AccountCache => ({
@@ -55,4 +55,22 @@ test('saving captures a snapshot before asynchronous database work begins', asyn
   source.universe.galaxies[0].name = 'Changed after save';
   await saving;
   expect((await loadAccountCache('a', database))?.universe.galaxies[0].name).toBeUndefined();
+});
+
+test('a blocked open closes a late connection and a fresh retry can open the cache', async () => {
+  const name = `blocked-${crypto.randomUUID()}`;
+  const close = vi.fn();
+  const lateDatabase = { close, onversionchange: null } as unknown as IDBDatabase;
+  const request = { result: lateDatabase } as unknown as IDBOpenDBRequest;
+  const opening = vi.spyOn(indexedDB, 'open').mockReturnValue(request);
+  try {
+    const reading = loadAccountCache('a', name);
+    request.onblocked?.call(request, new Event('blocked') as IDBVersionChangeEvent);
+    await expect(reading).rejects.toThrow('Account cache blocked');
+    request.onsuccess?.call(request, new Event('success'));
+    expect(close).toHaveBeenCalledOnce();
+  } finally {
+    opening.mockRestore();
+  }
+  await expect(loadAccountCache('a', name)).resolves.toBeNull();
 });

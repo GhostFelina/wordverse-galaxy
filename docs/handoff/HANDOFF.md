@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 17:08 · Codex / Windows · son doğrulanmış uzak kod `e9f5255` (CI 37128444516 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
+2026-10-03 17:23 · Codex / Windows · son doğrulanmış uzak kod `e9f5255` (CI 37128444516 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
 
 ## Şu an aktif faz ve branch
 
@@ -10,13 +10,17 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Son oturumda yapılanlar
 
+- `src/account-cache.ts`: engellenen açılışın sonradan gelen başarılı bağlantısı artık kapatılıyor. Önce bug'ı gösteren unit test yazıldı; fix sonrası retry yeni bağlantı açabiliyor. Hesap IndexedDB SecurityError e2e'sinde buluta 0 okuma/yazma, misafir bytes korunması, erişim geri gelince yeniden bağlanma geçti.
+- `tests/fixtures/account-storage-lab.html`: ayrı yapay namespace'te simulated onblocked, gerçek native geç bağlantının kapatılması (transaction InvalidStateError), retry ve save/load; manual 4 adım geçti. Kanıt `evidence/2026-10-03-account-storage-retry.png`. Playwright 1440/768/390, light/dark/reduced-motion/overflow; manuel kanıt masaüstüdür. Tarayıcı gizlilik politikasının gerçekten IDB engellemesi sınanmadı.
+- Güncel yerel tam gate **82 unit / 40 Playwright**, lint/typecheck/build/format ve ek Go 24 senaryo geçti. Yerel 5360 görünür, gerçek hesap 6 kayıt/2 galaksi/Eşitlendi. Bu oturum commit'i `git log -1`; uzak CI/preview push sonrası kaydedilecek.
+
 - Go `html/template` gerçek yerel kontrolü, nil Data hatasını yakaladı; generator güvenli with/Data + string locale ile düzeltildi. `scripts/verify-auth-emails.go`: **24 senaryo geçti** (3 dil ve missing/null/sayı/bool/nesne/dizi, escaped callback). `npm run emails:check:go` CI'a Go 1.27.1 ile eklendi. Hosted SMTP/Auth kabulü değildir. Go fallback TR görsel kanıtı evidence/2026-10-03-email-go-fallback-tr.png.
 - Yeni `src/avatar-storage.ts`: owner UUID/path, JPEG/PNG/WebP magic bytes ve 2 MiB client sınırı, yeni upload/explicit upsert/private Blob download/cache:no-store/tek path remove; işlem öncesi/sonrası getUser ile hesap değişimi koruması, backend detayları yerine stable hata kodları. Henüz profil UI'ına bağlı değil.
 - `npm run test:avatars`: 10 yeni unit ve gerçek SDK/sahte transport fixture. UI'da 6 adım manual geçti; kanıt `evidence/2026-10-03-avatar-sdk-isolated.png`. Gerçek Supabase endpoint/depo/hesap kullanılmadı; **hosted Storage API kabulü hâlâ bekliyor**. Protokol `supabase/checks/AVATAR_API_ACCEPTANCE.md`.
 - Kullanıcı **“Durum Analiz”** istediğinde `| Durum | İş | Sonuç / kalan adım |` tablosu ile güncel biten/süren/kalan iş göster; tercih AGENTS.md ve CLAUDE.md'de kayıtlı. Durum isteği aktif görevi iptal etmez.
 - JSON import aynı kimlikli farklı içeriği artık sessizce atlamaz. `src/record-merge.js` ilk giriş ve import için ortak kayıpsız birleşim; galaksi/kelime çatışması kopyaları, olay ve snapshot referansları remap edilir. Tekrar import aynı içeriği çoğaltmaz. Property sırası/undefined JSON alanları sahte conflict oluşturmaz; eski galaksi anlam dili varsayılan TR ile uyumludur.
 - `src/universe-data.js:mergeUniverse` yeni sonucu clone üzerinde hesaplar, sonra uygular; bozuk tekrarlı kimlikli yedek kısmen uygulanmadan reddedilir. Şema v4 değişmedi; v2/v3 yedekler korunur. Aynı yedek farklı, sonradan düzenlenmiş bir kopya içerirse o yeni sürüm de korunur.
-- `tests/migration-archive.test.js` üç ek veri koruma testi; `e2e/account-sync.spec.js` hesabın çakışan yedek import/sync/reload/tekrar import kabulü. Son tam kontrol **81 birim + 38 Playwright**, lint/typecheck/build/format geçti. Avatar helper/test/fixture format gate'e dahil. Önceki record-merge comment format uyarısı düzeltilip format kontrolü tekrar geçildi.
+- `tests/migration-archive.test.js` üç ek veri koruma testi; `e2e/account-sync.spec.js` hesabın çakışan yedek import/sync/reload/tekrar import kabulü. Önceki tam kontrol **81 birim + 38 Playwright**, lint/typecheck/build/format geçti. Avatar helper/test/fixture format gate'e dahil. Önceki record-merge comment format uyarısı düzeltilip format kontrolü tekrar geçildi.
 - Gerçek yerel hesap 5360'da **6 kayıt / 2 galaksi / Eşitlendi** kaldı. Ayrı **5371 misafir test origin**'inde `tests/fixtures/backups/current.json`, `historic.json` UI ile içe aktarıldı; iki anlam ayrı yıldızda görüldü, tekrar yükleme 2 kayıt olarak kaldı. Masaüstü kanıtları `evidence/2026-10-03-backup-conflict-{current,historic}.png`; gerçek kullanıcı verisi değiştirilmedi.
 - Önceki tamamlanan işler: owner IndexedDB cache/kalıcı kuyruk, CAS/üç taraflı conflict, misafir ayrımı/ilk giriş özeti, offline reconnect, tombstone/explicit restore, foreground refresh (15 saniye burst sınırı/açık edit-rename formu korunur), gerçek Google local/preview kabulü ve hesap JSON export.
 - Private avatar bucket hedefte kurulu: `wordverse-avatars`, 2 MiB, JPEG/PNG/WebP, folder+owner_id RLS ve restrictive guard. İki hesap/anon/sahip değiştirme rollback SQL kabulü geçti. Security Advisor son kontrol **0 hata / 1 Auth uyarısı**, leaked password protection Pro+ gerektiriyor; plan açılmadı.

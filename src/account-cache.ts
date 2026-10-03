@@ -61,11 +61,24 @@ function openDatabase(name: string): Promise<IDBDatabase> {
         return;
       }
       const request = indexedDB.open(name, 1);
+      let failed = false;
       request.onupgradeneeded = () => request.result.createObjectStore(STORE);
-      request.onerror = () => reject(request.error);
-      request.onblocked = () => reject(new Error('Account cache blocked'));
+      request.onerror = () => {
+        failed = true;
+        reject(request.error);
+      };
+      request.onblocked = () => {
+        failed = true;
+        reject(new Error('Account cache blocked'));
+      };
       request.onsuccess = () => {
         const database = request.result;
+        // A blocked request may still finish after its promise was rejected.
+        // Do not leave that unused connection open or publish it to a retry.
+        if (failed) {
+          database.close();
+          return;
+        }
         database.onversionchange = () => {
           database.close();
           connections.delete(name);

@@ -370,3 +370,44 @@ test('returning while editing keeps the draft and retry preserves a concurrent r
     expect.arrayContaining(['unfinished local draft', 'concurrent remote version']),
   );
 });
+
+test('unavailable account IndexedDB preserves the guest and retries safely when storage returns', async ({ page }) => {
+  const backend = await setupMockAccount(page);
+  await page.addInitScript(() => {
+    const open = indexedDB.open.bind(indexedDB);
+    window.accountStorageBlocked = true;
+    indexedDB.open = (name, version) => {
+      if (name === 'wordverse-accounts' && window.accountStorageBlocked)
+        throw new DOMException('Test storage denied', 'SecurityError');
+      return version === undefined ? open(name) : open(name, version);
+    };
+  });
+  await page.goto('/?lang=en');
+  const original = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('#open-account').click();
+  const dialog = page.locator('#account-dialog');
+  await dialog.getByLabel('Email', { exact: true }).fill('sync@example.test');
+  await dialog.getByLabel('Password', { exact: true }).fill('test-only-password');
+  await dialog.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
+  expect(backend.writes()).toBe(0);
+  expect(backend.reads()).toBe(0);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(original);
+  await dialog.getByRole('button', { name: 'Universe and sync', exact: true }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
+  await expect(page.locator('#sync-dialog')).not.toBeVisible();
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-list')).toContainText('guest star');
+  await page.locator('#close-collection').click();
+  await page.evaluate(() => {
+    window.accountStorageBlocked = false;
+  });
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-status')).toHaveText('Connect universe');
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-dialog')).toBeVisible();
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(original);
+  expect(backend.tables.wordverse_entries.map((row) => row.payload.word)).toEqual(['cloud star']);
+});
