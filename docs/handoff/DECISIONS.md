@@ -53,3 +53,10 @@
 - **Bağlam:** Giriş/çıkışta aynı yerel anahtara yazmak farklı hesapların verisini misafir verisine karıştırabilir. İlk yeni TypeScript modülünde mevcut TS7, typescript-eslint destek aralığıyla uyuşmadı.
 - **Karar:** Hesap evreni ve bekleyen işlemleri `wordverse-accounts` içinde ownerId ile anahtarla, aynı transaction içinde yaz. Misafir depo/arşivini değiştirme. TS6.0.3 ve typescript-eslint8.71.0 tam sürüm kullan; destek dışı parser için force/legacy-peer-deps kullanma. JS ve TS testlerini Vitest kapsamına al.
 - **Sonuç:** Hesap değişimi veri ayrımını korur; auth sırları bu cache içine girmez. Cloud yazma ve UI bağlanmadan bu çekirdek cihazlar arası senkron sayılmaz. [Resmî destek aralığı](https://typescript-eslint.io/users/dependency-versions/) 2026-10-03 kontrol edildi.
+
+## ADR-009 — Beklenen sunucu sürümüyle koşullu senkron yazma
+
+- **Bağlam:** İstemci saatleri farklı olabilir; bir cihazın eski evreni diğer cihazın yeni kaydını ezmemeli. Ağ yanıtı kaybolunca aynı isteğin tekrar gitmesi normaldir. Auth oturumu istek sürerken değişebilir.
+- **Karar:** RPC yalnız JWT sahibi ile p_owner_id eşleşince, tablo whitelist ve RLS altında çalışır. SECURITY INVOKER ve boş search_path kullanır. Mevcut satır FOR UPDATE kilitlenir; expected_updated_at tutmazsa mevcut satır conflict olarak döner. Yeni kayıt yarışında unique violation conflict olur. updated_at yalnız sunucuda ilerletilir. Bekleyen queue ve evren birlikte IndexedDB'ye yazılır; onay yalnız tam gönderilen içerik için kabul edilir, yeni düzenleme beklemeye devam eder. Soft delete tam payload ile saklanır. JSON kimlik CHECK'leri eksik anahtar NULL kaçışını reddeder.
+- **Alternatifler:** İstemci saatiyle last-write-wins (saat sapması ve kayıp); önce SELECT sonra koşulsuz UPDATE (yarış); SECURITY DEFINER (gereksiz RLS aşma).
+- **Sonuç:** 2026-10-03 Dashboard'da migration ve rollback CAS kontrolü geçti. Çakışmanın iki kopyayla çözümü ve seri UI motoru ayrı adımlardır; bu çekirdek henüz otomatik senkron değildir.

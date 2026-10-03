@@ -26,7 +26,9 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
 - [~] İlk girişte galaksi, kelime ve olayların iki taraflı kayıpsız birleşimi için saf çekirdek ve üç birim testi yazıldı; IndexedDB ve hesap akışına henüz bağlanmadı.
 - [~] IndexedDB birincil yerel depo uygulamaya bağlandı; üç birim ve bir tarayıcı kurtarma testi geçti. Offline kuyruk, bulut eşitlemesi ve görsel durum göstergesi sırada.
-- [~] TypeScript bulut okuyucu ve hesap başına atomik evren/bekleyen işlem önbelleği çekirdeği yazıldı; 8 yeni birim testi geçti. Sürüm koşullu bulut yazma, kuyruk üretimi ve UI bağlantısı sırada.
+- [x] Bulut okuyucu, hesap başına atomik cache, dayanıklı kuyruk ve tam içerik/sahiplik kontrolüyle yazma onayı çekirdeği; toplam 44 birim testi geçti. Modüller UI'a henüz bağlı değil.
+- [x] Sürüm koşullu SECURITY INVOKER RPC hedefte uygulandı; server timestamp, JWT sahibi, eski sürüm conflict ve tombstone gerçek rollback SQL testinde doğrulandı.
+- [~] Seri senkron motoru, hesap değişimi sırasında geç istek koruması, conflict kopyası ve UI bağlantısı.
 - [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
 - [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
 - [x] Supabase prod Site URL ve altı prod/proje-preview/yerel dönüş kalıbı Dashboard'da kaydedildi.

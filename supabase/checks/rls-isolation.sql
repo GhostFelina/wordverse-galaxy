@@ -17,8 +17,8 @@ insert into public.wordverse_entries (user_id, id, galaxy_id, payload)
 values (current_setting('wordverse.test_a')::uuid, 'rls-a-e', 'rls-a-g', '{"id":"rls-a-e","galaxyId":"rls-a-g"}'),
        (current_setting('wordverse.test_b')::uuid, 'rls-b-e', 'rls-b-g', '{"id":"rls-b-e","galaxyId":"rls-b-g"}');
 insert into public.wordverse_events (user_id, id, galaxy_id, payload)
-values (current_setting('wordverse.test_a')::uuid, 'rls-a-event', 'rls-a-g', '{"id":"rls-a-event"}'),
-       (current_setting('wordverse.test_b')::uuid, 'rls-b-event', 'rls-b-g', '{"id":"rls-b-event"}');
+values (current_setting('wordverse.test_a')::uuid, 'rls-a-event', 'rls-a-g', '{"id":"rls-a-event","galaxyId":"rls-a-g"}'),
+       (current_setting('wordverse.test_b')::uuid, 'rls-b-event', 'rls-b-g', '{"id":"rls-b-event","galaxyId":"rls-b-g"}');
 insert into public.wordverse_settings (user_id, payload)
 values (current_setting('wordverse.test_a')::uuid, '{}'),
        (current_setting('wordverse.test_b')::uuid, '{}');
