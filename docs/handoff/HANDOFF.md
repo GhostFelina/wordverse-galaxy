@@ -1,5 +1,13 @@
 # Devir durumu
 
+## Son kullanıcı yönlendirmesi · 2026-10-04
+
+- Önceki katmanlar ana uygulamadan kaldırıldı: gezegen, galaksi, asteroid, meteor ve kuyruklu yıldız yok. OLED siyah ve yıldızlar korunuyor. Bağlaçlar depodan silinmedi; koleksiyonda erişilebilir, sahnede gizli.
+- Kişisel yıldızlar (≤80 görünür kelime) premium küre/nokta adapteri ile çiziliyor; shared geometri, far point LOD. Yoğun instanced eski çizim ve kalıcı yerleşim U4/U8 içinde açık.
+- Yerel lint/typecheck/build, 106 unit geçti; hesap + 9 responsive yıldız testleri 20/20, deneyim 5/5 geçti. İlk fixture testi shader float literal nedeniyle başarısızdı, düzeltildi ve 5/5 tekrar geçti. Gerçek Chrome ana sayfa personal/stars-only ve kapalı katman sayıları 0 doğrulandı. Sentetik ana sayfa kanıtı: evidence/upgrade/stars-only-main-1440.png.
+- **Aktif yeni görev: kullanıcının belirttiği 20 gerçek nebula görüntüsü**, random fakat oturumlar arasında sabit sahne konumları, en uzak zoomda görünür; mouse wheel ile içinden geçiş ve drag pan. Gezegen/asteroid/meteor/galaksi tekrar açılmayacak. Liste: Orion, Eagle, Horsehead, Helix, Butterfly, Bubble, Heart, Soul, Rosette, Carina, Veil, North America, California, Flame, Cat’s Eye, Crab, Lagoon, Trifid, Witch Head, Hand of God. Carina/Eagle/Orion/Rosette/Veil öncelikli kalite.
+
+
 ## Aktif yükseltme · 2026-10-04
 
 **WORDVERSE_MASTER_UPGRADE.md aktif şartnamedir; 524 satırı tamamen okundu.** U0–U9 yükseltme sırası, eski Faz 0–9 ile ayrı izlenir. Windows / PowerShell; aktif dal `phase/4-universe`. Orijinal Faz 0/1 tamamlandı, Faz 2 kabulü ve Faz 3 kalanları ertelendi. Üretim dalına birleştirme veya sürüm etiketi yok.

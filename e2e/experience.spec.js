@@ -54,6 +54,18 @@ test('existing guest records are immediately usable after session resolution and
             y: 0,
             z: 18,
           },
+          {
+            id: 'guest-conjunction',
+            galaxyId: 'guest-g',
+            kind: 'conjunction',
+            planetType: 'earth',
+            word: 'Retained conjunction',
+            meaning: 'Test',
+            createdAt: '2026-10-03T12:00:00Z',
+            x: 20,
+            y: 4,
+            z: 18,
+          },
         ],
         events: [],
       }),
@@ -62,11 +74,21 @@ test('existing guest records are immediately usable after session resolution and
   await page.goto('/?lang=en');
   await expect(page.locator('#app')).toHaveAttribute('data-experience', 'guest-personal');
   await expect(page.locator('#star-layer .star-hit')).toHaveCount(1);
+  await expect(page.locator('#universe')).toHaveAttribute('data-personal-renderer', 'premium-surface');
+  await expect(page.locator('#universe')).toHaveAttribute('data-personal-details', '1');
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  expect(JSON.parse(before).words).toHaveLength(2);
   await page.locator('#showcase-preview').click();
   await expect(page.locator('#app')).toHaveAttribute('data-experience', 'showcase-demo');
   await expect(page.locator('#star-layer .star-hit')).toHaveCount(0);
   await page.locator('#showcase-guest').click();
+  await expect(page.locator('#star-layer .star-hit')).toHaveCount(1);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+  await page.mouse.move(500, 400);
+  await page.mouse.wheel(0, 7000);
+  await expect(page.locator('#universe')).toHaveAttribute('data-personal-points', '1');
+  await expect(page.locator('#universe')).toHaveAttribute('data-personal-details', '0');
+  await page.reload();
   await expect(page.locator('#star-layer .star-hit')).toHaveCount(1);
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
 });

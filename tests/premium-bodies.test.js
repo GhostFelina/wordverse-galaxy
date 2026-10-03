@@ -1,6 +1,25 @@
 import { expect, it } from 'vitest';
-import { Scene, PerspectiveCamera } from 'three';
+import { Scene, PerspectiveCamera, SphereGeometry } from 'three';
 import { createPremiumBodies } from '../src/premium-bodies.js';
+
+it('single-star adapters contain no planets and leave borrowed geometry alive', () => {
+  const scene = new Scene();
+  const geometry = new SphereGeometry(1, 16, 12);
+  let disposed = 0;
+  geometry.addEventListener('dispose', () => disposed++);
+  const bodies = createPremiumBodies(scene, { kind: 'star', radius: 2, geometry });
+  expect(bodies.root.children.some((child) => child.name.includes('planet'))).toBe(false);
+  const camera = new PerspectiveCamera(50, 1, 0.1, 100000);
+  camera.position.z = 50000;
+  bodies.update(0, camera);
+  expect(bodies.visiblePointCount()).toBe(1);
+  expect(bodies.visibleDetailCount()).toBe(0);
+  bodies.dispose();
+  expect(scene.children).toHaveLength(0);
+  expect(disposed).toBe(0);
+  geometry.dispose();
+  expect(disposed).toBe(1);
+});
 
 it('keeps procedural scene ownership bounded through ten mounts and disposes shared resources once', () => {
   const scene = new Scene();

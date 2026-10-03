@@ -13,9 +13,12 @@
     2,
     3
   ],
-  "visualStage": "asteroid-meteor-expansion",
+  "visualStage": "stars-only-checkpoint; named-nebula-build-active",
   "pausedVisualLayers": [
-    "galaxies"
+    "galaxies",
+    "planets",
+    "asteroids",
+    "meteors"
   ],
   "visualRequirements": {
     "nebulaeMinimum": 200,
@@ -23,7 +26,7 @@
     "galaxiesMinimum": 150,
     "activation": "incremental",
     "farthestGalaxiesVisible": false,
-    "farthestAppearance": "ultra realistic, stellar flares, explosions and waves — acceptance pending"
+    "farthestAppearance": "ultra realistic, stellar flares, explosions and waves â€” acceptance pending"
   },
   "upgrade": {
     "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
@@ -33,11 +36,11 @@
     "nextPhase": "U3",
     "lastVerifiedCommit": "e968196014727122dde84dba7c2fbf3a5a2031a3",
     "lastRemoteCI": "success:37158521409",
-    "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
+    "primaryReference": "X right panel 00:10â€“00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending",
-    "distantPointImplementation": "premium demo bodies: 2–7 CSS px smooth crossfade; catalog and personal adapters pending",
-    "localUnitTests": 105,
+    "distantPointImplementation": "premium demo and personal stars <=80; dense/catalog adapters pending",
+    "localUnitTests": 106,
     "localBrowserTests": 71,
     "integrationVerification": "remote lint/typecheck/105 unit/build/71 e2e/Go emails/format/release/audit passed; final local targeted account+experience 16 passed",
     "preview": "Vercel PR7 preview success for e968196",
@@ -45,6 +48,7 @@
     "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
     "remoteBrowserTests": 71,
-    "localFinalTargetedTests": 16
+    "localFinalTargetedTests": 25,
+    "currentUserTask": "Build exact 20 named real nebula textures with far visibility and fly-through; other nonstar layers stay off"
   }
 }

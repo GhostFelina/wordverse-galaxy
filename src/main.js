@@ -2,6 +2,7 @@ import { createCosmicField } from './cosmic-field.js';
 import * as THREE from 'three';
 import './style.css';
 import { createRenderQuality } from './render-quality.js';
+import { createPremiumBodies } from './premium-bodies.js';
 import { createExperienceMode, createSceneSlot } from './experience-mode.js';
 import { mountExperienceUI } from './experience-ui.js';
 import { coreOrbit } from './local-galaxy-layout.js';
@@ -46,7 +47,6 @@ const pan = { x: 0, y: 0 };
 let zoom = 160;
 let catalogDepth = 0;
 let cosmicField;
-let celestialSystem;
 let renderQuality;
 let catalogReady = false;
 let pendingGuestWrites = 0;
@@ -75,7 +75,7 @@ function applyExperience(state) {
   sceneWakeAt = performance.now() + 150;
   focusedStarId = selectedId = null;
   closePanels();
-  celestialSystem?.home();
+  
   showcaseSlot.clear();
   showcaseScene = null;
   rebuildWordStars();
@@ -87,7 +87,6 @@ function applyExperience(state) {
   }
 }
 
-const CELESTIAL_STAGE = 2;
 let preImmersiveZoom = null;
 let focusedStarId = null;
 let preFocusPan = null;
@@ -103,7 +102,6 @@ let fpsFrames = 0;
 let fpsLast = 0;
 let drawCalls = 0;
 let lastStarAgeDay = Math.floor(Date.now() / 86400000);
-let meteor, meteorTip, spaceComet;
 const STAR_PATTERNS = [
   [[0, 0], [-3.8, 3.4], [4.2, 3.6], [-2.2, -.3], [2.4, -.8], [-4.8, -5.8], [5.2, -5.3]],
   [[-7, 2.8], [-3.4, -.8], [0, 2.4], [3.5, -1.1], [7, 2.5], [-1.8, -5.3], [4.8, -5.2]],
@@ -178,36 +176,7 @@ function glowTexture() {
   ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256);
   return new THREE.CanvasTexture(canvas);
 }
-function cometTexture() {
-  const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 256;
-  const ctx = canvas.getContext('2d');
-  const randomDust = random(62731);
-  const headX = 94, headY = 119;
-  // The broad dust tail bends gently; the fainter blue ion tail stays narrow and straight.
-  const dust = ctx.createLinearGradient(headX, 0, 744, 0);
-  dust.addColorStop(0, 'rgba(237,228,207,.56)'); dust.addColorStop(.23, 'rgba(197,190,177,.21)'); dust.addColorStop(1, 'rgba(135,147,162,0)');
-  ctx.fillStyle = dust;
-  ctx.beginPath(); ctx.moveTo(headX, headY - 10); ctx.bezierCurveTo(270, 68, 510, 104, 744, 90); ctx.bezierCurveTo(480, 190, 270, 147, headX, headY + 12); ctx.fill();
-  for (let i = 0; i < 440; i++) {
-    const t = randomDust();
-    const x = headX + t * 640;
-    const centerY = headY - 17 * Math.sin(t * Math.PI * .75) + 10 * t * t;
-    const spread = (4 + t * 44) * (randomDust() + randomDust() - 1);
-    const alpha = (1 - t) * (.035 + randomDust() * .14);
-    ctx.fillStyle = `rgba(242,225,199,${alpha})`;
-    ctx.fillRect(x, centerY + spread, 1 + randomDust() * 2, 1 + randomDust() * 2);
-  }
-  const ion = ctx.createLinearGradient(headX, 0, 768, 0);
-  ion.addColorStop(0, 'rgba(167,209,255,.34)'); ion.addColorStop(.37, 'rgba(119,174,236,.12)'); ion.addColorStop(1, 'rgba(95,142,206,0)');
-  ctx.strokeStyle = ion; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(headX + 6, headY); ctx.lineTo(760, headY + 36); ctx.stroke();
-  const coma = ctx.createRadialGradient(headX, headY, 1, headX, headY, 53);
-  coma.addColorStop(0, 'rgba(252,250,239,.88)'); coma.addColorStop(.14, 'rgba(231,239,233,.51)'); coma.addColorStop(.52, 'rgba(191,216,220,.13)'); coma.addColorStop(1, 'rgba(160,191,217,0)');
-  ctx.fillStyle = coma; ctx.fillRect(headX - 54, headY - 54, 108, 108);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}
+
 function starCoreTexture() {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
   const ctx = canvas.getContext('2d');
@@ -310,15 +279,10 @@ function initScene() {
   camera.position.z = zoom;
   cosmicField = createCosmicField(scene, innerWidth < 760);
   $('#universe').dataset.sceneMode = 'stars-only';
-  import('./celestial-system.js').then(async ({ mountCelestialSystem }) => {
-    celestialSystem = await mountCelestialSystem({ scene, camera, locale: uiLocale, stage: CELESTIAL_STAGE, beforeOpen: closePanels,
-      onNavigate(position, distance) { focusedStarId = null; preFocusPan = null; pan.x = position[0]; pan.y = position[1]; pointer.x = pointer.y = 0; catalogDepth = position[2]; zoom = distance; $('#app').classList.add('catalog-exploring'); },
-      onHome() { $('#reset-view').click(); },
-    });
-    $('#universe').dataset.sceneMode = 'layered-cosmos';
-    $('#universe').dataset.celestialStage = String(CELESTIAL_STAGE);
-    for (const [key, count] of Object.entries(celestialSystem.counts)) $('#universe').dataset[key] = String(count);
-  }).catch(error => { console.error('Celestial layer initialization failed', error); }).finally(() => { catalogReady = true; syncRenderLoop(); });
+  for (const key of ['galaxies', 'nebulae', 'asteroids', 'fireballs']) $('#universe').dataset[key] = '0';
+  $('#universe').dataset.celestialStage = '0';
+  catalogReady = true;
+  syncRenderLoop();
   $('#universe').dataset.starCapacity = String(cosmicField.capacity);
   glowMap = glowTexture();
   starCoreMap = starCoreTexture();
@@ -326,13 +290,6 @@ function initScene() {
   ringGeometry = new THREE.RingGeometry(1.52, 2.45, 72, 1);
   birthMap = birthTexture();
   wordGroup = new THREE.Group(); scene.add(wordGroup);
-  const streakPoints = new Float32Array(6);
-  const streakGeometry = new THREE.BufferGeometry(); streakGeometry.setAttribute('position', new THREE.BufferAttribute(streakPoints, 3));
-  meteor = new THREE.Line(streakGeometry, new THREE.LineBasicMaterial({ color: 0xaacaff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-  meteor.frustumCulled = false; scene.add(meteor);
-  meteorTip = sprite(0xddeaff, 5, 0); scene.add(meteorTip);
-  spaceComet = new THREE.Sprite(new THREE.SpriteMaterial({ map: cometTexture(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  spaceComet.frustumCulled = false; scene.add(spaceComet);
   rebuildWordStars();
   // Start the GPU loop after catalog initialization to avoid starving cold module loads.
 }
@@ -346,7 +303,7 @@ function rebuildWordStars() {
   if (!wordGroup) return;
   for (const birth of births) { birth.group.remove(birth.ring); birth.ring.material.dispose(); }
   births.length = 0;
-  for (const group of worldStars.values()) { group.traverse(obj => { if (obj.material) obj.material.dispose(); }); wordGroup.remove(group); }
+  for (const group of worldStars.values()) { group.userData.premium?.dispose(); group.traverse(obj => { if (obj.material) obj.material.dispose(); }); wordGroup.remove(group); }
   if (denseStarMeshes) {
     for (const mesh of Object.values(denseStarMeshes)) { wordGroup.remove(mesh); mesh.material.dispose(); mesh.dispose?.(); }
     denseStarMeshes.outer.geometry.dispose();
@@ -357,11 +314,12 @@ function rebuildWordStars() {
   lastOverlayUpdate = -Infinity;
   const policy = experience.snapshot();
   if (!policy.ready || policy.mode === 'showcase-demo') return;
-  if (words.length > DENSE_STAR_THRESHOLD) {
+  const visibleWords = words.filter(word => entryKind(word) === 'word');
+  if (visibleWords.length > DENSE_STAR_THRESHOLD) {
     const geometry = new THREE.PlaneGeometry(1, 1);
     const layer = (map, opacity) => {
       const material = new THREE.MeshBasicMaterial({ map, color: 0xffffff, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false });
-      const mesh = new THREE.InstancedMesh(geometry, material, words.length);
+      const mesh = new THREE.InstancedMesh(geometry, material, visibleWords.length);
       mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
       mesh.frustumCulled = false;
       wordGroup.add(mesh);
@@ -372,22 +330,20 @@ function rebuildWordStars() {
   const oldestStars = words.filter(w => entryKind(w) === 'word');
   const starOrdinals = new Map(oldestStars.map((star, ordinal) => [star.id, ordinal]));
   const oldestPair = oldestStars.length >= 2 ? [...oldestStars].sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || starOrdinals.get(a.id) - starOrdinals.get(b.id)).slice(0, 2) : [];
-  words.forEach((word, index) => {
+  visibleWords.forEach((word, index) => {
     const group = new THREE.Group(); group.position.set(word.x, word.y, word.z || 18);
     const isPlanet = entryKind(word) === 'conjunction';
     const appearance = starAge(word.createdAt);
     const tint = new THREE.Color(appearance.glow);
     let hash = 0; for (const char of word.id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
     const magnitude = .66 + hash % 100 / 100 * .62;
-    const outer = denseStarMeshes || isPlanet ? null : sprite(tint, 24 * magnitude * appearance.size, .32);
-    const inner = denseStarMeshes || isPlanet ? null : sprite(tint, 8 * magnitude * appearance.size, .74);
-    const center = denseStarMeshes || isPlanet ? null : sprite(new THREE.Color(appearance.color), 4.7 * magnitude * appearance.size, 1, starCoreMap);
-    const glint = !denseStarMeshes && !isPlanet && hash % 6 === 0 ? sprite(new THREE.Color(appearance.color), 8, .17, starCoreMap) : null;
+    const outer = null, inner = null, center = null, glint = null;
+    const premium = !denseStarMeshes ? createPremiumBodies(group, { kind: isPlanet ? 'planet' : 'star', planetType: isPlanet ? planetType(word) : undefined, radius: 2.35 * magnitude * appearance.size, seed: hash % 1000, geometry: personalBodyGeometry }) : null;
     const core = coreOrbit(word, words.length);
     const radius = core.radius;
     if (outer) group.add(outer, inner, center);
     if (glint) group.add(glint);
-    const planet = isPlanet ? makePlanet(planetType(word)) : null;
+    const planet = isPlanet && !premium ? makePlanet(planetType(word)) : null;
     if (planet) { planet.scale.setScalar(2.25); group.add(planet); }
     if (denseStarMeshes && !isPlanet) {
       denseStarMeshes.outer.setColorAt(index, tint);
@@ -396,7 +352,7 @@ function rebuildWordStars() {
     }
     const stellarIndex = starOrdinals.get(word.id) ?? -1;
     const cluster = stellarIndex >= 2 ? Math.floor((stellarIndex - 2) / 7) : -1;
-    group.userData = { outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: core.phase, z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
+    group.userData = { premium, outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: core.phase, z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
     wordGroup.add(group); worldStars.set(word.id, group);
     const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', t(isPlanet ? 'message.openPlanet' : 'message.openStar', { word: word.word }));
     button.addEventListener('click', () => selectWord(word.id));
@@ -406,7 +362,9 @@ function rebuildWordStars() {
     starNodes.set(word.id, { button, label });
   });
   if (denseStarMeshes) for (const mesh of Object.values(denseStarMeshes)) mesh.instanceColor.needsUpdate = true;
+  $('#universe').dataset.personalRenderer = denseStarMeshes ? 'instanced-dense' : 'premium-surface';
 }
+const personalBodyGeometry = new THREE.SphereGeometry(1, 48, 32);
 const projected = new THREE.Vector3();
 function animate(ms) {
   if (document.hidden) { lastCameraMs = 0; return; }
@@ -434,9 +392,9 @@ function animate(ms) {
   camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
   camera.updateMatrixWorld();
   cosmicField.update(camera);
-  const visibleGalaxies = celestialSystem?.update(ms) ?? 0;
+  const visibleGalaxies = 0;
   const policy = experience.snapshot();
-  wordGroup.visible = policy.ready && policy.mode !== 'showcase-demo' && camera.position.z < 12000;
+  wordGroup.visible = policy.ready && policy.mode !== 'showcase-demo' && (!denseStarMeshes || camera.position.z < 12000);
   showcaseScene?.update(reducedMotion ? 0 : clock, innerHeight, renderer.getPixelRatio());
   wordGroup.rotation.z = 0;
   if (ms - lastSceneReport > 100) { lastSceneReport = ms; $('#universe').dataset.cameraZ = String(camera.position.z); $('#universe').dataset.visibleGalaxies = String(visibleGalaxies); }
@@ -447,29 +405,6 @@ function animate(ms) {
     birth.ring.scale.setScalar(4 + t * 43);
     birth.ring.material.opacity = (1 - t) * (1 - t) * .9;
   }
-  const meteorCycle = drift % 24;
-  if (policy.mode === 'showcase-demo' && catalogDepth === 0 && words.length && meteorCycle > 16 && meteorCycle < 16.72) {
-    const t = (meteorCycle - 16) / .72;
-    const cycle = Math.floor(drift / 24);
-    const halfHeight = (camera.position.z - 2) * Math.tan(THREE.MathUtils.degToRad(25));
-    const halfWidth = halfHeight * camera.aspect;
-    const side = cycle % 2 ? -1 : 1;
-    const x = camera.position.x + side * (.78 - t * .64) * halfWidth;
-    const y = camera.position.y + (.7 - t * .48) * halfHeight;
-    const a = meteor.geometry.attributes.position.array;
-    a.set([x + side * halfWidth * .16, y + halfHeight * .12, 2, x, y, 2]); meteor.geometry.attributes.position.needsUpdate = true;
-    meteor.material.opacity = Math.sin(t * Math.PI) * .58;
-    meteorTip.position.set(x, y, 2); meteorTip.scale.setScalar(Math.max(1.8, halfHeight * .035)); meteorTip.material.opacity = Math.sin(t * Math.PI) * .82;
-  } else { meteor.material.opacity = 0; meteorTip.material.opacity = 0; }
-  const cometCycle = drift % 61;
-  if (policy.mode === 'showcase-demo' && catalogDepth === 0 && words.length > 2 && cometCycle > 29 && cometCycle < 43) {
-    const t = (cometCycle - 29) / 14;
-    const halfHeight = (camera.position.z - 3) * Math.tan(THREE.MathUtils.degToRad(25));
-    const halfWidth = halfHeight * camera.aspect;
-    spaceComet.scale.set(halfWidth * .64, halfHeight * .22, 1);
-    spaceComet.position.set(camera.position.x + halfWidth * (.77 - t * .48), camera.position.y + halfHeight * (-.48 + t * .12), 3);
-    spaceComet.material.opacity = Math.min(1, t * 7, (1 - t) * 7) * .65;
-  } else spaceComet.material.opacity = 0;
   const today = Math.floor(Date.now() / 86400000);
   const refreshStarAge = today !== lastStarAgeDay;
   if (refreshStarAge) lastStarAgeDay = today;
@@ -501,7 +436,7 @@ function animate(ms) {
         denseStarMeshes.outer.setColorAt(orbit.index, tint);
         denseStarMeshes.inner.setColorAt(orbit.index, tint);
         denseStarMeshes.center.setColorAt(orbit.index, new THREE.Color(appearance.color));
-      } else {
+      } else if (orbit.outer) {
         orbit.outer.material.color.copy(tint); orbit.inner.material.color.copy(tint);
         orbit.center.material.color.set(appearance.color);
       }
@@ -531,6 +466,7 @@ function animate(ms) {
       body.children[0].material.uniforms.uLight.value.set(-.55, .38, 1.25).normalize();
       body.children[body.children.length - 1].material.opacity = zoom > 350 ? .46 : .2;
     }
+    orbit.premium?.update(drift, camera, innerHeight, renderer.getPixelRatio());
     if (!updateOverlays) continue;
     group.getWorldPosition(projected); projected.project(camera);
     const x = (projected.x * .5 + .5) * innerWidth;
@@ -542,6 +478,12 @@ function animate(ms) {
     if (visible) { nodes.button.style.left = nodes.label.style.left = `${x}px`; nodes.button.style.top = nodes.label.style.top = `${y}px`; }
   }
   if (denseStarMeshes) for (const mesh of Object.values(denseStarMeshes)) { mesh.instanceMatrix.needsUpdate = true; if (refreshStarAge) mesh.instanceColor.needsUpdate = true; }
+  if (!denseStarMeshes) {
+    let details = 0, points = 0;
+    for (const group of worldStars.values()) { details += group.userData.premium?.visibleDetailCount() ?? 0; points += group.userData.premium?.visiblePointCount() ?? 0; }
+    $('#universe').dataset.personalDetails = String(details);
+    $('#universe').dataset.personalPoints = String(points);
+  }
   renderer.render(scene, camera);
   drawCalls = renderer.info.render.calls;
 }
@@ -857,7 +799,7 @@ function bindUI() {
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
-  $('#home-btn').addEventListener('click', () => { celestialSystem?.home(); $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -889,7 +831,7 @@ function bindUI() {
   $('#search-input').addEventListener('input', renderCollection);
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => { celestialSystem?.home(); $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
   document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
