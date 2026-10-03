@@ -7,5 +7,7 @@
 - Faz 2 yerel env adları: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_GOOGLE_AUTH_ENABLED`. İlk ikisi `.env.local` içinde; Google flag henüz etkin değil. Vercel env kurulumu sırada. Değerleri log'a veya repoya yazma.
 - `main` v1.11.0 kullanıcı verisi: yeni yazma anahtarı localStorage `wordverse.universe.v4`; eski `wordverse.universe.v3` ve `wordverse.words.v2` kayıtları silinmeden taşınır. IndexedDB `wordverse-local-backup` arşiv ve ayna kopyası var. JSON dışa aktarma, cihaz dışı yedek yöntemidir.
 - Faz 2 dalı: IndexedDB `wordverse-offline` / `state` birincil depo; localStorage v4 ve `wordverse.local.revision` eşzamanlı kurtarma kopyası. Eski arşiv/ayna korunuyor.
+- Hesap çekirdeği: IndexedDB `wordverse-accounts` / `accounts`, kullanıcı kimliğiyle ayrı kayıt ve atomik evren/bekleyen işlem listesi. UI bağlantısı henüz yok. TypeScript 6.0.3 + typescript-eslint 8.71.0 tam sürümler; TS7 parser destek aralığının dışında olduğundan uyumlu çift seçildi.
+- Supabase Site URL prod. Dönüş kalıpları: prod `/**`, yalnız `wordverse-galaxy-*-mustafas-projects-92e683a9.vercel.app/**`, localhost ve 127.0.0.1 üzerinde 5350/5360 `/**`.
 - Hedef Supabase Dashboard erişimi mevcut. CLI/MCP hesapları farklı olduğundan SQL migration Dashboard'da uygulandı; CLI link/repair henüz yapılmadı. Aynı migration'ı `db push` ile körlemesine tekrar uygulama; önce geçmişi eşleştir.
 - Bulut veritabanı yedekleme stratejisi Faz 2 şema ve hosting seçimi netleştiğinde yazılacak.

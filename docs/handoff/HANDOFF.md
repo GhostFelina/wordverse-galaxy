@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 · codex · son Faz 2 commit'i `b8bb875`; ana dal `v1.11.0`. Sonraki commit hesap UI ve hukuki sayfa taslaklarını içerir.
+2026-10-03 09:33 · codex · son Faz 2 commit'i `d78733f`; ana dal `v1.11.0`. Sonraki commit bulut okuma ve hesap önbelleği çekirdeğini içerir.
 
 ## Şu an aktif faz ve branch
 
@@ -24,14 +24,17 @@ Faz 0 ve Faz 1 tamamlandı. Aktif Faz 2 · `phase/2-auth-sync` · taslak PR #5; 
 - `src/local-primary.js` IndexedDB'yi birincil yerel depo yapıyor; localStorage eşzamanlı kurtarma kopyası, eski `src/storage-mirror.js` arşiv/ayna olarak kalıyor. Toplam 26 birim ve 16 Playwright testi geçti; yerel kullanıcı sekmesinde sayılar yenileme sonrası korundu. Bulut senkron ve offline kuyruk henüz yok.
 - `src/auth-ui.js`, `src/supabase-client.js` üç dilde native dialog giriş/kayıt/sıfırlama/yeni şifre/yerel çıkış akışını içeriyor. İstemci 2.117.2 tam sürümle kuruldu, public ayarlar endpoint'i 200/email açık/Google kapalı. `.env.local` gerekli public yapılandırmayı içeriyor; sır değerleri belgelerde yok. Misafir evreni giriş/çıkışta değiştirilmez. Mock API tarayıcı kontrolleri gerçek e-posta göndermez. Gerçek doğrulama maili ve prod giriş henüz sınanmadı.
 - `/privacy`, `/terms` ve EN/ES eşleri dev ve statik build'de mevcut; auth penceresinden erişilir. Hukuki kimlik, saklama süreleri ve yurt dışı aktarım güvenceleri tamamlanmamış taslaktır; KVKK/GDPR uyumu tamamlandı denmez.
+- `src/cloud-universe.ts` sahiplik/şema/kimlik kontrolü, tombstone görünürlüğü, kayıpsız payload ve 500 satırlı sayfalı bulut okuma içerir. `src/account-cache.ts` hesap başına görünür evren ve bekleyen işlem listesini tek IndexedDB transaction'ında korur; misafir deposuna veya auth sırlarına dokunmaz. Bu iki modül henüz UI/senkron yazma motoruna bağlı değil. Son kontrol: 35 birim + 24 e2e, lint/typecheck/build/format geçti.
+- Supabase Site URL prod adresine ayarlandı; prod, yalnız Wordverse Vercel preview kapsamı ve localhost/127.0.0.1 5350/5360 için altı dönüş kalıbı kaydedildi. Google Console doğru hesap/projede açıldı. Aynı projede Cortexia Language Web istemcisi ve Cortexia marka bilgisi var; mevcut istemci değiştirilmedi. Wordverse Web oluşturma formu 5 origin + hedef Supabase callback ile hazır, henüz Create basılmadı. Kullanıcıdan Client Secret'ı yalnız Supabase Google formuna aktarması istendi (tarayıcı kimlik doğrulama sırrı kuralı); sır alınmadı/kaydedilmedi. Google provider henüz kapalı.
+- `b8bb875` ve `d78733f` için GitHub CI ve Vercel preview geçti. Prod hâlâ v1.11.0; Faz 2 kabulü tamamlanmadı.
 - `src/i18n.js` profil dilini öncelik sırasına alabiliyor, fakat gerçek profil veri modeli Faz 3'te kurulacak. Şimdilik URL→localStorage→tarayıcı→TR çalışıyor.
 - E-posta şablonları Faz 2 auth ile oluşturulacak; şu an üründe e-posta gönderme yok.
 
 ## Sıradaki ilk 3 adım
 
-1. Hesap UI/hukuki sayfa değişikliklerinin son kontrollerini, commit/push ve PR #5 denetimini tamamla.
-2. Misafirden hesaba geçiş özeti, hesap başına yerel depo ve offline/soft delete senkronunu bağla.
-3. Google OAuth, URL Configuration, e-posta şablonları, gerçek mail/prod kabul ve hukuki kimlik/aktarım bilgilerini tamamla; CLI erişilebilir olduğunda migration geçmişini eşleştir.
+1. Bulut okuma/hesap önbelleği değişikliklerini commit/push edip PR #5 kontrollerini doğrula.
+2. Bekleyen değişiklik üretimi, sürüm koşullu güvenli bulut yazma ve ilk girişte birleşim özetiyle hesap deposunu UI'a bağla. Hesap değiştirirken misafir/diğer hesap içeriğini birbirine karıştırma.
+3. Kullanıcının Google Client Secret adımı tamamlanırsa public provider ayarını kontrol et; Google flag, e-posta şablonları, gerçek mail/prod kabul ve hukuki kimlik/aktarım bilgilerini tamamla. CLI erişilebilir olduğunda migration geçmişini eşleştir.
 
 ## Dikkat edilmesi gerekenler
 

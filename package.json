@@ -12,7 +12,7 @@
     "check:release": "node scripts/check-release-version.mjs",
     "test:e2e": "playwright test",
     "lint": "eslint src tests scripts vite.config.js playwright.config.js",
-    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js src/sync-merge.js src/local-primary.js src/auth-ui.js src/supabase-client.js src/auth.css locales/*.json tests/i18n.test.js tests/migration-archive.test.js tests/sync-merge.test.js tests/local-primary.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs src/legal-page.js scripts/prerender-legal.mjs scripts/capture-auth-evidence.mjs tests/auth-errors.test.js",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js src/sync-merge.js src/local-primary.js src/auth-ui.js src/supabase-client.js src/auth.css locales/*.json tests/i18n.test.js tests/migration-archive.test.js tests/sync-merge.test.js tests/local-primary.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs src/legal-page.js scripts/prerender-legal.mjs scripts/capture-auth-evidence.mjs tests/auth-errors.test.js src/cloud-universe.ts tests/cloud-universe.test.ts src/account-cache.ts tests/account-cache.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -27,7 +27,8 @@
     "globals": "^17.13.0",
     "linkedom": "^0.18.13",
     "prettier": "^3.9.9",
-    "typescript": "^7.0.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.0",
     "vite": "^7.1.0",
     "vitest": "^5.0.3"
   }
