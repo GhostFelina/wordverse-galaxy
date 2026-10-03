@@ -33,6 +33,9 @@ for (const locale of ['tr', 'en', 'es']) {
       await page.locator('#open-catalog').click();
       await page.locator('#catalog-overview').click();
       await expect(page.locator('#catalog-visible-count')).toHaveAttribute('data-count', '300');
+      await page.mouse.move(width / 2, 450);
+      await page.mouse.wheel(0, 5000);
+      await expect(page.locator('#catalog-visible-count')).toHaveAttribute('data-count', '0');
       await page.locator('#open-catalog').click();
       await page.locator('#catalog-search').fill('NGC0224');
       await expect(page.locator('.catalog-results li')).toHaveCount(1);

@@ -70,7 +70,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 ## Faz 4 · `phase/4-universe` · codex/claude
 
 - [x] İlk 5 kaynaklı galaksi, ayrı arka plan katmanı, üç dil katalog/odak/eve dön ve yumuşak zoom görünürlük geçişi; 88 unit/48 e2e + manuel katalog/sahne kanıtı.
-- [x] Kullanıcı X referansı sağ taraf 00:10–00:15: yakın yıldız/gaz içinden uçuş, uzak görünümde 200–300 ayrı gerçek galaksi. OpenNGC kaynak/lisans ve 300 kayıt, atlas/instancing/LOD, kamera derinliği ve görünür sayım kabulü.
+- [x] İlk kullanıcı X referansı sağ taraf 00:10–00:15: yakın yıldız/gaz içinden uçuş, uzak görünümde 200–300 ayrı gerçek galaksi. OpenNGC kaynak/lisans ve 300 kayıt, atlas/instancing/LOD, kamera derinliği ve görünür sayım kabulü.
 
 - [~] Kaynak/lisans kayıtlı galaksi sayısı 300; 100 bulutsu, 250 gezegen, 25 takımyıldızı ve tam uzaklık/fiziksel yerleşim kabulü kaldı.
 - [x] 8 morfoloji/32 atlas varyasyonu, galaksiye göre yakın yıldız/gaz, merkezde kişisel kelime düzeni ve büyüme/dönüş pivot koruması; depodaki koordinatlar değişmedi.
@@ -102,3 +102,15 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] 5.000 yıldız stres ve Lighthouse; 60/30 FPS bütçesi, LOD ve yükleme.
 - [ ] WebGL fallback, klavye/ekran okuyucu, kontrast, hareket azaltma.
 - [ ] Çevrimdışı PWA, isteğe bağlı analitik, yüksek çözünürlüklü galaksi indirme.
+
+## Güncel görsel yönlendirme (2026-10-03)
+
+- [~] Tek kâinat: en uzak zoom yalnız yıldız alanı; galaksiler yaklaşınca görünür. Önceki en uzakta 300 galaksi şartı kullanıcı tarafından değiştirildi; 300 ara ölçekte kalır.
+- [~] Sabit galaksi dünya konumları, pointer zoom/derinlik çıkışında hedef sürekliliği, akıtılan yıldız bölgeleri; 3 prosedürel bulutsu ve yakın 3B asteroid ilk katmanı. Test/manual kanıt ve checkpoint CI tamamlanmalı.
+- [ ] Bulutsuların üç dil etkileşimli katalog kartları; ≥100 bulutsu, ≥250 gerçek parametreli gezegen ve bilimsel asteroid/atmosferik meteor ayrımıyla ≥50 olay kabulü.
+
+### Son talimat: önce yıldız temeli
+
+- [~] Tüm galaksi görselleri/katalog ana uygulamadan çıkarıldı; kullanıcı kelime/koleksiyon verileri korunur. Yalnız uzak gök + yakın deterministik yıldız bölgeleri, kesintisiz kamera etkileşimi.
+- [~] 9 star-cosmos e2e + manual yapay yıldız sahnesi; son gate ve CI checkpoint doğrulanmalı. Galaksi testleri tests/deferred altında, kapsam ertelendi.
+- [ ] Yıldız temeli tamamlandıktan sonra bulutsu/asteroid/meteor ve galaksileri dahil et. Galaksileri hemen yeniden açma.

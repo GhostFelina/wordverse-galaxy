@@ -440,7 +440,7 @@
   "catalog": {
     "title": "Sky catalog",
     "close": "Close catalog",
-    "intro": "Explore an atlas of 300 real galaxies. Coordinates come from J2000 catalog records; depth and size are compressed artistic interpretations for navigation. Five detailed featured cards appear below.",
+    "intro": "Explore 300 real galaxies in one continuous cosmos. At the widest scale, stars fill the view; galaxies and their interiors emerge as you approach. J2000 catalog coordinates are used; depth, sizes and the star field are artistic interpretations.",
     "artistic": "Artistic interpretation",
     "distance": "{count} million light-years",
     "explore": "Explore in scene",

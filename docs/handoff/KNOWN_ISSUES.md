@@ -1,7 +1,7 @@
 # Bilinen sorunlar
 
 - Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.
-- Son Faz 4 ana JS paketi yaklaşık 795 kB (minify); Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
+- Son yıldız temeli ana JS paketi yaklaşık 574 kB (minify); Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
 - WebGL başlatılamazsa arayüzün tüm veri işlevleri ayrı bir liste modu ile güvence altında değil.
 - Mevcut görseller için kaynaklar `docs/ART_ASSET.md`, `docs/ASTRONOMY_REFERENCES.md` ve kök dizindeki `ATTRIBUTIONS.md` içinde. Yeni varlıklar eklendikçe merkezi atıf güncellenmeli.
 - Statik TR/EN/ES sayfaları üretildi. Kök URL `/` tarayıcı dili veya yerel tercih nedeniyle JavaScript açıldığında EN/ES'e dönebilir; statik HTML varsayılan TR'dir. Kanonik dil adresleri `/en/` ve `/es/` açık dili sabitler.
@@ -25,3 +25,7 @@
 - Hesap IDB yazma/kota hatasında mevcut kalıcı kopya korunur ve yeni değişiklik bu sayfa açıkken bellekte tutulur. Retry başarısından önce reload/çıkış yeni değişikliği kaybettirebilir; kalıcı depoya yazılamayan verinin reload dayanıklılığı iddia edilmez. UI hata/retry ve kalıcı açık tutma/JSON export yönlendirmesi gösterir. Gerçek disk doldurma yapılmadı; kabul DOMException injection kullanır.
 
 - 300 atlas galaksisi gerçek katalog kayıtlarıdır; açısal gökyüzü yerleşimi ve redshift derinliği sanatsal sıkıştırılır, fiziksel 3B uzaklık değildir. İlk 5 dışında mesafeler bilinmiyor. Yakın yıldız/gazlar prosedüreldir. Kalıcı galaksi seçimi migrasyonu henüz yok.
+
+- Güncel tek kâinat: en uzak zoom galaksileri gizler, 300 galaksi ara ölçekte görünür. Akıtılan yıldızlar, 3 ilk bulutsu ve asteroidler prosedürel/sanatsal; ≥100 bulutsu/≥50 olay veya fiziksel simülasyon kabulü değildir. Bulutsu kartları henüz yok.
+
+- Son kullanıcı isteğiyle bütün galaksi çizimi/katalog ana uygulamadan kaldırıldı. Bulutsu/asteroid ve galaksi taslakları devre dışı; yıldız sistemi önce kurulacak. Eski atlas kanıtları tarihsel, güncel görünüm yıldız sahnesidir.

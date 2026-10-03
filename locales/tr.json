@@ -440,7 +440,7 @@
   "catalog": {
     "title": "Gök kataloğu",
     "close": "Kataloğu kapat",
-    "intro": "300 gerçek galaksiden oluşan gök atlasını keşfet. Koordinatlar J2000 katalog kayıtlarından gelir; derinlik ve boyutlar gezinti için sıkıştırılmış sanatsal yorumdur. İlk beş galaksinin ayrıntılı kartları aşağıda.",
+    "intro": "Tek kâinat içinde 300 gerçek galaksiyi keşfet. En uzakta yıldız alanı, yaklaştıkça galaksiler ve iç yapıları görünür. J2000 katalog koordinatları kullanılır; derinlik, boyutlar ve yıldız alanı sanatsal yorumdur.",
     "artistic": "Sanatsal yorum",
     "distance": "{count} milyon ışık yılı",
     "explore": "Sahnede keşfet",

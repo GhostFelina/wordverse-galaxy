@@ -1,9 +1,7 @@
+import { createCosmicField } from './cosmic-field.js';
 import * as THREE from 'three';
 import './style.css';
-import { coreOrbit, setGalacticPivot } from './local-galaxy-layout.js';
-import { createFlightField } from './flight-field.js';
-import { createCatalogLayer, overviewZoom } from './catalog-layer.js';
-import { mountCatalogUI } from './catalog-ui.js';
+import { coreOrbit } from './local-galaxy-layout.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
@@ -28,7 +26,7 @@ let selectedId = null;
 let editingId = null;
 let activePanel = null;
 let toastTimer;
-let renderer, scene, camera, galaxyGroup, wordGroup, catalogLayer, flightField;
+let renderer, scene, camera, wordGroup;
 const worldStars = new Map();
 const starNodes = new Map();
 const DENSE_STAR_THRESHOLD = 80;
@@ -36,11 +34,12 @@ let denseStarMeshes = null;
 const denseMatrix = new THREE.Matrix4();
 let lastOverlayUpdate = -Infinity;
 let lastCameraMs = 0;
+let lastSceneReport = 0;
 const pointer = { x: 0, y: 0 };
 const pan = { x: 0, y: 0 };
 let zoom = 160;
 let catalogDepth = 0;
-let catalogUI = null;
+let cosmicField;
 let preImmersiveZoom = null;
 let focusedStarId = null;
 let preFocusPan = null;
@@ -56,16 +55,7 @@ let fpsFrames = 0;
 let fpsLast = 0;
 let drawCalls = 0;
 let lastStarAgeDay = Math.floor(Date.now() / 86400000);
-let meteor, meteorTip, spaceComet, coreGlow, innerGlow, cloudHaze, cloudHaze2, cloudHaze3, cloudHaze4, galaxyDust, deepDust;
-const nebulaRegions = [];
-let galaxyGrowth = 0;
-let galaxyGrowthTarget = 0;
-let galaxyExtent = .1;
-let galaxyExtentTarget = .1;
-let visualGalaxyId = null;
-let activeVisualStyle = 'spiral';
-const galaxyTextures = new Map();
-const GALAXY_IMAGE = { spiral: '/assets/galaxy-dust-lanes.png', barred: '/assets/galaxy-barred-v1.png', flocculent: '/assets/galaxy-flocculent-v1.png' };
+let meteor, meteorTip, spaceComet;
 const STAR_PATTERNS = [
   [[0, 0], [-3.8, 3.4], [4.2, 3.6], [-2.2, -.3], [2.4, -.8], [-4.8, -5.8], [5.2, -5.3]],
   [[-7, 2.8], [-3.4, -.8], [0, 2.4], [3.5, -1.1], [7, 2.5], [-1.8, -5.3], [4.8, -5.2]],
@@ -126,64 +116,10 @@ function refreshCounts() {
   $('#hero-description').textContent = words.length === 0 ? t('hero.empty', { galaxy: galaxyDisplay(activeGalaxy) }) : t('hero.filled');
   $('#hero-add').firstChild.textContent = `${t(words.length ? 'action.addWord' : 'action.addFirst')} `;
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
-  if (scene) updateGalaxyGrowth();
 }
 
-function random(seed) { let n = seed >>> 0; return () => { n = (1664525 * n + 1013904223) >>> 0; return n / 4294967296; }; }
 function hashText(value) { let hash = 0; for (const char of String(value ?? 'empty-universe')) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
-function pointCloud(count, galaxy = false, style = 'spiral', seed = 19483) {
-  const rand = random(seed);
-  const positions = new Float32Array(count * 3);
-  const rgb = new Float32Array(count * 3);
-  const sizes = new Float32Array(count);
-  const phases = new Float32Array(count);
-  const palette = galaxy ? (style === 'barred' ? ['#b8caff', '#e2d5bd', '#f5d6a6', '#d1d9f3', '#b9c5e7'] : style === 'flocculent' ? ['#d2dcf3', '#acc9f5', '#e8d8c2', '#b5bce6', '#f3e6d2'] : ['#b9cbff', '#9bafff', '#ffe4c1', '#8a9ecf', '#e9f4ff']).map(color => new THREE.Color(color)) : [new THREE.Color('#7f91b9'), new THREE.Color('#bccce8'), new THREE.Color('#f8e9da')];
-  for (let i = 0; i < count; i++) {
-    let x, y, z;
-    if (galaxy) {
-      const arms = style === 'flocculent' ? 6 : style === 'barred' ? 2 : 4;
-      const arm = i % arms;
-      const radius = Math.pow(rand(), style === 'flocculent' ? .78 : .68) * 91;
-      const spread = (rand() - .5) * (style === 'flocculent' ? .42 + radius * .015 : .16 + radius * .011);
-      const angle = arm * Math.PI * 2 / arms + radius * (style === 'flocculent' ? .04 : .054) + spread + (style === 'flocculent' ? Math.sin(radius * .19 + arm * 2.1) * .18 : 0);
-      const c = Math.cos(angle), s = Math.sin(angle);
-      x = 31 + radius * c + (rand() - .5) * 6;
-      y = radius * s * .53 + (rand() - .5) * (2 + radius * .075);
-      if (style === 'barred' && radius < 30 && i % 3 === 0) { x = 31 + (rand() - .5) * 65; y = (rand() - .5) * 8 + (x - 31) * .14; }
-      z = -17 + (rand() - .5) * (4 + radius * .14);
-      const tilt = -.17;
-      const dx = x - 31;
-      x = 31 + dx * Math.cos(tilt) - y * Math.sin(tilt);
-      y = dx * Math.sin(tilt) + y * Math.cos(tilt);
-    } else {
-      x = (rand() - .5) * 390;
-      y = (rand() - .5) * 225;
-      z = -65 - rand() * 75;
-    }
-    positions.set([x, y, z], i * 3);
-    const base = palette[Math.floor(rand() * palette.length)].clone();
-    const luminosity = galaxy ? .35 + rand() * .75 : .25 + rand() * .65;
-    base.multiplyScalar(luminosity);
-    rgb.set([base.r, base.g, base.b], i * 3);
-    sizes[i] = galaxy ? (rand() < .025 ? 5 + rand() * 5 : 1.1 + rand() * 3.1) : .7 + rand() * 2.1;
-    phases[i] = rand() * 6.283;
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('aColor', new THREE.BufferAttribute(rgb, 3));
-  geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
-  geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
-  const material = new THREE.ShaderMaterial({
-    uniforms: { uTime: { value: 0 }, uRatio: { value: Math.min(devicePixelRatio, 1.7) }, uIntensity: { value: 0 } },
-    vertexShader: `attribute vec3 aColor; attribute float aSize; attribute float aPhase; varying vec3 vColor; varying float vPhase; uniform float uRatio; uniform float uTime; void main(){vColor=aColor;vPhase=aPhase;vec3 p=position;${galaxy ? 'vec2 q=p.xy-vec2(31.0,0.0);float r=length(q);float a=uTime*(.004+.024/(1.0+r*.04));p.xy=vec2(31.0,0.0)+mat2(cos(a),-sin(a),sin(a),cos(a))*q;' : 'p.xy+=vec2(sin(uTime*.11+aPhase),cos(uTime*.09+aPhase))*.18;'}vec4 mv=modelViewMatrix*vec4(p,1.0);gl_Position=projectionMatrix*mv;gl_PointSize=clamp(aSize*uRatio*(155.0/-mv.z),.6,18.0);}`,
-    fragmentShader: `varying vec3 vColor; varying float vPhase; uniform float uTime; uniform float uIntensity; void main(){float r=length(gl_PointCoord-vec2(.5));float core=exp(-r*r*105.0);float halo=exp(-r*r*17.0)*.45;float twinkle=.84+.16*sin(uTime*1.25+vPhase);float a=(core+halo)*twinkle*uIntensity;if(a<.012)discard;gl_FragColor=vec4(vColor*a,a);}`,
-    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-  });
-  const points = new THREE.Points(geometry, material);
-  points.frustumCulled = false;
-  return points;
-}
-
+function random(seed) { let n = seed >>> 0; return () => { n = (1664525 * n + 1013904223) >>> 0; return n / 4294967296; }; }
 function glowTexture() {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
   const ctx = canvas.getContext('2d');
@@ -297,26 +233,6 @@ function birthTexture() {
   ctx.fillStyle = halo; ctx.fillRect(0, 0, 256, 256);
   return new THREE.CanvasTexture(canvas);
 }
-function nebulaTexture(seed = 41982) {
-  const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512;
-  const ctx = canvas.getContext('2d'); const r = random(seed);
-  for (let i = 0; i < 190; i++) {
-    const x = 40 + r() * 430, y = 90 + r() * 330, radius = 18 + r() * 100;
-    const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    const tone = i % 4 === 0 ? '116,142,233' : i % 3 === 0 ? '81,112,203' : '122,90,190';
-    g.addColorStop(0, `rgba(${tone},${.014 + r() * .027})`); g.addColorStop(1, `rgba(${tone},0)`);
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill();
-  }
-  const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace; return texture;
-}
-function galaxyTexture(style) {
-  if (!galaxyTextures.has(style)) {
-    const texture = new THREE.TextureLoader().load(GALAXY_IMAGE[style]);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    galaxyTextures.set(style, texture);
-  }
-  return galaxyTextures.get(style);
-}
 let glowMap;
 function sprite(color, size, opacity = 1, map = glowMap) {
   const material = new THREE.SpriteMaterial({ map, color, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false });
@@ -336,45 +252,14 @@ function initScene() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
-  galaxyGroup = new THREE.Group(); scene.add(galaxyGroup);
-  catalogLayer = createCatalogLayer(scene, { compact: innerWidth < 760 });
-  flightField = createFlightField(scene, innerWidth < 760);
+  cosmicField = createCosmicField(scene, innerWidth < 760);
+  $('#universe').dataset.sceneMode = 'stars-only';
+  $('#universe').dataset.starCapacity = String(cosmicField.capacity);
   glowMap = glowTexture();
   starCoreMap = starCoreTexture();
   planetGeometry = new THREE.SphereGeometry(1, 32, 24);
   ringGeometry = new THREE.RingGeometry(1.52, 2.45, 72, 1);
   birthMap = birthTexture();
-  const nebula = nebulaTexture();
-  const haze = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebula, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  haze.position.set(30, 0, -35); haze.scale.set(244, 153, 1); haze.material.rotation = -.18; galaxyGroup.add(haze);
-  cloudHaze = haze;
-  const haze2 = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebula, color: 0x647fc8, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  haze2.position.set(28, -3, -33); haze2.scale.set(201, 130, 1); haze2.material.rotation = .32; galaxyGroup.add(haze2);
-  cloudHaze2 = haze2;
-  const localCloud = nebulaTexture(91573);
-  cloudHaze3 = new THREE.Sprite(new THREE.SpriteMaterial({ map: localCloud, color: 0xb16c83, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  cloudHaze3.scale.set(116, 72, 1); cloudHaze3.position.set(6, -15, -29); cloudHaze3.material.rotation = -.4; galaxyGroup.add(cloudHaze3);
-  cloudHaze4 = new THREE.Sprite(new THREE.SpriteMaterial({ map: localCloud, color: 0x8cbdeb, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-  cloudHaze4.scale.set(92, 66, 1); cloudHaze4.position.set(65, 18, -30); cloudHaze4.material.rotation = .27; galaxyGroup.add(cloudHaze4);
-  for (let i = 0; i < 3; i++) {
-    const tint = [0x8db9df, 0xc17f8d, 0xafa4d1][i];
-    const region = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebulaTexture(107219 + i * 1949), color: tint, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
-    region.position.z = -28 + i;
-    region.scale.set(46 + i * 9, 31 + i * 7, 1);
-    galaxyGroup.add(region); nebulaRegions.push(region);
-  }
-  new THREE.TextureLoader().load('/assets/nebula-gas.png', texture => {
-    texture.colorSpace = THREE.SRGBColorSpace;
-    cloudHaze2.material.map = texture;
-    cloudHaze2.material.needsUpdate = true;
-  });
-  const deep = pointCloud(1800); scene.add(deep); deepDust = deep;
-  const activeStyle = galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId));
-  const disk = pointCloud(innerWidth < 760 ? 8200 : 15500, true, activeStyle, hashText(universe.activeGalaxyId)); galaxyGroup.add(disk); galaxyDust = disk;
-  galaxyGroup.userData.materials = [deep.material, disk.material];
-  const outerCore = sprite(0x778fe0, 69, 0); outerCore.position.set(31, 0, -17); galaxyGroup.add(outerCore);
-  coreGlow = outerCore;
-  const innerCore = sprite(0xffdbb5, 27, 0); innerCore.position.set(31, 0, -16); galaxyGroup.add(innerCore); innerGlow = innerCore;
   wordGroup = new THREE.Group(); scene.add(wordGroup);
   const streakPoints = new Float32Array(6);
   const streakGeometry = new THREE.BufferGeometry(); streakGeometry.setAttribute('position', new THREE.BufferAttribute(streakPoints, 3));
@@ -384,48 +269,7 @@ function initScene() {
   spaceComet = new THREE.Sprite(new THREE.SpriteMaterial({ map: cometTexture(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   spaceComet.frustumCulled = false; scene.add(spaceComet);
   rebuildWordStars();
-  updateGalaxyGrowth();
   renderer.setAnimationLoop(animate);
-}
-function updateGalaxyGrowth() {
-  if (!galaxyDust) return;
-  const n = words.length;
-  const seed = hashText(universe.activeGalaxyId);
-  const variation = random(seed);
-  const style = galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId));
-  if (visualGalaxyId !== universe.activeGalaxyId) {
-    visualGalaxyId = universe.activeGalaxyId;
-    activeVisualStyle = style;
-    flightField.home(seed, style);
-    const replacement = pointCloud(galaxyDust.geometry.attributes.position.count, true, style, seed);
-    galaxyDust.geometry.dispose(); galaxyDust.geometry = replacement.geometry; replacement.material.dispose();
-    cloudHaze.material.map = galaxyTexture(style); cloudHaze.material.needsUpdate = true;
-    cloudHaze.material.color.set(style === 'barred' ? '#d7c5b2' : style === 'flocculent' ? '#c6d3e8' : '#ffffff');
-    cloudHaze2.material.color.set(style === 'barred' ? '#a3859b' : style === 'flocculent' ? '#829ac3' : '#647fc8');
-    coreGlow.material.color.set(style === 'barred' ? '#c6a6a4' : style === 'flocculent' ? '#a6b1d3' : '#778fe0');
-    innerGlow.material.color.set(style === 'barred' ? '#ffe0b8' : style === 'flocculent' ? '#ffe5c6' : '#ffdbb5');
-  }
-  cloudHaze.scale.set(244 * (.9 + variation() * .2), 153 * (.9 + variation() * .16), 1);
-  cloudHaze.material.rotation = -.3 + variation() * .6;
-  cloudHaze2.scale.set(192 + variation() * 28, 125 + variation() * 21, 1);
-  cloudHaze2.material.rotation = -.45 + variation() * .9;
-  cloudHaze3.position.set(-12 + variation() * 36, -22 + variation() * 24, -29);
-  cloudHaze4.position.set(49 + variation() * 32, 3 + variation() * 28, -30);
-  cloudHaze3.material.rotation = -.6 + variation() * .45;
-  cloudHaze4.material.rotation = .1 + variation() * .55;
-  for (let i = 0; i < nebulaRegions.length; i++) {
-    const region = nebulaRegions[i];
-    const angle = variation() * Math.PI * 2;
-    const radius = 24 + variation() * 43;
-    region.position.set(31 + Math.cos(angle) * radius, Math.sin(angle) * radius * .58, -28 + i);
-    region.material.rotation = variation() * Math.PI;
-    region.scale.set(40 + variation() * 31, 27 + variation() * 20, 1);
-  }
-  galaxyGrowthTarget = n ? Math.min(1, Math.sqrt(n) / 5) : 0;
-  galaxyExtentTarget = n ? (n <= 25 ? .25 + Math.sqrt(n) / 5 * .75 : 1 + Math.log2(n / 25) * .15) : .1;
-  if (!n) { galaxyGrowth = 0; galaxyExtent = galaxyExtentTarget; }
-  galaxyDust.geometry.setDrawRange(0, Math.min(galaxyDust.geometry.attributes.position.count, n * 190));
-  deepDust.geometry.setDrawRange(0, Math.min(1800, Math.max(0, n - 1) * 50));
 }
 function spawnBirth(id) {
   const group = worldStars.get(id); if (!group || !birthMap) return;
@@ -497,6 +341,7 @@ function rebuildWordStars() {
 }
 const projected = new THREE.Vector3();
 function animate(ms) {
+  if (document.hidden) { lastCameraMs = 0; return; }
   if (!renderer) return;
   const fpsMonitor = $('#fps-monitor');
   if (!fpsMonitor.hidden) {
@@ -517,21 +362,10 @@ function animate(ms) {
   camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
   camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
   camera.updateMatrixWorld();
-  catalogUI?.setVisibleCount(catalogLayer.update(camera, camera.position.z - catalogDepth, catalogDepth !== 0));
-  flightField.update(camera);
-  galaxyGrowth += (galaxyGrowthTarget - galaxyGrowth) * .026;
-  galaxyExtent += (galaxyExtentTarget - galaxyExtent) * .026;
-  setGalacticPivot(galaxyGroup, galaxyExtent, drift*.004 + Math.sin(drift*.055)*.012);
+  cosmicField.update(camera);
+  wordGroup.visible = camera.position.z < 12000;
   wordGroup.rotation.z = 0;
-  cloudHaze.material.opacity = galaxyGrowth ? Math.min(activeVisualStyle === 'spiral' ? .62 : .48, .11 + galaxyGrowth * .7) * (.96 + Math.sin(drift * .19) * .04) : 0;
-  cloudHaze2.material.opacity = galaxyGrowth * (.19 + Math.cos(drift * .28) * .025);
-  cloudHaze3.material.opacity = Math.max(0, galaxyGrowth - .23) * (.21 + Math.sin(drift * .2) * .02);
-  cloudHaze4.material.opacity = Math.max(0, galaxyGrowth - .54) * (.2 + Math.cos(drift * .17) * .02);
-  for (let i = 0; i < nebulaRegions.length; i++) nebulaRegions[i].material.opacity = Math.max(0, Math.min(1, (words.length - 4 - i * 7) / 8)) * (.07 + Math.sin(drift * .12 + i) * .01);
-  coreGlow.material.opacity = Math.max(0, galaxyGrowth - .35) * (.22 + Math.sin(drift * 1.1) * .04);
-  innerGlow.material.opacity = Math.max(0, galaxyGrowth - .75) * .16;
-  galaxyDust.material.uniforms.uIntensity.value = words.length ? .17 + galaxyGrowth * .43 : 0;
-  deepDust.material.uniforms.uIntensity.value = words.length > 1 ? .035 + galaxyGrowth * .11 : 0;
+  if (ms - lastSceneReport > 100) { lastSceneReport = ms; $('#universe').dataset.cameraZ = String(camera.position.z); }
   for (let i = births.length - 1; i >= 0; i--) {
     const birth = births[i]; const age = clock - birth.start;
     if (age > 2.3) { birth.group.remove(birth.ring); birth.ring.material.dispose(); births.splice(i, 1); continue; }
@@ -562,7 +396,6 @@ function animate(ms) {
     spaceComet.position.set(camera.position.x + halfWidth * (.77 - t * .48), camera.position.y + halfHeight * (-.48 + t * .12), 3);
     spaceComet.material.opacity = Math.min(1, t * 7, (1 - t) * 7) * .65;
   } else spaceComet.material.opacity = 0;
-  for (const mat of galaxyGroup.userData.materials) mat.uniforms.uTime.value = drift;
   const today = Math.floor(Date.now() / 86400000);
   const refreshStarAge = today !== lastStarAgeDay;
   if (refreshStarAge) lastStarAgeDay = today;
@@ -689,7 +522,6 @@ function selectWord(id) {
 }
 function focusStar() {
   catalogDepth = 0;
-  flightField.home(hashText(universe.activeGalaxyId), galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId)));
   if (!worldStars.has(selectedId)) return;
   preFocusPan = { ...pan };
   closePanels();
@@ -915,7 +747,6 @@ async function importUniverse(event) {
 }
 
 function setZoom(value, focusX, focusY) {
-  if (value > 1200 && catalogDepth !== 0) { catalogDepth = 0; pan.x = pan.y = 0; }
   const previous = zoom;
   zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value));
   if (focusX === undefined || focusY === undefined) return;
@@ -951,7 +782,7 @@ function bindUI() {
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
-  $('#home-btn').addEventListener('click', () => { catalogDepth = 0; flightField.home(hashText(universe.activeGalaxyId), galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId))); closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => { catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -983,7 +814,7 @@ function bindUI() {
   $('#search-input').addEventListener('input', renderCollection);
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => { catalogDepth = 0; flightField.home(hashText(universe.activeGalaxyId), galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId))); focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  $('#reset-view').addEventListener('click', () => { catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
   document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
@@ -1003,7 +834,6 @@ function bindUI() {
     if (dragging && dragStart) { const factor = zoom / 160 * .12; pan.x = dragStart.panX - (e.clientX - dragStart.x) * factor; pan.y = dragStart.panY + (e.clientY - dragStart.y) * factor; moved ||= Math.abs(e.clientX - dragStart.x) + Math.abs(e.clientY - dragStart.y) > 4; }
   });
   const endPointer = e => {
-    if (e.type === 'pointerup' && !moved && !pinchStart && catalogDepth === 0 && zoom > 900) { const record = catalogLayer.pick(camera,e.clientX,e.clientY,innerWidth,innerHeight); if (record) catalogUI?.focus(record); }
     touches.delete(e.pointerId); dragging = false; dragStart = null; pinchStart = null; };
   canvas.addEventListener('pointerup', endPointer);
   canvas.addEventListener('pointercancel', endPointer);
@@ -1047,28 +877,3 @@ profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, befo
 mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: profileSessionListener(profileUI, accountSync.onSession), onSync: accountSync.open, onProfile: profileUI.open });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));
-
-catalogUI = mountCatalogUI({
-  locale: uiLocale,
-  beforeOpen: () => { closePanels(); profileUI.close(); },
-  onFocus: record => {
-    focusedStarId = null; preFocusPan = null;
-    catalogDepth = record.scenePosition[2];
-    catalogLayer.focus(record);
-    flightField.focus(record);
-    pan.x = record.scenePosition[0]; pan.y = record.scenePosition[1];
-    pointer.x = pointer.y = 0;
-    setZoom(innerWidth < 760 ? 370 : 250);
-    $('#app').classList.add('catalog-exploring');
-  },
-  onOverview: () => {
-    focusedStarId = null; preFocusPan = null; catalogDepth = 0;
-    pan.x = pan.y = pointer.x = pointer.y = 0;
-    setZoom(overviewZoom(camera.aspect));
-    $('#app').classList.add('catalog-exploring');
-  },
-  onHome: () => {
-    $('#app').classList.remove('catalog-exploring');
-    $('#home-btn').click();
-  },
-});

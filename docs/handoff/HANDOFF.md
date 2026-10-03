@@ -2,42 +2,48 @@
 
 ## Son güncelleme
 
-2026-10-03 20:05 · Codex / Windows 11 / PowerShell 7.6.6. Aktif iş: Faz 4 görsel katalog, 300 gerçek galaksi ve merkezde kişisel kelime evreni. Yerel son gate: 91 unit / 54 e2e, lint/typecheck/build/format başarılı. 59a9eb6 atlas kodu push edildi; Vercel 4J4EpWECbnwxhHzZ7miVvrALuqqo başarılı. CI37139120811 katalog testleri üç viewport toplam 30s sınırını aştığı için başarısız (45/48 geçti). Düzeltme: her dil/viewport ayrı 30s test, 9 katalog senaryosu; assertion/timeout değişmedi. Son test düzeltmesi CI sonucu PR #7 üzerinden kontrol edilmeli.
+2026-10-03 20:43 · Codex / Windows 11 / PowerShell 7.6.6. Aktif iş: **önce galaksisiz yıldız sistemi**. phase/4-universe, geliştirme 1.14.0; production v1.11.0. Son yerel gate: 93 unit / 54 e2e, lint/typecheck/build/format başarılı. Son checkpoint CI sonucu session ve Git log/PR #7 üzerinden kontrol edilmeli.
 
-## Şu an aktif faz ve branch
+## Son kullanıcı yönlendirmesi — eski görsel planın yerini alır
 
-**Faz 4 · phase/4-universe · geliştirme 1.14.0.** Production v1.11.0. Yalnız Faz 0/1 tamamlandı. Kullanıcı Faz 2 kabulünü ve Faz 3 kalanını erteledi; evren/katalog ve olayların görsel işlerine öncelik verdi (ADR012/013). [Draft PR #7](https://github.com/GhostFelina/wordverse-galaxy/pull/7) base phase/3-profile. Faz bitmedi: main merge/tag/prod release yapma.
+1. Tek kesintisiz kâinat, yaklaşıldıkça yıldız/bulutsu/asteroid/meteor/galaksi katmanları.
+2. En uzak zoomda galaksiler görünmez; yalnız yıldız alanı. Eski en uzak ölçekte 300 galaksi isteği değişti.
+3. **Son talimat: önce tüm galaksileri kaldır, yıldız sistemini kur; sonra galaksileri dahil et.** Yıldız temeli doğrulanmadan galaksileri/diğer görsel katmanları tekrar etkinleştirme. Kayıtlı kelime/koleksiyon verisini silme.
+
+## Aktif faz ve branch
+
+Faz 4 · phase/4-universe · draft PR #7 base phase/3-profile. Yalnız Faz 0/1 tamamlandı. Faz 2 kabulü ve Faz 3 kalanlar ertelendi (ADR012/013). Faz 4 tamamlanmadı: main merge/tag/prod release yapma. Mac pause sürüyor; Codex/Claude aynı dal ve HANDOFF'tan devam eder.
 
 ## Son oturumda yapılanlar
 
-- OpenNGC sabit revision 75ca7ff090e1d0081a5b08be70eb3bc45ccd9e06 üzerinden 300 ayrı Type G kaydı, J2000 RA/Dec, morfoloji/eksenler ve varsa redshift. scripts/build-galaxy-catalog.py tekrar üretir; provenance ve CC BY-SA 4.0 lisansı ayrı veri dosyalarında. İlk 5 Messier uzaklığı NASA'dan; diğer uzaklıklar bilinmiyor, uydurulmadı.
-- Tek instanced atlas: 8 morfoloji × 4 seed varyasyonu; uzak görüş sayacı kameranın gerçek frustumundaki kayıt merkezlerini sayar. 1440/768/390 ölçülerinde 300 kayıt görünür. Sahne yerleşimi gerçek açısal veriden türetilmiş sanatsal sıkıştırmadır; fiziksel 3B mesafe değildir.
-- TR/EN/ES katalog, NGC/M arama, kaynak/atıf, seçili galaksiye odak ve eve dön. 5 ayrıntılı galaksi + seçilen diğer kayıt için tek ek ayrıntı kaynağı; eski ekstra kaynak dispose edilir. Uzak kanvasta galaksi seçimi manuel IC0342 ile doğrulandı.
-- X sağ video 00:10–00:15 incelendi: derinlikli yıldız/gaz uçuşu esin kaynağı; medya/kod kopyalanmadı. flight-field.js seçili galaksinin biçimi/seedine göre ayrı yakın yıldız ve gaz alanı; eliptik/lentikülerde gaz kapanır. Kamera negatif derinliklerde doğru yöne bakar, ana uygulama sönümü zamana bağlı.
-- Kullanıcı kelimeleri/bağlaçları coreOrbit ile galaksi iç bölgesinde gösterilir. setGalacticPivot büyüme/dönüş sırasında galaksi merkezini (31,0) korur. **Kayıtlı koordinat, yedek veya şema değişmez.** Aktif koleksiyona göre yakın alan da değişir. Home/reset/yıldız odağı yerel atmosferi geri getirir.
-- Yerel 5360 görünür açık. Gerçek hesapta kullanıcı 7 kayıt/2 galaksi görüldü; veri eklenmedi/silinmedi. Paylaşılan kanıt yalnız Auth/depo erişimi olmayan yapay fixture. Responsive kanıt capture-catalog-evidence.mjs ile üretildi; CUA manuel viewport override gerçek boyutu değiştirmedi, manuel mobil diye sunma.
-- Önceki 414af94 CI37136710099 ve Vercel status başarılı. Profil cf8f9eb CI37135318688 başarılı. Eski ayrıntılar sessions/2026-10-03-pre-atlas-handoff.md içinde.
+- Ana uygulamadan catalog-layer/catalog-ui/flight-field/space-details import ve mount kaldırıldı. Galaksi kataloğu butonu, 300 atlas galaksisi, kendi galaksinin disk/gaz/sarmal şekli ve dokuları artık aktif uygulamada yok/yüklenmiyor. Koleksiyon modeli/senkron ve kelimeler korunur.
+- cosmic-field.js: uzak yıldız göğü (24.000 desktop/9.000 mobil) + kameranın çevresinde 27 deterministik 3B bölge (16.200/6.480 yakın nokta). Toplam kapasite 40.200/15.480; bunların hepsi aynı anda frustumda değildir. İki Points drawcall, kaynaklar sabit; gezilen yeni bölgede yakın yıldızlar üretilir, ortak bölgeler dünya konumunu korur. Uzak gök yönünü korur; yakın katman parallax ve mesafeye bağlı parlama sağlar. Yıldızlar prosedürel/sanatsal, gerçek tek tek yıldız kataloğu değil.
+- Ana kamera zamana bağlı yumuşar, pointer zoom/pan ve mevcut pinch/klavye/ana görünüme dönüş korunur. Gizli sekmede render callback hesap yapmaz. Kendi kayıtlı yıldızlar ve bağlaç gezegenleri kalır; coreOrbit yalnız gösterim, kayıtlı koordinatlar değişmez.
+- Yeni 9 localized star-cosmos e2e senaryosu; eski katalog e2e tests/deferred/catalog.spec.js altında kullanıcı isteğiyle ertelendi. Bu testler yıldız aşamasında katalog tekrar etkinleştirilmesini gerektirmez; galaksi aşamasında geri alınmalı.
+- Auth/depo kullanmayan star-cosmos-lab.html görsel fixture; manual star-cosmos-manual.png yalnız yapay yıldız sahnesi. Gerçek hesabın 7 kaydı/2 koleksiyonu değiştirilmedi. Yerel 5360 açık.
+- Önceki 59a9eb6 atlas checkpoint ve 4db9ba7 viewport test düzeltmesi push edildi. 4db9ba7 CI37139590127 ve Vercel başarılı. Yeni yıldız checkpoint sonucu ayrıca kontrol edilmeli.
 
-## Yarım kalan iş
+## Devre dışı taslaklar / yarım kalan iş
 
-- Faz 4 ≥100 bulutsu, ≥250 gezegen, ≥25 takımyıldızı; gerçek galaksiye bağlı kalıcı koleksiyon migrasyonu ve kalıcı sürükleme düzeni yok. 300 kayıt ≥50 galaksi sayısını karşılar fakat tüm mesafe/veri ve fiziksel sahne kabulü tamamlanmadı.
-- Faz 6 ≥50 kaynaklı olay ve fizik referanslı iki kuyruklu kuyruklu yıldız henüz tamamlanmadı. Önce görsel çeşitlilik/gezinti, sonra olaylar; diğer fazlara sonrasında dön.
-- Faz 3 kalan profil alanları/avatar/tercihler/seri/ısı haritası/CSV/silme/paylaşım; Faz 2 SMTP/hukuk/gerçek Storage API/Mac/prod auth ertelendi, yeniden soru sorma.
-- Ana JS ~795 kB minify; atlas/data tembel yükleme ve 5.000 yıldız FPS/Lighthouse bütçesi Faz 9'da ölçülecek. 60/30 FPS iddiası yok.
+- 300 OpenNGC gerçek galaksi, CC BY-SA 4.0/provenance/importer korunur; şimdi yüklenmez. Sabit koordinat/ara LOD/negatif derinlik/pointer reference geçiş kodları katalog dosyalarında taslak olarak kalır. Bu checkpoint'te galaksi etkin diye sunma.
+- space-details.js: NASA tür referanslı 3 özgün M42/M57/M1 doku çalışması ve 3B asteroid taslağı **devre dışı**. Renderer entegrasyonu manuel/GPU kabulü tamamlanmadı; ≥100 bulutsu veya gerçek asteroid parametreleri kabulü değildir.
+- Sonraki yıldız işi: dokunmatik/pinch ve hücre sınırında sürekliliği güçlendir; kalite/FPS bütçesi ölçülmedi. Ana JS yıldız aşamasında ~574 kB, 500 kB uyarısı devam eder.
+- Sonra katmanlı bulutsu/asteroid/meteor, galaksileri yıldız temeline ekle. ≥100 bulutsu/≥250 gezegen/≥25 takımyıldızı/≥50 olay, kalıcı gerçek galaksi seçimi ve 5.000 kullanıcı yıldızı bütçesi tamamlanmadı.
 
 ## Sıradaki ilk 3 adım
 
-1. Gerçek OS/kabuk, git durum/STATE; temizse pull --ff-only ve doctor. Bu checkpoint CI/preview durumunu PR #7 üzerinden kontrol et. 5360 görünür aç, kullanıcı verisini koru.
-2. Bulutsu katalog ve farklı gaz/karanlık toz görsellerini kaynak/lisanslarıyla büyüt; sonra gerçek parametreli gezegen çeşidi. Geçişleri mevcut atlas/flight içinde tutarlı yap.
-3. Faz 6 olay/kuyruklu yıldız görselleri. Her somut adımı test/manual evidence + handoff + commit/push ile devret; Faz 2/3 kabulünü sonrasında sürdür.
+1. Gerçek OS/kabuk/git/STATE; temizse pull --ff-only, doctor. Yerel 5360 görünür aç, son yıldız checkpoint test/CI sonucunu doğrula. **Galaksileri ilk iş olarak geri açma.**
+2. Tek yıldız kâinatının yakınlaşma/sürükleme/dokunmatik, derinlik ve hücre geçişlerini tamamla; veri içermeyen manual/responsive kanıt, performans riski ölçümü. Kullanıcı bu temeli önce istedi.
+3. Sağlam yıldız temelinden sonra diğer ölçek katmanlarını ve galaksileri dahil et; source/license ve üç dil kartlarıyla ilerle. Faz 2/3 kabulüne daha sonra dön. Her somut checkpoint commit/push/CI/handoff.
 
 ## Dikkat edilmesi gerekenler
 
-- Türkçe, otonom ilerleme. Durum Analiz = güncel `| Durum | İş | Sonuç / kalan adım |` tablosu. Fazları tamamlandı diye uydurma.
-- Windows C:\Users\User\Desktop\Projeler\kelime-evreni; taşıma. Mac mevcut /Users/felina/Projects/wordverse-galaxy klonu korunur; pause sürüyor. Yanlış main checkpoint 0f94672 merge/SQL uygulanmaz. CROSS_DEVICE ve SERVICE_ACCESS yönergeleri geçerli; sır/env/browser veri Git'e girmez.
-- Misafir 13 kayıt ve eski v4/v3/v2 arşivler korunur. Testler ayrı fixture/namespace kullanır; gerçek kelime metinleri kanıt/Git'e girmez.
-- Yalnız Supabase mrkmtcpzyvooreeokmkp. Dashboard migrations 20261002181057, 20261003064254, 20261003123923. CLI/MCP yanlış hesap; kör db push/history repair ve storage.protect_delete bypass yapma.
+- Türkçe, otonom ilerleme; Durum Analiz = güncel `| Durum | İş | Sonuç / kalan adım |` tablosu. Fazları bitmiş sayma.
+- Windows C:\Users\User\Desktop\Projeler\kelime-evreni taşınmaz. Mac /Users/felina/Projects/wordverse-galaxy korunur; yanlış main checkpoint 0f94672 merge/SQL yapılmaz. CROSS_DEVICE/SERVICE_ACCESS geçerli; env/sır/tarayıcı verisi Git'e girmez.
+- Misafir 13 kayıt ve v4/v3/v2 arşivleri korunur; testler ayrı namespace/fixture. Gerçek kelime metinlerini screenshot/Git'e ekleme.
+- Yalnız Supabase mrkmtcpzyvooreeokmkp. Dashboard migrations 20261002181057, 20261003064254, 20261003123923; CLI/MCP yanlış hesap. Kör db push/history repair/storage.protect_delete bypass yapma.
+- SMTP/hukuk/gerçek Storage API/Mac/prod auth kullanıcı tarafından ertelendi; yeniden soru sorma.
 
 ## Doğrulanmamış iddialar
 
-Gerçek Mac/fiziksel iki cihaz, mail/Storage API/prod Faz 2, hukuki uyum, otomatik backup/restore, gerçek 3B astronomik uzaklıklar, ≥100 bulutsu/≥250 gezegen/≥25 takımyıldızı/≥50 olay, 5.000 yıldız FPS ve tüm Faz 4 tamamlanmadı.
+Gerçek Mac/iki cihaz, mail/Storage API/prod Faz 2, hukuki uyum, otomatik backup/restore, gerçek yıldız kataloğu veya fiziksel 3B evren, 5.000 kullanıcı yıldızı FPS, tüm Faz 4/6 tamamlanmadı. Çalışma kapsamı şu an galaksisiz yıldız temelidir.

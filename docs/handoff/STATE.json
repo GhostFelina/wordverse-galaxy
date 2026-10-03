@@ -3,14 +3,10 @@
   "repository": "GhostFelina/wordverse-galaxy",
   "activeBranch": "phase/4-universe",
   "activePhase": 4,
-  "completedPhases": [
-    0,
-    1
-  ],
+  "completedPhases": [0, 1],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "deferredPhases": [
-    2,
-    3
-  ]
+  "deferredPhases": [2, 3],
+  "visualStage": "star-foundation",
+  "pausedVisualLayers": ["galaxies", "nebulae", "asteroids"]
 }

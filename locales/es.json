@@ -440,7 +440,7 @@
   "catalog": {
     "title": "Catálogo celeste",
     "close": "Cerrar catálogo",
-    "intro": "Explora un atlas de 300 galaxias reales. Las coordenadas proceden del catálogo J2000; la profundidad y el tamaño son interpretaciones artísticas comprimidas para navegar. Abajo hay cinco fichas destacadas.",
+    "intro": "Explora 300 galaxias reales en un solo cosmos continuo. En la escala más amplia se ven estrellas; las galaxias y sus interiores aparecen al acercarte. Se usan coordenadas J2000 del catálogo; profundidad, tamaños y campo estelar son interpretaciones artísticas.",
     "artistic": "Interpretación artística",
     "distance": "{count} millones de años luz",
     "explore": "Explorar en escena",

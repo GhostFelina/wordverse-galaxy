@@ -26,9 +26,9 @@ export function mountCatalogUI({ locale, beforeOpen, onFocus, onHome, onOverview
   const title = node('h2', t('title'));
   title.id = 'catalog-title';
   const grid = node('div', '', 'catalog-grid');
-  function focusRecord(record) {
+  function focusRecord(record, options) {
     dialog.close();
-    onFocus(record);
+    onFocus(record, options);
     badge.hidden = false;
     const name = record.nameKey ? t(`names.${record.nameKey}`) : record.id;
     badgeText.textContent = `${name} · ${record.id} — ${t('artistic')}`;

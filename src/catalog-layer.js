@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import featured from './data/catalog/galaxies.json';
 import catalogRows from './data/catalog/galaxies-300.json';
 import { createOverview } from './catalog-overview.js';
-import { sampleGalaxy, catalogOpacity } from './catalog-shape.js';
+import { sampleGalaxy } from './catalog-shape.js';
 
 export const catalogRecords = catalogRows.map((row) => {
   const known = featured.find((record) => record.id === row.messier);
@@ -49,6 +49,7 @@ export function createCatalogLayer(scene, { compact = false } = {}) {
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
+    material.userData.position = [...record.scenePosition];
     materials.push(material);
     const stars = new THREE.Points(geometry, material);
     stars.position.fromArray(record.scenePosition);
@@ -90,15 +91,29 @@ export function createCatalogLayer(scene, { compact = false } = {}) {
       }
       extra = record.nameKey ? [] : addRecord(record);
     },
-    update(camera, distance = camera.position.z, exploring = false) {
-      const cameraZ = distance;
-      const opacity = exploring ? 1 : catalogOpacity(cameraZ);
-      const far = THREE.MathUtils.smoothstep(cameraZ, 650, 1200);
-      const near = exploring ? THREE.MathUtils.smoothstep(cameraZ, 45, 180) : 1;
-      root.visible = opacity > 0.001;
-      for (const material of materials) material.uniforms.opacity.value = opacity * (1 - far) * (0.2 + near * 0.8);
-      for (const cloud of clouds) cloud.material.opacity = opacity * 0.7 * (1 - far) * near;
-      return overview.update(camera, far);
+    update(camera) {
+      root.visible = true;
+      for (const material of materials) {
+        const position = material.userData.position;
+        const depth = camera.position.z - position[2];
+        const lateral = Math.hypot(camera.position.x - position[0], camera.position.y - position[1]);
+        const far = THREE.MathUtils.smoothstep(Math.hypot(depth, lateral), 650, 1200);
+        const near = THREE.MathUtils.smoothstep(depth, 45, 180);
+        material.uniforms.opacity.value = depth > 0 ? (1 - far) * (0.2 + near * 0.8) : 0;
+        material.visible = material.uniforms.opacity.value > 0.001;
+      }
+      for (const cloud of clouds) {
+        const depth = camera.position.z - cloud.position.z;
+        const lateral = Math.hypot(camera.position.x - cloud.position.x, camera.position.y - cloud.position.y);
+        cloud.material.opacity =
+          depth > 0
+            ? 0.7 *
+              (1 - THREE.MathUtils.smoothstep(Math.hypot(depth, lateral), 650, 1200)) *
+              THREE.MathUtils.smoothstep(depth, 45, 180)
+            : 0;
+        cloud.visible = cloud.material.opacity > 0.001;
+      }
+      return overview.update(camera, 1);
     },
     dispose() {
       overview.dispose();

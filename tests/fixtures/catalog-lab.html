@@ -12,6 +12,9 @@
     </div>
     <script type="module">
       import * as THREE from 'three';
+      import { createSpaceDetails } from '../../src/space-details.js';
+      import { createCosmicField } from '../../src/cosmic-field.js';
+      import { rebaseTravelZoom } from '../../src/universe-travel.js';
       import { createFlightField } from '../../src/flight-field.js';
       import '../../src/auth.css';
       import '../../src/style.css';
@@ -25,6 +28,8 @@
       const target = new THREE.Vector3(0, 0, 750);
       camera.position.copy(target);
       const layer = createCatalogLayer(scene, { compact: innerWidth < 760 });
+      const details = createSpaceDetails(scene, innerWidth < 760);
+      const cosmic = createCosmicField(scene, innerWidth < 760);
       const flight = createFlightField(scene, innerWidth < 760);
       let depth = 0;
       const resize = () => {
@@ -37,10 +42,12 @@
       const catalog = mountCatalogUI({
         locale: 'tr',
         beforeOpen() {},
-        onFocus(record) {
+        onFocus(record, { navigate = true } = {}) {
+          const absoluteTarget = target.z;
           depth = record.scenePosition[2];
           layer.focus(record);
           flight.focus(record);
+          details.focus(record);
           target.set(record.scenePosition[0], record.scenePosition[1], depth + 250);
         },
         onOverview() {
@@ -50,6 +57,7 @@
         onHome() {
           depth = 0;
           flight.home();
+          details.home();
           target.set(0, 0, 750);
         },
       });
@@ -63,21 +71,25 @@
         'wheel',
         (event) => {
           event.preventDefault();
-          const distance = Math.max(19, (target.z - depth) * Math.exp(event.deltaY * 0.00145));
-          if (distance > 1200) {
-            depth = 0;
-            target.x = target.y = 0;
+          if (event.deltaY < 0 && depth === 0 && target.z > 650) {
+            const record = layer.pick(camera, event.clientX, event.clientY, innerWidth, innerHeight, 110);
+            if (record) catalog.focus(record, { navigate: false });
           }
-          target.z = depth + Math.min(10000, distance);
+          const next = rebaseTravelZoom(target.z - depth, depth, (target.z - depth) * Math.exp(event.deltaY * 0.00145));
+          depth = next.depth;
+          target.z = depth + Math.max(19, Math.min(50000, next.value));
         },
         { passive: false },
       );
       renderer.setAnimationLoop(() => {
+        if (document.hidden) return;
         camera.position.lerp(target, 0.055);
         camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
         camera.updateMatrixWorld();
         catalog.setVisibleCount(layer.update(camera, camera.position.z - depth, depth !== 0));
         flight.update(camera);
+        cosmic.update(camera);
+        details.update(camera);
         renderer.domElement.dataset.viewDistance = String(camera.position.z - depth);
         renderer.render(scene, camera);
       });

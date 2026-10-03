@@ -31,18 +31,20 @@ export function createOverview(scene, records) {
   const material = new THREE.ShaderMaterial({
     uniforms: { atlas: { value: texture }, opacity: { value: 0 } },
     vertexShader: `attribute float atlasIndex;
-      varying vec2 tileUV;
+      varying vec2 tileUV; varying float lodOpacity;
       void main() {
         vec2 offset = vec2(mod(atlasIndex, 8.0), 3.0 - floor(atlasIndex / 8.0));
         tileUV = (uv + offset) / vec2(8.0, 4.0);
-        gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position, 1.0);
+        vec4 view = modelViewMatrix * instanceMatrix * vec4(position, 1.0);
+        lodOpacity = smoothstep(180.0, 650.0, -view.z) * (1.0-smoothstep(8000.0,12000.0,-view.z));
+        gl_Position = projectionMatrix * view;
       }`,
     fragmentShader: `uniform sampler2D atlas;
       uniform float opacity;
-      varying vec2 tileUV;
+      varying vec2 tileUV; varying float lodOpacity;
       void main() {
         vec4 cloud = texture2D(atlas, tileUV);
-        gl_FragColor = vec4(cloud.rgb, cloud.a * opacity);
+        gl_FragColor = vec4(cloud.rgb, cloud.a * opacity * lodOpacity);
       }`,
     transparent: true,
     depthWrite: false,
@@ -66,7 +68,8 @@ export function createOverview(scene, records) {
   let worldScale = 1;
   return {
     update(camera, opacity) {
-      const scale = Math.max(1, camera.position.z / Math.max(1750, 2400 / camera.aspect));
+      // Fixed world coordinates: zoom moves the camera, never the galaxies.
+      const scale = 1;
       worldScale = scale;
       mesh.scale.setScalar(scale);
       material.uniforms.opacity.value = opacity;
@@ -76,17 +79,20 @@ export function createOverview(scene, records) {
       let visible = 0;
       for (const record of records) {
         position.fromArray(record.scenePosition).multiplyScalar(scale).project(camera);
+        const depth = camera.position.z - record.scenePosition[2];
+        if (depth >= 12000 || depth <= 180) continue;
         if (Math.abs(position.x) < 1 && Math.abs(position.y) < 1 && position.z > -1 && position.z < 1) visible++;
       }
       return visible;
     },
-    pick(camera, x, y, width, height) {
+    pick(camera, x, y, width, height, radius = 22) {
       if (!shown) return null;
       let nearest = null,
-        best = 22;
+        best = radius;
       for (const record of records) {
         position.fromArray(record.scenePosition).multiplyScalar(worldScale).project(camera);
-        if (position.z < -1 || position.z > 1) continue;
+        const depth = camera.position.z - record.scenePosition[2];
+        if (depth >= 12000 || depth <= 180 || position.z < -1 || position.z > 1) continue;
         const distance = Math.hypot((position.x * 0.5 + 0.5) * width - x, (0.5 - position.y * 0.5) * height - y);
         if (distance < best) {
           best = distance;

@@ -16,11 +16,14 @@ for (const width of [1440, 768, 390]) {
   await page.locator('#catalog-overview').click();
   await expect(page.locator('#catalog-visible-count')).toHaveAttribute('data-count', '300');
   await page.screenshot({ path: `${directory}/2026-10-03-atlas-${width}.png` });
+  await page.mouse.move(width / 2, 450);
+  await page.mouse.wheel(0, 5000);
+  await expect(page.locator('#catalog-visible-count')).toHaveAttribute('data-count', '0');
+  await page.screenshot({ path: `${directory}/2026-10-03-cosmos-far-${width}.png` });
   await page.locator('#open-catalog').click();
   await page.locator('[data-catalog-id="M51"]').click();
   await page.mouse.move(width / 2, 450);
   await page.mouse.wheel(0, -1350);
-  await expect(page.locator('#catalog-visible-count')).toHaveAttribute('data-count', '0');
   await expect
     .poll(async () => Number(await page.locator('canvas#universe').getAttribute('data-view-distance')), {
       timeout: 20000,
