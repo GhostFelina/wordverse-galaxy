@@ -436,5 +436,29 @@
     "recent": "Añadidos recientemente",
     "empty": "Aún no hay registros con fecha.",
     "reviewPending": "Las estadísticas de memoria y repaso aparecerán cuando esté disponible el sistema de repaso."
+  },
+  "catalog": {
+    "title": "Catálogo celeste",
+    "close": "Cerrar catálogo",
+    "intro": "Explora objetos celestes reales. Esta selección inicial contiene cinco galaxias. Las vistas son interpretaciones artísticas de su morfología; las posiciones y tamaños no representan coordenadas ni escalas reales.",
+    "artistic": "Interpretación artística",
+    "distance": "{count} millones de años luz",
+    "explore": "Explorar en escena",
+    "source": "Fuente de NASA",
+    "home": "Volver a mi universo",
+    "names": {
+      "andromeda": "Andrómeda",
+      "whirlpool": "Remolino",
+      "virgo": "Virgo A",
+      "cigar": "Cigarro",
+      "sombrero": "Sombrero"
+    },
+    "descriptions": {
+      "andromeda": "Brazos espirales inclinados alrededor de un centro cálido y denso.",
+      "whirlpool": "Dos brazos espirales destacados con estrellas azules jóvenes y regiones de formación estelar.",
+      "virgo": "Una galaxia elíptica llena de la luz cálida de estrellas antiguas.",
+      "cigar": "Galaxia con intensa formación estelar vista de canto, con gas cálido que sale del disco.",
+      "sombrero": "Un disco amplio y una banda oscura de polvo alrededor de un núcleo brillante."
+    }
   }
 }

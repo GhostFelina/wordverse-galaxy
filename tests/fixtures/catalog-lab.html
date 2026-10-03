@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wordverse · Catalog study</title>
+  </head>
+  <body style="margin: 0; background: #02040a">
+    <div id="app">
+      <canvas id="universe"></canvas>
+      <div class="controls"></div>
+    </div>
+    <script type="module">
+      import * as THREE from 'three';
+      import '../../src/auth.css';
+      import '../../src/style.css';
+      import { createCatalogLayer } from '../../src/catalog-layer.js';
+      import { mountCatalogUI } from '../../src/catalog-ui.js';
+      const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+      renderer.setClearColor(0x02040a);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 10000);
+      const target = new THREE.Vector3(0, 0, 750);
+      camera.position.copy(target);
+      const layer = createCatalogLayer(scene, { compact: innerWidth < 760 });
+      const resize = () => {
+        renderer.setSize(innerWidth, innerHeight);
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+      };
+      resize();
+      addEventListener('resize', resize);
+      mountCatalogUI({
+        locale: 'tr',
+        beforeOpen() {},
+        onFocus(record) {
+          target.set(record.scenePosition[0], record.scenePosition[1], innerWidth < 760 ? 440 : 370);
+        },
+        onHome() {
+          target.set(0, 0, 750);
+        },
+      });
+      renderer.setAnimationLoop(() => {
+        camera.position.lerp(target, 0.055);
+        camera.lookAt(camera.position.x, camera.position.y, 0);
+        layer.update(camera.position.z);
+        renderer.render(scene, camera);
+      });
+    </script>
+  </body>
+</html>

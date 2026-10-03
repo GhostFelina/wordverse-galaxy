@@ -436,5 +436,29 @@
     "recent": "Recently added",
     "empty": "No dated records yet.",
     "reviewPending": "Recall and review statistics will appear when the review system is available."
+  },
+  "catalog": {
+    "title": "Sky catalog",
+    "close": "Close catalog",
+    "intro": "Explore real celestial objects. This initial selection contains five galaxies. Views are artistic interpretations of morphology; scene positions and sizes are not real sky coordinates or scale.",
+    "artistic": "Artistic interpretation",
+    "distance": "{count} million light-years",
+    "explore": "Explore in scene",
+    "source": "NASA source",
+    "home": "Back to my universe",
+    "names": {
+      "andromeda": "Andromeda",
+      "whirlpool": "Whirlpool",
+      "virgo": "Virgo A",
+      "cigar": "Cigar",
+      "sombrero": "Sombrero"
+    },
+    "descriptions": {
+      "andromeda": "Inclined spiral arms surrounding a warm, dense center.",
+      "whirlpool": "Two prominent spiral arms with young blue stars and star-forming regions.",
+      "virgo": "An elliptical galaxy filled with the warm light of older stars.",
+      "cigar": "An edge-on starburst galaxy with warm gas flowing beyond the disk.",
+      "sombrero": "A wide disk and a dark dust lane around a bright central bulge."
+    }
   }
 }

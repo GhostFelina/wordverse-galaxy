@@ -2,13 +2,17 @@
 
 ## Son güncelleme
 
-2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Dil-label koruması 707b929 CI37131921502 misafir initial-session yarışıyla başarısız oldu; son identity-only close fix commit'i `git log -1`, uzak kontrol push sonrası. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
+2026-10-03 19:23 · Codex / Windows. Faz 4 ilk görsel katman: 88 unit/48 e2e, lint/typecheck/build; desktop manual katalog ve focus kanıtı. Profil cf8f9eb CI37135318688 başarılı. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Dil-label koruması 707b929 CI37131921502 misafir initial-session yarışıyla başarısız oldu; son identity-only close fix commit'i `git log -1`, uzak kontrol push sonrası. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
 
 ## Şu an aktif faz ve branch
 
-**Faz 3 · phase/3-profile · geliştirme 1.13.0.** Production v1.11.0. Faz 0/1 tamamlandı, Faz 2 kabulü **ertelendi, tamamlanmadı**. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi (ADR012). Yeni dal phase/2-auth-sync temellidir; draft PR base phase/2-auth-sync, main'e erken merge/tag/prod deploy yok.
+**Faz 4 · phase/4-universe · geliştirme 1.14.0.** Production v1.11.0. Faz 0/1 tamamlandı, Faz 2 kabulü **ertelendi, tamamlanmadı**. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi (ADR012). Yeni dal phase/2-auth-sync temellidir; draft PR base phase/2-auth-sync, main'e erken merge/tag/prod deploy yok.
 
 ## Son oturumda yapılanlar
+
+- İlk 5 kaynaklı galaksi ve ayrı arka plan LOD, üç dil katalog/preview/kamera odağı/eve dön. Yeni user hedefi: X sağ video yakın uçuş ve uzak 300 gerçek galaksi; sonraki aktif iş. Faz 3 kalanları ertelendi.
+- 7 worker ilk soğuk başlangıçta bağımsız fixture timeout; 2 worker ile 48/48, timeout/assertion değişmedi. Evidence catalog.png/catalog-focus.png yalnız veri içermeyen fixture.
+
 
 - Profile session close yarış düzeltmesi: INITIAL_SESSION null ve same-owner token refresh profili kapatmaz; owner transition close önce, session forwarding sonra. 2 ek unit, full **86 unit / 45 e2e**, format/lint/typecheck/build geçti; simulated late initial notification manual fixture açık kaldı, evidence/2026-10-03-profile-session.png.
 - Kullanıcı yeni öncelik verdi: evren/katalog ve gök olaylarının görsel işlerini önce yap; bunlar bitince diğerlerine dön. Mevcut profil race fix commit/push sonrası Faz 4 görsel/katalog dalına geç. Faz 3 alanlar/tercihler henüz tamamlanmadı; pause/deferred görev listesinde kalır.
@@ -29,9 +33,9 @@
 
 ## Sıradaki ilk 3 adım
 
-1. Gerçek OS/shell/git; temiz pull, STATE aktif dalı phase/3-profile; doctor. Son profil/statistics kodunu tekrar başlatma. 5360'ı görünür açık tut.
-2. Faz 3 profil alanları/tercihleri: mevcut settings JSON/CAS altyapısını ve unknown fields korunmasını incele; owner/guest izolasyonu ve conflict testleriyle ilerle. Auth user_metadata izin yetkisi için kullanılmaz. Public sharing varsayılan kapalı kalır.
-3. Faz 3'ü bağımsız bölümlerle tamamla, ardından Faz 4–9 sırasıyla. Faz 2 kalan kabulüne sonra dön; erteleme prod kabulü değildir. Commit/push/PR/CI ve devir belgelerini her anlamlı adımda güncelle.
+1. STATE aktif phase/4-universe; gerçek OS/git/doctor. Yerel 5360 görünür açık; mevcut verileri koru.
+2. Kullanıcının X videosu sağ 00:10–00:15 referansı: yakın yıldız/gaz uçuşu, uzak görünümde 300 ayrı gerçek galaksi. OpenNGC sabit revision/lisans, atlas/instancing/LOD ve görünür sayım doğrulaması; kaynaklı katalog büyüt.
+3. Sonra bulutsu/gezegen görselleri ve Faz 6 iki kuyruklu kuyruklu yıldız/olaylar. Kalan Faz 3 ve Faz 2 kabulüne sonra dön; main/prod/tag erken yapılmaz. Commit/push/CI/preview/handoff.
 
 ## Dikkat edilmesi gerekenler
 

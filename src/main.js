@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import './style.css';
+import { createCatalogLayer } from './catalog-layer.js';
+import { mountCatalogUI } from './catalog-ui.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
@@ -24,7 +26,7 @@ let selectedId = null;
 let editingId = null;
 let activePanel = null;
 let toastTimer;
-let renderer, scene, camera, galaxyGroup, wordGroup;
+let renderer, scene, camera, galaxyGroup, wordGroup, catalogLayer;
 const worldStars = new Map();
 const starNodes = new Map();
 const DENSE_STAR_THRESHOLD = 80;
@@ -330,6 +332,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
   galaxyGroup = new THREE.Group(); scene.add(galaxyGroup);
+  catalogLayer = createCatalogLayer(scene, { compact: innerWidth < 760 });
   glowMap = glowTexture();
   starCoreMap = starCoreTexture();
   planetGeometry = new THREE.SphereGeometry(1, 32, 24);
@@ -504,6 +507,7 @@ function animate(ms) {
   camera.position.y += (targetY - camera.position.y) * .035;
   camera.position.z += (zoom - camera.position.z) * .055;
   camera.lookAt(camera.position.x, camera.position.y, 0);
+  catalogLayer.update(camera.position.z);
   galaxyGrowth += (galaxyGrowthTarget - galaxyGrowth) * .026;
   galaxyExtent += (galaxyExtentTarget - galaxyExtent) * .026;
   galaxyGroup.scale.setScalar(galaxyExtent);
@@ -1027,3 +1031,19 @@ profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, befo
 mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: profileSessionListener(profileUI, accountSync.onSession), onSync: accountSync.open, onProfile: profileUI.open });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));
+
+mountCatalogUI({
+  locale: uiLocale,
+  beforeOpen: () => { closePanels(); profileUI.close(); },
+  onFocus: record => {
+    focusedStarId = null; preFocusPan = null;
+    pan.x = record.scenePosition[0]; pan.y = record.scenePosition[1];
+    pointer.x = pointer.y = 0;
+    setZoom(innerWidth < 760 ? 440 : 370);
+    $('#app').classList.add('catalog-exploring');
+  },
+  onHome: () => {
+    $('#app').classList.remove('catalog-exploring');
+    $('#home-btn').click();
+  },
+});

@@ -55,7 +55,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] Gerçek MacBook ilk kurulum: hesap girişleri, doctor push-check, test/görsel doğrulama. CROSS_DEVICE/SERVICE_ACCESS adımlarından ilerle; sırları cihazlar arasında kopyalama.
 - [x] Vercel env'li preview gerçek Google girişinde ayrı origin'den 6 kayıt/2 galaksi, yalnız bulut seçimi ve reload doğrulandı.
 
-## Faz 3 · `phase/3-profile` · codex/claude
+## Faz 3 · kalan işler ertelendi (görsel öncelik, ADR013) · `phase/3-profile` · codex/claude
 
 - [x] Salt okunur evren istatistik çekirdeği: toplamlar, dil dağılımı, tarihli en eski/son 5 kayıt; input/çıktı ayrımı, invalid/future date ve deleted kayıt sınamaları.
 - [x] Hesap menüsünde TR/EN/ES profil ekranı; mevcut açık evrenle sınırlı, aç/kapat. 1440/768/390 tema/hareket/taşma ve literal HTML text güvenliği e2e; gerçek hesapta manual + yapay fixture kanıtı.
@@ -68,6 +68,9 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] Hedef/ayarlar, rozetler, JSON+CSV, kalıcı hesap silme, varsayılan gizli paylaşım.
 
 ## Faz 4 · `phase/4-universe` · codex/claude
+
+- [x] İlk 5 kaynaklı galaksi, ayrı arka plan katmanı, üç dil katalog/odak/eve dön ve yumuşak zoom görünürlük geçişi; 88 unit/48 e2e + manuel katalog/sahne kanıtı.
+- [~] Kullanıcı X referansı sağ taraf 00:10–00:15: yakın yıldız/gaz içinden uçuş, uzak görünümde 200–300 ayrı gerçek galaksi. OpenNGC kaynak/lisans ve 300 kayıt, atlas/instancing/LOD, kamera derinliği ve görünür sayım kabulü.
 
 - [ ] Kaynak/lisans kayıtlı 50 galaksi, 100 bulutsu, 250 gezegen, 25 takımyıldızı.
 - [ ] Gerçek galaksiye bağlı koleksiyon migrasyonu, morfoloji, LOD ve kesintisiz zoom.

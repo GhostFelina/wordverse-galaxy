@@ -37,7 +37,7 @@ Vite'ın gösterdiği yerel adresi aç. Kontroller için `npm run check` çalı�
 
 ### Codex / Claude ve Windows / MacBook arasında devam
 
-Geliştirme devri için [CROSS_DEVICE rehberi](docs/handoff/CROSS_DEVICE.md) ve güncel [HANDOFF](docs/handoff/HANDOFF.md). Aktif geliştirme dalı `phase/3-profile`; prod v1.11.0. Kullanıcı isteğiyle Faz 2 kalan kabulü ertelendi; Faz 3–9 geliştirme sürüyor. İlk cihazda `npm run setup:device`, ardından `npm run doctor -- --push-check`. İki ajan için devam mesajı: **wordverse projemize kaldığımız yerden devam et**. Proje klasöründen `npm run resume:codex` veya `npm run resume:claude` doğru dal/erişim/env kontrolüyle ajanı açar. Mac ilk kurulum betiği rehberdedir; hesap girişleri cihazda bir kez tamamlanır.
+Geliştirme devri için [CROSS_DEVICE rehberi](docs/handoff/CROSS_DEVICE.md) ve güncel [HANDOFF](docs/handoff/HANDOFF.md). Aktif geliştirme dalı `phase/4-universe`; prod v1.11.0. Kullanıcı isteğiyle Faz 2 kalan kabulü ertelendi; Faz 3–9 geliştirme sürüyor. İlk cihazda `npm run setup:device`, ardından `npm run doctor -- --push-check`. İki ajan için devam mesajı: **wordverse projemize kaldığımız yerden devam et**. Proje klasöründen `npm run resume:codex` veya `npm run resume:claude` doğru dal/erişim/env kontrolüyle ajanı açar. Mac ilk kurulum betiği rehberdedir; hesap girişleri cihazda bir kez tamamlanır.
 
 Kalabalık bir galaksiyi kişisel verileri kullanmadan denemek için `node scripts/generate-benchmark-fixture.mjs 200` komutu geçici dizine JSON yedeği üretir. Bu yedeği ayrı bir yerel test adresinde **Galaksilerim → Yedekten geri yükle** ile aç. 200 yıldızlı testte toplu çizim, çizim çağrısını 644'ten 20'ye düşürdü. Tarayıcı otomasyonunda FPS 1'e kısıtlandığından gerçek ön plan FPS ölçümü ayrıca yapılacak.
 
