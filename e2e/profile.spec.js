@@ -12,7 +12,7 @@ for (const locale of ['tr', 'en', 'es']) {
       activeGalaxyId: 'g',
       galaxies: [
         { id: 'g', name: 'Test galaxy', language: 'English' },
-        { id: 's', name: 'Second', language: 'Spanish' },
+        { id: 's', name: 'Second', language: locale === 'en' ? 'constructor' : 'Spanish' },
       ],
       words: [
         {
@@ -49,6 +49,7 @@ for (const locale of ['tr', 'en', 'es']) {
       await expect(profile).toBeVisible();
       await expect(profile.locator('dd')).toHaveText(['1', '1', '2']);
       await expect(profile.locator('.profile-recent')).toContainText('porque');
+      if (locale === 'en') await expect(profile.locator('.profile-languages')).toContainText('constructor');
       await expect(profile).toContainText('<img src=x onerror=alert(1)>');
       await expect(profile.locator('img')).toHaveCount(0);
       expect(await profile.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);

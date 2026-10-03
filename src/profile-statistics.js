@@ -8,7 +8,8 @@ export function profileStatistics(universe, now = Date.now()) {
   const galaxyById = new Map(galaxies.map((galaxy) => [galaxy.id, galaxy]));
   const languages = new Map();
   for (const entry of entries) {
-    const language = galaxyById.get(entry.galaxyId)?.language || null;
+    const rawLanguage = galaxyById.get(entry.galaxyId)?.language;
+    const language = typeof rawLanguage === 'string' && rawLanguage.trim() ? rawLanguage : null;
     languages.set(language, (languages.get(language) || 0) + 1);
   }
   const dated = entries

@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu bu oturum commit'inde; `git log -1 --oneline`. Uzak Faz 3 CI/preview push/PR sonrası kaydedilecek.
+2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Son dil-label koruması commit'i `git log -1`; uzak gate push sonrası izlenecek. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
 
 ## Şu an aktif faz ve branch
 
@@ -12,6 +12,7 @@
 
 - Son Faz 2 yazma hatası işi: engine localSaved flag, TR/EN/ES kalıcı alert açık tut/retry/JSON yedek yönlendirmesi. Başarılı persist/hesap değişimi kapatır, network error tek başına göstermez. Mobilde buton engeli pointer-events:none ile düzeldi; 82 unit/42 e2e + responsive ek kontrol/manual. `5740cd1` CI ve preview 6ybzwxP8ByM6WzenHG2SnkB4vmqq geçti.
 - Faz 3 başladı: src/profile-statistics.js salt okunur açık evren toplamları, dil dağılımı, en eski tarihli kayıt ve son 5 kayıt. Deleted kayıtlar sayılmaz; invalid/future dates eski/son listesine girmez. Girdiler ve dönen kayıtlar ayrı; kullanıcı verisi değiştirilmez.
+- Son guard: dil alias Map ile lookup (constructor/prototype metinleri çökme üretmez), string olmayan dil unknown sayılır. EN responsive e2e constructor alanıyla geçti; son tam gate 84 unit/45 e2e + Go24/format başarılı.
 - src/profile-ui.js/profile.css: Hesap menüsü > Profil ve istatistikler. TR/EN/ES, dialog aç/kapat, mevcut açık misafir/hesap evreni. FSRS olmadığı için tekrar başarısı uydurulmaz. Profil kimliği/tercih formu henüz yok.
 - 2 yeni unit + 3 localized Playwright: toplam **84 unit / 45 e2e**, lint/typecheck/build/format geçti. 1440/768/390 tema/hareket/taşma, literal HTML text/XSS ve guest bytes koruması geçti. İlk auth testi profile button auth-link seçti; ayrı submit stiline alındı ve temiz full gate tekrar geçti.
 - Gerçek 5360 hesapta profil 3 yıldız/3 gezegen/2 galaksi manual görüldü; veriler değişmedi. Paylaşılan screenshot yalnız yapay fixture: evidence/2026-10-03-profile-statistics.png. Yerel uygulama görünür açık.

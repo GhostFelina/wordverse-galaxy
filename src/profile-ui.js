@@ -37,9 +37,15 @@ export function mountProfileUI({ locale, getUniverse, beforeOpen }) {
     else {
       const list = node('ul', '', 'profile-languages');
       for (const { language, count } of statistics.languages) {
-        const label = { English: 'en', İngilizce: 'en', Spanish: 'es', İspanyolca: 'es', Turkish: 'tr', Türkçe: 'tr' }[
-          language
-        ];
+        const aliases = new Map([
+          ['English', 'en'],
+          ['İngilizce', 'en'],
+          ['Spanish', 'es'],
+          ['İspanyolca', 'es'],
+          ['Turkish', 'tr'],
+          ['Türkçe', 'tr'],
+        ]);
+        const label = aliases.get(language);
         list.append(
           node(
             'li',
