@@ -3,9 +3,9 @@
 ## Güncel cihaz devri · 2026-10-03
 
 Kullanıcı MacBook çalışmasını durdurdu ve Windows'ta devam edeceğini bildirdi.
-Aktif geliştirme cihazı **Windows**; dal **`phase/2-auth-sync`**. Önce mevcut Windows
+Kullanıcı Faz 2 kabulünü sonraya bırakarak Faz 3–9 geliştirmeye geçilmesini istedi (ADR012). Faz 2 tamamlandı sayılmaz. Aktif geliştirme cihazı **Windows**; dal **`phase/3-profile`**. Önce mevcut Windows
 klonunda değişiklikleri koruyarak temiz ağaçta `git fetch origin`,
-`git switch phase/2-auth-sync`, `git pull --ff-only` çalıştır; güncel `HANDOFF.md`
+`git switch phase/3-profile`, `git pull --ff-only` çalıştır; güncel `HANDOFF.md`
 başındaki Windows devir bloğunu oku. Mac'te geliştirmeyi yeniden başlatma.
 Mac'in yanlış eski main tabanındaki alternatif denemesi yalnız arşiv dalındadır:
 `checkpoint/mac-2026-10-03-paused` (`0f94672`); merge veya cloud migration için kullanma.
@@ -15,7 +15,7 @@ Mac mevcut klonu `/Users/felina/Projects/wordverse-galaxy` olarak bildirildi; ye
 
 ## Ortak görev kaynağı
 
-Repo https://github.com/GhostFelina/wordverse-galaxy; aktif dal `phase/2-auth-sync`. STATE.json makine tarafından okunan dal/faz kaydıdır; HANDOFF.md tek güncel görev kaynağıdır. Faz 0/1 yeniden başlatılmaz. İki ajan da MASTER_PROMPT, HANDOFF, TASKS, KNOWN_ISSUES, DECISIONS ve session dosyalarını kullanır. Codex AGENTS.md, Claude CLAUDE.md aynı belgeleri gösterir.
+Repo https://github.com/GhostFelina/wordverse-galaxy; aktif dal `phase/3-profile`. STATE.json makine tarafından okunan dal/faz kaydıdır; HANDOFF.md tek güncel görev kaynağıdır. Faz 0/1 yeniden başlatılmaz. İki ajan da MASTER_PROMPT, HANDOFF, TASKS, KNOWN_ISSUES, DECISIONS ve session dosyalarını kullanır. Codex AGENTS.md, Claude CLAUDE.md aynı belgeleri gösterir.
 
 Windows mevcut proje `C:\Users\User\Desktop\Projeler\kelime-evreni` taşınmaz. Mac gerçek Masaüstü/Projeler altında mevcut klonu korur veya yeni klon oluşturur.
 
@@ -24,7 +24,7 @@ Windows mevcut proje `C:\Users\User\Desktop\Projeler\kelime-evreni` taşınmaz. 
 Windows oturumu MacBook'a erişemez. Mac terminalinde bu iki satır public repodan kurulum dosyasını indirip çalıştırır:
 
 ```sh
-curl -fL https://raw.githubusercontent.com/GhostFelina/wordverse-galaxy/phase/2-auth-sync/scripts/setup-mac.sh -o "${TMPDIR:-/tmp}/wordverse-setup.sh"
+curl -fL https://raw.githubusercontent.com/GhostFelina/wordverse-galaxy/phase/3-profile/scripts/setup-mac.sh -o "${TMPDIR:-/tmp}/wordverse-setup.sh"
 bash "${TMPDIR:-/tmp}/wordverse-setup.sh"
 ```
 
@@ -39,7 +39,7 @@ Betiğin yaptığı işler:
 
 İlk kurulumu ajanla yapmak istersen Codex veya Claude'ye bir kez:
 
-> Wordverse projemize kaldığımız yerden devam et. Repo https://github.com/GhostFelina/wordverse-galaxy, aktif dal phase/2-auth-sync. Gerçek OS/kabuk/Masaüstü yolunu kontrol et; mevcut klonu koru veya Masaüstü/Projeler altında klonla. CROSS_DEVICE.md ve HANDOFF.md'yi oku; rutin araç kurulumu, setup:device ve doctor kontrollerini tamamla. Bu proje için Codex/Claude global yönlendirmesi ve GitHub bağlantı kurulumu yetkisi verdim. Kullanıcı ilk girişleri tamamlayınca projeyi yerelde görünür aç ve sıradaki görevden devam et.
+> Wordverse projemize kaldığımız yerden devam et. Repo https://github.com/GhostFelina/wordverse-galaxy, aktif dal phase/3-profile. Gerçek OS/kabuk/Masaüstü yolunu kontrol et; mevcut klonu koru veya Masaüstü/Projeler altında klonla. CROSS_DEVICE.md ve HANDOFF.md'yi oku; rutin araç kurulumu, setup:device ve doctor kontrollerini tamamla. Bu proje için Codex/Claude global yönlendirmesi ve GitHub bağlantı kurulumu yetkisi verdim. Kullanıcı ilk girişleri tamamlayınca projeyi yerelde görünür aç ve sıradaki görevden devam et.
 
 ## Sonraki açılışlar ve limitte ajan değiştirme
 

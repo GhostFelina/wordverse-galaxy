@@ -1,0 +1,37 @@
+.profile-dialog {
+  width: min(640px, calc(100vw - 32px));
+}
+.profile-dialog h3 {
+  margin: 24px 0 10px;
+  font-size: 16px;
+}
+.profile-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.profile-totals div {
+  padding: 14px 8px;
+  border: 1px solid #364256;
+  border-radius: 12px;
+  text-align: center;
+}
+.profile-totals dt {
+  font-size: 12px;
+  color: #bac4d4;
+  overflow-wrap: anywhere;
+}
+.profile-totals dd {
+  margin: 8px 0 0;
+  font-size: 28px;
+}
+.profile-languages,
+.profile-recent {
+  padding-left: 22px;
+}
+.profile-languages li,
+.profile-recent li {
+  padding: 5px 0;
+  overflow-wrap: anywhere;
+}

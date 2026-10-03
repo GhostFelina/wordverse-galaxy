@@ -3,7 +3,7 @@ import { authErrorKey, getSupabaseClient } from './supabase-client.js';
 import { legalPath } from './legal-page.js';
 import './auth.css';
 
-export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {}, onSync = null }) {
+export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {}, onSync = null, onProfile = null }) {
   const t = (key) => translate(locale, `auth.${key}`);
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -52,6 +52,17 @@ export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {
   function render() {
     content.replaceChildren();
     status.textContent = '';
+    if (onProfile && !recovery)
+      content.append(
+        button(
+          translate(locale, 'profile.open'),
+          () => {
+            dialog.close();
+            onProfile();
+          },
+          'auth-submit',
+        ),
+      );
     const signedIn = session && !recovery;
     title.textContent = t(signedIn ? 'accountTitle' : mode);
     description.textContent = t(signedIn ? 'syncPending' : 'guestNote');

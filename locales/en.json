@@ -421,5 +421,20 @@
     "conflictsPreserved": "{count} conflicts found; differing content was preserved.",
     "createGalaxy": "Create a galaxy first.",
     "localWriteError": "This change could not be saved on this device. Keep this page open and retry, or download a JSON backup from the galaxy menu."
+  },
+  "profile": {
+    "open": "Profile and statistics",
+    "title": "Your universe at a glance",
+    "close": "Close profile",
+    "scope": "Statistics for the universe currently open on this device.",
+    "stars": "Stars",
+    "planets": "Planets",
+    "galaxies": "Galaxies",
+    "languages": "Language distribution",
+    "unknownLanguage": "Unassigned language",
+    "oldest": "Oldest record",
+    "recent": "Recently added",
+    "empty": "No dated records yet.",
+    "reviewPending": "Recall and review statistics will appear when the review system is available."
   }
 }

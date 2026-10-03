@@ -421,5 +421,20 @@
     "conflictsPreserved": "Se encontraron {count} conflictos; se conservó el contenido diferente.",
     "createGalaxy": "Primero crea una galaxia.",
     "localWriteError": "No se pudo guardar este cambio en este dispositivo. Mantén esta página abierta y reintenta, o descarga una copia JSON desde el menú de galaxias."
+  },
+  "profile": {
+    "open": "Perfil y estadísticas",
+    "title": "Tu universo de un vistazo",
+    "close": "Cerrar perfil",
+    "scope": "Estadísticas del universo abierto actualmente en este dispositivo.",
+    "stars": "Estrellas",
+    "planets": "Planetas",
+    "galaxies": "Galaxias",
+    "languages": "Distribución por idioma",
+    "unknownLanguage": "Idioma sin asignar",
+    "oldest": "Registro más antiguo",
+    "recent": "Añadidos recientemente",
+    "empty": "Aún no hay registros con fecha.",
+    "reviewPending": "Las estadísticas de memoria y repaso aparecerán cuando esté disponible el sistema de repaso."
   }
 }

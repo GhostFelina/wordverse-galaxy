@@ -20,7 +20,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Öğrenilen dil/anlam dili ayrımı ve v3 koruyan v4 migrasyonu yapıldı; altı statik sayfada canonical ve `hreflang` doğrulandı.
 - [x] Üç dilde ana/ekle/ayrıntı/koleksiyon/galaksi ve Hakkında akışları otomatik geçti; 1440/768/390, tema ve hareket kanıtı var. PR #4 merge, main CI, Vercel prod ve altı dil sayfası/izole kelime ekleme duman testi geçti.
 
-## Faz 2 · `phase/2-auth-sync` · codex/claude
+## Faz 2 · kabul ertelendi (kullanıcı 2026-10-03, ADR012) · `phase/2-auth-sync` · codex/claude
 
 - [x] Dört tablolu sürümlü migration hedef Wordverse Dashboard'da uygulandı. RLS iki hesaplı rollback testi geçti; anonim erişim ve doğrudan silme kapalı. İlk schema advisor kaydı tarihseldir; güncel Security Advisor 0 hata/1 Auth uyarısı, kullanılmamış iki FK indeksi korundu.
 - [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
@@ -56,6 +56,13 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Vercel env'li preview gerçek Google girişinde ayrı origin'den 6 kayıt/2 galaksi, yalnız bulut seçimi ve reload doğrulandı.
 
 ## Faz 3 · `phase/3-profile` · codex/claude
+
+- [x] Salt okunur evren istatistik çekirdeği: toplamlar, dil dağılımı, tarihli en eski/son 5 kayıt; input/çıktı ayrımı, invalid/future date ve deleted kayıt sınamaları.
+- [x] Hesap menüsünde TR/EN/ES profil ekranı; mevcut açık evrenle sınırlı, aç/kapat. 1440/768/390 tema/hareket/taşma ve literal HTML text güvenliği e2e; gerçek hesapta manual + yapay fixture kanıtı.
+- [ ] Profil açıkken hesap değişimi ve aynı hesap token refresh kabulü; düzenleme formunda eski owner verisi/draft korunma sınırları.
+- [ ] Görünen ad/kullanıcı adı ve tercihler veri modeli + owner sync/guest ayrımı; unique/public handle politikası belirlenmeli.
+- [ ] Takvim, seri ve en eski yıldız; tarih/saat dilimi ve silme/import etkileriyle tutarlı hesaplama.
+
 
 - [ ] Profil alanları, avatar, istatistik/ısı haritası, tekrar güçlü-zayıf analizi.
 - [ ] Hedef/ayarlar, rozetler, JSON+CSV, kalıcı hesap silme, varsayılan gizli paylaşım.
