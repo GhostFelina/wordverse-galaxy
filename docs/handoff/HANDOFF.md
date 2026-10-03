@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 16:39 · Codex / Windows · son doğrulanmış uzak kod `b2d67c2` (CI 37126838495 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
+2026-10-03 16:56 · Codex / Windows · son doğrulanmış uzak kod `b2d67c2` (CI 37126838495 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
 
 ## Şu an aktif faz ve branch
 
@@ -10,9 +10,12 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Son oturumda yapılanlar
 
+- Yeni `src/avatar-storage.ts`: owner UUID/path, JPEG/PNG/WebP magic bytes ve 2 MiB client sınırı, yeni upload/explicit upsert/private Blob download/cache:no-store/tek path remove; işlem öncesi/sonrası getUser ile hesap değişimi koruması, backend detayları yerine stable hata kodları. Henüz profil UI'ına bağlı değil.
+- `npm run test:avatars`: 10 yeni unit ve gerçek SDK/sahte transport fixture. UI'da 6 adım manual geçti; kanıt `evidence/2026-10-03-avatar-sdk-isolated.png`. Gerçek Supabase endpoint/depo/hesap kullanılmadı; **hosted Storage API kabulü hâlâ bekliyor**. Protokol `supabase/checks/AVATAR_API_ACCEPTANCE.md`.
+- Kullanıcı **“Durum Analiz”** istediğinde `| Durum | İş | Sonuç / kalan adım |` tablosu ile güncel biten/süren/kalan iş göster; tercih AGENTS.md ve CLAUDE.md'de kayıtlı. Durum isteği aktif görevi iptal etmez.
 - JSON import aynı kimlikli farklı içeriği artık sessizce atlamaz. `src/record-merge.js` ilk giriş ve import için ortak kayıpsız birleşim; galaksi/kelime çatışması kopyaları, olay ve snapshot referansları remap edilir. Tekrar import aynı içeriği çoğaltmaz. Property sırası/undefined JSON alanları sahte conflict oluşturmaz; eski galaksi anlam dili varsayılan TR ile uyumludur.
 - `src/universe-data.js:mergeUniverse` yeni sonucu clone üzerinde hesaplar, sonra uygular; bozuk tekrarlı kimlikli yedek kısmen uygulanmadan reddedilir. Şema v4 değişmedi; v2/v3 yedekler korunur. Aynı yedek farklı, sonradan düzenlenmiş bir kopya içerirse o yeni sürüm de korunur.
-- `tests/migration-archive.test.js` üç ek veri koruma testi; `e2e/account-sync.spec.js` hesabın çakışan yedek import/sync/reload/tekrar import kabulü. Son tam kontrol **71 birim + 37 Playwright**, lint/typecheck/build/format geçti. Yeni merge ve email generator/preview dosyaları format gate'e dahil.
+- `tests/migration-archive.test.js` üç ek veri koruma testi; `e2e/account-sync.spec.js` hesabın çakışan yedek import/sync/reload/tekrar import kabulü. Son tam kontrol **81 birim + 38 Playwright**, lint/typecheck/build/format geçti. Avatar helper/test/fixture format gate'e dahil. Önceki record-merge comment format uyarısı düzeltilip format kontrolü tekrar geçildi.
 - Gerçek yerel hesap 5360'da **6 kayıt / 2 galaksi / Eşitlendi** kaldı. Ayrı **5371 misafir test origin**'inde `tests/fixtures/backups/current.json`, `historic.json` UI ile içe aktarıldı; iki anlam ayrı yıldızda görüldü, tekrar yükleme 2 kayıt olarak kaldı. Masaüstü kanıtları `evidence/2026-10-03-backup-conflict-{current,historic}.png`; gerçek kullanıcı verisi değiştirilmedi.
 - Önceki tamamlanan işler: owner IndexedDB cache/kalıcı kuyruk, CAS/üç taraflı conflict, misafir ayrımı/ilk giriş özeti, offline reconnect, tombstone/explicit restore, foreground refresh (15 saniye burst sınırı/açık edit-rename formu korunur), gerçek Google local/preview kabulü ve hesap JSON export.
 - Private avatar bucket hedefte kurulu: `wordverse-avatars`, 2 MiB, JPEG/PNG/WebP, folder+owner_id RLS ve restrictive guard. İki hesap/anon/sahip değiştirme rollback SQL kabulü geçti. Security Advisor son kontrol **0 hata / 1 Auth uyarısı**, leaked password protection Pro+ gerektiriyor; plan açılmadı.
@@ -29,7 +32,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 ## Sıradaki ilk 3 adım
 
 1. Başlangıç OS/git/pull/doctor/test kontrolünden sonra HANDOFF/TASKS ve en son session'ı birlikte kullan. `b2d67c2` kod CI/preview kabulü geçti; bu işi tekrar başlatma. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
-2. Kullanıcı girişine bağlı olmayan Faz 2 kabul işlerini sürdür: Storage API için izole fixture kabul akışını hazırla; gerçek hesap verisini değiştirme. Kalan email/CLI/physical-device testlerini doğrulanmış diye işaretleme.
+2. Kullanıcı girişine bağlı olmayan Faz 2 kabul işlerini sürdür: Avatar için izole istemci fixture hazır; gerçek API protokolünü AVATAR_API_ACCEPTANCE.md üzerinden uygula; gerçek hesap verisini değiştirme. Kalan email/CLI/physical-device testlerini doğrulanmış diye işaretleme.
 3. Kullanıcı ertelenen SMTP/giriş/hukuki adımlara döndüğünde tamamla. Tüm kabul geçince Faz 2 main merge/changelog/tag/release/prod smoke; ardından Faz 3.
 
 ## Dikkat edilmesi gerekenler

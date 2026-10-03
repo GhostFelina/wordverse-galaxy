@@ -44,6 +44,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Hesap tombstone + reload + açık JSON restore e2e. Boş hesapta gerçek galaksi paneli açılışı ve aria-hidden kontrolü düzeltildi.
 - [x] Sekmeye dönüş/focus/visibility bulut refresh, 15 saniye burst sınırı, açık düzenleme formunda foreground refresh atlama; hata retry durumunu koruma ve görünür liste güncelleme. Otomatik uzak değişim/draft/CAS conflict kabulü geçti; gerçek fiziksel iki cihaz testi bekliyor.
 - [x] Private wordverse-avatars bucket (2 MiB, JPEG/PNG/WebP), folder+owner_id RLS ve geniş izinli policy karşısında restrictive guard hedefte uygulandı; iki hesap/anon/owner reassignment rollback testi ve Dashboard limit kanıtı geçti.
+- [x] Avatar client helper (sahip/path/tür/imza/boyut, upload/upsert/private download/tek nesne remove ve late session guard), 10 unit + izole gerçek SDK transport e2e/manual. 81 unit/38 e2e; üretim profil entegrasyonu ve gerçek Storage API kabulü değildir.
 - [ ] Gerçek Storage API upload/upsert/delete, boyut ve MIME reddi kabulü (profil UI henüz yok).
 - [x] ENVIRONMENT yedek/kurtarma planı, private-backups Git dışlama. RPO/RTO hedef; zamanlanmış dump ve restore tatbikatı henüz yok.
 - [ ] Prod auth duman testi; gerçek e-posta ve üç dil şablon kabulü.

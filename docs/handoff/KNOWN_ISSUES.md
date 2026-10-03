@@ -17,3 +17,5 @@
 - Supabase storage.protect_delete doğrudan SQL DELETE'i engelliyor. Bu korumayı kapatma; dosyalar Storage API ile yönetilmeli. Avatar SQL kabulü yalnız metadata/RLS; ilk başarısız test fixture'ı transaction ile geri alındı, düzeltilmiş test geçti.
 - Yedek stratejisi belgelendi; otomatik dump/özel cihaz dışı kopya ve izole restore tatbikatı henüz yapılmadı. JSON yedek tam Auth/Storage felaket kurtarması değildir.
 - 2026-10-03 gerçek Dashboard, default mail ile custom template düzenlemesine izin vermiyor: custom SMTP veya Pro istiyor. Confirmation/recovery TR/EN/ES şablonları ve preview repoda hazır, hosted'e uygulanmadı. Kullanıcı SMTP/hesap girişlerini sonraya bıraktı; bağımsız kod/test işlerini sürdür, tekrar aynı soruyu sorma.
+
+- Avatar client helper/SDK fixture hazır, profil UI'ına bağlı değil. Oturum upload sonrası koparsa eski hesabın yüklemesi sunucuda kalabilir; late result yeni hesaba verilmez, otomatik cleanup yapılmaz. MIME değişimi için yeni path gerekir. Client signature check tam dosya decode veya hosted boyut/MIME/RLS kabulü değildir; AVATAR_API_ACCEPTANCE.md bu kontrolleri ayırır.
