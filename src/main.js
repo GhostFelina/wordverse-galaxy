@@ -5,6 +5,7 @@ import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
+import { mountAuthUI } from './auth-ui.js';
 
 const $ = (selector) => document.querySelector(selector);
 const uiLocale = getHomeLocale();
@@ -959,7 +960,7 @@ function bindUI() {
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
   $('#reset-view').addEventListener('click', () => { focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
+  document.addEventListener('keydown', e => { if ($('#account-dialog')?.open) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
     if (e.pointerType === 'touch') {
@@ -998,5 +999,6 @@ resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 applyHomeTranslations(uiLocale);
 persist(); refreshCounts(); bindUI(); initScene();
+mountAuthUI({ locale: uiLocale, beforeOpen: closePanels });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

@@ -1,6 +1,10 @@
 {
   "language": "Türkçe",
-  "nav": { "explore": "Keşfet", "collection": "Kelimelerim", "galaxies": "Galaksilerim" },
+  "nav": {
+    "explore": "Keşfet",
+    "collection": "Kelimelerim",
+    "galaxies": "Galaksilerim"
+  },
   "hero": {
     "titleFirst": "Her kelime,",
     "titleSecond": "bir yıldız.",
@@ -13,12 +17,28 @@
     "showMeaning": "Anlamı göster",
     "hideMeaning": "Anlamı gizle"
   },
-  "field": { "word": "Kelime", "meaning": "Anlam", "example": "Örnek cümle" },
+  "field": {
+    "word": "Kelime",
+    "meaning": "Anlam",
+    "example": "Örnek cümle"
+  },
   "unit": {
-    "star": { "one": "yıldız", "other": "yıldız" },
-    "planet": { "one": "gezegen", "other": "gezegen" },
-    "day": { "one": "gün", "other": "gün" },
-    "entry": { "one": "kayıt", "other": "kayıt" }
+    "star": {
+      "one": "yıldız",
+      "other": "yıldız"
+    },
+    "planet": {
+      "one": "gezegen",
+      "other": "gezegen"
+    },
+    "day": {
+      "one": "gün",
+      "other": "gün"
+    },
+    "entry": {
+      "one": "kayıt",
+      "other": "kayıt"
+    }
   },
   "status": {
     "storageError": "Tarayıcı depolaması dolu veya kapalı. Evren yedeğini indir.",
@@ -134,8 +154,15 @@
     "import": "Yedekten geri yükle ↑"
   },
   "names": {
-    "defaultGalaxy": { "english": "İngilizce Galaksisi", "spanish": "İspanyolca Galaksisi" },
-    "language": { "tr": "Türkçe", "en": "İngilizce", "es": "İspanyolca" },
+    "defaultGalaxy": {
+      "english": "İngilizce Galaksisi",
+      "spanish": "İspanyolca Galaksisi"
+    },
+    "language": {
+      "tr": "Türkçe",
+      "en": "İngilizce",
+      "es": "İspanyolca"
+    },
     "planet": {
       "mercury": "Merkür",
       "venus": "Venüs",
@@ -146,7 +173,11 @@
       "uranus": "Uranüs",
       "neptune": "Neptün"
     },
-    "galaxyStyle": { "spiral": "Spiral", "barred": "Çubuklu spiral", "flocculent": "Parçalı spiral" },
+    "galaxyStyle": {
+      "spiral": "Spiral",
+      "barred": "Çubuklu spiral",
+      "flocculent": "Parçalı spiral"
+    },
     "stage": {
       "newborn": "Yeni doğan · beyaz",
       "young": "Genç · beyaz",
@@ -253,5 +284,102 @@
     "courtesy": "Görseller: NASA/JPL-Caltech.",
     "note": "Wordverse bir kelime atlası ve sanatsal görselleştirmedir. Fiziksel ölçüler ve zaman ölçeği, etkileşim için uyarlanmıştır."
   },
-  "count": { "star": "{count} yıldız", "planet": "{count} gezegen", "galaxy": "{count} galaksi" }
+  "count": {
+    "star": "{count} yıldız",
+    "planet": "{count} gezegen",
+    "galaxy": "{count} galaksi"
+  },
+  "auth": {
+    "open": "Hesap",
+    "close": "Hesap penceresini kapat",
+    "kicker": "KİŞİSEL YÖRÜNGEN",
+    "signin": "Giriş yap",
+    "signup": "Hesap oluştur",
+    "reset": "Şifreni sıfırla",
+    "update": "Yeni şifre belirle",
+    "email": "E-posta",
+    "password": "Şifre",
+    "newPassword": "Yeni şifre",
+    "passwordHint": "En az 8 karakter.",
+    "guest": "Misafir olarak devam et",
+    "guestNote": "Misafir evrenin bu tarayıcıda saklanır. Giriş yaptığında buluta taşıma seçimini sen yaparsın.",
+    "forgot": "Şifremi unuttum",
+    "google": "Google ile devam et",
+    "googlePending": "Google girişi henüz kullanıma açılmadı.",
+    "noConfig": "Hesap bağlantısı hazırlanıyor. Misafir olarak kullanmaya devam edebilirsin.",
+    "pending": "Bir an…",
+    "checkEmail": "Doğrulama bağlantısı için e-postanı kontrol et.",
+    "resetSent": "Bu adres için bir hesap varsa sıfırlama bağlantısı gönderildi.",
+    "passwordUpdated": "Şifren güncellendi.",
+    "signedIn": "Hesabına giriş yaptın.",
+    "signout": "Çıkış yap",
+    "signedOut": "Çıkış yaptın. Yerel evrenin korundu.",
+    "accountTitle": "Hesabın",
+    "syncPending": "Bulut eşitlemesi hazırlanıyor. Evrenin şu an bu tarayıcıda korunuyor.",
+    "invalid": "E-posta veya şifre doğrulanamadı.",
+    "unconfirmed": "Girişten önce e-posta adresini doğrula.",
+    "rateLimit": "Çok fazla deneme. Biraz sonra tekrar dene.",
+    "network": "Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.",
+    "error": "İşlem tamamlanamadı. Tekrar dene.",
+    "weak": "En az 8 karakterli bir şifre seç.",
+    "back": "Girişe dön"
+  },
+  "legal": {
+    "back": "Evrene dön",
+    "language": "Dil",
+    "updated": "Son güncelleme: 3 Ekim 2026",
+    "contact": "İletişim ve veri talepleri",
+    "privacy": "Gizlilik",
+    "terms": "Kullanım koşulları",
+    "privacyLead": "Verinin nerede tutulduğunu ve hesabınla ne paylaştığını açıkça anlatıyoruz.",
+    "termsLead": "Wordverse ücretsiz, gelişmekte olan bir öğrenme günlüğü ve sanatsal evren görselleştirmesidir.",
+    "privacySections": [
+      [
+        "Proje ve iletişim",
+        "Wordverse, GhostFelina tarafından geliştirilen bağımsız bir projedir. Veri sorumlusu kimliği ve yasal iletişim bilgileri genel bulut kullanımından önce tamamlanmalıdır. Proje ve veri talepleri için kopukfad@gmail.com adresine yazabilirsin."
+      ],
+      [
+        "Misafir evreni",
+        "Kelimeler, anlamlar, galaksiler ve geçmiş bu sitenin tarayıcı depolamasında (IndexedDB ve localStorage) tutulur. Misafir içeriklerinin otomatik olarak buluta gönderilmesi yoktur. Tarayıcı verilerini temizlemek yerel kopyaları silebilir; JSON yedeğini ayrıca sakla."
+      ],
+      [
+        "Hesap ve giriş",
+        "Hesap açarken e-posta adresin ve şifren kimlik doğrulama için Supabase’e iletilir. Şifreyi uygulama belgelerine veya kayıtlarına yazmayız. Oturum bilgisi cihazında saklanır. Google girişi etkinleştirildiğinde Google’ın izin ekranında belirtilen temel profil ve e-posta bilgileri hesabını tanımak için kullanılır."
+      ],
+      [
+        "Bulut tercihi ve hizmet sağlayıcılar",
+        "Bulut eşitlemesini seçtiğinde evren içeriğin hesabına bağlı olarak Supabase’de saklanır. Şu an eşitleme kullanıma açılmamıştır. Supabase proje bölgesi Singapur’dur; Vercel siteyi barındırır. Bu sağlayıcılar hizmet ve güvenlik için IP adresi gibi teknik veriler işleyebilir. Türkiye veya Avrupa Ekonomik Alanı dışına aktarımın hukuki dayanağı ve güvenceleri genel bulut kullanımı açılmadan önce belgelenmelidir."
+      ],
+      [
+        "Amaç ve saklama",
+        "Hesap verileri talep ettiğin giriş hizmetini sunmak, oturumu korumak ve kötüye kullanımı önlemek için işlenir. Evren içerikleri yalnız seçtiğin eşitleme hizmeti için kullanılır. Satış ve reklam profili oluşturma yapılmaz; uygulama pazarlama çerezleri veya bağımsız analitik kullanmaz. Hesap aktifken hesap verileri tutulur; silme talepleri doğrulandıktan sonra uygulanır. Sağlayıcı günlükleri ve yedeklerinin saklama süreleri ayrıca netleştirilecektir."
+      ],
+      [
+        "Kontrolün ve hakların",
+        "Galaksi panelinden JSON yedeği alabilir ve içe aktarabilirsin. KVKK ve GDPR kapsamında uygulanabildiği ölçüde bilgi, erişim, düzeltme, silme, sınırlama, itiraz ve taşınabilirlik talep edebilirsin; yetkili denetim makamına şikâyet hakkın vardır. Talebini iletişim adresine gönder. Kimliğini doğrulamak için yalnız gerekli bilgi istenir; şifreni gönderme. Çıkış yapmak yerel evreni silmez."
+      ]
+    ],
+    "termsSections": [
+      [
+        "Kullanım",
+        "Wordverse’ü kelime öğrenimini kaydetmek, keşfetmek ve tekrar etmek için kullanabilirsin. Yalnız paylaşma hakkına sahip olduğun içerikleri gir; başkalarının özel veya hassas bilgilerini ekleme. Başkalarının hesaplarına erişmeye, güvenlik önlemlerini aşmaya veya hizmeti kötüye kullanmaya çalışma."
+      ],
+      [
+        "İçeriğin ve yedekler",
+        "Girdiğin içerik üzerindeki haklar sende kalır. İsteğe bağlı bulut hizmeti yalnız hesabına ait içeriği saklamak ve cihazların arasında eşitlemek için kullanılır. JSON yedeklerini düzenli indir; tarayıcı temizliği veya hizmet kesintisi sırasında yalnız bu siteye güvenme."
+      ],
+      [
+        "Hesap güvenliği",
+        "Güçlü ve benzersiz bir şifre kullan. E-posta doğrulaması ve şifre sıfırlama bağlantılarını paylaşma. Misafir modu ücretsiz ve hesapsız kullanılabilir. Hesap silme talepleri iletişim adresinden alınır; doğrulama olmadan başka bir kişinin verisi silinmez."
+      ],
+      [
+        "Bilimsel ve eğitsel sınırlar",
+        "Görselleştirmeler sanatsal yorumlardır; zaman ölçeği ve boyutlar etkileşim için uyarlanır. Wordverse öğrenme sonucunu, bilimsel ölçüm doğruluğunu veya kesintisiz hizmeti garanti etmez. Zorunlu yasal hakların saklıdır."
+      ],
+      [
+        "Değişiklikler ve iletişim",
+        "Özellikler gelişirken bu metin güncellenebilir; önemli veri işleme değişiklikleri uygulanmadan önce açıklanır. Ücretli bir hizmete otomatik kaydolmazsın. Proje soruları ve veri talepleri: kopukfad@gmail.com."
+      ]
+    ]
+  }
 }

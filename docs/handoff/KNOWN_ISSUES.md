@@ -9,3 +9,5 @@
 - Sistem açık tema seçilse de uygulama yalnız koyu palet kullanıyor. Faz 9'da açık tema tasarımı ve testleri değerlendirilmeli.
 - Vercel preview SSO korumalı; anonim HTTP smoke için erişim yok. Preview build/check başarılı; prod URL izole tarayıcıda test edildi.
 - Faz 2 hedef Wordverse Supabase projesine Chrome Dashboard erişimi var; dört tablo uygulandı ve RLS testi geçti. Bağlı Supabase uygulaması ve CLI başka hesaplara bağlı olduğundan hedef projeye bu araçlarla erişilemiyor; Dashboard'da uygulanan migration geçmişi CLI ile ayrıca eşleştirilmeli. Yanlış projeye değişiklik uygulanmamalı.
+- Hesap UI yalnız taslak dalda; Google provider kapalı ve bulut eşitleme henüz bağlanmadı. E-posta doğrulama/sıfırlama gerçek posta kutusu ve prod dönüş URL'leriyle doğrulanmalı. Şu an Supabase Site URL localhost:3000 varsayılanı; izinli URL'ler hazırlanmalı.
+- Gizlilik/koşullar taslağında veri sorumlusu yasal kimliği, sağlayıcı log/yedek saklama süreleri ve Singapur bölgesine aktarım güvenceleri henüz tamamlanmadı. Bunlar netleşmeden KVKK/GDPR uyumu tamamlandı sayılmaz.

@@ -4,7 +4,7 @@
 - Proje: `C:\Users\User\Desktop\Projeler\kelime-evreni`.
 - Repo: `https://github.com/GhostFelina/wordverse-galaxy`; canlı site: `https://wordverse-galaxy.vercel.app`.
 - Kurulum: `npm ci`; geliştirme: `npm run dev` (127.0.0.1:5350; kullanıcıya açık oturum şu an 5360); test ve build: `npm run check`. Kanonik dil yolları `/`, `/en/`, `/es/` ve Hakkında eşleridir.
-- Bugün bulut env anahtarı gerekmiyor. Faz 2 için planlanan adlar: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`. Değerler yalnız `.env.local` ve Vercel ortamında tutulacak.
+- Faz 2 yerel env adları: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_GOOGLE_AUTH_ENABLED`. İlk ikisi `.env.local` içinde; Google flag henüz etkin değil. Vercel env kurulumu sırada. Değerleri log'a veya repoya yazma.
 - `main` v1.11.0 kullanıcı verisi: yeni yazma anahtarı localStorage `wordverse.universe.v4`; eski `wordverse.universe.v3` ve `wordverse.words.v2` kayıtları silinmeden taşınır. IndexedDB `wordverse-local-backup` arşiv ve ayna kopyası var. JSON dışa aktarma, cihaz dışı yedek yöntemidir.
 - Faz 2 dalı: IndexedDB `wordverse-offline` / `state` birincil depo; localStorage v4 ve `wordverse.local.revision` eşzamanlı kurtarma kopyası. Eski arşiv/ayna korunuyor.
 - Hedef Supabase Dashboard erişimi mevcut. CLI/MCP hesapları farklı olduğundan SQL migration Dashboard'da uygulandı; CLI link/repair henüz yapılmadı. Aynı migration'ı `db push` ile körlemesine tekrar uygulama; önce geçmişi eşleştir.

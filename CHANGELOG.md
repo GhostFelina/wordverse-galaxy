@@ -2,6 +2,8 @@
 
 ## [Unreleased] — Faz 2 / 1.12.0 hazırlığı
 
+- Üç dilde erişilebilir hesap penceresi, e-posta giriş/kayıt/sıfırlama ve yerel çıkış; gizlilik/koşullar statik taslakları. Google ve bulut senkron kabulü bekliyor.
+
 - Supabase CLI yerel proje yapılandırması ve kullanıcıya ait kayıtlar için RLS/senkron mimari kararı eklendi.
 - İlk girişte yerel ve bulut evrenlerini veri kaybı olmadan birleştiren saf çekirdek ve çakışma testleri eklendi; uygulama akışına bağlanması sürüyor.
 - IndexedDB birincil yerel evren deposu eklendi. localStorage eşzamanlı kurtarma kopyası olarak kalıyor; yazma yarım kalırsa sürüm numarasıyla yeni kopya seçiliyor. Eski yedek arşivi korunuyor.

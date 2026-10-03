@@ -26,7 +26,8 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
 - [~] İlk girişte galaksi, kelime ve olayların iki taraflı kayıpsız birleşimi için saf çekirdek ve üç birim testi yazıldı; IndexedDB ve hesap akışına henüz bağlanmadı.
 - [~] IndexedDB birincil yerel depo uygulamaya bağlandı; üç birim ve bir tarayıcı kurtarma testi geçti. Offline kuyruk, bulut eşitlemesi ve görsel durum göstergesi sırada.
-- [ ] E-posta kayıt/giriş/doğrulama/sıfırlama, Google OAuth, üç dilde gizlilik/koşullar.
+- [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
+- [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
 - [ ] Misafir modu, IndexedDB birincil depo, ilk girişte kayıpsız merge, offline kuyruk ve soft delete.
 - [ ] JSON import/export, avatar bucket, env ve yedek stratejisi; prod auth duman testi.
 

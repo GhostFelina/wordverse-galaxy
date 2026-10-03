@@ -1,5 +1,132 @@
 import { expect, test } from '@playwright/test';
 
+test('sign-in error stays local and preserves the guest universe', async ({ page }) => {
+  await page.route('https://wordverse-auth.test/**', (route) =>
+    route.fulfill({
+      status: 400,
+      headers: {
+        'X-Supabase-Api-Version': '2024-01-01',
+        'Access-Control-Expose-Headers': 'X-Supabase-Api-Version',
+      },
+      contentType: 'application/json',
+      body: JSON.stringify({ code: 'invalid_credentials', message: 'Invalid login credentials' }),
+    }),
+  );
+  await page.goto('/?lang=tr');
+  await page.locator('#open-account').click();
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  const dialog = page.locator('#account-dialog');
+  await dialog.getByLabel('E-posta', { exact: true }).fill('isolated@example.test');
+  await dialog.getByLabel('Şifre', { exact: true }).fill('test-only-password');
+  await dialog.getByRole('button', { name: 'Giriş yap', exact: true }).click();
+  await expect(dialog.getByRole('status')).toHaveText('E-posta veya şifre doğrulanamadı.');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});
+
+test('mocked sign-in and local sign-out leave guest records intact', async ({ page }) => {
+  const user = { id: '11111111-1111-4111-8111-111111111111', email: 'isolated@example.test', aud: 'authenticated' };
+  const expiresAt = Math.floor(Date.now() / 1000) + 3600;
+  const token = [
+    Buffer.from(JSON.stringify({ alg: 'HS256' })).toString('base64url'),
+    Buffer.from(JSON.stringify({ sub: user.id, exp: expiresAt })).toString('base64url'),
+    'test-signature',
+  ].join('.');
+  await page.route('https://wordverse-auth.test/**', (route) => {
+    if (route.request().url().includes('/logout')) return route.fulfill({ status: 204 });
+    return route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        access_token: token,
+        refresh_token: 'test-only-refresh-token',
+        token_type: 'bearer',
+        expires_in: 3600,
+        expires_at: expiresAt,
+        user,
+      }),
+    });
+  });
+  await page.goto('/?lang=en');
+  await page.locator('#open-account').click();
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  const dialog = page.locator('#account-dialog');
+  await dialog.getByLabel('Email', { exact: true }).fill(user.email);
+  await dialog.getByLabel('Password', { exact: true }).fill('test-only-password');
+  await dialog.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(dialog).toHaveAccessibleName('Your account');
+  await expect(dialog).toContainText(user.email);
+  await dialog.getByRole('button', { name: 'Sign out', exact: true }).click();
+  await expect(dialog).toHaveAccessibleName('Sign in');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});
+
+for (const [locale, signin, signup, reset, email, password, guest] of [
+  ['tr', 'Giriş yap', 'Hesap oluştur', 'Şifreni sıfırla', 'E-posta', 'Şifre', 'Misafir olarak devam et'],
+  ['en', 'Sign in', 'Create account', 'Reset your password', 'Email', 'Password', 'Continue as a guest'],
+  [
+    'es',
+    'Iniciar sesión',
+    'Crear cuenta',
+    'Restablece tu contraseña',
+    'Correo electrónico',
+    'Contraseña',
+    'Continuar como invitado',
+  ],
+]) {
+  test(`account views are accessible in ${locale} and preserve guest data`, async ({ page }) => {
+    await page.goto(`/?lang=${locale}`);
+    await page.locator('#open-account').waitFor();
+    const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+    await page.locator('#open-account').click();
+    const dialog = page.locator('#account-dialog');
+    await expect(dialog).toHaveAccessibleName(signin);
+    await expect(dialog.getByLabel(email, { exact: true })).toBeFocused();
+    await dialog.getByLabel(password, { exact: true }).fill('one');
+    await page.keyboard.type('/two');
+    await expect(dialog.getByLabel(password, { exact: true })).toHaveValue('one/two');
+    await dialog.getByRole('button', { name: signup, exact: true }).click();
+    await expect(dialog).toHaveAccessibleName(signup);
+    await expect(dialog.getByLabel(password, { exact: true })).toHaveAttribute('minlength', '8');
+    await page.keyboard.press('Escape');
+    await expect(dialog).not.toBeVisible();
+    await page.locator('#open-account').click();
+    await dialog.locator('.auth-link').first().click();
+    await expect(dialog).toHaveAccessibleName(signin);
+    await dialog.locator('.auth-link').first().click();
+    await expect(dialog).toHaveAccessibleName(reset);
+    await expect(dialog.locator('input[type=password]')).toHaveCount(0);
+    await dialog.getByRole('button', { name: guest, exact: true }).click();
+    await expect(dialog).not.toBeVisible();
+    expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+  });
+}
+
+for (const [locale, privacy, terms] of [
+  ['tr', 'Gizlilik', 'Kullanım koşulları'],
+  ['en', 'Privacy', 'Terms of use'],
+  ['es', 'Privacidad', 'Condiciones de uso'],
+]) {
+  test(`legal pages remain readable without JavaScript in ${locale}`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    const prefix = locale === 'tr' ? '' : `/${locale}`;
+    for (const [kind, title] of [
+      ['privacy', privacy],
+      ['terms', terms],
+    ]) {
+      await page.goto(`${test.info().project.use.baseURL}${prefix}/${kind}`);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+      await expect(page.locator('html')).toHaveAttribute('lang', locale);
+      await expect(page.locator('link[rel=canonical]')).toHaveAttribute(
+        'href',
+        `https://wordverse-galaxy.vercel.app${prefix}/${kind}`,
+      );
+      await expect(page.locator('link[hreflang]')).toHaveCount(4);
+    }
+    await context.close();
+  });
+}
+
 test('guest can add a word and retain it after reload', async ({ page }) => {
   await page.goto('/');
   await page.locator('#open-add').click();
