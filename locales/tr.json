@@ -436,5 +436,78 @@
     "recent": "Son eklenenler",
     "empty": "Henüz tarihli kayıt yok.",
     "reviewPending": "Hatırlama ve tekrar istatistikleri, tekrar sistemi hazır olduğunda görünecek."
+  },
+  "catalog": {
+    "title": "Gök kataloğu",
+    "close": "Kataloğu kapat",
+    "intro": "Tek kâinat içinde 300 gerçek galaksiyi keşfet. En uzakta yıldız alanı, yaklaştıkça galaksiler ve iç yapıları görünür. J2000 katalog koordinatları kullanılır; derinlik, boyutlar ve yıldız alanı sanatsal yorumdur.",
+    "artistic": "Sanatsal yorum",
+    "distance": "{count} milyon ışık yılı",
+    "explore": "Sahnede keşfet",
+    "source": "NASA kaynağı",
+    "home": "Evrenime dön",
+    "names": {
+      "andromeda": "Andromeda",
+      "whirlpool": "Girdap",
+      "virgo": "Başak A",
+      "cigar": "Puro",
+      "sombrero": "Sombrero"
+    },
+    "descriptions": {
+      "andromeda": "Eğik görünen sarmal kollar ve sıcak, yoğun bir merkez.",
+      "whirlpool": "Belirgin iki sarmal kol boyunca genç mavi yıldızlar ve yıldız oluşum bölgeleri.",
+      "virgo": "Yaşlı yıldızların sıcak ışığıyla dolu, eliptik bir galaksi.",
+      "cigar": "Yandan görünen yıldız oluşum galaksisi; diskin dışına yayılan sıcak gaz.",
+      "sombrero": "Parlak merkez çevresinde geniş disk ve koyu bir toz şeridi."
+    },
+    "overview": "{count} galaksiyi birlikte gör",
+    "visible": "{count} galaksi görüş alanında",
+    "search": "Katalogda ara · M31, NGC0224…",
+    "noResults": "Bu seçkide eşleşme yok. NGC numaralarını dört basamakla yaz.",
+    "credit": "OpenNGC · Mattia Verga ve katkıda bulunanlar · CC BY-SA 4.0 · uyarlanmış veri"
+  },
+  "celestial": {
+    "title": "Gökyüzü atlası",
+    "close": "Kapat",
+    "types": "Gök cismi türleri",
+    "galaxies": "Galaksiler",
+    "nebulae": "Bulutsular",
+    "asteroids": "Asteroidler",
+    "fireballs": "Meteor gözlemleri",
+    "search": "Ad, katalog kimliği veya tarih ara",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "overview": "Galaksiler arasında gezinti",
+    "credit": "Bulutsular ve galaksiler: OpenNGC — Mattia Verga ve katkıda bulunanlar, CC BY-SA 4.0. Asteroidler: NASA/JPL SBDB. Meteor gözlemleri: NASA/JPL CNEOS. Eksik ölçümler bilinmiyor olarak gösterilir. Dünya: NASA Blue Marble 2002 (Reto Stöckli / Robert Simmon); olay tarihinin uydu görüntüsü değildir.",
+    "unknown": "Bilinmiyor",
+    "diameter": "Çap",
+    "epoch": "Yörünge dönemi",
+    "location": "Konum",
+    "altitude": "Yükseklik",
+    "home": "Kendi yıldızlarıma dön",
+    "replay": "Tarihsel atmosfer olayı · şematik tekrar",
+    "artistic": "Gerçek katalog kaydı · sanatsal görselleştirme",
+    "noLocation": "Ölçülmüş konum yok; iz gösterilmez",
+    "count": "{count} gerçek kayıt · {type}",
+    "source": "Kaynak",
+    "noResults": "Kayıt bulunamadı",
+    "intro": "Yıldızların arasına yaklaş; bulutsuları ve galaksileri keşfet. Konumlar ve boyutlar gezinti için sıkıştırılmıştır; görseller fotoğraf değildir. Asteroid yörüngeleri kaydın dönemindeki verilere dayanır. Meteorlar geçmiş atmosfer gözlemleridir; canlı olay ya da tahmin değildir.",
+    "kinds": {
+      "planetary": "Gezegenimsi bulutsu",
+      "supernova-remnant": "Süpernova kalıntısı",
+      "reflection": "Yansıma bulutsusu",
+      "hii": "H II bölgesi",
+      "emission": "Salma bulutsusu",
+      "nebula": "Bulutsu",
+      "cluster-nebula": "Bulutsu ve yıldız kümesi"
+    }
+  },
+  "experience": {
+    "title": "Karanlığın içindeki ışığı keşfet.",
+    "copy": "Yıldızlara yaklaş, gezegenlerin çevresinde gez ve gaz bulutlarının derinliğine ilerle.",
+    "explore": "Keşfet",
+    "signin": "Giriş yap",
+    "guest": "Kendi evrenime geç",
+    "preview": "Demo"
   }
 }

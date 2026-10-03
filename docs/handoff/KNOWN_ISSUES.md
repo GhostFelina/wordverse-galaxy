@@ -1,7 +1,7 @@
 # Bilinen sorunlar
 
 - Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.
-- Son Faz 2 ana JS paketi yaklaşık 575 kB (minify); Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
+- Son kademeli build ana JS ~409 kB; asteroid veri parçası ~545 kB nedeniyle Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
 - WebGL başlatılamazsa arayüzün tüm veri işlevleri ayrı bir liste modu ile güvence altında değil.
 - Mevcut görseller için kaynaklar `docs/ART_ASSET.md`, `docs/ASTRONOMY_REFERENCES.md` ve kök dizindeki `ATTRIBUTIONS.md` içinde. Yeni varlıklar eklendikçe merkezi atıf güncellenmeli.
 - Statik TR/EN/ES sayfaları üretildi. Kök URL `/` tarayıcı dili veya yerel tercih nedeniyle JavaScript açıldığında EN/ES'e dönebilir; statik HTML varsayılan TR'dir. Kanonik dil adresleri `/en/` ve `/es/` açık dili sabitler.
@@ -23,3 +23,22 @@
 - IndexedDB hesap deposu için simulated onblocked/late native connection close ve SecurityError/recovery kabulü geçti (82 unit/40 e2e). Gerçek tarayıcı gizlilik politikası veya fiziksel cihaz depolama engeli sınanmadı; bu kontroller yerine geçmez.
 
 - Hesap IDB yazma/kota hatasında mevcut kalıcı kopya korunur ve yeni değişiklik bu sayfa açıkken bellekte tutulur. Retry başarısından önce reload/çıkış yeni değişikliği kaybettirebilir; kalıcı depoya yazılamayan verinin reload dayanıklılığı iddia edilmez. UI hata/retry ve kalıcı açık tutma/JSON export yönlendirmesi gösterir. Gerçek disk doldurma yapılmadı; kabul DOMException injection kullanır.
+
+- 300 atlas galaksisi gerçek katalog kayıtlarıdır; açısal gökyüzü yerleşimi ve redshift derinliği sanatsal sıkıştırılır, fiziksel 3B uzaklık değildir. İlk 5 dışında mesafeler bilinmiyor. Yakın yıldız/gazlar prosedüreldir. Kalıcı galaksi seçimi migrasyonu henüz yok.
+
+- Güncel Faz 4 görsel kademe 2: yıldız temeli üzerinde 200 gerçek bulutsu +1000 asteroid +1000 tarihsel meteor gözlemi aktif. 300 galaksi katalog verisi korunur fakat kademe 3 henüz kapalı. Eski bütün galaksilerin aktif olduğu veya yalnız yıldız bulunduğu notları tarihsel.
+- Kullanıcı mevcut yıldız/galaksileri amatör buldu; ultra gerçekçi yıldız ışığı, galaksi toz/gaz yapıları ve profesyonel geçişler kabul edilmedi. Bulutsu raymarch hacmi ve kaya yüzeyi iyileştirildi; yakın/uzak GPU/FPS bütçesi tamamlanmadı.
+- Uzak ölçek parlama/patlama/dalga isteği kaydedildi, henüz uygulanmadı. En uzak zoomda galaksiler gizli kalmalı. Yıldızlı arka plana son kullanıcı düzeltmesiyle izin verildi; OLED derin siyah korunur.
+- Raymarch ilk 20-step/sin hash sürümünde kamera zaman clamping'i yüzünden bir EN1440 focus senaryosu 5 saniyede 3.15 birim farkla timeout oldu. Polynomial hash/12 steps + gerçek zamana yakın kamera damping düzeltildi; hedefli 12 senaryo geçti. Tam son gate HANDOFF'tan kontrol edilir.
+
+## Yükseltme başlangıcı · 2026-10-04
+
+- e75ecca uzakCI37146273133yerel66/66sonucuna rağmen57pass/9fail (6accountsync+3desktopnebula),30sinteractiontimeouts. Başlangıçhata olarak kaydedildi. DPR adaptasyonu + SDK optimizeDeps include + auth callback generation sonraki integratedCI ile sınanmalı; remotegatehenüzgeçti sayılmaz.
+- U1ilkhedefli25:TRinitializing5s ve storageblockedguestliste erişimi regrese oldu. GPUloopauthresolvebekleme, SDKprefetch, staleauthcallbackgeneration veexplicitguestfallbackdüzeltildi; ilgili4/4geçti. Asserttimeout gevşetilmedi.
+- U2 ilkbodyfixtureüretimdepaylaşılıyor ama kullanıcıyıldızlarılegacySprite,yerleşimcount-dependent/forcedbinary; U4 açık. Gas eski12stephacim,filament/toz/nearLODhenüzyeniqualitygategeçmedi. Yeni demo gövdelerinde en uzak küçük nokta LOD uygulandı (2–7 CSS piksel crossfade); katalog ve gerçek kayıt adapterleri hâlâ açık.
+
+- Yeni tam turlarda ilk kimlik/dil panel yarışı ve IDB 5 saniye bekleme gecikmesi görüldü. Form/collection açıkken ve misafir primary write sürerken GPU çizimi durduruldu; detail kamera odağı devam eder. Soğuk SDK modül ağacı `optimizeDeps.include` ile önceden hazırlanır. Son tam 71 test turu henüz çalışıyor; test timeout/assertion gevşetilmedi.
+
+## Son remote gate çözümü
+
+e968196 / CI37158521409: 105 unit ve 71 e2e geçti. Dialog ve owner-ready çizim geçidi, 150ms sahne derleme sakinleşmesi ve software WebGL CI tek worker; yerel iki-worker 16/16 hedefli gate. Önceki 9 ve 6 remote hata bu revizyonda giderildi. Yakın gaz hâlâ yumuşak; planet terrain patchy; responsive close-shot framing, premium gerçek-record adapter ve fiziksel cihaz/FPS ölçümü açık. X tekrar oynatma Medya oynatılamıyor: yeni 10–15 hareket ve ses doğrulaması bekliyor.

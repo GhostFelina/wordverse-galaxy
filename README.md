@@ -2,9 +2,11 @@
 
 [Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.9.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.14.0--dev-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
 
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
+
+> Güncel geliştirme: `phase/4-universe`, 1.14.0; production main v1.11.0. Aşağıdaki eski galaksi görünümü geliştirme dalında yıldız temeliyle değiştirildi. Güncel durum: 200 bulutsu +1000 asteroid +1000 tarihsel meteor gözlemi; 300 galaksi yeniden aktivasyonu bekliyor. Tam devir: `docs/handoff/CLAUDE_BRIEF.md` ve `HANDOFF.md`.
 
 ## Özellikler
 
@@ -37,15 +39,15 @@ Vite'ın gösterdiği yerel adresi aç. Kontroller için `npm run check` çalı�
 
 ### Codex / Claude ve Windows / MacBook arasında devam
 
-Geliştirme devri için [CROSS_DEVICE rehberi](docs/handoff/CROSS_DEVICE.md) ve güncel [HANDOFF](docs/handoff/HANDOFF.md). Aktif geliştirme dalı `phase/3-profile`; prod v1.11.0. Kullanıcı isteğiyle Faz 2 kalan kabulü ertelendi; Faz 3–9 geliştirme sürüyor. İlk cihazda `npm run setup:device`, ardından `npm run doctor -- --push-check`. İki ajan için devam mesajı: **wordverse projemize kaldığımız yerden devam et**. Proje klasöründen `npm run resume:codex` veya `npm run resume:claude` doğru dal/erişim/env kontrolüyle ajanı açar. Mac ilk kurulum betiği rehberdedir; hesap girişleri cihazda bir kez tamamlanır.
+Geliştirme devri için [CROSS_DEVICE rehberi](docs/handoff/CROSS_DEVICE.md) ve güncel [HANDOFF](docs/handoff/HANDOFF.md). Aktif geliştirme dalı `phase/4-universe`; prod v1.11.0. Kullanıcı isteğiyle Faz 2 kalan kabulü ertelendi; Faz 3–9 geliştirme sürüyor. İlk cihazda `npm run setup:device`, ardından `npm run doctor -- --push-check`. İki ajan için devam mesajı: **wordverse projemize kaldığımız yerden devam et**. Proje klasöründen `npm run resume:codex` veya `npm run resume:claude` doğru dal/erişim/env kontrolüyle ajanı açar. Mac ilk kurulum betiği rehberdedir; hesap girişleri cihazda bir kez tamamlanır.
 
 Kalabalık bir galaksiyi kişisel verileri kullanmadan denemek için `node scripts/generate-benchmark-fixture.mjs 200` komutu geçici dizine JSON yedeği üretir. Bu yedeği ayrı bir yerel test adresinde **Galaksilerim → Yedekten geri yükle** ile aç. 200 yıldızlı testte toplu çizim, çizim çağrısını 644'ten 20'ye düşürdü. Tarayıcı otomasyonunda FPS 1'e kısıtlandığından gerçek ön plan FPS ölçümü ayrıca yapılacak.
 
 ## Veriler ve gizlilik
 
-Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Her kayıttan sonra IndexedDB içinde ikinci bir yerel kopya oluşturulur; ana kayıt bozulursa uygulama açılışta bu kopyadan kurtarmayı dener. Sayfayı yenilemek verileri silmez. Tarayıcının **tüm site verilerini silmek iki yerel kopyayı da silebilir**. Başka tarayıcıya, cihaza veya yerel adresten Vercel adresine otomatik eşitleme henüz yoktur. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
+Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Her kayıttan sonra IndexedDB içinde ikinci bir yerel kopya oluşturulur; ana kayıt bozulursa uygulama açılışta bu kopyadan kurtarmayı dener. Sayfayı yenilemek verileri silmez. Tarayıcının **tüm site verilerini silmek iki yerel kopyayı da silebilir**. Production v1.11.0 cihazlar arası otomatik eşitleme içermez. Geliştirme dalında hesap başına IndexedDB + Supabase senkronu ve yerel gerçek Google oturumu doğrulandı; prod kabulü ve gerçek iki cihaz testi bekliyor. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
 
-Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Uygulamada hesap veya sunucu tarafı veri toplama yoktur.
+Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Production v1.11.0 yerel kullanım içindir. Geliştirme dalında isteğe bağlı hesap/bulut saklama bulunur; misafir verisi hesaplardan ayrıdır.
 
 ## Astronomi ve görsel yaklaşım
 

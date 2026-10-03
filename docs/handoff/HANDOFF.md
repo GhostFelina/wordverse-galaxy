@@ -1,46 +1,101 @@
 # Devir durumu
 
-## Son güncelleme
+## Son kullanıcı yönlendirmesi · 2026-10-04
 
-2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Dil-label koruması 707b929 CI37131921502 misafir initial-session yarışıyla başarısız oldu; son identity-only close fix commit'i `git log -1`, uzak kontrol push sonrası. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
+- Önceki katmanlar ana uygulamadan kaldırıldı: gezegen, galaksi, asteroid, meteor ve kuyruklu yıldız yok. OLED siyah ve yıldızlar korunuyor. Bağlaçlar depodan silinmedi; koleksiyonda erişilebilir, sahnede gizli.
+- Kişisel yıldızlar (≤80 görünür kelime) premium küre/nokta adapteri ile çiziliyor; shared geometri, far point LOD. Yoğun instanced eski çizim ve kalıcı yerleşim U4/U8 içinde açık.
+- Yerel lint/typecheck/build, 106 unit geçti; hesap + 9 responsive yıldız testleri 20/20, deneyim 5/5 geçti. İlk fixture testi shader float literal nedeniyle başarısızdı, düzeltildi ve 5/5 tekrar geçti. Gerçek Chrome ana sayfa personal/stars-only ve kapalı katman sayıları 0 doğrulandı. Sentetik ana sayfa kanıtı: evidence/upgrade/stars-only-main-1440.png.
+- **Aktif yeni görev: kullanıcının belirttiği 20 gerçek nebula görüntüsü**, random fakat oturumlar arasında sabit sahne konumları, en uzak zoomda görünür; mouse wheel ile içinden geçiş ve drag pan. Gezegen/asteroid/meteor/galaksi tekrar açılmayacak. Liste: Orion, Eagle, Horsehead, Helix, Butterfly, Bubble, Heart, Soul, Rosette, Carina, Veil, North America, California, Flame, Cat’s Eye, Crab, Lagoon, Trifid, Witch Head, Hand of God. Carina/Eagle/Orion/Rosette/Veil öncelikli kalite.
 
-## Şu an aktif faz ve branch
 
-**Faz 3 · phase/3-profile · geliştirme 1.13.0.** Production v1.11.0. Faz 0/1 tamamlandı, Faz 2 kabulü **ertelendi, tamamlanmadı**. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi (ADR012). Yeni dal phase/2-auth-sync temellidir; draft PR base phase/2-auth-sync, main'e erken merge/tag/prod deploy yok.
+## Aktif yükseltme · 2026-10-04
 
-## Son oturumda yapılanlar
+**WORDVERSE_MASTER_UPGRADE.md aktif şartnamedir; 524 satırı tamamen okundu.** U0–U9 yükseltme sırası, eski Faz 0–9 ile ayrı izlenir. Windows / PowerShell; aktif dal `phase/4-universe`. Orijinal Faz 0/1 tamamlandı, Faz 2 kabulü ve Faz 3 kalanları ertelendi. Üretim dalına birleştirme veya sürüm etiketi yok.
 
-- Profile session close yarış düzeltmesi: INITIAL_SESSION null ve same-owner token refresh profili kapatmaz; owner transition close önce, session forwarding sonra. 2 ek unit, full **86 unit / 45 e2e**, format/lint/typecheck/build geçti; simulated late initial notification manual fixture açık kaldı, evidence/2026-10-03-profile-session.png.
-- Kullanıcı yeni öncelik verdi: evren/katalog ve gök olaylarının görsel işlerini önce yap; bunlar bitince diğerlerine dön. Mevcut profil race fix commit/push sonrası Faz 4 görsel/katalog dalına geç. Faz 3 alanlar/tercihler henüz tamamlanmadı; pause/deferred görev listesinde kalır.
+### Kullanıcının son kesinleştirdiği görsel kararlar
 
-- Son Faz 2 yazma hatası işi: engine localSaved flag, TR/EN/ES kalıcı alert açık tut/retry/JSON yedek yönlendirmesi. Başarılı persist/hesap değişimi kapatır, network error tek başına göstermez. Mobilde buton engeli pointer-events:none ile düzeldi; 82 unit/42 e2e + responsive ek kontrol/manual. `5740cd1` CI ve preview 6ybzwxP8ByM6WzenHG2SnkB4vmqq geçti.
-- Faz 3 başladı: src/profile-statistics.js salt okunur açık evren toplamları, dil dağılımı, en eski tarihli kayıt ve son 5 kayıt. Deleted kayıtlar sayılmaz; invalid/future dates eski/son listesine girmez. Girdiler ve dönen kayıtlar ayrı; kullanıcı verisi değiştirilmez.
-- Son guard: dil alias Map ile lookup (constructor/prototype metinleri çökme üretmez), string olmayan dil unknown sayılır. EN responsive e2e constructor alanıyla geçti; son tam gate 84 unit/45 e2e + Go24/format başarılı.
-- src/profile-ui.js/profile.css: Hesap menüsü > Profil ve istatistikler. TR/EN/ES, dialog aç/kapat, mevcut açık misafir/hesap evreni. FSRS olmadığı için tekrar başarısı uydurulmaz. Profil kimliği/tercih formu henüz yok.
-- 2 yeni unit + 3 localized Playwright: toplam **84 unit / 45 e2e**, lint/typecheck/build/format geçti. 1440/768/390 tema/hareket/taşma, literal HTML text/XSS ve guest bytes koruması geçti. İlk auth testi profile button auth-link seçti; ayrı submit stiline alındı ve temiz full gate tekrar geçti.
-- Gerçek 5360 hesapta profil 3 yıldız/3 gezegen/2 galaksi manual görüldü; veriler değişmedi. Paylaşılan screenshot yalnız yapay fixture: evidence/2026-10-03-profile-statistics.png. Yerel uygulama görünür açık.
-- STATE/CROSS_DEVICE/ROADMAP/TASKS aktif Faz 3'e güncellendi; doctor iki CLI/GitHub/public env/aktif dal kontrollerini geçti. Mac pause sürüyor.
+- Ana hareket referansı **X videosunun sağ paneli, 00:10–00:15**. R5 YouTube gezegeni ikincil yüzey referansıdır.
+- **En uzağa alındığında gök cisimleri küçük noktalar gibi görünür.** Yüzey, gaz ve galaksi ayrıntıları yaklaşıldıkça açılır; büyük diskler ve parlamalar uzak sahneyi kaplamaz.
+- Yeni demo yıldız/gezegen katmanında ekran boyutuna göre 2–7 CSS piksel arasında yumuşak küre/nokta geçişi uygulandı. En uzakta yıldız yaklaşık 2.2, gezegen 1.8 CSS piksel. Diğer katalog katmanları ve kullanıcı yıldızlarına aynı politikanın adaptasyonu U2–U4 içinde açık.
 
-## Yarım kalan iş
+- **Mouse kontrolü:** Mouse tekerleği / trackpad kaydırması yakınlaşma ve uzaklaşma kontrolüdür; mouse sürükleme yön/pan kontrolüdür. Mevcut temel wheel zoom korunur, U3 kesintisiz kamera ve projected-size geçişleri ile tamamlanır. UI form/scroll alanları kaydırılırken evren zoomu tetiklenmemeli; reduced-motion ve touch pinch ayrı kabul edilir.
 
-- Faz 3: owner'a bağlı görünen ad/kullanıcı adı/tercihler modeli ve kalıcı form. Kullanıcı adı henüz herkese açık/unique diye sunulmaz. Profil, istatistik/heatmap, seri/hedef/ayar/rozet, JSON+CSV ve onaylı hesap silme/parçalı public sharing işleri TASKS'ta.
-- Faz 2 ertelenen kabul: SMTP/mail/hosted Go render, gerçek Storage API dosya limit/RLS, doğru CLI hesabı/migration history, fiziksel iki cihaz/Mac runtime, hukuki saklama/transfer/consent marka ve prod auth. Kullanıcı erteledi; tekrar soru sorma.
-- Yalnız Supabase mrkmtcpzyvooreeokmkp. Dashboard'da uygulanan migrations 20261002181057_initial_user_data, 20261003064254_conditional_sync_writes, 20261003123923_private_avatars. MCP/CLI başka hesap; kör db push/history repair yok. Avatar SQL metadata/RLS kabulü Storage API kabulü değildir; storage.protect_delete kapatma.
+### Bu checkpoint'in somut geliştirmeleri
 
-## Sıradaki ilk 3 adım
+- U1: `showcase-demo`, gerçek hesap `personal` ve korunmuş misafir `guest-personal` sahne politikası. İlk oturum çözülmeden demo gösterilmez. Hesap verisi gelmeden sahte hesap sayısı gösterilmez; depolama hatasında açık misafir tercihi çalışır.
+- Async sahne montajında eski işlemler iptal edilir; ortak geometri ve materyaller sahipleri tarafından bırakılır. Demo gövdeleri veri deposuna yazılmaz.
+- İlk kimlik çözümlemesi sırasında form düğmeleri devre dışıdır. Dil değişimi sonrası erken tıklama yarışı ve klavye koleksiyon kısayolu düzeltildi.
+- U2 başladı: küresel granülasyon/limb yıldızı, aydınlık-karanlık gezegen yüzeyi, demo gaz hacmi ve küçük nokta geçişi. Three r180 SRGB + ACES/exposure 0.85; tam renk/bloom denetimi henüz açık.
+- Ölçülen yavaş karelere göre DPR düşürme var; gerçek mobil/5000 kayıt performans kabulü değildir.
+- Şema, kullanıcı kayıtları/koordinatları ve hesap senkron sözleşmesi korunur. Gerçek kullanıcı yıldızları hâlâ eski görsel adapter ile çizilir; count-dependent coreOrbit / forced binary U4'te ele alınacak.
 
-1. Gerçek OS/shell/git; temiz pull, STATE aktif dalı phase/3-profile; doctor. Son profil/statistics kodunu tekrar başlatma. 5360'ı görünür açık tut.
-2. Faz 3 profil alanları/tercihleri: mevcut settings JSON/CAS altyapısını ve unknown fields korunmasını incele; owner/guest izolasyonu ve conflict testleriyle ilerle. Auth user_metadata izin yetkisi için kullanılmaz. Public sharing varsayılan kapalı kalır.
-3. Faz 3'ü bağımsız bölümlerle tamamla, ardından Faz 4–9 sırasıyla. Faz 2 kalan kabulüne sonra dön; erteleme prod kabulü değildir. Commit/push/PR/CI ve devir belgelerini her anlamlı adımda güncelle.
+### Doğrulama ve sonraki iş
 
-## Dikkat edilmesi gerekenler
+**Son kod checkpoint e968196 GitHub'a gönderildi. Remote CI `37158521409` SUCCESS: 105 unit, 71/71 e2e (CI tek software-WebGL worker, 6.8 dakika), lint, typecheck, build, Go e-posta kontrolü, format, release gate ve audit geçti; 0 güvenlik açığı. Vercel PR7 preview SUCCESS. Yerel önceki tam tur 71/71, son lifecycle düzeltmesi sonrası hesap/deneyim hedefli 16/16 (iki worker, 52 saniye) geçti. Test timeout/assertion ve 10 demo tekrar sayısı korunur. Önceki remote failures e75ecca 57/9 ve 8dd7be1 65/6 tarihsel başlangıç/düzeltme kanıtıdır. Bu devir güncellemesi yalnız belge ve kanıt metadata içerir; doğrulanan uygulama kodu e968196'dır.
 
-- Türkçe, otonom geliştirme, Durum Analiz = güncel Durum/İş/Sonuç-kalan-adım tablosu. Faz 0/1'i yeniden yapma; fazların tamamlanmasını uydurma.
-- Windows C:\Users\User\Desktop\Projeler\kelime-evreni; taşıma. Mac /Users/felina/Projects/wordverse-galaxy mevcut klon korunur. Mac pause sürer. Eski yanlış-main checkpoint/mac-2026-10-03-paused 0f94672 merge/SQL uygulanmaz.
-- Gerçek hesap 6 kayıt/2 galaksi, misafir 13 kayıt ve v4/v3/v2 arşivler korunur. Testler yapay kayıt/ayrı namespace/origin kullanır. Sır, token, gerçek JSON yedek Git/log'a girmez.
-- Yerel yazma hatasında retry öncesi memory değişikliği reload korunmaz; persistent warning ve JSON yedek yönlendirmesi vardır. Tarayıcı verisi/sırlar cihazlar arasında otomatik eşitlenmez.
-- Geçmiş Faz 2 ayrıntıları sessions/2026-10-03-pre-profile-handoff.md, 1742/1749 session'lar ve TASKS'ta. Güncel görev kaynağı bu dosyadır.
+U0 kanıtı: dört yerel referans görseli incelendi, altı sentetik önceki görünüm kaydedildi. `REFERENCE_ANALYSIS.md`, `VISUAL_DIRECTION.md`, `UPGRADE_ACCEPTANCE.md` ve `STATE.json.upgrade` güncel kaynaklardır. `scripts/capture-upgrade-evidence.mjs` aynı üretim modülleriyle 1440/768/390 genişlikte beş donmuş açı üretir. Kullanıcı verisi çekilmez.
 
-## Doğrulanmamış iddialar
+**Sonraki somut sıra:** tam gate ve manuel sahne incelemesi → U2 gaz filamentleri/toz/ışık sönümleme, yakın yıldız/gezegen kalite iterasyonu ve bloom → U3 kesintisiz kamera → U4 kalıcı merkez ve gerçek kayıt adapterleri. U1 otomatik entegrasyon doğrulandı; U2 final kalite ve kullanıcı kabulü henüz tamamlanmadı. U2 üzerinde çalışmaya devam et.
 
-Profil alanları/avatar entegrasyonu/seri/heatmap/hedef/CSV/hesap silme/paylaşım; FSRS/recall oranı; gerçek Mac/fiziksel cihazlar; hosted mail/Storage API; otomatik backup/restore; prod Faz 2; gerçek privacy-policy IDB engeli veya fiziksel disk kotası; KVKK/GDPR; 5.000 yıldız FPS tamamlandı sayılmaz.
+---
+
+## Son güncelleme · 2026-10-03
+
+Codex / Windows 11 Pro / PowerShell 7.6.6. Aktif dal **phase/4-universe**, geliştirme **1.14.0**, production main **v1.11.0**. Aktif görsel **kademe 2: 200 bulutsu +1000 asteroid +1000 tarihsel meteor kayıt/katmanı**. **Galaksiler kapalı, kademe 3 bekliyor.** Faz 4 tamamlanmadı; draft PR #7 base phase/3-profile. Yalnız Faz 0/1 tamamlandı; Faz 2 kabulü/Faz 3 kalanları kullanıcı tarafından ertelendi.
+
+Son kullanıcı görevi: bütün projeyi A–Z anlatan ve kaynakları eksiksiz koruyan Claude devir paketi, Masaüstü MD klasörü. Kalıcı rehber **CLAUDE_BRIEF.md**; Desktop paketinde rehber, hazır prompt, her Git metin dosyasının tam dökümü, bütün Git dosyalarının ZIP'i ve snapshot manifesti bulunur. Sırlar/gerçek kullanıcı depoları dahil edilmez. Paket tesliminden sonra aşağıdaki görsel işleri sürdür.
+
+## Son kullanıcı kararları — eski görsel planı geçersiz kılar
+
+- Tek kesintisiz kâinat, yakınlaşınca yıldız/bulutsu/asteroid/meteor/galaksi. **En uzak zoomda galaksiler görünmez**; önceki uzakta300galaksi şartı yürürlükte değil.
+- İlk galaksisiz yıldız temeli tamamlandı; sonra **kademe kademe**: 200 bulutsu →asteroid/meteor →300 galaksi.
+- Asgari: **200 gerçek bulutsu, toplam1000 asteroid/meteor, 150 ayrı gerçek galaksi**. Kullanıcı toplam1000 seçti, her türden1000 şartı yok. Hazır kaynak1000+1000 bunun üzerindedir.
+- OLED derin siyah. Son düzeltme yıldızlı arka plana izin verir; yakın katmanlar dünya konumlu3B/parallax olmalı.
+- En uzaktaki eski parlama/patlama/dalga isteği, son küçük nokta kararıyla birlikte değerlendirilir: etkiler noktaları ve OLED alanını örtmemeli. Görsel kalite kabulü açık.
+- Kullanıcı yıldız/galaksileri amatör buldu. Profesyonel ışık/ölçek/gaz/toz/morfoloji/geçiş açık kalite kapısı. Katalog sayısı kalite kabulü değildir.
+- Kendi kelime evreni galaksi merkezinde; mevcut kayıt koordinatları, kelimeler, koleksiyonlar ve senkron korunur.
+- Gerçek katalog kimlikleri ≠ fotoğraf veya fiziksel3B doğruluk. Yıldızlar prosedürel. Meteorlar tarihsel atmosfer olayları; şematik tekrar etiketlidir.
+
+## Son checkpoint çalışması / doğrulama
+
+- cosmic-field: sabit geniş uzak3B hacim +27 deterministik yakın hücre; desktop40200/compact15480 kapasite (hepsi ekranda değil), buffer reuse, hücre dünya konumu sürekliliği. Kamerayı takip eden sky kaldırıldı. Siyah sahne.
+- celestial-system/UI: kademe2, üç dil atlas, kaynak linkleri,12satır sayfalama/arama, odak/reset. Galaksi sayısı0.
+- 200 OpenNGC bulutsu:3derinlik atlas dilimi +tek yakın raymarch hacim/toz,12adım. Sanatsal uzaklık/şekil; null alanlar bilinmiyor olarak kalır.
+- 1000 JPL MBA asteroid (Ceres hariç), kayıt epoch'undaki orbital elementlerden yerleşim, yumuşak normal/granüler ışık, yakındaki kaya LOD.
+- 1000 CNEOS tarihsel meteor: gerçek UTC/konum/enerji alanları; tek seçili olayın şematik atmosfer tekrarını gösterir, konumsuz olay için iz icat etmez.
+- NASA Blue Marble doğal Dünya dokusu, day/night shader, kaynak SHA256/provenance ve UI atfı. Kullanıcı gezegenlerinin eski dokusu korunur.
+- Son yerel **npm run check geçti: lint/typecheck,98unit,build,66e2e**. Hedefli12/12bulutsu+smallbody daha önce geçti. Format ayrı kontrol edilir. Remote CI sonucu bu checkpoint push'undan sonra ayrıca kaydedilmeli.
+- Tarihsel CI: 087f328 yıldız CI37141874755 ve9418c85 bulutsu CI37143962448 başarılı; bunları sonraki kodun CI kabulü yerine sunma.
+- Build yaklaşık409kB main,545kB asteroid lazychunk; büyük chunk uyarısı açık, gerçek FPS kabulü yok.
+
+## Görsel kabulün gerçek sınırı
+
+Chrome5360 ve celestial-lab sentetik fixture üzerinden M42/Vesta/meteor incelendi. Neon/tekrarlayan halka, köşeli kaya, bulutsu arasında asteroid kalabalığı ve topografik Dünya kusurları görüldü. Hacim/toz, yakın LOD, smooth normal ve doğal Dünya ile düzeltildi. **Son düzeltmelerin manuel ve ultra gerçekçilik kabulü hâlâ açık.** Responsive kanıt docs/handoff/evidence; eski PNG'ler bugünkü bütün görünümün onayı değildir. Gerçek hesap7kayıt/2koleksiyon korunur, gerçek kelime metinleri kanıta girmez.
+
+Düşük FPS odak sorunu: raymarch20→12/polynomialhash ve elapsedclamp100→1000ms; hedefli12/12 ve tam66/66 tekrar geçti. Galaksi UI9test tests/deferred altında; kademe3 yeni atlasına uyarlanmalı, aktif test geçti sayılmaz.
+
+## Sıradaki adımlar
+
+1. OS/kabuk/git/STATE; temizse pull --ff-only, doctor. Yerel5360 görünür aç. Bu checkpoint'in Git/CI sonucunu doğrula; Desktop devir paketinin snapshot'ını kontrol et.
+2. Kademe2 son görsellerini M42/M57/M1, Vesta/diğer asteroid, konumlu/konumsuz meteor ile tek tek manuel doğrula;1440/768/390,tema/reduced-motion,zoom/drag/reset. Bulutsu örtüşme ve profesyonel yıldız ışık/ölçek/parallax kalitesini ilerlet. Ultra gerçekçilik/FPS ölçmeden kabul etme.
+3. En uzak OLED sahne parlama/patlama/dalga hedefini ölçülü hareket ve performansla çalış; galaksiler uzakta gizli.
+4. Kademe3:300kaynaklı galaksiyi profesyonel çeşitli gaz/toz/kol/ışık ve kesintisiz yaklaşma ile yeniden dahil et; eski amatör atlası sayı uğruna açma. Kişisel evren merkezini koru,ertelenmiş testleri yeniUI'ye uyumla.
+5. Faz4 kalan250gezegen/25takımyıldızı,kalıcı gerçekgalaksi koleksiyon bağlantısı,sürükleme/dokunmatik;sonra Faz5–9. Faz2/3 kabulüne sonra dön. Somut adımlarda test+manuel→handoff/tasks/session→commit/push→CI/preview.
+
+## Devralma / veri / servis korumaları
+
+Türkçe ve otonom ilerle. Durum Analiz = güncel | Durum | İş | Sonuç / kalan adım | tablosu. AGENTS/CLAUDE,MASTER_PROMPT,CLAUDE_BRIEF,KNOWN_ISSUES,TASKS,CROSS_DEVICE,SERVICE_ACCESS oku. Windows klonu taşınmaz; bildirilen Mac /Users/felina/Projects/wordverse-galaxy korunur. Mac pause sürüyor; eski alternatif0f94672 yalnız arşiv,merge/migration için değil.
+
+Misafir13tarihsel kayıt/v4-v3-v2 arşivleri ve hesap owner depoları korunur. Env/sır/tarayıcı verisi Git'e girmez. Yalnız Supabase **mrkmtcpzyvooreeokmkp**; uygulanan20261002181057/20261003064254/20261003123923 migrations. CLI/MCP yanlış hesap olabilir; kör dbpush/historyrepair/storage.protect_delete bypass yok. SMTP/hukuk/gerçekStorageAPI/Mac/prodauth ertelendi; ücretli plan veya tekrar kurulum sorusu açma.
+
+Gerçek Mac/iki cihaz,mail/prodStorage,hukukiuyum,tam backuprestore,FSRS,50olay türü,5000kullanıcı yıldızıFPS,PWA/WebGLfallback ve bütün Faz4 henüz tamamlanmadı. Ayrıntılı bütün proje rehberi CLAUDE_BRIEF.md; tarihsel kayıtlar diğer handoff/session dosyalarında.
+
+## Remote CI farkı ve düzeltme
+
+37157710980: 105 unit geçti, fakat 65 e2e geçti / 6 başarısız (3 hesap, 3 demo tekrar geçişi). Yerel 71/71, remote geçiş sayılmaz. Dialog açıkken ve owner content-ready değilken GPU çizimi durduruldu; önceki kimlik karesi anında temizlenir. Yeni sahne çizimi 150ms sakin UI aralığını bekler, hızlı tekrar geçişler eski shaderları derlemeye zorlamaz. Hosted software WebGL üzerinde CI tek worker, yerelde iki worker. Test timeoutları ve 10 tekrar senaryosu korunur. Düzeltmenin hedefli gate / sonraki remote sonucu takip edilir.
+
+Düzeltme sonrası iki yerel worker ile hesap + deneyim hedefli gate **16/16 geçti (52 saniye)**. On tekrar ve bekleme süreleri aynen korundu; lint geçti. Yeni remote tam gate, push sonrası ayrıca doğrulanacak.
+
+### Son remote sonuç · e968196
+
+CI 37158521409 ve Vercel preview başarılı. U2 halen devam ediyor; estetik kabul ve fiziksel Mac/mobil ölçümü açık. Sonraki oturum doğrudan U2 gaz filament/toz/absorption + selective bloom / yakın yüzey kalitesi işini sürdürmeli, U0 veya eski Faz0 tekrar başlatılmamalı. Ardından U3 mouse wheel/trackpad zoom + drag pan ve kesintisiz kamera geçişleri.

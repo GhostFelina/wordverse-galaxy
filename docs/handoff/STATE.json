@@ -1,8 +1,8 @@
 {
   "project": "wordverse",
   "repository": "GhostFelina/wordverse-galaxy",
-  "activeBranch": "phase/3-profile",
-  "activePhase": 3,
+  "activeBranch": "phase/4-universe",
+  "activePhase": 4,
   "completedPhases": [
     0,
     1
@@ -10,6 +10,45 @@
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
   "deferredPhases": [
-    2
-  ]
+    2,
+    3
+  ],
+  "visualStage": "stars-only-checkpoint; named-nebula-build-active",
+  "pausedVisualLayers": [
+    "galaxies",
+    "planets",
+    "asteroids",
+    "meteors"
+  ],
+  "visualRequirements": {
+    "nebulaeMinimum": 200,
+    "asteroidMeteorCombinedMinimum": 1000,
+    "galaxiesMinimum": 150,
+    "activation": "incremental",
+    "farthestGalaxiesVisible": false,
+    "farthestAppearance": "ultra realistic, stellar flares, explosions and waves â€” acceptance pending"
+  },
+  "upgrade": {
+    "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
+    "currentPhase": "U2",
+    "phaseStatus": "implementation-in-progress",
+    "completedPhases": [],
+    "nextPhase": "U3",
+    "lastVerifiedCommit": "e968196014727122dde84dba7c2fbf3a5a2031a3",
+    "lastRemoteCI": "success:37158521409",
+    "primaryReference": "X right panel 00:10â€“00:15; user confirmed 2026-10-04",
+    "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
+    "userVisualAcceptance": "pending",
+    "distantPointImplementation": "premium demo and personal stars <=80; dense/catalog adapters pending",
+    "localUnitTests": 106,
+    "localBrowserTests": 71,
+    "integrationVerification": "remote lint/typecheck/105 unit/build/71 e2e/Go emails/format/release/audit passed; final local targeted account+experience 16 passed",
+    "preview": "Vercel PR7 preview success for e968196",
+    "remainingCurrentWork": "U2 gas filaments/dust/absorption/selective bloom, near-body quality and catalog/personal LOD adapters",
+    "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
+    "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
+    "remoteBrowserTests": 71,
+    "localFinalTargetedTests": 25,
+    "currentUserTask": "Build exact 20 named real nebula textures with far visibility and fly-through; other nonstar layers stay off"
+  }
 }

@@ -1,7 +1,10 @@
 # Değişiklik kaydı
 
-## [Unreleased] — Faz 2 / 1.12.0 hazırlığı
+## [Unreleased] — Faz 4 / 1.14.0 geliştirme (prod 1.11.0)
 
+- Aktif U0–U9 yükseltme şartnamesi; geçici demo, gerçek hesap ve misafir sahne politikası. İlk oturum/panel yarışları düzeltildi; prosedürel küresel yıldız/gezegen ve uzakta küçük nokta geçişi eklendi. Ölçülen kare süresine göre DPR adaptasyonu ve sentetik görsel laboratuvarı var; final estetik kabul açık.
+- Tek kâinat yıldız temeli, OLED siyah, kaynaklı 200 bulutsu atlası ve yakın gaz hacmi. İkinci görsel kademede 1000 JPL asteroid ve 1000 tarihsel CNEOS meteor gözlemi; arama/sayfalama/gezinti üç dilde. 300 galaksinin yeniden aktivasyonu ve görsel kalite kabulü bekliyor.
+- Codex/Claude Windows/Mac kurulum/devir betikleri, public env hazırlığı ve doctor. Gerçek Mac kabulü ertelendi.
 - Üç dilde erişilebilir hesap penceresi, e-posta giriş/kayıt/sıfırlama ve yerel çıkış; gizlilik/koşullar statik taslakları. Google ve bulut senkron kabulü bekliyor.
 - Sayfalı bulut okuma ve hesap başına atomik IndexedDB evren/kuyruk çekirdeği eklendi; UI ve bulut yazma motoruna bağlantı sürüyor.
 

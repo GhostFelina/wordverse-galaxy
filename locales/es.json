@@ -436,5 +436,78 @@
     "recent": "Añadidos recientemente",
     "empty": "Aún no hay registros con fecha.",
     "reviewPending": "Las estadísticas de memoria y repaso aparecerán cuando esté disponible el sistema de repaso."
+  },
+  "catalog": {
+    "title": "Catálogo celeste",
+    "close": "Cerrar catálogo",
+    "intro": "Explora 300 galaxias reales en un solo cosmos continuo. En la escala más amplia se ven estrellas; las galaxias y sus interiores aparecen al acercarte. Se usan coordenadas J2000 del catálogo; profundidad, tamaños y campo estelar son interpretaciones artísticas.",
+    "artistic": "Interpretación artística",
+    "distance": "{count} millones de años luz",
+    "explore": "Explorar en escena",
+    "source": "Fuente de NASA",
+    "home": "Volver a mi universo",
+    "names": {
+      "andromeda": "Andrómeda",
+      "whirlpool": "Remolino",
+      "virgo": "Virgo A",
+      "cigar": "Cigarro",
+      "sombrero": "Sombrero"
+    },
+    "descriptions": {
+      "andromeda": "Brazos espirales inclinados alrededor de un centro cálido y denso.",
+      "whirlpool": "Dos brazos espirales destacados con estrellas azules jóvenes y regiones de formación estelar.",
+      "virgo": "Una galaxia elíptica llena de la luz cálida de estrellas antiguas.",
+      "cigar": "Galaxia con intensa formación estelar vista de canto, con gas cálido que sale del disco.",
+      "sombrero": "Un disco amplio y una banda oscura de polvo alrededor de un núcleo brillante."
+    },
+    "overview": "Ver {count} galaxias juntas",
+    "visible": "{count} galaxias en vista",
+    "search": "Buscar en el catálogo · M31, NGC0224…",
+    "noResults": "Sin coincidencias en esta selección. Usa cuatro cifras para los números NGC.",
+    "credit": "OpenNGC · Mattia Verga y colaboradores · CC BY-SA 4.0 · datos adaptados"
+  },
+  "celestial": {
+    "title": "Atlas del cielo",
+    "close": "Cerrar",
+    "types": "Tipos de objetos celestes",
+    "galaxies": "Galaxias",
+    "nebulae": "Nebulosas",
+    "asteroids": "Asteroides",
+    "fireballs": "Observaciones de meteoros",
+    "search": "Buscar nombre, ID del catálogo o fecha",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "overview": "Viajar entre galaxias",
+    "credit": "Nebulosas y galaxias: OpenNGC — Mattia Verga y colaboradores, CC BY-SA 4.0. Asteroides: NASA/JPL SBDB. Meteoros: NASA/JPL CNEOS. Las mediciones ausentes se muestran como desconocidas. Tierra: NASA Blue Marble 2002 (Reto Stöckli / Robert Simmon); no es una imagen satelital de la fecha del evento.",
+    "unknown": "Desconocido",
+    "diameter": "Diámetro",
+    "epoch": "Época orbital",
+    "location": "Ubicación",
+    "altitude": "Altitud",
+    "home": "Volver a mis estrellas",
+    "replay": "Evento atmosférico histórico · reproducción esquemática",
+    "artistic": "Registro real · visualización artística",
+    "noLocation": "Sin ubicación medida; no se muestra trayectoria",
+    "count": "{count} registros reales · {type}",
+    "source": "Fuente",
+    "noResults": "No se encontraron registros",
+    "intro": "Acércate a las estrellas para descubrir nebulosas y galaxias. Las posiciones y tamaños están comprimidos para navegar; las imágenes no son fotografías. Las órbitas usan la época de cada registro. Los meteoros son observaciones atmosféricas históricas, no eventos en vivo ni predicciones.",
+    "kinds": {
+      "planetary": "Nebulosa planetaria",
+      "supernova-remnant": "Remanente de supernova",
+      "reflection": "Nebulosa de reflexión",
+      "hii": "Región H II",
+      "emission": "Nebulosa de emisión",
+      "nebula": "Nebulosa",
+      "cluster-nebula": "Nebulosa y cúmulo estelar"
+    }
+  },
+  "experience": {
+    "title": "Descubre la luz en la oscuridad.",
+    "copy": "Acércate a las estrellas, viaja entre planetas y explora la profundidad del gas.",
+    "explore": "Explorar",
+    "signin": "Iniciar sesión",
+    "guest": "Entrar en mi universo",
+    "preview": "Demo"
   }
 }
