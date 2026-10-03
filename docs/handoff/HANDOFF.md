@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 16:39 · Codex / Windows · son doğrulanmış uzak kod `5d3144a` (CI 37125869500 ve Vercel preview geçti). Bu oturumun hash'i `git log -1 --oneline`; push sonrası CI sonucu session kaydına eklenir.
+2026-10-03 16:39 · Codex / Windows · son doğrulanmış uzak kod `b2d67c2` (CI 37126838495 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
 
 ## Şu an aktif faz ve branch
 
@@ -28,7 +28,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Sıradaki ilk 3 adım
 
-1. Bu oturumun push CI/preview sonucunu kaydet; HANDOFF/TASKS ve en son session'ı birlikte kullan. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
+1. Başlangıç OS/git/pull/doctor/test kontrolünden sonra HANDOFF/TASKS ve en son session'ı birlikte kullan. `b2d67c2` kod CI/preview kabulü geçti; bu işi tekrar başlatma. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
 2. Kullanıcı girişine bağlı olmayan Faz 2 kabul işlerini sürdür: Storage API için izole fixture kabul akışını hazırla; gerçek hesap verisini değiştirme. Kalan email/CLI/physical-device testlerini doğrulanmış diye işaretleme.
 3. Kullanıcı ertelenen SMTP/giriş/hukuki adımlara döndüğünde tamamla. Tüm kabul geçince Faz 2 main merge/changelog/tag/release/prod smoke; ardından Faz 3.
 
