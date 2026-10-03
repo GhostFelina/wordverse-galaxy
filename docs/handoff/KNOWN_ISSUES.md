@@ -22,4 +22,4 @@
 
 - IndexedDB hesap deposu için simulated onblocked/late native connection close ve SecurityError/recovery kabulü geçti (82 unit/40 e2e). Gerçek tarayıcı gizlilik politikası veya fiziksel cihaz depolama engeli sınanmadı; bu kontroller yerine geçmez.
 
-- Hesap IDB yazma/kota hatasında mevcut kalıcı kopya korunur ve yeni değişiklik bu sayfa açıkken bellekte tutulur. Retry başarısından önce reload/çıkış yeni değişikliği kaybettirebilir; kalıcı depoya yazılamayan verinin reload dayanıklılığı iddia edilmez. UI hata/retry gösterir; sayfayı açık tutma/JSON export yönlendirmesi eklenmeli. Gerçek disk doldurma yapılmadı; kabul DOMException injection kullanır.
+- Hesap IDB yazma/kota hatasında mevcut kalıcı kopya korunur ve yeni değişiklik bu sayfa açıkken bellekte tutulur. Retry başarısından önce reload/çıkış yeni değişikliği kaybettirebilir; kalıcı depoya yazılamayan verinin reload dayanıklılığı iddia edilmez. UI hata/retry ve kalıcı açık tutma/JSON export yönlendirmesi gösterir. Gerçek disk doldurma yapılmadı; kabul DOMException injection kullanır.

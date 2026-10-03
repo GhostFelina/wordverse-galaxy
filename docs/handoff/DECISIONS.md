@@ -74,3 +74,11 @@
 - **Karar:** Ortak record-merge çekirdeği, mevcut kimliği korur, farklı gelen kayıt için yeni kimlik üretir ve çocuk/olay snapshot bağlantılarını yeniden bağlar. JSON restore tekrarlarında aynı içerikli conflict kopyası yeniden kullanılır. Bağımsız farklı kimlikli kayıtlar aynı içerik taşısa da silinmez. JSON property sırası/undefined alanları içerik farkı sayılmaz. Önceki ilk giriş davranışındaki seeded galaksi createdAt farkının tek başına conflict sayılmaması korunur; kelime ve olay tarihleri korunur.
 - **Alternatifler:** Eski sürümü atlamak (yedek kaybı), üstüne yazmak (güncel veri kaybı), her yüklemede yeni kopya (kontrolsüz çoğalma).
 - **Sonuç:** Şema değişmez; eski v2/v3 migration sürer. İşlem clone üzerinde tamamlanır; tekrarlı backup kimlikleri atomik reddedilir. 71 unit/37 e2e ve izole misafir UI iki anlam/tekrar import kabulü geçti. Sonradan değiştirilen conflict kopyası ayrı sürüm olarak korunur.
+
+
+## ADR 012 · Faz 2 kabulünü erteleme ve Faz 3–9 geliştirme
+
+- Tarih: 2026-10-03. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi.
+- Karar: Son yerel yazma bildirimi Faz 2 dalında tamamlanır; `phase/3-profile` bu dalı temel alır. Faz 2 tamamlandı veya prod kabulü yapıldı sayılmaz. SMTP/Storage API/CLI hesap/Mac/iki cihaz/hukuk/prod kabulü TASKS/HANDOFF'ta ertelenmiş kalır.
+- Faz 3 PR base'i phase/2-auth-sync olur; main'e erken merge, Faz 2 release/tag veya prod deploy yapılmaz. Kullanıcı girdisi bekleyen adımlar yeni geliştirmeyi durdurmaz.
+- Faz 3 ilk bölüm: mevcut evrenden salt okunur toplamlar/dil dağılımı/son ve ilk kayıt; ardından profil tercihleri, takvim/seri, hedef/ayarlar ve kalan veri işlevleri. FSRS henüz yokken hatırlama başarısı veya tekrar verisi uydurulmaz.

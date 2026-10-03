@@ -439,6 +439,7 @@ test('account storage write failure keeps the edit in memory without upload and 
   await page.locator('#meaning-input').fill('survives retry');
   await page.locator('#word-form button[type=submit]').click();
   await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
+  await expect(page.locator('#account-storage-warning')).toContainText('Keep this page open');
   expect(backend.writes()).toBe(writes);
   await page.locator('#close-detail').click();
   await page.locator('#collection-btn').click();

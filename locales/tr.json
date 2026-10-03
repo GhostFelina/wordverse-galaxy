@@ -419,6 +419,7 @@
     "mergeAvailable": "Hesabın hazır. Yerel evrenini bağlamak için eşitleme düğmesini aç.",
     "merged": "Hesap evreni açıldı · {count} kayıt",
     "conflictsPreserved": "{count} çakışma bulundu; farklı içerikler korundu.",
-    "createGalaxy": "Önce bir galaksi oluştur."
+    "createGalaxy": "Önce bir galaksi oluştur.",
+    "localWriteError": "Bu değişiklik bu cihazda kaydedilemedi. Sayfayı açık tutup tekrar dene veya galaksi menüsünden JSON yedeği indir."
   }
 }

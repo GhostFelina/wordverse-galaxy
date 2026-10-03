@@ -419,6 +419,7 @@
     "mergeAvailable": "Tu cuenta está lista. Abre el botón de sincronización para conectar tu universo local.",
     "merged": "Universo de la cuenta abierto · {count} registros",
     "conflictsPreserved": "Se encontraron {count} conflictos; se conservó el contenido diferente.",
-    "createGalaxy": "Primero crea una galaxia."
+    "createGalaxy": "Primero crea una galaxia.",
+    "localWriteError": "No se pudo guardar este cambio en este dispositivo. Mantén esta página abierta y reintenta, o descarga una copia JSON desde el menú de galaxias."
   }
 }

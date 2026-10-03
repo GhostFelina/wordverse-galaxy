@@ -37,7 +37,14 @@
   <button id="run-quota">Yazma hatası ve kurtarmayı doğrula</button>
   <p id="quota-state" role="status" aria-live="polite">Hazır</p>
   <ol id="quota-steps"></ol>
+  <button id="show-warning">Kaydetme bildirimini göster</button>
+  <button id="hide-warning">Kalıcı kayıt sonrası bildirimi kapat</button>
   <script type="module">
+    import '/src/auth.css';
+    import { mountStorageWarning } from '/src/account-sync-ui.js';
+    const warning = mountStorageWarning('tr');
+    document.querySelector('#show-warning').addEventListener('click', () => warning.setSaved(false));
+    document.querySelector('#hide-warning').addEventListener('click', () => warning.setSaved(true));
     import { AccountSyncEngine } from '/src/sync-engine.ts';
     import { loadAccountCache, saveAccountCache } from '/src/account-cache.ts';
     const state = document.querySelector('#state');

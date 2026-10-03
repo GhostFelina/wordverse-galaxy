@@ -8,6 +8,7 @@ import { reconcileAccount } from './sync-reconcile';
 export type SyncStatus = 'synced' | 'pending' | 'syncing' | 'offline' | 'conflict' | 'error';
 export type SyncState = {
   status: SyncStatus;
+  localSaved: boolean;
   cache: AccountCache;
   conflict?: { sent: PendingChange; remote: CloudRow | null };
 };
@@ -59,6 +60,7 @@ export class AccountSyncEngine {
   snapshot(): SyncState {
     return structuredClone({
       status: this.status,
+      localSaved: !this.dirty,
       cache: this.cache,
       ...(this.conflict ? { conflict: this.conflict } : {}),
     });

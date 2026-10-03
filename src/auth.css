@@ -197,3 +197,23 @@
     max-width: 110px;
   }
 }
+
+.account-storage-warning {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 45;
+  width: min(620px, calc(100% - 32px));
+  box-sizing: border-box;
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid #e8bb75;
+  border-radius: 12px;
+  background: #211b18;
+  color: #ffe3b8;
+  font: 14px/1.5 system-ui;
+}
+.account-storage-warning[hidden] {
+  display: none;
+}

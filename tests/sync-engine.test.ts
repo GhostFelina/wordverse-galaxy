@@ -146,9 +146,11 @@ test('a storage failure prevents any network write until the latest local state 
   await engine.flush();
   expect(write).not.toHaveBeenCalled();
   expect(engine.snapshot().cache.universe.galaxies[0].name).toBe('kept in memory');
+  expect(engine.snapshot().localSaved).toBe(false);
   fail = false;
   await engine.flush();
   expect(write).toHaveBeenCalledTimes(2);
+  expect(engine.snapshot().localSaved).toBe(true);
   expect(durableCopies[0].universe.galaxies[0].name).toBe('kept in memory');
 });
 

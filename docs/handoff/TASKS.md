@@ -26,7 +26,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
 - [x] İlk girişte iki tarafı koruyan birleşim, özet ve bulut/misafir seçimi ana uygulamaya bağlandı; kimlik çakışması e2e geçti.
 - [x] Hesap IDB yazma/kota hatası: upload engeli, eski kalıcı kopya/misafir koruması, yeni kayıt memory retention ve retry/reload; e2e + native IDB izole fixture/manual. 82 unit/42 e2e; gerçek disk kotası kabulü değildir.
-- [ ] Yerel yazma hatasında sayfayı açık tutma/JSON yedekleme yönlendirmesi; network hatasından ayrı bildirim. Retry öncesi bellek verisinin reload korunması iddia edilmez.
+- [x] Yerel yazma hatasında kalıcı açık tutma/JSON yedekleme yönlendirmesi (TR/EN/ES, localSaved state, e2e/manual); network hatasından ayrı bildirim. Retry öncesi bellek verisinin reload korunması iddia edilmez.
 - [x] Hesap deposu engellenme/late-open/retry koruması: geç native bağlantı kapatılır, SecurityError sırasında bulut çağrısı yapılmaz ve misafir korunur; erişim geri gelince bağlanma geçti. 82 unit/40 e2e + ayrı fixture manual; gerçek tarayıcı politika engeli kabulü değildir.
 - [x] IndexedDB birincil yerel depo, ayrı hesap cache'i, offline kuyruk, bulut eşitlemesi, durum göstergesi ve retry bağlandı; ağ geri gelince upload ve reload e2e geçti.
 - [x] Bulut okuyucu, hesap başına atomik cache, dayanıklı kuyruk ve tam içerik/sahiplik kontrolüyle yazma onayı ana uygulamada kullanılıyor.

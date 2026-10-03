@@ -6,6 +6,22 @@ import { AccountSyncEngine } from './sync-engine.ts';
 import { planSyncChanges } from './sync-queue.ts';
 import { mergeGuestAndCloud } from './sync-merge.js';
 
+// The warning stays visible until the account state is durable again.
+export function mountStorageWarning(locale) {
+  const node = document.createElement('p');
+  node.id = 'account-storage-warning';
+  node.className = 'account-storage-warning';
+  node.setAttribute('role', 'alert');
+  node.textContent = translate(locale, 'sync.localWriteError');
+  node.hidden = true;
+  document.body.append(node);
+  return {
+    setSaved(value) {
+      node.hidden = value;
+    },
+  };
+}
+
 export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeSwitch, notify }) {
   const t = (key, params) => translate(locale, `sync.${key}`, params);
   let generation = 0;
@@ -27,6 +43,7 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
   dialog.className = 'auth-dialog';
   dialog.setAttribute('aria-labelledby', 'sync-title');
   document.body.append(dialog);
+  const storageWarning = mountStorageWarning(locale);
   const setStatus = (key) => {
     indicator.textContent = t(key);
     indicator.dataset.status = key;
@@ -48,7 +65,10 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
       client,
       cache: ready,
       onState: (state) => {
-        if (isCurrent(token)) setStatus(state.status);
+        if (isCurrent(token)) {
+          setStatus(state.status);
+          storageWarning.setSaved(state.localSaved);
+        }
       },
       onUniverse: (universe) => {
         if (isCurrent(token)) display(universe);
@@ -159,6 +179,7 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
     if (next === ownerId) return;
     const previousAccount = Boolean(engine);
     if (!previousAccount) guest = structuredClone(getUniverse());
+    storageWarning.setSaved(true);
     generation++;
     engine?.stop();
     engine = null;

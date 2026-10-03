@@ -10,9 +10,12 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Son oturumda yapılanlar
 
+- Son yerel yazma bildirimi tamamlandı: engine localSaved flag, üç dil kalıcı alert; yalnız başarısız yerel save'de görünür ve başarılı persist/hesap değişiminde kapanır. Ağ hatası tek başına bu bildirimi göstermez. 82 unit/42 e2e tam gate + format; manual show/hide evidence/2026-10-03-local-write-warning.png. Bildirim gerçek veri/secret içermez.
+- **Kullanıcı 2026-10-03'te önceliği değiştirdi:** Son işten sonra Faz 3–9 geliştir; Faz 2 kabulüne sonra dön. Faz 2 tamamlandı/prod kabulü sayılmadan phase/3-profile dalı phase/2-auth-sync üzerinden açılacak; ADR012. Önceki Faz 2 kapısı bu açık kullanıcı talebiyle ertelendi.
+
 - Hesap IDB yazma/kota hata kabulü eklendi. E2e: hata sırasında cloud write sayısı artmaz, yeni kelime bellekte görünür, misafir bytes aynı kalır; başarısız retry yine hata, erişim dönünce tek cloud kayıt ve başarılı reload. Ayrı fixture gerçek native IDB eski kopyayı korur, memory queue ve başarılı retry sonrası save/load doğrular. Manual dört adım; evidence/2026-10-03-account-quota-retry.png. Gerçek disk doldurulmadı; QuotaExceededError injection.
 - Güncel tam yerel kontrol **82 unit / 42 Playwright**, lint/typecheck/build/format geçti. Fixture 1440/768/390 light/dark/reduced-motion/overflow geçti; manual masaüstü. İlk e2e detail panel kapatma adımı ve UTF-8 label hatası düzeltildi; temiz tam kontrol tekrar geçti.
-- **Kalan somut UX işi:** başarısız yerel yazmada kullanıcıya sayfayı açık tutma/JSON export bildirimi ekle. Yeni kayıt retry başarıya ulaşana kadar yalnız bellektedir; hata sırasında reload/çıkış için veri koruması iddia etme. Bu hata network failure'dan ayrılmalı. Faz 2 devam ediyor.
+- **Tamamlanan UX işi:** başarısız yerel yazmada kalıcı açık tutma/JSON export bildirimi eklendi. Yeni kayıt retry başarıya ulaşana kadar yalnız bellektedir; hata sırasında reload/çıkış için veri koruması iddia etme. Bu hata network failure'dan ayrılmalı. Faz 2 devam ediyor.
 
 - `src/account-cache.ts`: engellenen açılışın sonradan gelen başarılı bağlantısı artık kapatılıyor. Önce bug'ı gösteren unit test yazıldı; fix sonrası retry yeni bağlantı açabiliyor. Hesap IndexedDB SecurityError e2e'sinde buluta 0 okuma/yazma, misafir bytes korunması, erişim geri gelince yeniden bağlanma geçti.
 - `tests/fixtures/account-storage-lab.html`: ayrı yapay namespace'te simulated onblocked, gerçek native geç bağlantının kapatılması (transaction InvalidStateError), retry ve save/load; manual 4 adım geçti. Kanıt `evidence/2026-10-03-account-storage-retry.png`. Playwright 1440/768/390, light/dark/reduced-motion/overflow; manuel kanıt masaüstüdür. Tarayıcı gizlilik politikasının gerçekten IDB engellemesi sınanmadı.

@@ -419,6 +419,7 @@
     "mergeAvailable": "Your account is ready. Open the sync button to connect your local universe.",
     "merged": "Account universe opened · {count} records",
     "conflictsPreserved": "{count} conflicts found; differing content was preserved.",
-    "createGalaxy": "Create a galaxy first."
+    "createGalaxy": "Create a galaxy first.",
+    "localWriteError": "This change could not be saved on this device. Keep this page open and retry, or download a JSON backup from the galaxy menu."
   }
 }

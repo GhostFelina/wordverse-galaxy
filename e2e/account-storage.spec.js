@@ -28,6 +28,10 @@ test('quota fixture retains its previous durable copy and retries the in-memory 
       '4 yazma kontrolü geçti · gerçek disk kotası kabulü değildir',
     );
     await expect(page.locator('#quota-steps li')).toHaveCount(4);
+    await page.locator('#show-warning').click();
+    await expect(page.locator('#account-storage-warning')).toContainText('JSON');
+    await page.locator('#hide-warning').click();
+    await expect(page.locator('#account-storage-warning')).toBeHidden();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });
