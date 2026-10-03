@@ -10,6 +10,8 @@
 - **En uzağa alındığında gök cisimleri küçük noktalar gibi görünür.** Yüzey, gaz ve galaksi ayrıntıları yaklaşıldıkça açılır; büyük diskler ve parlamalar uzak sahneyi kaplamaz.
 - Yeni demo yıldız/gezegen katmanında ekran boyutuna göre 2–7 CSS piksel arasında yumuşak küre/nokta geçişi uygulandı. En uzakta yıldız yaklaşık 2.2, gezegen 1.8 CSS piksel. Diğer katalog katmanları ve kullanıcı yıldızlarına aynı politikanın adaptasyonu U2–U4 içinde açık.
 
+- **Mouse kontrolü:** Mouse tekerleği / trackpad kaydırması yakınlaşma ve uzaklaşma kontrolüdür; mouse sürükleme yön/pan kontrolüdür. Mevcut temel wheel zoom korunur, U3 kesintisiz kamera ve projected-size geçişleri ile tamamlanır. UI form/scroll alanları kaydırılırken evren zoomu tetiklenmemeli; reduced-motion ve touch pinch ayrı kabul edilir.
+
 ### Bu checkpoint'in somut geliştirmeleri
 
 - U1: `showcase-demo`, gerçek hesap `personal` ve korunmuş misafir `guest-personal` sahne politikası. İlk oturum çözülmeden demo gösterilmez. Hesap verisi gelmeden sahte hesap sayısı gösterilmez; depolama hatasında açık misafir tercihi çalışır.
@@ -21,11 +23,11 @@
 
 ### Doğrulama ve sonraki iş
 
-105 birim testi geçti. İlk tam tarayıcı turunda 70/71 geçti; ilk kimlik çözülürken erken form tıklaması düzeltildi ve ilgili senaryo 3/3 tekrar geçti. Son tam 71 test turu ve güncel build sürüyor; son sonucu aşağıdaki oturum kaydında güncelle. Önceki e75ecca uzak CI 37146273133: 57 geçti / 9 başarısız; bunu yeni sonuçla karıştırma.
+**8dd7be1 kod checkpoint'i GitHub'a gönderildi.** Son yerel kontrol: 105 unit, 71/71 e2e (iki worker, 5.1 dakika), lint, typecheck, build ve format geçti. Test timeout/assertion gevşetilmedi. İlk turlardaki panel/IDB/cold SDK gecikmeleri düzeltildi. Vercel PR önizlemesi SUCCESS. Remote CI `37157710980` henüz sürüyor; sonucu oturum kaydı / STATE içinde güncelle. Önceki e75ecca remote CI 57/9 başarısız sonucu tarihsel başlangıçtır.
 
 U0 kanıtı: dört yerel referans görseli incelendi, altı sentetik önceki görünüm kaydedildi. `REFERENCE_ANALYSIS.md`, `VISUAL_DIRECTION.md`, `UPGRADE_ACCEPTANCE.md` ve `STATE.json.upgrade` güncel kaynaklardır. `scripts/capture-upgrade-evidence.mjs` aynı üretim modülleriyle 1440/768/390 genişlikte beş donmuş açı üretir. Kullanıcı verisi çekilmez.
 
-**Sonraki somut sıra:** tam gate ve manuel sahne incelemesi → U2 gaz filamentleri/toz/ışık sönümleme, yakın yıldız/gezegen kalite iterasyonu ve bloom → U3 kesintisiz kamera → U4 kalıcı merkez ve gerçek kayıt adapterleri. U1/U2 final kalite veya kullanıcı kabulü tamamlandı olarak işaretlenmedi.
+**Sonraki somut sıra:** tam gate ve manuel sahne incelemesi → U2 gaz filamentleri/toz/ışık sönümleme, yakın yıldız/gezegen kalite iterasyonu ve bloom → U3 kesintisiz kamera → U4 kalıcı merkez ve gerçek kayıt adapterleri. U1 otomatik entegrasyon doğrulandı; U2 final kalite ve kullanıcı kabulü henüz tamamlanmadı. U2 üzerinde çalışmaya devam et.
 
 ---
 
@@ -79,3 +81,9 @@ Türkçe ve otonom ilerle. Durum Analiz = güncel | Durum | İş | Sonuç / kala
 Misafir13tarihsel kayıt/v4-v3-v2 arşivleri ve hesap owner depoları korunur. Env/sır/tarayıcı verisi Git'e girmez. Yalnız Supabase **mrkmtcpzyvooreeokmkp**; uygulanan20261002181057/20261003064254/20261003123923 migrations. CLI/MCP yanlış hesap olabilir; kör dbpush/historyrepair/storage.protect_delete bypass yok. SMTP/hukuk/gerçekStorageAPI/Mac/prodauth ertelendi; ücretli plan veya tekrar kurulum sorusu açma.
 
 Gerçek Mac/iki cihaz,mail/prodStorage,hukukiuyum,tam backuprestore,FSRS,50olay türü,5000kullanıcı yıldızıFPS,PWA/WebGLfallback ve bütün Faz4 henüz tamamlanmadı. Ayrıntılı bütün proje rehberi CLAUDE_BRIEF.md; tarihsel kayıtlar diğer handoff/session dosyalarında.
+
+## Remote CI farkı ve düzeltme
+
+37157710980: 105 unit geçti, fakat 65 e2e geçti / 6 başarısız (3 hesap, 3 demo tekrar geçişi). Yerel 71/71, remote geçiş sayılmaz. Dialog açıkken ve owner content-ready değilken GPU çizimi durduruldu; önceki kimlik karesi anında temizlenir. Yeni sahne çizimi 150ms sakin UI aralığını bekler, hızlı tekrar geçişler eski shaderları derlemeye zorlamaz. Hosted software WebGL üzerinde CI tek worker, yerelde iki worker. Test timeoutları ve 10 tekrar senaryosu korunur. Düzeltmenin hedefli gate / sonraki remote sonucu takip edilir.
+
+Düzeltme sonrası iki yerel worker ile hesap + deneyim hedefli gate **16/16 geçti (52 saniye)**. On tekrar ve bekleme süreleri aynen korundu; lint geçti. Yeni remote tam gate, push sonrası ayrıca doğrulanacak.

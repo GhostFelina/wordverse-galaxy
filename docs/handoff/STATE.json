@@ -27,16 +27,22 @@
   },
   "upgrade": {
     "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
-    "currentPhase": "U1",
-    "phaseStatus": "implementation-under-verification",
+    "currentPhase": "U2",
+    "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
-    "nextPhase": "U2",
-    "lastVerifiedCommit": "e75eccaee98f81bdf5a8c4f9c6bbc56cf03d4528",
-    "lastRemoteCI": "failure:37146273133",
+    "nextPhase": "U3",
+    "lastVerifiedCommit": "8dd7be1b343dd79bc329d8b99d561b5a6da42d30",
+    "lastRemoteCI": "failure:37157710980 (65 passed / 6 failed; software WebGL timing)",
     "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending",
     "distantPointImplementation": "premium demo bodies: 2–7 CSS px smooth crossfade; catalog and personal adapters pending",
-    "localUnitTests": 105
+    "localUnitTests": 105,
+    "localBrowserTests": 71,
+    "integrationVerification": "lint/typecheck/105 unit/build/71 e2e/format passed locally",
+    "preview": "Vercel PR preview success for 8dd7be1",
+    "remainingCurrentWork": "U2 gas filaments/dust/absorption/selective bloom, near-body quality and catalog/personal LOD adapters",
+    "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
+    "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1"
   }
 }

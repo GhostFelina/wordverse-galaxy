@@ -147,3 +147,9 @@ WORDVERSE_MASTER_UPGRADE aktif görsel sözleşme; eski görsel plan yerine uygu
 - [ ] U7 özgünWebAudio/gesture/mixer/lifecycle.
 - [ ] U8 ≥50fenomen/5000kayıt/performance/fallback.
 - [ ] U9 entegrasyon/kabul/devir;main/prod/tag erken yok.
+
+- [x] U1 otomatik entegrasyon checkpoint 8dd7be1: 105 unit, 71 e2e, lint/typecheck/build/format; demo/guest raw storage ayrımı ve owner geçiş regresyonları geçti.
+- [x] Yeni demo yıldız/gezegeninde uzak küçük nokta LOD ve Chrome manuel kanıtı; 1440/768/390 sentetik açıların güncel yeniden çekimi.
+- [~] U2 yakın yüzey/gaz/selective bloom; 390 yakın çekim kadrajı, gaz içi düşük kontrast ve patchy planet terrain kalite kabulü açık.
+
+- [ ] U3 mouse wheel/trackpad zoom + drag pan: kesintisiz kamera, küçük nokta/detay geçişi, UI scroll çakışma koruması ve reduced-motion/touch kabulü. Kullanıcı mouse kaydırmayı ayrıca teyit etti.

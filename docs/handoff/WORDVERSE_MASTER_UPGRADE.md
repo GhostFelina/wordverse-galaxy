@@ -10,6 +10,8 @@
 - Ana hareket/gaz uçuşu referansı **X videosunun sağ paneli**: https://x.com/ITangieff/status/2106060890407915571, 00:10–00:15. Kullanıcı açıkça doğruladı. Sf4oFaelTr4 gezegen videosu ikincil yüzey/terminator referansıdır; aşağıdaki eski “R5 primary / right-side” yorumu bu son karar tarafından değiştirilmiştir.
 - **En uzak görünümde gök cisimleri küçük ışık noktaları gibi görünür.** Yaklaşınca yüzey, gaz ve morfoloji açılır. Uzakta büyük halo/şekil galerisi yok; OLED siyah korunur. Detaylı galaksi şekillerinin en uzakta gizli olması sürer. Bu LOD kabulü U2/U3 içinde ölçülür, mevcut uygulama tamamladı sayılmaz.
 
+- **Mouse kaydırma kontrolü (son kullanıcı teyidi):** Mouse tekerleği / trackpad kaydırması yakınlaşma ve uzaklaşma kontrolüdür; mouse sürükleme yön/pan kontrolüdür. Mevcut temel wheel zoom korunur, U3 kesintisiz kamera ve projected-size geçişleri ile tamamlanır. UI form/scroll alanları kaydırılırken evren zoomu tetiklenmemeli; reduced-motion ve touch pinch ayrı kabul edilir.
+
 ## Kullanım — önce bunu oku
 
 Bu dosyayı mevcut proje klasörüne, `docs/handoff/WORDVERSE_MASTER_UPGRADE.md` yoluna koy. Codex veya Claude CLI'ı mevcut repo içinde aç; aşağıdaki başlangıç mesajını ver. Eski başlangıç promptunu bununla birlikte ayrı bir aktif görev olarak verme; bu belge yeni yükseltme görevidir.

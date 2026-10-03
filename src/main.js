@@ -50,13 +50,14 @@ let celestialSystem;
 let renderQuality;
 let catalogReady = false;
 let pendingGuestWrites = 0;
+let sceneWakeAt = 0;
 let experienceUI;
 let showcaseScene = null;
 const showcaseSlot = createSceneSlot();
 let experienceKey = '';
 const experience = createExperienceMode({ guestCount: universe.words.length, onChange: applyExperience });
 function syncRenderLoop() {
-  renderer?.setAnimationLoop(catalogReady && experience.snapshot().mode && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
+  renderer?.setAnimationLoop(catalogReady && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
 }
 function applyExperience(state) {
   const app = $('#app');
@@ -68,6 +69,10 @@ function applyExperience(state) {
   const key = `${state.mode}:${state.ownerId}:${state.ready}`;
   if (key === experienceKey) return;
   experienceKey = key;
+  // Clear the previous identity immediately; allow rapid UI transitions to settle
+  // before compiling a scene that may already have been replaced.
+  renderer?.clear();
+  sceneWakeAt = performance.now() + 150;
   focusedStarId = selectedId = null;
   closePanels();
   celestialSystem?.home();
@@ -405,6 +410,8 @@ function rebuildWordStars() {
 const projected = new THREE.Vector3();
 function animate(ms) {
   if (document.hidden) { lastCameraMs = 0; return; }
+  if (document.querySelector('dialog[open]')) { lastCameraMs = 0; sceneWakeAt = performance.now() + 150; return; }
+  if (performance.now() < sceneWakeAt) return;
   if (!renderer) return;
   const fpsMonitor = $('#fps-monitor');
   if (!fpsMonitor.hidden) {

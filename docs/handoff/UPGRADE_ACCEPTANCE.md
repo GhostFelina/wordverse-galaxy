@@ -30,3 +30,13 @@ Başlangıçe75ecca uzakCI37146273133:57pass/9fail (6accountsync,3desktopnebula)
 Yeni demo yıldız/gezegeninde 2–7 CSS piksel projected-size yumuşak geçiş; en uzakta yaklaşık 2.2/1.8 CSS piksel noktalar. 105 unit geçti; 15 sentetik donmuş görünüm ve Chrome manuel uzak görünüm kanıtı evidence/upgrade altında. Yakın yıldız yüzeyi küresel/granüllü; gaz içi görünüm hâlâ düşük kontrastlı ve yumuşak, final kalite açık. Gezegen ilk bakışta çoğunlukla gece yüzü gösteriyordu; fixture bakışı aydınlık yarımküreye değiştirildi.
 
 Son ön turlar 70/71 ve 29/30: SDK cold init / IDB gecikmesi. SDK prebundle ve kalıcı yazma sırasında GPU pause düzeltmesinden sonraki tam 71 test turu çalışıyor. Bu sonuçlar tam geçiş veya kullanıcı estetik kabulü olarak gösterilmez.
+
+## Son doğrulama
+
+8dd7be1: 105 unit / 71 e2e / lint / typecheck / build / format yerelde geçti. Vercel preview başarılı; remote CI 37157710980 çalışıyor. U1 otomatik entegrasyon doğrulandı, U2 kalite çalışması devam ediyor. 15 donmuş açı güncel source hashleriyle yeniden çekildi. Kayıtlar korunur; kullanıcı estetik kabulü hâlâ yok.
+
+## Remote CI farkı ve düzeltme
+
+37157710980: 105 unit geçti, fakat 65 e2e geçti / 6 başarısız (3 hesap, 3 demo tekrar geçişi). Yerel 71/71, remote geçiş sayılmaz. Dialog açıkken ve owner content-ready değilken GPU çizimi durduruldu; önceki kimlik karesi anında temizlenir. Yeni sahne çizimi 150ms sakin UI aralığını bekler, hızlı tekrar geçişler eski shaderları derlemeye zorlamaz. Hosted software WebGL üzerinde CI tek worker, yerelde iki worker. Test timeoutları ve 10 tekrar senaryosu korunur. Düzeltmenin hedefli gate / sonraki remote sonucu takip edilir.
+
+Düzeltme sonrası iki yerel worker ile hesap + deneyim hedefli gate **16/16 geçti (52 saniye)**. On tekrar ve bekleme süreleri aynen korundu; lint geçti. Yeni remote tam gate, push sonrası ayrıca doğrulanacak.

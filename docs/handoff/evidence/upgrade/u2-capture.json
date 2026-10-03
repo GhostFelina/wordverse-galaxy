@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-03T22:06:45.770Z",
-  "baseCommit": "e75eccaee98f81bdf5a8c4f9c6bbc56cf03d4528",
+  "generatedAt": "2026-10-03T22:16:43.415Z",
+  "baseCommit": "8dd7be1b343dd79bc329d8b99d561b5a6da42d30",
   "sourceSha256": {
-    "src/main.js": "eaefd4c6926d714d23f164d5818c40ea826c7661abf96fb4ca3d6a236567bc31",
+    "src/main.js": "986d08c1a537a9981082c6ac9c5ae51750d2d278b0947dfdea102242f19679ee",
     "src/experience-mode.js": "92c8dba5a0201ab1b7f1fc64f6b593320037da41af5137735954babe9111c83b",
     "src/experience-ui.js": "c834296622fb5e3ce84ded9fa8d23f1c5f7daf1f53056e6f03536a51ff79ed0e",
     "src/premium-bodies.js": "9fd286a5ec88976a78080c244a7e5c4c23f6b5c7e22bf44e348faac61ead760b",
@@ -10,7 +10,7 @@
     "src/nebula-volume.js": "8708b14411f0a4a41d4547f3c700b8a948a4bc0d284e61ab9f3c8a0e9a9e6f73",
     "src/cosmic-field.js": "1ec5d46e9be44c31898bd500fa717dc4984ef332d2b10ec2160fd8ca424e652a",
     "src/render-quality.js": "f09f3f56129b5a2fa498d0243234dcfbe60691e639553935614c277ac73578c5",
-    "tests/fixtures/upgrade-lab.html": "b62c28532758cfed1ef9f8cefd4bb28ddc2685df0c8e9098220bbeacf85e2db3"
+    "tests/fixtures/upgrade-lab.html": "995446e3b64b77ad4a356cc9b6a919096f7bb3e005113929e095d7c7bdf28585"
   },
   "browser": "Playwright Chromium",
   "platform": "win32",
