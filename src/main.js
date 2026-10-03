@@ -1,6 +1,9 @@
 import { createCosmicField } from './cosmic-field.js';
 import * as THREE from 'three';
 import './style.css';
+import { createRenderQuality } from './render-quality.js';
+import { createExperienceMode, createSceneSlot } from './experience-mode.js';
+import { mountExperienceUI } from './experience-ui.js';
 import { coreOrbit } from './local-galaxy-layout.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
@@ -8,11 +11,14 @@ import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountProfileUI, profileSessionListener } from './profile-ui.js';
+import { getSupabaseClient } from './supabase-client.js';
 import { mountAuthUI } from './auth-ui.js';
 import { mountAccountSync } from './account-sync-ui.js';
 
 const $ = (selector) => document.querySelector(selector);
 const uiLocale = getHomeLocale();
+// Begin the locked SDK chunk before IDB and heavy scene initialization.
+getSupabaseClient().catch(() => {});
 const t = (key, params) => translate(uiLocale, key, params);
 let archiveFailure = false;
 try { await archiveBeforeMigration(localStorage); } catch { archiveFailure = true; }
@@ -41,6 +47,41 @@ let zoom = 160;
 let catalogDepth = 0;
 let cosmicField;
 let celestialSystem;
+let renderQuality;
+let catalogReady = false;
+let pendingGuestWrites = 0;
+let experienceUI;
+let showcaseScene = null;
+const showcaseSlot = createSceneSlot();
+let experienceKey = '';
+const experience = createExperienceMode({ guestCount: universe.words.length, onChange: applyExperience });
+function syncRenderLoop() {
+  renderer?.setAnimationLoop(catalogReady && experience.snapshot().mode && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
+}
+function applyExperience(state) {
+  const app = $('#app');
+  app.dataset.experience = state.mode || 'initializing';
+  app.dataset.contentReady = String(state.ready);
+  $('#universe').dataset.experience = state.mode || 'initializing';
+  experienceUI?.update(state);
+  syncRenderLoop();
+  const key = `${state.mode}:${state.ownerId}:${state.ready}`;
+  if (key === experienceKey) return;
+  experienceKey = key;
+  focusedStarId = selectedId = null;
+  closePanels();
+  celestialSystem?.home();
+  showcaseSlot.clear();
+  showcaseScene = null;
+  rebuildWordStars();
+  if (state.mode === 'showcase-demo' && scene) {
+    showcaseSlot.replace(async () => {
+      const { createShowcaseScene } = await import('./showcase-scene.js');
+      return createShowcaseScene(scene, camera);
+    }).then(value => { if (value) showcaseScene = value; }).catch(error => console.error('Showcase initialization failed', error));
+  }
+}
+
 const CELESTIAL_STAGE = 2;
 let preImmersiveZoom = null;
 let focusedStarId = null;
@@ -82,9 +123,11 @@ function persist() {
   try {
     const serialized = JSON.stringify(universe);
     const { localSaved, writePrimary } = persistLocalUniverse(universe, localStorage);
+    pendingGuestWrites++;
+    syncRenderLoop();
     primaryWrites = primaryWrites.catch(() => {}).then(writePrimary).catch(() => {
       if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
-    });
+    }).finally(() => { pendingGuestWrites--; syncRenderLoop(); });
     mirrorWrites = mirrorWrites.catch(() => {}).then(() => writeUniverseMirror(JSON.parse(serialized))).catch(() => {
       if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
     });
@@ -251,6 +294,12 @@ function initScene() {
   renderer.setSize(innerWidth, innerHeight);
   renderer.setClearColor(0x000000, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.85;
+  renderQuality = createRenderQuality({ maximum: Math.min(devicePixelRatio, 1.7), onChange: ratio => {
+    renderer.setPixelRatio(ratio);
+    $('#universe').dataset.renderDpr = String(ratio);
+  } });
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
@@ -264,7 +313,7 @@ function initScene() {
     $('#universe').dataset.sceneMode = 'layered-cosmos';
     $('#universe').dataset.celestialStage = String(CELESTIAL_STAGE);
     for (const [key, count] of Object.entries(celestialSystem.counts)) $('#universe').dataset[key] = String(count);
-  }).catch(error => { console.error('Celestial layer initialization failed', error); }).finally(() => renderer.setAnimationLoop(animate));
+  }).catch(error => { console.error('Celestial layer initialization failed', error); }).finally(() => { catalogReady = true; syncRenderLoop(); });
   $('#universe').dataset.starCapacity = String(cosmicField.capacity);
   glowMap = glowTexture();
   starCoreMap = starCoreTexture();
@@ -290,6 +339,7 @@ function spawnBirth(id) {
 }
 function rebuildWordStars() {
   if (!wordGroup) return;
+  for (const birth of births) { birth.group.remove(birth.ring); birth.ring.material.dispose(); }
   births.length = 0;
   for (const group of worldStars.values()) { group.traverse(obj => { if (obj.material) obj.material.dispose(); }); wordGroup.remove(group); }
   if (denseStarMeshes) {
@@ -300,6 +350,8 @@ function rebuildWordStars() {
   worldStars.clear();
   $('#star-layer').replaceChildren(); starNodes.clear();
   lastOverlayUpdate = -Infinity;
+  const policy = experience.snapshot();
+  if (!policy.ready || policy.mode === 'showcase-demo') return;
   if (words.length > DENSE_STAR_THRESHOLD) {
     const geometry = new THREE.PlaneGeometry(1, 1);
     const layer = (map, opacity) => {
@@ -366,6 +418,7 @@ function animate(ms) {
   const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25);
   const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
+  renderQuality.sample(cameraDelta);
   const planeDamping = 1-Math.exp(-cameraDelta*.0028);
   const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
   camera.position.x += (targetX-camera.position.x)*planeDamping;
@@ -375,7 +428,9 @@ function animate(ms) {
   camera.updateMatrixWorld();
   cosmicField.update(camera);
   const visibleGalaxies = celestialSystem?.update(ms) ?? 0;
-  wordGroup.visible = camera.position.z < 12000;
+  const policy = experience.snapshot();
+  wordGroup.visible = policy.ready && policy.mode !== 'showcase-demo' && camera.position.z < 12000;
+  showcaseScene?.update(reducedMotion ? 0 : clock, innerHeight, renderer.getPixelRatio());
   wordGroup.rotation.z = 0;
   if (ms - lastSceneReport > 100) { lastSceneReport = ms; $('#universe').dataset.cameraZ = String(camera.position.z); $('#universe').dataset.visibleGalaxies = String(visibleGalaxies); }
   for (let i = births.length - 1; i >= 0; i--) {
@@ -386,7 +441,7 @@ function animate(ms) {
     birth.ring.material.opacity = (1 - t) * (1 - t) * .9;
   }
   const meteorCycle = drift % 24;
-  if (catalogDepth === 0 && words.length && meteorCycle > 16 && meteorCycle < 16.72) {
+  if (policy.mode === 'showcase-demo' && catalogDepth === 0 && words.length && meteorCycle > 16 && meteorCycle < 16.72) {
     const t = (meteorCycle - 16) / .72;
     const cycle = Math.floor(drift / 24);
     const halfHeight = (camera.position.z - 2) * Math.tan(THREE.MathUtils.degToRad(25));
@@ -400,7 +455,7 @@ function animate(ms) {
     meteorTip.position.set(x, y, 2); meteorTip.scale.setScalar(Math.max(1.8, halfHeight * .035)); meteorTip.material.opacity = Math.sin(t * Math.PI) * .82;
   } else { meteor.material.opacity = 0; meteorTip.material.opacity = 0; }
   const cometCycle = drift % 61;
-  if (catalogDepth === 0 && words.length > 2 && cometCycle > 29 && cometCycle < 43) {
+  if (policy.mode === 'showcase-demo' && catalogDepth === 0 && words.length > 2 && cometCycle > 29 && cometCycle < 43) {
     const t = (cometCycle - 29) / 14;
     const halfHeight = (camera.position.z - 3) * Math.tan(THREE.MathUtils.degToRad(25));
     const halfWidth = halfHeight * camera.aspect;
@@ -487,6 +542,7 @@ function animate(ms) {
 function openPanel(which) {
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   activePanel = which;
+  syncRenderLoop();
   $('#panel-backdrop').classList.toggle('open', !!which);
   for (const key of ['detail', 'add', 'collection', 'galaxy']) {
     const panel = $(`#${key}-panel`);
@@ -827,7 +883,7 @@ function bindUI() {
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
   $('#reset-view').addEventListener('click', () => { celestialSystem?.home(); $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
-  document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
+  document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
     if (e.pointerType === 'touch') {
@@ -872,7 +928,7 @@ accountSync = mountAccountSync({
   getUniverse: () => universe,
   beforeSwitch: () => { closePanels(); profileUI?.close(); },
   notify: showToast,
-  replaceUniverse: next => {
+  replaceUniverse: (next, context) => {
     universe = next;
     words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
     if (!words.some(w => w.id === selectedId)) selectedId = null;
@@ -880,12 +936,34 @@ accountSync = mountAccountSync({
       editingId = null;
       if (activePanel === 'add') updateEntryKindForm();
     }
+    if (context?.ownerId) experience.contentReady(context.ownerId);
+    else experience.guestEntries(next.words.length);
     rebuildWordStars(); refreshCounts(); renderGalaxies();
     if (activePanel === 'collection') renderCollection();
     if (activePanel === 'detail' && !selectedId) closePanels();
   },
 });
 profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
-mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: profileSessionListener(profileUI, accountSync.onSession), onSync: accountSync.open, onProfile: profileUI.open });
+const handleSession = profileSessionListener(profileUI, accountSync.onSession);
+experienceUI = mountExperienceUI({ locale: uiLocale,
+  onGuest: () => experience.enterGuest(), onDemo: () => experience.enterDemo(),
+  onSignin: () => $('#open-account').click(), onExplore: () => $('#explore-btn').click(),
+});
+// Domain actions explicitly leave public preview; scene-only exploration never writes records.
+document.addEventListener('click', event => {
+  const target = event.target instanceof Element ? event.target.closest('#open-add,#hero-add,#collection-add,#collection-btn,#galaxy-switch') : null;
+  if (!target) return;
+  const state = experience.snapshot();
+  if (!state.ready && !experience.enterGuest()) { event.preventDefault(); event.stopImmediatePropagation(); return; }
+  if (state.mode === 'showcase-demo') experience.enterGuest();
+}, true);
+mountAuthUI({ locale: uiLocale, beforeOpen: closePanels,
+  onGuest: () => experience.enterGuest(),
+  onIdentity: session => experience.session(session?.user?.id),
+  onSession: handleSession,
+  onSync: accountSync.open,
+  onProfile: () => { experience.enterGuest(); profileUI.open(); },
+});
+applyExperience(experience.snapshot());
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

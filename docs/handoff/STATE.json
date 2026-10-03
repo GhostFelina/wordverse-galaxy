@@ -24,5 +24,19 @@
     "activation": "incremental",
     "farthestGalaxiesVisible": false,
     "farthestAppearance": "ultra realistic, stellar flares, explosions and waves — acceptance pending"
+  },
+  "upgrade": {
+    "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
+    "currentPhase": "U1",
+    "phaseStatus": "implementation-under-verification",
+    "completedPhases": [],
+    "nextPhase": "U2",
+    "lastVerifiedCommit": "e75eccaee98f81bdf5a8c4f9c6bbc56cf03d4528",
+    "lastRemoteCI": "failure:37146273133",
+    "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
+    "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
+    "userVisualAcceptance": "pending",
+    "distantPointImplementation": "premium demo bodies: 2–7 CSS px smooth crossfade; catalog and personal adapters pending",
+    "localUnitTests": 105
   }
 }

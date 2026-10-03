@@ -90,3 +90,9 @@
 - İlk kaynaklı beş galaksi ayrı keşif katmanıdır; kullanıcı galaksisi/veri şeması değiştirilmez. Özgün prosedürel yorumlar fotoğraf veya astrometrik simülasyon diye sunulmaz.
 - Yeni referans: https://x.com/ITangieff/status/2106060890407915571 sağ video, 00:10–00:15. 11.14 / 12.66 / 14.55 kareleri görüldü: renkli gaz, farklı derinliklerde yıldızlar, kamera ölçek/parallax hissi. Kullanıcı uzaklaştırınca 200–300 gerçek galaksi istiyor; yeni hedef 300 benzersiz katalog kaydıdır. Referans medya kopyalanmaz.
 - İlk testte 7 eşzamanlı tarayıcı/cold Vite dönüşümleri çeşitli bağımsız fixture'larda timeout üretti. Paralel WebGL bağlamları 2 worker ile sınırlandı; timeout/assertion gevşetilmeden 48/48 geçti. FPS bütçesi ölçümü değildir.
+
+## ADR014 — Wordverse görsel yükseltme U0–U9 ve son referans
+
+2026-10-04 kullanıcı WORDVERSE_MASTER_UPGRADE dosyasını aktif şartname yaptı; Downloads kopyası istenen repo yoluna alındı ve524satır tamamı okundu. Faz0/1 yeniden başlamaz; orijinal Faz2/3ertelenmiş kalanlar korunur. U0–U9 ayrı state. Demo onboarding ephemeral; personal owner verisi, guest ayrıdepo. Synthetic sahne kaynakları mode exit/late async iledispose; render transformsdomain verisine yazılmaz. Eski sadecekademe3açma planı yeni premiumquality/mode sözleşmesiyle değişti.
+
+Kullanıcı açıklaması: ana hareket/gaz uçuşu X videosunun sağ paneli; R5YouTubegezegen ikincil. Son uzakgörünüm kararı küçükışık noktaları; detaylımorfoloji yaklaşınca açılır,far büyükhalo/şekilgalerisi yok. Yeni katsayılı pointLOD henüz kabul edilmedi.

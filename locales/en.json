@@ -501,5 +501,13 @@
       "nebula": "Nebula",
       "cluster-nebula": "Nebula and star cluster"
     }
+  },
+  "experience": {
+    "title": "Discover light in the dark.",
+    "copy": "Approach stars, travel around planets and explore the depth of gas clouds.",
+    "explore": "Explore",
+    "signin": "Sign in",
+    "guest": "Enter my universe",
+    "preview": "Demo"
   }
 }

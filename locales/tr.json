@@ -501,5 +501,13 @@
       "nebula": "Bulutsu",
       "cluster-nebula": "Bulutsu ve yıldız kümesi"
     }
+  },
+  "experience": {
+    "title": "Karanlığın içindeki ışığı keşfet.",
+    "copy": "Yıldızlara yaklaş, gezegenlerin çevresinde gez ve gaz bulutlarının derinliğine ilerle.",
+    "explore": "Keşfet",
+    "signin": "Giriş yap",
+    "guest": "Kendi evrenime geç",
+    "preview": "Demo"
   }
 }

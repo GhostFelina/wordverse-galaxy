@@ -131,4 +131,19 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 
 - [x] CLAUDE_BRIEF: bütün proje, mimari/veri/servis/faz/karar ve gerçek kabul sınırlarını tek rehberde toplama.
 - [ ] Kademe2 son hacim/kaya/doğal Dünya düzeltmeleri: manual/responsive tema/hareket ve profesyonel görünüm kabulü; sayısal otomatik kabul bunun yerine geçmez.
-- [ ] Desktop MD tam metin/binary ZIP snapshot ve hazır Claude promptu üret; dosya/satır/hash manifestini doğrula.
+- [x] Desktop MD devir paketi e75ecca:384dosya/203metin/65305satır/181binary; hash ve metin dilimleri doğrulandı.
+
+## Aktif yükseltme U0–U9 · 2026-10-04
+
+WORDVERSE_MASTER_UPGRADE aktif görsel sözleşme; eski görsel plan yerine uygulanır. Orijinal ürün fazları/statüler korunur.
+
+- [~] U0: gerçekOS/repo/doctor,4yerelreferans,primaryXdüzeltmesi, güncel6sentetikbaseline/e75CIhata kaydı; son currentgate bekliyor.
+- [~] U1: experience-mode,asyncsceneSlot,owner-readyguard,guestfallback,authcallbackgeneration; üretim/demo ayrımı ve lifecycle testleri/manuelsonkontrol sürüyor.
+- [~] U2 başlangıcı: gerçek küresel premiumbodyshader,planetworldlight,productionsharedfixture/ACES/DPR; yakınsurface/gas/bloom/LOD ve görsel kalite açık.
+- [ ] U3 kesintisizkamera/LOD; enuzaktaküçükışık noktaları kullanıcısonkararı.
+- [ ] U4 stablehome/recordadapter/birth; coreOrbitcount veforcedbinaryaudit.
+- [ ] U5 kaliteliçeşitligalaksi/katalog;galaksilerhenüzkapalı.
+- [ ] U6 premiumpremiumphenomena/kara delik/eventdirector.
+- [ ] U7 özgünWebAudio/gesture/mixer/lifecycle.
+- [ ] U8 ≥50fenomen/5000kayıt/performance/fallback.
+- [ ] U9 entegrasyon/kabul/devir;main/prod/tag erken yok.

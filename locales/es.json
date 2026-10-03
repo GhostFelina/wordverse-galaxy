@@ -501,5 +501,13 @@
       "nebula": "Nebulosa",
       "cluster-nebula": "Nebulosa y cúmulo estelar"
     }
+  },
+  "experience": {
+    "title": "Descubre la luz en la oscuridad.",
+    "copy": "Acércate a las estrellas, viaja entre planetas y explora la profundidad del gas.",
+    "explore": "Explorar",
+    "signin": "Iniciar sesión",
+    "guest": "Entrar en mi universo",
+    "preview": "Demo"
   }
 }

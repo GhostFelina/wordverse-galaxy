@@ -1,5 +1,34 @@
 # Devir durumu
 
+## Aktif yükseltme · 2026-10-04
+
+**WORDVERSE_MASTER_UPGRADE.md aktif şartnamedir; 524 satırı tamamen okundu.** U0–U9 yükseltme sırası, eski Faz 0–9 ile ayrı izlenir. Windows / PowerShell; aktif dal `phase/4-universe`. Orijinal Faz 0/1 tamamlandı, Faz 2 kabulü ve Faz 3 kalanları ertelendi. Üretim dalına birleştirme veya sürüm etiketi yok.
+
+### Kullanıcının son kesinleştirdiği görsel kararlar
+
+- Ana hareket referansı **X videosunun sağ paneli, 00:10–00:15**. R5 YouTube gezegeni ikincil yüzey referansıdır.
+- **En uzağa alındığında gök cisimleri küçük noktalar gibi görünür.** Yüzey, gaz ve galaksi ayrıntıları yaklaşıldıkça açılır; büyük diskler ve parlamalar uzak sahneyi kaplamaz.
+- Yeni demo yıldız/gezegen katmanında ekran boyutuna göre 2–7 CSS piksel arasında yumuşak küre/nokta geçişi uygulandı. En uzakta yıldız yaklaşık 2.2, gezegen 1.8 CSS piksel. Diğer katalog katmanları ve kullanıcı yıldızlarına aynı politikanın adaptasyonu U2–U4 içinde açık.
+
+### Bu checkpoint'in somut geliştirmeleri
+
+- U1: `showcase-demo`, gerçek hesap `personal` ve korunmuş misafir `guest-personal` sahne politikası. İlk oturum çözülmeden demo gösterilmez. Hesap verisi gelmeden sahte hesap sayısı gösterilmez; depolama hatasında açık misafir tercihi çalışır.
+- Async sahne montajında eski işlemler iptal edilir; ortak geometri ve materyaller sahipleri tarafından bırakılır. Demo gövdeleri veri deposuna yazılmaz.
+- İlk kimlik çözümlemesi sırasında form düğmeleri devre dışıdır. Dil değişimi sonrası erken tıklama yarışı ve klavye koleksiyon kısayolu düzeltildi.
+- U2 başladı: küresel granülasyon/limb yıldızı, aydınlık-karanlık gezegen yüzeyi, demo gaz hacmi ve küçük nokta geçişi. Three r180 SRGB + ACES/exposure 0.85; tam renk/bloom denetimi henüz açık.
+- Ölçülen yavaş karelere göre DPR düşürme var; gerçek mobil/5000 kayıt performans kabulü değildir.
+- Şema, kullanıcı kayıtları/koordinatları ve hesap senkron sözleşmesi korunur. Gerçek kullanıcı yıldızları hâlâ eski görsel adapter ile çizilir; count-dependent coreOrbit / forced binary U4'te ele alınacak.
+
+### Doğrulama ve sonraki iş
+
+105 birim testi geçti. İlk tam tarayıcı turunda 70/71 geçti; ilk kimlik çözülürken erken form tıklaması düzeltildi ve ilgili senaryo 3/3 tekrar geçti. Son tam 71 test turu ve güncel build sürüyor; son sonucu aşağıdaki oturum kaydında güncelle. Önceki e75ecca uzak CI 37146273133: 57 geçti / 9 başarısız; bunu yeni sonuçla karıştırma.
+
+U0 kanıtı: dört yerel referans görseli incelendi, altı sentetik önceki görünüm kaydedildi. `REFERENCE_ANALYSIS.md`, `VISUAL_DIRECTION.md`, `UPGRADE_ACCEPTANCE.md` ve `STATE.json.upgrade` güncel kaynaklardır. `scripts/capture-upgrade-evidence.mjs` aynı üretim modülleriyle 1440/768/390 genişlikte beş donmuş açı üretir. Kullanıcı verisi çekilmez.
+
+**Sonraki somut sıra:** tam gate ve manuel sahne incelemesi → U2 gaz filamentleri/toz/ışık sönümleme, yakın yıldız/gezegen kalite iterasyonu ve bloom → U3 kesintisiz kamera → U4 kalıcı merkez ve gerçek kayıt adapterleri. U1/U2 final kalite veya kullanıcı kabulü tamamlandı olarak işaretlenmedi.
+
+---
+
 ## Son güncelleme · 2026-10-03
 
 Codex / Windows 11 Pro / PowerShell 7.6.6. Aktif dal **phase/4-universe**, geliştirme **1.14.0**, production main **v1.11.0**. Aktif görsel **kademe 2: 200 bulutsu +1000 asteroid +1000 tarihsel meteor kayıt/katmanı**. **Galaksiler kapalı, kademe 3 bekliyor.** Faz 4 tamamlanmadı; draft PR #7 base phase/3-profile. Yalnız Faz 0/1 tamamlandı; Faz 2 kabulü/Faz 3 kalanları kullanıcı tarafından ertelendi.
@@ -12,7 +41,7 @@ Son kullanıcı görevi: bütün projeyi A–Z anlatan ve kaynakları eksiksiz k
 - İlk galaksisiz yıldız temeli tamamlandı; sonra **kademe kademe**: 200 bulutsu →asteroid/meteor →300 galaksi.
 - Asgari: **200 gerçek bulutsu, toplam1000 asteroid/meteor, 150 ayrı gerçek galaksi**. Kullanıcı toplam1000 seçti, her türden1000 şartı yok. Hazır kaynak1000+1000 bunun üzerindedir.
 - OLED derin siyah. Son düzeltme yıldızlı arka plana izin verir; yakın katmanlar dünya konumlu3B/parallax olmalı.
-- En uzakta parlama/patlama/dalga ve ultra gerçekçi görünüm istendi; henüz uygulanmış/kabul edilmiş sayılmaz.
+- En uzaktaki eski parlama/patlama/dalga isteği, son küçük nokta kararıyla birlikte değerlendirilir: etkiler noktaları ve OLED alanını örtmemeli. Görsel kalite kabulü açık.
 - Kullanıcı yıldız/galaksileri amatör buldu. Profesyonel ışık/ölçek/gaz/toz/morfoloji/geçiş açık kalite kapısı. Katalog sayısı kalite kabulü değildir.
 - Kendi kelime evreni galaksi merkezinde; mevcut kayıt koordinatları, kelimeler, koleksiyonlar ve senkron korunur.
 - Gerçek katalog kimlikleri ≠ fotoğraf veya fiziksel3B doğruluk. Yıldızlar prosedürel. Meteorlar tarihsel atmosfer olayları; şematik tekrar etiketlidir.

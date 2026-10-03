@@ -20,3 +20,7 @@
 - `fireballs-1000.json`: NASA/JPL CNEOS Fireball API 1.2; 1000 ayrı tarihsel atmosfer gözlemi. Tarihler UTC, enerji dönüşümü joule; eksik ölçü null. Meteorlar canlı olay/meteor taşı değildir. https://ssd-api.jpl.nasa.gov/doc/fireball.html. API istekleri birer birer, uygulama User-Agent, cache ve sürüm kontrolüyle importer'da; tarayıcı API çağırmaz.
 - `public/assets/planets/earth-natural-color.jpg`: NASA Goddard Blue Marble 2002, Reto Stöckli / Robert Simmon / MODIS ekipleri; kaynak JPEG değiştirilmedi. https://science.nasa.gov/earth/earth-observatory/the-blue-marble-true-color-global-imagery-at-1km-resolution/. Satelit mozaik, seçilen meteor gününün görüntüsü değil. Özgün kaynak ve SHA256 earth-texture-provenance.json. Bu dosya eski JPL topografik earth.jpg haritasından farklıdır.
 - `nebula-volume.js`, `celestial-system.js`, `asteroid-orbit.js`: özgün MIT render kodu. Bulutsu gaz hacmi, kaya biçimi/boyut sıkıştırması ve meteor izinin yönü sanatsal/şematik; gözlenmiş fotoğraf veya kesin fiziksel 3B simülasyon olarak sunulmaz.
+
+## Wordverse yükseltme özgün sahne
+
+`premium-bodies.js` yıldız granülasyon/limb ve prosedürel gezegen yüzeyi özgün GLSL; fotoğraf/katalog ölçümü iddiası yok. `showcase-scene` sanatsal sentetikdemo, üçüncü taraf video/müzik varlığı içermez. Yerel kullanıcıreferansları yalnız incelendi; dağıtılanasset olarak kopyalanmadı. Three r180 tone/color shaderchunklisansı mevcutThreeMIT olarak korunur.

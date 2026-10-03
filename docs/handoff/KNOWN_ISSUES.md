@@ -30,3 +30,11 @@
 - Kullanıcı mevcut yıldız/galaksileri amatör buldu; ultra gerçekçi yıldız ışığı, galaksi toz/gaz yapıları ve profesyonel geçişler kabul edilmedi. Bulutsu raymarch hacmi ve kaya yüzeyi iyileştirildi; yakın/uzak GPU/FPS bütçesi tamamlanmadı.
 - Uzak ölçek parlama/patlama/dalga isteği kaydedildi, henüz uygulanmadı. En uzak zoomda galaksiler gizli kalmalı. Yıldızlı arka plana son kullanıcı düzeltmesiyle izin verildi; OLED derin siyah korunur.
 - Raymarch ilk 20-step/sin hash sürümünde kamera zaman clamping'i yüzünden bir EN1440 focus senaryosu 5 saniyede 3.15 birim farkla timeout oldu. Polynomial hash/12 steps + gerçek zamana yakın kamera damping düzeltildi; hedefli 12 senaryo geçti. Tam son gate HANDOFF'tan kontrol edilir.
+
+## Yükseltme başlangıcı · 2026-10-04
+
+- e75ecca uzakCI37146273133yerel66/66sonucuna rağmen57pass/9fail (6accountsync+3desktopnebula),30sinteractiontimeouts. Başlangıçhata olarak kaydedildi. DPR adaptasyonu + SDK optimizeDeps include + auth callback generation sonraki integratedCI ile sınanmalı; remotegatehenüzgeçti sayılmaz.
+- U1ilkhedefli25:TRinitializing5s ve storageblockedguestliste erişimi regrese oldu. GPUloopauthresolvebekleme, SDKprefetch, staleauthcallbackgeneration veexplicitguestfallbackdüzeltildi; ilgili4/4geçti. Asserttimeout gevşetilmedi.
+- U2 ilkbodyfixtureüretimdepaylaşılıyor ama kullanıcıyıldızlarılegacySprite,yerleşimcount-dependent/forcedbinary; U4 açık. Gas eski12stephacim,filament/toz/nearLODhenüzyeniqualitygategeçmedi. Yeni demo gövdelerinde en uzak küçük nokta LOD uygulandı (2–7 CSS piksel crossfade); katalog ve gerçek kayıt adapterleri hâlâ açık.
+
+- Yeni tam turlarda ilk kimlik/dil panel yarışı ve IDB 5 saniye bekleme gecikmesi görüldü. Form/collection açıkken ve misafir primary write sürerken GPU çizimi durduruldu; detail kamera odağı devam eder. Soğuk SDK modül ağacı `optimizeDeps.include` ile önceden hazırlanır. Son tam 71 test turu henüz çalışıyor; test timeout/assertion gevşetilmedi.

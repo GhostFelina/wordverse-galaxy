@@ -132,6 +132,8 @@ test('account JSON export and legacy import preserve cloud records, survive relo
   await signInAndOpenMerge(page);
   await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
   await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await expect(page.locator('#app')).toHaveAttribute('data-experience', 'personal');
+  await expect(page.locator('#app')).toHaveAttribute('data-content-ready', 'true');
   await page.locator('#galaxy-switch').click();
   await expect(page.locator('#galaxy-panel')).toHaveAttribute('aria-hidden', 'false');
   const downloadReady = page.waitForEvent('download');

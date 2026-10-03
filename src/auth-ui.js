@@ -3,7 +3,15 @@ import { authErrorKey, getSupabaseClient } from './supabase-client.js';
 import { legalPath } from './legal-page.js';
 import './auth.css';
 
-export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {}, onSync = null, onProfile = null }) {
+export function mountAuthUI({
+  locale,
+  beforeOpen = () => {},
+  onSession = () => {},
+  onSync = null,
+  onProfile = null,
+  onGuest = () => {},
+  onIdentity = () => {},
+}) {
   const t = (key) => translate(locale, `auth.${key}`);
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -19,6 +27,7 @@ export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {
   };
   let mode = 'signin';
   let session = null;
+  let sessionRevision = 0;
   let client = null;
   let busy = false;
   let recovery = false;
@@ -177,7 +186,12 @@ export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {
       );
       content.append(google);
     } else if (mode !== 'update') content.append(button(t('back'), () => setMode('signin')));
-    content.append(button(t('guest'), () => dialog.close()));
+    content.append(
+      button(t('guest'), () => {
+        dialog.close();
+        onGuest();
+      }),
+    );
   }
 
   function setMode(next) {
@@ -223,20 +237,31 @@ export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {
   getSupabaseClient()
     .then((connection) => {
       client = connection;
-      client?.auth.onAuthStateChange((event, nextSession) => {
+      if (!client) {
+        onIdentity(null);
+        onSession(null, 'INITIAL_SESSION');
+        return;
+      }
+      client.auth.onAuthStateChange((event, nextSession) => {
         const accountChanged = session?.user?.id !== nextSession?.user?.id;
         session = nextSession;
+        const revision = ++sessionRevision;
+        onIdentity(nextSession);
         trigger.textContent = t(session ? 'accountTitle' : 'open');
         if (event === 'PASSWORD_RECOVERY') {
           recovery = true;
           mode = 'update';
           open();
         } else if (accountChanged && dialog.open && !busy) render();
-        setTimeout(() => onSession(nextSession, event), 0);
+        setTimeout(() => {
+          if (revision === sessionRevision) onSession(nextSession, event);
+        }, 0);
       });
     })
     .catch(() => {
       status.textContent = t('network');
+      onIdentity(null);
+      onSession(null, 'INITIAL_SESSION');
     });
   return { open, dialog };
 }

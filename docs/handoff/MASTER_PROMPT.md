@@ -1,5 +1,7 @@
 # WORDVERSE — Ana Geliştirme Görevi (Codex CLI)
 
+> **2026-10-04 güncellik notu:** Ürün/veri temeli korunur. Çelişen eski görsel koşullar WORDVERSE_MASTER_UPGRADE.md ve son kullanıcı talimatıyla değişti; Faz0/1 yeniden başlatılmaz, görsel kurtarma U0–U9 ile izlenir.
+
 > Bu dosya senin ana görev tanımın. Önce baştan sona oku. Sonra **Faz 0**'dan başla. Kendi alt fazlarını, todo listelerini ve görev dağılımını bu çerçeveye göre sen kur.
 > Canlı site: https://wordverse-galaxy.vercel.app · Hakkında: https://wordverse-galaxy.vercel.app/about.html
 
