@@ -440,7 +440,7 @@
   "catalog": {
     "title": "Sky catalog",
     "close": "Close catalog",
-    "intro": "Explore real celestial objects. This initial selection contains five galaxies. Views are artistic interpretations of morphology; scene positions and sizes are not real sky coordinates or scale.",
+    "intro": "Explore an atlas of 300 real galaxies. Coordinates come from J2000 catalog records; depth and size are compressed artistic interpretations for navigation. Five detailed featured cards appear below.",
     "artistic": "Artistic interpretation",
     "distance": "{count} million light-years",
     "explore": "Explore in scene",
@@ -459,6 +459,11 @@
       "virgo": "An elliptical galaxy filled with the warm light of older stars.",
       "cigar": "An edge-on starburst galaxy with warm gas flowing beyond the disk.",
       "sombrero": "A wide disk and a dark dust lane around a bright central bulge."
-    }
+    },
+    "overview": "View {count} galaxies together",
+    "visible": "{count} galaxies in view",
+    "search": "Search catalog · M31, NGC0224…",
+    "noResults": "No match in this selection. Use four digits for NGC numbers.",
+    "credit": "OpenNGC · Mattia Verga and contributors · CC BY-SA 4.0 · adapted data"
   }
 }

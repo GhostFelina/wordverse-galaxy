@@ -1,0 +1,9 @@
+{
+  "upstream": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/75ca7ff090e1d0081a5b08be70eb3bc45ccd9e06/database_files/NGC.csv",
+  "revision": "75ca7ff090e1d0081a5b08be70eb3bc45ccd9e06",
+  "sha256": "d3cd7f1ab83122e81b3453d765d93b6dbbb15c910716c9e4ff99c7e916cb2218",
+  "count": 300,
+  "license": "CC-BY-SA-4.0",
+  "credit": "OpenNGC, Mattia Verga and contributors",
+  "adaptation": "300 unique galaxy rows; J2000 coordinate conversion; morphology grouping; compressed artistic scene projection. Missing distances stay null."
+}

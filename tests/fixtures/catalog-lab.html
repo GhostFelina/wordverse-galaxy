@@ -12,9 +12,10 @@
     </div>
     <script type="module">
       import * as THREE from 'three';
+      import { createFlightField } from '../../src/flight-field.js';
       import '../../src/auth.css';
       import '../../src/style.css';
-      import { createCatalogLayer } from '../../src/catalog-layer.js';
+      import { createCatalogLayer, overviewZoom } from '../../src/catalog-layer.js';
       import { mountCatalogUI } from '../../src/catalog-ui.js';
       const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: true });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
@@ -24,6 +25,8 @@
       const target = new THREE.Vector3(0, 0, 750);
       camera.position.copy(target);
       const layer = createCatalogLayer(scene, { compact: innerWidth < 760 });
+      const flight = createFlightField(scene, innerWidth < 760);
+      let depth = 0;
       const resize = () => {
         renderer.setSize(innerWidth, innerHeight);
         camera.aspect = innerWidth / innerHeight;
@@ -31,20 +34,51 @@
       };
       resize();
       addEventListener('resize', resize);
-      mountCatalogUI({
+      const catalog = mountCatalogUI({
         locale: 'tr',
         beforeOpen() {},
         onFocus(record) {
-          target.set(record.scenePosition[0], record.scenePosition[1], innerWidth < 760 ? 440 : 370);
+          depth = record.scenePosition[2];
+          layer.focus(record);
+          flight.focus(record);
+          target.set(record.scenePosition[0], record.scenePosition[1], depth + 250);
+        },
+        onOverview() {
+          depth = 0;
+          target.set(0, 0, overviewZoom(camera.aspect));
         },
         onHome() {
+          depth = 0;
+          flight.home();
           target.set(0, 0, 750);
         },
       });
+      document.querySelector('canvas').addEventListener('click', (event) => {
+        if (depth === 0) {
+          const record = layer.pick(camera, event.clientX, event.clientY, innerWidth, innerHeight);
+          if (record) catalog.focus(record);
+        }
+      });
+      document.querySelector('canvas').addEventListener(
+        'wheel',
+        (event) => {
+          event.preventDefault();
+          const distance = Math.max(19, (target.z - depth) * Math.exp(event.deltaY * 0.00145));
+          if (distance > 1200) {
+            depth = 0;
+            target.x = target.y = 0;
+          }
+          target.z = depth + Math.min(10000, distance);
+        },
+        { passive: false },
+      );
       renderer.setAnimationLoop(() => {
         camera.position.lerp(target, 0.055);
-        camera.lookAt(camera.position.x, camera.position.y, 0);
-        layer.update(camera.position.z);
+        camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+        camera.updateMatrixWorld();
+        catalog.setVisibleCount(layer.update(camera, camera.position.z - depth, depth !== 0));
+        flight.update(camera);
+        renderer.domElement.dataset.viewDistance = String(camera.position.z - depth);
         renderer.render(scene, camera);
       });
     </script>

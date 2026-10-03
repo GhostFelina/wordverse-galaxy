@@ -72,6 +72,38 @@
   font-size: 12px;
   text-underline-offset: 4px;
 }
+.catalog-credit {
+  color: #a9c7ff;
+  display: block;
+  margin-top: 14px;
+  font-size: 11px;
+}
+#catalog-search {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #0d1728;
+  border: 1px solid #405579;
+  border-radius: 6px;
+  color: #e4eeff;
+}
+.catalog-results {
+  padding: 0;
+  list-style: none;
+}
+.catalog-results li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+  font-size: 11px;
+  color: #a9bcd8;
+}
+.catalog-results a {
+  color: #a9c7ff;
+}
 .catalog-badge {
   position: fixed;
   bottom: 94px;

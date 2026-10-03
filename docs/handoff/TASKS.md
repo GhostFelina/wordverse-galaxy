@@ -70,9 +70,10 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 ## Faz 4 · `phase/4-universe` · codex/claude
 
 - [x] İlk 5 kaynaklı galaksi, ayrı arka plan katmanı, üç dil katalog/odak/eve dön ve yumuşak zoom görünürlük geçişi; 88 unit/48 e2e + manuel katalog/sahne kanıtı.
-- [~] Kullanıcı X referansı sağ taraf 00:10–00:15: yakın yıldız/gaz içinden uçuş, uzak görünümde 200–300 ayrı gerçek galaksi. OpenNGC kaynak/lisans ve 300 kayıt, atlas/instancing/LOD, kamera derinliği ve görünür sayım kabulü.
+- [x] Kullanıcı X referansı sağ taraf 00:10–00:15: yakın yıldız/gaz içinden uçuş, uzak görünümde 200–300 ayrı gerçek galaksi. OpenNGC kaynak/lisans ve 300 kayıt, atlas/instancing/LOD, kamera derinliği ve görünür sayım kabulü.
 
-- [ ] Kaynak/lisans kayıtlı 50 galaksi, 100 bulutsu, 250 gezegen, 25 takımyıldızı.
+- [~] Kaynak/lisans kayıtlı galaksi sayısı 300; 100 bulutsu, 250 gezegen, 25 takımyıldızı ve tam uzaklık/fiziksel yerleşim kabulü kaldı.
+- [x] 8 morfoloji/32 atlas varyasyonu, galaksiye göre yakın yıldız/gaz, merkezde kişisel kelime düzeni ve büyüme/dönüş pivot koruması; depodaki koordinatlar değişmedi.
 - [ ] Gerçek galaksiye bağlı koleksiyon migrasyonu, morfoloji, LOD ve kesintisiz zoom.
 - [ ] Kamera ve dokunmatik; yıldız/gezegen sürükleme, kalıcı konum ve otomatik düzen.
 

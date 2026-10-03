@@ -20,7 +20,7 @@ for (const locale of ['tr', 'en', 'es']) {
       const dialog = page.locator('#catalog-dialog');
       await expect(dialog).toBeVisible();
       await expect(dialog.locator('.catalog-card')).toHaveCount(5);
-      await expect(dialog.getByRole('link')).toHaveCount(5);
+      await expect(dialog.getByRole('link')).toHaveCount(6);
       expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
       await dialog.locator('[data-catalog-id="M51"]').click();
       await expect(dialog).not.toBeVisible();
@@ -29,6 +29,17 @@ for (const locale of ['tr', 'en', 'es']) {
       await page.locator('#catalog-view button').click();
       await expect(page.locator('#catalog-view')).not.toBeVisible();
       await expect(page.locator('#app')).not.toHaveClass(/catalog-exploring/);
+      await page.locator('#open-catalog').click();
+      await page.locator('#catalog-overview').click();
+      await expect(page.locator('#catalog-visible-count')).toHaveAttribute('data-count', '300');
+      await page.locator('#open-catalog').click();
+      await page.locator('#catalog-search').fill('NGC0224');
+      await expect(page.locator('.catalog-results li')).toHaveCount(1);
+      await page.locator('.catalog-results [data-catalog-id="M31"]').click();
+      await expect(page.locator('#catalog-view')).toContainText('M31');
+      for (let step = 0; step < 6; step++) await page.locator('#zoom-in').click();
+      await expect(page.locator('#universe')).toBeVisible();
+      await page.locator('#catalog-view button').click();
       await page.locator('#open-catalog').click();
       await page.keyboard.press('Escape');
       await expect(dialog).not.toBeVisible();

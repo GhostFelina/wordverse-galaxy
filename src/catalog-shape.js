@@ -21,6 +21,17 @@ export function sampleGalaxy(record, count = 3600) {
     let x = Math.cos(angle) * radius;
     let y = Math.sin(angle) * radius * (core ? Math.max(record.inclination, 0.58) : record.inclination);
     const z = (rand() - 0.5) * (core ? 8 : 3);
+    if (!core && record.morphology === 'barred' && radius < 32) {
+      x = (rand() - 0.5) * 62;
+      y *= 0.18;
+    }
+    if (!core && record.morphology === 'lenticular') {
+      y *= 0.55;
+    }
+    if (record.morphology === 'irregular') {
+      x += Math.sin(y * 0.09) * 16;
+      y += Math.cos(x * 0.11) * 9;
+    }
     const lane = !core && ['edge-on', 'starburst'].includes(record.morphology) && Math.abs(y) < 2.8;
     let color = core ? [1, 0.78 + rand() * 0.14, 0.55 + rand() * 0.16] : [0.5 + rand() * 0.3, 0.67 + rand() * 0.2, 1];
     if (record.morphology === 'starburst' && i % 5 === 0) {

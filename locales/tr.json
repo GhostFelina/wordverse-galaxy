@@ -440,7 +440,7 @@
   "catalog": {
     "title": "Gök kataloğu",
     "close": "Kataloğu kapat",
-    "intro": "Gerçek gök cisimlerini keşfet. Bu ilk seçkide beş galaksi var. Görünümler morfolojiden esinlenen sanatsal yorumlardır; sahnedeki yerleşim ve boyutlar gerçek gökyüzü koordinatları veya ölçek değildir.",
+    "intro": "300 gerçek galaksiden oluşan gök atlasını keşfet. Koordinatlar J2000 katalog kayıtlarından gelir; derinlik ve boyutlar gezinti için sıkıştırılmış sanatsal yorumdur. İlk beş galaksinin ayrıntılı kartları aşağıda.",
     "artistic": "Sanatsal yorum",
     "distance": "{count} milyon ışık yılı",
     "explore": "Sahnede keşfet",
@@ -459,6 +459,11 @@
       "virgo": "Yaşlı yıldızların sıcak ışığıyla dolu, eliptik bir galaksi.",
       "cigar": "Yandan görünen yıldız oluşum galaksisi; diskin dışına yayılan sıcak gaz.",
       "sombrero": "Parlak merkez çevresinde geniş disk ve koyu bir toz şeridi."
-    }
+    },
+    "overview": "{count} galaksiyi birlikte gör",
+    "visible": "{count} galaksi görüş alanında",
+    "search": "Katalogda ara · M31, NGC0224…",
+    "noResults": "Bu seçkide eşleşme yok. NGC numaralarını dört basamakla yaz.",
+    "credit": "OpenNGC · Mattia Verga ve katkıda bulunanlar · CC BY-SA 4.0 · uyarlanmış veri"
   }
 }

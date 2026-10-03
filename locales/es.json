@@ -440,7 +440,7 @@
   "catalog": {
     "title": "Catálogo celeste",
     "close": "Cerrar catálogo",
-    "intro": "Explora objetos celestes reales. Esta selección inicial contiene cinco galaxias. Las vistas son interpretaciones artísticas de su morfología; las posiciones y tamaños no representan coordenadas ni escalas reales.",
+    "intro": "Explora un atlas de 300 galaxias reales. Las coordenadas proceden del catálogo J2000; la profundidad y el tamaño son interpretaciones artísticas comprimidas para navegar. Abajo hay cinco fichas destacadas.",
     "artistic": "Interpretación artística",
     "distance": "{count} millones de años luz",
     "explore": "Explorar en escena",
@@ -459,6 +459,11 @@
       "virgo": "Una galaxia elíptica llena de la luz cálida de estrellas antiguas.",
       "cigar": "Galaxia con intensa formación estelar vista de canto, con gas cálido que sale del disco.",
       "sombrero": "Un disco amplio y una banda oscura de polvo alrededor de un núcleo brillante."
-    }
+    },
+    "overview": "Ver {count} galaxias juntas",
+    "visible": "{count} galaxias en vista",
+    "search": "Buscar en el catálogo · M31, NGC0224…",
+    "noResults": "Sin coincidencias en esta selección. Usa cuatro cifras para los números NGC.",
+    "credit": "OpenNGC · Mattia Verga y colaboradores · CC BY-SA 4.0 · datos adaptados"
   }
 }

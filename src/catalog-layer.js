@@ -1,15 +1,26 @@
 import * as THREE from 'three';
-import galaxies from './data/catalog/galaxies.json';
+import featured from './data/catalog/galaxies.json';
+import catalogRows from './data/catalog/galaxies-300.json';
+import { createOverview } from './catalog-overview.js';
 import { sampleGalaxy, catalogOpacity } from './catalog-shape.js';
 
-export { galaxies };
+export const catalogRecords = catalogRows.map((row) => {
+  const known = featured.find((record) => record.id === row.messier);
+  return known ? { ...row, ...known, scenePosition: row.scenePosition, catalogId: row.id } : row;
+});
+export const galaxies = catalogRecords.filter((record) => record.nameKey);
+
+export function overviewZoom(aspect) {
+  return Math.max(1750, 2400 / aspect);
+}
 
 export function createCatalogLayer(scene, { compact = false } = {}) {
   const root = new THREE.Group();
   root.name = 'background-catalog';
   const materials = [];
   const clouds = [];
-  for (const record of galaxies) {
+  const overview = createOverview(scene, catalogRecords);
+  function addRecord(record) {
     const { positions, colors, sizes } = sampleGalaxy(record, compact ? 2800 : 6500);
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -61,16 +72,36 @@ export function createCatalogLayer(scene, { compact = false } = {}) {
     haze.scale.set(180, 180, 1);
     root.add(haze);
     clouds.push(haze);
+    return [stars, haze];
   }
+  for (const record of galaxies) addRecord(record);
+  let extra = [];
   scene.add(root);
   return {
-    update(cameraZ) {
-      const opacity = catalogOpacity(cameraZ);
+    pick: (...args) => overview.pick(...args),
+    focus(record) {
+      for (const child of extra) {
+        root.remove(child);
+        child.geometry?.dispose();
+        child.material.map?.dispose();
+        child.material.dispose();
+        const index = child.isSprite ? clouds.indexOf(child) : materials.indexOf(child.material);
+        if (index >= 0) (child.isSprite ? clouds : materials).splice(index, 1);
+      }
+      extra = record.nameKey ? [] : addRecord(record);
+    },
+    update(camera, distance = camera.position.z, exploring = false) {
+      const cameraZ = distance;
+      const opacity = exploring ? 1 : catalogOpacity(cameraZ);
+      const far = THREE.MathUtils.smoothstep(cameraZ, 650, 1200);
+      const near = exploring ? THREE.MathUtils.smoothstep(cameraZ, 45, 180) : 1;
       root.visible = opacity > 0.001;
-      for (const material of materials) material.uniforms.opacity.value = opacity;
-      for (const cloud of clouds) cloud.material.opacity = opacity * 0.7;
+      for (const material of materials) material.uniforms.opacity.value = opacity * (1 - far) * (0.2 + near * 0.8);
+      for (const cloud of clouds) cloud.material.opacity = opacity * 0.7 * (1 - far) * near;
+      return overview.update(camera, far);
     },
     dispose() {
+      overview.dispose();
       scene.remove(root);
       for (const child of root.children) {
         child.geometry?.dispose();

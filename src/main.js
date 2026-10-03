@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import './style.css';
-import { createCatalogLayer } from './catalog-layer.js';
+import { coreOrbit, setGalacticPivot } from './local-galaxy-layout.js';
+import { createFlightField } from './flight-field.js';
+import { createCatalogLayer, overviewZoom } from './catalog-layer.js';
 import { mountCatalogUI } from './catalog-ui.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
@@ -26,16 +28,19 @@ let selectedId = null;
 let editingId = null;
 let activePanel = null;
 let toastTimer;
-let renderer, scene, camera, galaxyGroup, wordGroup, catalogLayer;
+let renderer, scene, camera, galaxyGroup, wordGroup, catalogLayer, flightField;
 const worldStars = new Map();
 const starNodes = new Map();
 const DENSE_STAR_THRESHOLD = 80;
 let denseStarMeshes = null;
 const denseMatrix = new THREE.Matrix4();
 let lastOverlayUpdate = -Infinity;
+let lastCameraMs = 0;
 const pointer = { x: 0, y: 0 };
 const pan = { x: 0, y: 0 };
 let zoom = 160;
+let catalogDepth = 0;
+let catalogUI = null;
 let preImmersiveZoom = null;
 let focusedStarId = null;
 let preFocusPan = null;
@@ -333,6 +338,7 @@ function initScene() {
   camera.position.z = zoom;
   galaxyGroup = new THREE.Group(); scene.add(galaxyGroup);
   catalogLayer = createCatalogLayer(scene, { compact: innerWidth < 760 });
+  flightField = createFlightField(scene, innerWidth < 760);
   glowMap = glowTexture();
   starCoreMap = starCoreTexture();
   planetGeometry = new THREE.SphereGeometry(1, 32, 24);
@@ -390,6 +396,7 @@ function updateGalaxyGrowth() {
   if (visualGalaxyId !== universe.activeGalaxyId) {
     visualGalaxyId = universe.activeGalaxyId;
     activeVisualStyle = style;
+    flightField.home(seed, style);
     const replacement = pointCloud(galaxyDust.geometry.attributes.position.count, true, style, seed);
     galaxyDust.geometry.dispose(); galaxyDust.geometry = replacement.geometry; replacement.material.dispose();
     cloudHaze.material.map = galaxyTexture(style); cloudHaze.material.needsUpdate = true;
@@ -464,10 +471,8 @@ function rebuildWordStars() {
     const inner = denseStarMeshes || isPlanet ? null : sprite(tint, 8 * magnitude * appearance.size, .74);
     const center = denseStarMeshes || isPlanet ? null : sprite(new THREE.Color(appearance.color), 4.7 * magnitude * appearance.size, 1, starCoreMap);
     const glint = !denseStarMeshes && !isPlanet && hash % 6 === 0 ? sprite(new THREE.Color(appearance.color), 8, .17, starCoreMap) : null;
-    const dx = word.x - 31, dy = word.y;
-    const orbitX = dx * Math.cos(.17) - dy * Math.sin(.17);
-    const orbitY = dx * Math.sin(.17) + dy * Math.cos(.17);
-    const radius = Math.max(4, Math.hypot(orbitX, orbitY / .57));
+    const core = coreOrbit(word, words.length);
+    const radius = core.radius;
     if (outer) group.add(outer, inner, center);
     if (glint) group.add(glint);
     const planet = isPlanet ? makePlanet(planetType(word)) : null;
@@ -479,7 +484,7 @@ function rebuildWordStars() {
     }
     const stellarIndex = starOrdinals.get(word.id) ?? -1;
     const cluster = stellarIndex >= 2 ? Math.floor((stellarIndex - 2) / 7) : -1;
-    group.userData = { outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: Math.atan2(orbitY / .57, orbitX), z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
+    group.userData = { outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: core.phase, z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
     wordGroup.add(group); worldStars.set(word.id, group);
     const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', t(isPlanet ? 'message.openPlanet' : 'message.openStar', { word: word.word }));
     button.addEventListener('click', () => selectWord(word.id));
@@ -503,16 +508,20 @@ function animate(ms) {
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
   const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging ? 0 : pointer.x * 1.9);
   const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25);
-  camera.position.x += (targetX - camera.position.x) * .035;
-  camera.position.y += (targetY - camera.position.y) * .035;
-  camera.position.z += (zoom - camera.position.z) * .055;
-  camera.lookAt(camera.position.x, camera.position.y, 0);
-  catalogLayer.update(camera.position.z);
+  const cameraDelta = lastCameraMs ? Math.min(100, ms-lastCameraMs) : 16.67;
+  lastCameraMs = ms;
+  const planeDamping = 1-Math.exp(-cameraDelta*.0028);
+  const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
+  camera.position.x += (targetX-camera.position.x)*planeDamping;
+  camera.position.y += (targetY-camera.position.y)*planeDamping;
+  camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
+  camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+  camera.updateMatrixWorld();
+  catalogUI?.setVisibleCount(catalogLayer.update(camera, camera.position.z - catalogDepth, catalogDepth !== 0));
+  flightField.update(camera);
   galaxyGrowth += (galaxyGrowthTarget - galaxyGrowth) * .026;
   galaxyExtent += (galaxyExtentTarget - galaxyExtent) * .026;
-  galaxyGroup.scale.setScalar(galaxyExtent);
-  galaxyGroup.position.x = 31 * (1 - galaxyExtent);
-  galaxyGroup.rotation.z = drift * .004 + Math.sin(drift * .055) * .012;
+  setGalacticPivot(galaxyGroup, galaxyExtent, drift*.004 + Math.sin(drift*.055)*.012);
   wordGroup.rotation.z = 0;
   cloudHaze.material.opacity = galaxyGrowth ? Math.min(activeVisualStyle === 'spiral' ? .62 : .48, .11 + galaxyGrowth * .7) * (.96 + Math.sin(drift * .19) * .04) : 0;
   cloudHaze2.material.opacity = galaxyGrowth * (.19 + Math.cos(drift * .28) * .025);
@@ -531,7 +540,7 @@ function animate(ms) {
     birth.ring.material.opacity = (1 - t) * (1 - t) * .9;
   }
   const meteorCycle = drift % 24;
-  if (words.length && meteorCycle > 16 && meteorCycle < 16.72) {
+  if (catalogDepth === 0 && words.length && meteorCycle > 16 && meteorCycle < 16.72) {
     const t = (meteorCycle - 16) / .72;
     const cycle = Math.floor(drift / 24);
     const halfHeight = (camera.position.z - 2) * Math.tan(THREE.MathUtils.degToRad(25));
@@ -545,7 +554,7 @@ function animate(ms) {
     meteorTip.position.set(x, y, 2); meteorTip.scale.setScalar(Math.max(1.8, halfHeight * .035)); meteorTip.material.opacity = Math.sin(t * Math.PI) * .82;
   } else { meteor.material.opacity = 0; meteorTip.material.opacity = 0; }
   const cometCycle = drift % 61;
-  if (words.length > 2 && cometCycle > 29 && cometCycle < 43) {
+  if (catalogDepth === 0 && words.length > 2 && cometCycle > 29 && cometCycle < 43) {
     const t = (cometCycle - 29) / 14;
     const halfHeight = (camera.position.z - 3) * Math.tan(THREE.MathUtils.degToRad(25));
     const halfWidth = halfHeight * camera.aspect;
@@ -562,10 +571,8 @@ function animate(ms) {
   for (const [id, group] of worldStars) {
     const orbit = group.userData;
     if (orbit.binarySlot >= 0) {
-      const galacticAngle = .6 + drift * .029;
-      const sparseSpread = 1 + Math.max(0, 15 - words.length) / 14 * .8;
-      const cx = 31 + Math.cos(galacticAngle) * 14 * sparseSpread;
-      const cy = Math.sin(galacticAngle) * 8 * sparseSpread;
+      const cx = 31;
+      const cy = 0;
       const binaryAngle = drift * .52 + orbit.binarySlot * Math.PI;
       const binaryRadius = orbit.binarySlot === 0 ? 5.63 : 6.37;
       group.position.set(cx + Math.cos(binaryAngle) * binaryRadius, cy + Math.sin(binaryAngle) * binaryRadius * .72, 18 + Math.sin(binaryAngle) * 1.1);
@@ -573,8 +580,7 @@ function animate(ms) {
     } else {
       const angle = orbit.phase + drift * orbit.speed;
       const wobble = Math.sin(angle * 3 + orbit.index) * orbit.radius * .018;
-      const sparseSpread = 1 + Math.max(0, 15 - words.length) / 14 * .8;
-      const radius = (orbit.radius + wobble) * sparseSpread;
+      const radius = orbit.radius + wobble;
       const ox = Math.cos(angle) * radius, oy = Math.sin(angle) * radius * .57;
       group.position.set(31 + ox * Math.cos(-.17) - oy * Math.sin(-.17), ox * Math.sin(-.17) + oy * Math.cos(-.17), orbit.z + Math.sin(angle * 2 + orbit.index) * .55);
       if (orbit.outer) orbit.outer.material.opacity = .31 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .065;
@@ -682,6 +688,8 @@ function selectWord(id) {
   openPanel('detail');
 }
 function focusStar() {
+  catalogDepth = 0;
+  flightField.home(hashText(universe.activeGalaxyId), galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId)));
   if (!worldStars.has(selectedId)) return;
   preFocusPan = { ...pan };
   closePanels();
@@ -857,6 +865,10 @@ function updateMeaningLanguage(event) {
 
 function switchGalaxy(id) {
   if (!universe.galaxies.some(g => g.id === id)) return;
+  catalogDepth = 0;
+  pan.x = pan.y = pointer.x = pointer.y = 0;
+  zoom = 160;
+  $('#app').classList.remove('catalog-exploring');
   universe.activeGalaxyId = id;
   words = universe.words.filter(w => w.galaxyId === id);
   selectedId = null; editingId = null;
@@ -903,6 +915,7 @@ async function importUniverse(event) {
 }
 
 function setZoom(value, focusX, focusY) {
+  if (value > 1200 && catalogDepth !== 0) { catalogDepth = 0; pan.x = pan.y = 0; }
   const previous = zoom;
   zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value));
   if (focusX === undefined || focusY === undefined) return;
@@ -911,6 +924,7 @@ function setZoom(value, focusX, focusY) {
   pan.y += (.5 - focusY / innerHeight) * 2 * halfHeightChange;
 }
 function zoomOnGalaxy(value) {
+  if (catalogDepth !== 0 || zoom > 650) { setZoom(value); return; }
   if (!words.length || !camera) { setZoom(value); return; }
   projected.set(31, 0, 0).project(camera);
   const x = (projected.x * .5 + .5) * innerWidth;
@@ -937,7 +951,7 @@ function bindUI() {
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
-  $('#home-btn').addEventListener('click', () => { closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => { catalogDepth = 0; flightField.home(hashText(universe.activeGalaxyId), galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId))); closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -969,8 +983,8 @@ function bindUI() {
   $('#search-input').addEventListener('input', renderCollection);
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => { focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
-  document.addEventListener('keydown', e => { if ($('#account-dialog')?.open) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
+  $('#reset-view').addEventListener('click', () => { catalogDepth = 0; flightField.home(hashText(universe.activeGalaxyId), galaxyStyle(universe.galaxies.find(g => g.id === universe.activeGalaxyId))); focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
     if (e.pointerType === 'touch') {
@@ -988,7 +1002,9 @@ function bindUI() {
     }
     if (dragging && dragStart) { const factor = zoom / 160 * .12; pan.x = dragStart.panX - (e.clientX - dragStart.x) * factor; pan.y = dragStart.panY + (e.clientY - dragStart.y) * factor; moved ||= Math.abs(e.clientX - dragStart.x) + Math.abs(e.clientY - dragStart.y) > 4; }
   });
-  const endPointer = e => { touches.delete(e.pointerId); dragging = false; dragStart = null; pinchStart = null; };
+  const endPointer = e => {
+    if (e.type === 'pointerup' && !moved && !pinchStart && catalogDepth === 0 && zoom > 900) { const record = catalogLayer.pick(camera,e.clientX,e.clientY,innerWidth,innerHeight); if (record) catalogUI?.focus(record); }
+    touches.delete(e.pointerId); dragging = false; dragStart = null; pinchStart = null; };
   canvas.addEventListener('pointerup', endPointer);
   canvas.addEventListener('pointercancel', endPointer);
   const onZoomWheel = e => { e.preventDefault(); setZoom(zoom * Math.exp(e.deltaY * .00145), e.clientX, e.clientY); };
@@ -1032,14 +1048,23 @@ mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: profileSessi
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));
 
-mountCatalogUI({
+catalogUI = mountCatalogUI({
   locale: uiLocale,
   beforeOpen: () => { closePanels(); profileUI.close(); },
   onFocus: record => {
     focusedStarId = null; preFocusPan = null;
+    catalogDepth = record.scenePosition[2];
+    catalogLayer.focus(record);
+    flightField.focus(record);
     pan.x = record.scenePosition[0]; pan.y = record.scenePosition[1];
     pointer.x = pointer.y = 0;
-    setZoom(innerWidth < 760 ? 440 : 370);
+    setZoom(innerWidth < 760 ? 370 : 250);
+    $('#app').classList.add('catalog-exploring');
+  },
+  onOverview: () => {
+    focusedStarId = null; preFocusPan = null; catalogDepth = 0;
+    pan.x = pan.y = pointer.x = pointer.y = 0;
+    setZoom(overviewZoom(camera.aspect));
     $('#app').classList.add('catalog-exploring');
   },
   onHome: () => {
