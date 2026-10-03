@@ -19,6 +19,8 @@ type Options = {
   write?: (change: PendingChange) => Promise<WriteResult>;
   read?: () => Promise<CloudSnapshot>;
   onState?: (state: SyncState) => void;
+  onUniverse?: (universe: SyncUniverse) => void;
+  onMerged?: (conflicts: ReturnType<typeof reconcileAccount>['conflicts']) => void;
 };
 
 // One instance belongs to exactly one account. Stop it immediately when the
@@ -35,6 +37,8 @@ export class AccountSyncEngine {
   private readonly write: (change: PendingChange) => Promise<WriteResult>;
   private readonly read: () => Promise<CloudSnapshot>;
   private readonly onState: (state: SyncState) => void;
+  private readonly onUniverse: (universe: SyncUniverse) => void;
+  private readonly onMerged: (conflicts: ReturnType<typeof reconcileAccount>['conflicts']) => void;
   private status: SyncStatus;
   private conflict: SyncState['conflict'];
 
@@ -47,6 +51,8 @@ export class AccountSyncEngine {
     this.write = options.write || ((change) => writeCloudChange(options.client, this.cache.ownerId, change));
     this.read = options.read || (() => readCloudSnapshot(options.client, this.cache.ownerId));
     this.onState = options.onState || (() => {});
+    this.onUniverse = options.onUniverse || (() => {});
+    this.onMerged = options.onMerged || (() => {});
     this.status = this.cache.pending.length ? 'pending' : 'synced';
   }
 
@@ -125,7 +131,11 @@ export class AccountSyncEngine {
         await this.serial(async () => {
           if (!this.active) return;
           const reconciled = reconcileAccount(this.cache, remote);
+          // Publish the new visible model synchronously before awaiting IDB.
+          // Any next edit therefore includes newly preserved conflict copies.
+          this.onUniverse(structuredClone(reconciled.cache.universe));
           await this.persist(reconciled.cache);
+          if (this.active && reconciled.conflicts.length) this.onMerged(structuredClone(reconciled.conflicts));
           this.conflict = undefined;
           this.publish(this.cache.pending.length ? 'pending' : 'synced');
         });

@@ -262,7 +262,7 @@
     "faq": [
       {
         "question": "Kelimelerim nerede saklanıyor?",
-        "answer": "Kelimeler kullandığın tarayıcıda, o sitenin yerel depolamasında ve ikinci bir yerel kopyada tutulur. Sayfayı yenilemek kayıtları silmez; tüm site verilerini silmek iki kopyayı da silebilir. Farklı tarayıcı, cihaz veya adresler arasında otomatik eşitleme henüz yoktur; taşımak için JSON yedeğini kullan."
+        "answer": "Misafir evreni bu sitenin tarayıcı depolamasında ve ikinci bir yerel kopyada tutulur. Hesabına giriş yaptığında yerel evrenini birleştirmeyi veya yalnız hesap evrenini açmayı seçebilirsin. Hesap evreni bağlantı olduğunda Supabase ile eşitlenir; çevrimdışı değişiklikler cihazında bekler. Tarayıcı verilerini temizlemek yerel kopyaları silebilir; JSON yedeklerini ayrıca sakla."
       },
       {
         "question": "Yıldızlar gerçekten yaşlanıyor mu?",
@@ -315,14 +315,16 @@
     "signout": "Çıkış yap",
     "signedOut": "Çıkış yaptın. Yerel evrenin korundu.",
     "accountTitle": "Hesabın",
-    "syncPending": "Bulut eşitlemesi hazırlanıyor. Evrenin şu an bu tarayıcıda korunuyor.",
+    "syncPending": "Evren ve eşitleme düğmesinden hesap evrenini açabilir veya yerel kayıtlarını birleştirebilirsin.",
     "invalid": "E-posta veya şifre doğrulanamadı.",
     "unconfirmed": "Girişten önce e-posta adresini doğrula.",
     "rateLimit": "Çok fazla deneme. Biraz sonra tekrar dene.",
     "network": "Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.",
     "error": "İşlem tamamlanamadı. Tekrar dene.",
     "weak": "En az 8 karakterli bir şifre seç.",
-    "back": "Girişe dön"
+    "back": "Girişe dön",
+    "syncOpen": "Evren ve eşitleme",
+    "backToUniverse": "Evrenime dön"
   },
   "legal": {
     "back": "Evrene dön",
@@ -335,8 +337,8 @@
     "termsLead": "Wordverse ücretsiz, gelişmekte olan bir öğrenme günlüğü ve sanatsal evren görselleştirmesidir.",
     "privacySections": [
       [
-        "Proje ve iletişim",
-        "Wordverse, GhostFelina tarafından geliştirilen bağımsız bir projedir. Veri sorumlusu kimliği ve yasal iletişim bilgileri genel bulut kullanımından önce tamamlanmalıdır. Proje ve veri talepleri için kopukfad@gmail.com adresine yazabilirsin."
+        "Veri sorumlusu ve iletişim",
+        "Wordverse’in veri sorumlusu Mustafa Kılıç’tır. Proje, kişisel veriler ve hak başvuruları için iletişim adresi: kopukfad@gmail.com."
       ],
       [
         "Misafir evreni",
@@ -348,7 +350,7 @@
       ],
       [
         "Bulut tercihi ve hizmet sağlayıcılar",
-        "Bulut eşitlemesini seçtiğinde evren içeriğin hesabına bağlı olarak Supabase’de saklanır. Şu an eşitleme kullanıma açılmamıştır. Supabase proje bölgesi Singapur’dur; Vercel siteyi barındırır. Bu sağlayıcılar hizmet ve güvenlik için IP adresi gibi teknik veriler işleyebilir. Türkiye veya Avrupa Ekonomik Alanı dışına aktarımın hukuki dayanağı ve güvenceleri genel bulut kullanımı açılmadan önce belgelenmelidir."
+        "Bulut eşitlemesini seçtiğinde evren içeriğin hesabına bağlı olarak Supabase’de saklanır. Hesap evrenindeki düzenlemeler bağlantı olduğunda eşitlenir; çevrimdışı değişiklikler bu cihazdaki IndexedDB kuyruğunda bekler. Supabase proje bölgesi Singapur’dur; Vercel siteyi barındırır. Bu sağlayıcılar hizmet ve güvenlik için IP adresi gibi teknik veriler işleyebilir. Türkiye veya Avrupa Ekonomik Alanı dışına aktarımın hukuki dayanağı ve güvenceleri genel bulut kullanımı açılmadan önce belgelenmelidir."
       ],
       [
         "Amaç ve saklama",
@@ -381,5 +383,26 @@
         "Özellikler gelişirken bu metin güncellenebilir; önemli veri işleme değişiklikleri uygulanmadan önce açıklanır. Ücretli bir hizmete otomatik kaydolmazsın. Proje soruları ve veri talepleri: kopukfad@gmail.com."
       ]
     ]
+  },
+  "sync": {
+    "guest": "Misafir",
+    "guestNote": "Bu evren yalnız bu cihazda saklanıyor.",
+    "loading": "Bağlanıyor…",
+    "synced": "Eşitlendi",
+    "pending": "Bekliyor",
+    "syncing": "Eşitleniyor…",
+    "offline": "Çevrimdışı",
+    "conflict": "Çakışma · yeniden dene",
+    "error": "Eşitleme hatası · yeniden dene",
+    "mergeReady": "Evreni hesaba bağla",
+    "mergeTitle": "Evrenini hesabına bağla",
+    "mergeDescription": "Bu cihazda {local}, hesabında {cloud} kayıt var. Birleştirirsen farklı kayıtların iki kopyası da korunur. Misafir kopyan bu cihazda kalır.",
+    "combine": "Misafir evrenimi birleştir",
+    "cloudOnly": "Yalnız hesabımdaki evreni aç",
+    "stayGuest": "Şimdilik misafir olarak kal",
+    "mergeAvailable": "Hesabın hazır. Yerel evrenini bağlamak için eşitleme düğmesini aç.",
+    "merged": "Hesap evreni açıldı · {count} kayıt",
+    "conflictsPreserved": "{count} çakışma bulundu; farklı içerikler korundu.",
+    "createGalaxy": "Önce bir galaksi oluştur."
   }
 }

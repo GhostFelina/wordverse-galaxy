@@ -3,7 +3,7 @@ import { authErrorKey, getSupabaseClient } from './supabase-client.js';
 import { legalPath } from './legal-page.js';
 import './auth.css';
 
-export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {} }) {
+export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {}, onSync = null }) {
   const t = (key) => translate(locale, `auth.${key}`);
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -57,6 +57,17 @@ export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {
     description.textContent = t(signedIn ? 'syncPending' : 'guestNote');
     if (signedIn) {
       content.append(element('p', 'auth-email', session.user.email || ''));
+      if (onSync)
+        content.append(
+          button(
+            t('syncOpen'),
+            () => {
+              dialog.close();
+              onSync();
+            },
+            'auth-submit',
+          ),
+        );
       content.append(
         button(
           t('signout'),
@@ -72,7 +83,7 @@ export function mountAuthUI({ locale, beforeOpen = () => {}, onSession = () => {
           'auth-submit',
         ),
       );
-      content.append(button(t('guest'), () => dialog.close()));
+      content.append(button(t('backToUniverse'), () => dialog.close()));
       return;
     }
     const form = element('form', 'auth-form');

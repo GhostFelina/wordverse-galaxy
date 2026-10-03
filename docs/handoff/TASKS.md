@@ -24,18 +24,21 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 
 - [x] Dört tablolu sürümlü migration hedef Wordverse Dashboard'da uygulandı. RLS iki hesaplı rollback testi geçti; anonim erişim ve doğrudan silme kapalı. Security/Performance Advisor 0 hata/uyarı; kullanılmamış iki FK indeksi korundu.
 - [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
-- [~] İlk girişte galaksi, kelime ve olayların iki taraflı kayıpsız birleşimi için saf çekirdek ve üç birim testi yazıldı; IndexedDB ve hesap akışına henüz bağlanmadı.
-- [~] IndexedDB birincil yerel depo uygulamaya bağlandı; üç birim ve bir tarayıcı kurtarma testi geçti. Offline kuyruk, bulut eşitlemesi ve görsel durum göstergesi sırada.
-- [x] Bulut okuyucu, hesap başına atomik cache, dayanıklı kuyruk ve tam içerik/sahiplik kontrolüyle yazma onayı çekirdeği; toplam 44 birim testi geçti. Modüller UI'a henüz bağlı değil.
+- [x] İlk girişte iki tarafı koruyan birleşim, özet ve bulut/misafir seçimi ana uygulamaya bağlandı; kimlik çakışması e2e geçti.
+- [x] IndexedDB birincil yerel depo, ayrı hesap cache'i, offline kuyruk, bulut eşitlemesi, durum göstergesi ve retry bağlandı; ağ geri gelince upload ve reload e2e geçti.
+- [x] Bulut okuyucu, hesap başına atomik cache, dayanıklı kuyruk ve tam içerik/sahiplik kontrolüyle yazma onayı ana uygulamada kullanılıyor.
 - [x] Sürüm koşullu SECURITY INVOKER RPC hedefte uygulandı; server timestamp, JWT sahibi, eski sürüm conflict ve tombstone gerçek rollback SQL testinde doğrulandı.
 - [x] Seri senkron motoru, hesap değişimi sırasında geç istek koruması ve üç taraflı conflict kopyası; 63 birim, izole IDB tarayıcı kontrolü ve 25 Playwright geçti.
-- [~] Hesap oturumu controller'ı, ilk giriş özeti, sade senkron durum göstergesi ve main/auth UI bağlantısı. Çekirdek henüz gerçek hesap evrenine bağlanmadı.
+- [x] Hesap oturumu controller'ı, ilk giriş özeti, senkron göstergesi ve main/auth UI bağlantısı. Gerçek Google hesabında 5 kayıt/2 galaksi upload/reload/çıkış/misafire dönüş doğrulandı.
 - [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
 - [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
 - [x] Supabase prod Site URL ve altı prod/proje-preview/yerel dönüş kalıbı Dashboard'da kaydedildi.
-- [~] Wordverse Web OAuth formu hazır; Create ve Secret'ın Supabase'e aktarımı kullanıcıya bırakıldı. Mevcut Cortexia istemcisi ve proje genelindeki markası değiştirilmedi.
-- [ ] Misafir modu, IndexedDB birincil depo, ilk girişte kayıpsız merge, offline kuyruk ve soft delete.
-- [ ] JSON import/export, avatar bucket, env ve yedek stratejisi; prod auth duman testi.
+- [x] Kullanıcı Google istemcisi/Secret aktarımını tamamladı. Provider public ayarı etkin; yerel gerçek Google giriş/çıkış ve senkron doğrulandı. Secret okunmadı/kaydedilmedi.
+- [~] Wordverse consent marka/hukuki URL düzeni; mevcut Cortexia ortak marka etkisi çözülecek.
+- [x] Misafir modu, IndexedDB birincil depo, kayıpsız merge, offline kuyruk ve soft delete çekirdek/UI bağlandı.
+- [x] Vercel Production/Preview/Development için üç public env adı tanımlandı; .env.local Google flag etkin.
+- [ ] Hesap modunda JSON import/export kabulü, avatar bucket, yedek stratejisi; prod auth duman testi.
+- [~] Windows/Mac devir: CROSS_DEVICE ve taşınabilir setup:device; global Codex Wordverse yönlendirmesi. Gerçek MacBook kurulumu ilk Mac oturumunda doğrulanacak.
 
 ## Faz 3 · `phase/3-profile` · codex/claude
 

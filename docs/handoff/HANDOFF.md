@@ -2,50 +2,50 @@
 
 ## Son güncelleme
 
-2026-10-03 10:14 · codex · son uzak Faz 2 commit'i `f438d02`; ana dal `v1.11.0`. Sonraki commit seri senkron motoru ve üç taraflı conflict birleşimini içerir.
+2026-10-03 10:47 · codex · son uzak commit `746958f`; bu güncelleme hesap UI entegrasyonu ve cihazlar arası kurulum commit'ine dahildir. Güncel hash: `git log -1 --oneline`. Prod `v1.11.0`.
 
 ## Şu an aktif faz ve branch
 
-Faz 0 ve Faz 1 tamamlandı. Aktif Faz 2 · `phase/2-auth-sync` · taslak PR #5; ana dal sürümü `v1.11.0`.
+Faz 0/1 tamamlandı. Faz 2 yaklaşık %60 · `phase/2-auth-sync` · taslak PR #5: https://github.com/GhostFelina/wordverse-galaxy/pull/5. Geliştirme sürümü 1.12.0; Faz 2 kabulü ve prod release henüz tamamlanmadı.
 
 ## Son oturumda yapılanlar
 
-- Galaksi başına öğrenilen dil ve anlam dili ayrıldı; v4 şeması v3/v2 yerel veri ve yedekleri koruyor.
-- Ana uygulama, Hakkında sayfası, hata/boş durumlar, erişilebilirlik etiketleri, SEO ve FAQ JSON-LD TR/EN/ES sözlüklerine bağlandı. İki sayfada mobil dil seçici var.
-- Açık dil URL'leri `/`, `/en/`, `/es/` ile Hakkında eşleri olarak düzenlendi. Eski `?lang=` bağlantıları da çalışıyor. Build altı statik, JavaScript olmadan okunabilen dil sayfası üretiyor; canonical ve `hreflang` bunları gösteriyor (`981ed0f`).
-- Yerelde lint, typecheck, build, format, 20 birim ve 15 Playwright testi geçti. Altı prod preview sayfası JavaScript açık/kapalı tarayıcıda doğrulandı; tarihli görseller `docs/handoff/evidence/` altında. 3 dil × 1440/768/390 × iki sistem teması × iki hareket ayarı kontrol edildi.
-- PR #4 `94bb7d2` ile birleşti. Main CI ve Vercel prod geçti. Canlı sitede altı dil sayfası JavaScript açık/kapalı, site haritası ve izole misafir oturumunda kelime ekleme/yenileme geçti. Yerel uygulama kullanıcı için görünür Chrome sekmesinde `http://127.0.0.1:5360/?lang=tr` adresinde açık.
-- `v1.11.0` tag ve GitHub Release oluşturuldu. Faz 2 dalında Supabase CLI yerel yapılandırması başlatıldı ve ADR-007 senkron/RLS tasarımı kaydedildi.
-- `src/sync-merge.js` yerel ve bulut kayıtlarının kimlik çakışmasında iki kopyayı koruyan ilk giriş çekirdeğini içeriyor; üç birim testi geçti. Uygulamaya bağlanmadı. Faz 2 geliştirme sürümü `1.12.0`. Yerel lint/typecheck/build, toplam 23 birim ve 15 Playwright testi geçti. Taslak PR #5 uzak CI ve Vercel preview geçti.
+- Seri senkron motoru/üç taraflı conflict birleşimi `746958f` ile push edildi; CI ve Vercel preview geçti. Migration ve RLS gerçek Dashboard rollback testleri geçti; Security Advisor 0 hata/uyarı.
+- `src/account-sync-ui.js` ana uygulamaya bağlandı. Misafir ve hesap depoları ayrı; ilk girişte iki tarafı koruyan merge özeti, bulut-only/misafir seçimleri, sync/offline/pending/error ve retry var. IDB ilk kayıt upload'dan önce kalıcıdır. Refresh görünür modeli IDB await öncesi uygular; sonraki düzenleme conflict kopyalarını içerir.
+- `src/main.js` hesap evrenine geçiş/çıkış ve boş hesapta sentetik galaksi oluşturmama; `src/auth-ui.js` merge/sync açma ve evrene dönüş; `src/auth.css` masaüstü menü çakışması ve mobil sync yerleşimi düzenlendi.
+- `e2e/account-sync.spec.js`: ID çakışmasında iki tarafı koruma/upload, reload, çıkışta aynı misafiri geri getirme, boş bulut hesabı, offline ekleme/reconnect/reload. Son tam kontrol 63 birim + 28 Playwright, lint/typecheck/build geçti; format geçti. Cihaz kurulum testleri eklendikten sonraki sonucu aşağıdaki oturum dosyasında kontrol et.
+- Kullanıcı Google Secret aktarımını tamamladı. Public auth ayarı Google=true; gerçek kopukfad@gmail.com hesabıyla giriş, 5 kayıt (2 yıldız/3 gezegen)/2 galaksi upload, “Eşitlendi”, reload, çıkış/misafir dönüşü ve yeniden giriş manuel denendi. Secret okunmadı/kaydedilmedi.
+- Vercel Production/Preview/Development ortamlarına VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY ve VITE_GOOGLE_AUTH_ENABLED eklendi. `.env.local` mevcut token'ları korunarak Google etkinleştirildi. Yeni push preview bu env'i kullanacak; eski prod kodu hâlâ Faz 1.
+- Kullanıcının verdiği veri sorumlusu adı Mustafa Kılıç ve iletişim kopukfad@gmail.com üç dil hukuki taslağa işlendi. FAQ hesap/çevrimdışı senkron davranışıyla güncellendi. Saklama/aktarım bölümleri hâlâ taslak.
+- 36 auth görseli (3 dil × 1440/768/390 × tema × reduced-motion) yenilendi. Gerçek Google kanıtı: `evidence/2026-10-03-google-account-synced.png` ve `2026-10-03-google-signout-guest.png`. Yerel kullanıcı sekmesi `http://127.0.0.1:5360/` açık.
+- Kullanıcı MacBook'ta “wordverse kaldığın yerden devam et” ile sürdürmek istedi. `CROSS_DEVICE.md`, `scripts/setup-device.mjs`, global Codex yönlendirmesi ve Node sürüm dosyaları eklendi. Windows'taki yol taşınmadı. MacBook'a uzaktan erişim yok; ilk Mac kurulumu ve gerçek macOS doğrulaması bekliyor.
 
 ## Yarım kalan iş
 
-- `supabase/migrations/20261002181057_initial_user_data.sql` hedef Wordverse projesinde Dashboard SQL Editor üzerinden uygulandı. Dört tabloda RLS, üç sahiplik politikası, anonim erişim yasağı ve authenticated doğrudan silme yasağı doğrulandı. `supabase/checks/rls-isolation.sql` iki hesapla okuma/ekleme/güncelleme/sahiplik değiştirme testlerini geçti; bütün test kayıtları ROLLBACK ile geri alındı. Security Advisor: 0 hata/uyarı. Performance Advisor: 0 hata/uyarı, yeni entries/events tablolarında henüz kullanılmamış iki indeks önerisi; FK ve gelecek senkron için korundu. CLI/MCP başka hesaplarda; migration geçmişi CLI ile henüz eşleştirilmedi.
-- `src/local-primary.js` IndexedDB'yi birincil yerel depo yapıyor; localStorage eşzamanlı kurtarma kopyası, eski `src/storage-mirror.js` arşiv/ayna olarak kalıyor. Toplam 26 birim ve 16 Playwright testi geçti; yerel kullanıcı sekmesinde sayılar yenileme sonrası korundu. Bulut senkron ve offline kuyruk henüz yok.
-- `src/auth-ui.js`, `src/supabase-client.js` üç dilde native dialog giriş/kayıt/sıfırlama/yeni şifre/yerel çıkış akışını içeriyor. İstemci 2.117.2 tam sürümle kuruldu, public ayarlar endpoint'i 200/email açık/Google kapalı. `.env.local` gerekli public yapılandırmayı içeriyor; sır değerleri belgelerde yok. Misafir evreni giriş/çıkışta değiştirilmez. Mock API tarayıcı kontrolleri gerçek e-posta göndermez. Gerçek doğrulama maili ve prod giriş henüz sınanmadı.
-- `/privacy`, `/terms` ve EN/ES eşleri dev ve statik build'de mevcut; auth penceresinden erişilir. Hukuki kimlik, saklama süreleri ve yurt dışı aktarım güvenceleri tamamlanmamış taslaktır; KVKK/GDPR uyumu tamamlandı denmez.
-- `src/cloud-universe.ts` sahiplik/şema/kimlik kontrolü, tombstone görünürlüğü, kayıpsız payload ve 500 satırlı sayfalı bulut okuma içerir. `src/account-cache.ts` hesap başına görünür evren ve bekleyen işlem listesini tek IndexedDB transaction'ında korur; misafir deposuna veya auth sırlarına dokunmaz. Bu iki modül henüz UI/senkron yazma motoruna bağlı değil. Son kontrol: 35 birim + 24 e2e, lint/typecheck/build/format geçti.
-- Supabase Site URL prod adresine ayarlandı; prod, yalnız Wordverse Vercel preview kapsamı ve localhost/127.0.0.1 5350/5360 için altı dönüş kalıbı kaydedildi. Google Console doğru hesap/projede açıldı. Aynı projede Cortexia Language Web istemcisi ve Cortexia marka bilgisi var; mevcut istemci değiştirilmedi. Wordverse Web oluşturma formu 5 origin + hedef Supabase callback ile hazır, henüz Create basılmadı. Kullanıcıdan Client Secret'ı yalnız Supabase Google formuna aktarması istendi (tarayıcı kimlik doğrulama sırrı kuralı); sır alınmadı/kaydedilmedi. Google provider henüz kapalı.
-- `src/sync-queue.ts` çevrimdışı değişiklikleri ve soft delete işaretlerini son onaylı bulut sürümüne göre üretir. Ağ isteği sürerken yapılan yeni düzenleme onay geldiğinde kuyrukta kalır; yerel geri alma da kaybolmuş yanıt olasılığına karşı yeniden yazılır. `src/cloud-write.ts` sahiplik ve kimliği doğrulayarak RPC kullanır. UI bağlantısı henüz yok.
-- `20261003064254_conditional_sync_writes.sql` hedef Dashboard'da uygulandı. SECURITY INVOKER RPC JWT sahibi ile gönderilen ownerId eşleşmesini zorunlu tutar, satırı kilitler, beklenen server revision farklıysa conflict döndürür; server zamanı üretir. Eksik JSON kimliğinin SQL CHECK NULL nedeniyle kabul edilmesi de kapatıldı. `supabase/checks/conditional-writes.sql` gerçek Dashboard'da insert/update/stale conflict/tekrar insert/yanlış sahip/tablo whitelist/iki hesap/settings/tombstone/anon execute testlerini geçti; tüm test verisi ROLLBACK ile geri alındı. Son yerel kontrol: 44 birim + 24 e2e, lint/typecheck/build/format geçti.
-- `src/sync-engine.ts` tek hesap için seri drain/refresh, ağ sırasında yerel kalıcı düzenleme, depolama hatasında upload engeli, lost-ack eş içerik onayı ve stop sonrası geç yanıt koruması içerir. Bulut okuyucu pagination öncesi/sonrası oturum sahibini doğrular. `src/sync-reconcile.ts` değişmeyen kayıtları buluttan alır, pending local niyeti korur; canlı farklı uzak kayıtları yeni kimliklerle, galaksi çocukları ve olay snapshot referanslarıyla kopyalar. Uzak silme işaretleri korunur; değişen settings karşı sürümü payload arşivinde kalır. Silinmiş parent nedeniyle görünmeyen child artık gereksiz tombstone üretmez.
-- Son çekirdek kontrolü 63 birim + 25 Playwright, lint/typecheck/build/format. Ayrı `wordverse-sync-verification` IDB kullanan `tests/fixtures/sync-lab.html` gerçek Chrome'da elle çalıştırıldı: offline iki değişiklik kalıcı, conflict iki sürüm + offline yeni yıldız = üç kayıt, seri drain sonrası sıfır pending, başka hesap cache'i boş. Kanıt `2026-10-03-sync-lab-desktop.png`. Bu bir test ekranıdır; ana uygulama hâlâ misafir deposunu kullanır ve hesap senkron UI bağlantısı yapılmadı.
-- `b8bb875`, `d78733f`, `88bfcf4` ve `f438d02` için GitHub CI ve Vercel preview geçti. Yeni migration sonrası Security Advisor yeniden çalıştırıldı: 0 hata/uyarı. Prod hâlâ v1.11.0; Faz 2 kabulü tamamlanmadı.
-- `src/i18n.js` profil dilini öncelik sırasına alabiliyor, fakat gerçek profil veri modeli Faz 3'te kurulacak. Şimdilik URL→localStorage→tarayıcı→TR çalışıyor.
-- E-posta şablonları Faz 2 auth ile oluşturulacak; şu an üründe e-posta gönderme yok.
+- Auth e-posta doğrulama/sıfırlama gerçek mail ile kabul edilmedi; üç dil e-posta şablonları hazırlanacak. Şifre/2FA gereken adımı kullanıcı yapar.
+- Avatar private bucket/boyut ve MIME limitleri/sahiplik RLS henüz kurulmadı.
+- JSON import/export mevcut ana uygulama işlevlerini kullanır; hesap modundaki merge/restore ve tombstone kabulü ayrıca sınanacak. Veritabanı yedek stratejisi ENVIRONMENT'e yazılacak.
+- Google consent `cortexia-language` ortak markasında Cortexia adı/linkleri kalmış; Wordverse ayrı istemcisi çalışıyor. Ortak markayı körlemesine değiştirme, mevcut Cortexia'yı etkileme konusu çözülmeli. Wordverse legal sayfalar prod'da henüz yok.
+- Dashboard'da iki migration uygulanmış durumda: `20261002181057_initial_user_data.sql`, `20261003064254_conditional_sync_writes.sql`. CLI/MCP başka hesapta; doğru proje link ve migration repair henüz yapılmadı. Aynı SQL'i db push ile tekrar uygulama.
+- Başka cihazdaki yeni bulut değişiklikleri başlangıç/reconnect/manuel retry ile alınır; periyodik/focus yenileme henüz yok.
+- Faz 3 gerçek profil/dil tercihi modeli, Faz 4+ katalog/render ve Faz 5 tekrar/FSRS sırada. Önce Faz 2 kabulünü bitir.
 
 ## Sıradaki ilk 3 adım
 
-1. Seri motor/birleşim değişikliklerini commit/push edip PR #5 kontrollerini doğrula; CLI migration geçmişini yanlış projede değiştirme.
-2. Hesap oturum controller'ını main/auth UI'a bağla: ayrı misafir/hesap depo, ilk giriş birleşim özeti, pending/offline/error gösterge ve retry. Refresh sonucunu UI'a **persist beklemeden aynı senkron adımda** uygula; bu sayede ağ/IDB sırasında sonraki kullanıcı düzenlemesi yeni conflict kopyalarını içerir. Eski cache onState bildirimleriyle daha yeni UI düzenlemesinin üzerine yazma. Hesap değişiminde engine.stop + generation guard kullan, misafir evrenini geri getir. İlk kez oluşturulan cache upload'dan önce IDB'ye kaydedilmeli.
-3. Kullanıcının Google Client Secret adımı tamamlanırsa public provider ayarını kontrol et; Google flag, e-posta şablonları, gerçek mail/prod kabul ve hukuki kimlik/aktarım bilgilerini tamamla. CLI erişilebilir olduğunda migration geçmişini eşleştir.
+1. Bu commit'i push et; PR #5 CI/Vercel preview kontrolü ve env'li preview auth/merge akışını doğrula. İlk Mac oturumunda CROSS_DEVICE'e göre kur, kontrolleri çalıştır, macOS kanıtını ekle. Windows'ta yerel 5360 sekmesini koru.
+2. Üç dil Supabase e-posta şablonları, private avatar bucket + owner RLS + rollback testleri ve yedek stratejisini tamamla; hesap modunda JSON import/export'u otomatik/manuel kabul et.
+3. Gerçek mail/preview/prod auth ve Google Wordverse consent/hukuki gereksinimlerini tamamla. Faz 2 tüm kabul kanıtları geçince main merge, changelog/tag/release/prod smoke; sonra Faz 3.
 
 ## Dikkat edilmesi gerekenler
 
-- `main` artık v4 anahtarına yazar. Eski v3/v2 anahtarlarını ve arşivlerini silme.
-- `.env.local` repoya eklenmez. Gerçek yerel veriye test sırasında dokunma; testler ayrı localhost origin kullanmalı.
-- Vercel preview SSO korumalı; dağıtım kontrolü geçti, anonim HTTP duman testi prod üzerinde yapılır.
+- Kullanıcı Türkçe iletişim, otonom ilerleme ve yerelde görünür proje istiyor. Her cihazda gerçek OS/kabuk kontrol edilir. Cihazlar arası Git/handoff aktarımı; konuşma veya `.env.local` otomatik eşitlenmez.
+- Misafir `wordverse.universe.v4`, eski v3/v2/arşivler, IDB `wordverse-offline` ve `wordverse-local-backup` korunur. Hesap `wordverse-accounts` sahibiyle ayrı. Tarayıcı testleri gerçek kullanıcı origin'ine/verisine dokunmaz.
+- Supabase hedef yalnız `mrkmtcpzyvooreeokmkp`. Gerçek Google hesabı artık bulutta kullanıcı verisine sahip; bunu silme. SQL kabul testleri izole fixture + ROLLBACK olmalı.
+- `.env.local`, Google Secret, service_role, DB şifresi ve auth token'ları commit/log/handoff'a girmez. setup:device yalnız MASTER'de verilen public client yapılandırmasını kullanır.
+- Preview SSO korumalı. Production env eklenmiş olması yeni kodun prod'da olduğu anlamına gelmez.
+- Bitmiş fazları tekrar başlatma. Her anlamlı adımda HANDOFF/TASKS/session güncelle ve commit/push yap; diğer cihazda başlamadan önce temiz ağaçta pull --ff-only.
 
 ## Doğrulanmamış iddialar
 
-- 5.000 kayıt/60 FPS hedefi ölçülmedi. IndexedDB engelli gerçek tarayıcı senaryosu manuel sınanmadı.
+- Gerçek MacBook kurulumu, iki fiziksel cihaz senkron kabulü ve prod Faz 2 auth henüz doğrulanmadı.
+- 5.000 kayıt / 60 FPS hedefi ölçülmedi. IndexedDB engelli gerçek tarayıcı senaryosu manuel sınanmadı. KVKK/GDPR uyumu tamamlandı denmez.

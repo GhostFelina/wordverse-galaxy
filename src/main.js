@@ -6,13 +6,15 @@ import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountAuthUI } from './auth-ui.js';
+import { mountAccountSync } from './account-sync-ui.js';
 
 const $ = (selector) => document.querySelector(selector);
 const uiLocale = getHomeLocale();
 const t = (key, params) => translate(uiLocale, key, params);
 let archiveFailure = false;
 try { await archiveBeforeMigration(localStorage); } catch { archiveFailure = true; }
-const { universe, recovered: recoveredFromMirror } = await loadLocalUniverse(localStorage);
+let { universe, recovered: recoveredFromMirror } = await loadLocalUniverse(localStorage);
+let accountSync = null;
 let mirrorWrites = Promise.resolve();
 let primaryWrites = Promise.resolve();
 let mirrorWarningShown = false;
@@ -76,6 +78,7 @@ const births = [];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function persist() {
+  if (accountSync?.persist(universe)) return true;
   try {
     const serialized = JSON.stringify(universe);
     const { localSaved, writePrimary } = persistLocalUniverse(universe, localStorage);
@@ -119,7 +122,7 @@ function refreshCounts() {
 }
 
 function random(seed) { let n = seed >>> 0; return () => { n = (1664525 * n + 1013904223) >>> 0; return n / 4294967296; }; }
-function hashText(value) { let hash = 0; for (const char of value) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
+function hashText(value) { let hash = 0; for (const char of String(value ?? 'empty-universe')) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
 function pointCloud(count, galaxy = false, style = 'spiral', seed = 19483) {
   const rand = random(seed);
   const positions = new Float32Array(count * 3);
@@ -715,6 +718,7 @@ function createPosition(index, variation = .5, kind = 'word') {
 }
 function saveWord(event) {
   event.preventDefault();
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { openPanel('galaxies'); showToast(t('sync.createGalaxy')); return; }
   const kind = $('#word-form input[name="kind"]:checked')?.value === 'conjunction' ? 'conjunction' : 'word';
   const word = $('#word-input').value.trim();
   const meaning = $('#meaning-input').value.trim();
@@ -763,6 +767,7 @@ function beginEdit() {
   openPanel('add');
 }
 function openAdd() {
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { renderGalaxies(); openPanel('galaxies'); showToast(t('sync.createGalaxy')); return; }
   editingId = null; $('#word-form').reset(); $('#form-error').textContent = '';
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
   updateEntryKindForm();
@@ -999,6 +1004,18 @@ resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 applyHomeTranslations(uiLocale);
 persist(); refreshCounts(); bindUI(); initScene();
-mountAuthUI({ locale: uiLocale, beforeOpen: closePanels });
+accountSync = mountAccountSync({
+  locale: uiLocale,
+  getUniverse: () => universe,
+  beforeSwitch: closePanels,
+  notify: showToast,
+  replaceUniverse: next => {
+    universe = next;
+    words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
+    selectedId = null; editingId = null;
+    rebuildWordStars(); refreshCounts(); renderGalaxies();
+  },
+});
+mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: accountSync.onSession, onSync: accountSync.open });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

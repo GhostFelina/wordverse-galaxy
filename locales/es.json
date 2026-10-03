@@ -262,7 +262,7 @@
     "faq": [
       {
         "question": "¿Dónde se guardan mis palabras?",
-        "answer": "Tus palabras se guardan en el almacenamiento de este sitio en tu navegador y en una segunda copia local. Recargar la página no las borra, pero eliminar todos los datos del sitio puede borrar ambas copias. Todavía no hay sincronización automática entre navegadores, dispositivos o direcciones; usa una copia JSON para trasladar tus datos."
+        "answer": "El universo de invitado permanece en el almacenamiento de este sitio y en una segunda copia local. Al iniciar sesión, puedes combinarlo o abrir solo el universo de tu cuenta. El contenido de la cuenta se sincroniza con Supabase al conectar; los cambios sin conexión esperan en tu dispositivo. Borrar los datos del navegador puede eliminar las copias locales; conserva copias JSON aparte."
       },
       {
         "question": "¿Las estrellas envejecen de verdad?",
@@ -315,14 +315,16 @@
     "signout": "Cerrar sesión",
     "signedOut": "Sesión cerrada. Tu universo local se ha conservado.",
     "accountTitle": "Tu cuenta",
-    "syncPending": "Estamos preparando la sincronización. Tu universo se conserva en este navegador.",
+    "syncPending": "Usa Universo y sincronización para abrir el universo de tu cuenta o combinar tus registros locales.",
     "invalid": "No se pudo verificar el correo o la contraseña.",
     "unconfirmed": "Confirma tu correo antes de iniciar sesión.",
     "rateLimit": "Demasiados intentos. Inténtalo más tarde.",
     "network": "No se pudo conectar. Revisa tu conexión e inténtalo de nuevo.",
     "error": "No se pudo completar la solicitud. Inténtalo de nuevo.",
     "weak": "Elige una contraseña de al menos 8 caracteres.",
-    "back": "Volver al inicio de sesión"
+    "back": "Volver al inicio de sesión",
+    "syncOpen": "Universo y sincronización",
+    "backToUniverse": "Volver a mi universo"
   },
   "legal": {
     "back": "Volver a tu universo",
@@ -335,8 +337,8 @@
     "termsLead": "Wordverse es un diario de aprendizaje gratuito en desarrollo y una visualización artística del universo.",
     "privacySections": [
       [
-        "Proyecto y contacto",
-        "Wordverse es un proyecto independiente desarrollado por GhostFelina. La identidad legal y los datos de contacto del responsable deben completarse antes del uso general de la nube. Escribe a kopukfad@gmail.com para preguntas del proyecto y solicitudes de datos."
+        "Responsable del tratamiento y contacto",
+        "El responsable del tratamiento de Wordverse es Mustafa Kılıç. Contacta con kopukfad@gmail.com para preguntas sobre el proyecto, consultas sobre datos personales y solicitudes para ejercer tus derechos."
       ],
       [
         "Universo de invitado",
@@ -348,7 +350,7 @@
       ],
       [
         "Elección de nube y proveedores",
-        "Si eliges sincronizar, tu universo se guarda en Supabase asociado a tu cuenta. La sincronización aún no está disponible. La región del proyecto Supabase es Singapur; Vercel aloja el sitio. Los proveedores pueden procesar datos técnicos, como la dirección IP, para prestar y proteger el servicio. La base legal y las garantías para transferencias fuera de Turquía o del Espacio Económico Europeo deben documentarse antes del uso general de la nube."
+        "Si eliges sincronizar, tu universo se guarda en Supabase asociado a tu cuenta. Los cambios del universo de la cuenta se sincronizan al conectar; los cambios sin conexión esperan en la cola IndexedDB de este dispositivo. La región del proyecto Supabase es Singapur; Vercel aloja el sitio. Los proveedores pueden procesar datos técnicos, como la dirección IP, para prestar y proteger el servicio. La base legal y las garantías para transferencias fuera de Turquía o del Espacio Económico Europeo deben documentarse antes del uso general de la nube."
       ],
       [
         "Finalidad y conservación",
@@ -381,5 +383,26 @@
         "El texto puede actualizarse mientras evoluciona el proyecto. Los cambios importantes del tratamiento se explican antes de aplicarse. No se te inscribirá automáticamente en un servicio de pago. Preguntas y solicitudes de datos: kopukfad@gmail.com."
       ]
     ]
+  },
+  "sync": {
+    "guest": "Invitado",
+    "guestNote": "Este universo se guarda solo en este dispositivo.",
+    "loading": "Conectando…",
+    "synced": "Sincronizado",
+    "pending": "Pendiente",
+    "syncing": "Sincronizando…",
+    "offline": "Sin conexión",
+    "conflict": "Conflicto · reintentar",
+    "error": "Error · reintentar",
+    "mergeReady": "Conectar universo",
+    "mergeTitle": "Conecta tu universo",
+    "mergeDescription": "Hay {local} registros en este dispositivo y {cloud} en tu cuenta. La combinación conserva ambas versiones de los registros diferentes. Tu copia de invitado permanece en este dispositivo.",
+    "combine": "Combinar mi universo de invitado",
+    "cloudOnly": "Abrir solo el universo de mi cuenta",
+    "stayGuest": "Seguir como invitado por ahora",
+    "mergeAvailable": "Tu cuenta está lista. Abre el botón de sincronización para conectar tu universo local.",
+    "merged": "Universo de la cuenta abierto · {count} registros",
+    "conflictsPreserved": "Se encontraron {count} conflictos; se conservó el contenido diferente.",
+    "createGalaxy": "Primero crea una galaxia."
   }
 }

@@ -262,7 +262,7 @@
     "faq": [
       {
         "question": "Where are my words stored?",
-        "answer": "Your words are stored in this site's browser storage and in a second local copy. Refreshing the page does not erase them, but clearing all site data may remove both copies. There is no automatic sync between browsers, devices, or site addresses yet; use a JSON backup to move your data."
+        "answer": "Your guest universe stays in this site’s browser storage and a second local copy. After signing in, choose whether to merge it or open only your account universe. Account content syncs with Supabase when connected; offline edits wait on your device. Clearing browser data may remove local copies, so keep separate JSON backups."
       },
       {
         "question": "Do the stars really age?",
@@ -315,14 +315,16 @@
     "signout": "Sign out",
     "signedOut": "Signed out. Your local universe was preserved.",
     "accountTitle": "Your account",
-    "syncPending": "Cloud sync is being prepared. Your universe is currently preserved in this browser.",
+    "syncPending": "Use Universe and sync to open your account universe or merge your local records.",
     "invalid": "Email or password could not be verified.",
     "unconfirmed": "Confirm your email address before signing in.",
     "rateLimit": "Too many attempts. Try again later.",
     "network": "Could not connect. Check your connection and try again.",
     "error": "Could not complete the request. Try again.",
     "weak": "Choose a password with at least 8 characters.",
-    "back": "Back to sign in"
+    "back": "Back to sign in",
+    "syncOpen": "Universe and sync",
+    "backToUniverse": "Back to my universe"
   },
   "legal": {
     "back": "Back to your universe",
@@ -335,8 +337,8 @@
     "termsLead": "Wordverse is a free, evolving learning journal and artistic universe visualization.",
     "privacySections": [
       [
-        "Project and contact",
-        "Wordverse is an independent project developed by GhostFelina. The legal identity and contact details of the data controller must be completed before general cloud use. Contact kopukfad@gmail.com for project questions and data requests."
+        "Data controller and contact",
+        "The data controller for Wordverse is Mustafa Kılıç. Contact kopukfad@gmail.com for project questions, personal-data enquiries and requests to exercise your rights."
       ],
       [
         "Guest universe",
@@ -348,7 +350,7 @@
       ],
       [
         "Cloud choice and providers",
-        "Choosing cloud sync stores your universe in Supabase under your account. Sync is not available yet. The Supabase project region is Singapore; Vercel hosts the site. These providers may process technical data such as IP addresses for service delivery and security. The legal basis and safeguards for transfers outside Turkey or the European Economic Area must be documented before general cloud use."
+        "Choosing cloud sync stores your universe in Supabase under your account. Account-universe edits sync when connected; offline changes wait in the IndexedDB queue on this device. The Supabase project region is Singapore; Vercel hosts the site. These providers may process technical data such as IP addresses for service delivery and security. The legal basis and safeguards for transfers outside Turkey or the European Economic Area must be documented before general cloud use."
       ],
       [
         "Purpose and retention",
@@ -381,5 +383,26 @@
         "These terms may change as the project develops. Material changes to data processing are explained before they take effect. You will not be automatically enrolled in a paid service. Project questions and data requests: kopukfad@gmail.com."
       ]
     ]
+  },
+  "sync": {
+    "guest": "Guest",
+    "guestNote": "This universe is stored only on this device.",
+    "loading": "Connecting…",
+    "synced": "Synced",
+    "pending": "Pending",
+    "syncing": "Syncing…",
+    "offline": "Offline",
+    "conflict": "Conflict · retry",
+    "error": "Sync error · retry",
+    "mergeReady": "Connect universe",
+    "mergeTitle": "Connect your universe",
+    "mergeDescription": "There are {local} records on this device and {cloud} in your account. Merging keeps both versions of differing records. Your guest copy stays on this device.",
+    "combine": "Merge my guest universe",
+    "cloudOnly": "Open only my account universe",
+    "stayGuest": "Stay as a guest for now",
+    "mergeAvailable": "Your account is ready. Open the sync button to connect your local universe.",
+    "merged": "Account universe opened · {count} records",
+    "conflictsPreserved": "{count} conflicts found; differing content was preserved.",
+    "createGalaxy": "Create a galaxy first."
   }
 }
