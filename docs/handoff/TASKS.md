@@ -37,7 +37,11 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [~] Wordverse consent marka/hukuki URL düzeni; mevcut Cortexia ortak marka etkisi çözülecek.
 - [x] Misafir modu, IndexedDB birincil depo, kayıpsız merge, offline kuyruk ve soft delete çekirdek/UI bağlandı.
 - [x] Vercel Production/Preview/Development için üç public env adı tanımlandı; .env.local Google flag etkin.
-- [ ] Hesap modunda JSON import/export kabulü, avatar bucket, yedek stratejisi; prod auth duman testi.
+- [x] Hesap JSON export + eski v3 import + reload + misafir ayrımı e2e; gerçek hesap JSON indirme manuel geçti. Kısa ekranlarda panel kaydırma düzeltildi.
+- [x] Private wordverse-avatars bucket (2 MiB, JPEG/PNG/WebP), folder+owner_id RLS ve geniş izinli policy karşısında restrictive guard hedefte uygulandı; iki hesap/anon/owner reassignment rollback testi ve Dashboard limit kanıtı geçti.
+- [ ] Gerçek Storage API upload/upsert/delete, boyut ve MIME reddi kabulü (profil UI henüz yok).
+- [x] ENVIRONMENT yedek/kurtarma planı, private-backups Git dışlama. RPO/RTO hedef; zamanlanmış dump ve restore tatbikatı henüz yok.
+- [ ] Prod auth duman testi; gerçek e-posta ve üç dil şablon kabulü.
 - [x] Windows Codex/Claude ortak yönlendirme ve HANDOFF; iki CLI/giriş ve GitHub pull/push/admin/dry-run doğrulandı. setup:device, doctor, resume komutları ve Mac bootstrap hazırlanıp Windows/sözdizimi kontrolleri geçti.
 - [ ] Gerçek MacBook ilk kurulum: hesap girişleri, doctor push-check, test/görsel doğrulama. CROSS_DEVICE/SERVICE_ACCESS adımlarından ilerle; sırları cihazlar arasında kopyalama.
 - [x] Vercel env'li preview gerçek Google girişinde ayrı origin'den 6 kayıt/2 galaksi, yalnız bulut seçimi ve reload doğrulandı.

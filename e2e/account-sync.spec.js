@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
 
 test('sync indicator and universe view control remain separate on compact screens', async ({ page }) => {
   for (const width of [390, 768, 958]) {
@@ -100,6 +101,52 @@ async function signInAndOpenMerge(page) {
   await dialog.getByRole('button', { name: 'Universe and sync', exact: true }).click();
   await expect(page.locator('#sync-dialog')).toBeVisible();
 }
+
+test('account JSON export and legacy import preserve cloud records, survive reload and leave the guest untouched', async ({
+  page,
+}) => {
+  const backend = await setupMockAccount(page);
+  await page.goto('/?lang=en');
+  await page.locator('#open-account').waitFor();
+  const guestCopy = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.locator('#galaxy-switch').click();
+  await expect(page.locator('#galaxy-panel')).toHaveAttribute('aria-hidden', 'false');
+  const downloadReady = page.waitForEvent('download');
+  await page.locator('#export-universe').click();
+  const download = await downloadReady;
+  const exported = JSON.parse(await readFile(await download.path(), 'utf8'));
+  expect(exported.version).toBe(4);
+  expect(exported.words.map((item) => item.word)).toEqual(['cloud star']);
+  expect(exported.exportedAt).toBeTruthy();
+  expect(JSON.stringify(exported)).not.toMatch(/test-only-refresh-token|test-signature|access_token/);
+  const legacy = {
+    version: 3,
+    activeGalaxyId: 'legacy-g',
+    galaxies: [{ id: 'legacy-g', name: 'Historic galaxy', language: 'Spanish' }],
+    words: [{ id: 'legacy-w', galaxyId: 'legacy-g', word: 'luz', meaning: 'ışık', createdAt: '2025-01-01T00:00:00Z' }],
+    events: [],
+  };
+  await page.locator('#import-universe').setInputFiles({
+    name: 'historic-v3.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(legacy)),
+  });
+  await expect
+    .poll(() => backend.tables.wordverse_entries.map((item) => item.payload.word))
+    .toEqual(expect.arrayContaining(['cloud star', 'luz']));
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.reload();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await expect(page.locator('#galaxy-count')).toHaveText('02');
+  expect(backend.tables.wordverse_entries.find((item) => item.id === 'legacy-w').payload).toMatchObject({
+    meaning: 'ışık',
+    createdAt: '2025-01-01T00:00:00Z',
+  });
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+});
 
 test('first account merge preserves both trees, uploads and restores the untouched guest copy on sign-out', async ({
   page,

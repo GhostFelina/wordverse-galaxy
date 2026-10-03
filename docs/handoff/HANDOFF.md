@@ -1,5 +1,15 @@
 # Devir durumu
 
+## Güncel devam noktası · 2026-10-03 15:54 · Codex / Windows
+
+- Aktif dal `phase/2-auth-sync`; Faz 0/1 bitti, Faz 2 sürüyor. Önceki devir `d057d6f` CI geçti. Güncel hash `git log -1 --oneline`; production hâlâ v1.11.0.
+- Avatar bucket artık **hedef Wordverse projesinde kurulu**: private, 2 MiB, JPEG/PNG/WebP; `20261003123923_private_avatars.sql`. Folder+owner_id politikası ve restrictive guard; `supabase/checks/avatar-isolation.sql` iki kullanıcı/anon/sahip değiştirme rollback testi geçti. Dashboard kanıtı evidence'da. API upload/upsert/delete ve MIME/boyut reddi henüz kabul edilmedi.
+- Hesap JSON export + legacy v3 import + reload + misafir ayrımı yeni e2e geçti. Kısa ekranda yedek düğmesi erişimi galaxy-panel kaydırması ile düzeltildi. Yerelde gerçek Google hesabı JSON indirildi; gerçek veri değiştirilmedi. Local `http://127.0.0.1:5360/` sekmesi açık; tarayıcı bağlantısı çalışıyor ve viewport override reset edildi.
+- `ENVIRONMENT.md` yedek stratejisini içerir. Otomatik dump/özel kopya ve restore tatbikatı henüz uygulanmadı. Güncel Security Advisor **0 hata / 1 uyarı: leaked-password protection kapalı** (Pro+ gerekiyor, ücretli plan açılmadı); aşağıdaki eski 0 uyarı kaydı tarihseldir.
+- Son tam kontrol **67 birim + 30 Playwright**, lint/typecheck/build/format ve Windows doctor iki CLI/GitHub push-check geçti. Oturum: `sessions/2026-10-03-1540-codex.md`.
+- **Sıradaki ilk 3 adım:** (1) Son push CI/preview doğrula. (2) TR/EN/ES e-posta şablonlarını hazırla, hedef Dashboard'a uygula ve gerçek doğrulama/sıfırlama için kullanıcı parola adımını devret; JSON tombstone restore kabulünü ekle. (3) Doğru CLI hesap erişimi/history repair, Storage API kabulü ve Google ortak Cortexia consent etkisini çöz; Faz 2 tüm kabulden sonra release.
+- **Mac pause sürüyor.** `/Users/felina/Projects/wordverse-galaxy` korunur; `checkpoint/mac-2026-10-03-paused` SQL'i kullanılmaz. Gerçek Mac ortak kurulum ve iki fiziksel cihaz senkron kabulü bekliyor. Son push sonrası clean pull ile aynı noktadan Codex/Claude devam eder.
+
 ## ▶ Windows'a devir — MacBook durduruldu (2026-10-03)
 
 - Kullanıcının son talimatı: **MacBook'ta dur; bundan sonra Windows'ta devam edilecek.** Mac ajanı işi bıraktı; aynı dalda eşzamanlı Mac geliştirmesi yapılmamalı.

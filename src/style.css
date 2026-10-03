@@ -54,3 +54,6 @@ html,body{position:fixed;inset:0;width:100%;height:100%;overflow:clip}#app{posit
 .collection-panel .panel-kicker{padding-right:43px}
 .panel-kicker>span:first-child:last-child{margin-left:0}
 @media(min-width:761px) and (max-width:900px){.stat-galaxies{display:none}}
+
+/* Keep backup controls reachable on short screens. */
+.galaxy-panel{overflow-y:auto;overscroll-behavior:contain}.galaxy-panel>*{flex-shrink:0}
