@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="tr">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wordverse profil doğrulaması</title>
+  <style>
+    body {
+      background: #101522;
+      color: #e8edf8;
+      font: 16px/1.5 system-ui;
+      padding: 24px;
+    }
+    button {
+      font: inherit;
+      padding: 12px;
+    }
+  </style>
+  <h1>Profil doğrulaması</h1>
+  <p>Yalnız yapay kayıtlar; gerçek hesap, tarayıcı deposu veya Supabase kullanılmaz.</p>
+  <button id="open">Örnek profili aç</button>
+  <script type="module">
+    import '/src/auth.css';
+    import { mountProfileUI } from '/src/profile-ui.js';
+    const universe = {
+      version: 4,
+      galaxies: [
+        { id: 'g', language: 'English' },
+        { id: 's', language: 'Spanish' },
+      ],
+      words: [
+        { id: 'w', galaxyId: 'g', word: 'orbit', createdAt: '2026-10-01T12:00:00Z' },
+        { id: 'p', galaxyId: 's', word: 'porque', kind: 'conjunction', createdAt: '2026-10-02T12:00:00Z' },
+      ],
+      events: [],
+    };
+    const profile = mountProfileUI({ locale: 'tr', getUniverse: () => universe, beforeOpen: () => {} });
+    document.querySelector('#open').addEventListener('click', profile.open);
+  </script>
+</html>

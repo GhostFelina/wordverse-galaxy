@@ -5,6 +5,7 @@ import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
+import { mountProfileUI } from './profile-ui.js';
 import { mountAuthUI } from './auth-ui.js';
 import { mountAccountSync } from './account-sync-ui.js';
 
@@ -1003,10 +1004,11 @@ resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 applyHomeTranslations(uiLocale);
 persist(); refreshCounts(); bindUI(); initScene();
+let profileUI;
 accountSync = mountAccountSync({
   locale: uiLocale,
   getUniverse: () => universe,
-  beforeSwitch: closePanels,
+  beforeSwitch: () => { closePanels(); profileUI?.close(); },
   notify: showToast,
   replaceUniverse: next => {
     universe = next;
@@ -1021,6 +1023,7 @@ accountSync = mountAccountSync({
     if (activePanel === 'detail' && !selectedId) closePanels();
   },
 });
-mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: accountSync.onSession, onSync: accountSync.open });
+profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
+mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: session => { profileUI.close(); return accountSync.onSession(session); }, onSync: accountSync.open, onProfile: profileUI.open });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

@@ -421,5 +421,20 @@
     "conflictsPreserved": "{count} çakışma bulundu; farklı içerikler korundu.",
     "createGalaxy": "Önce bir galaksi oluştur.",
     "localWriteError": "Bu değişiklik bu cihazda kaydedilemedi. Sayfayı açık tutup tekrar dene veya galaksi menüsünden JSON yedeği indir."
+  },
+  "profile": {
+    "open": "Profil ve istatistikler",
+    "title": "Evrenine bir bakış",
+    "close": "Profili kapat",
+    "scope": "Bu cihazda şu an açık olan evrenin istatistikleri.",
+    "stars": "Yıldız",
+    "planets": "Gezegen",
+    "galaxies": "Galaksi",
+    "languages": "Dil dağılımı",
+    "unknownLanguage": "Dil belirtilmemiş",
+    "oldest": "En eski kayıt",
+    "recent": "Son eklenenler",
+    "empty": "Henüz tarihli kayıt yok.",
+    "reviewPending": "Hatırlama ve tekrar istatistikleri, tekrar sistemi hazır olduğunda görünecek."
   }
 }
