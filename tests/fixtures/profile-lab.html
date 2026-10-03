@@ -20,7 +20,7 @@
   <button id="open">Örnek profili aç</button>
   <script type="module">
     import '/src/auth.css';
-    import { mountProfileUI } from '/src/profile-ui.js';
+    import { mountProfileUI, profileSessionListener } from '/src/profile-ui.js';
     const universe = {
       version: 4,
       galaxies: [
@@ -34,6 +34,10 @@
       events: [],
     };
     const profile = mountProfileUI({ locale: 'tr', getUniverse: () => universe, beforeOpen: () => {} });
-    document.querySelector('#open').addEventListener('click', profile.open);
+    const session = profileSessionListener(profile, () => {});
+    document.querySelector('#open').addEventListener('click', () => {
+      profile.open();
+      queueMicrotask(() => session(null));
+    });
   </script>
 </html>

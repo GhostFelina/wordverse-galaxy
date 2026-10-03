@@ -58,7 +58,8 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 ## Faz 3 · `phase/3-profile` · codex/claude
 
 - [x] Salt okunur evren istatistik çekirdeği: toplamlar, dil dağılımı, tarihli en eski/son 5 kayıt; input/çıktı ayrımı, invalid/future date ve deleted kayıt sınamaları.
-- [x] Hesap menüsünde TR/EN/ES profil ekranı; mevcut açık evrenle sınırlı, aç/kapat, account switch kapanışı. 1440/768/390 tema/hareket/taşma ve literal HTML text güvenliği e2e; gerçek hesapta manual + yapay fixture kanıtı.
+- [x] Hesap menüsünde TR/EN/ES profil ekranı; mevcut açık evrenle sınırlı, aç/kapat. 1440/768/390 tema/hareket/taşma ve literal HTML text güvenliği e2e; gerçek hesapta manual + yapay fixture kanıtı.
+- [ ] Profil açıkken hesap değişimi ve aynı hesap token refresh kabulü; düzenleme formunda eski owner verisi/draft korunma sınırları.
 - [ ] Görünen ad/kullanıcı adı ve tercihler veri modeli + owner sync/guest ayrımı; unique/public handle politikası belirlenmeli.
 - [ ] Takvim, seri ve en eski yıldız; tarih/saat dilimi ve silme/import etkileriyle tutarlı hesaplama.
 

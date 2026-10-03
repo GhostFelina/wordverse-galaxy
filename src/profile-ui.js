@@ -74,3 +74,15 @@ export function mountProfileUI({ locale, getUniverse, beforeOpen }) {
   }
   return { open, close: () => dialog.close() };
 }
+
+// Auth can emit the initial guest session after the user opens the profile.
+// Only an identity transition closes it; token refresh keeps the same view.
+export function profileSessionListener(profile, onSession) {
+  let ownerId = null;
+  return (session) => {
+    const next = session?.user?.id || null;
+    if (next !== ownerId) profile.close();
+    ownerId = next;
+    return onSession(session);
+  };
+}

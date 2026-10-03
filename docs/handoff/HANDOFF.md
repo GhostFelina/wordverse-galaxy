@@ -2,13 +2,16 @@
 
 ## Son güncelleme
 
-2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Son dil-label koruması commit'i `git log -1`; uzak gate push sonrası izlenecek. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
+2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Dil-label koruması 707b929 CI37131921502 misafir initial-session yarışıyla başarısız oldu; son identity-only close fix commit'i `git log -1`, uzak kontrol push sonrası. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
 
 ## Şu an aktif faz ve branch
 
 **Faz 3 · phase/3-profile · geliştirme 1.13.0.** Production v1.11.0. Faz 0/1 tamamlandı, Faz 2 kabulü **ertelendi, tamamlanmadı**. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi (ADR012). Yeni dal phase/2-auth-sync temellidir; draft PR base phase/2-auth-sync, main'e erken merge/tag/prod deploy yok.
 
 ## Son oturumda yapılanlar
+
+- Profile session close yarış düzeltmesi: INITIAL_SESSION null ve same-owner token refresh profili kapatmaz; owner transition close önce, session forwarding sonra. 2 ek unit, full **86 unit / 45 e2e**, format/lint/typecheck/build geçti; simulated late initial notification manual fixture açık kaldı, evidence/2026-10-03-profile-session.png.
+- Kullanıcı yeni öncelik verdi: evren/katalog ve gök olaylarının görsel işlerini önce yap; bunlar bitince diğerlerine dön. Mevcut profil race fix commit/push sonrası Faz 4 görsel/katalog dalına geç. Faz 3 alanlar/tercihler henüz tamamlanmadı; pause/deferred görev listesinde kalır.
 
 - Son Faz 2 yazma hatası işi: engine localSaved flag, TR/EN/ES kalıcı alert açık tut/retry/JSON yedek yönlendirmesi. Başarılı persist/hesap değişimi kapatır, network error tek başına göstermez. Mobilde buton engeli pointer-events:none ile düzeldi; 82 unit/42 e2e + responsive ek kontrol/manual. `5740cd1` CI ve preview 6ybzwxP8ByM6WzenHG2SnkB4vmqq geçti.
 - Faz 3 başladı: src/profile-statistics.js salt okunur açık evren toplamları, dil dağılımı, en eski tarihli kayıt ve son 5 kayıt. Deleted kayıtlar sayılmaz; invalid/future dates eski/son listesine girmez. Girdiler ve dönen kayıtlar ayrı; kullanıcı verisi değiştirilmez.
