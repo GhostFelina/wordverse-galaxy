@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="tr">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wordverse senkron doğrulaması</title>
+  <style>
+    body {
+      font: 16px/1.5 system-ui;
+      max-width: 760px;
+      margin: 32px auto;
+      padding: 0 20px;
+      background: #101522;
+      color: #e8edf8;
+    }
+    button {
+      font: inherit;
+      padding: 10px 18px;
+      cursor: pointer;
+    }
+    li {
+      padding: 8px 0;
+      overflow-wrap: anywhere;
+    }
+    #state {
+      padding: 12px;
+      border: 1px solid #6a7894;
+    }
+  </style>
+  <h1>Senkron doğrulaması</h1>
+  <p>
+    Bu kontrol yalnız yapay kayıtları ve ayrı <code>wordverse-sync-verification</code> veritabanını kullanır. Gerçek
+    kullanıcı verisi veya Supabase bağlantısı kullanılmaz.
+  </p>
+  <button id="run">Çevrimdışı ve çakışma senaryosunu çalıştır</button>
+  <p id="state" role="status" aria-live="polite">Hazır</p>
+  <ol id="steps"></ol>
+  <script type="module">
+    import { AccountSyncEngine } from '/src/sync-engine.ts';
+    import { loadAccountCache, saveAccountCache } from '/src/account-cache.ts';
+    import { decodeCloudSnapshot } from '/src/cloud-universe.ts';
+    const namespace = 'wordverse-sync-verification';
+    const owner = 'verification-account';
+    const at = '2026-10-03T06:00:00Z';
+    const state = document.querySelector('#state');
+    const steps = document.querySelector('#steps');
+    function step(message) {
+      const item = document.createElement('li');
+      item.textContent = message;
+      steps.append(item);
+    }
+    function assert(condition, message) {
+      if (!condition) throw new Error(message);
+    }
+    document.querySelector('#run').addEventListener('click', async (event) => {
+      event.target.disabled = true;
+      steps.replaceChildren();
+      let engine;
+      try {
+        let online = false;
+        let revision = 0;
+        let writes = 0;
+        const remote = {
+          galaxies: [
+            {
+              user_id: owner,
+              id: 'test-g',
+              payload: { id: 'test-g', name: 'Test galaksisi' },
+              updated_at: at,
+              deleted_at: null,
+            },
+          ],
+          words: [
+            {
+              user_id: owner,
+              id: 'test-w',
+              galaxy_id: 'test-g',
+              payload: { id: 'test-w', galaxyId: 'test-g', word: 'original' },
+              updated_at: at,
+              deleted_at: null,
+            },
+          ],
+          events: [],
+          settings: [
+            { user_id: owner, payload: { version: 4, activeGalaxyId: 'test-g' }, updated_at: at, deleted_at: null },
+          ],
+        };
+        const initial = {
+          version: 1,
+          ownerId: owner,
+          remote,
+          universe: decodeCloudSnapshot(remote, owner),
+          pending: [],
+          lastSyncedAt: at,
+        };
+        await saveAccountCache(initial, namespace);
+        engine = new AccountSyncEngine({
+          client: {},
+          cache: await loadAccountCache(owner, namespace),
+          online: () => online,
+          save: (cache) => saveAccountCache(cache, namespace),
+          read: async () => structuredClone(remote),
+          write: async (change) => {
+            writes++;
+            return {
+              status: 'applied',
+              row: { ...change.row, updated_at: `2026-10-03T06:03:${String(++revision).padStart(2, '0')}Z` },
+            };
+          },
+          onState: (current) => {
+            state.textContent = `Durum: ${current.status} · Bekleyen işlem: ${current.cache.pending.length}`;
+          },
+        });
+        const local = engine.snapshot().cache.universe;
+        local.words[0].word = 'local edit';
+        local.words.push({ id: 'offline-new', galaxyId: 'test-g', word: 'offline new' });
+        await engine.update(local);
+        await engine.flush();
+        assert(writes === 0 && engine.snapshot().status === 'offline', 'Çevrimdışıyken ağ yazısı oluştu');
+        const stored = await loadAccountCache(owner, namespace);
+        assert(stored.pending.length === 2 && stored.universe.words.length === 2, 'IndexedDB evren/kuyruk kaybı');
+        step('Çevrimdışı iki değişiklik IndexedDB’de evrenle birlikte korundu; buluta yazılmadı.');
+        remote.words[0].payload.word = 'remote edit';
+        remote.words[0].updated_at = '2026-10-03T06:02:00Z';
+        online = true;
+        await engine.refresh();
+        const merged = engine.snapshot().cache.universe.words;
+        assert(
+          merged.length === 3 &&
+            merged.some((word) => word.word === 'local edit') &&
+            merged.some((word) => word.word === 'remote edit'),
+          'Çakışan içerik kayboldu',
+        );
+        step('Bağlantı sonrası yerel ve uzak düzenleme ayrı yıldız olarak korundu; çevrimdışı yeni yıldız kaldı.');
+        await Promise.all([engine.flush(), engine.flush()]);
+        assert(
+          engine.snapshot().status === 'synced' && engine.snapshot().cache.pending.length === 0,
+          'Kuyruk boşalmadı',
+        );
+        const reloaded = await loadAccountCache(owner, namespace);
+        assert(reloaded.pending.length === 0 && reloaded.universe.words.length === 3, 'Son durum kalıcı değil');
+        assert((await loadAccountCache('another-verification-account', namespace)) === null, 'Hesap ayrımı başarısız');
+        step(
+          'Paralel eşitleme çağrıları tek kuyrukta tamamlandı; üç yıldız yeniden okundu ve başka hesapla karışmadı.',
+        );
+        state.textContent = 'GEÇTİ · 3 yıldız · 0 bekleyen işlem · hesap ayrımı doğrulandı';
+      } catch (error) {
+        state.textContent = `BAŞARISIZ · ${error.message}`;
+      } finally {
+        engine?.stop();
+        event.target.disabled = false;
+      }
+    });
+  </script>
+</html>

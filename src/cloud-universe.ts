@@ -39,6 +39,8 @@ export function validateCloudRows(rows: CloudRow[], ownerId: string, kind: keyof
     ids.add(row.id);
     if (kind === 'words' && (typeof row.galaxy_id !== 'string' || row.payload.galaxyId !== row.galaxy_id))
       throw new Error('Invalid cloud galaxy reference');
+    if (kind === 'events' && (row.payload.galaxyId ?? null) !== (row.galaxy_id ?? null))
+      throw new Error('Invalid cloud event galaxy reference');
   }
 }
 
@@ -78,6 +80,11 @@ export function decodeCloudSnapshot(snapshot: CloudSnapshot, ownerId: string): S
 }
 
 export async function readCloudSnapshot(client: SupabaseClient, ownerId: string): Promise<CloudSnapshot> {
+  const assertSessionOwner = async () => {
+    const { data, error } = await client.auth.getUser();
+    if (error || !ownerId || data.user?.id !== ownerId) throw new Error('Cloud account changed');
+  };
+  await assertSessionOwner();
   const readRows = async (table: string): Promise<CloudRow[]> => {
     const rows: CloudRow[] = [];
     const pageSize = 500;
@@ -100,6 +107,9 @@ export async function readCloudSnapshot(client: SupabaseClient, ownerId: string)
     client.from('wordverse_settings').select('*').eq('user_id', ownerId).maybeSingle(),
   ]);
   if (settingsResult.error) throw new Error('Cloud settings read failed');
+  // RLS protects each query, but a session switch between pages could otherwise
+  // look like an empty account. Never expose that mixed read as a valid baseline.
+  await assertSessionOwner();
   const snapshot = { galaxies, words, events, settings: settingsResult.data ? [settingsResult.data as CloudRow] : [] };
   // Validate before exposing the snapshot to any future merge/write action.
   decodeCloudSnapshot(snapshot, ownerId);

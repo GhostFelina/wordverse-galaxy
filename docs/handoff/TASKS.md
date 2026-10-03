@@ -28,7 +28,8 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [~] IndexedDB birincil yerel depo uygulamaya bağlandı; üç birim ve bir tarayıcı kurtarma testi geçti. Offline kuyruk, bulut eşitlemesi ve görsel durum göstergesi sırada.
 - [x] Bulut okuyucu, hesap başına atomik cache, dayanıklı kuyruk ve tam içerik/sahiplik kontrolüyle yazma onayı çekirdeği; toplam 44 birim testi geçti. Modüller UI'a henüz bağlı değil.
 - [x] Sürüm koşullu SECURITY INVOKER RPC hedefte uygulandı; server timestamp, JWT sahibi, eski sürüm conflict ve tombstone gerçek rollback SQL testinde doğrulandı.
-- [~] Seri senkron motoru, hesap değişimi sırasında geç istek koruması, conflict kopyası ve UI bağlantısı.
+- [x] Seri senkron motoru, hesap değişimi sırasında geç istek koruması ve üç taraflı conflict kopyası; 63 birim, izole IDB tarayıcı kontrolü ve 25 Playwright geçti.
+- [~] Hesap oturumu controller'ı, ilk giriş özeti, sade senkron durum göstergesi ve main/auth UI bağlantısı. Çekirdek henüz gerçek hesap evrenine bağlanmadı.
 - [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
 - [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
 - [x] Supabase prod Site URL ve altı prod/proje-preview/yerel dönüş kalıbı Dashboard'da kaydedildi.

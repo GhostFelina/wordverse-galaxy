@@ -84,6 +84,7 @@ test('cloud reads page beyond 1000 records and always filter by account', async 
   const filters: string[] = [];
   const ranges: number[] = [];
   const client = {
+    auth: { getUser: async () => ({ data: { user: { id: owner } }, error: null }) },
     from: (table: string) => ({
       select: () => ({
         eq: (_column: string, id: string) => {
@@ -105,4 +106,27 @@ test('cloud reads page beyond 1000 records and always filter by account', async 
   expect(result.galaxies).toHaveLength(1201);
   expect(ranges).toEqual([0, 500, 1000]);
   expect(filters.every((id) => id === owner)).toBe(true);
+});
+
+test('a session switch during cloud pagination rejects the partial baseline', async () => {
+  let checks = 0;
+  const client = {
+    auth: { getUser: async () => ({ data: { user: { id: checks++ ? 'user-b' : owner } }, error: null }) },
+    from: () => ({
+      select: () => ({
+        eq: () => ({
+          maybeSingle: async () => ({ data: null, error: null }),
+          order: () => ({ range: async () => ({ data: [], error: null }) }),
+        }),
+      }),
+    }),
+  } as unknown as SupabaseClient;
+  await expect(readCloudSnapshot(client, owner)).rejects.toThrow('account changed');
+  expect(checks).toBe(2);
+});
+
+test('event payload and relational galaxy identity must agree', () => {
+  expect(() =>
+    decodeCloudSnapshot(snapshot({ events: [row('e', { id: 'e', galaxyId: 'other' }, { galaxy_id: 'g' })] }), owner),
+  ).toThrow('event galaxy');
 });

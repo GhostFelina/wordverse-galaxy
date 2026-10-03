@@ -1,5 +1,12 @@
 import { expect, test } from '@playwright/test';
 
+test('isolated sync lab retains offline edits and both conflict versions in IndexedDB', async ({ page }) => {
+  await page.goto('/tests/fixtures/sync-lab.html');
+  await page.getByRole('button', { name: 'Çevrimdışı ve çakışma senaryosunu çalıştır' }).click();
+  await expect(page.getByRole('status')).toContainText('GEÇTİ · 3 yıldız · 0 bekleyen işlem');
+  await expect(page.locator('#steps li')).toHaveCount(3);
+});
+
 test('sign-in error stays local and preserves the guest universe', async ({ page }) => {
   await page.route('https://wordverse-auth.test/**', (route) =>
     route.fulfill({

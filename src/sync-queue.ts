@@ -93,6 +93,15 @@ export function planSyncChanges(
       if (activeIds.has(id)) continue;
       const remote = baseline.get(id);
       const previous = queued.get(id);
+      // A deleted cloud parent hides live children in the visible universe.
+      // That visibility rule is not an instruction to delete those children.
+      if (
+        kind === 'words' &&
+        remote &&
+        !previous &&
+        cache.remote.galaxies.some((galaxy) => galaxy.id === remote.galaxy_id && galaxy.deleted_at !== null)
+      )
+        continue;
       if (remote?.deleted_at !== null && remote?.deleted_at !== undefined && !previous) continue;
       const deletedAt = previous?.row.deleted_at || changedAt;
       const row = {
