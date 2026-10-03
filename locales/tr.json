@@ -478,7 +478,7 @@
     "previous": "Önceki",
     "next": "Sonraki",
     "overview": "Galaksiler arasında gezinti",
-    "credit": "Bulutsular ve galaksiler: OpenNGC — Mattia Verga ve katkıda bulunanlar, CC BY-SA 4.0. Asteroidler: NASA/JPL SBDB. Meteor gözlemleri: NASA/JPL CNEOS. Eksik ölçümler bilinmiyor olarak gösterilir.",
+    "credit": "Bulutsular ve galaksiler: OpenNGC — Mattia Verga ve katkıda bulunanlar, CC BY-SA 4.0. Asteroidler: NASA/JPL SBDB. Meteor gözlemleri: NASA/JPL CNEOS. Eksik ölçümler bilinmiyor olarak gösterilir. Dünya: NASA Blue Marble 2002 (Reto Stöckli / Robert Simmon); olay tarihinin uydu görüntüsü değildir.",
     "unknown": "Bilinmiyor",
     "diameter": "Çap",
     "epoch": "Yörünge dönemi",
@@ -491,6 +491,15 @@
     "count": "{count} gerçek kayıt · {type}",
     "source": "Kaynak",
     "noResults": "Kayıt bulunamadı",
-    "intro": "Yıldızların arasına yaklaş; bulutsuları ve galaksileri keşfet. Konumlar ve boyutlar gezinti için sıkıştırılmıştır; görseller fotoğraf değildir. Asteroid yörüngeleri kaydın dönemindeki verilere dayanır. Meteorlar geçmiş atmosfer gözlemleridir; canlı olay ya da tahmin değildir."
+    "intro": "Yıldızların arasına yaklaş; bulutsuları ve galaksileri keşfet. Konumlar ve boyutlar gezinti için sıkıştırılmıştır; görseller fotoğraf değildir. Asteroid yörüngeleri kaydın dönemindeki verilere dayanır. Meteorlar geçmiş atmosfer gözlemleridir; canlı olay ya da tahmin değildir.",
+    "kinds": {
+      "planetary": "Gezegenimsi bulutsu",
+      "supernova-remnant": "Süpernova kalıntısı",
+      "reflection": "Yansıma bulutsusu",
+      "hii": "H II bölgesi",
+      "emission": "Salma bulutsusu",
+      "nebula": "Bulutsu",
+      "cluster-nebula": "Bulutsu ve yıldız kümesi"
+    }
   }
 }

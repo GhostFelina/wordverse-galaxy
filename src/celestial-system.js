@@ -1,3 +1,5 @@
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { createNebulaVolume } from './nebula-volume.js';
 import * as THREE from 'three';
 import nebulae from './data/catalog/nebulae-200.json';
 let asteroids = [];
@@ -59,12 +61,17 @@ function createNebulae(scene) {
       1,
     ),
   );
+  geometry.setAttribute(
+    'recordIndex',
+    new THREE.InstancedBufferAttribute(new Float32Array(nebulae.flatMap((_, i) => [i, i, i])), 1),
+  );
   const material = new THREE.ShaderMaterial({
-    uniforms: { atlas: { value: map } },
-    vertexShader: `attribute float tileIndex; varying vec2 tileUV; varying float alpha;
+    uniforms: { atlas: { value: map }, selected: { value: -1 } },
+    vertexShader: `attribute float tileIndex; attribute float recordIndex; uniform float selected; varying vec2 tileUV; varying float alpha;
       void main() { tileUV=(uv+vec2(mod(tileIndex,7.0),floor(tileIndex/7.0)))/vec2(7.0,4.0);
         vec4 p=modelViewMatrix*instanceMatrix*vec4(position,1.0);
         alpha=smoothstep(12.0,60.0,-p.z)*(1.0-smoothstep(1600.0,5000.0,-p.z));
+        if(abs(recordIndex-selected)<.1)alpha=0.0;
         gl_Position=projectionMatrix*p; }`,
     fragmentShader: `uniform sampler2D atlas; varying vec2 tileUV; varying float alpha;
       void main() { vec4 gas=texture2D(atlas,tileUV); gl_FragColor=vec4(gas.rgb,gas.a*alpha*.34); }`,
@@ -94,8 +101,42 @@ function createNebulae(scene) {
     }
   });
   scene.add(mesh);
+  const volume = createNebulaVolume(scene);
+  let selectedRecord = null;
+  let arrived = false;
+  const position = new THREE.Vector3();
   return {
+    focus(record) {
+      selectedRecord = record;
+      arrived = false;
+      volume.focus(record);
+    },
+    home() {
+      selectedRecord = null;
+      arrived = false;
+      volume.clear();
+    },
     update(camera) {
+      const distanceToSelection = selectedRecord
+        ? camera.position.distanceTo(position.fromArray(selectedRecord.scenePosition))
+        : Infinity;
+      if (distanceToSelection < 350) arrived = true;
+      if (!selectedRecord || (arrived && distanceToSelection > 400)) {
+        let nearest = null,
+          distance = 280;
+        for (const r of nebulae) {
+          const d = camera.position.distanceTo(position.fromArray(r.scenePosition));
+          if (d < distance) {
+            nearest = r;
+            distance = d;
+          }
+        }
+        if (nearest) {
+          selectedRecord = nearest;
+          volume.focus(nearest);
+        }
+      }
+      material.uniforms.selected.value = volume.update(camera) ? nebulae.indexOf(selectedRecord) : -1;
       mesh.visible = camera.position.z < 5200;
     },
     dispose() {
@@ -103,12 +144,16 @@ function createNebulae(scene) {
       geometry.dispose();
       material.dispose();
       map.dispose();
+      volume.dispose();
     },
   };
 }
 
 function createAsteroids(scene) {
-  const geometry = new THREE.IcosahedronGeometry(1, 1);
+  let geometry = new THREE.IcosahedronGeometry(1, 2);
+  geometry.deleteAttribute('normal');
+  geometry.deleteAttribute('uv');
+  geometry = mergeVertices(geometry);
   const p = geometry.attributes.position;
   for (let i = 0; i < p.count; i++) {
     const x = p.getX(i),
@@ -122,8 +167,8 @@ function createAsteroids(scene) {
     uniforms: { alpha: { value: 0 } },
     vertexColors: true,
     transparent: true,
-    vertexShader: `varying vec3 n; varying vec3 tint; void main() { tint=instanceColor; n=normalize(normalMatrix*mat3(instanceMatrix)*normal); gl_Position=projectionMatrix*modelViewMatrix*instanceMatrix*vec4(position,1.0); }`,
-    fragmentShader: `uniform float alpha; varying vec3 n; varying vec3 tint; void main() { float light=.22+.78*max(0.0,dot(normalize(n),normalize(vec3(-.5,.7,1.0)))); gl_FragColor=vec4(tint*light,alpha); }`,
+    vertexShader: `varying vec3 n; varying vec3 tint; varying vec3 surface; varying float nearby; void main() { surface=position; tint=instanceColor; n=normalize(normalMatrix*mat3(instanceMatrix)*normal); vec4 view=modelViewMatrix*instanceMatrix*vec4(position,1.0); nearby=1.0-smoothstep(100.0,400.0,length(view.xyz)); gl_Position=projectionMatrix*view; }`,
+    fragmentShader: `uniform float alpha; varying vec3 n; varying vec3 tint; varying vec3 surface; varying float nearby; void main() { float grain=.74+.16*sin(surface.x*47.0+sin(surface.z*31.0))*sin(surface.y*53.0); float light=.08+.92*max(0.0,dot(normalize(n),normalize(vec3(-.5,.7,1.0)))); gl_FragColor=vec4(tint*grain*light,alpha*nearby); }`,
   });
   const mesh = new THREE.InstancedMesh(geometry, material, asteroids.length);
   const transform = new THREE.Object3D();
@@ -157,9 +202,16 @@ function createMeteorReplay(scene) {
   root.position.set(950, -650, -600);
   root.visible = false;
   scene.add(root);
-  const map = new THREE.TextureLoader().load('/assets/planets/earth.jpg');
+  const map = new THREE.TextureLoader().load('/assets/planets/earth-natural-color.jpg');
   map.colorSpace = THREE.SRGBColorSpace;
-  const earth = new THREE.Mesh(new THREE.SphereGeometry(40, 48, 32), new THREE.MeshBasicMaterial({ map }));
+  const earth = new THREE.Mesh(
+    new THREE.SphereGeometry(40, 48, 32),
+    new THREE.ShaderMaterial({
+      uniforms: { map: { value: map } },
+      vertexShader: `varying vec2 tex; varying vec3 normalView; void main(){tex=uv;normalView=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+      fragmentShader: `uniform sampler2D map;varying vec2 tex;varying vec3 normalView;void main(){vec3 n=normalize(normalView);float day=max(0.0,dot(n,normalize(vec3(-.55,.4,1.0))));vec3 land=texture2D(map,tex).rgb;gl_FragColor=vec4(land*(.025+.975*pow(day,.65)),1.0);}`,
+    }),
+  );
   root.add(earth);
   const atmosphere = new THREE.Mesh(
     new THREE.SphereGeometry(40.7, 32, 24),
@@ -176,6 +228,20 @@ function createMeteorReplay(scene) {
   const material = new THREE.LineBasicMaterial({ color: 0xffd1a0, transparent: true, opacity: 0, depthWrite: false });
   const trail = new THREE.Line(geometry, material);
   root.add(trail);
+  const headGeometry = new THREE.BufferGeometry();
+  headGeometry.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3));
+  const headMaterial = new THREE.ShaderMaterial({
+    uniforms: { alpha: { value: 0 } },
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    vertexShader: `void main(){gl_PointSize=22.0;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+    fragmentShader: `uniform float alpha;void main(){float r=length(gl_PointCoord-.5);if(r>.5)discard;gl_FragColor=vec4(mix(vec3(1.0,.45,.12),vec3(1.0,.96,.8),exp(-r*r*70.0)),exp(-r*r*24.0)*alpha);}`,
+  });
+  const head = new THREE.Points(headGeometry, headMaterial);
+  head.frustumCulled = false;
+  root.add(head);
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const radial = new THREE.Vector3(),
     tangent = new THREE.Vector3();
   let selected = null,
@@ -188,12 +254,19 @@ function createMeteorReplay(scene) {
       root.visible = true;
       if (record.latitudeDeg === null || record.longitudeDeg === null) {
         material.opacity = 0;
+        headMaterial.uniforms.alpha.value = 0;
         return;
       }
       const lat = (record.latitudeDeg * Math.PI) / 180,
         lon = (record.longitudeDeg * Math.PI) / 180;
       radial.set(Math.cos(lat) * Math.cos(lon), Math.sin(lat), -Math.cos(lat) * Math.sin(lon));
-      tangent.crossVectors(radial, new THREE.Vector3(0, 1, 0)).normalize();
+      tangent
+        .crossVectors(
+          radial,
+          new THREE.Vector3(0, Math.abs(radial.y) > 0.99 ? 0 : 1, Math.abs(radial.y) > 0.99 ? 1 : 0),
+        )
+        .normalize();
+      root.quaternion.setFromUnitVectors(radial, new THREE.Vector3(0, 0, 1));
       // Schematic tangential path. Velocity components are preserved in the catalog,
       // but their frame is not assumed to match this visual Earth coordinate frame.
     },
@@ -205,7 +278,7 @@ function createMeteorReplay(scene) {
       root.visible = !!selected && camera.position.distanceTo(root.position) < 2500;
       if (!root.visible || selected.latitudeDeg === null || selected.longitudeDeg === null) return;
       if (started === null) started = ms;
-      const phase = ((ms - started) % 6000) / 6000;
+      const phase = reducedMotion.matches ? 0.5 : ((ms - started) % 6000) / 6000;
       const altitude = 40 + ((selected.altitudeKm ?? 40) * 40) / 6371;
       const center = radial
         .clone()
@@ -213,6 +286,8 @@ function createMeteorReplay(scene) {
         .addScaledVector(tangent, (phase - 0.5) * 18);
       const positions = geometry.attributes.position;
       positions.setXYZ(0, center.x, center.y, center.z);
+      head.position.copy(center);
+      headMaterial.uniforms.alpha.value = Math.sin(phase * Math.PI);
       center.addScaledVector(tangent, -5);
       positions.setXYZ(1, center.x, center.y, center.z);
       positions.needsUpdate = true;
@@ -258,6 +333,7 @@ export async function mountCelestialSystem({ scene, camera, locale, onNavigate, 
         position = record.scenePosition;
         distance = 190;
       } else if (type === 'nebulae') {
+        gas.focus(record);
         position = record.scenePosition;
         distance = 150;
       } else if (type === 'asteroids') {
@@ -294,6 +370,7 @@ export async function mountCelestialSystem({ scene, camera, locale, onNavigate, 
     },
     home() {
       replay?.clear();
+      gas.home();
       ui.home();
     },
     dispose() {

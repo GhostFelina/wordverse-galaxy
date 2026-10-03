@@ -2,9 +2,11 @@
 
 [Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.9.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.14.0--dev-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
 
 **Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
+
+> Güncel geliştirme: `phase/4-universe`, 1.14.0; production main v1.11.0. Aşağıdaki eski galaksi görünümü geliştirme dalında yıldız temeliyle değiştirildi. Güncel durum: 200 bulutsu +1000 asteroid +1000 tarihsel meteor gözlemi; 300 galaksi yeniden aktivasyonu bekliyor. Tam devir: `docs/handoff/CLAUDE_BRIEF.md` ve `HANDOFF.md`.
 
 ## Özellikler
 
@@ -43,9 +45,9 @@ Kalabalık bir galaksiyi kişisel verileri kullanmadan denemek için `node scrip
 
 ## Veriler ve gizlilik
 
-Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Her kayıttan sonra IndexedDB içinde ikinci bir yerel kopya oluşturulur; ana kayıt bozulursa uygulama açılışta bu kopyadan kurtarmayı dener. Sayfayı yenilemek verileri silmez. Tarayıcının **tüm site verilerini silmek iki yerel kopyayı da silebilir**. Başka tarayıcıya, cihaza veya yerel adresten Vercel adresine otomatik eşitleme henüz yoktur. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
+Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Her kayıttan sonra IndexedDB içinde ikinci bir yerel kopya oluşturulur; ana kayıt bozulursa uygulama açılışta bu kopyadan kurtarmayı dener. Sayfayı yenilemek verileri silmez. Tarayıcının **tüm site verilerini silmek iki yerel kopyayı da silebilir**. Production v1.11.0 cihazlar arası otomatik eşitleme içermez. Geliştirme dalında hesap başına IndexedDB + Supabase senkronu ve yerel gerçek Google oturumu doğrulandı; prod kabulü ve gerçek iki cihaz testi bekliyor. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
 
-Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Uygulamada hesap veya sunucu tarafı veri toplama yoktur.
+Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Production v1.11.0 yerel kullanım içindir. Geliştirme dalında isteğe bağlı hesap/bulut saklama bulunur; misafir verisi hesaplardan ayrıdır.
 
 ## Astronomi ve görsel yaklaşım
 

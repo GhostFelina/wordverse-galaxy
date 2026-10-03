@@ -13,11 +13,9 @@
     2,
     3
   ],
-  "visualStage": "nebula-expansion",
+  "visualStage": "asteroid-meteor-expansion",
   "pausedVisualLayers": [
-    "galaxies",
-    "asteroids",
-    "historical-meteor-replay"
+    "galaxies"
   ],
   "visualRequirements": {
     "nebulaeMinimum": 200,

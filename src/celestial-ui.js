@@ -55,7 +55,7 @@ export function mountCelestialUI({ locale, groups, beforeOpen, onFocus, onOvervi
       : new Intl.NumberFormat(locale, { maximumFractionDigits: digits }).format(value);
   function describe(type, r) {
     if (type === 'galaxies' || type === 'nebulae')
-      return `${r.messier ? `${r.messier} · ` : ''}${r.hubbleType || r.kind} · RA ${number(r.raDeg, 3)}° · Dec ${number(r.decDeg, 3)}° · J2000`;
+      return `${r.messier ? `${r.messier} · ` : ''}${r.hubbleType || t(`kinds.${r.kind}`)} · RA ${number(r.raDeg, 3)}° · Dec ${number(r.decDeg, 3)}° · J2000`;
     if (type === 'asteroids')
       return `${t('diameter')}: ${number(r.diameterKm)} km · a ${number(r.semimajorAxisAu, 3)} AU · ${t('epoch')}: JD ${r.epochJdTdb}`;
     return `${new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }).format(new Date(r.dateUtc))} UTC · ${number(r.impactEnergyKt, 3)} kt · ${t('location')}: ${number(r.latitudeDeg)}°, ${number(r.longitudeDeg)}° · ${t('altitude')}: ${number(r.altitudeKm)} km`;

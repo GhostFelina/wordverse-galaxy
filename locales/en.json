@@ -478,7 +478,7 @@
     "previous": "Previous",
     "next": "Next",
     "overview": "Travel among galaxies",
-    "credit": "Nebulae and galaxies: OpenNGC — Mattia Verga and contributors, CC BY-SA 4.0. Asteroids: NASA/JPL SBDB. Meteor observations: NASA/JPL CNEOS. Missing measurements are shown as unknown.",
+    "credit": "Nebulae and galaxies: OpenNGC — Mattia Verga and contributors, CC BY-SA 4.0. Asteroids: NASA/JPL SBDB. Meteor observations: NASA/JPL CNEOS. Missing measurements are shown as unknown. Earth: NASA Blue Marble 2002 (Reto Stöckli / Robert Simmon); not satellite imagery from the event date.",
     "unknown": "Unknown",
     "diameter": "Diameter",
     "epoch": "Orbit epoch",
@@ -491,6 +491,15 @@
     "count": "{count} real records · {type}",
     "source": "Source",
     "noResults": "No records found",
-    "intro": "Approach the stars to discover nebulae and galaxies. Positions and sizes are compressed for navigation; visuals are not photographs. Asteroid orbits use each record’s epoch. Meteors are historical atmospheric observations, not live events or predictions."
+    "intro": "Approach the stars to discover nebulae and galaxies. Positions and sizes are compressed for navigation; visuals are not photographs. Asteroid orbits use each record’s epoch. Meteors are historical atmospheric observations, not live events or predictions.",
+    "kinds": {
+      "planetary": "Planetary nebula",
+      "supernova-remnant": "Supernova remnant",
+      "reflection": "Reflection nebula",
+      "hii": "H II region",
+      "emission": "Emission nebula",
+      "nebula": "Nebula",
+      "cluster-nebula": "Nebula and star cluster"
+    }
   }
 }

@@ -478,7 +478,7 @@
     "previous": "Anterior",
     "next": "Siguiente",
     "overview": "Viajar entre galaxias",
-    "credit": "Nebulosas y galaxias: OpenNGC — Mattia Verga y colaboradores, CC BY-SA 4.0. Asteroides: NASA/JPL SBDB. Meteoros: NASA/JPL CNEOS. Las mediciones ausentes se muestran como desconocidas.",
+    "credit": "Nebulosas y galaxias: OpenNGC — Mattia Verga y colaboradores, CC BY-SA 4.0. Asteroides: NASA/JPL SBDB. Meteoros: NASA/JPL CNEOS. Las mediciones ausentes se muestran como desconocidas. Tierra: NASA Blue Marble 2002 (Reto Stöckli / Robert Simmon); no es una imagen satelital de la fecha del evento.",
     "unknown": "Desconocido",
     "diameter": "Diámetro",
     "epoch": "Época orbital",
@@ -491,6 +491,15 @@
     "count": "{count} registros reales · {type}",
     "source": "Fuente",
     "noResults": "No se encontraron registros",
-    "intro": "Acércate a las estrellas para descubrir nebulosas y galaxias. Las posiciones y tamaños están comprimidos para navegar; las imágenes no son fotografías. Las órbitas usan la época de cada registro. Los meteoros son observaciones atmosféricas históricas, no eventos en vivo ni predicciones."
+    "intro": "Acércate a las estrellas para descubrir nebulosas y galaxias. Las posiciones y tamaños están comprimidos para navegar; las imágenes no son fotografías. Las órbitas usan la época de cada registro. Los meteoros son observaciones atmosféricas históricas, no eventos en vivo ni predicciones.",
+    "kinds": {
+      "planetary": "Nebulosa planetaria",
+      "supernova-remnant": "Remanente de supernova",
+      "reflection": "Nebulosa de reflexión",
+      "hii": "Región H II",
+      "emission": "Nebulosa de emisión",
+      "nebula": "Nebulosa",
+      "cluster-nebula": "Nebulosa y cúmulo estelar"
+    }
   }
 }

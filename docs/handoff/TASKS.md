@@ -67,6 +67,8 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] Profil alanları, avatar, istatistik/ısı haritası, tekrar güçlü-zayıf analizi.
 - [ ] Hedef/ayarlar, rozetler, JSON+CSV, kalıcı hesap silme, varsayılan gizli paylaşım.
 
+> **Güncellik notu:** Aşağıdaki Faz 4 eski tamamlanmış adımları/talepleri tarihsel kayıt olarak tutar. En uzak300galaksi ve ≥100bulutsu şartı son kullanıcı talimatıyla değişti. Güncel aktivasyon/sayı/kalite ve kabul aşağıdaki “Güncel görsel yönlendirme” son bloğunda ve HANDOFF/CLAUDE_BRIEF içindedir. Eski [x] aktif sahne kabulü değildir.
+
 ## Faz 4 · `phase/4-universe` · codex/claude
 
 - [x] İlk 5 kaynaklı galaksi, ayrı arka plan katmanı, üç dil katalog/odak/eve dön ve yumuşak zoom görünürlük geçişi; 88 unit/48 e2e + manuel katalog/sahne kanıtı.
@@ -118,9 +120,15 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 ## Güncel görsel yönlendirme · 2026-10-03
 
 - [x] Galaksisiz yıldız temeli: 087f328 CI37141874755/Vercel geçti.
-- [~] 200 gerçek OpenNGC bulutsu: kaynak verisi tamam; aşama 1 görsel/arama/LOD kontrolü sürüyor.
-- [~] Toplam ≥1000 asteroid/meteor: JPL 1000 MBA asteroid +1000 tarihsel ateş topu kaydı hazır; aşama 2 renderer kabulü bekliyor.
+- [x] 200 gerçek OpenNGC bulutsu: kaynak/arama/odak/reset ve otomatik katman kontrolü geçti; profesyonel görsel kalite ayrı açık görev.
+- [x] Toplam ≥1000 asteroid/meteor kaynak/katman otomatik kabulü:1000 MBA asteroid +1000 tarihsel gözlem, orbit/arama/odak/reset; son npm run check98unit/66e2e. Son manuel kalite/FPS kabulü açık.
 - [~] ≥150 farklı gerçek galaksi: mevcut 300 kayıt; aşama 3 yeniden aktivasyon ve geçiş kabulü bekliyor.
 - [ ] En uzak ölçekte ultra gerçekçi yıldız alanı, parlama/patlama/dalga: kullanıcı son yönlendirmesi, ayrı görsel ve reduced-motion/performance kabulü. Galaksiler o ölçekte gizli.
 
 - [ ] Kullanıcı yıldız/galaksileri amatör buldu: profesyonel ışık, gaz/toz/morfoloji/ölçek-geçiş yeniden çalışması; mevcut atlas görsel kabul sayılmaz.
+
+## Son devir paketi · 2026-10-03
+
+- [x] CLAUDE_BRIEF: bütün proje, mimari/veri/servis/faz/karar ve gerçek kabul sınırlarını tek rehberde toplama.
+- [ ] Kademe2 son hacim/kaya/doğal Dünya düzeltmeleri: manual/responsive tema/hareket ve profesyonel görünüm kabulü; sayısal otomatik kabul bunun yerine geçmez.
+- [ ] Desktop MD tam metin/binary ZIP snapshot ve hazır Claude promptu üret; dosya/satır/hash manifestini doğrula.

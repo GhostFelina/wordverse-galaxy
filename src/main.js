@@ -41,7 +41,7 @@ let zoom = 160;
 let catalogDepth = 0;
 let cosmicField;
 let celestialSystem;
-const CELESTIAL_STAGE = 1;
+const CELESTIAL_STAGE = 2;
 let preImmersiveZoom = null;
 let focusedStarId = null;
 let preFocusPan = null;
@@ -364,7 +364,7 @@ function animate(ms) {
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
   const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging ? 0 : pointer.x * 1.9);
   const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25);
-  const cameraDelta = lastCameraMs ? Math.min(100, ms-lastCameraMs) : 16.67;
+  const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
   const planeDamping = 1-Math.exp(-cameraDelta*.0028);
   const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
