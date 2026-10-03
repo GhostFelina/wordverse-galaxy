@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-02 · codex · son Faz 2 commit'i `79fd9d1`; ana dal `v1.11.0`.
+2026-10-03 · codex · son Faz 2 commit'i `d6ffc41`; ana dal `v1.11.0`. Sonraki commit yerel depo ve RLS doğrulamasını içerir.
 
 ## Şu an aktif faz ve branch
 
@@ -20,16 +20,16 @@ Faz 0 ve Faz 1 tamamlandı. Aktif Faz 2 · `phase/2-auth-sync` · taslak PR #5; 
 
 ## Yarım kalan iş
 
-- `supabase/config.toml` yerel yapılandırma hazır; hedef projeye bağlantı kurulmadı. `docs/handoff/MASTER_PROMPT.md:134` içindeki proje kimliği bağlı Supabase uygulaması ve CLI hesabında görünmüyor; araç izin hatası verdi. Doğru hesap erişimi gerekli. Farklı projeye değişiklik uygulanmamalı.
-- `src/storage-mirror.js:17-85` IndexedDB bugün ayna/arşiv olarak çalışıyor; Faz 2'de birincil yerel depo ve offline kuyruğa geçiş, v4/v3/v2 kayıtlarını koruyarak yapılacak.
+- `supabase/migrations/20261002181057_initial_user_data.sql` hedef Wordverse projesinde Dashboard SQL Editor üzerinden uygulandı. Dört tabloda RLS, üç sahiplik politikası, anonim erişim yasağı ve authenticated doğrudan silme yasağı doğrulandı. `supabase/checks/rls-isolation.sql` iki hesapla okuma/ekleme/güncelleme/sahiplik değiştirme testlerini geçti; bütün test kayıtları ROLLBACK ile geri alındı. Security Advisor: 0 hata/uyarı. Performance Advisor: 0 hata/uyarı, yeni entries/events tablolarında henüz kullanılmamış iki indeks önerisi; FK ve gelecek senkron için korundu. CLI/MCP başka hesaplarda; migration geçmişi CLI ile henüz eşleştirilmedi.
+- `src/local-primary.js` IndexedDB'yi birincil yerel depo yapıyor; localStorage eşzamanlı kurtarma kopyası, eski `src/storage-mirror.js` arşiv/ayna olarak kalıyor. Toplam 26 birim ve 16 Playwright testi geçti; yerel kullanıcı sekmesinde sayılar yenileme sonrası korundu. Bulut senkron ve offline kuyruk henüz yok.
 - `src/i18n.js` profil dilini öncelik sırasına alabiliyor, fakat gerçek profil veri modeli Faz 3'te kurulacak. Şimdilik URL→localStorage→tarayıcı→TR çalışıyor.
 - E-posta şablonları Faz 2 auth ile oluşturulacak; şu an üründe e-posta gönderme yok.
 
 ## Sıradaki ilk 3 adım
 
-1. Hedef Supabase proje erişimi yanıtını beklerken yerel IndexedDB birincil depo ve saf merge çekirdeğini uygulama akışına bağla.
-2. Doğru Supabase hesabı bağlanınca proje kimliği, mevcut tablolar ve auth ayarlarını yalnız okuyarak doğrula; sonra migration ve RLS testlerini uygula.
-3. Üç dilde auth ekranları, gizlilik/koşullar ve misafirden hesaba geçişi tamamla.
+1. Yerel depo/RLS değişikliklerini commit/push et; PR #5 kontrollerini doğrula.
+2. Üç dilde auth ekranları, gizlilik/koşullar ve misafirden hesaba geçişi tamamla.
+3. Offline kuyruk ve soft delete senkronunu bağla; hedef CLI hesabı erişilebilir olduğunda migration geçmişini eşleştir.
 
 ## Dikkat edilmesi gerekenler
 

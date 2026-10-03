@@ -8,4 +8,4 @@
 - Bulut hesabı, RLS ve cihazlar arası senkron Faz 2 kapsamında.
 - Sistem açık tema seçilse de uygulama yalnız koyu palet kullanıyor. Faz 9'da açık tema tasarımı ve testleri değerlendirilmeli.
 - Vercel preview SSO korumalı; anonim HTTP smoke için erişim yok. Preview build/check başarılı; prod URL izole tarayıcıda test edildi.
-- Faz 2 görev dosyasındaki Supabase proje kimliği bağlı Supabase uygulamasında ve CLI hesabında görünmüyor; uygulama aracı izin hatası veriyor. Doğru hesap erişimi netleşene kadar uzak şema ve auth ayarları değiştirilemez. Yerel geliştirme sürüyor.
+- Faz 2 hedef Wordverse Supabase projesine Chrome Dashboard erişimi var; dört tablo uygulandı ve RLS testi geçti. Bağlı Supabase uygulaması ve CLI başka hesaplara bağlı olduğundan hedef projeye bu araçlarla erişilemiyor; Dashboard'da uygulanan migration geçmişi CLI ile ayrıca eşleştirilmeli. Yanlış projeye değişiklik uygulanmamalı.

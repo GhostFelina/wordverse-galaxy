@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import './style.css';
-import { UNIVERSE_KEY, PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
-import { archiveBeforeMigration, recoverUniverse, writeUniverseMirror } from './storage-mirror.js';
+import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
+import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
+import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { translate, formatDate, formatUnit, localePath } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 
@@ -10,8 +11,9 @@ const uiLocale = getHomeLocale();
 const t = (key, params) => translate(uiLocale, key, params);
 let archiveFailure = false;
 try { await archiveBeforeMigration(localStorage); } catch { archiveFailure = true; }
-const { universe, recovered: recoveredFromMirror } = await recoverUniverse(localStorage);
+const { universe, recovered: recoveredFromMirror } = await loadLocalUniverse(localStorage);
 let mirrorWrites = Promise.resolve();
+let primaryWrites = Promise.resolve();
 let mirrorWarningShown = false;
 let words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
 let selectedId = null;
@@ -75,11 +77,14 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 function persist() {
   try {
     const serialized = JSON.stringify(universe);
-    localStorage.setItem(UNIVERSE_KEY, serialized);
+    const { localSaved, writePrimary } = persistLocalUniverse(universe, localStorage);
+    primaryWrites = primaryWrites.catch(() => {}).then(writePrimary).catch(() => {
+      if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
+    });
     mirrorWrites = mirrorWrites.catch(() => {}).then(() => writeUniverseMirror(JSON.parse(serialized))).catch(() => {
       if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
     });
-    return true;
+    return localSaved;
   }
   catch { showToast(t('status.storageError')); return false; }
 }

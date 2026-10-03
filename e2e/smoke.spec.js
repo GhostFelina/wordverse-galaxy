@@ -13,6 +13,41 @@ test('guest can add a word and retain it after reload', async ({ page }) => {
   await expect(page.locator('#collection-list')).toContainText('luminous');
 });
 
+test('IndexedDB primary restores a guest word when the localStorage copy is missing', async ({ page }) => {
+  await page.goto('/?lang=tr');
+  await page.locator('#open-add').click();
+  await page.locator('#word-input').fill('orbit');
+  await page.locator('#meaning-input').fill('yörünge');
+  await page.locator('#submit-word').click();
+  await expect
+    .poll(async () =>
+      page.evaluate(
+        () =>
+          new Promise((resolve) => {
+            const request = indexedDB.open('wordverse-offline');
+            request.onsuccess = () => {
+              const database = request.result;
+              const read = database.transaction('state', 'readonly').objectStore('state').get('universe');
+              read.onsuccess = () => {
+                resolve(read.result?.universe?.words?.some((word) => word.word === 'orbit') ?? false);
+                database.close();
+              };
+              read.onerror = () => {
+                resolve(false);
+                database.close();
+              };
+            };
+            request.onerror = () => resolve(false);
+          }),
+      ),
+    )
+    .toBe(true);
+  await page.evaluate(() => localStorage.removeItem('wordverse.universe.v4'));
+  await page.reload();
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-list')).toContainText('orbit');
+});
+
 test('about page opens', async ({ page }) => {
   await page.goto('/about.html');
   await expect(page).toHaveTitle(/Wordverse/);

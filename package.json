@@ -12,10 +12,11 @@
     "check:release": "node scripts/check-release-version.mjs",
     "test:e2e": "playwright test",
     "lint": "eslint src tests scripts vite.config.js playwright.config.js",
-    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js src/sync-merge.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js tests/sync-merge.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js tsconfig.json .prettierrc.json src/i18n.js src/about.js src/home-i18n.js src/sync-merge.js src/local-primary.js locales/*.json tests/i18n.test.js tests/migration-archive.test.js tests/sync-merge.test.js tests/local-primary.test.js e2e/smoke.spec.js scripts/capture-about-evidence.mjs scripts/capture-home-i18n-evidence.mjs scripts/audit-home-copy.mjs scripts/verify-home-variants.mjs scripts/prerender-locales.mjs scripts/verify-static-locales.mjs scripts/verify-static-browser.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.117.2",
     "three": "^0.180.0"
   },
   "devDependencies": {

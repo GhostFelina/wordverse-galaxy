@@ -4,6 +4,7 @@
 
 - Supabase CLI yerel proje yapılandırması ve kullanıcıya ait kayıtlar için RLS/senkron mimari kararı eklendi.
 - İlk girişte yerel ve bulut evrenlerini veri kaybı olmadan birleştiren saf çekirdek ve çakışma testleri eklendi; uygulama akışına bağlanması sürüyor.
+- IndexedDB birincil yerel evren deposu eklendi. localStorage eşzamanlı kurtarma kopyası olarak kalıyor; yazma yarım kalırsa sürüm numarasıyla yeni kopya seçiliyor. Eski yedek arşivi korunuyor.
 
 ## [1.11.0] - 2026-10-02
 

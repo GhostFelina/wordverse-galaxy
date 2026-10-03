@@ -22,8 +22,10 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 
 ## Faz 2 · `phase/2-auth-sync` · codex/claude
 
-- [~] Supabase CLI yerel yapılandırması kuruldu, ADR-007 veri/RLS tasarımı yazıldı. Hedef projeye hesap erişimi doğrulanınca migration SQL, tüm tablolarda RLS ve çapraz kullanıcı testleri yapılacak.
+- [x] Dört tablolu sürümlü migration hedef Wordverse Dashboard'da uygulandı. RLS iki hesaplı rollback testi geçti; anonim erişim ve doğrudan silme kapalı. Security/Performance Advisor 0 hata/uyarı; kullanılmamış iki FK indeksi korundu.
+- [ ] CLI hedef hesap erişimi ve uygulanmış migration geçmişinin eşleştirilmesi (MCP/CLI farklı hesapta).
 - [~] İlk girişte galaksi, kelime ve olayların iki taraflı kayıpsız birleşimi için saf çekirdek ve üç birim testi yazıldı; IndexedDB ve hesap akışına henüz bağlanmadı.
+- [~] IndexedDB birincil yerel depo uygulamaya bağlandı; üç birim ve bir tarayıcı kurtarma testi geçti. Offline kuyruk, bulut eşitlemesi ve görsel durum göstergesi sırada.
 - [ ] E-posta kayıt/giriş/doğrulama/sıfırlama, Google OAuth, üç dilde gizlilik/koşullar.
 - [ ] Misafir modu, IndexedDB birincil depo, ilk girişte kayıpsız merge, offline kuyruk ve soft delete.
 - [ ] JSON import/export, avatar bucket, env ve yedek stratejisi; prod auth duman testi.
