@@ -15,10 +15,14 @@ for (const locale of ['tr', 'en', 'es']) {
       });
       await page.goto(`/?lang=${locale}`);
       const canvas = page.locator('#universe');
-      await expect(canvas).toHaveAttribute('data-scene-mode', 'stars-only');
+      await expect(canvas)
+        .toHaveAttribute('data-scene-mode', 'layered-cosmos')
+        .catch((error) => {
+          throw new Error(`${error.message}\nConsole: ${JSON.stringify(errors)}`);
+        });
       expect(Number(await canvas.getAttribute('data-star-capacity'))).toBeGreaterThan(5000);
-      await expect(page.locator('#open-catalog')).not.toBeVisible();
-      expect(await page.locator('#catalog-dialog').count()).toBe(0);
+      await expect(page.locator('#open-catalog')).toBeVisible();
+      expect(await page.locator('#catalog-dialog').count()).toBe(1);
       const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
       await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(100);
       await page.locator('#universe-mode').click();

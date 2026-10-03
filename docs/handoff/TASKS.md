@@ -114,3 +114,13 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [~] Tüm galaksi görselleri/katalog ana uygulamadan çıkarıldı; kullanıcı kelime/koleksiyon verileri korunur. Yalnız uzak gök + yakın deterministik yıldız bölgeleri, kesintisiz kamera etkileşimi.
 - [~] 9 star-cosmos e2e + manual yapay yıldız sahnesi; son gate ve CI checkpoint doğrulanmalı. Galaksi testleri tests/deferred altında, kapsam ertelendi.
 - [ ] Yıldız temeli tamamlandıktan sonra bulutsu/asteroid/meteor ve galaksileri dahil et. Galaksileri hemen yeniden açma.
+
+## Güncel görsel yönlendirme · 2026-10-03
+
+- [x] Galaksisiz yıldız temeli: 087f328 CI37141874755/Vercel geçti.
+- [~] 200 gerçek OpenNGC bulutsu: kaynak verisi tamam; aşama 1 görsel/arama/LOD kontrolü sürüyor.
+- [~] Toplam ≥1000 asteroid/meteor: JPL 1000 MBA asteroid +1000 tarihsel ateş topu kaydı hazır; aşama 2 renderer kabulü bekliyor.
+- [~] ≥150 farklı gerçek galaksi: mevcut 300 kayıt; aşama 3 yeniden aktivasyon ve geçiş kabulü bekliyor.
+- [ ] En uzak ölçekte ultra gerçekçi yıldız alanı, parlama/patlama/dalga: kullanıcı son yönlendirmesi, ayrı görsel ve reduced-motion/performance kabulü. Galaksiler o ölçekte gizli.
+
+- [ ] Kullanıcı yıldız/galaksileri amatör buldu: profesyonel ışık, gaz/toz/morfoloji/ölçek-geçiş yeniden çalışması; mevcut atlas görsel kabul sayılmaz.

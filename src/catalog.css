@@ -149,3 +149,44 @@
     bottom: 84px;
   }
 }
+.celestial-tabs,
+.celestial-pages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 20px 0;
+}
+.celestial-tabs button[aria-pressed='true'] {
+  background: #294b74;
+  border-color: #9dc7ef;
+}
+.celestial-summary {
+  color: #dcecff;
+  font-size: 14px;
+}
+.celestial-results li {
+  display: grid;
+  grid-template-columns: minmax(130px, 200px) 1fr auto;
+  padding: 12px 0;
+  border-bottom: 1px solid #243349;
+}
+.celestial-meta {
+  line-height: 1.7;
+}
+.celestial-pages {
+  justify-content: center;
+  color: #b9cbe8;
+}
+.celestial-pages button:disabled {
+  opacity: 0.35;
+}
+@media (max-width: 600px) {
+  .celestial-results li {
+    grid-template-columns: 1fr auto;
+  }
+  .celestial-meta {
+    grid-column: 1/-1;
+    grid-row: 2;
+  }
+}

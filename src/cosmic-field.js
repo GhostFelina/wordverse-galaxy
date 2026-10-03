@@ -34,7 +34,7 @@ export function createCosmicField(scene, compact = false) {
   field.name = 'continuous-cosmic-star-field';
   field.frustumCulled = false;
   scene.add(field);
-  // Very distant stars keep their direction while the nearby field provides parallax.
+  // Stars occupy a fixed world volume. No camera-following sky or background image.
   const skyCount = compact ? 9000 : 24000;
   const skyPositions = new Float32Array(skyCount * 3);
   const skyColors = new Float32Array(skyCount * 3);
@@ -45,9 +45,10 @@ export function createCosmicField(scene, compact = false) {
     const azimuth = skyRand() * Math.PI * 2;
     const height = skyRand() * 2 - 1;
     const ring = Math.sqrt(1 - height * height);
-    skyPositions.set([Math.cos(azimuth) * ring * 40000, height * 40000, Math.sin(azimuth) * ring * 40000], i * 3);
+    const radius = 800 + Math.cbrt(skyRand()) * 58000;
+    skyPositions.set([Math.cos(azimuth) * ring * radius, height * radius, Math.sin(azimuth) * ring * radius], i * 3);
     skyColors.set(skyRand() > 0.68 ? [1, 0.85, 0.67] : [0.7, 0.84, 1], i * 3);
-    skySizes[i] = skyRand() > 0.98 ? 3.7 : 1.8 + skyRand() * 1.2;
+    skySizes[i] = skyRand() > 0.992 ? 12 + skyRand() * 20 : 1 + skyRand() * 4;
   }
   const skyGeometry = new THREE.BufferGeometry();
   skyGeometry.setAttribute('position', new THREE.BufferAttribute(skyPositions, 3));
@@ -58,18 +59,18 @@ export function createCosmicField(scene, compact = false) {
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-    vertexShader: `attribute float size; varying vec3 tint; void main() { tint=color; gl_PointSize=size; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
-    fragmentShader: `varying vec3 tint; void main() { float r=length(gl_PointCoord-0.5); if(r>0.5) discard; gl_FragColor=vec4(tint,exp(-r*r*12.0)*0.8); }`,
+    vertexShader: `attribute float size; varying vec3 tint; varying float visibility; void main() { vec4 view=modelViewMatrix*vec4(position,1.0); tint=color; visibility=smoothstep(20.0,150.0,-view.z); gl_PointSize=clamp(size*1900.0/max(20.0,-view.z),.7,38.0); gl_Position=projectionMatrix*view; }`,
+    fragmentShader: `varying vec3 tint; varying float visibility; void main() { float r=length(gl_PointCoord-0.5); if(r>0.5) discard; gl_FragColor=vec4(tint,exp(-r*r*24.0)*visibility*.6); }`,
   });
   const sky = new THREE.Points(skyGeometry, skyMaterial);
   sky.frustumCulled = false;
-  sky.name = 'distant-stellar-sky';
+  sky.name = 'world-volume-distant-stars';
   scene.add(sky);
   let previous = '';
   return {
     capacity: count + skyCount,
     update(camera) {
-      sky.position.copy(camera.position);
+      // Both meshes keep fixed world positions; only the bounded streaming window advances.
       const cx = Math.floor(camera.position.x / cellSize);
       const cy = Math.floor(camera.position.y / cellSize);
       const cz = Math.floor(camera.position.z / cellSize);

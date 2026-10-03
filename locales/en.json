@@ -465,5 +465,32 @@
     "search": "Search catalog · M31, NGC0224…",
     "noResults": "No match in this selection. Use four digits for NGC numbers.",
     "credit": "OpenNGC · Mattia Verga and contributors · CC BY-SA 4.0 · adapted data"
+  },
+  "celestial": {
+    "title": "Sky atlas",
+    "close": "Close",
+    "types": "Celestial object types",
+    "galaxies": "Galaxies",
+    "nebulae": "Nebulae",
+    "asteroids": "Asteroids",
+    "fireballs": "Meteor observations",
+    "search": "Search name, catalog ID or date",
+    "previous": "Previous",
+    "next": "Next",
+    "overview": "Travel among galaxies",
+    "credit": "Nebulae and galaxies: OpenNGC — Mattia Verga and contributors, CC BY-SA 4.0. Asteroids: NASA/JPL SBDB. Meteor observations: NASA/JPL CNEOS. Missing measurements are shown as unknown.",
+    "unknown": "Unknown",
+    "diameter": "Diameter",
+    "epoch": "Orbit epoch",
+    "location": "Location",
+    "altitude": "Altitude",
+    "home": "Return to my stars",
+    "replay": "Historical atmospheric event · schematic replay",
+    "artistic": "Real catalog record · artistic visualization",
+    "noLocation": "No measured location; no trail displayed",
+    "count": "{count} real records · {type}",
+    "source": "Source",
+    "noResults": "No records found",
+    "intro": "Approach the stars to discover nebulae and galaxies. Positions and sizes are compressed for navigation; visuals are not photographs. Asteroid orbits use each record’s epoch. Meteors are historical atmospheric observations, not live events or predictions."
   }
 }

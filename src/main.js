@@ -40,6 +40,8 @@ const pan = { x: 0, y: 0 };
 let zoom = 160;
 let catalogDepth = 0;
 let cosmicField;
+let celestialSystem;
+const CELESTIAL_STAGE = 1;
 let preImmersiveZoom = null;
 let focusedStarId = null;
 let preFocusPan = null;
@@ -247,13 +249,22 @@ function initScene() {
   }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
   renderer.setSize(innerWidth, innerHeight);
-  renderer.setClearColor(0x02040a, 1);
+  renderer.setClearColor(0x000000, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
   cosmicField = createCosmicField(scene, innerWidth < 760);
   $('#universe').dataset.sceneMode = 'stars-only';
+  import('./celestial-system.js').then(async ({ mountCelestialSystem }) => {
+    celestialSystem = await mountCelestialSystem({ scene, camera, locale: uiLocale, stage: CELESTIAL_STAGE, beforeOpen: closePanels,
+      onNavigate(position, distance) { focusedStarId = null; preFocusPan = null; pan.x = position[0]; pan.y = position[1]; pointer.x = pointer.y = 0; catalogDepth = position[2]; zoom = distance; $('#app').classList.add('catalog-exploring'); },
+      onHome() { $('#reset-view').click(); },
+    });
+    $('#universe').dataset.sceneMode = 'layered-cosmos';
+    $('#universe').dataset.celestialStage = String(CELESTIAL_STAGE);
+    for (const [key, count] of Object.entries(celestialSystem.counts)) $('#universe').dataset[key] = String(count);
+  }).catch(error => { console.error('Celestial layer initialization failed', error); }).finally(() => renderer.setAnimationLoop(animate));
   $('#universe').dataset.starCapacity = String(cosmicField.capacity);
   glowMap = glowTexture();
   starCoreMap = starCoreTexture();
@@ -269,7 +280,7 @@ function initScene() {
   spaceComet = new THREE.Sprite(new THREE.SpriteMaterial({ map: cometTexture(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
   spaceComet.frustumCulled = false; scene.add(spaceComet);
   rebuildWordStars();
-  renderer.setAnimationLoop(animate);
+  // Start the GPU loop after catalog initialization to avoid starving cold module loads.
 }
 function spawnBirth(id) {
   const group = worldStars.get(id); if (!group || !birthMap) return;
@@ -363,9 +374,10 @@ function animate(ms) {
   camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
   camera.updateMatrixWorld();
   cosmicField.update(camera);
+  const visibleGalaxies = celestialSystem?.update(ms) ?? 0;
   wordGroup.visible = camera.position.z < 12000;
   wordGroup.rotation.z = 0;
-  if (ms - lastSceneReport > 100) { lastSceneReport = ms; $('#universe').dataset.cameraZ = String(camera.position.z); }
+  if (ms - lastSceneReport > 100) { lastSceneReport = ms; $('#universe').dataset.cameraZ = String(camera.position.z); $('#universe').dataset.visibleGalaxies = String(visibleGalaxies); }
   for (let i = births.length - 1; i >= 0; i--) {
     const birth = births[i]; const age = clock - birth.start;
     if (age > 2.3) { birth.group.remove(birth.ring); birth.ring.material.dispose(); births.splice(i, 1); continue; }
@@ -782,7 +794,7 @@ function bindUI() {
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
-  $('#home-btn').addEventListener('click', () => { catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => { celestialSystem?.home(); $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -814,7 +826,7 @@ function bindUI() {
   $('#search-input').addEventListener('input', renderCollection);
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => { catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  $('#reset-view').addEventListener('click', () => { celestialSystem?.home(); $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
   document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {

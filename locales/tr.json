@@ -465,5 +465,32 @@
     "search": "Katalogda ara · M31, NGC0224…",
     "noResults": "Bu seçkide eşleşme yok. NGC numaralarını dört basamakla yaz.",
     "credit": "OpenNGC · Mattia Verga ve katkıda bulunanlar · CC BY-SA 4.0 · uyarlanmış veri"
+  },
+  "celestial": {
+    "title": "Gökyüzü atlası",
+    "close": "Kapat",
+    "types": "Gök cismi türleri",
+    "galaxies": "Galaksiler",
+    "nebulae": "Bulutsular",
+    "asteroids": "Asteroidler",
+    "fireballs": "Meteor gözlemleri",
+    "search": "Ad, katalog kimliği veya tarih ara",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "overview": "Galaksiler arasında gezinti",
+    "credit": "Bulutsular ve galaksiler: OpenNGC — Mattia Verga ve katkıda bulunanlar, CC BY-SA 4.0. Asteroidler: NASA/JPL SBDB. Meteor gözlemleri: NASA/JPL CNEOS. Eksik ölçümler bilinmiyor olarak gösterilir.",
+    "unknown": "Bilinmiyor",
+    "diameter": "Çap",
+    "epoch": "Yörünge dönemi",
+    "location": "Konum",
+    "altitude": "Yükseklik",
+    "home": "Kendi yıldızlarıma dön",
+    "replay": "Tarihsel atmosfer olayı · şematik tekrar",
+    "artistic": "Gerçek katalog kaydı · sanatsal görselleştirme",
+    "noLocation": "Ölçülmüş konum yok; iz gösterilmez",
+    "count": "{count} gerçek kayıt · {type}",
+    "source": "Kaynak",
+    "noResults": "Kayıt bulunamadı",
+    "intro": "Yıldızların arasına yaklaş; bulutsuları ve galaksileri keşfet. Konumlar ve boyutlar gezinti için sıkıştırılmıştır; görseller fotoğraf değildir. Asteroid yörüngeleri kaydın dönemindeki verilere dayanır. Meteorlar geçmiş atmosfer gözlemleridir; canlı olay ya da tahmin değildir."
   }
 }

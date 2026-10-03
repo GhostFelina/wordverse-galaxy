@@ -465,5 +465,32 @@
     "search": "Buscar en el catálogo · M31, NGC0224…",
     "noResults": "Sin coincidencias en esta selección. Usa cuatro cifras para los números NGC.",
     "credit": "OpenNGC · Mattia Verga y colaboradores · CC BY-SA 4.0 · datos adaptados"
+  },
+  "celestial": {
+    "title": "Atlas del cielo",
+    "close": "Cerrar",
+    "types": "Tipos de objetos celestes",
+    "galaxies": "Galaxias",
+    "nebulae": "Nebulosas",
+    "asteroids": "Asteroides",
+    "fireballs": "Observaciones de meteoros",
+    "search": "Buscar nombre, ID del catálogo o fecha",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "overview": "Viajar entre galaxias",
+    "credit": "Nebulosas y galaxias: OpenNGC — Mattia Verga y colaboradores, CC BY-SA 4.0. Asteroides: NASA/JPL SBDB. Meteoros: NASA/JPL CNEOS. Las mediciones ausentes se muestran como desconocidas.",
+    "unknown": "Desconocido",
+    "diameter": "Diámetro",
+    "epoch": "Época orbital",
+    "location": "Ubicación",
+    "altitude": "Altitud",
+    "home": "Volver a mis estrellas",
+    "replay": "Evento atmosférico histórico · reproducción esquemática",
+    "artistic": "Registro real · visualización artística",
+    "noLocation": "Sin ubicación medida; no se muestra trayectoria",
+    "count": "{count} registros reales · {type}",
+    "source": "Fuente",
+    "noResults": "No se encontraron registros",
+    "intro": "Acércate a las estrellas para descubrir nebulosas y galaxias. Las posiciones y tamaños están comprimidos para navegar; las imágenes no son fotografías. Las órbitas usan la época de cada registro. Los meteoros son observaciones atmosféricas históricas, no eventos en vivo ni predicciones."
   }
 }
