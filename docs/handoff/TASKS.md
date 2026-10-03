@@ -31,6 +31,8 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Seri senkron motoru, hesap değişimi sırasında geç istek koruması ve üç taraflı conflict kopyası; 63 birim, izole IDB tarayıcı kontrolü ve 25 Playwright geçti.
 - [x] Hesap oturumu controller'ı, ilk giriş özeti, senkron göstergesi ve main/auth UI bağlantısı. Gerçek Google hesabında 5 kayıt/2 galaksi upload/reload/çıkış/misafire dönüş doğrulandı.
 - [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
+- [x] Confirmation/recovery üç dil metinleri locales'e, sürümlü Go şablonları supabase/templates'e; altı yerel preview, üç ekran genişliği kontrolü ve tasarım kanıtı. Hosted uygulama/gerçek Go render/mail teslimatı bekliyor.
+- [ ] Custom SMTP + gerçek mail kabulü: 2026-10-03 Dashboard free planda şablon düzenlemesini custom SMTP/Pro'ya bağlamış. Kullanıcı bu giriş/kurulum adımlarını sonraya bıraktı; ücretli plan açma, sır isteme veya tekrar soru sorma.
 - [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
 - [x] Supabase prod Site URL ve altı prod/proje-preview/yerel dönüş kalıbı Dashboard'da kaydedildi.
 - [x] Kullanıcı Google istemcisi/Secret aktarımını tamamladı. Provider public ayarı etkin; yerel gerçek Google giriş/çıkış ve senkron doğrulandı. Secret okunmadı/kaydedilmedi.
@@ -38,6 +40,8 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Misafir modu, IndexedDB birincil depo, kayıpsız merge, offline kuyruk ve soft delete çekirdek/UI bağlandı.
 - [x] Vercel Production/Preview/Development için üç public env adı tanımlandı; .env.local Google flag etkin.
 - [x] Hesap JSON export + eski v3 import + reload + misafir ayrımı e2e; gerçek hesap JSON indirme manuel geçti. Kısa ekranlarda panel kaydırma düzeltildi.
+- [x] Hesap tombstone + reload + açık JSON restore e2e. Boş hesapta gerçek galaksi paneli açılışı ve aria-hidden kontrolü düzeltildi.
+- [x] Sekmeye dönüş/focus/visibility bulut refresh, 15 saniye burst sınırı, açık düzenleme formunda foreground refresh atlama; hata retry durumunu koruma ve görünür liste güncelleme. Otomatik uzak değişim/draft/CAS conflict kabulü geçti; gerçek fiziksel iki cihaz testi bekliyor.
 - [x] Private wordverse-avatars bucket (2 MiB, JPEG/PNG/WebP), folder+owner_id RLS ve geniş izinli policy karşısında restrictive guard hedefte uygulandı; iki hesap/anon/owner reassignment rollback testi ve Dashboard limit kanıtı geçti.
 - [ ] Gerçek Storage API upload/upsert/delete, boyut ve MIME reddi kabulü (profil UI henüz yok).
 - [x] ENVIRONMENT yedek/kurtarma planı, private-backups Git dışlama. RPO/RTO hedef; zamanlanmış dump ve restore tatbikatı henüz yok.

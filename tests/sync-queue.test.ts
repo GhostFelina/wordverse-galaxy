@@ -38,6 +38,28 @@ test('unchanged state produces no writes even if property order differs', () => 
   expect(planSyncChanges(source, source.universe).pending).toEqual([]);
 });
 
+test('JSON-omitted optional fields acknowledge without confusing missing with explicit null', () => {
+  const source = cache();
+  source.universe.words[0] = {
+    ...source.universe.words[0],
+    word: 'moon',
+    planetType: undefined,
+    optional: { note: undefined, tags: [undefined] },
+  };
+  const queued = planSyncChanges(source, source.universe);
+  const sent = queued.pending[0];
+  const saved = {
+    ...sent.row,
+    payload: JSON.parse(JSON.stringify(sent.row.payload)),
+    updated_at: '2026-10-03T06:01:00Z',
+  };
+  expect(acknowledgeSyncWrite(queued, sent, saved).pending).toEqual([]);
+  expect(planSyncChanges(acknowledgeSyncWrite(queued, sent, saved), source.universe).pending).toEqual([]);
+  expect(() =>
+    acknowledgeSyncWrite(queued, sent, { ...saved, payload: { ...saved.payload, planetType: null } }),
+  ).toThrow('Acknowledgement does not match');
+});
+
 test('repeated offline edits keep the last confirmed server revision', () => {
   const source = cache();
   const universe = structuredClone(source.universe);

@@ -384,6 +384,22 @@
       ]
     ]
   },
+  "email": {
+    "confirmation": {
+      "title": "Bienvenido a tu universo",
+      "body": "Confirma tu correo electrónico para abrir tu cuenta de Wordverse. Tu universo de invitado se conserva en tu dispositivo; después de iniciar sesión, puedes elegir combinarlo con tu cuenta.",
+      "action": "Confirmar mi correo"
+    },
+    "recovery": {
+      "title": "Restablece tu contraseña",
+      "body": "Abre el siguiente enlace para restablecer tu contraseña de Wordverse. Introduce tu nueva contraseña solo en la aplicación Wordverse.",
+      "action": "Elegir una nueva contraseña"
+    },
+    "ignore": "Si no solicitaste esto, puedes ignorar este correo.",
+    "private": "Este enlace permite acceder a tu cuenta. No lo compartas.",
+    "fallback": "Si el botón no funciona, copia este enlace en tu navegador:",
+    "footer": "Cada palabra, una estrella."
+  },
   "sync": {
     "guest": "Invitado",
     "guestNote": "Este universo se guarda solo en este dispositivo.",

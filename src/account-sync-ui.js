@@ -14,6 +14,7 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
   let guest = structuredClone(getUniverse());
   let preparing = false;
   let firstRemote = null;
+  let lastForegroundRefresh = 0;
   const indicator = document.createElement('button');
   indicator.type = 'button';
   indicator.className = 'sync-indicator';
@@ -40,6 +41,7 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
     if (!isCurrent(token)) return;
     beforeSwitch();
     firstRemote = null;
+    lastForegroundRefresh = 0;
     const visible = display(cache.universe);
     const ready = planSyncChanges(cache, visible);
     engine = new AccountSyncEngine({
@@ -61,7 +63,8 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
     const current = engine;
     if (!current || !isCurrent(token)) return;
     await current.refresh();
-    if (current === engine && isCurrent(token)) await current.flush();
+    if (current === engine && isCurrent(token) && !['error', 'offline'].includes(current.snapshot().status))
+      await current.flush();
   }
   async function choose(includeGuest) {
     if (preparing || !ownerId) return;
@@ -186,6 +189,20 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
     }
   }
   indicator.addEventListener('click', open);
+  function refreshForeground() {
+    if (!engine || document.visibilityState !== 'visible' || navigator.onLine === false) return;
+    // Returning to a tab must not replace an unfinished editing form.
+    if (document.querySelector('#add-panel.open') || document.querySelector('#rename-galaxy-form:not([hidden])'))
+      return;
+    const now = Date.now();
+    // Focus and visibilitychange often arrive together. Keep one refresh per
+    // 15 seconds; manual retry and reconnect remain immediate.
+    if (now - lastForegroundRefresh < 15_000) return;
+    lastForegroundRefresh = now;
+    refreshAndFlush();
+  }
+  window.addEventListener('focus', refreshForeground);
+  document.addEventListener('visibilitychange', refreshForeground);
   window.addEventListener('online', () => {
     if (engine) refreshAndFlush();
     else if (ownerId) prepare(generation);

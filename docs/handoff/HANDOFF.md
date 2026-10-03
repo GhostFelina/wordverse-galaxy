@@ -1,13 +1,15 @@
 # Devir durumu
 
-## Güncel devam noktası · 2026-10-03 15:54 · Codex / Windows
+## Güncel devam noktası · 2026-10-03 16:18 · Codex / Windows
 
-- Aktif dal `phase/2-auth-sync`; Faz 0/1 bitti, Faz 2 sürüyor. Önceki devir `d057d6f` CI geçti. Güncel hash `git log -1 --oneline`; production hâlâ v1.11.0.
+- Aktif dal `phase/2-auth-sync`; Faz 0/1 bitti, Faz 2 sürüyor. Önceki `b862b93` CI ve preview geçti. Güncel hash `git log -1 --oneline`; production hâlâ v1.11.0.
 - Avatar bucket artık **hedef Wordverse projesinde kurulu**: private, 2 MiB, JPEG/PNG/WebP; `20261003123923_private_avatars.sql`. Folder+owner_id politikası ve restrictive guard; `supabase/checks/avatar-isolation.sql` iki kullanıcı/anon/sahip değiştirme rollback testi geçti. Dashboard kanıtı evidence'da. API upload/upsert/delete ve MIME/boyut reddi henüz kabul edilmedi.
 - Hesap JSON export + legacy v3 import + reload + misafir ayrımı yeni e2e geçti. Kısa ekranda yedek düğmesi erişimi galaxy-panel kaydırması ile düzeltildi. Yerelde gerçek Google hesabı JSON indirildi; gerçek veri değiştirilmedi. Local `http://127.0.0.1:5360/` sekmesi açık; tarayıcı bağlantısı çalışıyor ve viewport override reset edildi.
 - `ENVIRONMENT.md` yedek stratejisini içerir. Otomatik dump/özel kopya ve restore tatbikatı henüz uygulanmadı. Güncel Security Advisor **0 hata / 1 uyarı: leaked-password protection kapalı** (Pro+ gerekiyor, ücretli plan açılmadı); aşağıdaki eski 0 uyarı kaydı tarihseldir.
-- Son tam kontrol **67 birim + 30 Playwright**, lint/typecheck/build/format ve Windows doctor iki CLI/GitHub push-check geçti. Oturum: `sessions/2026-10-03-1540-codex.md`.
-- **Sıradaki ilk 3 adım:** (1) Son push CI/preview doğrula. (2) TR/EN/ES e-posta şablonlarını hazırla, hedef Dashboard'a uygula ve gerçek doğrulama/sıfırlama için kullanıcı parola adımını devret; JSON tombstone restore kabulünü ekle. (3) Doğru CLI hesap erişimi/history repair, Storage API kabulü ve Google ortak Cortexia consent etkisini çöz; Faz 2 tüm kabulden sonra release.
+- Confirmation/recovery TR/EN/ES şablonları ve altı preview hazır; `npm run emails:generate`, build sırasında otomatik üretim. Hosted'e uygulanmadı: gerçek Dashboard custom SMTP/Pro gerektiriyor. **Kullanıcı SMTP/hesap girişlerini sonraya bıraktı; tekrar sorma, ücretli plan açma.** Yerel Supabase config 5350/5360 redirect, 8 karakter parola ve email confirmation ile hizalandı; gerçek local Docker/mail kabulü bekliyor.
+- JSON tombstone→reload→explicit restore e2e geçti. Boş hesap openPanel('galaxies') yazımı 'galaxy' olarak düzeltildi. Focus/visibility refresh 15 saniye sınırı ile ekleniyor; açık edit/rename formu korunur, refresh hatası flush ile “Eşitlendi”ye çevrilmez. Görünür koleksiyon yenilenir, hâlâ mevcut editingId korunur.
+- Yeni çapraz cihaz düzenleme testi gerçek bir JSON serileştirme hatası yakaladı: undefined object alanları RPC'de atıldığı için ack karşılaştırması başarısızdı. Queue ve reconcile canonical karşılaştırması JSON ile hizalandı; null hâlâ farklı içeriktir. **68 birim + 36 tam e2e, lint/typecheck/build/format geçti.** Geçici test Error wrapper/log kaldırıldı. Gerçek yerel hesap 6 kayıt/2 galaksi ve Eşitlendi kontrolü korunuyor; fiziksel iki cihaz testi yerine geçmez. Oturum: `sessions/2026-10-03-1600-codex.md`.
+- **Sıradaki ilk 3 adım:** (1) Son tam kontrol sonucunu kaydet, commit/push ve CI/preview doğrula. (2) İzin gerektirmeyen Faz 2 kabul/kod işlerini sürdür; SMTP, gerçek mail/parola, CLI doğru hesap erişimi/history repair ve Storage API kabulü bekliyor. (3) Google ortak Cortexia consent etkisi ve hukuki gereksinimler çözülüp tüm kabul geçince Faz 2 release.
 - **Mac pause sürüyor.** `/Users/felina/Projects/wordverse-galaxy` korunur; `checkpoint/mac-2026-10-03-paused` SQL'i kullanılmaz. Gerçek Mac ortak kurulum ve iki fiziksel cihaz senkron kabulü bekliyor. Son push sonrası clean pull ile aynı noktadan Codex/Claude devam eder.
 
 ## ▶ Windows'a devir — MacBook durduruldu (2026-10-03)
@@ -45,8 +47,8 @@ Faz 0/1 tamamlandı. Faz 2 yaklaşık %60 · `phase/2-auth-sync` · taslak PR #5
 - Avatar private bucket/boyut ve MIME limitleri/sahiplik RLS henüz kurulmadı.
 - JSON import/export mevcut ana uygulama işlevlerini kullanır; hesap modundaki merge/restore ve tombstone kabulü ayrıca sınanacak. Veritabanı yedek stratejisi ENVIRONMENT'e yazılacak.
 - Google consent `cortexia-language` ortak markasında Cortexia adı/linkleri kalmış; Wordverse ayrı istemcisi çalışıyor. Ortak markayı körlemesine değiştirme, mevcut Cortexia'yı etkileme konusu çözülmeli. Wordverse legal sayfalar prod'da henüz yok.
-- Dashboard'da iki migration uygulanmış durumda: `20261002181057_initial_user_data.sql`, `20261003064254_conditional_sync_writes.sql`. CLI/MCP başka hesapta; doğru proje link ve migration repair henüz yapılmadı. Aynı SQL'i db push ile tekrar uygulama.
-- Başka cihazdaki yeni bulut değişiklikleri başlangıç/reconnect/manuel retry ile alınır; periyodik/focus yenileme henüz yok.
+- Dashboard'da üç migration uygulanmış durumda: `20261002181057_initial_user_data.sql`, `20261003064254_conditional_sync_writes.sql`, `20261003123923_private_avatars.sql`. CLI/MCP başka hesapta; doğru proje link ve migration repair henüz yapılmadı. Aynı SQL'i db push ile tekrar uygulama.
+- Başka cihazdaki yeni bulut değişiklikleri başlangıç/reconnect/manuel retry ve focus/visibility dönüşüyle alınır (yukarıdaki güncel kabul kaydı). Periyodik polling yok; açık edit/rename formunda foreground refresh atlanır.
 - Faz 3 gerçek profil/dil tercihi modeli, Faz 4+ katalog/render ve Faz 5 tekrar/FSRS sırada. Önce Faz 2 kabulünü bitir.
 
 ## Sıradaki ilk 3 adım

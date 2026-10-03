@@ -718,7 +718,7 @@ function createPosition(index, variation = .5, kind = 'word') {
 }
 function saveWord(event) {
   event.preventDefault();
-  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { openPanel('galaxies'); showToast(t('sync.createGalaxy')); return; }
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { openPanel('galaxy'); showToast(t('sync.createGalaxy')); return; }
   const kind = $('#word-form input[name="kind"]:checked')?.value === 'conjunction' ? 'conjunction' : 'word';
   const word = $('#word-input').value.trim();
   const meaning = $('#meaning-input').value.trim();
@@ -767,7 +767,7 @@ function beginEdit() {
   openPanel('add');
 }
 function openAdd() {
-  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { renderGalaxies(); openPanel('galaxies'); showToast(t('sync.createGalaxy')); return; }
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { renderGalaxies(); openPanel('galaxy'); showToast(t('sync.createGalaxy')); return; }
   editingId = null; $('#word-form').reset(); $('#form-error').textContent = '';
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
   updateEntryKindForm();
@@ -1011,8 +1011,14 @@ accountSync = mountAccountSync({
   replaceUniverse: next => {
     universe = next;
     words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
-    selectedId = null; editingId = null;
+    if (!words.some(w => w.id === selectedId)) selectedId = null;
+    if (!words.some(w => w.id === editingId)) {
+      editingId = null;
+      if (activePanel === 'add') updateEntryKindForm();
+    }
     rebuildWordStars(); refreshCounts(); renderGalaxies();
+    if (activePanel === 'collection') renderCollection();
+    if (activePanel === 'detail' && !selectedId) closePanels();
   },
 });
 mountAuthUI({ locale: uiLocale, beforeOpen: closePanels, onSession: accountSync.onSession, onSync: accountSync.open });

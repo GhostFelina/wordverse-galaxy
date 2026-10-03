@@ -384,6 +384,22 @@
       ]
     ]
   },
+  "email": {
+    "confirmation": {
+      "title": "Evrenine hoş geldin",
+      "body": "Wordverse hesabını açmak için e-posta adresini doğrula. Misafir evrenin cihazında korunur; girişten sonra hesabınla birleştirmeyi seçebilirsin.",
+      "action": "E-posta adresimi doğrula"
+    },
+    "recovery": {
+      "title": "Şifreni yenile",
+      "body": "Wordverse hesabının şifresini yenilemek için aşağıdaki bağlantıyı aç. Yeni şifreni yalnız Wordverse uygulamasında gir.",
+      "action": "Yeni şifre belirle"
+    },
+    "ignore": "Bu işlemi sen istemediysen bu e-postayı yok sayabilirsin.",
+    "private": "Bu bağlantı hesabına erişim sağlar. Başkalarıyla paylaşma.",
+    "fallback": "Düğme çalışmazsa bu bağlantıyı tarayıcına kopyala:",
+    "footer": "Her kelime, bir yıldız."
+  },
   "sync": {
     "guest": "Misafir",
     "guestNote": "Bu evren yalnız bu cihazda saklanıyor.",

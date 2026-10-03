@@ -384,6 +384,22 @@
       ]
     ]
   },
+  "email": {
+    "confirmation": {
+      "title": "Welcome to your universe",
+      "body": "Confirm your email address to open your Wordverse account. Your guest universe stays on your device; after signing in, you can choose to merge it with your account.",
+      "action": "Confirm my email address"
+    },
+    "recovery": {
+      "title": "Reset your password",
+      "body": "Open the link below to reset your Wordverse password. Enter your new password only in the Wordverse app.",
+      "action": "Choose a new password"
+    },
+    "ignore": "If you did not request this, you can ignore this email.",
+    "private": "This link gives access to your account. Do not share it.",
+    "fallback": "If the button does not work, copy this link into your browser:",
+    "footer": "Every word, a star."
+  },
   "sync": {
     "guest": "Guest",
     "guestNote": "This universe is stored only on this device.",

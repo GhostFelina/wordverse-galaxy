@@ -32,6 +32,7 @@ function stable(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(stable).join(',')}]`;
   if (value && typeof value === 'object')
     return `{${Object.keys(value)
+      .filter((key) => (value as Payload)[key] !== undefined)
       .sort()
       .map((key) => `${JSON.stringify(key)}:${stable((value as Payload)[key])}`)
       .join(',')}}`;

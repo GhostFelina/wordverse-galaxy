@@ -53,6 +53,8 @@ async function setupMockAccount(page, seedCloud = true) {
   ].join('.');
   let sequence = 0;
   let writes = 0;
+  let reads = 0;
+  let failReads = false;
   await page.route('https://wordverse-auth.test/**', async (route) => {
     const url = new URL(route.request().url());
     const reply = (body) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
@@ -72,13 +74,24 @@ async function setupMockAccount(page, seedCloud = true) {
         ...(['wordverse_entries', 'wordverse_events'].includes(input.p_table) ? { galaxy_id: input.p_galaxy_id } : {}),
         payload: input.p_payload,
         deleted_at: input.p_deleted_at,
-        updated_at: `2026-10-03T06:05:${String(++sequence).padStart(2, '0')}Z`,
+        updated_at: new Date(
+          Math.max(Date.parse(current?.updated_at || at), Date.parse('2026-10-03T06:05:00Z')) + ++sequence * 1000,
+        ).toISOString(),
       };
       if (index === -1) records.push(saved);
       else records[index] = saved;
       return reply({ status: 'applied', row: saved });
     }
-    if (url.pathname.startsWith('/rest/v1/')) return reply(tables[url.pathname.split('/').at(-1)] || []);
+    if (url.pathname.startsWith('/rest/v1/')) {
+      reads++;
+      if (failReads)
+        return route.fulfill({
+          status: 400,
+          contentType: 'application/json',
+          body: JSON.stringify({ message: 'test read unavailable' }),
+        });
+      return reply(tables[url.pathname.split('/').at(-1)] || []);
+    }
     return reply({
       access_token: token,
       refresh_token: 'test-only-refresh-token',
@@ -88,7 +101,14 @@ async function setupMockAccount(page, seedCloud = true) {
       user,
     });
   });
-  return { tables, writes: () => writes };
+  return {
+    tables,
+    writes: () => writes,
+    reads: () => reads,
+    failReads: (value) => {
+      failReads = value;
+    },
+  };
 }
 
 async function signInAndOpenMerge(page) {
@@ -189,6 +209,42 @@ test('cloud-only choice keeps an empty account empty and offers galaxy creation 
   await page.locator('#open-add').click();
   await expect(page.locator('#toast')).toHaveText('Create a galaxy first.');
   await expect(page.locator('#galaxy-panel')).toBeVisible();
+  await expect(page.locator('#galaxy-panel')).toHaveAttribute('aria-hidden', 'false');
+});
+
+test('account deletion persists as a tombstone and explicit JSON restore revives the backed-up entry', async ({
+  page,
+}) => {
+  const backend = await setupMockAccount(page);
+  await page.goto('/?lang=en');
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  const backup = {
+    version: 4,
+    activeGalaxyId: 'g',
+    galaxies: backend.tables.wordverse_galaxies.map((item) => item.payload),
+    words: backend.tables.wordverse_entries.map((item) => item.payload),
+    events: [],
+  };
+  await page.locator('#collection-btn').click();
+  await page.locator('#collection-list button').click();
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.locator('#delete-word').click();
+  await expect.poll(() => backend.tables.wordverse_entries[0].deleted_at).toBeTruthy();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.reload();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await expect(page.locator('#star-count')).toHaveText('00');
+  await page
+    .locator('#import-universe')
+    .setInputFiles({ name: 'restore.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(backup)) });
+  await expect.poll(() => backend.tables.wordverse_entries[0].deleted_at).toBeNull();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.reload();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await expect(page.locator('#star-count')).toHaveText('01');
+  expect(backend.tables.wordverse_entries[0].payload.word).toBe('cloud star');
 });
 
 test('account edits persist offline, sync on reconnect and survive reload without changing guest storage', async ({
@@ -217,4 +273,64 @@ test('account edits persist offline, sync on reconnect and survive reload withou
   expect(backend.tables.wordverse_entries.some((record) => record.payload.word === 'offline account star')).toBe(true);
   await expect(page.locator('#star-count')).toHaveText('02');
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+});
+
+test('returning to an account fetches other-device changes and failed refresh remains retryable', async ({ page }) => {
+  const backend = await setupMockAccount(page);
+  await page.goto('/?lang=en');
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  backend.tables.wordverse_entries[0].payload = {
+    ...backend.tables.wordverse_entries[0].payload,
+    word: 'from another device',
+  };
+  backend.tables.wordverse_entries[0].updated_at = '2026-10-03T07:00:00Z';
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event('focus'));
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-list')).toContainText('from another device');
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.locator('#close-collection').click();
+  backend.failReads(true);
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-list')).toContainText('from another device');
+  await page.locator('#close-collection').click();
+  backend.failReads(false);
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+});
+
+test('returning while editing keeps the draft and retry preserves a concurrent remote version', async ({ page }) => {
+  const backend = await setupMockAccount(page);
+  await page.goto('/?lang=en');
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.locator('#collection-btn').click();
+  await page.locator('#collection-list button').click();
+  await page.locator('#edit-word').click();
+  await page.locator('#word-input').fill('unfinished local draft');
+  backend.tables.wordverse_entries[0].payload = {
+    ...backend.tables.wordverse_entries[0].payload,
+    word: 'concurrent remote version',
+  };
+  backend.tables.wordverse_entries[0].updated_at = '2026-10-03T07:00:00Z';
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event('focus'));
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await expect(page.locator('#word-input')).toHaveValue('unfinished local draft');
+  await page.locator('#word-form button[type=submit]').click();
+  await expect(page.locator('#sync-status')).toHaveText('Conflict · retry');
+  await page.locator('#close-detail').click();
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  expect(backend.tables.wordverse_entries.map((item) => item.payload.word)).toEqual(
+    expect.arrayContaining(['unfinished local draft', 'concurrent remote version']),
+  );
 });
