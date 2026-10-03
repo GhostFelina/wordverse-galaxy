@@ -23,7 +23,7 @@
 
 ### Doğrulama ve sonraki iş
 
-**8dd7be1 kod checkpoint'i GitHub'a gönderildi.** Son yerel kontrol: 105 unit, 71/71 e2e (iki worker, 5.1 dakika), lint, typecheck, build ve format geçti. Test timeout/assertion gevşetilmedi. İlk turlardaki panel/IDB/cold SDK gecikmeleri düzeltildi. Vercel PR önizlemesi SUCCESS. Remote CI `37157710980` henüz sürüyor; sonucu oturum kaydı / STATE içinde güncelle. Önceki e75ecca remote CI 57/9 başarısız sonucu tarihsel başlangıçtır.
+**Son kod checkpoint e968196 GitHub'a gönderildi. Remote CI `37158521409` SUCCESS: 105 unit, 71/71 e2e (CI tek software-WebGL worker, 6.8 dakika), lint, typecheck, build, Go e-posta kontrolü, format, release gate ve audit geçti; 0 güvenlik açığı. Vercel PR7 preview SUCCESS. Yerel önceki tam tur 71/71, son lifecycle düzeltmesi sonrası hesap/deneyim hedefli 16/16 (iki worker, 52 saniye) geçti. Test timeout/assertion ve 10 demo tekrar sayısı korunur. Önceki remote failures e75ecca 57/9 ve 8dd7be1 65/6 tarihsel başlangıç/düzeltme kanıtıdır. Bu devir güncellemesi yalnız belge ve kanıt metadata içerir; doğrulanan uygulama kodu e968196'dır.
 
 U0 kanıtı: dört yerel referans görseli incelendi, altı sentetik önceki görünüm kaydedildi. `REFERENCE_ANALYSIS.md`, `VISUAL_DIRECTION.md`, `UPGRADE_ACCEPTANCE.md` ve `STATE.json.upgrade` güncel kaynaklardır. `scripts/capture-upgrade-evidence.mjs` aynı üretim modülleriyle 1440/768/390 genişlikte beş donmuş açı üretir. Kullanıcı verisi çekilmez.
 
@@ -87,3 +87,7 @@ Gerçek Mac/iki cihaz,mail/prodStorage,hukukiuyum,tam backuprestore,FSRS,50olay 
 37157710980: 105 unit geçti, fakat 65 e2e geçti / 6 başarısız (3 hesap, 3 demo tekrar geçişi). Yerel 71/71, remote geçiş sayılmaz. Dialog açıkken ve owner content-ready değilken GPU çizimi durduruldu; önceki kimlik karesi anında temizlenir. Yeni sahne çizimi 150ms sakin UI aralığını bekler, hızlı tekrar geçişler eski shaderları derlemeye zorlamaz. Hosted software WebGL üzerinde CI tek worker, yerelde iki worker. Test timeoutları ve 10 tekrar senaryosu korunur. Düzeltmenin hedefli gate / sonraki remote sonucu takip edilir.
 
 Düzeltme sonrası iki yerel worker ile hesap + deneyim hedefli gate **16/16 geçti (52 saniye)**. On tekrar ve bekleme süreleri aynen korundu; lint geçti. Yeni remote tam gate, push sonrası ayrıca doğrulanacak.
+
+### Son remote sonuç · e968196
+
+CI 37158521409 ve Vercel preview başarılı. U2 halen devam ediyor; estetik kabul ve fiziksel Mac/mobil ölçümü açık. Sonraki oturum doğrudan U2 gaz filament/toz/absorption + selective bloom / yakın yüzey kalitesi işini sürdürmeli, U0 veya eski Faz0 tekrar başlatılmamalı. Ardından U3 mouse wheel/trackpad zoom + drag pan ve kesintisiz kamera geçişleri.

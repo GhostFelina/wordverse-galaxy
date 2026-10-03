@@ -153,3 +153,5 @@ WORDVERSE_MASTER_UPGRADE aktif görsel sözleşme; eski görsel plan yerine uygu
 - [~] U2 yakın yüzey/gaz/selective bloom; 390 yakın çekim kadrajı, gaz içi düşük kontrast ve patchy planet terrain kalite kabulü açık.
 
 - [ ] U3 mouse wheel/trackpad zoom + drag pan: kesintisiz kamera, küçük nokta/detay geçişi, UI scroll çakışma koruması ve reduced-motion/touch kabulü. Kullanıcı mouse kaydırmayı ayrıca teyit etti.
+
+- [x] e968196 remote tam gate CI37158521409: 105 unit/71 e2e + build/lint/types/Go/format/release/audit; Vercel preview SUCCESS.

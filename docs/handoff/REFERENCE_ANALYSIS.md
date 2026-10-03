@@ -18,3 +18,7 @@
 ## Somut yön
 
 Sıcak yıldız çekirdeği, daha koyu limb/ince fotosfer dokusu; gezegenin gerçekten karanlık gece tarafı; düşük dolgu ışığı; hacim içindeki yanal parallax; uzak boşluk#000. U2 çekimleri:wide(0,0,120),star(-18,9,14),planet(33,1,28),gas(-20,14,-90)+yanal hareket. Şu an bunlar üretim modüllerini kullanan upgrade-lab içinde; gerçek öğrenme kayıtları değil. Kullanıcı kabulü açık.
+
+## Son tekrar oynatma denemesi
+
+2026-10-04 görünür Chrome: X postu ve sağ panel başlığı yüklendi; oynatma düğmesinin doğrudan UI kullanımından sonra oynatıcı **Medya oynatılamıyor** verdi. Yeni 10–15 saniye kesintisiz hareket doğrulaması ve ses incelemesi bu denemede gerçekleşmedi. Önceki 15.761s kare ve ADR013 tarihsel örnekleri ayrı tutulur. Ana referans seçimi kullanıcı tarafından X sağ panel olarak kesinleştirildi; erişim kısıtı bağımsız U2/U3 uygulamasını durdurmaz. Kaynak video veya ses kopyalanmadı.

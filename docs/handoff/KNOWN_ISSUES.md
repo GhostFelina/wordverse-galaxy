@@ -38,3 +38,7 @@
 - U2 ilkbodyfixtureüretimdepaylaşılıyor ama kullanıcıyıldızlarılegacySprite,yerleşimcount-dependent/forcedbinary; U4 açık. Gas eski12stephacim,filament/toz/nearLODhenüzyeniqualitygategeçmedi. Yeni demo gövdelerinde en uzak küçük nokta LOD uygulandı (2–7 CSS piksel crossfade); katalog ve gerçek kayıt adapterleri hâlâ açık.
 
 - Yeni tam turlarda ilk kimlik/dil panel yarışı ve IDB 5 saniye bekleme gecikmesi görüldü. Form/collection açıkken ve misafir primary write sürerken GPU çizimi durduruldu; detail kamera odağı devam eder. Soğuk SDK modül ağacı `optimizeDeps.include` ile önceden hazırlanır. Son tam 71 test turu henüz çalışıyor; test timeout/assertion gevşetilmedi.
+
+## Son remote gate çözümü
+
+e968196 / CI37158521409: 105 unit ve 71 e2e geçti. Dialog ve owner-ready çizim geçidi, 150ms sahne derleme sakinleşmesi ve software WebGL CI tek worker; yerel iki-worker 16/16 hedefli gate. Önceki 9 ve 6 remote hata bu revizyonda giderildi. Yakın gaz hâlâ yumuşak; planet terrain patchy; responsive close-shot framing, premium gerçek-record adapter ve fiziksel cihaz/FPS ölçümü açık. X tekrar oynatma Medya oynatılamıyor: yeni 10–15 hareket ve ses doğrulaması bekliyor.

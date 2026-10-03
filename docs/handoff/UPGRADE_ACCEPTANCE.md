@@ -40,3 +40,7 @@ Son ön turlar 70/71 ve 29/30: SDK cold init / IDB gecikmesi. SDK prebundle ve k
 37157710980: 105 unit geçti, fakat 65 e2e geçti / 6 başarısız (3 hesap, 3 demo tekrar geçişi). Yerel 71/71, remote geçiş sayılmaz. Dialog açıkken ve owner content-ready değilken GPU çizimi durduruldu; önceki kimlik karesi anında temizlenir. Yeni sahne çizimi 150ms sakin UI aralığını bekler, hızlı tekrar geçişler eski shaderları derlemeye zorlamaz. Hosted software WebGL üzerinde CI tek worker, yerelde iki worker. Test timeoutları ve 10 tekrar senaryosu korunur. Düzeltmenin hedefli gate / sonraki remote sonucu takip edilir.
 
 Düzeltme sonrası iki yerel worker ile hesap + deneyim hedefli gate **16/16 geçti (52 saniye)**. On tekrar ve bekleme süreleri aynen korundu; lint geçti. Yeni remote tam gate, push sonrası ayrıca doğrulanacak.
+
+## Son doğrulanmış kod checkpoint · e968196
+
+Remote CI **37158521409 SUCCESS**: 105 unit / 71 e2e (6.8m) / lint / typecheck / build / Go email templates / format / release version gate / audit geçti; 0 vulnerabilities. Vercel PR7 preview SUCCESS. Son yerel lifecycle testleri 16/16 (52s) geçti. Bu belge commit'i uygulama kodu değiştirmez; doğrulama e968196 uygulama revizyonuna aittir. U2 görsel kalite, U3 kamera/mouse kontrolleri ve sonraki U-fazları açık. Kullanıcı estetik kabulü yok.
