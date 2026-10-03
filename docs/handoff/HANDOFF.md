@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 17:05 · Codex / Windows · son doğrulanmış uzak kod `9bc7430` (CI 37127884696 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
+2026-10-03 17:08 · Codex / Windows · son doğrulanmış uzak kod `e9f5255` (CI 37128444516 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
 
 ## Şu an aktif faz ve branch
 
@@ -32,7 +32,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Sıradaki ilk 3 adım
 
-1. Başlangıç OS/git/pull/doctor/test kontrolünden sonra HANDOFF/TASKS ve en son session'ı birlikte kullan. `b2d67c2` kod CI/preview kabulü geçti; bu işi tekrar başlatma. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
+1. Başlangıç OS/git/pull/doctor/test kontrolünden sonra HANDOFF/TASKS ve en son session'ı birlikte kullan. `e9f5255` kod CI/preview kabulü geçti; bu işi tekrar başlatma. Yerel uygulamayı **http://127.0.0.1:5360/** görünür açık tut.
 2. Kullanıcı girişine bağlı olmayan Faz 2 kabul işlerini sürdür: Avatar için izole istemci fixture hazır; gerçek API protokolünü AVATAR_API_ACCEPTANCE.md üzerinden uygula; gerçek hesap verisini değiştirme. Kalan email/CLI/physical-device testlerini doğrulanmış diye işaretleme.
 3. Kullanıcı ertelenen SMTP/giriş/hukuki adımlara döndüğünde tamamla. Tüm kabul geçince Faz 2 main merge/changelog/tag/release/prod smoke; ardından Faz 3.
 
