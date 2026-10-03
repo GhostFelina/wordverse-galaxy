@@ -994,7 +994,6 @@ function bindUI() {
 
 history.scrollRestoration = 'manual';
 function resetPageScroll() {
-  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   window.scrollTo(0, 0);
   document.documentElement.scrollLeft = 0;
   document.body.scrollLeft = 0;

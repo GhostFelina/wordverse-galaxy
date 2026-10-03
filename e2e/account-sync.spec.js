@@ -1,5 +1,24 @@
 import { expect, test } from '@playwright/test';
 
+test('sync indicator and universe view control remain separate on compact screens', async ({ page }) => {
+  for (const width of [390, 768, 958]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/?lang=tr');
+    const sync = page.locator('#sync-status');
+    await expect(sync).toBeVisible();
+    const first = await sync.boundingBox();
+    const second = await page.locator('#universe-mode').boundingBox();
+    const overlap =
+      first.x < second.x + second.width &&
+      first.x + first.width > second.x &&
+      first.y < second.y + second.height &&
+      first.y + first.height > second.y;
+    expect(overlap, `controls overlap at ${width}px`).toBe(false);
+    await sync.click();
+    await expect(page.locator('#universe-mode')).toHaveAttribute('aria-pressed', 'false');
+  }
+});
+
 async function setupMockAccount(page, seedCloud = true) {
   const user = { id: '22222222-2222-4222-8222-222222222222', email: 'sync@example.test', aud: 'authenticated' };
   const at = '2026-10-03T06:00:00Z';

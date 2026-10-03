@@ -1,55 +1,62 @@
-# Windows ↔ MacBook devam düzeni
+# Windows / MacBook · Codex / Claude ortak devam düzeni
 
-## Tek güncel kaynak
+## Ortak görev kaynağı
 
-- Repo: https://github.com/GhostFelina/wordverse-galaxy
-- Aktif dal: `phase/2-auth-sync`; Faz 0/1 bitti, Faz 2 sürüyor. Son durum ve sıradaki işler **HANDOFF.md** içindedir.
-- Windows klasörü: `C:\Users\User\Desktop\Projeler\kelime-evreni`. Mevcut klasörü taşıma.
-- MacBook klasörü ilk kurulumda gerçek Masaüstü altında seçilir. Windows yolu, kullanıcı adı veya iCloud eşitlemesi varsayılmaz.
-- GitHub kodu, testleri ve devir belgelerini taşır. Codex konuşma geçmişi, `.env.local`, oturum token'ları ve tarayıcı IndexedDB/localStorage verileri GitHub üzerinden taşınmaz.
+Repo https://github.com/GhostFelina/wordverse-galaxy; aktif dal `phase/2-auth-sync`. STATE.json makine tarafından okunan dal/faz kaydıdır; HANDOFF.md tek güncel görev kaynağıdır. Faz 0/1 yeniden başlatılmaz. İki ajan da MASTER_PROMPT, HANDOFF, TASKS, KNOWN_ISSUES, DECISIONS ve session dosyalarını kullanır. Codex AGENTS.md, Claude CLAUDE.md aynı belgeleri gösterir.
 
-## İlk MacBook oturumu (bir kez)
+Windows mevcut proje `C:\Users\User\Desktop\Projeler\kelime-evreni` taşınmaz. Mac gerçek Masaüstü/Projeler altında mevcut klonu korur veya yeni klon oluşturur.
 
-Bu Windows oturumu MacBook'a erişemez. MacBook'ta yönlendirme henüz kurulmadıysa Codex'e bir kez şu tam mesajı ver:
+## İlk MacBook kurulumu (bir kez)
 
-> Wordverse kaldığın yerden devam et. Repo https://github.com/GhostFelina/wordverse-galaxy, aktif dal phase/2-auth-sync. Gerçek işletim sistemi, kabuk ve Masaüstü yolunu kontrol et. Önce mevcut Wordverse klonunu bul; yoksa Masaüstü/Projeler altında klonla. Mevcut değişiklikleri koru. docs/handoff/CROSS_DEVICE.md ve HANDOFF.md'yi oku; gerekli rutin araç kurulumlarını yap, npm run setup:device çalıştır ve projeyi yerelde görünür tarayıcıda aç. Bu proje için Codex global yönlendirmesini ekleme yetkisi verdim. Sonra HANDOFF.md'deki ilk görevden devam et.
-
-Alternatif: **yalnız macOS terminalinde**, Node 24 ve Git mevcutken, henüz klon yoksa:
+Windows oturumu MacBook'a erişemez. Mac terminalinde bu iki satır public repodan kurulum dosyasını indirip çalıştırır:
 
 ```sh
-desktop_dir="$(cd "$HOME/Desktop" && pwd -P)"
-mkdir -p "$desktop_dir/Projeler"
-git clone --branch phase/2-auth-sync https://github.com/GhostFelina/wordverse-galaxy.git "$desktop_dir/Projeler/wordverse-galaxy"
-cd "$desktop_dir/Projeler/wordverse-galaxy"
-npm run setup:device
-codex -C "$PWD" "wordverse kaldığın yerden devam et"
+curl -fL https://raw.githubusercontent.com/GhostFelina/wordverse-galaxy/phase/2-auth-sync/scripts/setup-mac.sh -o "${TMPDIR:-/tmp}/wordverse-setup.sh"
+bash "${TMPDIR:-/tmp}/wordverse-setup.sh"
 ```
 
-Masaüstü yolu erişilemiyorsa gerçek yolu bulmadan devam etme. Klon zaten varsa klon komutunu tekrar çalıştırma; mevcut klasöre geç. GitHub/Codex giriş, 2FA veya işletim sistemi izni gerekirse kullanıcı tamamlar. Node yoksa mevcut cihaz yöneticisiyle Node 24 kur; rastgele uzak betikleri kabuğa pipe etme.
+Betiğin yaptığı işler:
 
-`setup:device` gerçek OS/CPU/kabuk ve repo yolunu gösterir, `npm ci` ve Chromium kurulumu yapar. Ana görevde kullanıcı tarafından verilmiş **public** Supabase yapılandırmasından yalnız eksik `.env.local` isimlerini ekler; mevcut değerleri korur. Google Secret, service_role veya DB şifresi gerekmez. Mevcut global Codex talimatlarını koruyarak Wordverse bloğunu ekler; ilk değişiklikten önce `.wordverse-backup` kopyası alır. `CODEX_HOME` ve dolu `AGENTS.override.md` varsa bunları esas alır. Shell profiline dokunmaz.
+1. macOS ve gerçek Masaüstü yolunu doğrular; mevcut doğru origin'li klonu korur, yoksa aktif dalı klonlar.
+2. Homebrew mevcutsa eksik Git/Node 24/GitHub CLI kurar; Codex/Claude eksikse resmî npm paketlerinden kurar. Homebrew yoksa mevcut ajan resmî araç kurulumunu tamamlayıp betiği yeniden çalıştırır. Zorunlu OS izinlerini kullanıcı verir.
+3. Temiz git ağacında fetch/switch/pull --ff-only; kirli ağaç korunur ve ajan önce mevcut değişiklikleri birleştirir. Reset/force kullanılmaz.
+4. npm ci, Chromium ve eksik public .env.local isimleri kurulur. Mevcut env korunur. Google Secret/service_role/DB şifresi gerekmez.
+5. Codex global AGENTS ve Claude global CLAUDE dosyasına aynı devam komutunu tanıyan repo yönlendirmesi eklenir; önceki metin korunur/yedeklenir. CODEX_HOME, dolu AGENTS.override.md ve CLAUDE_CONFIG_DIR esas alınır. Homebrew Node 24 yolu yeni terminalde bulunmayacaksa zsh/bash profiline yalnız PATH satırı eklenir, önce yedek alınır.
+6. Gerekirse GitHub (GhostFelina), Codex ve Claude ilk giriş akışları açılır. **Giriş/2FA'yı kullanıcı bir kez tamamlar.** gh auth setup-git sonrası doctor repo okuma/yazma, git push --dry-run, iki ajan girişi, talimatlar ve env isimlerini kontrol eder. Token'lar repoya girmez.
 
-Seçenekler: `npm run setup:device -- --dry-run` dosya değiştirmez; `--register-only` yalnız yönlendirme ekler; `--skip-browser` Chromium kurulumunu atlar. Repo taşınırsa betiği yeniden çalıştır; eski yol aynı blokta güncellenir.
+İlk kurulumu ajanla yapmak istersen Codex veya Claude'ye bir kez:
 
-## Sonraki açılışlar
+> Wordverse projemize kaldığımız yerden devam et. Repo https://github.com/GhostFelina/wordverse-galaxy, aktif dal phase/2-auth-sync. Gerçek OS/kabuk/Masaüstü yolunu kontrol et; mevcut klonu koru veya Masaüstü/Projeler altında klonla. CROSS_DEVICE.md ve HANDOFF.md'yi oku; rutin araç kurulumu, setup:device ve doctor kontrollerini tamamla. Bu proje için Codex/Claude global yönlendirmesi ve GitHub bağlantı kurulumu yetkisi verdim. Kullanıcı ilk girişleri tamamlayınca projeyi yerelde görünür aç ve sıradaki görevden devam et.
 
-Yeni Codex oturumunda **“wordverse kaldığın yerden devam et”** de. Global blok doğru repo yolunu buldurur. Güvenilir doğrudan alternatif: `codex -C <bu-cihazdaki-proje-yolu> "wordverse kaldığın yerden devam et"`. Codex izin profili farklı bir dizinde çalışmayı engellerse bu doğrudan komutu kullan; izin mekanizmasını kapatma.
+## Sonraki açılışlar ve limitte ajan değiştirme
 
-Her ajan başlangıcı:
+İki ajan için komut: **wordverse projemize kaldığımız yerden devam et**.
 
-1. OS/kabuk, repo origin, aktif dal ve `git status` kontrolü. Temizse `git pull --ff-only`; cihaz değişiminde dalı HANDOFF.md ile eşleştir. Kirli ağaçta reset/force/stash ile işi gizleme.
-2. HANDOFF → MASTER_PROMPT → KNOWN_ISSUES → TASKS → ENVIRONMENT oku. Yeni klonda `npm run setup:device`, güncellenen lock dosyasında `npm ci`. Cihazlar arasında node_modules kopyalama.
-3. `npm run check` ve `npm run format:check`; yerel uygulamayı `npm run dev -- --port 5360` ile aç, `http://127.0.0.1:5360/` görünür tarayıcıda doğrula. Port doluysa önce çalışan sunucunun bu repo olduğunu kontrol et; kullanıcı sekmesini koru.
-4. HANDOFF ilk üç adımdan devam et; şifre/2FA/Google Secret gereken adımlar kullanıcıya bırakılır.
+Global yönergeler repo yolunu gösterir. Doğru proje klasöründen doğrudan alternatifler:
 
-## Cihazı bırakmadan önce
+```sh
+npm run resume:codex
+npm run resume:claude
+```
 
-Anlamlı değişiklikleri doğrula → HANDOFF/TASKS/session güncelle → commit/push → uzak CI ve preview kontrol et. Commit hash, branch, sıradaki iş ve doğrulanmamış kısmı yaz. Aynı dalı iki cihazda aynı anda değiştirme; önce önceki cihazın push'unu al. Oturumlar birbirlerinin yerel dosyalarını kendiliğinden görmez.
+Bu komutlar temiz git ağacını günceller, aktif dalı kontrol eder, eksik public env isimlerini tamamlar, yönlendirmeyi yeniler ve seçilen ajan/GitHub ön kontrolü sonrası ajanı proje kökünde açar. İzin profili başka dizinden çalışmayı engellerse bu komutları proje klasöründen çalıştır; korumaları kapatma. Codex doğrudan alternatif: `codex -C <proje-yolu>`; Claude: proje klasöründe `claude`.
 
-## Kullanıcının evreni
+Limit yaklaşmadan: doğrula → HANDOFF/TASKS/session → commit/push → CI/preview durumunu kaydet. Aynı cihazdaki diğer ajan kirli ağacı inceleyerek kaydedilmemiş işi devralabilir; diğer cihaz yalnız push edilen dosyaları görür. İki ajan/cihaz aynı dalı aynı anda değiştirmemeli. Faz değişince STATE.json ve ilk kurulum URL/dalını birlikte güncelle.
 
-Hesapla girişte yalnız buluta onaylanmış veriler başka cihazda görünür; Windows'taki senkron göstergesi “Eşitlendi” olmalı. MacBook'ta aynı Google hesabıyla giriş yap. İlk hesap açılışında merge penceresi gösterilebilir: mevcut Mac misafir verisini koruyarak birleştir veya yalnız bulut evrenini kullan. Çevrimdışı bekleyen Windows kayıtları Windows yeniden bağlanmadan buluta geçmez. Misafir verisi için JSON dışa aktar/içe aktar kullan. Yerel `127.0.0.1:5360` ile prod farklı origin olduğundan ayrı tarayıcı depolarıdır. Faz 2 henüz prod'a alınmadı.
+## Başlangıç kontrolü / servisler
 
-## Doğrulama sınırı ve kaynak
+`npm run doctor -- --push-check` hazırlığı kontrol eder. Eksik rutin kurulum [SERVICE_ACCESS.md](SERVICE_ACCESS.md) ile tamamlanır. Windows connector/tarayıcı araçları başka CLI'ya otomatik aktarılmış varsayılmaz; servis CLI girişleri kendi cihazında yapılır. Kod/test ve public Supabase bağlantısı için secret istenmez.
 
-Kurulum bu oturumda Windows üzerinde denenir; **macOS kurulumu henüz gerçek cihazda çalıştırılmadı**. İlk Mac oturumunda gerçek doğrulama yapılıp HANDOFF'a eklenmeli. Codex global talimat keşfi: [resmî AGENTS.md rehberi](https://learn.chatgpt.com/docs/agent-configuration/agents-md); çalışma dizini seçimi: [resmî CLI referansı](https://learn.chatgpt.com/docs/developer-commands?surface=cli). Konuşmanın otomatik cihazlar arası sürmesi yerine Git ve devir dosyalarıyla görev sürdürülür.
+`setup:device` bağımlılıkları yeniden kurar; `--dry-run` önizleme, `--register-only` yalnız iki ajan yönlendirmesi, `--skip-browser` Chromium kurulumunu atlar. Repo taşınırsa register-only eski yolu yeniler. node_modules taşınmaz. Node 24 önerilir, en az 22.13.
+
+Her başlangıçta OS/kabuk, git ve dalı kontrol et; temizse pull --ff-only. HANDOFF → MASTER_PROMPT → KNOWN_ISSUES → TASKS → ENVIRONMENT oku. `npm run check` ve `npm run format:check`; `npm run dev -- --port 5360` ile http://127.0.0.1:5360/ görünür aç. Port doluysa sunucunun bu repo olduğunu kontrol et; kullanıcı sekmesini koru.
+
+## Evren verisi
+
+Git kodu/görevleri taşır; vendor sohbeti, .env.local veya yerel tarayıcı depolarını taşımaz. Hesap verisi Supabase üzerinden gelir: Windows “Eşitlendi”, diğer cihaz aynı Google hesabı. İlk girişte birleştir veya yalnız bulut evrenini aç. Çevrimdışı pending veri Windows bağlanmadan buluta geçmez. Misafir evreni JSON yedekle taşınır. Yerel/prod/preview farklı origin ve ayrı depodur. Faz 2 prod'a henüz alınmadı.
+
+## Doğrulama sınırı
+
+Windows'ta iki CLI giriş/yönlendirme, GitHub pull/push/admin ve push dry-run doğrulandı. Preview gerçek Google girişi, ayrı origin'de aynı 6 kayıt ve reload doğrulandı. **Gerçek MacBook kurulumu henüz çalıştırılmadı**; ilk Mac oturumunda doctor/test/görsel kanıt tamamlanmalı. Ağ/hesap yetkisi/ajan limitleri için sıfır hata garantisi verilemez; somut kurtarma adımları hazırdır.
+
+Kaynaklar: [Codex talimatları](https://learn.chatgpt.com/docs/agent-configuration/agents-md), [Claude talimatları](https://code.claude.com/docs/en/memory), [Claude kurulumu](https://code.claude.com/docs/en/setup), [GitHub giriş](https://cli.github.com/manual/gh_auth_login).

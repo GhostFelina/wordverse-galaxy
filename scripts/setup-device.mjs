@@ -7,14 +7,16 @@ import { spawnSync } from 'node:child_process';
 const start = '<!-- wordverse-routing:start -->';
 const end = '<!-- wordverse-routing:end -->';
 
-export function routeInstructions(previous, projectRoot) {
+export function routeInstructions(previous, projectRoot, agent = 'codex') {
   const block = `${start}
 ## Wordverse projesine devam
-- Kullanıcı "wordverse kaldığın yerden devam et" dediğinde proje: ${JSON.stringify(projectRoot)}.
-- Önce gerçek işletim sistemini ve kabuğu kontrol et, bu dizine geç ve AGENTS.md'yi oku.
+- Kullanıcı "wordverse projemize kaldığımız yerden devam et" veya "wordverse kaldığın yerden devam et" dediğinde proje: ${JSON.stringify(projectRoot)}.
+- Önce gerçek işletim sistemini ve kabuğu kontrol et, bu dizine geç ve ${agent === 'claude' ? 'CLAUDE.md' : 'AGENTS.md'}'yi oku.
 - Kayıtlı yol bu cihazda yoksa Windows yolunu macOS'ta kullanma. Gerçek Masaüstü/Projeler altında mevcut klonu bul; repo https://github.com/GhostFelina/wordverse-galaxy. İlk kurulum için aktif dalın docs/handoff/CROSS_DEVICE.md dosyasını oku.
 - Git durumunu kontrol et; temizse git pull --ff-only yap. Yerel değişiklikleri silme, force/reset kullanma.
 - docs/handoff/HANDOFF.md tek güncel görev kaynağıdır. MASTER_PROMPT.md, KNOWN_ISSUES.md, TASKS.md ve CROSS_DEVICE.md'yi oku. Bitmiş fazları yeniden başlatma.
+- Codex ve Claude aynı Git dalı/devir belgeleriyle sırayla çalışır. Limit yaklaşmadan anlamlı adımları commit/push et; diğer ajanın son işinden devam et. Aktif dal docs/handoff/STATE.json içindedir.
+- npm run doctor ile GitHub okuma/yazma, araç girişleri ve env isimlerini kontrol et. Eksik public env için setup:device kullan; cihaz/sır kopyalama bekleme. Rutin kurulumları ilerlet; hesap girişini kullanıcı tamamlar.
 - Kullanıcıyla Türkçe konuş, yerel uygulamayı 127.0.0.1:5360 üzerinde görünür tarayıcıda aç ve sıradaki görevleri sürdür.
 - Kullanıcı cihazlar arası kurulum ve bu proje yönlendirmesini 2026-10-03'te istedi. Bağımlılıkları bu cihazda yeniden kur; sırları ve tarayıcı verisini Git'e koyma.
 ${end}`;
@@ -50,10 +52,25 @@ export function publicEnvironment(master, previous) {
 }
 
 function run(args, projectRoot) {
-  const executable = platform() === 'win32' ? 'npm.cmd' : 'npm';
   // All arguments here are fixed strings; no secrets or user input enter a shell.
-  const result = spawnSync(executable, args, { cwd: projectRoot, stdio: 'inherit', shell: platform() === 'win32' });
+  const result =
+    platform() === 'win32'
+      ? spawnSync(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `npm ${args.join(' ')}`], {
+          cwd: projectRoot,
+          stdio: 'inherit',
+        })
+      : spawnSync('npm', args, { cwd: projectRoot, stdio: 'inherit' });
   if (result.error || result.status !== 0) throw new Error(`npm ${args.join(' ')} başarısız.`);
+}
+
+export function preparePublicEnvironment(projectRoot) {
+  const envFile = join(projectRoot, '.env.local');
+  const previousEnv = existsSync(envFile) ? readFileSync(envFile, 'utf8') : '';
+  const nextEnv = publicEnvironment(
+    readFileSync(join(projectRoot, 'docs/handoff/MASTER_PROMPT.md'), 'utf8'),
+    previousEnv,
+  );
+  if (nextEnv !== previousEnv) writeFileSync(envFile, nextEnv, { encoding: 'utf8', mode: 0o600 });
 }
 
 export function setupDevice(args = process.argv.slice(2)) {
@@ -68,22 +85,20 @@ export function setupDevice(args = process.argv.slice(2)) {
     existsSync(override) && readFileSync(override, 'utf8').trim() ? override : join(codexDir, 'AGENTS.md');
   const previous = existsSync(instructions) ? readFileSync(instructions, 'utf8') : '';
   const next = routeInstructions(previous, projectRoot);
+  const claudeDir = resolve(process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude'));
+  const claudeFile = join(claudeDir, 'CLAUDE.md');
+  const previousClaude = existsSync(claudeFile) ? readFileSync(claudeFile, 'utf8') : '';
+  const nextClaude = routeInstructions(previousClaude, projectRoot, 'claude');
   console.log(
     `Sistem: ${platform()} ${process.arch}; Node ${process.versions.node}; kabuk: ${process.env.SHELL || process.env.ComSpec || 'terminal'}`,
   );
-  console.log(`Proje: ${projectRoot}\nCodex yönlendirmesi: ${instructions}`);
+  console.log(`Proje: ${projectRoot}\nCodex yönlendirmesi: ${instructions}\nClaude yönlendirmesi: ${claudeFile}`);
   if (args.includes('--dry-run')) {
     console.log('Önizleme: dosya değiştirilmedi, paket kurulmadı.');
     return;
   }
   if (!args.includes('--register-only')) {
-    const envFile = join(projectRoot, '.env.local');
-    const previousEnv = existsSync(envFile) ? readFileSync(envFile, 'utf8') : '';
-    const nextEnv = publicEnvironment(
-      readFileSync(join(projectRoot, 'docs/handoff/MASTER_PROMPT.md'), 'utf8'),
-      previousEnv,
-    );
-    if (nextEnv !== previousEnv) writeFileSync(envFile, nextEnv, { encoding: 'utf8', mode: 0o600 });
+    preparePublicEnvironment(projectRoot);
     run(['ci'], projectRoot);
     if (!args.includes('--skip-browser')) run(['exec', '--', 'playwright', 'install', 'chromium'], projectRoot);
   }
@@ -93,7 +108,13 @@ export function setupDevice(args = process.argv.slice(2)) {
       copyFileSync(instructions, `${instructions}.wordverse-backup`);
     writeFileSync(instructions, next, 'utf8');
   }
-  console.log('Yönlendirme kaydedildi. Yeni Codex oturumunda: wordverse kaldığın yerden devam et');
+  if (nextClaude !== previousClaude) {
+    mkdirSync(claudeDir, { recursive: true });
+    if (existsSync(claudeFile) && !existsSync(`${claudeFile}.wordverse-backup`))
+      copyFileSync(claudeFile, `${claudeFile}.wordverse-backup`);
+    writeFileSync(claudeFile, nextClaude, 'utf8');
+  }
+  console.log('İki ajan yönlendirmesi kaydedildi. Yeni oturumda: wordverse projemize kaldığımız yerden devam et');
   console.log('Yerel görünüm: npm run dev -- --port 5360 (tarayıcı: http://127.0.0.1:5360/)');
 }
 

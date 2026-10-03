@@ -2,6 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { publicEnvironment, routeInstructions } from '../scripts/setup-device.mjs';
 
 describe('cihaz kurulumu veri koruması', () => {
+  it('Claude aynı devam komutuyla kendi başlangıç belgesine yönlenir', () => {
+    const text = routeInstructions(
+      '# Claude kişisel tercihler\n',
+      '/Users/mustafa/Desktop/Projeler/wordverse-galaxy',
+      'claude',
+    );
+    expect(text).toContain("CLAUDE.md'yi oku");
+    expect(text).toContain('wordverse projemize kaldığımız yerden devam et');
+    expect(text).toContain('HANDOFF.md tek güncel görev kaynağıdır');
+    expect(text.startsWith('# Claude kişisel tercihler\n')).toBe(true);
+  });
   it('mevcut global talimatları korur ve taşınan proje yolunu tek blokta günceller', () => {
     const original = '# Tercihler\r\nTürkçe konuş.\r\n';
     const first = routeInstructions(original, 'C:\\Users\\User\\Desktop\\Projeler\\kelime-evreni');

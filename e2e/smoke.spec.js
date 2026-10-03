@@ -87,6 +87,8 @@ for (const [locale, signin, signup, reset, email, password, guest] of [
     await page.locator('#open-account').click();
     const dialog = page.locator('#account-dialog');
     await expect(dialog).toHaveAccessibleName(signin);
+    // A late pageshow/scroll restoration must not steal an opened form's focus.
+    await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent('pageshow')));
     await expect(dialog.getByLabel(email, { exact: true })).toBeFocused();
     await dialog.getByLabel(password, { exact: true }).fill('one');
     await page.keyboard.type('/two');

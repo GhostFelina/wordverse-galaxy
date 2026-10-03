@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 10:47 · codex · son uzak commit `746958f`; bu güncelleme hesap UI entegrasyonu ve cihazlar arası kurulum commit'ine dahildir. Güncel hash: `git log -1 --oneline`. Prod `v1.11.0`.
+2026-10-03 11:12 · codex · son uzak commit `76b039f`; bu güncelleme Codex/Claude cihaz devri ve CI odak düzeltmesi commit'ine dahildir. Güncel hash: `git log -1 --oneline`. Prod `v1.11.0`.
 
 ## Şu an aktif faz ve branch
 
@@ -49,3 +49,11 @@ Faz 0/1 tamamlandı. Faz 2 yaklaşık %60 · `phase/2-auth-sync` · taslak PR #5
 
 - Gerçek MacBook kurulumu, iki fiziksel cihaz senkron kabulü ve prod Faz 2 auth henüz doğrulanmadı.
 - 5.000 kayıt / 60 FPS hedefi ölçülmedi. IndexedDB engelli gerçek tarayıcı senaryosu manuel sınanmadı. KVKK/GDPR uyumu tamamlandı denmez.
+
+## 11:08 cihaz/ajan devri ek durumu
+
+- Son uzak commit 76b039f. Codex/Claude global yönlendirmeleri Windows'ta kaydedildi; doctor push-check tüm kontrolleri geçti. GitHub GhostFelina hesabında pull/push/admin izinleri mevcut. STATE.json aktif dal; SERVICE_ACCESS somut kurulum/giriş rehberidir.
+- setup-mac.sh ilk Mac kurulumu için hazır; gerçek Mac runtime henüz denenmedi. resume:codex / resume:claude aynı güncel HANDOFF ile ajanı proje kökünde açar. İlk cihaz girişlerini kullanıcı tamamlar.
+- 76b039f preview geçti. Gerçek Google, yalnız bulut seçimi, 6 kayıt (3 yıldız/3 gezegen)/2 galaksi ve reload ayrı preview origin'inde doğrulandı; preview-google-synced.png.
+- 76b039f CI TR/ES odak kaybını yakaladı: pageshow gecikmeli scroll reset blur kaldırıldı ve pageshow regression e2e eklendi. 390/768/958 sync/evren düğmesi çakışması giderildi. Yerel 67 unit, tam 28 e2e ve ayrıca dört hesap e2e (yeni toplam 29) geçti. Son push CI sonucu doğrulanmalı.
+11:14 son kabul: 67 birim + 29 tam Playwright, lint/typecheck/build/format geçti. Mac betiği Git Bash bash -n sözdizimi kontrolünü geçti. Chrome ChatGPT eklentisi güncelleme istiyor; son viewport reset çağrısı bu engelden dolayı çalışmadı. Bir sonraki tarayıcı oturumunda geçici viewport override reset edilmeli. Önceki gerçek Google/local/preview kanıtları mevcut; macOS gerçek cihaz testi hâlâ bekliyor.

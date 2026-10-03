@@ -38,7 +38,9 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Misafir modu, IndexedDB birincil depo, kayıpsız merge, offline kuyruk ve soft delete çekirdek/UI bağlandı.
 - [x] Vercel Production/Preview/Development için üç public env adı tanımlandı; .env.local Google flag etkin.
 - [ ] Hesap modunda JSON import/export kabulü, avatar bucket, yedek stratejisi; prod auth duman testi.
-- [~] Windows/Mac devir: CROSS_DEVICE ve taşınabilir setup:device; global Codex Wordverse yönlendirmesi. Gerçek MacBook kurulumu ilk Mac oturumunda doğrulanacak.
+- [x] Windows Codex/Claude ortak yönlendirme ve HANDOFF; iki CLI/giriş ve GitHub pull/push/admin/dry-run doğrulandı. setup:device, doctor, resume komutları ve Mac bootstrap hazırlanıp Windows/sözdizimi kontrolleri geçti.
+- [ ] Gerçek MacBook ilk kurulum: hesap girişleri, doctor push-check, test/görsel doğrulama. CROSS_DEVICE/SERVICE_ACCESS adımlarından ilerle; sırları cihazlar arasında kopyalama.
+- [x] Vercel env'li preview gerçek Google girişinde ayrı origin'den 6 kayıt/2 galaksi, yalnız bulut seçimi ve reload doğrulandı.
 
 ## Faz 3 · `phase/3-profile` · codex/claude
 
