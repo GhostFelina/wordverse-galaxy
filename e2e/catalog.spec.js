@@ -1,13 +1,14 @@
 import { expect, test } from '@playwright/test';
 
+// Each viewport has its own 30s budget: CI uses software WebGL.
 for (const locale of ['tr', 'en', 'es']) {
-  test(`catalog exploration preserves the universe in ${locale}`, async ({ page }) => {
-    const errors = [];
-    page.on('pageerror', (error) => errors.push(error.message));
-    page.on('console', (message) => {
-      if (message.type() === 'error') errors.push(message.text());
-    });
-    for (const width of [1440, 768, 390]) {
+  for (const width of [1440, 768, 390]) {
+    test(`catalog exploration preserves the universe in ${locale} at ${width}`, async ({ page }) => {
+      const errors = [];
+      page.on('pageerror', (error) => errors.push(error.message));
+      page.on('console', (message) => {
+        if (message.type() === 'error') errors.push(message.text());
+      });
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({
         colorScheme: width === 768 ? 'light' : 'dark',
@@ -45,7 +46,7 @@ for (const locale of ['tr', 'en', 'es']) {
       await expect(dialog).not.toBeVisible();
       expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    }
-    expect(errors).toEqual([]);
-  });
+      expect(errors).toEqual([]);
+    });
+  }
 }

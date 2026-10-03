@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 20:05 · Codex / Windows 11 / PowerShell 7.6.6. Aktif iş: Faz 4 görsel katalog, 300 gerçek galaksi ve merkezde kişisel kelime evreni. Yerel son gate: 91 unit / 48 e2e, lint/typecheck/build/format başarılı. Bu checkpoint commit/CI sonucu Git log ve PR #7 üzerinden kontrol edilmeli.
+2026-10-03 20:05 · Codex / Windows 11 / PowerShell 7.6.6. Aktif iş: Faz 4 görsel katalog, 300 gerçek galaksi ve merkezde kişisel kelime evreni. Yerel son gate: 91 unit / 54 e2e, lint/typecheck/build/format başarılı. 59a9eb6 atlas kodu push edildi; Vercel 4J4EpWECbnwxhHzZ7miVvrALuqqo başarılı. CI37139120811 katalog testleri üç viewport toplam 30s sınırını aştığı için başarısız (45/48 geçti). Düzeltme: her dil/viewport ayrı 30s test, 9 katalog senaryosu; assertion/timeout değişmedi. Son test düzeltmesi CI sonucu PR #7 üzerinden kontrol edilmeli.
 
 ## Şu an aktif faz ve branch
 
