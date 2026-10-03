@@ -168,6 +168,42 @@ test('account JSON export and legacy import preserve cloud records, survive relo
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
 });
 
+test('account backup ID conflicts keep both versions through sync and repeat import', async ({ page }) => {
+  const backend = await setupMockAccount(page);
+  await page.goto('/?lang=en');
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  const guestCopy = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  const backup = {
+    version: 4,
+    activeGalaxyId: 'g',
+    galaxies: backend.tables.wordverse_galaxies.map((row) => row.payload),
+    words: [{ ...backend.tables.wordverse_entries[0].payload, meaning: 'historic backup meaning' }],
+    events: [],
+  };
+  const file = {
+    name: 'conflicting-backup.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(backup)),
+  };
+  await page.locator('#import-universe').setInputFiles(file);
+  await expect.poll(() => backend.tables.wordverse_entries.length).toBe(2);
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  const ids = backend.tables.wordverse_entries.map((row) => row.id);
+  expect(backend.tables.wordverse_entries.map((row) => row.payload.meaning)).toEqual(
+    expect.arrayContaining(['guest meaning', 'historic backup meaning']),
+  );
+  await page.reload();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.locator('#import-universe').setInputFiles(file);
+  await expect(page.locator('#toast')).toHaveText('The backup was merged; your existing words were kept.');
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  expect(backend.tables.wordverse_entries.map((row) => row.id)).toEqual(ids);
+  expect(backend.tables.wordverse_galaxies).toHaveLength(1);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+});
+
 test('first account merge preserves both trees, uploads and restores the untouched guest copy on sign-out', async ({
   page,
 }) => {

@@ -72,3 +72,88 @@ test('legacy v2 word arrays remain importable without losing dates or meanings',
     galaxyId: 'galaxy-english',
   });
 });
+
+test('conflicting backup trees preserve both versions and repeated imports reuse the same copies', () => {
+  const current = {
+    version: 4,
+    activeGalaxyId: 'g',
+    galaxies: [{ id: 'g', name: 'Current', language: 'English', meaningLanguage: 'tr' }],
+    words: [{ id: 'w', galaxyId: 'g', word: 'sun', meaning: 'güneş', createdAt: '2026-01-01' }],
+    events: [
+      { id: 'e', type: 'word.created', galaxyId: 'g', wordId: 'w', after: { id: 'w', galaxyId: 'g', word: 'sun' } },
+    ],
+  };
+  const backup = {
+    version: 3,
+    activeGalaxyId: 'g',
+    galaxies: [{ id: 'g', name: 'Historic', language: 'Spanish' }],
+    words: [{ id: 'w', galaxyId: 'g', word: 'luna', meaning: 'ay', createdAt: '2025-01-01', x: 7 }],
+    events: [
+      {
+        id: 'e',
+        type: 'word.created',
+        galaxyId: 'g',
+        wordId: 'w',
+        before: null,
+        after: { id: 'w', galaxyId: 'g', word: 'luna' },
+      },
+    ],
+  };
+  const original = structuredClone(current);
+  const source = JSON.stringify(backup);
+  mergeUniverse(current, backup);
+  const restored = structuredClone(current);
+  const galaxy = current.galaxies[1];
+  const word = current.words[1];
+  expect(current.galaxies[0]).toEqual(original.galaxies[0]);
+  expect(current.words[0]).toEqual(original.words[0]);
+  expect(word).toMatchObject({ galaxyId: galaxy.id, word: 'luna', meaning: 'ay', createdAt: '2025-01-01', x: 7 });
+  expect(current.events[1]).toMatchObject({
+    galaxyId: galaxy.id,
+    wordId: word.id,
+    after: { id: word.id, galaxyId: galaxy.id },
+  });
+  expect(current.activeGalaxyId).toBe('g');
+  mergeUniverse(current, JSON.parse(source));
+  expect(current).toEqual(restored);
+  expect(JSON.stringify(backup)).toBe(source);
+});
+
+test('a changed word in an unchanged galaxy is kept alongside the current word, without property-order duplicates', () => {
+  const current = {
+    version: 4,
+    activeGalaxyId: 'g',
+    galaxies: [{ id: 'g', name: 'English', language: 'English', meaningLanguage: 'tr' }],
+    words: [{ id: 'w', galaxyId: 'g', word: 'light', meaning: 'new meaning' }],
+    events: [],
+  };
+  const backup = {
+    version: 3,
+    galaxies: [{ language: 'English', name: 'English', id: 'g' }],
+    words: [{ meaning: 'old meaning', word: 'light', galaxyId: 'g', id: 'w' }],
+    events: [],
+  };
+  mergeUniverse(current, backup);
+  mergeUniverse(current, backup);
+  expect(current.galaxies).toHaveLength(1);
+  expect(current.words).toHaveLength(2);
+  expect(current.words.map((w) => w.meaning)).toEqual(['new meaning', 'old meaning']);
+  expect(current.words.every((w) => w.galaxyId === 'g')).toBe(true);
+});
+
+test('duplicate IDs reject a malformed backup without partially importing it', () => {
+  const current = { version: 4, galaxies: [], words: [], events: [] };
+  const before = structuredClone(current);
+  expect(() =>
+    mergeUniverse(current, {
+      version: 4,
+      galaxies: [{ id: 'g', name: 'English', language: 'English' }],
+      words: [
+        { id: 'w', galaxyId: 'g', word: 'one', meaning: 'bir' },
+        { id: 'w', galaxyId: 'g', word: 'two', meaning: 'iki' },
+      ],
+      events: [],
+    }),
+  ).toThrow('Duplicate backup IDs');
+  expect(current).toEqual(before);
+});

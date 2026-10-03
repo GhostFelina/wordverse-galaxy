@@ -66,3 +66,11 @@
 - **Bağlam:** İlk giriş merge'i her refresh'te kullanılırsa değişmeyen eski yerel kayıtlar uzaktaki silmeleri diriltebilir. Ağ ve IndexedDB beklenirken kullanıcı düzenlemeye devam edebilir.
 - **Karar:** Baseline'dan üretilen pending kayıtlar yerel niyeti gösterir; pending olmayan kayıtlar taze bulut görünümünü izler. Farklı canlı uzak içerik yeni kimlikle kopyalanır. Galaksi kopyası uzak alt ağacını, kelime kopyası olay referanslarını remap eder. Silinmiş uzak parent altında canlı yerel düzenleme ulaşılabilir kalır. Çakışan settings karşı sürümü kayıpsız metadata arşivinde tutulur. Tek hesap motorunda yerel mutation ve cache save sıraya girer; ağ beklemesi yerel mutation'ı kilitlemez. Refresh yeni outgoing yazıları bekletir. Stop sonrası geç yanıt yayımlanmaz.
 - **Sonuç:** 2026-10-03 birim ve izole gerçek IndexedDB tarayıcı senaryosu geçti. Ana UI entegrasyonu sırasında cache'in gecikmiş görüntüsüyle daha yeni UI düzenlemesi üzerine yazılmamalı; refresh güncellemesi senkron callback ile görünür modele uygulanmalı. Bu çekirdek henüz prod senkron olarak sunulmaz.
+
+
+## ADR-011 — JSON restore çakışmalarını kayıpsız ve tekrar yüklenebilir birleştir
+
+- **Bağlam:** Aynı kimlikli değişmiş eski yedek mevcut kaydı ezmiyordu fakat yedekteki sürüm sessizce atlanıyordu. İlk girişteki kayıpsız merge davranışı JSON restore'a da gerekli.
+- **Karar:** Ortak record-merge çekirdeği, mevcut kimliği korur, farklı gelen kayıt için yeni kimlik üretir ve çocuk/olay snapshot bağlantılarını yeniden bağlar. JSON restore tekrarlarında aynı içerikli conflict kopyası yeniden kullanılır. Bağımsız farklı kimlikli kayıtlar aynı içerik taşısa da silinmez. JSON property sırası/undefined alanları içerik farkı sayılmaz. Önceki ilk giriş davranışındaki seeded galaksi createdAt farkının tek başına conflict sayılmaması korunur; kelime ve olay tarihleri korunur.
+- **Alternatifler:** Eski sürümü atlamak (yedek kaybı), üstüne yazmak (güncel veri kaybı), her yüklemede yeni kopya (kontrolsüz çoğalma).
+- **Sonuç:** Şema değişmez; eski v2/v3 migration sürer. İşlem clone üzerinde tamamlanır; tekrarlı backup kimlikleri atomik reddedilir. 71 unit/37 e2e ve izole misafir UI iki anlam/tekrar import kabulü geçti. Sonradan değiştirilen conflict kopyası ayrı sürüm olarak korunur.
