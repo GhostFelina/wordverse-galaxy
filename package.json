@@ -11,6 +11,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "node scripts/generate-auth-emails.mjs && vite build && node scripts/prerender-locales.mjs && node scripts/verify-static-locales.mjs && node scripts/prerender-legal.mjs",
     "emails:generate": "node scripts/generate-auth-emails.mjs",
+    "emails:check:go": "go run scripts/verify-auth-emails.go",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",

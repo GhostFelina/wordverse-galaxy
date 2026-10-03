@@ -1,4 +1,4 @@
-{{ if eq .Data.ui_locale "en" }}
+{{ $locale := "" }}{{ with .Data }}{{ $locale = printf "%v" .ui_locale }}{{ end }}{{ if eq $locale "en" }}
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wordverse · Welcome to your universe</title></head>
 <body style="margin:0;padding:24px 12px;background:#070d1b;color:#eaf0ff;font-family:Arial,sans-serif">
@@ -11,7 +11,7 @@
 <p style="font-size:12px;line-height:1.6">If the button does not work, copy this link into your browser:<br><a href="{{ .ConfirmationURL }}" style="color:#b8ceff;overflow-wrap:anywhere;word-break:break-all">{{ .ConfirmationURL }}</a></p>
 <hr style="border:0;border-top:1px solid #354968"><p style="font-size:12px;color:#c6d2e9">Every word, a star.</p>
 </td></tr></table></body></html>
-{{ else if eq .Data.ui_locale "es" }}
+{{ else if eq $locale "es" }}
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wordverse · Bienvenido a tu universo</title></head>
 <body style="margin:0;padding:24px 12px;background:#070d1b;color:#eaf0ff;font-family:Arial,sans-serif">

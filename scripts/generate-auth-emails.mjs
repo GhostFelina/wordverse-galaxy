@@ -33,7 +33,7 @@ export async function generateEmails() {
     const branches = ['en', 'es', 'tr']
       .map(
         (locale, index) =>
-          `${index === 0 ? '{{ if eq .Data.ui_locale "en" }}' : index === 1 ? '{{ else if eq .Data.ui_locale "es" }}' : '{{ else }}'}\n${renderEmail(copy[locale], type, locale)}`,
+          `${index === 0 ? '{{ $locale := "" }}{{ with .Data }}{{ $locale = printf "%v" .ui_locale }}{{ end }}{{ if eq $locale "en" }}' : index === 1 ? '{{ else if eq $locale "es" }}' : '{{ else }}'}\n${renderEmail(copy[locale], type, locale)}`,
       )
       .join('');
     await writeFile(resolve(root, `supabase/templates/${type}.html`), `${branches}{{ end }}\n`);

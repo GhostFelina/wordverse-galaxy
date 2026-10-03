@@ -13,3 +13,5 @@ private-backups/
 .vercel
 .env*
 !.env.example
+.tools/
+tests/fixtures/emails/go-rendered/

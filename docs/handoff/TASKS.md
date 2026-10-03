@@ -31,7 +31,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [x] Seri senkron motoru, hesap değişimi sırasında geç istek koruması ve üç taraflı conflict kopyası; 63 birim, izole IDB tarayıcı kontrolü ve 25 Playwright geçti.
 - [x] Hesap oturumu controller'ı, ilk giriş özeti, senkron göstergesi ve main/auth UI bağlantısı. Gerçek Google hesabında 5 kayıt/2 galaksi upload/reload/çıkış/misafire dönüş doğrulandı.
 - [~] Üç dil e-posta kayıt/giriş/doğrulama bildirimi/sıfırlama/çıkış UI yazıldı; Google hazırlık bildirimi var. Gerçek mail/prod auth, OAuth ve URL Configuration henüz doğrulanmadı.
-- [x] Confirmation/recovery üç dil metinleri locales'e, sürümlü Go şablonları supabase/templates'e; altı yerel preview, üç ekran genişliği kontrolü ve tasarım kanıtı. Hosted uygulama/gerçek Go render/mail teslimatı bekliyor.
+- [x] Confirmation/recovery üç dil metinleri locales'e, sürümlü Go şablonları supabase/templates'e; altı yerel preview, üç ekran genişliği kontrolü ve tasarım kanıtı. Yerel html/template 24 senaryo geçti; nil Data/invalid locale hatası düzeltildi ve CI gate eklendi. Hosted uygulama/render/mail teslimatı bekliyor.
 - [ ] Custom SMTP + gerçek mail kabulü: 2026-10-03 Dashboard free planda şablon düzenlemesini custom SMTP/Pro'ya bağlamış. Kullanıcı bu giriş/kurulum adımlarını sonraya bıraktı; ücretli plan açma, sır isteme veya tekrar soru sorma.
 - [~] Üç dil gizlilik/koşullar statik sayfaları hazır; yasal kimlik, saklama ve aktarım güvenceleri tamamlanmalı.
 - [x] Supabase prod Site URL ve altı prod/proje-preview/yerel dönüş kalıbı Dashboard'da kaydedildi.

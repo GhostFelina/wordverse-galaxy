@@ -2,7 +2,7 @@
 
 ## Son güncelleme
 
-2026-10-03 16:56 · Codex / Windows · son doğrulanmış uzak kod `b2d67c2` (CI 37126838495 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
+2026-10-03 17:05 · Codex / Windows · son doğrulanmış uzak kod `9bc7430` (CI 37127884696 ve Vercel preview geçti). Son dokümantasyon hash'i `git log -1 --oneline`; kod kabulünü bu commit ve session kaydı gösterir.
 
 ## Şu an aktif faz ve branch
 
@@ -10,6 +10,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Son oturumda yapılanlar
 
+- Go `html/template` gerçek yerel kontrolü, nil Data hatasını yakaladı; generator güvenli with/Data + string locale ile düzeltildi. `scripts/verify-auth-emails.go`: **24 senaryo geçti** (3 dil ve missing/null/sayı/bool/nesne/dizi, escaped callback). `npm run emails:check:go` CI'a Go 1.27.1 ile eklendi. Hosted SMTP/Auth kabulü değildir. Go fallback TR görsel kanıtı evidence/2026-10-03-email-go-fallback-tr.png.
 - Yeni `src/avatar-storage.ts`: owner UUID/path, JPEG/PNG/WebP magic bytes ve 2 MiB client sınırı, yeni upload/explicit upsert/private Blob download/cache:no-store/tek path remove; işlem öncesi/sonrası getUser ile hesap değişimi koruması, backend detayları yerine stable hata kodları. Henüz profil UI'ına bağlı değil.
 - `npm run test:avatars`: 10 yeni unit ve gerçek SDK/sahte transport fixture. UI'da 6 adım manual geçti; kanıt `evidence/2026-10-03-avatar-sdk-isolated.png`. Gerçek Supabase endpoint/depo/hesap kullanılmadı; **hosted Storage API kabulü hâlâ bekliyor**. Protokol `supabase/checks/AVATAR_API_ACCEPTANCE.md`.
 - Kullanıcı **“Durum Analiz”** istediğinde `| Durum | İş | Sonuç / kalan adım |` tablosu ile güncel biten/süren/kalan iş göster; tercih AGENTS.md ve CLAUDE.md'de kayıtlı. Durum isteği aktif görevi iptal etmez.
@@ -24,7 +25,7 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 ## Yarım kalan iş (somut devam noktaları)
 
 - `supabase/checks/avatar-isolation.sql` yalnız metadata/RLS kabulüdür. Gerçek Storage API upload/upsert/delete ve 2 MiB/MIME reddi henüz denenmedi. SQL DELETE'i storage.protect_delete engeller; korumayı kapatma.
-- `supabase/templates/{confirmation,recovery}.html` hosted SMTP, gerçek Go render ve posta teslimatı bekliyor. `supabase/config.toml` local Docker/Auth runtime sınanmadı; hazır HTML preview teslimat sayılmaz.
+- `supabase/templates/{confirmation,recovery}.html` hosted SMTP, hosted Go render ve posta teslimatı bekliyor; yerel gerçek Go motoru 24 senaryoda geçti. `supabase/config.toml` local Docker/Auth runtime sınanmadı; hazır HTML preview teslimat sayılmaz.
 - CLI/MCP başka Supabase hesabında. Hedef **yalnız mrkmtcpzyvooreeokmkp**. Dashboard'da uygulanan üç migration: `20261002181057_initial_user_data.sql`, `20261003064254_conditional_sync_writes.sql`, `20261003123923_private_avatars.sql`. Doğru hesap erişimi/history repair bekliyor; aynı SQL'i db push ile tekrar uygulama.
 - Google ortak `cortexia-language` consent markası Cortexia adı/linklerini kullanıyor; Wordverse ayrı istemcisi gerçek girişte çalışıyor. Ortak markayı körlemesine değiştirme. Mustafa Kılıç / kopukfad@gmail.com hukuki taslakta; saklama/aktarım güvenceleri ve prod legal URL'leri tamamlanmadı.
 - Gerçek iki fiziksel cihaz senkronu/Mac ortak kurulum ve prod Faz 2 auth kabulü bekliyor. Önce Faz 2 kabulü; sonra Faz 3 profil.
@@ -46,4 +47,4 @@ Faz 0/1 tamamlandı; Faz 2 sürüyor · `phase/2-auth-sync` · geliştirme 1.12.
 
 ## Doğrulanmamış iddialar
 
-Mac runtime, fiziksel iki cihaz, email teslimat/Go render, Storage API dosya kabulü, otomatik yedek/restore, prod Faz 2 auth, gerçek IDB engelli tarayıcı kabulü, KVKK/GDPR uyumu ve 5.000 yıldız FPS hedefi tamamlandı sayılmaz. Mevcut tasarım koyu palet kullanır; açık sistem tema testi açık palet tasarımı anlamına gelmez.
+Mac runtime, fiziksel iki cihaz, email teslimat/hosted Go render, Storage API dosya kabulü, otomatik yedek/restore, prod Faz 2 auth, gerçek IDB engelli tarayıcı kabulü, KVKK/GDPR uyumu ve 5.000 yıldız FPS hedefi tamamlandı sayılmaz. Mevcut tasarım koyu palet kullanır; açık sistem tema testi açık palet tasarımı anlamına gelmez.
