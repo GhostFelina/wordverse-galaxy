@@ -1,8 +1,17 @@
 # Devir durumu
 
+## ▶ Windows'a devir — MacBook durduruldu (2026-10-03)
+
+- Kullanıcının son talimatı: **MacBook'ta dur; bundan sonra Windows'ta devam edilecek.** Mac ajanı işi bıraktı; aynı dalda eşzamanlı Mac geliştirmesi yapılmamalı.
+- Windows'ta mevcut klasörü koru: `C:\Users\User\Desktop\Projeler\kelime-evreni`. Önce `git status`; temiz ağaçta `git fetch origin`, `git switch phase/2-auth-sync`, `git pull --ff-only`. Ardından bu dosyanın kalanını ve `CROSS_DEVICE.md`'yi oku. Kirli ağaçta reset/force yapma.
+- Güncel uygulama tabanı **`76b039f`**: Faz 2 yaklaşık %60, PR #5. Aşağıdaki önceki Windows oturumunun uygulama, test ve canlı Google giriş bilgileri geçerlidir; Mac'te bunlar tekrar doğrulanmadı.
+- Mac oturumu yanlışlıkla eski `main` (`3752ff1`) üzerinden başladı. Alternatif şema/test denemesi kayıp olmaması için **`checkpoint/mac-2026-10-03-paused`**, commit **`0f94672`** altında arşivlendi. **Bu dalı birleştirme, içindeki SQL'i buluta uygulama.** Mevcut Faz 2 istemcisi farklı şema kullanıyor; doğru migration'lar aşağıda listeleniyor.
+- Mac yerel test Supabase'i `wordverse-galaxy` proje kimliğiyle, veriler/yedek korunarak durduruldu. Bulut kayıtlarına ve production'a bu oturumda dokunulmadı. Mac klonu `/Users/felina/Projects/wordverse-galaxy`; node_modules eski main bağımlılıklarıdır, ileride Mac'e dönüşte `npm ci` gereklidir.
+- Windows'un sıradaki işi: aşağıdaki **Yarım kalan iş / Sıradaki ilk 3 adım** listesinden Faz 2 kabulüne devam et. Mac kurulumunu tekrar başlatma. Ayrıntılı Mac kaydı: `sessions/2026-10-03-mac-paused-codex.md`.
+
 ## Son güncelleme
 
-2026-10-03 11:12 · codex · son uzak commit `76b039f`; bu güncelleme Codex/Claude cihaz devri ve CI odak düzeltmesi commit'ine dahildir. Güncel hash: `git log -1 --oneline`. Prod `v1.11.0`.
+2026-10-03 15:37 · codex · uzak Mac devir commit'i `1ebbd1b`, yerel devir/CI düzeltme commit'i `284a6dc` birleştiriliyor; iki tarafın notları korunuyor. Güncel hash: `git log -1 --oneline`. Prod `v1.11.0`.
 
 ## Şu an aktif faz ve branch
 
@@ -57,3 +66,9 @@ Faz 0/1 tamamlandı. Faz 2 yaklaşık %60 · `phase/2-auth-sync` · taslak PR #5
 - 76b039f preview geçti. Gerçek Google, yalnız bulut seçimi, 6 kayıt (3 yıldız/3 gezegen)/2 galaksi ve reload ayrı preview origin'inde doğrulandı; preview-google-synced.png.
 - 76b039f CI TR/ES odak kaybını yakaladı: pageshow gecikmeli scroll reset blur kaldırıldı ve pageshow regression e2e eklendi. 390/768/958 sync/evren düğmesi çakışması giderildi. Yerel 67 unit, tam 28 e2e ve ayrıca dört hesap e2e (yeni toplam 29) geçti. Son push CI sonucu doğrulanmalı.
 11:14 son kabul: 67 birim + 29 tam Playwright, lint/typecheck/build/format geçti. Mac betiği Git Bash bash -n sözdizimi kontrolünü geçti. Chrome ChatGPT eklentisi güncelleme istiyor; son viewport reset çağrısı bu engelden dolayı çalışmadı. Bir sonraki tarayıcı oturumunda geçici viewport override reset edilmeli. Önceki gerçek Google/local/preview kanıtları mevcut; macOS gerçek cihaz testi hâlâ bekliyor.
+
+## 15:37 Windows devam / uzak Mac devrini birleştirme
+
+- Kullanıcının devam talimatı bu Windows oturumunda sürdürülüyor. Uzak 1ebbd1b yalnız Mac pause/devir belgelerini getirdi; mevcut uygulama ve ortak CLI kurulum çalışması 284a6dc korunarak merge edildi. checkpoint/mac-2026-10-03-paused dalı birleştirilmedi, SQL'i uygulanmadı.
+- Mac mevcut /Users/felina/Projects/wordverse-galaxy klonu korunur; kurulum betiği bu konumu da bulur. Mac yeni ortak kurulumu ve Claude yönlendirmesi henüz doğrulanmadı; yalnız eski main denemesi olmuş. Mac'e dönme kullanıcı talimatına bağlıdır.
+- Yerel tam kabul 67 birim + 29 e2e, lint/typecheck/build/format. Windows doctor iki CLI/giriş/yönlendirme ve GitHub push dry-run geçti. Son merge push CI/preview sonucu bekleniyor.

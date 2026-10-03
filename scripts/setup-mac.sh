@@ -43,7 +43,7 @@ command -v claude >/dev/null 2>&1 || npm install -g @anthropic-ai/claude-code
 
 project_dir="$project_parent/wordverse-galaxy"
 found_project=''
-for candidate in "$project_parent"/*; do
+for candidate in "$project_parent"/* "$HOME/Projects/wordverse-galaxy"; do
   [ -d "$candidate" ] || continue
   remote="$(git -C "$candidate" remote get-url origin 2>/dev/null || true)"
   case "$remote" in

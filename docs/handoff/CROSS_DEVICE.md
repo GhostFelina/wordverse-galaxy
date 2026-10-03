@@ -1,5 +1,18 @@
 # Windows / MacBook · Codex / Claude ortak devam düzeni
 
+## Güncel cihaz devri · 2026-10-03
+
+Kullanıcı MacBook çalışmasını durdurdu ve Windows'ta devam edeceğini bildirdi.
+Aktif geliştirme cihazı **Windows**; dal **`phase/2-auth-sync`**. Önce mevcut Windows
+klonunda değişiklikleri koruyarak temiz ağaçta `git fetch origin`,
+`git switch phase/2-auth-sync`, `git pull --ff-only` çalıştır; güncel `HANDOFF.md`
+başındaki Windows devir bloğunu oku. Mac'te geliştirmeyi yeniden başlatma.
+Mac'in yanlış eski main tabanındaki alternatif denemesi yalnız arşiv dalındadır:
+`checkpoint/mac-2026-10-03-paused` (`0f94672`); merge veya cloud migration için kullanma.
+Mac'in yeni yerel test veritabanı yedeği korunarak durduruldu.
+
+Mac mevcut klonu `/Users/felina/Projects/wordverse-galaxy` olarak bildirildi; yeniden Mac'e geçilirse bu mevcut klasörü koru, Masaüstü'ne kendiliğinden taşıma. Aşağıdaki ilk kurulum betiği mevcut `~/Projects/wordverse-galaxy` klonunu da arar. Güncel Windows devir/kurulum commit'lerini pull etmeden eski main/alternatif şemadan devam etme.
+
 ## Ortak görev kaynağı
 
 Repo https://github.com/GhostFelina/wordverse-galaxy; aktif dal `phase/2-auth-sync`. STATE.json makine tarafından okunan dal/faz kaydıdır; HANDOFF.md tek güncel görev kaynağıdır. Faz 0/1 yeniden başlatılmaz. İki ajan da MASTER_PROMPT, HANDOFF, TASKS, KNOWN_ISSUES, DECISIONS ve session dosyalarını kullanır. Codex AGENTS.md, Claude CLAUDE.md aynı belgeleri gösterir.
