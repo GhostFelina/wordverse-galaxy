@@ -1,5 +1,16 @@
 # Windows ↔ MacBook devam düzeni
 
+## Güncel cihaz devri · 2026-10-03
+
+Kullanıcı MacBook çalışmasını durdurdu ve Windows'ta devam edeceğini bildirdi.
+Aktif geliştirme cihazı **Windows**; dal **`phase/2-auth-sync`**. Önce mevcut Windows
+klonunda değişiklikleri koruyarak temiz ağaçta `git fetch origin`,
+`git switch phase/2-auth-sync`, `git pull --ff-only` çalıştır; güncel `HANDOFF.md`
+başındaki Windows devir bloğunu oku. Mac'te geliştirmeyi yeniden başlatma.
+Mac'in yanlış eski main tabanındaki alternatif denemesi yalnız arşiv dalındadır:
+`checkpoint/mac-2026-10-03-paused` (`0f94672`); merge veya cloud migration için kullanma.
+Mac'in yeni yerel test veritabanı yedeği korunarak durduruldu.
+
 ## Tek güncel kaynak
 
 - Repo: https://github.com/GhostFelina/wordverse-galaxy

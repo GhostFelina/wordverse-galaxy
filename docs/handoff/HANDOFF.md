@@ -1,5 +1,14 @@
 # Devir durumu
 
+## ▶ Windows'a devir — MacBook durduruldu (2026-10-03)
+
+- Kullanıcının son talimatı: **MacBook'ta dur; bundan sonra Windows'ta devam edilecek.** Mac ajanı işi bıraktı; aynı dalda eşzamanlı Mac geliştirmesi yapılmamalı.
+- Windows'ta mevcut klasörü koru: `C:\Users\User\Desktop\Projeler\kelime-evreni`. Önce `git status`; temiz ağaçta `git fetch origin`, `git switch phase/2-auth-sync`, `git pull --ff-only`. Ardından bu dosyanın kalanını ve `CROSS_DEVICE.md`'yi oku. Kirli ağaçta reset/force yapma.
+- Güncel uygulama tabanı **`76b039f`**: Faz 2 yaklaşık %60, PR #5. Aşağıdaki önceki Windows oturumunun uygulama, test ve canlı Google giriş bilgileri geçerlidir; Mac'te bunlar tekrar doğrulanmadı.
+- Mac oturumu yanlışlıkla eski `main` (`3752ff1`) üzerinden başladı. Alternatif şema/test denemesi kayıp olmaması için **`checkpoint/mac-2026-10-03-paused`**, commit **`0f94672`** altında arşivlendi. **Bu dalı birleştirme, içindeki SQL'i buluta uygulama.** Mevcut Faz 2 istemcisi farklı şema kullanıyor; doğru migration'lar aşağıda listeleniyor.
+- Mac yerel test Supabase'i `wordverse-galaxy` proje kimliğiyle, veriler/yedek korunarak durduruldu. Bulut kayıtlarına ve production'a bu oturumda dokunulmadı. Mac klonu `/Users/felina/Projects/wordverse-galaxy`; node_modules eski main bağımlılıklarıdır, ileride Mac'e dönüşte `npm ci` gereklidir.
+- Windows'un sıradaki işi: aşağıdaki **Yarım kalan iş / Sıradaki ilk 3 adım** listesinden Faz 2 kabulüne devam et. Mac kurulumunu tekrar başlatma. Ayrıntılı Mac kaydı: `sessions/2026-10-03-mac-paused-codex.md`.
+
 ## Son güncelleme
 
 2026-10-03 10:47 · codex · son uzak commit `746958f`; bu güncelleme hesap UI entegrasyonu ve cihazlar arası kurulum commit'ine dahildir. Güncel hash: `git log -1 --oneline`. Prod `v1.11.0`.
