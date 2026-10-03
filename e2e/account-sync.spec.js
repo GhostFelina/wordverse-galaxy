@@ -411,3 +411,54 @@ test('unavailable account IndexedDB preserves the guest and retries safely when 
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(original);
   expect(backend.tables.wordverse_entries.map((row) => row.payload.word)).toEqual(['cloud star']);
 });
+
+test('account storage write failure keeps the edit in memory without upload and retry makes it durable', async ({
+  page,
+}) => {
+  const backend = await setupMockAccount(page);
+  await page.addInitScript(() => {
+    window.accountWritesBlocked = false;
+    const original = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (...args) {
+      if (this.transaction.db.name === 'wordverse-accounts' && window.accountWritesBlocked)
+        throw new DOMException('Test-only storage quota rejection', 'QuotaExceededError');
+      return original.apply(this, args);
+    };
+  });
+  await page.goto('/?lang=en');
+  const guestCopy = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  const writes = backend.writes();
+  await page.evaluate(() => {
+    window.accountWritesBlocked = true;
+  });
+  await page.locator('#open-add').click();
+  await page.locator('#word-input').fill('retained quota star');
+  await page.locator('#meaning-input').fill('survives retry');
+  await page.locator('#word-form button[type=submit]').click();
+  await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
+  expect(backend.writes()).toBe(writes);
+  await page.locator('#close-detail').click();
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-list')).toContainText('retained quota star');
+  await page.locator('#close-collection').click();
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
+  expect(backend.writes()).toBe(writes);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+  await page.evaluate(() => {
+    window.accountWritesBlocked = false;
+  });
+  await page.locator('#sync-status').click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  expect(
+    backend.tables.wordverse_entries.filter((record) => record.payload.word === 'retained quota star'),
+  ).toHaveLength(1);
+  await page.reload();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.locator('#collection-btn').click();
+  await expect(page.locator('#collection-list')).toContainText('retained quota star');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+});

@@ -29,7 +29,16 @@
   <button id="run">Engellenme ve tekrar denemeyi doğrula</button>
   <p id="state" role="status" aria-live="polite">Hazır</p>
   <ol id="steps"></ol>
+  <h2>Yazma hatası ve kurtarma</h2>
+  <p>
+    Kota hatası yapay olarak üretilir. Gerçek disk kotası tüketilmez; bekleyen kayıt yalnız bu sayfa açıkken bellekte
+    korunur. Başarılı tekrar denemeden önce sayfayı kapatmak güvenli değildir.
+  </p>
+  <button id="run-quota">Yazma hatası ve kurtarmayı doğrula</button>
+  <p id="quota-state" role="status" aria-live="polite">Hazır</p>
+  <ol id="quota-steps"></ol>
   <script type="module">
+    import { AccountSyncEngine } from '/src/sync-engine.ts';
     import { loadAccountCache, saveAccountCache } from '/src/account-cache.ts';
     const state = document.querySelector('#state');
     const steps = document.querySelector('#steps');
@@ -109,6 +118,86 @@
       } finally {
         indexedDB.open = original;
         lateDatabase?.close();
+        event.target.disabled = false;
+      }
+    });
+
+    document.querySelector('#run-quota').addEventListener('click', async (event) => {
+      event.target.disabled = true;
+      const status = document.querySelector('#quota-state');
+      const items = document.querySelector('#quota-steps');
+      items.replaceChildren();
+      function record(message) {
+        const li = document.createElement('li');
+        li.textContent = message;
+        items.append(li);
+      }
+      const name = `wordverse-account-quota-verification-${crypto.randomUUID()}`;
+      const original = IDBObjectStore.prototype.put;
+      let blocked = true;
+      let engine;
+      let writes = 0;
+      try {
+        const cache = {
+          version: 1,
+          ownerId: 'fixture-owner',
+          universe: { version: 4, activeGalaxyId: 'g', galaxies: [{ id: 'g' }], words: [], events: [] },
+          remote: { galaxies: [], words: [], events: [], settings: [] },
+          pending: [],
+          lastSyncedAt: null,
+        };
+        await saveAccountCache(cache, name);
+        IDBObjectStore.prototype.put = function (...args) {
+          if (this.transaction.db.name === name && blocked)
+            throw new DOMException('Test-only quota rejection', 'QuotaExceededError');
+          return original.apply(this, args);
+        };
+        engine = new AccountSyncEngine({
+          client: null,
+          cache,
+          save: (value) => saveAccountCache(value, name),
+          write: async (change) => {
+            writes++;
+            return { status: 'applied', row: { ...change.row, updated_at: '2026-10-03T10:00:00Z' } };
+          },
+        });
+        const universe = engine.snapshot().cache.universe;
+        universe.words.push({ id: 'w', galaxyId: 'g', word: 'quota fixture star' });
+        let rejected = false;
+        try {
+          await engine.update(universe);
+        } catch (error) {
+          rejected = error.name === 'QuotaExceededError';
+        }
+        assert(rejected && engine.snapshot().status === 'error', 'Kota hatası gösterilmedi');
+        record('Yazma hatası başarı olarak gösterilmedi.');
+        await engine.flush();
+        assert(writes === 0, 'Yerel kayıt kalıcı olmadan gönderildi');
+        assert(
+          (await loadAccountCache('fixture-owner', name)).universe.words.length === 0,
+          'Başarısız yazma kalıcı kopyayı değiştirdi',
+        );
+        record('Kalıcı eski kopya korundu; gönderim sayısı 0.');
+        assert(
+          engine.snapshot().cache.universe.words[0].word === 'quota fixture star',
+          'Bellekteki değişiklik kayboldu',
+        );
+        record('Yeni kayıt ve bekleyen işlemler bellekte tutuldu.');
+        blocked = false;
+        await engine.flush();
+        assert(engine.snapshot().status === 'synced' && writes > 0, 'Tekrar deneme bitmedi');
+        const restored = await loadAccountCache('fixture-owner', name);
+        assert(
+          restored.universe.words[0].word === 'quota fixture star' && restored.pending.length === 0,
+          'Yeni kayıt kalıcı depoda korunmadı',
+        );
+        record('Erişim geri gelince gerçek IndexedDB kaydı ve yapay gönderim tamamlandı.');
+        status.textContent = '4 yazma kontrolü geçti · gerçek disk kotası kabulü değildir';
+      } catch (error) {
+        status.textContent = `Kontrol başarısız: ${error.message}`;
+      } finally {
+        IDBObjectStore.prototype.put = original;
+        engine?.stop();
         event.target.disabled = false;
       }
     });
