@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wordverse · Kelime yıldızı</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #000;
+        color: #dbe5f5;
+        font: 13px system-ui;
+      }
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+      nav {
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button {
+        background: #0a101c;
+        color: #dbe5f5;
+        border: 1px solid #30425e;
+        padding: 10px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 2px solid #bed8ff;
+      }
+      footer {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        max-width: 420px;
+        line-height: 1.6;
+        color: #90a3bd;
+      }
+      strong {
+        color: #eff4ff;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="star-lab" aria-label="Kelime yıldızı ve Orion kalite sahnesi"></canvas>
+    <nav aria-label="Yıldız görüşleri">
+      <button id="far">En uzak</button><button id="home">Genel</button><button id="focus">Yaklaş</button
+      ><button id="close">Yüzey</button><button id="side">Yanından geç</button><button id="passed">Arkasında</button
+      ><button id="freeze">Hareket</button>
+    </nav>
+    <footer>
+      <strong>Wordverse / kelime yıldızı</strong><br />Tek yıldız ailesi · beyaz sıcak ışık · granülasyon · ince
+      korona<br /><span id="star-state"></span><br />Prosedürel görselleştirme. Kullanıcı kaydı oluşturmaz.
+    </footer>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createWordStarSystem } from '/src/word-star-system.js';
+      import { createNebulaSystem } from '/src/nebula-system.js';
+      const canvas = document.querySelector('canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setClearColor(0, 1);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100000);
+      const gas = createNebulaSystem(scene, camera, { fieldStars: false });
+      const stars = createWordStarSystem(scene);
+      stars.setEntries([{ id: 'quality-star', x: 31, y: 0, z: 18 }]);
+      const views = {
+        far: [0, 0, 160],
+        home: [0, 0, 160],
+        focus: [31, 0, 21.15],
+        close: [31, 0, 19.3],
+        side: [32.2, 0, 18.4],
+        passed: [32.2, 0, 17],
+      };
+      let shot = 'home',
+        moving = !matchMedia('(prefers-reduced-motion:reduce)').matches;
+      for (const name of Object.keys(views))
+        document.getElementById(name).onclick = () => {
+          shot = name;
+        };
+      document.querySelector('#freeze').onclick = () => {
+        moving = !moving;
+      };
+      renderer.setAnimationLoop((ms) => {
+        if (document.hidden) return;
+        camera.position.fromArray(views[shot]);
+        camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+        camera.updateMatrixWorld();
+        gas.update(moving ? ms * 0.001 : 0, renderer.getPixelRatio(), innerHeight);
+        stars.update(moving ? ms * 0.001 : 0, camera, innerHeight, renderer.getPixelRatio(), {
+          selectedId: shot === 'focus' ? 'quality-star' : null,
+        });
+        renderer.render(scene, camera);
+        gas.render(renderer);
+        canvas.dataset.ready = String(gas.ready);
+        canvas.dataset.shot = shot;
+        canvas.dataset.diameter = String(stars.state('quality-star').diameter);
+        canvas.dataset.detail = String(stars.state('quality-star').blend);
+        canvas.dataset.refined = String(gas.refined);
+        document.querySelector('#star-state').textContent =
+          `${stars.state('quality-star').diameter.toFixed(1)} px yüzey · ${renderer.info.render.calls} son geçiş draw call`;
+      });
+      addEventListener('resize', () => {
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+      });
+      addEventListener(
+        'pagehide',
+        () => {
+          renderer.setAnimationLoop(null);
+          stars.dispose();
+          gas.dispose();
+          renderer.dispose();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>

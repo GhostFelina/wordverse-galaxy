@@ -513,7 +513,7 @@
   "nebulaTravel": {
     "title": "Nebulosa de Orión · M42",
     "close": "Cerrar",
-    "guide": "Usa la rueda para entrar en el gas o salir. Arrastra para cambiar de dirección. Las imágenes Hubble y posiciones Gaia son observadas; la profundidad del gas y las estrellas se reconstruye para la visualización.",
+    "guide": "Usa la rueda para entrar en el gas o salir. Arrastra para cambiar de dirección. Las texturas de Orión usan observaciones Hubble; la profundidad del gas se reconstruye. Solo tus palabras añadidas aparecen como estrellas independientes en esta escena.",
     "overview": "Vista inicial",
     "approach": "Acercarse a Orión",
     "band": "Banda de observación",

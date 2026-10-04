@@ -1,5 +1,8 @@
 # Bilinen sorunlar
 
+- Güncel üretim sahnesi Orion ve yalnız kelime yıldızlarıdır; ayrı cosmic/Gaia/Trapezium/dekoratif demo yıldızları kaldırıldı. Orion gözlem dokusundaki ışık noktaları dokuya gömülüdür. Kelime yüzeyi prosedüreldir; gazla tam fiziksel ışık sönümü ve gerçek mobil GPU FPS ölçümü açık. En uzak kamera 160, wheel 0.75.
+- Önceki bea8bd7/6dba3c4 CI başarısızdı; son test ve CI durumu HANDOFF/STATE üstünde takip edilir.
+
 - Aktif sahne yalnız Orion ve yıldızlar. 8K optik doku gerçek 10K gözlem kaynağından türetilmiştir. Hareket sırasında framebuffer cihaz bütçesine göre düşebilir; kamera durunca viewport çözünürlüğüne (1920 px sınırı) ve 32 gaz adımına döner. 96³ yoğunluk/ince sırt örneklemesi çizgilenmeyi azaltır, modellenmiş iç gaz gözlemsel 8K tomografi değildir. Uzun iç uçuşta gaz ayrıntısı ve gerçek mobil GPU kalitesi için kullanıcı kabulü bekliyor.
 - Orion gaz ve yıldız derinliği sanatsal modeldir; Gaia–Hubble WCS hizalama ve tam gaz-yıldız ışık sönümü açık. Mobil gerçek donanımda FPS ölçümü tamamlanmadı.
 

@@ -1,14 +1,12 @@
-import { createCosmicField } from './cosmic-field.js';
 import * as THREE from 'three';
 import './style.css';
 import { createRenderQuality } from './render-quality.js';
-import { createPremiumBodies } from './premium-bodies.js';
+import { createWordStarSystem, wordStarPosition, WORD_STAR_RADIUS } from './word-star-system.js';
 import { createNebulaSystem } from './nebula-system.js';
 import { mountNebulaUI } from './nebula-ui.js';
 import { nebulaBackPlane } from './nebula-layout.js';
-import { createExperienceMode, createSceneSlot } from './experience-mode.js';
+import { createExperienceMode } from './experience-mode.js';
 import { mountExperienceUI } from './experience-ui.js';
-import { coreOrbit } from './local-galaxy-layout.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
@@ -39,9 +37,8 @@ let toastTimer;
 let renderer, scene, camera, wordGroup;
 const worldStars = new Map();
 const starNodes = new Map();
-const DENSE_STAR_THRESHOLD = 80;
-let denseStarMeshes = null;
-const denseMatrix = new THREE.Matrix4();
+let wordStarSystem;
+let hoveredStarId = null;
 let lastOverlayUpdate = -Infinity;
 let lastCameraMs = 0;
 let lastSceneReport = 0;
@@ -49,15 +46,12 @@ const pointer = { x: 0, y: 0 };
 const pan = { x: 0, y: 0 };
 let zoom = 160;
 let catalogDepth = 0;
-let cosmicField;
 let nebulaSystem, nebulaUI, travelingNebula = null;
 let renderQuality;
 let catalogReady = false;
 let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
 let experienceUI;
-let showcaseScene = null;
-const showcaseSlot = createSceneSlot();
 let experienceKey = '';
 const experience = createExperienceMode({ guestCount: universe.words.length, onChange: applyExperience });
 function syncRenderLoop() {
@@ -81,22 +75,14 @@ function applyExperience(state) {
   focusedStarId = selectedId = null;
   closePanels();
   
-  showcaseSlot.clear();
-  showcaseScene = null;
   rebuildWordStars();
-  if (state.mode === 'showcase-demo' && scene) {
-    showcaseSlot.replace(async () => {
-      const { createShowcaseScene } = await import('./showcase-scene.js');
-      return createShowcaseScene(scene, camera);
-    }).then(value => { if (value) showcaseScene = value; }).catch(error => console.error('Showcase initialization failed', error));
-  }
 }
 
 let preImmersiveZoom = null;
 let focusedStarId = null;
 let preFocusPan = null;
 const MIN_ZOOM = 19;
-const MAX_ZOOM = 50000;
+const MAX_ZOOM = 160;
 let dragging = false;
 let moved = false;
 let dragStart = null;
@@ -106,23 +92,12 @@ let clock = 0;
 let fpsFrames = 0;
 let fpsLast = 0;
 let drawCalls = 0;
-let lastStarAgeDay = Math.floor(Date.now() / 86400000);
-const STAR_PATTERNS = [
-  [[0, 0], [-3.8, 3.4], [4.2, 3.6], [-2.2, -.3], [2.4, -.8], [-4.8, -5.8], [5.2, -5.3]],
-  [[-7, 2.8], [-3.4, -.8], [0, 2.4], [3.5, -1.1], [7, 2.5], [-1.8, -5.3], [4.8, -5.2]],
-  [[-2.9, 2.9], [2.4, 3.6], [-4.8, -.5], [0, 0], [4.9, -.8], [-1.9, -4.9], [2.2, -4.1]],
-  [[0, 5.4], [-4.4, 1.8], [4.3, 1.4], [0, -2.1], [-6.3, -3.7], [5.6, -4.8], [1.4, -6.9]],
-];
-let birthMap;
-let starCoreMap;
-let planetGeometry, ringGeometry;
 const MEANING_LANGUAGES = new Set(['tr', 'en', 'es']);
 const languageDisplay = value => value === 'İngilizce' || value === 'English' ? t('names.language.en') : value === 'İspanyolca' || value === 'Spanish' ? t('names.language.es') : value === 'Türkçe' || value === 'Turkish' ? t('names.language.tr') : value || t('message.languageFallback');
 const galaxyDisplay = galaxy => galaxy?.id === 'galaxy-english' && galaxy.name === 'İngilizce Galaksisi' ? t('names.defaultGalaxy.english') : galaxy?.id === 'galaxy-spanish' && galaxy.name === 'İspanyolca Galaksisi' ? t('names.defaultGalaxy.spanish') : galaxy?.name || t('message.galaxyFallback');
 const meaningLanguageLabel = galaxy => t('panel.meaningOf', { language: t(`names.language.${MEANING_LANGUAGES.has(galaxy?.meaningLanguage) ? galaxy.meaningLanguage : 'tr'}`).toLocaleUpperCase(uiLocale) });
 const typeLabel = (galaxy, kind = 'word') => t(kind === 'conjunction' ? 'panel.conjunctionType' : 'panel.wordType', { language: languageDisplay(galaxy?.language).toLocaleUpperCase(uiLocale) });
 const starStageLabel = appearance => t(`names.stage.${appearance.stageId}`);
-const planetMaps = new Map();
 const births = [];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -171,100 +146,14 @@ function refreshCounts() {
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
 }
 
-function hashText(value) { let hash = 0; for (const char of String(value ?? 'empty-universe')) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return hash; }
-function random(seed) { let n = seed >>> 0; return () => { n = (1664525 * n + 1013904223) >>> 0; return n / 4294967296; }; }
-function glowTexture() {
-  const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
-  const ctx = canvas.getContext('2d');
-  const g = ctx.createRadialGradient(128, 128, 2, 128, 128, 128);
-  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.05, 'rgba(255,255,255,.9)'); g.addColorStop(.15, 'rgba(255,255,255,.35)'); g.addColorStop(.48, 'rgba(255,255,255,.07)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256);
-  return new THREE.CanvasTexture(canvas);
-}
-
-function starCoreTexture() {
-  const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
-  const ctx = canvas.getContext('2d');
-  ctx.translate(128, 128);
-  for (const [angle, length, width, alpha] of [[0, 96, 1.6, .48], [Math.PI / 2, 96, 1.6, .48], [Math.PI / 4, 49, .8, .2], [-Math.PI / 4, 49, .8, .2]]) {
-    ctx.save(); ctx.rotate(angle); ctx.shadowColor = 'white'; ctx.shadowBlur = 13;
-    const ray = ctx.createLinearGradient(-length, 0, length, 0);
-    ray.addColorStop(0, 'rgba(255,255,255,0)'); ray.addColorStop(.5, `rgba(255,255,255,${alpha})`); ray.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.strokeStyle = ray; ctx.lineWidth = width; ctx.beginPath(); ctx.moveTo(-length, 0); ctx.lineTo(length, 0); ctx.stroke(); ctx.restore();
-  }
-  const core = ctx.createRadialGradient(0, 0, 0, 0, 0, 34);
-  core.addColorStop(0, 'rgba(255,255,255,1)'); core.addColorStop(.11, 'rgba(255,255,255,1)'); core.addColorStop(.25, 'rgba(255,255,255,.64)'); core.addColorStop(.53, 'rgba(255,255,255,.13)'); core.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = core; ctx.fillRect(-128, -128, 256, 256);
-  for (const [radius, alpha] of [[28, .105], [42, .042], [60, .018]]) {
-    ctx.strokeStyle = `rgba(225,238,255,${alpha})`;
-    ctx.lineWidth = radius === 28 ? 1.5 : 1;
-    ctx.beginPath(); ctx.arc(0, 0, radius, 0, Math.PI * 2); ctx.stroke();
-  }
-  return new THREE.CanvasTexture(canvas);
-}
 function planetType(word) {
   if (PLANET_TYPES.includes(word.planetType)) return word.planetType;
   let hash = 0; for (const char of word.id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
   return PLANET_TYPES[hash % PLANET_TYPES.length];
 }
-function planetMap(type) {
-  if (!planetMaps.has(type)) {
-    const ready = { value: 0 };
-    const texture = new THREE.TextureLoader().load(`/assets/planets/${type}.jpg`, () => { ready.value = 1; });
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-    planetMaps.set(type, { texture, ready });
-  }
-  return planetMaps.get(type);
-}
-function makePlanet(type) {
-  if (!planetGeometry) planetGeometry = new THREE.SphereGeometry(1, 32, 24);
-  if (!ringGeometry) ringGeometry = new THREE.RingGeometry(1.52, 2.45, 72, 1);
-  const ringed = type === 'saturn' || type === 'uranus';
-  const { texture, ready } = planetMap(type);
-  const baseColors = { mercury: '#a29d96', venus: '#cfb896', earth: '#9bb9d0', mars: '#b27656', jupiter: '#b5a18b', saturn: '#bfb5a2', uranus: '#a6c9ce', neptune: '#648bbd' };
-  const color = new THREE.Color(baseColors[type]);
-  const material = new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: color }, uMap: { value: texture }, uReady: ready, uLight: { value: new THREE.Vector3(-.55, .38, 1.25) } },
-    vertexShader: 'varying vec3 vNormal;varying vec2 vUv;void main(){vNormal=normal;vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-    fragmentShader: 'uniform vec3 uColor;uniform sampler2D uMap;uniform float uReady;uniform vec3 uLight;varying vec3 vNormal;varying vec2 vUv;void main(){vec3 n=normalize(vNormal);float day=max(0.0,dot(n,normalize(uLight)));float shade=.22+.9*pow(day,.72);vec3 albedo=mix(uColor,texture2D(uMap,vUv).rgb,uReady);float rim=pow(1.0-max(0.0,n.z),3.0)*.16*day;vec3 c=albedo*shade+vec3(.2,.32,.42)*rim;gl_FragColor=vec4(c,1.0);}',
-  });
-  const orbit = new THREE.Group();
-  const body = new THREE.Mesh(planetGeometry, material);
-  const radius = ({ jupiter: .94, saturn: .87, uranus: .76, neptune: .76, earth: .74, venus: .72, mars: .68, mercury: .62 })[type];
-  body.scale.setScalar(radius); orbit.add(body);
-  if (ringed) {
-    const ring = new THREE.Mesh(ringGeometry, new THREE.ShaderMaterial({
-      vertexShader: 'varying vec2 vRing;void main(){vRing=position.xy;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-      fragmentShader: 'varying vec2 vRing;void main(){float r=length(vRing);float bands=.5+.5*sin(r*46.0);float gap=smoothstep(.025,.085,abs(r-1.94));float edge=smoothstep(1.52,1.7,r)*(1.0-smoothstep(2.25,2.45,r));float alpha=(.11+bands*.17)*gap*edge;gl_FragColor=vec4(vec3(.58,.54,.49),alpha);}',
-      transparent: true, side: THREE.DoubleSide, depthWrite: false,
-    }));
-    ring.scale.setScalar(radius); ring.rotation.set(1.13, -.18, -.3); orbit.add(ring);
-  }
-  const reflectedLight = sprite(color, 5.5, .32);
-  reflectedLight.position.z = -.18;
-  orbit.add(reflectedLight);
-  orbit.userData.orbitRadius = ringed ? 6.6 : 5.8;
-  orbit.userData.orbitSpeed = ringed ? .16 : .21;
-  orbit.userData.type = type;
-  return orbit;
-}
-function birthTexture() {
-  const canvas = document.createElement('canvas'); canvas.width = canvas.height = 256;
-  const ctx = canvas.getContext('2d');
-  const halo = ctx.createRadialGradient(128, 128, 57, 128, 128, 93);
-  halo.addColorStop(0, 'rgba(255,255,255,0)'); halo.addColorStop(.4, 'rgba(255,255,255,.14)'); halo.addColorStop(.57, 'rgba(255,255,255,.75)'); halo.addColorStop(.7, 'rgba(255,255,255,.12)'); halo.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = halo; ctx.fillRect(0, 0, 256, 256);
-  return new THREE.CanvasTexture(canvas);
-}
-let glowMap;
-function sprite(color, size, opacity = 1, map = glowMap) {
-  const material = new THREE.SpriteMaterial({ map, color, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false });
-  const mesh = new THREE.Sprite(material); mesh.scale.set(size, size, 1); return mesh;
-}
 function initScene() {
   try {
-    renderer = new THREE.WebGLRenderer({ canvas: $('#universe'), antialias: false, alpha: false, powerPreference: 'high-performance' });
+    renderer = new THREE.WebGLRenderer({ canvas: $('#universe'), antialias: true, alpha: false, powerPreference: 'high-performance' });
   } catch {
     showToast(t('message.webglError'));
     return;
@@ -280,102 +169,62 @@ function initScene() {
     $('#universe').dataset.renderDpr = String(ratio);
   } });
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 100000);
+  camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
-  cosmicField = createCosmicField(scene, innerWidth < 760);
-  nebulaSystem = createNebulaSystem(scene, camera, { compact: innerWidth < 760 });
+  nebulaSystem = createNebulaSystem(scene, camera, { compact: innerWidth < 760, fieldStars: false });
   nebulaUI = mountNebulaUI({ locale: uiLocale, records: nebulaSystem.records, beforeOpen: closePanels,
     onFocus(record) { travelToNebula(record); zoom = Math.min(zoom, 160 - catalogDepth); },
     onOverview() { closePanels(); focusedStarId = null; travelingNebula = null; nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
   });
   $('#universe').dataset.sceneMode = 'orion-and-stars';
+  $('#universe').dataset.backgroundStars = '0';
+  $('#universe').dataset.wheelSpeed = '0.75';
+  $('#universe').dataset.maxCameraZ = String(MAX_ZOOM);
   for (const key of ['galaxies', 'nebulae', 'asteroids', 'fireballs']) $('#universe').dataset[key] = '0';
   $('#universe').dataset.nebulae = String(nebulaSystem.records.length);
   $('#universe').dataset.celestialStage = '0';
   catalogReady = true;
   syncRenderLoop();
-  $('#universe').dataset.starCapacity = String(cosmicField.capacity);
-  glowMap = glowTexture();
-  starCoreMap = starCoreTexture();
-  planetGeometry = new THREE.SphereGeometry(1, 32, 24);
-  ringGeometry = new THREE.RingGeometry(1.52, 2.45, 72, 1);
-  birthMap = birthTexture();
+  $('#universe').dataset.starCapacity = '0';
   wordGroup = new THREE.Group(); scene.add(wordGroup);
+  wordStarSystem = createWordStarSystem(wordGroup);
   rebuildWordStars();
   // Start the GPU loop after catalog initialization to avoid starving cold module loads.
 }
 function spawnBirth(id) {
-  const group = worldStars.get(id); if (!group || !birthMap) return;
-  const ring = new THREE.Sprite(new THREE.SpriteMaterial({ map: birthMap, color: 0xe9f3ff, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false }));
-  ring.scale.set(4, 4, 1); group.add(ring);
-  births.push({ ring, group, start: clock });
+  if (worldStars.has(id) && !reducedMotion) births.push({ id, start: clock });
 }
 function rebuildWordStars() {
-  if (!wordGroup) return;
-  for (const birth of births) { birth.group.remove(birth.ring); birth.ring.material.dispose(); }
+  if (!wordGroup || !wordStarSystem) return;
   births.length = 0;
-  for (const group of worldStars.values()) { group.userData.premium?.dispose(); group.traverse(obj => { if (obj.material) obj.material.dispose(); }); wordGroup.remove(group); }
-  if (denseStarMeshes) {
-    for (const mesh of Object.values(denseStarMeshes)) { wordGroup.remove(mesh); mesh.material.dispose(); mesh.dispose?.(); }
-    denseStarMeshes.outer.geometry.dispose();
-    denseStarMeshes = null;
-  }
+  hoveredStarId = null;
+  for (const group of worldStars.values()) wordGroup.remove(group);
   worldStars.clear();
   $('#star-layer').replaceChildren(); starNodes.clear();
   lastOverlayUpdate = -Infinity;
   const policy = experience.snapshot();
-  if (!policy.ready || policy.mode === 'showcase-demo') return;
-  const visibleWords = words.filter(word => entryKind(word) === 'word');
-  if (visibleWords.length > DENSE_STAR_THRESHOLD) {
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    const layer = (map, opacity) => {
-      const material = new THREE.MeshBasicMaterial({ map, color: 0xffffff, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false });
-      const mesh = new THREE.InstancedMesh(geometry, material, visibleWords.length);
-      mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-      mesh.frustumCulled = false;
-      wordGroup.add(mesh);
-      return mesh;
-    };
-    denseStarMeshes = { outer: layer(glowMap, .32), inner: layer(glowMap, .74), center: layer(starCoreMap, 1) };
-  }
-  const oldestStars = words.filter(w => entryKind(w) === 'word');
-  const starOrdinals = new Map(oldestStars.map((star, ordinal) => [star.id, ordinal]));
-  const oldestPair = oldestStars.length >= 2 ? [...oldestStars].sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0) || starOrdinals.get(a.id) - starOrdinals.get(b.id)).slice(0, 2) : [];
-  visibleWords.forEach((word, index) => {
-    const group = new THREE.Group(); group.position.set(word.x, word.y, word.z || 18);
-    const isPlanet = entryKind(word) === 'conjunction';
-    const appearance = starAge(word.createdAt);
-    const tint = new THREE.Color(appearance.glow);
-    let hash = 0; for (const char of word.id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
-    const magnitude = .66 + hash % 100 / 100 * .62;
-    const outer = null, inner = null, center = null, glint = null;
-    const premium = !denseStarMeshes ? createPremiumBodies(group, { kind: isPlanet ? 'planet' : 'star', planetType: isPlanet ? planetType(word) : undefined, radius: 2.35 * magnitude * appearance.size, seed: hash % 1000, geometry: personalBodyGeometry }) : null;
-    const core = coreOrbit(word, words.length);
-    const radius = core.radius;
-    if (outer) group.add(outer, inner, center);
-    if (glint) group.add(glint);
-    const planet = isPlanet && !premium ? makePlanet(planetType(word)) : null;
-    if (planet) { planet.scale.setScalar(2.25); group.add(planet); }
-    if (denseStarMeshes && !isPlanet) {
-      denseStarMeshes.outer.setColorAt(index, tint);
-      denseStarMeshes.inner.setColorAt(index, tint);
-      denseStarMeshes.center.setColorAt(index, new THREE.Color(appearance.color));
-    }
-    const stellarIndex = starOrdinals.get(word.id) ?? -1;
-    const cluster = stellarIndex >= 2 ? Math.floor((stellarIndex - 2) / 7) : -1;
-    group.userData = { premium, outer, inner, center, glint, planet, isPlanet, index, magnitude, appearanceSize: appearance.size, radius, phase: core.phase, z: word.z || 18, speed: cluster >= 0 ? .068 / (1 + cluster * .2) + (index % 3) * .0004 : .095 / (1 + radius * .024), appearanceDay: appearance.ageDays, word, binarySlot: isPlanet ? -1 : oldestPair.findIndex(w => w.id === word.id) };
+  const visibleWords = policy.ready && policy.mode !== 'showcase-demo' ? words.filter(word => entryKind(word) === 'word') : [];
+  wordStarSystem.setEntries(visibleWords);
+  visibleWords.forEach(word => {
+    const group = new THREE.Group(); group.position.copy(wordStarPosition(word));
+    group.userData = { word, binarySlot: -1 };
     wordGroup.add(group); worldStars.set(word.id, group);
-    const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button'; button.setAttribute('aria-label', t(isPlanet ? 'message.openPlanet' : 'message.openStar', { word: word.word }));
+    const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button';
+    button.dataset.wordId = word.id;
+    button.setAttribute('aria-label', t('message.openStar', { word: word.word }));
     button.addEventListener('click', () => selectWord(word.id));
+    button.addEventListener('pointerenter', () => { hoveredStarId = word.id; });
+    button.addEventListener('pointerleave', () => { if (hoveredStarId === word.id) hoveredStarId = null; });
+    button.addEventListener('focus', () => { hoveredStarId = word.id; });
+    button.addEventListener('blur', () => { hoveredStarId = null; });
     const label = document.createElement('div'); label.className = 'star-label';
     const name = document.createElement('b'); name.textContent = word.word;
     label.append(name); $('#star-layer').append(button, label);
     starNodes.set(word.id, { button, label });
   });
-  if (denseStarMeshes) for (const mesh of Object.values(denseStarMeshes)) mesh.instanceColor.needsUpdate = true;
-  $('#universe').dataset.personalRenderer = denseStarMeshes ? 'instanced-dense' : 'premium-surface';
+  $('#universe').dataset.personalRenderer = 'premium-surface';
+  $('#universe').dataset.wordStarSystem = 'shared-photosphere-v1';
 }
-const personalBodyGeometry = new THREE.SphereGeometry(1, 48, 32);
 const projected = new THREE.Vector3();
 function animate(ms) {
   if (document.hidden) { lastCameraMs = 0; return; }
@@ -406,7 +255,6 @@ function animate(ms) {
   camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
   camera.lookAt(camera.position.x, camera.position.y - descent * 18, camera.position.z - 100);
   camera.updateMatrixWorld();
-  cosmicField.update(camera);
   const nebulaStatus = nebulaSystem.update(drift,renderer.getPixelRatio(),innerHeight);
   $('#universe').dataset.nebulaReady = String(nebulaSystem.ready);
   $('#universe').dataset.nebulaTextureResolution = String(nebulaSystem.textureResolution);
@@ -425,96 +273,36 @@ function animate(ms) {
   $('#universe').dataset.cameraY = String(camera.position.y);
   const visibleGalaxies = 0;
   const policy = experience.snapshot();
-  wordGroup.visible = policy.ready && policy.mode !== 'showcase-demo' && (!denseStarMeshes || camera.position.z < 12000);
-  showcaseScene?.update(reducedMotion ? 0 : clock, innerHeight, renderer.getPixelRatio());
+  wordGroup.visible = policy.ready && policy.mode !== 'showcase-demo' && camera.position.z < 90000;
   wordGroup.rotation.z = 0;
   if (ms - lastSceneReport > 100) { lastSceneReport = ms; $('#universe').dataset.cameraZ = String(camera.position.z); $('#universe').dataset.visibleGalaxies = String(visibleGalaxies); }
-  for (let i = births.length - 1; i >= 0; i--) {
-    const birth = births[i]; const age = clock - birth.start;
-    if (age > 2.3) { birth.group.remove(birth.ring); birth.ring.material.dispose(); births.splice(i, 1); continue; }
-    const t = age / 2.3;
-    birth.ring.scale.setScalar(4 + t * 43);
-    birth.ring.material.opacity = (1 - t) * (1 - t) * .9;
-  }
-  const today = Math.floor(Date.now() / 86400000);
-  const refreshStarAge = today !== lastStarAgeDay;
-  if (refreshStarAge) lastStarAgeDay = today;
-  const updateOverlays = !denseStarMeshes || ms - lastOverlayUpdate >= 33;
+  for (let i = births.length - 1; i >= 0; i--) if (clock - births[i].start > 1.4) births.splice(i, 1);
+  const birth = births.at(-1);
+  wordStarSystem.update(drift, camera, innerHeight, renderer.getPixelRatio(), {
+    selectedId, hoveredId: hoveredStarId, birthId: birth?.id,
+    birthStrength: birth ? Math.sin(Math.PI * Math.min(1, (clock - birth.start) / 1.4)) : 0,
+  });
+  const updateOverlays = words.length <= 80 || ms - lastOverlayUpdate >= 33;
   if (updateOverlays) lastOverlayUpdate = ms;
   for (const [id, group] of worldStars) {
-    const orbit = group.userData;
-    if (orbit.binarySlot >= 0) {
-      const cx = 31;
-      const cy = 0;
-      const binaryAngle = drift * .52 + orbit.binarySlot * Math.PI;
-      const binaryRadius = orbit.binarySlot === 0 ? 5.63 : 6.37;
-      group.position.set(cx + Math.cos(binaryAngle) * binaryRadius, cy + Math.sin(binaryAngle) * binaryRadius * .72, 18 + Math.sin(binaryAngle) * 1.1);
-      if (orbit.outer) orbit.outer.material.opacity = .39 + Math.sin(drift * 3.1 + orbit.binarySlot * 2.3) * .075;
-    } else {
-      const angle = orbit.phase + drift * orbit.speed;
-      const wobble = Math.sin(angle * 3 + orbit.index) * orbit.radius * .018;
-      const radius = orbit.radius + wobble;
-      const ox = Math.cos(angle) * radius, oy = Math.sin(angle) * radius * .57;
-      group.position.set(31 + ox * Math.cos(-.17) - oy * Math.sin(-.17), ox * Math.sin(-.17) + oy * Math.cos(-.17), orbit.z + Math.sin(angle * 2 + orbit.index) * .55);
-      if (orbit.outer) orbit.outer.material.opacity = .31 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .065;
-    }
-    if (refreshStarAge && !orbit.isPlanet) {
-      const appearance = starAge(orbit.word.createdAt);
-      orbit.appearanceDay = appearance.ageDays;
-      orbit.appearanceSize = appearance.size;
-      const tint = new THREE.Color(appearance.glow);
-      if (denseStarMeshes) {
-        denseStarMeshes.outer.setColorAt(orbit.index, tint);
-        denseStarMeshes.inner.setColorAt(orbit.index, tint);
-        denseStarMeshes.center.setColorAt(orbit.index, new THREE.Color(appearance.color));
-      } else if (orbit.outer) {
-        orbit.outer.material.color.copy(tint); orbit.inner.material.color.copy(tint);
-        orbit.center.material.color.set(appearance.color);
-      }
-      if (orbit.glint) orbit.glint.material.color.set(appearance.color);
-    }
-    if (denseStarMeshes) {
-      if (orbit.isPlanet) {
-        denseMatrix.makeScale(0, 0, 0).setPosition(group.position);
-        for (const mesh of Object.values(denseStarMeshes)) mesh.setMatrixAt(orbit.index, denseMatrix);
-      } else {
-      const scale = orbit.magnitude * orbit.appearanceSize;
-      const binaryPulse = orbit.binarySlot >= 0 ? 1.12 + Math.sin(drift * 3.1 + orbit.binarySlot * 2.3) * .12 : 1 + Math.sin(drift * 1.6 + orbit.index * 2.1) * .035;
-      for (const [mesh, size] of [[denseStarMeshes.outer, 24 * scale * binaryPulse], [denseStarMeshes.inner, 8 * scale], [denseStarMeshes.center, 4.7 * scale]]) {
-        denseMatrix.makeScale(size, size, 1).setPosition(group.position);
-        mesh.setMatrixAt(orbit.index, denseMatrix);
-      }
-      }
-    }
-    if (orbit.glint) {
-      orbit.glint.scale.setScalar(Math.min(42, 5 + Math.sqrt(zoom) * .3));
-      orbit.glint.material.opacity = .13 + Math.sin(drift * .95 + orbit.index * 4.2) * .05;
-    }
-    if (orbit.planet) {
-      const body = orbit.planet;
-      body.position.set(0, 0, 0);
-      body.children[0].rotation.y = drift * .035;
-      body.children[0].material.uniforms.uLight.value.set(-.55, .38, 1.25).normalize();
-      body.children[body.children.length - 1].material.opacity = zoom > 350 ? .46 : .2;
-    }
-    orbit.premium?.update(drift, camera, innerHeight, renderer.getPixelRatio());
     if (!updateOverlays) continue;
     group.getWorldPosition(projected); projected.project(camera);
     const x = (projected.x * .5 + .5) * innerWidth;
     const y = (-projected.y * .5 + .5) * innerHeight;
-    const visible = projected.z < 1 && x > -80 && x < innerWidth + 80 && y > -50 && y < innerHeight + 50;
+    const visible = projected.z > -1 && projected.z < 1 && x > -80 && x < innerWidth + 80 && y > -50 && y < innerHeight + 50;
     const nodes = starNodes.get(id);
     if (!nodes) continue;
     nodes.button.style.display = nodes.label.style.display = visible ? '' : 'none';
+    const diameter = wordStarSystem.state(id)?.diameter || 0;
+    const hitSize = Math.min(72, Math.max(22, diameter));
+    nodes.button.style.width = nodes.button.style.height = `${hitSize}px`;
+    nodes.button.dataset.diameter = diameter.toFixed(2);
     if (visible) { nodes.button.style.left = nodes.label.style.left = `${x}px`; nodes.button.style.top = nodes.label.style.top = `${y}px`; }
   }
-  if (denseStarMeshes) for (const mesh of Object.values(denseStarMeshes)) { mesh.instanceMatrix.needsUpdate = true; if (refreshStarAge) mesh.instanceColor.needsUpdate = true; }
-  if (!denseStarMeshes) {
-    let details = 0, points = 0;
-    for (const group of worldStars.values()) { details += group.userData.premium?.visibleDetailCount() ?? 0; points += group.userData.premium?.visiblePointCount() ?? 0; }
-    $('#universe').dataset.personalDetails = String(details);
-    $('#universe').dataset.personalPoints = String(points);
-  }
+  $('#universe').dataset.personalDetails = String(wordStarSystem.detailCount);
+  $('#universe').dataset.personalPoints = String(wordStarSystem.pointCount);
+  $('#universe').dataset.focusedWord = focusedStarId || '';
+  $('#universe').dataset.selectedWord = selectedId || '';
   renderer.render(scene, camera);
   nebulaSystem.render(renderer);
   $('#universe').dataset.nebulaRefined = String(nebulaSystem.refined);
@@ -579,39 +367,20 @@ function focusStar() {
   closePanels();
   if (!$('#app').classList.contains('immersive')) $('#universe-mode').click();
   focusedStarId = selectedId;
-  zoom = 36;
+  const position = worldStars.get(selectedId).position;
+  catalogDepth = position.z - 200;
+  zoom = position.z + WORD_STAR_RADIUS * 7 - catalogDepth;
 }
 function createPosition(index, variation = .5, kind = 'word') {
-  if (kind === 'conjunction') {
-    const radius = 17 + Math.sqrt(words.length + 1) * 7 + variation * 8;
-    const angle = variation * Math.PI * 2 + words.length * 2.399;
-    const x = Math.cos(angle) * radius, y = Math.sin(angle) * radius * .57;
-    return { x: 31 + x * Math.cos(-.17) - y * Math.sin(-.17), y: x * Math.sin(-.17) + y * Math.cos(-.17), z: 17 + variation * 3 };
+  // Existing coordinates are never re-laid out. New objects get a spacious
+  // persisted position with an explicit minimum distance from current entries.
+  for (let attempt = 0; attempt < 128; attempt++) {
+    const slot = index + attempt, angle = slot * 2.399963 + variation * .5;
+    const radius = 12 + Math.sqrt(slot + 1) * (kind === 'word' ? 10 : 12);
+    const candidate = { x: 31 + Math.cos(angle) * radius, y: Math.sin(angle) * radius * .72, z: 18 + (slot % 5) * 2 };
+    if (words.every(word => wordStarPosition(word).distanceTo(new THREE.Vector3(candidate.x,candidate.y,candidate.z)) >= 10)) return candidate;
   }
-  if (index >= 2) {
-    const cluster = Math.floor((index - 2) / 7);
-    const slot = (index - 2) % 7;
-    const seed = random((cluster + 1) * 42197 + slot * 7919);
-    const radius = 22 + Math.sqrt(cluster) * 20;
-    const angle = cluster * 2.399 + .7;
-    const cx = Math.cos(angle) * radius, cy = Math.sin(angle) * radius * .57;
-    const galaxySeed = hashText(universe.activeGalaxyId);
-    const pattern = STAR_PATTERNS[(cluster + galaxySeed) % STAR_PATTERNS.length][slot];
-    const rotation = cluster * 2.399 + (galaxySeed % 31) * .014;
-    const px = pattern[0] * Math.cos(rotation) - pattern[1] * Math.sin(rotation);
-    const py = pattern[0] * Math.sin(rotation) + pattern[1] * Math.cos(rotation);
-    const x = cx + px + (seed() - .5) * 2.4 + (variation - .5) * 5;
-    const y = cy + py + (seed() - .5) * 2.4 + (variation - .5) * 3;
-    return { x: 31 + x * Math.cos(-.17) - y * Math.sin(-.17), y: x * Math.sin(-.17) + y * Math.cos(-.17), z: 17 + slot * .62 };
-  }
-  const arm = index % 4;
-  const layer = Math.floor(index / 4);
-  const radius = index === 0 ? 10 + variation * 9 : 15 + variation * 9 + Math.sqrt(layer + 1) * 3;
-  const angle = arm * Math.PI / 2 + radius * .055 + index * .045 + (variation - .5) * 1.5;
-  const rx = Math.cos(angle) * radius;
-  const ry = Math.sin(angle) * radius * .57;
-  const tilt = -.17;
-  return { x: 31 + rx * Math.cos(tilt) - ry * Math.sin(tilt), y: rx * Math.sin(tilt) + ry * Math.cos(tilt), z: 17 + (index % 4) * 1.2 };
+  return { x: 31 + (index + 129) * 10, y: 0, z: 18 };
 }
 function saveWord(event) {
   event.preventDefault();
@@ -636,7 +405,7 @@ function saveWord(event) {
   const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word, meaning, example, kind, createdAt: new Date().toISOString(), ...position };
   if (kind === 'conjunction') item.planetType = nextPlanetType(universe.words, item.galaxyId);
   universe.words.push(item); words.push(item); appendEvent(universe, 'word.created', item.galaxyId, item.id, null, item);
-  persist(); rebuildWordStars(); refreshCounts(); spawnBirth(item.id); closePanels(); selectWord(item.id);
+  const durable = persist(); rebuildWordStars(); refreshCounts(); if (durable) spawnBirth(item.id); closePanels(); selectWord(item.id);
   showToast(t(kind === 'conjunction' ? 'message.planetAdded' : 'message.starAdded', { word }));
 }
 function setFormTitle(isPlanet, editing) {
@@ -803,7 +572,7 @@ function setZoom(value, focusX, focusY) {
   const previous = zoom;
   zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM - catalogDepth, value));
   if (focusX === undefined || focusY === undefined) return;
-  const halfHeightChange = (previous - zoom) * Math.tan(THREE.MathUtils.degToRad(25));
+  const halfHeightChange = (previous - zoom) * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
   pan.x += (focusX / innerWidth - .5) * 2 * halfHeightChange * camera.aspect;
   pan.y += (.5 - focusY / innerHeight) * 2 * halfHeightChange;
 }
@@ -834,8 +603,8 @@ function bindUI() {
   $('#universe-mode').addEventListener('click', () => {
     const button = $('#universe-mode');
     const immersive = !$('#app').classList.contains('immersive');
-    if (immersive) { closePanels(); preImmersiveZoom = zoom; if (!nebulaSystem && words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
-    else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; preImmersiveZoom = null; }
+    if (immersive) { closePanels(); preImmersiveZoom = zoom + catalogDepth; if (!nebulaSystem && words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
+    else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; catalogDepth = 0; travelingNebula = null; nebulaUI?.focused(null); preImmersiveZoom = null; }
     $('#app').classList.toggle('immersive', immersive);
     pan.x += immersive ? 31 : -31;
     if (!immersive && focusedStarId) { focusedStarId = null; if (preFocusPan) { pan.x = preFocusPan.x; pan.y = preFocusPan.y; preFocusPan = null; } }
@@ -902,8 +671,8 @@ function bindUI() {
   const onZoomWheel = e => {
     if (activePanel || e.target.closest('button,a,input,textarea,select,dialog,.controls')) return;
     e.preventDefault();
-    const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
-    if (delta < 0 && !activePanel) {
+    const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1) * .75;
+    if (delta < 0 && !activePanel && !focusedStarId) {
       const record = nebulaSystem?.pick((e.clientX / innerWidth - .5) * 2, (.5 - e.clientY / innerHeight) * 2);
       if (record && record.id !== travelingNebula) travelToNebula(record);
     }
@@ -913,6 +682,9 @@ function bindUI() {
       const steering = Math.min(zoom, record.radius) * .09;
       pan.x += ((e.clientX / innerWidth - .5) * 2 * steering) * .15;
       pan.y += ((.5 - e.clientY / innerHeight) * 2 * steering) * .15;
+    } else if (focusedStarId) {
+      const minimum = worldStars.get(focusedStarId).position.z + WORD_STAR_RADIUS * 1.35 - catalogDepth;
+      setZoom(Math.max(minimum, zoom * Math.exp(Math.max(-160, delta) * .00145)));
     } else setZoom(zoom * Math.exp(delta * .00145), e.clientX, e.clientY);
   };
   $('#app').addEventListener('wheel', onZoomWheel, { passive: false });

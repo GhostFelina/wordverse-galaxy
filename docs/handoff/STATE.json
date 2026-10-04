@@ -13,13 +13,17 @@
     2,
     3
   ],
-  "visualStage": "orion-only-real-8k-volume-acceptance-pending",
+  "visualStage": "orion-and-word-stars-reference-acceptance-pending",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
     "planets",
     "asteroids",
-    "meteors"
+    "meteors",
+    "background-stars",
+    "gaia-points",
+    "trapezium-points",
+    "demo-star"
   ],
   "visualRequirements": {
     "nebulaeMinimum": 200,
@@ -27,7 +31,7 @@
     "galaxiesMinimum": 150,
     "activation": "incremental",
     "farthestGalaxiesVisible": false,
-    "farthestAppearance": "ultra realistic, stellar flares, explosions and waves â€” acceptance pending"
+    "farthestAppearance": "Latest override: only word stars, sharp four optical spikes + slow living brightness; wide Orion max camera z160 / FOV75deg; acceptance pending"
   },
   "upgrade": {
     "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
@@ -36,21 +40,21 @@
     "completedPhases": [],
     "nextPhase": "U3",
     "lastVerifiedCommit": "bea8bd7f7d8136a541435f3b33a5ee3618738a60",
-    "lastRemoteCI": "pending:37196910034:bea8bd7; previous success:37193518233:7e517cb",
+    "lastRemoteCI": "new push pending; previous failure:37196910034:bea8bd7 and37196980999:6dba3c4",
     "primaryReference": "X right panel 00:10â€“00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
-    "distantPointImplementation": "premium demo and personal stars <=80; dense/catalog adapters pending",
-    "localUnitTests": 109,
-    "localBrowserTests": 75,
-    "integrationVerification": "109 unit, lint/format/typecheck/build passed. Targeted Orion + TR/EN/ES cosmos 13/13 passed in 2.8m; after the final periodic-density seam fix, affected Orion 4/4 passed in 54.7s and lint/format/build/109 unit rerun passed. Final cold first Orion 24.4s; long flight 19.0s. Existing assertions/deadlines unchanged; no latest full-suite claim.",
+    "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
+    "localUnitTests": 111,
+    "localBrowserTests": 77,
+    "integrationVerification": "111 unit + lint/format/typecheck/build passed; full77 browser suite passed4.7m; after final75deg camera/optics edits affected15 passed2.2m; final granular-border shader2/2 passed27.9s and lint/format/build passed",
     "preview": "Vercel PR7 preview success for e968196",
-    "remainingCurrentWork": "Check remote CI 37196910034 and docs follow-up commit; user visual acceptance/deep gas detail; full gas-star extinction/WCS/mobile GPU budget/cold first load open; U2 active, U3-U9 remain",
+    "remainingCurrentWork": "User visual acceptance; physical gas-star extinction, mobile hardware GPU budget; U2 active, U3-U9 remain; inspect new remote CI after push",
     "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
     "remoteBrowserTests": 71,
-    "localFinalTargetedTests": 4,
-    "currentUserTask": "Orion only; wider 85% right-center, depth scale 2.6 (~2.74x flight length); four bright Trapezium cores from existing 96 Gaia sources; professional fluid gas, real 8192x8192 optical source, 96^3 density and settled viewport refinement; visual acceptance pending",
-    "research": "docs/handoff/ORION_RESEARCH.md"
+    "localFinalTargetedTests": 2,
+    "currentUserTask": "Common word star family; sharp four-spike distant reference + living light; granular close photosphere; only word stars; max camera z160 screenshot framing; wheel 0.75; camera FOV75deg matches wide reference",
+    "research": "docs/handoff/WORD_STAR_DESIGN.md"
   }
 }

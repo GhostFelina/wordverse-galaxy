@@ -1,3 +1,5 @@
+<!-- Aktif 2026-10-04 kullanıcı yönlendirmesi: kelime yıldızları ortak fotosfer; diğer bağımsız yıldızlar kaldırıldı; en uzak kamera 160; wheel %25 yavaş. HANDOFF üst bölümü güncel, aşağıdaki eski Orion/Gaia hedefleri tarihidir. -->
+
 # Görevler
 
 ## Güncel öncelik · Orion / U2 · 2026-10-04

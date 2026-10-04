@@ -1,5 +1,17 @@
 # Devir durumu
 
+## Aktif kelime yıldızı işi · 2026-10-04
+
+Son kullanıcı görevi: ortak kelime yıldızı sistemi; Masaüstü `uzaktan görünüş.png` referansında keskin dört uç/parlak çekirdek ve canlı ışık, `en uzak görüntü aralığı.png` referansında maksimum uzak kadraj. **Bu talimat eski sayısız arka plan yıldızı ve 50000 uzaklık hedefinin yerine geçer.** Üretim kamera üst sınırı 160, görüş açısı 75°, wheel katsayısı 0.75. Yalnız kelime yıldızları; diğer ayrı Gaia/Trapezium/cosmic/demo yıldız katmanları devre dışı. Orion korunur.
+
+- `src/word-star-system.js` ortak nokta → küresel fotosfer geçişi, granülasyon, kenar kararması, ince korona, hover/seçim/yavaş parlama. Mevcut x/y/z korunur; yeni ekleme eskileri taşımaz. Zorunlu binary/yörünge yok. [Tasarım, etkileşim ve bilimsel sınırlar](WORD_STAR_DESIGN.md).
+- Odaklama/yan geçiş, immersive hit alanları/panel etkileşimi ve odaktan çıkışta kamera geri dönüşü düzeltildi. Veri şeması veya gerçek hesap kayıtlarına yazılmadı; kullanıcı çalışırken kendi kelimelerini ekledi.
+- Önceki Orion CI **37196910034 ve 37196980999 başarısız**; kayıt anında pending yazan aşağıdaki eski bölüm tarihi kayıttır. Full raymarch stationary yazılım GPU yükü daraltıldı: zayıf cihazda rafine gaz cache'i tutulur, kamera hareketi yenilenir, yıldızlar ayrı çizilir. 77 testlik tam yerel tur geçti (4.7 dk); eski CI yeşil değildir.
+- Windows/PowerShell doğrulandı, doctor GitHub okuma/yazma ve Codex/Claude erişimleri geçti. Kullanıcı `5360` tarayıcı verisi fixture'lara taşınmadı. Testler `5350` sahte servisle, kanıt ayrı boş portta.
+- Doğrulama: **111 unit, lint/format/typecheck/build geçti; tam 77 tarayıcı testi 4.7 dk**. Son kamera açısı/optik/yüzey kontrastı sonrası ilgili 15 test 2.2 dk tekrar geçti. Son hücresel sınır doku düzeltmesi için **iki yıldız testi 2/2 geçti (27.9 s), lint/format/build tekrar geçti**. Timeout/assertion kapıları artırılmadı. Uzak sınır/Gaia beklentileri yalnız son kullanıcı talimatına göre güncellendi.
+- Gerçek 5360 tarayıcısında mevcut kelime seçimi, odaklama, wheel ve arayüze geri dönüş incelendi; veri eklenmedi/düzenlenmedi/silinmedi. Sentetik 1440 uzak/odak/yüzey/yan geçiş ve 390 yakın yüzey kanıtları `evidence/upgrade/word-star-*.png`; kaynak sahne kullanıcı deposuna yazmaz.
+- U2 sürüyor; U3/U4 yıldız bileşeni uygulandı fakat tüm faz/görsel kabul tamamlandı sayılmaz. Sonraki aşama kullanıcı görsel geri bildirimi, gaz-yıldız sönümü, mobil gerçek GPU bütçesi; sonra U3–U9.
+
 ## Güncel Orion genişlik / uçuş / piksel kalitesi · 2026-10-04
 
 Uygulama checkpoint'i **bea8bd7** commit/push edildi. [Yeni GitHub Check 37196910034](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37196910034) başlatıldı; bu devir kaydında remote başarı kabulü yok. Sonraki ajan bu run ve belge takip commit'inin CI durumunu kontrol etmeli.

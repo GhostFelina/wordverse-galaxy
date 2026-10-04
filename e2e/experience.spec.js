@@ -75,7 +75,7 @@ test('existing guest records are immediately usable after session resolution and
   await expect(page.locator('#app')).toHaveAttribute('data-experience', 'guest-personal');
   await expect(page.locator('#star-layer .star-hit')).toHaveCount(1);
   await expect(page.locator('#universe')).toHaveAttribute('data-personal-renderer', 'premium-surface');
-  await expect(page.locator('#universe')).toHaveAttribute('data-personal-details', '1');
+  await expect(page.locator('#universe')).toHaveAttribute('data-personal-details', '0');
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
   expect(JSON.parse(before).words).toHaveLength(2);
   await page.locator('#showcase-preview').click();

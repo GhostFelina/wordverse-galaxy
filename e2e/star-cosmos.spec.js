@@ -20,7 +20,8 @@ for (const locale of ['tr', 'en', 'es']) {
         .catch((error) => {
           throw new Error(`${error.message}\nConsole: ${JSON.stringify(errors)}`);
         });
-      expect(Number(await canvas.getAttribute('data-star-capacity'))).toBeGreaterThan(5000);
+      await expect(canvas).toHaveAttribute('data-star-capacity', '0');
+      await expect(canvas).toHaveAttribute('data-background-stars', '0');
       await expect(page.locator('#open-catalog')).toHaveCount(0);
       await expect(page.locator('#catalog-dialog')).toHaveCount(0);
       for (const layer of ['asteroids', 'fireballs', 'galaxies']) {
@@ -36,8 +37,8 @@ for (const locale of ['tr', 'en', 'es']) {
       await page.mouse.down();
       await page.mouse.move(width / 2 + 70, 500, { steps: 4 });
       await page.mouse.up();
-      await page.mouse.wheel(0, 7000);
-      await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(45000);
+      await page.mouse.wheel(0, 9400);
+      await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThanOrEqual(160);
       await page.locator('#universe-mode').click();
       await page.locator('#reset-view').click();
       await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);

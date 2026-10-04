@@ -12,8 +12,8 @@ for (const width of [1440, 768, 390]) {
     await expect(canvas).toHaveAttribute('data-nebula-loaded', '1');
     await expect(canvas).toHaveAttribute('data-nebula-ready', 'true');
     await expect(canvas).toHaveAttribute('data-nebulae', '1');
-    await expect(canvas).toHaveAttribute('data-nebula-field-sources', '96');
-    await expect(canvas).toHaveAttribute('data-nebula-bright-stars', '4');
+    await expect(canvas).toHaveAttribute('data-nebula-field-sources', '0');
+    await expect(canvas).toHaveAttribute('data-nebula-bright-stars', '0');
     await expect(canvas).toHaveAttribute('data-nebula-width', '0.85');
     const raw = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
     await page.locator('#open-nebulae').click();
@@ -51,11 +51,11 @@ test('wheel flies through Orion and back; drag steers; modal scroll and learning
   await page.locator('[data-nebula="orion"]').click();
   await expect(page.locator('#nebula-dialog')).not.toBeVisible();
   await page.mouse.move(720, 450);
-  await page.mouse.wheel(0, -120);
+  await page.mouse.wheel(0, -160);
   // Chromium may coalesce back-to-back wheel inputs into one capped impulse.
   // Observe the first real camera movement before sending the next gesture.
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(150);
-  await page.mouse.wheel(0, -120);
+  await page.mouse.wheel(0, -160);
   await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
   await expect(canvas).toHaveAttribute('data-nebula-texture-resolution', '8192');
   const entryZ = Number(await canvas.getAttribute('data-camera-z'));
@@ -69,7 +69,7 @@ test('wheel flies through Orion and back; drag steers; modal scroll and learning
     .toBeGreaterThan(5);
   for (let i = 0; i < 14; i++) {
     const previousZ = Number(await canvas.getAttribute('data-camera-z'));
-    await page.mouse.wheel(0, -160);
+    await page.mouse.wheel(0, -214);
     await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(previousZ - 5);
     if (i === 7) {
       await expect.poll(async () => entryZ - Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(1300);
@@ -79,9 +79,9 @@ test('wheel flies through Orion and back; drag steers; modal scroll and learning
   await expect(canvas).toHaveAttribute('data-inside-nebula', '');
   const backZ = Number(await canvas.getAttribute('data-nebula-back-z'));
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(backZ);
-  await page.mouse.wheel(0, 1200);
+  await page.mouse.wheel(0, 1600);
   await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
-  await page.mouse.wheel(0, 3000);
+  await page.mouse.wheel(0, 4000);
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(100);
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(raw);
   expect(errors).toEqual([]);

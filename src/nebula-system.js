@@ -113,7 +113,11 @@ void main(){
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
 }`;
-export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLoader(), compact = false } = {}) {
+export function createNebulaSystem(
+  scene,
+  camera,
+  { loader = new THREE.TextureLoader(), compact = false, fieldStars = true } = {},
+) {
   const records = layoutNebulae(images, 8042026, camera.aspect);
   const geometry = new THREE.BoxGeometry(2, 2, 2),
     density = createDensityTexture();
@@ -149,7 +153,9 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
       record.radius * ORION_DEPTH_SCALE,
     );
     root.add(group);
-    const environment = createNebulaEnvironment(group, record.id);
+    const environment = fieldStars
+      ? createNebulaEnvironment(group, record.id)
+      : { count: 0, brightStarCount: 0, update: () => 0, dispose() {} };
     let readyAssets = 0;
     const ready = () => {
       if (!disposed && ++readyAssets === 2) loaded++;
@@ -293,7 +299,9 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
         !lastVolumeFrame ||
         loaded !== lastLoaded ||
         opticalWidth !== lastOpticalWidth ||
-        (animated && now - lastVolumeFrame > 250)
+        // Full-resolution raymarch advection is too costly on software GPUs.
+        // Keep the refined frame there; navigation and stars remain responsive.
+        (animated && gasScale >= 0.65 && now - lastVolumeFrame > 250)
       ) {
         renderer.setClearColor(0x000000, 0);
         renderer.setRenderTarget(target);
