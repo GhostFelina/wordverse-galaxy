@@ -6,7 +6,8 @@
 - [x] Ana gaz kesiti %85 genişlik, 2.6 yarıçap derinlik, yaklaşık 2.74 kat uzun kesintisiz uçuş; dört gerçek Trapezium çekirdeği mevcut 96 Gaia kaynağından belirginleştirildi.
 - [x] 96³ gaz yoğunluğu, fotoğraf detayının ana sırtla sınırlandırılması, durunca viewport çözünürlüğünde gaz ayrıntısı ve ayrı keskin yıldız geçişi.
 - [x] 13/13 ilgili tarayıcı testi (2.8 dakika); son periyodik yoğunluk düzeltmesi sonrası Orion 4/4 (54.7 s), 109 unit, lint/format/build tekrar geçti; typecheck geçti. Üç viewport durağan gaz çözünürlüğü ve uzun uçuş doğrulandı. Başlangıç/iç/derin görsel kanıt ve kaynaklar devirde.
-- [~] Yeni uygulama commit/push sonrası remote CI; önceki 409d28b / 7e517cb CI başarılı.
+- [x] Uygulama bea8bd7 commit/push; Codex/Claude devir belgeleri ve üç sentetik görsel güncellendi; yerel 5360 görünür tarayıcıda incelendi/açık.
+- [~] bea8bd7 remote CI 37196910034 sonucu; önceki 409d28b / 7e517cb CI başarılı.
 - [~] Uzun iç gaz ayrıntısı, cold ilk yükleme ve kullanıcı görsel kabulü; U2 tamamlandı sayılmaz.
 - [ ] Mobil gerçek GPU/FPS, WCS hizalama, tam gaz-yıldız sönümü; ardından U3–U9.
 
