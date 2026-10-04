@@ -39,11 +39,11 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "6f7301f",
+    "lastVerifiedCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
     "lastRemoteCI": {
       "run": 37220478118,
       "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
-      "status": "in_progress",
+      "status": "success",
       "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37220478118"
     },
     "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
@@ -52,7 +52,7 @@
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
     "localUnitTests": 114,
     "localBrowserTests": 79,
-    "integrationVerification": "114 unit + lint/typecheck/build/check:release passed on1.14.1; selected target browser1/1 passed26.8s; previous side related8/8; full79 remote pending",
+    "integrationVerification": "1.14.1 source e1b3850: remote37220478118 SUCCESS114 unit/79 browser/lint/typecheck/build/format/release/audit/Go email checks; later documentation-only commits get independent CI",
     "preview": {
       "url": "https://wordverse-galaxy-gx5zjyq3m-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
@@ -65,7 +65,7 @@
     "remainingCurrentWork": "Verify1.14.1 CI/preview; visual acceptance, native1254 gas detail, mobile GPU, scientific calibration, then U3",
     "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
-    "remoteBrowserTests": 78,
+    "remoteBrowserTests": 79,
     "localFinalTargetedTests": 8,
     "currentUserTask": "Save version, commit/push, preview deploy, private backups and Codex/Claude handoff",
     "research": "docs/handoff/STAR_REFERENCE_PLAN.md"

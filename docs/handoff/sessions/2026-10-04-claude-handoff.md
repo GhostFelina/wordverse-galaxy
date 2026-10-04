@@ -35,3 +35,6 @@ Son kullanıcı isteği: kaldığımız yeri kaydet; commit/push, sürüm, deplo
 - Desktop/Wordverse-Yedekler/2026-10-04: doğrulanmış tam geçmiş Git bundle, HEAD kaynak ZIP, özel evren JSON, geri yükleme talimatı ve SHA256 manifest. JSON snapshot2 galaksi/20 kayıt; avatar veya tüm Supabase DB dump'ı değildir. Yedek ve sırlar Git'e alınmadı.
 - Desktop/WORDVERSE_CLAUDE_DEVIR.md: devam prompt'u ve15 devir/şartname/kaynak belgesinin tam UTF8 kopyası. Yeni ajan repodaki güncel HANDOFF/STATE'i esas alır.
 
+## Son CI sonucu
+
+37220478118 SUCCESS: kaynak e1b3850,114 unit/79 tarayıcı ve bütün CI kapıları geçti. Sonraki değişiklikler yalnız devir belgesi kaydıdır.
