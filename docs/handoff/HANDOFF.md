@@ -2,6 +2,8 @@
 
 ## Aktif kelime yıldızı işi · 2026-10-04
 
+Uygulama checkpoint **302c6fa**, `phase/4-universe`. Yerel doğrulama aşağıdadır; yeni push sonrası remote CI ayrıca kontrol edilmeli.
+
 Son kullanıcı görevi: ortak kelime yıldızı sistemi; Masaüstü `uzaktan görünüş.png` referansında keskin dört uç/parlak çekirdek ve canlı ışık, `en uzak görüntü aralığı.png` referansında maksimum uzak kadraj. **Bu talimat eski sayısız arka plan yıldızı ve 50000 uzaklık hedefinin yerine geçer.** Üretim kamera üst sınırı 160, görüş açısı 75°, wheel katsayısı 0.75. Yalnız kelime yıldızları; diğer ayrı Gaia/Trapezium/cosmic/demo yıldız katmanları devre dışı. Orion korunur.
 
 - `src/word-star-system.js` ortak nokta → küresel fotosfer geçişi, granülasyon, kenar kararması, ince korona, hover/seçim/yavaş parlama. Mevcut x/y/z korunur; yeni ekleme eskileri taşımaz. Zorunlu binary/yörünge yok. [Tasarım, etkileşim ve bilimsel sınırlar](WORD_STAR_DESIGN.md).
