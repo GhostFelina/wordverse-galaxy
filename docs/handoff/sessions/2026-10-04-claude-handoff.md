@@ -38,3 +38,13 @@ Son kullanıcı isteği: kaldığımız yeri kaydet; commit/push, sürüm, deplo
 ## Son CI sonucu
 
 37220478118 SUCCESS: kaynak e1b3850,114 unit/79 tarayıcı ve bütün CI kapıları geçti. Sonraki değişiklikler yalnız devir belgesi kaydıdır.
+
+## Üretim adresi düzeltmesi · 2026-10-04
+
+Kullanıcı Vercel ana adresinde eski sürüm gördüğünü bildirdi; yeni yayın isteği önceki preview-only kararı için bu sürüme özgü üretim yetkisidir. Sebep: phase/4-universe pushları Preview'a gidiyordu; ana üretim alias eski1.11.0'dı. Testleri başarılı702461b / geliştirme1.14.1 preview'ı production'a promote edildi; üretim env ile yeni build13.6s.
+
+- Ana URL https://wordverse-galaxy.vercel.app — HTTP200; güncel main-2WA476vD.js ve granulation-128.bin yıldız sistemi doğrulandı.
+- Deployment https://wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app — production READY, source702461b, dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F.
+- Ana ve takım üretim alias'ları yeni deployment'a bağlı. Main merge/tag yapılmadı; aktif dal phase/4-universe. Faz/U2 kabulü tamamlandı sayılmaz; sonraki pushlar varsayılan olarak Preview'dır.
+- Üretim hata logu taraması: son1saat log bulunmadı; statik Vite uygulaması, bu istemci hatasızlık garantisi değildir.
+- İlk CLI prod upload dosya sayısı16170/15000 sınırında reddedildi; mevcut doğrulanmış preview promote edilerek tamamlandı. Özel yedek/env yüklenmedi. Eski üretim geri dönüş deployment: wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app.

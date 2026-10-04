@@ -84,5 +84,17 @@
       "records": 20,
       "exportedAt": "2026-10-04T17:22:14.887Z"
     }
+  },
+  "production": {
+    "version": "1.14.1",
+    "url": "https://wordverse-galaxy.vercel.app",
+    "deployment": "https://wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app",
+    "target": "production",
+    "status": "READY",
+    "sourceCommit": "702461b054985a19ed49c3524fe67028c65049ed",
+    "buildDurationSeconds": 13.6,
+    "httpStatus": 200,
+    "date": "2026-10-04",
+    "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app"
   }
 }

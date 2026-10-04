@@ -1,6 +1,6 @@
 # Değişiklik kaydı
 
-## [Unreleased] — Faz 4 / 1.14.1 geliştirme (prod 1.11.0)
+## [Unreleased] — Faz 4 / 1.14.1 geliştirme (prod 1.14.1; 2026-10-04 kullanıcı yayın isteği)
 
 - Orion yan gaz hacmi: sonlu3B türbülans, lif/boşluklar ve fotoğraf kenarı sönümü.
 - Yalnız kullanıcı yıldızları; ortak keskin optikler, random yeni konumlar, seçili hedef zoom, daha yavaş wheel.
