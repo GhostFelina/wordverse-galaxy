@@ -3,9 +3,11 @@
 ## Güncel öncelik · Orion / U2 · 2026-10-04
 
 - [x] Yalnız Orion; gerçek 10K Hubble kaynağından 8K yerel doku, Spitzer IR, 96 Gaia alan kaynağı ve dört Trapezium konumu.
-- [x] Ana gaz kesiti %70 genişlik, daha derin kesintisiz hacim; yavaş adveksiyon, gaz vadisine ilerleme ve perspektif yıldız geçişi.
-- [x] Orion son ilgili tarayıcı gate'leri 4/4; 109 unit, lint/typecheck/format/build. Önceki tam tur 74/75; düzeltilen wheel senaryosu ilgili dört testle tekrar geçti.
-- [~] Yakın gaz pütürlenmesi, cold shader yükleme (ilk test 22.7 s), son remote CI ve kullanıcı görsel kabulü; U2 tamamlandı sayılmaz.
+- [x] Ana gaz kesiti %85 genişlik, 2.6 yarıçap derinlik, yaklaşık 2.74 kat uzun kesintisiz uçuş; dört gerçek Trapezium çekirdeği mevcut 96 Gaia kaynağından belirginleştirildi.
+- [x] 96³ gaz yoğunluğu, fotoğraf detayının ana sırtla sınırlandırılması, durunca viewport çözünürlüğünde gaz ayrıntısı ve ayrı keskin yıldız geçişi.
+- [x] 13/13 ilgili tarayıcı testi (2.8 dakika); son periyodik yoğunluk düzeltmesi sonrası Orion 4/4 (54.7 s), 109 unit, lint/format/build tekrar geçti; typecheck geçti. Üç viewport durağan gaz çözünürlüğü ve uzun uçuş doğrulandı. Başlangıç/iç/derin görsel kanıt ve kaynaklar devirde.
+- [~] Yeni uygulama commit/push sonrası remote CI; önceki 409d28b / 7e517cb CI başarılı.
+- [~] Uzun iç gaz ayrıntısı, cold ilk yükleme ve kullanıcı görsel kabulü; U2 tamamlandı sayılmaz.
 - [ ] Mobil gerçek GPU/FPS, WCS hizalama, tam gaz-yıldız sönümü; ardından U3–U9.
 
 Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya claude. Dal adları faz başlığı altındadır.

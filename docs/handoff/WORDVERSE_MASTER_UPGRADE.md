@@ -7,7 +7,7 @@
 
 ## Öncelikli aktif Orion düzeltmesi · 2026-10-04
 
-Son kullanıcı: yalnız Orion; sağ ortada yaklaşık %70 genişlik, daha derin ve yaşayan hacim, gerçek 8K doku. Esas yakın uçuş referansı https://www.youtube.com/watch?v=fkWrjrdT3Zg **00:58 sonrası**. Diğer nebula/gezegen/galaksi/asteroid/meteor katmanları kapalıdır. 20 bulutsu isteği artık uygulanmaz. Kullanıcı ilk Orion'u amatör buldu; kalite kabulü açık. Güncel uygulama/devir [HANDOFF.md](HANDOFF.md), araştırma [ORION_RESEARCH.md](ORION_RESEARCH.md). U2 aktif; hiçbir yükseltme fazı yalnız bu eklemeyle bitmiş sayılmaz.
+Son kullanıcı: yalnız Orion; sağ ortada daha geniş ve uzun bir uçuş hacmi, parlak iç yıldızlar, her pikselde profesyonel kalite ve akışkan gaz. Güncel ana gaz kesiti %85 genişlik, derinlik ölçeği 2.6 yarıçap; gerçek 8K kaynak doku, durunca viewport çözünürlüğünde gaz ayrıntısı. Esas yakın uçuş referansı https://www.youtube.com/watch?v=fkWrjrdT3Zg **00:58 sonrası**. Diğer nebula/gezegen/galaksi/asteroid/meteor katmanları kapalıdır. 20 bulutsu isteği artık uygulanmaz. Kullanıcı ilk Orion'u amatör buldu; kalite kabulü açık. Güncel uygulama/devir [HANDOFF.md](HANDOFF.md), araştırma [ORION_RESEARCH.md](ORION_RESEARCH.md). U2 aktif; hiçbir yükseltme fazı yalnız bu eklemeyle bitmiş sayılmaz.
 
 ## Son kullanıcı düzeltmeleri · 2026-10-04
 

@@ -1,6 +1,21 @@
 # Devir durumu
 
-## Son kullanıcı yönlendirmesi · 2026-10-04
+## Güncel Orion genişlik / uçuş / piksel kalitesi · 2026-10-04
+
+Bu bölüm aşağıdaki eski checkpoint'in ölçülerini değiştirir. Windows 11 / PowerShell 7.6.6, `phase/4-universe`; başlangıç ağacı temizdi, `git pull --ff-only` günceldi ve doctor geçti. Öğrenme kayıtlarına yazılmadı. Yalnız Orion ve yıldızlar aktiftir.
+
+- Son kullanıcı: daha geniş ve daha uzun uçuş, kaynaklara göre parlak iç yıldızlar, profesyonel akışkan gaz ve her pikselde yüksek kalite. U2 görsel kabulü hâlâ bekler; bilimsel tomografi veya tüm cihazlarda kusursuz 8K çizim iddiası yok.
+- Ana gaz kesiti genişliği %70 → **%85**, derinlik ölçeği 1.15 → **2.6 yarıçap**. 1440×900'de uçuş uzunluğu yaklaşık 2506 dünya birimi, öncekinin yaklaşık 2.74 katı. Ön giriş korunur; asıl gözlemsel sırt dünya z=-600'de, ek hacim arkaya uzar. Wheel ileri/geri, drag, UI scroll izolasyonu ve kayıt korunması sürer.
+- [Hubble Trapezium yakın çekimi](https://esahubble.org/images/heic0601d/) ve [NASA Orion kaynağı](https://svs.gsfc.nasa.gov/12086/) incelendi; NASA uçuşunun 01:30/01:45 örnek kareleri tekrar değerlendirildi. Mevcut 96 Gaia kaynağındaki dört theta1 Ori A/B/C/D belirginleştirildi; yeni/çift yıldız kaydı eklenmedi. G parlaklık sırası, en parlak C dahil korunur. Keskin beyaz çekirdek, sınırlı soğuk halo ve zayıf teleskop PSF kullanılır; nabız/patlama değil. Bu dört kaynak ayrı son çizim geçişinde kalır, tam fiziksel gaz sönümü hâlâ açık.
+- Gaz yoğunluğu **96³**; tutarlı üç boyutlu kıvrımlar ve yavaş hareket. Gerçek 8192² Hubble ayrıntısı ana iyonlaşma sırtında tutulur; fotoğraf özellikleri bütün derinliğe uzatılmaz. İnce sırtın integral örneklemesi çizgilenmeyi azaltır; derin ortam kaba optik/IR renk rehberi ve modellenmiş yoğunluk kullanır.
+- Kamera hareketinde adaptif gaz framebuffer/adım bütçesi; durunca **viewport çözünürlüğünde** (en çok 1920 genişlik), 32 adımlı ayrıntılı gaz görüntüsü. Kamera hızına göre durma saptanır; ayrıntılı kare yavaş gaz güncellemeleri arasında önbelleğe alınır. Yıldızlar ayrı çizilir, duran görünümde ana DPR en az 1'e döner. Bu gerçek 8K kaynak dokudur; 3B iç gazın her pikseli gözlemsel veri değildir.
+- Kanıt üretici artık sabit 5351 yerine boş yerel port seçer; boş sentetik misafirle başlangıç/iç/derin PNG üretir. Gerçek 5360 hesabına ve verisine erişmez. `orion-home-1440.png`, `orion-interior-1440.png`, `orion-deep-1440.png`.
+- Son kod: **109 unit, lint, typecheck, format, build ve 13/13 ilgili tarayıcı testi geçti (2.8 dakika)**. Orion 1440/768/390'da durunca viewport gaz çözünürlüğü, dört çekirdek, uzun içinden geçiş/geri dönüş/drag/8K/veri korunması; TR/EN/ES × üç viewport uzak zoom/reset/UI izolasyonu doğrulandı. İlk cold Orion 23.4 s, uzun uçuş 17.1 s. Timeout/assertion kapıları artırılmadı. Son kodda tam 75 test turu iddiası yok.
+- Önceki uygulama 409d28b ve belge 7e517cb CI'ları başarılıdır: [37193447908](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37193447908), [37193518233](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37193518233). Bunlar bu yeni değişikliklerin remote doğrulaması değildir; yeni push sonrası CI ayrıca kontrol edilmeli.
+- İlk doku yüklenmesi cache'i geçersiz kılar; boş ilk hacim sabitlenmez. Sentetik misafire geçerken önceki sahibin temizlenmiş ekranı kanıt alınmaz: gerçek kamera karesi gözlenip overview'a dönülür. Son durum öznitelikleri gaz çizimi sonrasında yayınlanır.
+- 13 testten sonraki görsel incelemede nonperiodic noise tekrar sınırının düz gaz izi oluşturduğu bulundu; yoğunluk üç eksende kapalı sin/cos koordinat örneklemesine geçirildi. Yeni görüntülerde düz birleşim kaldırıldı. **Son değişiklik sonrası ilgili dört Orion testi 4/4 geçti (54.7 s); 109 unit, lint/format/build tekrar geçti.** Cold ilk Orion 24.4 s, uzun uçuş 19.0 s. Önceki 13 test sonucu bu son yoğunluk düzeltmesinden öncedir; tam tur kabulü olarak sunma.
+
+## Önceki checkpoint yönlendirmesi (409d28b) · 2026-10-04
 
 Uygulama checkpoint'i **409d28b**, `phase/4-universe` dalında commit/push tamamlandı. [GitHub Check 37193447908](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37193447908) bu kod için başlatıldı; kayıt anında sürüyor, yeşil kabulü yok.
 

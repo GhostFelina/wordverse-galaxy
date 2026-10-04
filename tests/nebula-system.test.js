@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import images from '../src/data/nebula-images.json';
 import fields from '../src/data/nebula-environments.json';
-import { layoutNebulae, nebulaBackPlane } from '../src/nebula-layout.js';
+import { layoutNebulae, nebulaBackPlane, ORION_DEPTH_SCALE } from '../src/nebula-layout.js';
 import { createNebulaSystem } from '../src/nebula-system.js';
 
 it('ships only Orion with verified optical/infrared assets and observed catalogue provenance', () => {
@@ -21,17 +21,19 @@ it('ships only Orion with verified optical/infrared assets and observed catalogu
   expect(fields[0].trapezium).toHaveLength(4);
   expect(fields[0].stars.every((star) => typeof star.sourceId === 'string')).toBe(true);
 });
-it('frames the principal gas section at 70 percent width right of centre on three viewports', () => {
+it('widens the principal gas section to 85 percent and extends the flight behind its entrance', () => {
   for (const aspect of [1440 / 900, 768 / 900, 390 / 900]) {
     const [record] = layoutNebulae(images, 8042026, aspect);
     const camera = new PerspectiveCamera(50, aspect, 0.1, 100000);
     camera.position.z = 160;
     camera.updateMatrixWorld();
-    const right = new Vector3(record.position[0] + record.radius, 0, record.position[2]).project(camera);
-    const left = new Vector3(record.position[0] - record.radius, 0, record.position[2]).project(camera);
-    expect((right.x - left.x) / 2).toBeCloseTo(0.7, 5);
+    const right = new Vector3(record.position[0] + record.radius, 0, record.principalZ).project(camera);
+    const left = new Vector3(record.position[0] - record.radius, 0, record.principalZ).project(camera);
+    expect((right.x - left.x) / 2).toBeCloseTo(0.85, 5);
     expect((right.x + left.x) / 2).toBeCloseTo(0.3, 5);
-    expect(nebulaBackPlane(record)).toBeLessThan(record.position[2] - record.radius * 1.15);
+    expect(record.frontZ).toBeLessThan(camera.position.z);
+    expect(record.travelLength).toBeGreaterThan(record.radius * 1.15 * 2 * 2.2);
+    expect(nebulaBackPlane(record)).toBeLessThan(record.position[2] - record.radius * ORION_DEPTH_SCALE);
   }
 });
 it('flies through a continuous volume and fixed stars, exits behind, and releases owned resources once', () => {
@@ -50,9 +52,18 @@ it('flies through a continuous volume and fixed stars, exits behind, and release
     },
   });
   expect(system.loaded).toBe(1);
+  expect(system.brightStarCount).toBe(4);
   expect(system.update().visible).toBe(1);
   const points = scene.getObjectByName('orion-gaia-field-sources');
   const positions = Array.from(points.geometry.attributes.position.array);
+  const prominence = Array.from(points.geometry.attributes.prominence.array);
+  expect(prominence.filter(Boolean)).toHaveLength(4);
+  // Featured lights are the existing observed Gaia counterparts, not duplicate stars.
+  for (let i = 0; i < prominence.length; i++) {
+    const member = fields[0].trapezium.some((m) => m.gaiaSourceId === fields[0].stars[i].sourceId);
+    expect(prominence[i]).toBe(Number(member));
+    expect(Math.abs(positions[i * 3 + 2])).toBeLessThan(1);
+  }
   const [record] = system.records;
   camera.position.fromArray(record.position);
   expect(system.update().inside).toBe('orion');

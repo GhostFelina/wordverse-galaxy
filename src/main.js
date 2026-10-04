@@ -392,17 +392,19 @@ function animate(ms) {
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
   const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging ? 0 : pointer.x * 1.9);
   const flightRecord = travelingNebula ? nebulaSystem.records[0] : null;
-  const descent = flightRecord ? THREE.MathUtils.smoothstep((flightRecord.position[2] + flightRecord.radius * 2 - camera.position.z) / (flightRecord.radius * 4), 0, 1) : 0;
-  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25) - (flightRecord ? flightRecord.radius * .35 * descent : 0);
+  const descent = flightRecord ? THREE.MathUtils.smoothstep((flightRecord.frontZ - camera.position.z) / flightRecord.travelLength, 0, 1) : 0;
+  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25) - (flightRecord ? flightRecord.radius * .23 * descent : 0);
   const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
   renderQuality.sample(cameraDelta);
+  // Preserve at least one rendered pixel per CSS pixel after volume refinement.
+  if (nebulaSystem.refined && renderer.getPixelRatio() < 1) renderer.setPixelRatio(1);
   const planeDamping = 1-Math.exp(-cameraDelta*.0028);
   const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
   camera.position.x += (targetX-camera.position.x)*planeDamping;
   camera.position.y += (targetY-camera.position.y)*planeDamping;
   camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
-  camera.lookAt(camera.position.x, camera.position.y - descent * 88, camera.position.z - 100);
+  camera.lookAt(camera.position.x, camera.position.y - descent * 18, camera.position.z - 100);
   camera.updateMatrixWorld();
   cosmicField.update(camera);
   const nebulaStatus = nebulaSystem.update(drift,renderer.getPixelRatio(),innerHeight);
@@ -412,6 +414,10 @@ function animate(ms) {
   $('#universe').dataset.nebulaStarSize = String(nebulaStatus.starSize);
   $('#universe').dataset.nebulaWidth = String(nebulaSystem.records[0].overview.extentX);
   $('#universe').dataset.nebulaFieldSources = String(nebulaSystem.fieldSourceCount);
+  $('#universe').dataset.nebulaBrightStars = String(nebulaSystem.brightStarCount);
+  $('#universe').dataset.nebulaTravelLength = String(nebulaSystem.records[0].travelLength);
+  $('#universe').dataset.nebulaFrontZ = String(nebulaSystem.records[0].frontZ);
+  $('#universe').dataset.nebulaBackZ = String(nebulaSystem.records[0].frontZ - nebulaSystem.records[0].travelLength);
   $('#universe').dataset.nebulaLoaded = String(nebulaSystem.loaded);
   $('#universe').dataset.visibleNebulae = String(nebulaStatus.visible);
   $('#universe').dataset.insideNebula = nebulaStatus.inside ?? '';
@@ -511,6 +517,8 @@ function animate(ms) {
   }
   renderer.render(scene, camera);
   nebulaSystem.render(renderer);
+  $('#universe').dataset.nebulaRefined = String(nebulaSystem.refined);
+  $('#universe').dataset.nebulaGasResolution = nebulaSystem.gasResolution.join('x');
   drawCalls = renderer.info.render.calls;
 }
 

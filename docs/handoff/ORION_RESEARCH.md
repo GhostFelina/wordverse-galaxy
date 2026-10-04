@@ -32,7 +32,7 @@ Video incelemesi yukarıdaki zamanlardan örneklenmiş karelerle yapıldı; tüm
 - Dört theta1 Ori A/B/C/D konumu CDS Sesame ile ayrı ayrı çözüldü, yanıt hash ve URL'leri kaydedildi. Eşleşen Gaia kaynaklarında modellenmiş çekirdek derinliği kullanılır.
 - Three MIT bağımlılığı üzerinden ImprovedNoise kullanılır. Dış repo kodu veya NASA üretim mesh'i eklenmedi.
 
-## Somut uygulama
+## Önceki checkpoint'in somut uygulaması (409d28b)
 
 - 19 bulutsu görseli ve aktif metadata çıkarıldı; tek Orion kaydı, optik/IR/gaz rehberi paketlendi. Eski katalog fixture'ları tarihsel test verisidir, ana sahnede çizilmez.
 - Fotoğraf düzlemleri ve fotoğraf→hacim değiştirme yok. Aynı kutu hacmi dışarıda/içeride raymarch ile çizilir: 64³ deterministik yoğunluk, 12/16/24/32 adım (shader üst sınırı 48), gaz vadisi/kıvrımları, toz sönümü, ön ince perde, ışık gradyanı. Sabit orta nokta örneklemesi ekran rastgeleliği üretmez.
@@ -40,7 +40,7 @@ Video incelemesi yukarıdaki zamanlardan örneklenmiş karelerle yapıldı; tüm
 - Gaia yıldızları dünya koordinatlarında sabit kalır. Perspektif boyutu 1.5–18 CSS piksel; ileri gidince büyür ve kameranın arkasına geçince doğal olarak kırpılır. Saydam gazın yıldızlara uyguladığı tam fiziksel sönüm henüz modellenmedi.
 - Wheel eksi yönde büyük darbeler sınırlanır, geri çıkış tam zoom aralığına ulaşır. Tekrar başlangıca dönme ve drag serbest pan vardır. Form, dialog ve düğmelerin scroll'u uçuş başlatmaz.
 
-## 8K ve son genişlik/derinlik düzeltmesi
+## Önceki checkpoint'in 8K ve genişlik/derinlik düzeltmesi (409d28b)
 
 - Gerçek kaynak: [ESA 10K TIFF](https://esahubble.org/media/archives/images/publicationtiff10k/heic0601a.tif), 10000×10000, 139.163.086 bayt. Kaynak ve türev SHA256 metadata içinde.
 - 8192×8192 gözlemsel doku 5.013.984 bayt; yapay büyütme veya üretilmiş ayrıntı yok. 4096×4096 masaüstü tabanı, 2048×2048 kompakt başlangıç. Büyük doku desteklenen masaüstünde yakınlaşınca yerelden yüklenir. Bu dosya çözünürlüğüdür; viewport'un her pikselinin 8K çözünürlükte çizildiği veya tüm cihazlarda aynı GPU kalitesinin sağlandığı iddiası değildir.
@@ -48,6 +48,16 @@ Video incelemesi yukarıdaki zamanlardan örneklenmiş karelerle yapıldı; tüm
 - Gaz framebuffer çözünürlüğü ölçülen kare süresine göre %25–100 arasında, en çok 1920 px genişlikte değişir. Yavaş cihazlarda 12 adımlı örnekleme ve düşük çözünürlük yakın gazda pütürlenmeye yol açabilir; kaynak 8K olsa da bu görüntü kalite sınırı açıktır.
 - Sentetik ve kullanıcı verisinden bağımsız kanıt: `node scripts/capture-orion-evidence.mjs` kendi 5351 sunucusu/tarayıcısında başlangıç ve 8K iç hacim PNG'lerini oluşturur; gerçek 5360 hesabına erişmez.
 - Doku mip düzeyleri ekran piksel ayak izi ve kamera yakınlığıyla açık seçilir; erken çıkışlı ray döngüsünde belirsiz örtük türevler kullanılmaz. Son Orion 4/4 tarayıcı testi geçti; ilk cold test 22.7 s, sıcak tam uçuş 12.8 s. Cold tek uçuş 30 s timeout geçmişi performans sınırıdır; gizlenmedi.
+
+## Yeni geniş ve uzun uçuş / parlak yıldız / piksel ayrıntısı · 2026-10-04
+
+- [Hubble Orion's biggest stars / heic0601d](https://esahubble.org/images/heic0601d/) yakın çekimi indirildi ve incelendi: kompakt dört çekirdek, parlak beyaz ışık ve sınırlı mavimsi halo. [NASA SVS Orion Nebula 12086](https://svs.gsfc.nasa.gov/12086/) kaynak metni ve [Visible and Infrared Orion Flight 30957](https://svs.gsfc.nasa.gov/30957/) için önceki 01:30/01:45 örnek kareleri incelendi. Fotoğraftaki ışık haçları teleskop PSF etkisidir; fiziksel yıldız kolu veya nabız iddiası yoktur.
+- Mevcut 96 Gaia kaynağındaki dört theta1 Ori A/B/C/D aynı kimlik ve görüş açılarında tutulur. C'nin G=4.96096 parlaklığı diğerlerini aşar; eski brightness clamp bu farkı düzleştiriyordu, üst sınır 6'ya çıktı. Dünya derinliği modellenmiştir. Normal 92 kaynak ile dört çekirdek aynı geometriyi kullanır, shader discard ile ayrı geçişlerde çizilir; çift yıldız üretimi yoktur. Normal 2–26 CSS px, belirgin dört kaynak 4–56 CSS px sınırı (halo dahil); çekirdek halo'dan daha keskindir.
+- %85 ana kesit, 2.6 yarıçap derinlik, öncekinin yaklaşık 2.74 katı uçuş. Gözlemsel sırt z=-600'de kalır; giriş ileri taşınmadan arka hacim uzar. Picking kutu hacmiyle yapılır; frustum uzun derinliği kapsar. Kameranın vadi alçalması/yönelimi dört çekirdeği yaklaşmada görünür tutar.
+- 96³ üç boyutlu yoğunluk; ana fotoğraf özelliklerini bütün ışın boyunca uzatmak yerine kaynak rehberi ışın başına bir kez iyonlaşma sırtında örneklenir. İnce Gaussian sırt ray adımı üzerinden integral olarak örneklenir. Derin ortam yalnız kaba optik/IR renkleri ve üç boyutlu modellenmiş gaz kıvrımları kullanır. Bu seçim uzatılmış fotoğraf yıldızlarının radyal çizgiler oluşturmasını azaltır; gerçek hacimsel gözlem verisi değildir.
+- Son görsel incelemede düz birleşim izi saptandı: RepeatWrapping ile tekrarlanan sıradan noise sınırda kesiliyordu. Yoğunluk alanı sin/cos kapalı koordinat döngüsünde örneklenerek üç eksende periyodik hale getirildi; yeniden alınan başlangıç/iç görüntülerde düz sınır kaldırıldı. Kaynak fotoğrafa rötuş yapılmadı.
+- Açık mip footprint seçimi sürer. Hareketli adaptif bütçede 16/24/32 adım, durunca 32 adım ve viewport çözünürlüğü (1920 px sınırı). Durma kararı kare başına mesafe yerine gerçek kamera hızıyla alınır; yavaş GPU aynı hareket için farklı kalite durumunda takılmamalı. Duran hacim yavaş gaz güncellemeleri arasında önbelleğe alınır. Reduced-motion sabit kareyi korur. Ana DPR ayrıntı sonrası en az 1 olur, yıldızlar ayrı geçişte nettir.
+- Kanıt betiği boş yerel portu seçer, sahte Supabase/boş misafir tarayıcısıyla çalışır. Başlangıç overview'a açıkça döner; iç ve daha derin kareler wheel ile alınır. Gerçek 5360 hesabını/deposunu kullanmaz. Sabit 5351 iddiası yukarıdaki eski checkpoint'e aittir.
 
 ## Kabul sınırları
 

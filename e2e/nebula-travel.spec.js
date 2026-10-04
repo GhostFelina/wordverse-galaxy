@@ -13,12 +13,16 @@ for (const width of [1440, 768, 390]) {
     await expect(canvas).toHaveAttribute('data-nebula-ready', 'true');
     await expect(canvas).toHaveAttribute('data-nebulae', '1');
     await expect(canvas).toHaveAttribute('data-nebula-field-sources', '96');
+    await expect(canvas).toHaveAttribute('data-nebula-bright-stars', '4');
+    await expect(canvas).toHaveAttribute('data-nebula-width', '0.85');
     const raw = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
     await page.locator('#open-nebulae').click();
     await expect(page.locator('.nebula-card')).toHaveCount(1);
     await expect(page.locator('.nebula-card h3')).toHaveText('Orion Nebulası');
     await page.locator('#nebula-overview').click();
     await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);
+    await expect(canvas).toHaveAttribute('data-nebula-refined', 'true');
+    await expect(canvas).toHaveAttribute('data-nebula-gas-resolution', `${width}x900`);
     for (const layer of ['asteroids', 'fireballs', 'galaxies'])
       await expect(canvas).toHaveAttribute(`data-${layer}`, '0');
     expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(raw);
@@ -54,6 +58,8 @@ test('wheel flies through Orion and back; drag steers; modal scroll and learning
   await page.mouse.wheel(0, -120);
   await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
   await expect(canvas).toHaveAttribute('data-nebula-texture-resolution', '8192');
+  const entryZ = Number(await canvas.getAttribute('data-camera-z'));
+  expect(Number(await canvas.getAttribute('data-nebula-travel-length'))).toBeGreaterThan(2400);
   const before = Number(await canvas.getAttribute('data-camera-x'));
   await page.mouse.down();
   await page.mouse.move(755, 470, { steps: 4 });
@@ -61,13 +67,18 @@ test('wheel flies through Orion and back; drag steers; modal scroll and learning
   await expect
     .poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-x')) - before))
     .toBeGreaterThan(5);
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 14; i++) {
     const previousZ = Number(await canvas.getAttribute('data-camera-z'));
     await page.mouse.wheel(0, -160);
     await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(previousZ - 5);
+    if (i === 7) {
+      await expect.poll(async () => entryZ - Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(1300);
+      await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
+    }
   }
   await expect(canvas).toHaveAttribute('data-inside-nebula', '');
-  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(-800);
+  const backZ = Number(await canvas.getAttribute('data-nebula-back-z'));
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(backZ);
   await page.mouse.wheel(0, 1200);
   await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
   await page.mouse.wheel(0, 3000);

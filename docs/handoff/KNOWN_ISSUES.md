@@ -1,6 +1,6 @@
 # Bilinen sorunlar
 
-- Aktif sahne yalnız Orion ve yıldızlar. 8K optik doku gerçek 10K gözlem kaynağından türetilmiştir; framebuffer cihaz bütçesine göre daha düşük çözünürlükte çizilir. Yakın gazda özellikle yazılım GPU/12 adım modunda pütürlenme görülebilir. Ultra gerçekçilik kullanıcı kabulü bekliyor.
+- Aktif sahne yalnız Orion ve yıldızlar. 8K optik doku gerçek 10K gözlem kaynağından türetilmiştir. Hareket sırasında framebuffer cihaz bütçesine göre düşebilir; kamera durunca viewport çözünürlüğüne (1920 px sınırı) ve 32 gaz adımına döner. 96³ yoğunluk/ince sırt örneklemesi çizgilenmeyi azaltır, modellenmiş iç gaz gözlemsel 8K tomografi değildir. Uzun iç uçuşta gaz ayrıntısı ve gerçek mobil GPU kalitesi için kullanıcı kabulü bekliyor.
 - Orion gaz ve yıldız derinliği sanatsal modeldir; Gaia–Hubble WCS hizalama ve tam gaz-yıldız ışık sönümü açık. Mobil gerçek donanımda FPS ölçümü tamamlanmadı.
 
 - Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.

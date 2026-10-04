@@ -1,21 +1,28 @@
 import * as THREE from 'three';
 import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
 import images from './data/nebula-images.json';
-import { layoutNebulae, ORION_DEPTH_SCALE } from './nebula-layout.js';
+import { layoutNebulae, ORION_DEPTH_SCALE, ORION_PRINCIPAL_Z } from './nebula-layout.js';
 import { createNebulaEnvironment } from './nebula-environment.js';
 
 // A deterministic, coherent density field, sampled on the GPU instead of
 // repeatedly evaluating expensive procedural octaves for every ray step.
 function createDensityTexture() {
-  const size = 64,
+  const size = 96,
     data = new Uint8Array(size ** 3),
     noise = new ImprovedNoise();
+  // A closed coordinate loop makes each axis periodic. RepeatWrapping on
+  // ordinary nonperiodic noise exposed straight seams through the gas.
+  const sine = Array.from({ length: size }, (_, i) => Math.sin((i / size) * Math.PI * 2));
+  const cosine = Array.from({ length: size }, (_, i) => Math.cos((i / size) * Math.PI * 2));
   let index = 0;
   for (let z = 0; z < size; z++)
     for (let y = 0; y < size; y++)
       for (let x = 0; x < size; x++) {
-        const a = noise.noise(x / 14 + 19.4, y / 14 + 7.1, z / 14 + 31.8);
-        const b = noise.noise(x / 5 + 8.7, y / 5 + 42.6, z / 5 + 3.2);
+        const px = sine[x] + cosine[y],
+          py = sine[y] + cosine[z],
+          pz = sine[z] + cosine[x];
+        const a = noise.noise(px * 0.73 + 19.4, py * 0.73 + 7.1, pz * 0.73 + 31.8);
+        const b = noise.noise(px * 2.04 + 8.7, py * 2.04 + 42.6, pz * 2.04 + 3.2);
         data[index++] = Math.round(THREE.MathUtils.clamp(0.5 + a * 0.65 + b * 0.23, 0, 1) * 255);
       }
   const texture = new THREE.Data3DTexture(data, size, size, size);
@@ -30,8 +37,9 @@ const vertex = `varying vec3 localPosition;
 void main(){localPosition=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`;
 const fragment = `precision highp sampler3D;
 uniform sampler2D image;uniform sampler2D infrared;uniform sampler3D densityMap;
-uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float infraredLod;varying vec3 localPosition;
+uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float infraredLod;uniform float principalZ;varying vec3 localPosition;
 float cloud(vec3 p){return texture(densityMap,p*.36+vec3(.17,.31,.53)).r;}
+float erfApprox(float v){float v2=v*v;return sign(v)*sqrt(max(0.,1.-exp(-v2*(1.2732395+.147*v2)/(1.+.147*v2))));}
 void main(){
  vec3 ray=normalize(localPosition-eye);
  vec3 safe=sign(ray+vec3(.000001))*max(abs(ray),vec3(.000001));
@@ -42,41 +50,60 @@ void main(){
  float stride=(end-start)/float(steps);
  // Stable midpoint sampling avoids visible screen-space grain inside thin walls.
  float jitter=.5;
+ // Sample telescope guidance once at the principal ionization surface rather
+ // than stretching every photographed feature through the entire ray.
+ float guideDistance=(principalZ-eye.z)/safe.z;
+ vec3 guidePosition=guideDistance>0. ? eye+ray*guideDistance : vec3(0.);
+ vec2 uv=clamp(guidePosition.xy*.5+.5,vec2(.001),vec2(.999));
+ vec3 observed=textureLod(image,uv,opticalLod).rgb;
+ vec3 diffuse=textureLod(image,uv,opticalLod+4.).rgb;
+ float sharpLum=max(observed.r,max(observed.g,observed.b));
+ float lum=max(diffuse.r,max(diffuse.g,diffuse.b));
+ float saturation=sharpLum-min(observed.r,min(observed.g,observed.b));
+ float stellarPeak=smoothstep(.06,.25,sharpLum-lum)*(1.-smoothstep(.07,.3,saturation));
+ observed=mix(observed,diffuse,stellarPeak);
+ vec3 macroColor=mix(textureLod(image,uv,opticalLod+8.).rgb,textureLod(infrared,uv,infraredLod+7.).rgb,.16);
  vec4 sum=vec4(0.);
  for(int i=0;i<48;i++){
   if(i>=steps)break;
   vec3 p=eye+ray*(start+(float(i)+jitter)*stride);
-  float n=cloud(p*2.1+vec3(time*.0008,.014*sin(time*.045),time*.0003));
-  float fine=cloud(p*7.9+vec3(5.3,1.7,9.));
-  vec2 uv=p.xy*.5+.5+vec2(p.z*.035,(n-.5)*.018);
-  vec3 observed=textureLod(image,uv,opticalLod).rgb;
-  float lum=max(observed.r,max(observed.g,observed.b));
-  float feather=1.-smoothstep(.82,1.,length(p.xy)+.08*(n-.5));
-  feather*=1.-smoothstep(.7,1.,abs(p.z));
+  float n=cloud(p*1.6+vec3(time*.0006,.008*sin(time*.035),time*.00025));
+  float fine=cloud(p*4.8+vec3(5.3,1.7,9.));
+  float feather=1.-smoothstep(.72,1.,length(p.xy)+.05*(n-.5));
+  feather*=1.-smoothstep(.87,1.,abs(p.z));
   // Open cavity facing the observer; ionization wall and dusty back layer.
 
-  float filament=pow(1.-abs(fine*2.-1.),4.);
-  float valley=-.42+.4*pow(abs(p.x+.22*sin(p.z*2.)),1.5)+.22*p.z+.17*sin(p.z*4.+p.x*3.)+.13*(n-.5);
-  float wall=exp(-pow((p.y-valley)/.075,2.));
-  float folds=exp(-pow((p.y-valley-.12*sin(p.z*8.+p.x*4.)-.15)/.06,2.))*.38;
-  float skirt=exp(-pow((p.y-valley+.08)/.13,2.))*.06;
-  float veil=exp(-pow((p.y-.48-.08*sin(p.z*4.))/ .085,2.))*.012;
-  vec2 wallUv=vec2(p.x*.5+.5,p.z*.4+.5);
-  vec3 wallColor=mix(textureLod(image,wallUv,opticalLod).rgb,textureLod(infrared,wallUv,infraredLod).rgb,.48);
-  vec3 gasColor=mix(observed,wallColor,.8);
+  float filament=pow(1.-abs(fine*2.-1.),2.);
+  float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.22*(n-.5)+.08*(fine-.5);
+  float wall=exp(-pow((p.y-valley)/.12,2.));
+  float folds=exp(-pow((p.y-valley-.08*sin(p.z*5.+p.x*3.)-.15)/.10,2.))*.26;
+  float skirt=exp(-pow((p.y-valley+.08)/.18,2.))*.08;
+  float veil=exp(-pow((p.y-.48-.05*sin(p.z*3.))/ .12,2.))*.016;
+  // Keep telescope detail aligned in XY; projecting a photo onto XZ produced
+  // stretched radial streaks along the long flight walls.
+  // The deep medium uses diffuse colour, avoiding extrusion of photographed
+  // stars into long rays. Observed fine detail belongs to the ionization ridge.
+  float warm=smoothstep(-.8,.8,p.x+.45*p.z+(.5-n)*.4);
+  vec3 gasColor=mix(macroColor,mix(vec3(.19,.16,.29),vec3(.48,.23,.16),warm),.38);
   float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
-  gas*=(wall*1.8+folds+skirt+veil)*(.06+1.65*n*n)*(.25+1.2*filament);
+  gas*=(wall*1.2+folds+skirt+veil)*(.25+1.1*n*n)*(.5+.7*filament);
   float dust=smoothstep(.48,.7,cloud(p*3.9+vec3(7.,3.,2.)))*(1.-smoothstep(.04,.2,lum));
-  float backing=exp(-pow((p.z+.10+.1*(n-.5))/.075,2.))*smoothstep(.006,.23,lum)*feather;
+  float offset=p.z-principalZ;
+  float halfStep=abs(ray.z*stride)*.5;
+  float ridge=0.;
+  if(abs(offset)<.22+halfStep){
+    ridge=halfStep>.0001 ? .055*.8862269*(erfApprox((offset+halfStep)/.055)-erfApprox((offset-halfStep)/.055))/(2.*halfStep) : exp(-pow(offset/.055,2.));
+  }
+  float backing=ridge*smoothstep(.006,.23,max(observed.r,max(observed.g,observed.b)))*feather;
   float opening=(1.-smoothstep(.25,.65,abs(p.x)))*smoothstep(valley+.1,valley+.3,p.y);
   backing*=1.-opening;
-  gas+=backing*1.4;
-  gasColor=mix(gasColor,observed,backing/(gas+.001));
+  gas+=backing*2.5;
+  gasColor=mix(gasColor,observed,clamp(backing*2.5/(gas+.001),0.,1.));
   float extinction=gas*(2.5+dust*2.2);
   float opacity=1.-exp(-extinction*stride);
   vec3 tint=mix(gasColor,gasColor*vec3(1.1,.89,.8),(1.-smoothstep(-.7,.4,p.z))*.2);
-  float scatter=clamp(.75+(cloud(p*2.1+vec3(0.,.15,.04))-n)*4.,.3,1.25);
-  vec3 light=tint*(3.6+wall*.4)*scatter*(1.-dust*.75);
+  float scatter=clamp(.85+(cloud(p*1.6+vec3(0.,.12,.04))-n)*2.5,.55,1.15);
+  vec3 light=tint*(3.1+wall*.3)*scatter*(1.-dust*.6);
   sum.rgb+=(1.-sum.a)*light*opacity;
   sum.a+=(1.-sum.a)*opacity;
   if(sum.a>.985)break;
@@ -97,7 +124,8 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
     frustum = new THREE.Frustum(),
     projection = new THREE.Matrix4();
   const sphere = new THREE.Sphere(),
-    localEye = new THREE.Vector3();
+    localEye = new THREE.Vector3(),
+    pickBounds = new THREE.Box3();
   let disposed = false,
     loaded = 0;
   let highResolutionState = 'idle';
@@ -106,6 +134,12 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
     lastGasFrame = 0,
     slowGasFrames = 0,
     fastGasFrames = 0;
+  const lastGasView = new THREE.Matrix4();
+  let lastCameraMotion = 0,
+    lastVolumeFrame = 0,
+    lastOpticalWidth = 0,
+    lastLoaded = -1,
+    refinedFrame = false;
   const nodes = records.map((record) => {
     const group = new THREE.Group();
     group.position.fromArray(record.position);
@@ -137,6 +171,7 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
         steps: { value: 48 },
         opticalLod: { value: 0 },
         infraredLod: { value: 0 },
+        principalZ: { value: ORION_PRINCIPAL_Z },
       },
       vertexShader: vertex,
       fragmentShader: fragment,
@@ -176,12 +211,19 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
     get ready() {
       return shaderState === 'ready';
     },
+    get refined() {
+      return refinedFrame;
+    },
+    get gasResolution() {
+      return [target.width, target.height];
+    },
     render(renderer) {
       if (disposed) return;
       if (shaderState === 'idle') {
         shaderState = 'compiling';
         const mask = camera.layers.mask;
         camera.layers.set(1);
+        camera.layers.enable(2);
         renderer
           .compileAsync(scene, camera)
           .then(() => {
@@ -209,33 +251,69 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
         gasScale = Math.min(1, gasScale + 0.1);
         fastGasFrames = 0;
       }
-      if (gasScale < 0.4) for (const node of nodes) node.material.uniforms.steps.value = 12;
+      // Use velocity, not per-frame distance: a software GPU's longer frames
+      // must not postpone refinement after the same camera gesture.
+      const moved = camera.matrixWorld.elements.some(
+        (value, i) =>
+          Math.abs(value - lastGasView.elements[i]) / Math.max(16, elapsed) > (i >= 12 && i <= 14 ? 0.003 : 0.00001),
+      );
+      if (moved) lastCameraMotion = now;
+      lastGasView.copy(camera.matrixWorld);
+      const resting = now - lastCameraMotion > 250;
+      for (const node of nodes) {
+        if (resting) node.material.uniforms.steps.value = 32;
+        else if (gasScale < 0.4) node.material.uniforms.steps.value = 16;
+      }
       renderer.getSize(size);
-      const width = Math.min(1920, Math.round(size.x * Math.min(renderer.getPixelRatio(), 1) * gasScale));
+      // Refine a settled camera to viewport resolution. Cache that detailed
+      // volume between slow gas updates; stars and UI remain separate passes.
+      const width = Math.min(
+        1920,
+        Math.round(size.x * (resting ? 1 : Math.min(renderer.getPixelRatio(), 1) * gasScale)),
+      );
       const height = Math.max(1, Math.round((width * size.y) / size.x));
+      const opticalWidth = highResolutionState === 'ready' ? 8192 : compact ? 2048 : 4096;
       // Implicit derivatives are undefined in a ray loop with divergent exits.
       // Choose mip footprints explicitly, retaining finer detail inside the gas.
       for (const node of nodes) {
         const footprint = THREE.MathUtils.clamp(node.material.uniforms.eye.value.length() / 3, 0.15, 1);
-        const opticalWidth = highResolutionState === 'ready' ? 8192 : compact ? 2048 : 4096;
         node.material.uniforms.opticalLod.value = Math.max(0, Math.log2((opticalWidth * footprint) / width));
         node.material.uniforms.infraredLod.value = Math.max(0, Math.log2((2048 * footprint) / width));
       }
-      if (target.width !== width || target.height !== height) target.setSize(width, height);
+      const resized = target.width !== width || target.height !== height;
+      if (resized) target.setSize(width, height);
       renderer.getClearColor(savedColor);
       const alpha = renderer.getClearAlpha(),
         mask = camera.layers.mask;
       const previous = renderer.getRenderTarget();
-      renderer.setClearColor(0x000000, 0);
-      renderer.setRenderTarget(target);
-      camera.layers.set(1);
-      renderer.render(scene, camera);
-      camera.layers.mask = mask;
-      renderer.setRenderTarget(previous);
-      renderer.setClearColor(savedColor, alpha);
+      const animated = nodes.some((node) => node.material.uniforms.time.value !== 0);
+      if (
+        !resting ||
+        resized ||
+        !lastVolumeFrame ||
+        loaded !== lastLoaded ||
+        opticalWidth !== lastOpticalWidth ||
+        (animated && now - lastVolumeFrame > 250)
+      ) {
+        renderer.setClearColor(0x000000, 0);
+        renderer.setRenderTarget(target);
+        camera.layers.set(1);
+        renderer.render(scene, camera);
+        camera.layers.mask = mask;
+        renderer.setRenderTarget(previous);
+        renderer.setClearColor(savedColor, alpha);
+        lastVolumeFrame = now;
+        lastOpticalWidth = opticalWidth;
+        lastLoaded = loaded;
+        refinedFrame = resting;
+      }
       const autoClear = renderer.autoClear;
       renderer.autoClear = false;
       renderer.render(compositeScene, compositeCamera);
+      camera.layers.set(2);
+      renderer.clearDepth();
+      renderer.render(scene, camera);
+      camera.layers.mask = mask;
       renderer.autoClear = autoClear;
     },
     get textureResolution() {
@@ -277,12 +355,18 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
     get fieldSourceCount() {
       return nodes.reduce((sum, node) => sum + node.environment.count, 0);
     },
+    get brightStarCount() {
+      return nodes.reduce((sum, node) => sum + node.environment.brightStarCount, 0);
+    },
     pick(x, y) {
       raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
       for (const { record } of nodes) {
-        sphere.center.fromArray(record.position);
-        sphere.radius = record.radius * Math.max(1, record.dimensions[0] / record.dimensions[1]);
-        if (raycaster.ray.intersectSphere(sphere, localEye)) return record;
+        const [x, y, z] = record.position;
+        const width = (record.radius * record.dimensions[0]) / record.dimensions[1];
+        const depth = record.radius * ORION_DEPTH_SCALE;
+        pickBounds.min.set(x - width, y - record.radius, z - depth);
+        pickBounds.max.set(x + width, y + record.radius, z + depth);
+        if (raycaster.ray.intersectBox(pickBounds, localEye)) return record;
       }
       return null;
     },
@@ -296,7 +380,7 @@ export function createNebulaSystem(scene, camera, { loader = new THREE.TextureLo
         starSize = 0;
       for (const { record, group, material, environment } of nodes) {
         sphere.center.copy(group.position);
-        sphere.radius = Math.max(group.scale.x, group.scale.y);
+        sphere.radius = Math.max(group.scale.x, group.scale.y, group.scale.z);
         if (frustum.intersectsSphere(sphere)) visible++;
         localEye.copy(camera.position);
         group.worldToLocal(localEye);
