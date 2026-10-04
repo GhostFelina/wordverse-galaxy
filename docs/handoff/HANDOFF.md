@@ -2,6 +2,8 @@
 
 ## Son kullanıcı yönlendirmesi · 2026-10-04
 
+Uygulama checkpoint'i **409d28b**, `phase/4-universe` dalında commit/push tamamlandı. [GitHub Check 37193447908](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37193447908) bu kod için başlatıldı; kayıt anında sürüyor, yeşil kabulü yok.
+
 - **Son istek eski 20 bulutsu listesini iptal ediyor: yalnız Orion (M42) ve yıldızlar.** Diğer 19 bulutsu aktif metadata ve yeni görsel paketinden çıkarıldı. Gezegen, galaksi, asteroid, meteor ana sahnede yok. Öğrenme kayıtları/bağlaçlar silinmedi.
 - Ana Orion kalite referansı [NASA videosu](https://www.youtube.com/watch?v=fkWrjrdT3Zg&t=58s), **00:58 sonrası**. Kullanıcı ilk radyal görüntüyü amatör buldu; ilk yeniden çizimi kabul edilmiş sayma. Gaz vadisi, toz kanalları, yıldız kümesi ve farklı derinlikler geliştiriliyor.
 - Başlangıç ana gaz kesiti ekranın **%70 genişliği** hedefiyle, merkez sağa kayık. Ön kutu sınırıyla karıştırma: görünür gaz şekli yoğunluk ve boşluklara bağlıdır. Son düzeltmede derinlik 0.8→1.15 yarıçap. Mouse wheel ileri/geri, drag pan; form/dialog scroll'u evreni oynatmaz. İç uçuşta kamera gaz vadisine doğru alçalır.
