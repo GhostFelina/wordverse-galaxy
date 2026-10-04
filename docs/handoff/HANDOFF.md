@@ -1,5 +1,16 @@
 # Devir durumu
 
+## Aktif düzeltme · yan bulutsu görünümü · 2026-10-04
+
+Masaüstü `yan.png` incelendi. Sorun kelime yıldızında değil, ana Orion ayrıntısının yanından çıkan pürüzsüz mor şeritteydi. Bu bölüm aşağıdaki hacim kararlarını günceller; kullanıcı verisi ve yıldız optikleri korunur.
+
+- İnce Gaussian duvarın bütün derinlik boyunca uzaması ve düz skirt/veil katmanları kaldırıldı. Yan gaz üç sonlu 3B yoğunluk bölgesinin örtüşmesinden, dünya koordinatında türbülans deformasyonu ve farklı ölçekte lif/boşluk maskelerinden oluşur. Bu **sanatsal hacim modeli**, gözlemsel tomografi değildir.
+- Fotoğraf rehberinin UV sınırı dışında kenar pikselini uzatmak yerine gözlemsel sırt katkısı sönümlenir. Ana yıldızsız doku native 1254² olarak kalır; yeni görsel üretimi/upscale yok.
+- `star-nebula-transmission.js` aynı yeni hacim bölgeleriyle güncellendi; arka yıldız sönümü eski ince duvarı kullanmaz. Kalibre optik derinlik değildir.
+- Sentetik fixture'a `Bulutsu yan kadraj` (kamera x=-850,z=160) ve gerçek `Bulutsu yan açı` (kamera x=1050,z=-600, hacim merkezine bakış) eklendi. Son kaynak PNG'leri `word-star-nebula-side-1440.png`, `word-star-nebula-angle-1440.png`; ön/genel/yıldız kanıtları da yeniden üretildi ve gözle incelendi. Kullanıcının Masaüstü SS'i Git'e kopyalanmaz.
+- Son kaynakta **114 unit ve lint/format/typecheck/build geçti**. İlgili **8/8 tarayıcı kontrolü geçti (1.7 dakika)**; önceki tam 78/78 bu değişiklikten öncedir. Önceki checkpoint `6e7177a` remote Check **37217546979 başarılı**; yeni değişikliğin remote başarısı değildir. Son kaynakta uzun uçuş 20.3 s, yan açı 6.2 s, optikler 18.0 s, kayıt korunması 14.6 s ve güvenli hedef mesafesi 23.2 s geçti. Yeni 79 testlik tam yerel tur çalıştırılmadı.
+- Gerçek 5360 tarayıcısında ön kadraj ve sağa sürüklenen yan bölge incelendi; pürüzsüz mor şerit kaldırıldı. Kullanıcı kayıtlarına yazılmadı. Kod/kanıt/devir checkpoint’i aynı aktif dalda commit/push edilir. U2 genel görsel kabulü, daha ayrıntılı yıldızsız doku, bilimsel kalibrasyon ve gerçek mobil GPU bütçesi açık kalır.
+
 ## Aktif referans / random yıldız / hedef zoom · 2026-10-04
 
 Uygulama checkpoint **8511118**, `phase/4-universe`; belge takip commit’i aynı push paketindedir. Yeni remote Check sonucu henüz doğrulanmış değildir; en güncel run kontrol edilmeli. Bu üst bölüm aşağıdaki 302c6fa checkpoint kararlarını günceller. Son kullanıcı `yaklaşım.png`, `genel.png`, `uzaktan görünüş.png` referanslarının analizi, %55 yaklaşım ışığı, yalnız kendi yıldızları, random ekran/depth konumları ve seçilen yıldıza kilitli daha yavaş zoom istedi. [Sıralı uygulama planı](STAR_REFERENCE_PLAN.md).

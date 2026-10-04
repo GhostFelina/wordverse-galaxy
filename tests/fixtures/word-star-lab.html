@@ -54,7 +54,9 @@
     <nav aria-label="Yıldız görüşleri">
       <button id="general">Genel dağılım</button><button id="far">En uzak</button><button id="home">Genel</button
       ><button id="focus">Yaklaş</button><button id="approach">%55 yaklaşım</button><button id="close">Yüzey</button
-      ><button id="side">Yanından geç</button><button id="passed">Arkasında</button><button id="freeze">Hareket</button>
+      ><button id="side">Yanından geç</button><button id="passed">Arkasında</button
+      ><button id="nebula-side">Bulutsu yan kadraj</button><button id="nebula-angle">Bulutsu yan açı</button
+      ><button id="freeze">Hareket</button>
     </nav>
     <footer>
       <strong>Wordverse / kelime yıldızı</strong><br />Tek yıldız ailesi · beyaz sıcak ışık · granülasyon · ince
@@ -100,6 +102,8 @@
         close: [31, 0, 19.3],
         side: [32.2, 0, 18.4],
         passed: [32.2, 0, 17],
+        'nebula-side': [-850, 0, 160],
+        'nebula-angle': [1050, 0, -600],
       };
       let shot = 'home',
         moving = !matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -114,7 +118,8 @@
       renderer.setAnimationLoop((ms) => {
         if (document.hidden) return;
         camera.position.fromArray(views[shot]);
-        camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+        if (shot === 'nebula-angle') camera.lookAt(...gas.records[0].position);
+        else camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
         camera.updateMatrixWorld();
         gas.update(moving ? ms * 0.001 : 0, renderer.getPixelRatio(), innerHeight);
         stars.update(moving ? ms * 0.001 : 0, camera, innerHeight, renderer.getPixelRatio(), {

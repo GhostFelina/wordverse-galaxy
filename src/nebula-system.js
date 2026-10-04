@@ -39,6 +39,7 @@ const fragment = `precision highp sampler3D;
 uniform sampler2D image;uniform sampler2D infrared;uniform sampler3D densityMap;
 uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float infraredLod;uniform float principalZ;varying vec3 localPosition;
 float cloud(vec3 p){return texture(densityMap,p*.36+vec3(.17,.31,.53)).r;}
+float plume(vec3 p,vec3 center,vec3 extent){vec3 q=(p-center)/extent;return exp(-dot(q,q)*2.);}
 float erfApprox(float v){float v2=v*v;return sign(v)*sqrt(max(0.,1.-exp(-v2*(1.2732395+.147*v2)/(1.+.147*v2))));}
 void main(){
  vec3 ray=normalize(localPosition-eye);
@@ -54,7 +55,9 @@ void main(){
  // than stretching every photographed feature through the entire ray.
  float guideDistance=(principalZ-eye.z)/safe.z;
  vec3 guidePosition=guideDistance>0. ? eye+ray*guideDistance : vec3(0.);
- vec2 uv=clamp(guidePosition.xy*.5+.5,vec2(.001),vec2(.999));
+ vec2 guideUV=guidePosition.xy*.5+.5;
+ float guideCoverage=guideDistance>0. ? (1.-smoothstep(.96,1.,max(abs(guidePosition.x),abs(guidePosition.y)))) : 0.;
+ vec2 uv=clamp(guideUV,vec2(.001),vec2(.999));
  vec3 observed=textureLod(image,uv,opticalLod).rgb;
  vec3 diffuse=textureLod(image,uv,opticalLod+5.).rgb;
  float sharpLum=max(observed.r,max(observed.g,observed.b));
@@ -72,12 +75,18 @@ void main(){
   feather*=1.-smoothstep(.87,1.,abs(p.z));
   // Open cavity facing the observer; ionization wall and dusty back layer.
 
-  float filament=pow(1.-abs(fine*2.-1.),2.);
-  float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.22*(n-.5)+.08*(fine-.5);
-  float wall=exp(-pow((p.y-valley)/.12,2.));
-  float folds=exp(-pow((p.y-valley-.08*sin(p.z*5.+p.x*3.)-.15)/.10,2.))*.26;
-  float skirt=exp(-pow((p.y-valley+.08)/.18,2.))*.08;
-  float veil=exp(-pow((p.y-.48-.05*sin(p.z*3.))/ .12,2.))*.016;
+  // Break the smooth extruded side ribbon into a porous, corrugated medium.
+  // The same world-space field holds from the front, side and inside the cloud.
+  float micro=cloud(p*13.7+vec3(2.8,11.3,6.1));
+  float filament=smoothstep(.24,.73,fine*.45+micro*.55);
+  float branches=smoothstep(.24,.64,n*.45+fine*.55);
+  float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.42*(n-.5)+.18*(fine-.5);
+  vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*.28;
+  // Finite three-dimensional lobes replace the infinitely extruded thin wall.
+  // Their overlap is eroded by the shared turbulent field, never a flat skirt.
+  float wall=(plume(flow,vec3(-.34,-.24,.15),vec3(.42,.32,.68))*.7
+             +plume(flow,vec3(.38,-.04,-.2),vec3(.38,.48,.57))*.8
+             +plume(flow,vec3(.02,.22,.38),vec3(.47,.34,.45))*.45)*branches;
   // Keep telescope detail aligned in XY; projecting a photo onto XZ produced
   // stretched radial streaks along the long flight walls.
   // The deep medium uses diffuse colour, avoiding extrusion of photographed
@@ -85,7 +94,7 @@ void main(){
   float warm=smoothstep(-.8,.8,p.x+.45*p.z+(.5-n)*.4);
   vec3 gasColor=mix(macroColor,mix(vec3(.19,.16,.29),vec3(.48,.23,.16),warm),.38);
   float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
-  gas*=(wall*1.2+folds+skirt+veil)*(.25+1.1*n*n)*(.5+.7*filament);
+  gas*=wall*(.12+1.25*n*n)*(.1+1.2*filament);
   float dust=smoothstep(.48,.7,cloud(p*3.9+vec3(7.,3.,2.)))*(1.-smoothstep(.04,.2,lum));
   float offset=p.z-principalZ;
   float halfStep=abs(ray.z*stride)*.5;
@@ -93,7 +102,7 @@ void main(){
   if(abs(offset)<.22+halfStep){
     ridge=halfStep>.0001 ? .055*.8862269*(erfApprox((offset+halfStep)/.055)-erfApprox((offset-halfStep)/.055))/(2.*halfStep) : exp(-pow(offset/.055,2.));
   }
-  float backing=ridge*smoothstep(.006,.23,max(observed.r,max(observed.g,observed.b)))*feather;
+  float backing=ridge*smoothstep(.006,.23,max(observed.r,max(observed.g,observed.b)))*feather*guideCoverage;
   float opening=(1.-smoothstep(.25,.65,abs(p.x)))*smoothstep(valley+.1,valley+.3,p.y);
   backing*=1.-opening;
   gas+=backing*2.5;

@@ -1,5 +1,25 @@
 import { expect, test } from '@playwright/test';
 
+test('Orion volume renders lateral framing and a genuine side view without writing records', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/tests/fixtures/word-star-lab.html');
+  const canvas = page.locator('#star-lab');
+  await expect(canvas).toHaveAttribute('data-ready', 'true');
+  for (const view of ['nebula-side', 'nebula-angle']) {
+    await page.locator(`#${view}`).click();
+    await expect(canvas).toHaveAttribute('data-shot', view);
+    await expect(canvas).toHaveAttribute('data-refined', 'true');
+  }
+  expect(await page.evaluate(() => localStorage.length)).toBe(0);
+  expect(errors).toEqual([]);
+});
+
 test('word-star optics, surface, lateral passage and return use one continuous body', async ({ page }) => {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
