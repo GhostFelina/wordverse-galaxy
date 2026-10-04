@@ -1,0 +1,57 @@
+[
+  {
+    "id": "orion",
+    "nameTr": "Orion Nebulası",
+    "name": "Orion Nebula (M42)",
+    "priority": true,
+    "band": "optical + infrared",
+    "imageId": "heic0601a",
+    "sourceTitle": "Hubble's sharpest view of the Orion Nebula",
+    "source": "https://esahubble.org/images/heic0601a/",
+    "download": "https://esahubble.org/media/archives/images/publicationtiff10k/heic0601a.tif",
+    "credit": "NASA, ESA, M. Robberto ( Space Telescope Science Institute/ESA) and the Hubble Space Telescope Orion Treasury Project Team",
+    "license": "https://esahubble.org/public/copyright/",
+    "observationNote": "Observed 10K Hubble TIFF downsampled to display textures; depth is illustrative, not a measured gas volume.",
+    "texture": "/assets/nebulae/orion.webp",
+    "dimensions": [2048, 2048],
+    "originalDimensions": [10000, 10000],
+    "sourceSha256": "98e847037ba0cd21db9f13a5128e75d9e7af85c5ead0f05b86d43a556c00c122",
+    "sha256": "0720ecb5e72781868e6cb44d92c60038fe76caac1d70bb10eb9b0a9821eafd7e",
+    "infrared": {
+      "source": "https://svs.gsfc.nasa.gov/30959/",
+      "download": "https://svs.gsfc.nasa.gov/vis/a030000/a030900/a030959/STScI-H-Orion_IR_3840x2160.png",
+      "credit": "NASA/Spitzer/JPL-Caltech",
+      "band": "infrared",
+      "license": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "texture": "/assets/nebulae/orion-ir.webp",
+      "dimensions": [2048, 1152],
+      "sourceSha256": "4ec22e55cfe0d574d373df42ef55ee894f2ee7eaab06ba419446d22d657dddc4",
+      "sha256": "b8cd83b0ad26bd1f4969e679ac0c87560953e9e1accdab6c3b584e72b4dda549"
+    },
+    "gasTexture": {
+      "texture": "/assets/nebulae/orion-gas.webp",
+      "dimensions": [4096, 4096],
+      "sha256": "d493a5f6538a25909bf14798be1cecb49313fda63b46d96d39cc826765f530f8",
+      "processing": "Downsampled from observed 10K TIFF; 3-pixel median removes isolated stellar pixels in the gas guide. No generated detail or upscaling."
+    },
+    "highResolutionSource": {
+      "download": "https://esahubble.org/media/archives/images/publicationtiff10k/heic0601a.tif",
+      "dimensions": [10000, 10000],
+      "sourceSha256": "98e847037ba0cd21db9f13a5128e75d9e7af85c5ead0f05b86d43a556c00c122",
+      "credit": "NASA, ESA, M. Robberto ( Space Telescope Science Institute/ESA) and the Hubble Space Telescope Orion Treasury Project Team",
+      "license": "https://esahubble.org/public/copyright/"
+    },
+    "highResolution": {
+      "texture": "/assets/nebulae/orion-8k.webp",
+      "dimensions": [8192, 8192],
+      "sha256": "ad7f9abf979a4f2ee030798e1e374fac8ceb0c08354c8455e8708a68ac8eef38",
+      "processing": "Downsampled from observed 10K TIFF; 3-pixel median removes isolated stellar pixels in the gas guide. No generated detail or upscaling."
+    },
+    "starlessTexture": {
+      "texture": "/assets/nebulae/orion-starless.png",
+      "dimensions": [1254, 1254],
+      "sha256": "34749715a28223a22526f2ac2f33ea345b1fae308a0307261be6a0982d479f81",
+      "processing": "Built-in imagegen edit of the Hubble-derived gas texture: removes all embedded stars and their spikes/halos; gas is AI-edited, not an unmodified observed photograph. Native resolution; no upscaling."
+    }
+  }
+]

@@ -1,0 +1,820 @@
+[
+  {
+    "id": "orion",
+    "designation": "M42",
+    "morphology": "hii-cavity",
+    "raDeg": 83.8201,
+    "decDeg": -5.3876,
+    "fieldRadiusDeg": 0.3333333333333333,
+    "resolver": "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?M42",
+    "catalog": "Gaia DR3 / I/355/gaiadr3",
+    "catalogUrl": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=I%2F355%2Fgaiadr3&-c=83.8201+-5.3876&-c.rs=1200&-out=Source%2CRA_ICRS%2CDE_ICRS%2CGmag%2CBP-RP%2CPlx&-out.max=96&-sort=Gmag",
+    "credit": "ESA/Gaia/DPAC; CDS/VizieR",
+    "responseSha256": "8acade70276382b6a70ec5e292e5281862768652db3d6c84552c0fc633b2e88c",
+    "stars": [
+      {
+        "sourceId": "3017364063330718080",
+        "raDeg": 83.8186196663,
+        "decDeg": -5.38969608473,
+        "magnitude": 4.96096,
+        "bpRp": 0.172552,
+        "parallaxMas": 2.5014
+      },
+      {
+        "sourceId": "3017360936587007616",
+        "raDeg": 83.84542669572,
+        "decDeg": -5.41605398039,
+        "magnitude": 5.001814,
+        "bpRp": -0.004442,
+        "parallaxMas": 2.9728
+      },
+      {
+        "sourceId": "3017360833515044480",
+        "raDeg": 83.8600083242,
+        "decDeg": -5.41688643835,
+        "magnitude": 6.30193,
+        "bpRp": -0.070048,
+        "parallaxMas": 2.387
+      },
+      {
+        "sourceId": "3017364063330465152",
+        "raDeg": 83.82191416804,
+        "decDeg": -5.38793457013,
+        "magnitude": 6.583162,
+        "bpRp": 0.264507,
+        "parallaxMas": 2.282
+      },
+      {
+        "sourceId": "3017364132050194688",
+        "raDeg": 83.81594522279,
+        "decDeg": -5.38731408296,
+        "magnitude": 6.62754,
+        "bpRp": 0.15438,
+        "parallaxMas": 2.6427
+      },
+      {
+        "sourceId": "3017367396223983616",
+        "raDeg": 83.88069121857,
+        "decDeg": -5.26737626988,
+        "magnitude": 6.735891,
+        "bpRp": 0.569099,
+        "parallaxMas": 2.4059
+      },
+      {
+        "sourceId": "3017342485415388160",
+        "raDeg": 83.97534416201,
+        "decDeg": -5.62839733738,
+        "magnitude": 7.370096,
+        "bpRp": -0.123293,
+        "parallaxMas": 2.6595
+      },
+      {
+        "sourceId": "3209522411971821824",
+        "raDeg": 83.77583107113,
+        "decDeg": -5.20441980247,
+        "magnitude": 7.81903,
+        "bpRp": -0.174582,
+        "parallaxMas": 2.5947
+      },
+      {
+        "sourceId": "3017364132049943680",
+        "raDeg": 83.81723065378,
+        "decDeg": -5.38521221994,
+        "magnitude": 7.831552,
+        "bpRp": 0.53272,
+        "parallaxMas": 2.6548
+      },
+      {
+        "sourceId": "3017264007761349504",
+        "raDeg": 83.69577175562,
+        "decDeg": -5.57072533573,
+        "magnitude": 7.961615,
+        "bpRp": 0.37739,
+        "parallaxMas": 2.22
+      },
+      {
+        "sourceId": "3017360799155290368",
+        "raDeg": 83.88097417326,
+        "decDeg": -5.42119778049,
+        "magnitude": 8.271008,
+        "bpRp": 0.147367,
+        "parallaxMas": 2.4513
+      },
+      {
+        "sourceId": "3017360348171372672",
+        "raDeg": 83.79099217729,
+        "decDeg": -5.46477438312,
+        "magnitude": 8.34164,
+        "bpRp": 0.300551,
+        "parallaxMas": 2.4489
+      },
+      {
+        "sourceId": "3017342485409179392",
+        "raDeg": 83.9753810468,
+        "decDeg": -5.62863540624,
+        "magnitude": 8.438428,
+        "bpRp": -0.096921,
+        "parallaxMas": 2.5309
+      },
+      {
+        "sourceId": "3017265961968363904",
+        "raDeg": 83.73040296215,
+        "decDeg": -5.50613730536,
+        "magnitude": 8.968011,
+        "bpRp": 0.00104,
+        "parallaxMas": 2.3827
+      },
+      {
+        "sourceId": "3017361933025590016",
+        "raDeg": 83.99392166525,
+        "decDeg": -5.37538902015,
+        "magnitude": 8.987939,
+        "bpRp": -0.030479,
+        "parallaxMas": 3.0307
+      },
+      {
+        "sourceId": "3017354992360111616",
+        "raDeg": 84.1132791307,
+        "decDeg": -5.40869654425,
+        "magnitude": 9.176844,
+        "bpRp": -0.033463,
+        "parallaxMas": 2.6328
+      },
+      {
+        "sourceId": "3209530520870064896",
+        "raDeg": 83.8928279138,
+        "decDeg": -5.10588942306,
+        "magnitude": 9.34284,
+        "bpRp": 0.011577,
+        "parallaxMas": 2.5792
+      },
+      {
+        "sourceId": "3209532410656516480",
+        "raDeg": 83.82586921251,
+        "decDeg": -5.06518460425,
+        "magnitude": 9.344858,
+        "bpRp": 0.040678,
+        "parallaxMas": 2.5661
+      },
+      {
+        "sourceId": "3017365643879095040",
+        "raDeg": 83.8363487736,
+        "decDeg": -5.36232448225,
+        "magnitude": 9.460669,
+        "bpRp": 0.722088,
+        "parallaxMas": 2.4554
+      },
+      {
+        "sourceId": "3017359905802385152",
+        "raDeg": 83.86843752533,
+        "decDeg": -5.43898187396,
+        "magnitude": 9.503652,
+        "bpRp": 0.042728,
+        "parallaxMas": 2.6059
+      },
+      {
+        "sourceId": "3209526874441202560",
+        "raDeg": 83.67617403238,
+        "decDeg": -5.12071719353,
+        "magnitude": 9.602118,
+        "bpRp": 0.041901,
+        "parallaxMas": 2.5395
+      },
+      {
+        "sourceId": "3017364127743288704",
+        "raDeg": 83.81572342687,
+        "decDeg": -5.38607509575,
+        "magnitude": 9.685971,
+        "bpRp": 1.368761,
+        "parallaxMas": 2.611
+      },
+      {
+        "sourceId": "3017346952181227776",
+        "raDeg": 83.88070887882,
+        "decDeg": -5.55246230454,
+        "magnitude": 9.69661,
+        "bpRp": 0.625295,
+        "parallaxMas": 2.5796
+      },
+      {
+        "sourceId": "3209528493645506560",
+        "raDeg": 83.83860904714,
+        "decDeg": -5.15447935021,
+        "magnitude": 9.703191,
+        "bpRp": 0.949982,
+        "parallaxMas": 1.5429
+      },
+      {
+        "sourceId": "3017373718415827840",
+        "raDeg": 83.89912562789,
+        "decDeg": -5.20571427294,
+        "magnitude": 9.879399,
+        "bpRp": 0.069066,
+        "parallaxMas": 2.5756
+      },
+      {
+        "sourceId": "3017364063331140224",
+        "raDeg": 83.81971981442,
+        "decDeg": -5.39034034132,
+        "magnitude": 9.975762,
+        "bpRp": 0.403869,
+        "parallaxMas": 2.5502
+      },
+      {
+        "sourceId": "3017265515291765760",
+        "raDeg": 83.71774319396,
+        "decDeg": -5.55234026852,
+        "magnitude": 9.976461,
+        "bpRp": 1.169183,
+        "parallaxMas": 2.6197
+      },
+      {
+        "sourceId": "3017363685373806848",
+        "raDeg": 83.75055278642,
+        "decDeg": -5.42118307393,
+        "magnitude": 10.0968,
+        "bpRp": 0.29691,
+        "parallaxMas": 2.5881
+      },
+      {
+        "sourceId": "3209531650444835840",
+        "raDeg": 83.76792177793,
+        "decDeg": -5.13683965425,
+        "magnitude": 10.146164,
+        "bpRp": 1.619644,
+        "parallaxMas": 2.5447
+      },
+      {
+        "sourceId": "3209425173910483584",
+        "raDeg": 83.54636806361,
+        "decDeg": -5.38181379383,
+        "magnitude": 10.154814,
+        "bpRp": 0.758244,
+        "parallaxMas": 2.6771
+      },
+      {
+        "sourceId": "3209532135777678208",
+        "raDeg": 83.76422346605,
+        "decDeg": -5.09453692105,
+        "magnitude": 10.304074,
+        "bpRp": 0.829262,
+        "parallaxMas": 2.5588
+      },
+      {
+        "sourceId": "3017364372568073472",
+        "raDeg": 83.82074674471,
+        "decDeg": -5.36258657996,
+        "magnitude": 10.342867,
+        "bpRp": 0.648914,
+        "parallaxMas": 2.5044
+      },
+      {
+        "sourceId": "3209525538707938944",
+        "raDeg": 83.66665841619,
+        "decDeg": -5.16863867605,
+        "magnitude": 10.451903,
+        "bpRp": 1.055387,
+        "parallaxMas": 2.5208
+      },
+      {
+        "sourceId": "3209524748433972992",
+        "raDeg": 83.56334083562,
+        "decDeg": -5.19703672685,
+        "magnitude": 10.467311,
+        "bpRp": 0.646723,
+        "parallaxMas": 3.3351
+      },
+      {
+        "sourceId": "3209527291055512064",
+        "raDeg": 83.8388250214,
+        "decDeg": -5.20352169721,
+        "magnitude": 10.498044,
+        "bpRp": 1.481145,
+        "parallaxMas": 1.9928
+      },
+      {
+        "sourceId": "3017270020715558144",
+        "raDeg": 83.62641000369,
+        "decDeg": -5.45779561311,
+        "magnitude": 10.714022,
+        "bpRp": 0.67721,
+        "parallaxMas": 3.981
+      },
+      {
+        "sourceId": "3209424795953358720",
+        "raDeg": 83.60400000116,
+        "decDeg": -5.36819602837,
+        "magnitude": 10.724628,
+        "bpRp": 0.861074,
+        "parallaxMas": 2.6354
+      },
+      {
+        "sourceId": "3017369217290105472",
+        "raDeg": 83.94587076588,
+        "decDeg": -5.29917632175,
+        "magnitude": 10.762822,
+        "bpRp": 4.041902,
+        "parallaxMas": 1.5572
+      },
+      {
+        "sourceId": "3017270879709003520",
+        "raDeg": 83.66566593182,
+        "decDeg": -5.40711246971,
+        "magnitude": 10.825685,
+        "bpRp": 1.578194,
+        "parallaxMas": 2.5693
+      },
+      {
+        "sourceId": "3209532135777678336",
+        "raDeg": 83.75280601646,
+        "decDeg": -5.08577716302,
+        "magnitude": 10.845876,
+        "bpRp": 0.596466,
+        "parallaxMas": 2.5678
+      },
+      {
+        "sourceId": "3209521071942874752",
+        "raDeg": 83.77171395724,
+        "decDeg": -5.24732074654,
+        "magnitude": 10.860156,
+        "bpRp": 1.725405,
+        "parallaxMas": -1.1422
+      },
+      {
+        "sourceId": "3017363238695654016",
+        "raDeg": 83.93030935142,
+        "decDeg": -5.33721154745,
+        "magnitude": 10.893752,
+        "bpRp": 1.193509,
+        "parallaxMas": 12.8718
+      },
+      {
+        "sourceId": "3017247755605207296",
+        "raDeg": 83.95746472966,
+        "decDeg": -5.67439441839,
+        "magnitude": 10.925468,
+        "bpRp": 1.291504,
+        "parallaxMas": 2.6751
+      },
+      {
+        "sourceId": "3017363582294583936",
+        "raDeg": 83.77349138995,
+        "decDeg": -5.42208959145,
+        "magnitude": 11.064143,
+        "bpRp": 1.380212,
+        "parallaxMas": 2.547
+      },
+      {
+        "sourceId": "3017364613086735360",
+        "raDeg": 83.73322514474,
+        "decDeg": -5.38695525009,
+        "magnitude": 11.099768,
+        "bpRp": 1.610196,
+        "parallaxMas": 2.5161
+      },
+      {
+        "sourceId": "3017247618166246784",
+        "raDeg": 83.99659162554,
+        "decDeg": -5.6665820486,
+        "magnitude": 11.111089,
+        "bpRp": 1.184263,
+        "parallaxMas": 2.6936
+      },
+      {
+        "sourceId": "3017355400367313024",
+        "raDeg": 84.13388060632,
+        "decDeg": -5.39586177079,
+        "magnitude": 11.116668,
+        "bpRp": 0.887989,
+        "parallaxMas": 2.5962
+      },
+      {
+        "sourceId": "3017250019053914368",
+        "raDeg": 83.81652321244,
+        "decDeg": -5.65419310487,
+        "magnitude": 11.119891,
+        "bpRp": 1.056547,
+        "parallaxMas": 2.6705
+      },
+      {
+        "sourceId": "3017347291470793216",
+        "raDeg": 83.88490295176,
+        "decDeg": -5.51979101694,
+        "magnitude": 11.251985,
+        "bpRp": 1.536126,
+        "parallaxMas": 2.5957
+      },
+      {
+        "sourceId": "3017373443537920640",
+        "raDeg": 83.92974523799,
+        "decDeg": -5.22983018395,
+        "magnitude": 11.258432,
+        "bpRp": 0.884459,
+        "parallaxMas": 3.1738
+      },
+      {
+        "sourceId": "3017347673735214592",
+        "raDeg": 83.96021114642,
+        "decDeg": -5.4763649181,
+        "magnitude": 11.287081,
+        "bpRp": 1.095647,
+        "parallaxMas": 2.4843
+      },
+      {
+        "sourceId": "3017360661716621696",
+        "raDeg": 83.85979077179,
+        "decDeg": -5.42783194954,
+        "magnitude": 11.397721,
+        "bpRp": 1.334326,
+        "parallaxMas": 2.5994
+      },
+      {
+        "sourceId": "3017364127743299328",
+        "raDeg": 83.82480220579,
+        "decDeg": -5.3792871687,
+        "magnitude": 11.430308,
+        "bpRp": 1.647117,
+        "parallaxMas": 2.4841
+      },
+      {
+        "sourceId": "3017359871442791168",
+        "raDeg": 83.85919293906,
+        "decDeg": -5.46021077293,
+        "magnitude": 11.442071,
+        "bpRp": 1.276542,
+        "parallaxMas": 2.5372
+      },
+      {
+        "sourceId": "3017367671101895936",
+        "raDeg": 83.85961013569,
+        "decDeg": -5.25306673174,
+        "magnitude": 11.461376,
+        "bpRp": 0.970237,
+        "parallaxMas": 6.8686
+      },
+      {
+        "sourceId": "3017363994611283840",
+        "raDeg": 83.79472386939,
+        "decDeg": -5.395745163,
+        "magnitude": 11.514204,
+        "bpRp": 1.747368,
+        "parallaxMas": 2.9824
+      },
+      {
+        "sourceId": "3017250087773385344",
+        "raDeg": 83.80419448703,
+        "decDeg": -5.65969717458,
+        "magnitude": 11.599787,
+        "bpRp": 1.429981,
+        "parallaxMas": 2.5806
+      },
+      {
+        "sourceId": "3017373645390119040",
+        "raDeg": 83.86252754727,
+        "decDeg": -5.22067824714,
+        "magnitude": 11.626039,
+        "bpRp": 0.854056,
+        "parallaxMas": 2.666
+      },
+      {
+        "sourceId": "3209424108758593408",
+        "raDeg": 83.61390902179,
+        "decDeg": -5.40619453582,
+        "magnitude": 11.650246,
+        "bpRp": 1.60675,
+        "parallaxMas": 2.5727
+      },
+      {
+        "sourceId": "3209528905962364544",
+        "raDeg": 83.85954125491,
+        "decDeg": -5.14445250172,
+        "magnitude": 11.653489,
+        "bpRp": 1.162569,
+        "parallaxMas": 2.5207
+      },
+      {
+        "sourceId": "3017267478094926720",
+        "raDeg": 83.61543341602,
+        "decDeg": -5.53204309301,
+        "magnitude": 11.695159,
+        "bpRp": 1.568839,
+        "parallaxMas": 2.4963
+      },
+      {
+        "sourceId": "3017365880089958912",
+        "raDeg": 83.82780471511,
+        "decDeg": -5.34269847376,
+        "magnitude": 11.695605,
+        "bpRp": 2.118931,
+        "parallaxMas": 2.6253
+      },
+      {
+        "sourceId": "3017347914253414016",
+        "raDeg": 83.92485097104,
+        "decDeg": -5.47020580147,
+        "magnitude": 11.709268,
+        "bpRp": 1.326899,
+        "parallaxMas": null
+      },
+      {
+        "sourceId": "3017361108393637120",
+        "raDeg": 83.83770561894,
+        "decDeg": -5.39694562577,
+        "magnitude": 11.744829,
+        "bpRp": 1.42463,
+        "parallaxMas": 2.5234
+      },
+      {
+        "sourceId": "3017347914245946624",
+        "raDeg": 83.92491205778,
+        "decDeg": -5.47025280566,
+        "magnitude": 11.751541,
+        "bpRp": 1.329243,
+        "parallaxMas": null
+      },
+      {
+        "sourceId": "3209424486715714816",
+        "raDeg": 83.62187542719,
+        "decDeg": -5.3990831974,
+        "magnitude": 11.800513,
+        "bpRp": 1.123498,
+        "parallaxMas": null
+      },
+      {
+        "sourceId": "3209422386474525824",
+        "raDeg": 83.58121239931,
+        "decDeg": -5.4533656115,
+        "magnitude": 11.842663,
+        "bpRp": 0.888425,
+        "parallaxMas": 4.1133
+      },
+      {
+        "sourceId": "3209422249035572736",
+        "raDeg": 83.56031920789,
+        "decDeg": -5.47133278363,
+        "magnitude": 11.882269,
+        "bpRp": 1.119014,
+        "parallaxMas": 2.5792
+      },
+      {
+        "sourceId": "3017269947698014336",
+        "raDeg": 83.64144794998,
+        "decDeg": -5.47346913841,
+        "magnitude": 11.904085,
+        "bpRp": 1.348393,
+        "parallaxMas": 2.5049
+      },
+      {
+        "sourceId": "3017374268171636096",
+        "raDeg": 83.94914110968,
+        "decDeg": -5.17522548945,
+        "magnitude": 11.919521,
+        "bpRp": 1.34365,
+        "parallaxMas": 2.601
+      },
+      {
+        "sourceId": "3209422390772009856",
+        "raDeg": 83.58124173248,
+        "decDeg": -5.45349963048,
+        "magnitude": 11.935166,
+        "bpRp": 0.892432,
+        "parallaxMas": 2.9006
+      },
+      {
+        "sourceId": "3017346952181228416",
+        "raDeg": 83.87431550389,
+        "decDeg": -5.54819317347,
+        "magnitude": 11.939706,
+        "bpRp": 1.391147,
+        "parallaxMas": 2.539
+      },
+      {
+        "sourceId": "3017363955944598016",
+        "raDeg": 83.81646336477,
+        "decDeg": -5.39722973007,
+        "magnitude": 11.971803,
+        "bpRp": 1.529752,
+        "parallaxMas": 2.2167
+      },
+      {
+        "sourceId": "3017358978089804672",
+        "raDeg": 83.84929710325,
+        "decDeg": -5.51319742521,
+        "magnitude": 12.000088,
+        "bpRp": 1.299753,
+        "parallaxMas": 2.581
+      },
+      {
+        "sourceId": "3209528081326372864",
+        "raDeg": 83.88313307619,
+        "decDeg": -5.15772395304,
+        "magnitude": 12.03775,
+        "bpRp": 1.765917,
+        "parallaxMas": 3.6971
+      },
+      {
+        "sourceId": "3017367151399567872",
+        "raDeg": 83.79844461178,
+        "decDeg": -5.28266941167,
+        "magnitude": 12.0486,
+        "bpRp": 1.923836,
+        "parallaxMas": 2.5848
+      },
+      {
+        "sourceId": "3017270463094089600",
+        "raDeg": 83.66617673463,
+        "decDeg": -5.44498483624,
+        "magnitude": 12.049031,
+        "bpRp": 1.360779,
+        "parallaxMas": 2.5686
+      },
+      {
+        "sourceId": "3017373164352048384",
+        "raDeg": 83.99195178952,
+        "decDeg": -5.21515248744,
+        "magnitude": 12.069014,
+        "bpRp": 2.388516,
+        "parallaxMas": 1.4344
+      },
+      {
+        "sourceId": "3017365880089961728",
+        "raDeg": 83.82974836614,
+        "decDeg": -5.34409082879,
+        "magnitude": 12.095694,
+        "bpRp": 1.170147,
+        "parallaxMas": 2.5091
+      },
+      {
+        "sourceId": "3017364368261463936",
+        "raDeg": 83.82175111357,
+        "decDeg": -5.35880869489,
+        "magnitude": 12.132508,
+        "bpRp": 1.740205,
+        "parallaxMas": 2.6271
+      },
+      {
+        "sourceId": "3017364028971010432",
+        "raDeg": 83.80250640763,
+        "decDeg": -5.39559211822,
+        "magnitude": 12.155404,
+        "bpRp": 1.207356,
+        "parallaxMas": 2.5983
+      },
+      {
+        "sourceId": "3017372206587342208",
+        "raDeg": 83.94792791779,
+        "decDeg": -5.28277725938,
+        "magnitude": 12.168905,
+        "bpRp": 1.303299,
+        "parallaxMas": 2.3424
+      },
+      {
+        "sourceId": "3017375951801904256",
+        "raDeg": 83.9651657881,
+        "decDeg": -5.13589502305,
+        "magnitude": 12.195935,
+        "bpRp": 1.594068,
+        "parallaxMas": 2.9177
+      },
+      {
+        "sourceId": "3017270669252519680",
+        "raDeg": 83.68827488716,
+        "decDeg": -5.41779894307,
+        "magnitude": 12.209391,
+        "bpRp": 1.689006,
+        "parallaxMas": 2.5743
+      },
+      {
+        "sourceId": "3017360554330360320",
+        "raDeg": 83.79379508923,
+        "decDeg": -5.43843141168,
+        "magnitude": 12.212343,
+        "bpRp": 1.580545,
+        "parallaxMas": 2.5644
+      },
+      {
+        "sourceId": "3017364127743288320",
+        "raDeg": 83.81515197954,
+        "decDeg": -5.38234278234,
+        "magnitude": 12.260441,
+        "bpRp": 1.441617,
+        "parallaxMas": 2.5113
+      },
+      {
+        "sourceId": "3017250847981552896",
+        "raDeg": 83.79345397537,
+        "decDeg": -5.64019576814,
+        "magnitude": 12.269952,
+        "bpRp": 1.811726,
+        "parallaxMas": 2.6013
+      },
+      {
+        "sourceId": "3209527462853356544",
+        "raDeg": 83.86194214514,
+        "decDeg": -5.18542944794,
+        "magnitude": 12.275671,
+        "bpRp": 2.402803,
+        "parallaxMas": 2.6424
+      },
+      {
+        "sourceId": "3017376325447976576",
+        "raDeg": 84.01807427865,
+        "decDeg": -5.12107406012,
+        "magnitude": 12.277124,
+        "bpRp": 1.034186,
+        "parallaxMas": 2.5258
+      },
+      {
+        "sourceId": "3209529524437650944",
+        "raDeg": 83.93692190123,
+        "decDeg": -5.1213840322,
+        "magnitude": 12.33097,
+        "bpRp": 1.714606,
+        "parallaxMas": 2.6248
+      },
+      {
+        "sourceId": "3017364162103039104",
+        "raDeg": 83.82655364248,
+        "decDeg": -5.3770632082,
+        "magnitude": 12.350795,
+        "bpRp": 1.490395,
+        "parallaxMas": 2.5695
+      },
+      {
+        "sourceId": "3017365884396345600",
+        "raDeg": 83.83425820382,
+        "decDeg": -5.34916267416,
+        "magnitude": 12.395771,
+        "bpRp": 2.354084,
+        "parallaxMas": 3.982
+      },
+      {
+        "sourceId": "3017346295038911104",
+        "raDeg": 83.93603868369,
+        "decDeg": -5.53828351284,
+        "magnitude": 12.432378,
+        "bpRp": 1.206198,
+        "parallaxMas": 5.876
+      },
+      {
+        "sourceId": "3017364059023817600",
+        "raDeg": 83.82111568343,
+        "decDeg": -5.39278591694,
+        "magnitude": 12.461865,
+        "bpRp": 1.31405,
+        "parallaxMas": 1.9105
+      },
+      {
+        "sourceId": "3017251947493281536",
+        "raDeg": 83.9300851501,
+        "decDeg": -5.60763399039,
+        "magnitude": 12.503455,
+        "bpRp": 1.566641,
+        "parallaxMas": 2.4832
+      },
+      {
+        "sourceId": "3017348803299280896",
+        "raDeg": 84.04025319174,
+        "decDeg": -5.46422886353,
+        "magnitude": 12.505127,
+        "bpRp": 0.903676,
+        "parallaxMas": 2.6362
+      }
+    ],
+    "limitation": "Observed line-of-sight field sources. Membership and depth relative to the nebula are not established by this query. Visual depth is reconstructed; image WCS is not registered to this field.",
+    "trapezium": [
+      {
+        "name": "theta1 Ori A",
+        "raDeg": 83.81593917,
+        "decDeg": -5.38731519,
+        "resolver": "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?theta1%20Ori%20A",
+        "responseSha256": "912a05df984606c518c0fdc3f1544479d1888b7a384389d94f9eadbee79ea340",
+        "gaiaSourceId": "3017364132050194688"
+      },
+      {
+        "name": "theta1 Ori B",
+        "raDeg": 83.81722494,
+        "decDeg": -5.3852179,
+        "resolver": "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?theta1%20Ori%20B",
+        "responseSha256": "9488e29de5fe78bc610f56bbcbb548061d6ee02db9fd3523ed29ec7df17935dd",
+        "gaiaSourceId": "3017364132049943680"
+      },
+      {
+        "name": "theta1 Ori C",
+        "raDeg": 83.81860957,
+        "decDeg": -5.3897005,
+        "resolver": "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?theta1%20Ori%20C",
+        "responseSha256": "8c379e5b86d0167af028c841c090b1871b30852f812fffdc616fe5e37431df0d",
+        "gaiaSourceId": "3017364063330718080"
+      },
+      {
+        "name": "theta1 Ori D",
+        "raDeg": 83.82190603,
+        "decDeg": -5.38793632,
+        "resolver": "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?theta1%20Ori%20D",
+        "responseSha256": "f1f1b3de3845a2c54dca51de0fef6bd1292ca5df3333190727eb93710d3f3a16",
+        "gaiaSourceId": "3017364063330465152"
+      }
+    ]
+  }
+]

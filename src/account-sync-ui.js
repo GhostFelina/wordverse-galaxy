@@ -51,7 +51,7 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
   const isCurrent = (token) => token === generation && ownerId;
   function display(universe) {
     const visible = structuredClone(universe);
-    replaceUniverse(visible);
+    replaceUniverse(visible, { ownerId });
     return visible;
   }
   function activate(cache, client, token) {
@@ -188,7 +188,7 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
     dialog.close();
     if (previousAccount) {
       beforeSwitch();
-      replaceUniverse(structuredClone(guest));
+      replaceUniverse(structuredClone(guest), { ownerId: null });
     }
     if (!next) {
       setStatus('guest');

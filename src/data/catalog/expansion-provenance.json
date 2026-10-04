@@ -1,0 +1,33 @@
+{
+  "retrievedAtUtc": "2026-10-03T17:59:26.926797+00:00",
+  "openNgcRevision": "75ca7ff090e1d0081a5b08be70eb3bc45ccd9e06",
+  "datasets": [
+    {
+      "file": "nebulae-200.json",
+      "count": 200,
+      "source": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/75ca7ff090e1d0081a5b08be70eb3bc45ccd9e06/database_files/NGC.csv",
+      "sha256": "d3cd7f1ab83122e81b3453d765d93b6dbbb15c910716c9e4ff99c7e916cb2218",
+      "license": "CC-BY-SA-4.0",
+      "changes": "200 unique nebula types; J2000 degree conversion; morphology grouping and artistic depth/placement. Missing distances remain null.",
+      "apiVersion": null
+    },
+    {
+      "file": "asteroids-1000.json",
+      "count": 1000,
+      "source": "https://ssd-api.jpl.nasa.gov/sbdb_query.api?sb-kind=a&sb-ns=n&fields=spkid%2Cpdes%2Cname%2Cfull_name%2Cdiameter%2Calbedo%2CH%2Crot_per%2Ca%2Ce%2Ci%2Com%2Cw%2Cma%2Cepoch%2Cclass%2Cspec_B&sb-class=MBA&sort=-diameter&limit=1001",
+      "sha256": "314b00b09aaba2d563647813b54cceb776fecf17a223ba010c0a4f1898fec2bd",
+      "license": "NASA/JPL factual catalog data; attribution and source terms",
+      "changes": "1000 numbered main-belt asteroids, excluding dwarf planet Ceres, sorted by measured/reported diameter; field renaming and numeric conversion; no invented shapes or missing physical values.",
+      "apiVersion": "1.0"
+    },
+    {
+      "file": "fireballs-1000.json",
+      "count": 1000,
+      "source": "https://ssd-api.jpl.nasa.gov/fireball.api?limit=1200&vel-comp=true",
+      "sha256": "fae3e54ec5c179407706de767edde98045c88c73364f28cbd48b5eebba57efe3",
+      "license": "NASA/JPL factual observation data; attribution and source terms",
+      "changes": "1000 distinct historical atmospheric fireballs; UTC/signed coordinate conversion; energy units converted to joules; unknown measurements remain null. Not live events.",
+      "apiVersion": "1.2"
+    }
+  ]
+}

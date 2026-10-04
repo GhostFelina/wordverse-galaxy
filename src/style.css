@@ -57,3 +57,12 @@ html,body{position:fixed;inset:0;width:100%;height:100%;overflow:clip}#app{posit
 
 /* Keep backup controls reachable on short screens. */
 .galaxy-panel{overflow-y:auto;overscroll-behavior:contain}.galaxy-panel>*{flex-shrink:0}
+
+/* OLED scene: no decorative grain or luminous background wash. */
+:root,#app{background:#000}.grain{display:none}.screen-vignette{background:linear-gradient(90deg,#000 0%,rgba(0,0,0,.92) 12%,rgba(0,0,0,.5) 34%,transparent 70%)}
+
+/* Word selection follows the visible body, with bounded desktop hit targets. */
+.star-hit{transition:background .2s;outline-offset:4px}.star-label.selected{opacity:1}
+#app.immersive .star-layer{visibility:visible;opacity:1;pointer-events:none}
+#app.immersive .side-panel.open,#app.immersive .panel-backdrop.open{visibility:visible;opacity:1;pointer-events:auto}
+@media(pointer:coarse){.star-hit{min-width:44px;min-height:44px}}

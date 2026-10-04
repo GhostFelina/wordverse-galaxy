@@ -1,8 +1,8 @@
 {
   "project": "wordverse",
   "repository": "GhostFelina/wordverse-galaxy",
-  "activeBranch": "phase/3-profile",
-  "activePhase": 3,
+  "activeBranch": "phase/4-universe",
+  "activePhase": 4,
   "completedPhases": [
     0,
     1
@@ -10,6 +10,91 @@
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
   "deferredPhases": [
-    2
-  ]
+    2,
+    3
+  ],
+  "visualStage": "starless-orion-random-word-stars-target-zoom-acceptance-pending",
+  "pausedVisualLayers": [
+    "other-nebulae",
+    "galaxies",
+    "planets",
+    "asteroids",
+    "meteors",
+    "background-stars",
+    "gaia-points",
+    "trapezium-points",
+    "demo-star"
+  ],
+  "visualRequirements": {
+    "nebulaeMinimum": 200,
+    "asteroidMeteorCombinedMinimum": 1000,
+    "galaxiesMinimum": 150,
+    "activation": "incremental",
+    "farthestGalaxiesVisible": false,
+    "farthestAppearance": "only word records;small sharp four-spike optics;log55% rounded diamond white/lavender core +violet halo;starless edited Orion texture1254native;maxcamera160/FOV75"
+  },
+  "upgrade": {
+    "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
+    "currentPhase": "U2",
+    "phaseStatus": "implementation-in-progress",
+    "completedPhases": [],
+    "nextPhase": "U3",
+    "lastVerifiedCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+    "lastRemoteCI": {
+      "run": 37220478118,
+      "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+      "status": "success",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37220478118"
+    },
+    "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
+    "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
+    "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
+    "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
+    "localUnitTests": 114,
+    "localBrowserTests": 79,
+    "integrationVerification": "1.14.1 source e1b3850: remote37220478118 SUCCESS114 unit/79 browser/lint/typecheck/build/format/release/audit/Go email checks; later documentation-only commits get independent CI",
+    "preview": {
+      "url": "https://wordverse-galaxy-gx5zjyq3m-mustafas-projects-92e683a9.vercel.app",
+      "target": "preview",
+      "status": "READY",
+      "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+      "framework": "Vite",
+      "buildDurationSeconds": 19,
+      "httpStatus": 200
+    },
+    "remainingCurrentWork": "Verify1.14.1 CI/preview; visual acceptance, native1254 gas detail, mobile GPU, scientific calibration, then U3",
+    "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
+    "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
+    "remoteBrowserTests": 79,
+    "localFinalTargetedTests": 8,
+    "currentUserTask": "Save version, commit/push, preview deploy, private backups and Codex/Claude handoff",
+    "research": "docs/handoff/STAR_REFERENCE_PLAN.md"
+  },
+  "developmentVersion": "1.14.1",
+  "checkpoint": {
+    "date": "2026-10-04",
+    "session": "docs/handoff/sessions/2026-10-04-claude-handoff.md",
+    "version": "1.14.1",
+    "deploymentTarget": "preview",
+    "privateBackup": "Desktop/Wordverse-Yedekler/2026-10-04",
+    "desktopHandoff": "Desktop/WORDVERSE_CLAUDE_DEVIR.md",
+    "applicationCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+    "backupJson": {
+      "galaxies": 2,
+      "records": 20,
+      "exportedAt": "2026-10-04T17:22:14.887Z"
+    }
+  },
+  "production": {
+    "version": "1.14.1",
+    "url": "https://wordverse-galaxy.vercel.app",
+    "deployment": "https://wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app",
+    "target": "production",
+    "status": "READY",
+    "sourceCommit": "702461b054985a19ed49c3524fe67028c65049ed",
+    "buildDurationSeconds": 13.6,
+    "httpStatus": 200,
+    "date": "2026-10-04",
+    "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app"
+  }
 }

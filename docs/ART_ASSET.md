@@ -35,3 +35,18 @@
 ## Son istem
 
 > Use case: stylized-concept. Asset type: seamless-feeling deep-space nebula texture for a real-time interactive galaxy, no interface. A physically evocative, photorealistic wide cloud of interstellar gas and fine cosmic dust, resembling a long-exposure astronomical observatory image. Loose spiral flow with layered filaments, dark cavities, delicate indigo and midnight blue with faint violet and warm amber gas near the center. Composition: diffuse cloud concentrated in the middle with soft edges fading smoothly to true black on all sides, no hard border. Critical constraints: ABSOLUTELY NO STARS, no individual points of light, no sun, no planet, no galaxy core object, no lens flare, no text, no logo, no watermark. The application will add each real star separately in code. Rich high resolution fine gas detail and natural subtle luminosity, restrained contrast for OLED black.
+
+
+## Orion yıldızsız türev · 2026-10-04
+
+- Dosya: `public/assets/nebulae/orion-starless.png`
+- Yerleşik imagegen **edit**; giriş `orion-gas.webp` (ESA/Hubble heic0601a türevi). Özgün 2K/4K/8K dosyalar korunur.
+- Çıkışın gerçek çözünürlüğü **1254×1254**, 1,997,279 bayt; prompt 4096 istedi fakat araç bu boyutu döndürdü. Upscale yapılmadı, 8K sayılmaz.
+- Yıldızlar, optik uçlar ve halo inpaint edildi. Gazdaki küçük detaylar/renkler de üretim sırasında değişti; bu dosya değişmemiş gerçek Hubble gözlemi değildir. Üretim yıldızsız sahnesi bu türevi kullanır; gaz derinliği modellenir.
+- Kredi: NASA, ESA, M. Robberto (STScI/ESA), Hubble Space Telescope Orion Treasury Project Team; yıldızsız düzenleme: Wordverse/imagegen. Kaynak medya koşulları ATTRIBUTIONS içinde.
+- Son prompt (yerleşik araç; CLI/API kullanılmadı):
+
+> Use case: precise-object-edit. Asset: starless Orion nebula gas texture for an interactive 3D astronomical scene. Edit the supplied square Orion Hubble-derived texture. Remove EVERY star and point of light, large and small, colored and white, including all cross-shaped diffraction spikes, blue glows and halos surrounding stars, and the bright cluster. Inpaint each removed star with the local nebular gas and dust filaments that belong behind it. Strict invariants: preserve the original entire square framing, orientation, every large dust silhouette, major filament position, sharp gaseous texture, original black, violet, rose and orange colors, overall brightness and all large nebula forms. Do not move, crop, rotate, brighten or redesign the nebula. Only remove the stars and their optical artifacts. No replacement celestial objects, no artificial dots, no speckles, no text, no UI. High-fidelity photorealistic texture with no remaining star points. Request a high-resolution square 4096x4096 output.
+# Prosedürel kelime yıldızı granülasyonu · 2026-10-04
+
+`public/assets/stars/granulation-128.bin`: 128³ tek kanallı byte alanı, 2,097,152 byte. `node scripts/build-star-granulation.mjs` ile yeniden üretilebilir. Periyodik Voronoi hücre boşluğu modellenir; GPU doğrusal örnekleme, küresel koordinat deformasyonu ve yavaş hareket uygular. Wordverse kaynak kodundan üretilmiştir; üçüncü taraf görsel veya gerçek yıldız yüzeyi fotoğrafı değildir. Her karedeki 27 komşu aramasının maliyetini kaldırmak için önceden hesaplanır.

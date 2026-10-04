@@ -1,0 +1,19 @@
+# Claude başlangıç promptu — Wordverse
+
+Aşağıdaki metni yeni Claude oturumuna yapıştır. Önce WORDVERSE_CLAUDE_DEVIR.md dosyasını ekle veya dosya erişimi olan CLI'ya yolunu ver. Büyük tam kaynak dökümünü gerektiğinde path başlıklarıyla parça parça oku; çalışmak için esas olan mevcut Git klonudur.
+
+---
+
+Wordverse projemize kaldığımız yerden devam et. Türkçe iletişim kur. Sana eklediğim WORDVERSE_CLAUDE_DEVIR.md bütün proje rehberidir; WORDVERSE_TAM_KAYNAK_DOKUMU.md her Git metin dosyasının eksiksiz içeriğini, WORDVERSE_KAYNAKLAR.zip aynı checkpoint'in görseller dahil bütün dosyalarını içerir. PAKET_BILGILERI.md snapshot commit'ini gösterir. Eski talepleri güncel sanma; güncel HANDOFF ve son kullanıcı kararlarını esas al.
+
+Önce gerçek işletim sistemi/kabuk ve mevcut repo yolunu bul. Windows klonu C:\Users\User\Desktop\Projeler\kelime-evreni; bildirilen mevcut Mac klonu /Users/felina/Projects/wordverse-galaxy. Mevcut klonu taşımadan koru. Repo https://github.com/GhostFelina/wordverse-galaxy; aktif dal phase/4-universe. Git status ve STATE.json kontrol et; yerel değişiklikleri silme, reset/force kullanma. Temiz ağaçta doğru dalı fetch/pull --ff-only ile güncelle. AGENTS.md, CLAUDE.md, docs/handoff/CLAUDE_BRIEF.md, HANDOFF.md, MASTER_PROMPT.md, KNOWN_ISSUES.md, TASKS.md, CROSS_DEVICE.md, SERVICE_ACCESS.md ve DECISIONS.md oku. Bitmiş Faz0/1'i tekrar başlatma.
+
+npm run doctor -- --push-check ile erişimleri/env isimlerini kontrol et; eksik rutin bağımlılık ve public env için setup:device kullan. Bağımlılıklar bu cihazda yeniden kurulur. Sırları/tokenları/gerçek tarayıcı verisini repoya veya log'a yazma. Ücretli servis açma. İlk hesap girişi/2FA kullanıcıya aittir. Yerel http://127.0.0.1:5360/ uygulamasını görünür tarayıcıda aç ve tek tek incele. Gerçek kelime verisini değiştirme veya ekran görüntüsüne/Git'e koyma; sentetik fixture kullan.
+
+Aktif iş Faz4, görsel kademe2: 200 gerçek bulutsu +1000 MBA asteroid +1000 tarihsel CNEOS meteor kaydı/katmanı. 300 gerçek galaksi verisi mevcut ama renderer kapalı; kademe3 bekliyor. Asgari200bulutsu/toplam1000asteroid-meteor/150galaksi. Son kural: tek kesintisiz kâinat, galaksiler en uzak zoomda görünmez; yaklaşınca yıldızların arasında görünür. OLED siyah, yıldızlı arka plan serbest, gerçek3Bparallax. En uzakta parlama/patlama/dalga ve ultra gerçekçi kalite hedefi henüz kabul edilmedi. Kullanıcı yıldız/galaksileri amatör buldu; sayıyı kalite kabulü sayma. Kişisel kelime evreni galaksi merkezinde kalmalı, kayıt koordinatlarını bozma.
+
+Önce son checkpoint/CI durumunu ve kademe2'nin son hacim/kaya/doğal Dünya değişikliklerini manuel incele. Yıldız/bulutsu ışık, gaz/toz, ölçek ve örtüşme kalitesini iyileştir; sonra kademe3 galaksileri profesyonel çeşitli morfoloji ve kesintisiz geçişlerle dahil et. Kaynaklar gerçek ama prosedürel şekiller/uzaklıklar sanatsal; meteor tarihsel şematik tekrar, canlı olay veya kesin gözlemlenmiş rota değildir. Son yerel98unit/66e2e tarihi kanıttır; kendi değişikliğinden sonra yeni kabul yap.
+
+Faz2 kalan prod/mail/Storage/hukuk/Mac kabulü ve Faz3 kalanlar kullanıcı tarafından ertelendi; sürekli aynı kurulum sorusunu sorma. Görsel öncelikten sonra Faz4 kalanları ve Faz5–9 ilerlet; Faz2/3'e sonra dön. Yalnız Faz0/1 tamamlandı; Faz4 tamamlanmadan main merge/tag/prod release yapma. Her somut adımı otomatik + manuel1440/768/390,tema/reduced-motion ile doğrula; handoff/tasks/knownissues/session güncelle, anlamlı Conventional Commit ve push yap, remoteCI/preview sonucunu kaydet. Codex/Claude aynı dalı sırayla devralır.
+
+“Durum Analiz” istediğimde güncel | Durum | İş | Sonuç / kalan adım | tablosunu göster; sonra işine devam et. Rutin işlerde tekrar onay istemeden somut ilerle. Kontrol edilmeyen iş için bitti/ultra gerçekçi/sıfır hata iddiası kullanma. Masaüstü paketi snapshot'tır; repo ilerlediyse en güncel HANDOFF üstün gelir.

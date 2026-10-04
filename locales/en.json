@@ -436,5 +436,87 @@
     "recent": "Recently added",
     "empty": "No dated records yet.",
     "reviewPending": "Recall and review statistics will appear when the review system is available."
+  },
+  "catalog": {
+    "title": "Sky catalog",
+    "close": "Close catalog",
+    "intro": "Explore 300 real galaxies in one continuous cosmos. At the widest scale, stars fill the view; galaxies and their interiors emerge as you approach. J2000 catalog coordinates are used; depth, sizes and the star field are artistic interpretations.",
+    "artistic": "Artistic interpretation",
+    "distance": "{count} million light-years",
+    "explore": "Explore in scene",
+    "source": "NASA source",
+    "home": "Back to my universe",
+    "names": {
+      "andromeda": "Andromeda",
+      "whirlpool": "Whirlpool",
+      "virgo": "Virgo A",
+      "cigar": "Cigar",
+      "sombrero": "Sombrero"
+    },
+    "descriptions": {
+      "andromeda": "Inclined spiral arms surrounding a warm, dense center.",
+      "whirlpool": "Two prominent spiral arms with young blue stars and star-forming regions.",
+      "virgo": "An elliptical galaxy filled with the warm light of older stars.",
+      "cigar": "An edge-on starburst galaxy with warm gas flowing beyond the disk.",
+      "sombrero": "A wide disk and a dark dust lane around a bright central bulge."
+    },
+    "overview": "View {count} galaxies together",
+    "visible": "{count} galaxies in view",
+    "search": "Search catalog · M31, NGC0224…",
+    "noResults": "No match in this selection. Use four digits for NGC numbers.",
+    "credit": "OpenNGC · Mattia Verga and contributors · CC BY-SA 4.0 · adapted data"
+  },
+  "celestial": {
+    "title": "Sky atlas",
+    "close": "Close",
+    "types": "Celestial object types",
+    "galaxies": "Galaxies",
+    "nebulae": "Nebulae",
+    "asteroids": "Asteroids",
+    "fireballs": "Meteor observations",
+    "search": "Search name, catalog ID or date",
+    "previous": "Previous",
+    "next": "Next",
+    "overview": "Travel among galaxies",
+    "credit": "Nebulae and galaxies: OpenNGC — Mattia Verga and contributors, CC BY-SA 4.0. Asteroids: NASA/JPL SBDB. Meteor observations: NASA/JPL CNEOS. Missing measurements are shown as unknown. Earth: NASA Blue Marble 2002 (Reto Stöckli / Robert Simmon); not satellite imagery from the event date.",
+    "unknown": "Unknown",
+    "diameter": "Diameter",
+    "epoch": "Orbit epoch",
+    "location": "Location",
+    "altitude": "Altitude",
+    "home": "Return to my stars",
+    "replay": "Historical atmospheric event · schematic replay",
+    "artistic": "Real catalog record · artistic visualization",
+    "noLocation": "No measured location; no trail displayed",
+    "count": "{count} real records · {type}",
+    "source": "Source",
+    "noResults": "No records found",
+    "intro": "Approach the stars to discover nebulae and galaxies. Positions and sizes are compressed for navigation; visuals are not photographs. Asteroid orbits use each record’s epoch. Meteors are historical atmospheric observations, not live events or predictions.",
+    "kinds": {
+      "planetary": "Planetary nebula",
+      "supernova-remnant": "Supernova remnant",
+      "reflection": "Reflection nebula",
+      "hii": "H II region",
+      "emission": "Emission nebula",
+      "nebula": "Nebula",
+      "cluster-nebula": "Nebula and star cluster"
+    }
+  },
+  "experience": {
+    "title": "Discover light in the dark.",
+    "copy": "Approach stars, travel around planets and explore the depth of gas clouds.",
+    "explore": "Explore",
+    "signin": "Sign in",
+    "guest": "Enter my universe",
+    "preview": "Demo"
+  },
+  "nebulaTravel": {
+    "title": "Orion Nebula · M42",
+    "close": "Close",
+    "guide": "Use the wheel to fly into the gas or back out. Drag to steer. The starless gas texture is edited from a Hubble reference; volume depth is reconstructed. Only your added words appear as stars.",
+    "overview": "Initial view",
+    "approach": "Approach Orion",
+    "band": "Observation band",
+    "sources": "Image sources"
   }
 }

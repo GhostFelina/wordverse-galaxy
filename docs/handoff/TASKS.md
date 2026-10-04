@@ -1,4 +1,33 @@
+<!-- Güncel2026-10-04: HANDOFF başındaki1.14.1 devir checkpoint önceliklidir. U2 görsel kabulü açık; katalog katmanlarını yeniden etkinleştirme. -->
+<!-- Aktif2026-10-04 yeni override: STAR_REFERENCE_PLAN.md;0.30wheel/targetlock;random yeni word positions;starless native1254gas;far/55% optics;visual extinction. Eski0.75/embeddedstars/erken photosphere hedefleri tarihidir. -->
+
+<!-- Aktif 2026-10-04 kullanıcı yönlendirmesi: kelime yıldızları ortak fotosfer; diğer bağımsız yıldızlar kaldırıldı; en uzak kamera 160; wheel %25 yavaş. HANDOFF üst bölümü güncel, aşağıdaki eski Orion/Gaia hedefleri tarihidir. -->
+
 # Görevler
+
+## Güncel öncelik · referans yıldızları / U2 · 2026-10-04
+
+- [x] Masaüstü yaklaşım/genel/uzak ekran görüntülerini incele; sıralı planı `STAR_REFERENCE_PLAN.md` içine yaz.
+- [x] Yalnız kelime yıldızları; fotoğrafa gömülü ışıkları yıldızsız Orion türeviyle kaldır. Native 1254² ve değişen gaz ayrıntısını açıkça kaydet.
+- [x] Uzak keskin uçlar, %55 yaklaşım optik çekirdek, yavaş parlama ve daha geç yüzey geçişi; 128³ granülasyon dokusu.
+- [x] Yeni kelimelere random görünür konum/derinlik; mevcut konumları koru. Modellenmiş gaz sönümüyle arka ışıkları ilişkilendir.
+- [x] Seçili yıldıza wheel/buton hedef kilidi; 0.30 wheel, ±180 delta sınırı, ters yön iptali ve güvenli yüzey mesafesi.
+- [x] Son koddan sentetik PNG kanıtı; gerçek 5360'da mevcut yıldızla ileri/geri hedef zoom incelemesi; kullanıcı verisine yazma yok.
+- [x] Son 78/78 tarayıcı kontrolü (6.6 dakika); 114 unit ve lint/format/typecheck/build geçti.
+- [x] Uygulama checkpoint 8511118; devir ve kanıtlar aynı dalın push paketinde.
+- [~] Yeni remote CI sonucu HANDOFF/STATE üstünde takip edilir; yerel 78/78 sonucu remote başarı yerine geçmez.
+- [ ] Kullanıcı görsel kabulü, daha yüksek ayrıntılı yıldızsız gaz, bilimsel sönüm/WCS ve gerçek mobil GPU bütçesi. U2 sürer.
+
+## Önceki Orion checkpoint'i · tarihçe
+
+- [x] Yalnız Orion; gerçek 10K Hubble kaynağından 8K yerel doku, Spitzer IR, 96 Gaia alan kaynağı ve dört Trapezium konumu.
+- [x] Ana gaz kesiti %85 genişlik, 2.6 yarıçap derinlik, yaklaşık 2.74 kat uzun kesintisiz uçuş; dört gerçek Trapezium çekirdeği mevcut 96 Gaia kaynağından belirginleştirildi.
+- [x] 96³ gaz yoğunluğu, fotoğraf detayının ana sırtla sınırlandırılması, durunca viewport çözünürlüğünde gaz ayrıntısı ve ayrı keskin yıldız geçişi.
+- [x] 13/13 ilgili tarayıcı testi (2.8 dakika); son periyodik yoğunluk düzeltmesi sonrası Orion 4/4 (54.7 s), 109 unit, lint/format/build tekrar geçti; typecheck geçti. Üç viewport durağan gaz çözünürlüğü ve uzun uçuş doğrulandı. Başlangıç/iç/derin görsel kanıt ve kaynaklar devirde.
+- [x] Uygulama bea8bd7 commit/push; Codex/Claude devir belgeleri ve üç sentetik görsel güncellendi; yerel 5360 görünür tarayıcıda incelendi/açık.
+- [~] bea8bd7 remote CI 37196910034 sonucu; önceki 409d28b / 7e517cb CI başarılı.
+- [~] Uzun iç gaz ayrıntısı, cold ilk yükleme ve kullanıcı görsel kabulü; U2 tamamlandı sayılmaz.
+- [ ] Mobil gerçek GPU/FPS, WCS hizalama, tam gaz-yıldız sönümü; ardından U3–U9.
 
 Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya claude. Dal adları faz başlığı altındadır.
 
@@ -55,7 +84,7 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] Gerçek MacBook ilk kurulum: hesap girişleri, doctor push-check, test/görsel doğrulama. CROSS_DEVICE/SERVICE_ACCESS adımlarından ilerle; sırları cihazlar arasında kopyalama.
 - [x] Vercel env'li preview gerçek Google girişinde ayrı origin'den 6 kayıt/2 galaksi, yalnız bulut seçimi ve reload doğrulandı.
 
-## Faz 3 · `phase/3-profile` · codex/claude
+## Faz 3 · kalan işler ertelendi (görsel öncelik, ADR013) · `phase/3-profile` · codex/claude
 
 - [x] Salt okunur evren istatistik çekirdeği: toplamlar, dil dağılımı, tarihli en eski/son 5 kayıt; input/çıktı ayrımı, invalid/future date ve deleted kayıt sınamaları.
 - [x] Hesap menüsünde TR/EN/ES profil ekranı; mevcut açık evrenle sınırlı, aç/kapat. 1440/768/390 tema/hareket/taşma ve literal HTML text güvenliği e2e; gerçek hesapta manual + yapay fixture kanıtı.
@@ -67,9 +96,15 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] Profil alanları, avatar, istatistik/ısı haritası, tekrar güçlü-zayıf analizi.
 - [ ] Hedef/ayarlar, rozetler, JSON+CSV, kalıcı hesap silme, varsayılan gizli paylaşım.
 
+> **Güncellik notu:** Aşağıdaki Faz 4 eski tamamlanmış adımları/talepleri tarihsel kayıt olarak tutar. En uzak300galaksi ve ≥100bulutsu şartı son kullanıcı talimatıyla değişti. Güncel aktivasyon/sayı/kalite ve kabul aşağıdaki “Güncel görsel yönlendirme” son bloğunda ve HANDOFF/CLAUDE_BRIEF içindedir. Eski [x] aktif sahne kabulü değildir.
+
 ## Faz 4 · `phase/4-universe` · codex/claude
 
-- [ ] Kaynak/lisans kayıtlı 50 galaksi, 100 bulutsu, 250 gezegen, 25 takımyıldızı.
+- [x] İlk 5 kaynaklı galaksi, ayrı arka plan katmanı, üç dil katalog/odak/eve dön ve yumuşak zoom görünürlük geçişi; 88 unit/48 e2e + manuel katalog/sahne kanıtı.
+- [x] İlk kullanıcı X referansı sağ taraf 00:10–00:15: yakın yıldız/gaz içinden uçuş, uzak görünümde 200–300 ayrı gerçek galaksi. OpenNGC kaynak/lisans ve 300 kayıt, atlas/instancing/LOD, kamera derinliği ve görünür sayım kabulü.
+
+- [~] Kaynak/lisans kayıtlı galaksi sayısı 300; 100 bulutsu, 250 gezegen, 25 takımyıldızı ve tam uzaklık/fiziksel yerleşim kabulü kaldı.
+- [x] 8 morfoloji/32 atlas varyasyonu, galaksiye göre yakın yıldız/gaz, merkezde kişisel kelime düzeni ve büyüme/dönüş pivot koruması; depodaki koordinatlar değişmedi.
 - [ ] Gerçek galaksiye bağlı koleksiyon migrasyonu, morfoloji, LOD ve kesintisiz zoom.
 - [ ] Kamera ve dokunmatik; yıldız/gezegen sürükleme, kalıcı konum ve otomatik düzen.
 
@@ -98,3 +133,54 @@ Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya 
 - [ ] 5.000 yıldız stres ve Lighthouse; 60/30 FPS bütçesi, LOD ve yükleme.
 - [ ] WebGL fallback, klavye/ekran okuyucu, kontrast, hareket azaltma.
 - [ ] Çevrimdışı PWA, isteğe bağlı analitik, yüksek çözünürlüklü galaksi indirme.
+
+## Güncel görsel yönlendirme (2026-10-03)
+
+- [~] Tek kâinat: en uzak zoom yalnız yıldız alanı; galaksiler yaklaşınca görünür. Önceki en uzakta 300 galaksi şartı kullanıcı tarafından değiştirildi; 300 ara ölçekte kalır.
+- [~] Sabit galaksi dünya konumları, pointer zoom/derinlik çıkışında hedef sürekliliği, akıtılan yıldız bölgeleri; 3 prosedürel bulutsu ve yakın 3B asteroid ilk katmanı. Test/manual kanıt ve checkpoint CI tamamlanmalı.
+- [ ] Bulutsuların üç dil etkileşimli katalog kartları; ≥100 bulutsu, ≥250 gerçek parametreli gezegen ve bilimsel asteroid/atmosferik meteor ayrımıyla ≥50 olay kabulü.
+
+### Son talimat: önce yıldız temeli
+
+- [~] Tüm galaksi görselleri/katalog ana uygulamadan çıkarıldı; kullanıcı kelime/koleksiyon verileri korunur. Yalnız uzak gök + yakın deterministik yıldız bölgeleri, kesintisiz kamera etkileşimi.
+- [~] 9 star-cosmos e2e + manual yapay yıldız sahnesi; son gate ve CI checkpoint doğrulanmalı. Galaksi testleri tests/deferred altında, kapsam ertelendi.
+- [ ] Yıldız temeli tamamlandıktan sonra bulutsu/asteroid/meteor ve galaksileri dahil et. Galaksileri hemen yeniden açma.
+
+## Güncel görsel yönlendirme · 2026-10-03
+
+- [x] Galaksisiz yıldız temeli: 087f328 CI37141874755/Vercel geçti.
+- [x] 200 gerçek OpenNGC bulutsu: kaynak/arama/odak/reset ve otomatik katman kontrolü geçti; profesyonel görsel kalite ayrı açık görev.
+- [x] Toplam ≥1000 asteroid/meteor kaynak/katman otomatik kabulü:1000 MBA asteroid +1000 tarihsel gözlem, orbit/arama/odak/reset; son npm run check98unit/66e2e. Son manuel kalite/FPS kabulü açık.
+- [~] ≥150 farklı gerçek galaksi: mevcut 300 kayıt; aşama 3 yeniden aktivasyon ve geçiş kabulü bekliyor.
+- [ ] En uzak ölçekte ultra gerçekçi yıldız alanı, parlama/patlama/dalga: kullanıcı son yönlendirmesi, ayrı görsel ve reduced-motion/performance kabulü. Galaksiler o ölçekte gizli.
+
+- [ ] Kullanıcı yıldız/galaksileri amatör buldu: profesyonel ışık, gaz/toz/morfoloji/ölçek-geçiş yeniden çalışması; mevcut atlas görsel kabul sayılmaz.
+
+## Son devir paketi · 2026-10-03
+
+- [x] CLAUDE_BRIEF: bütün proje, mimari/veri/servis/faz/karar ve gerçek kabul sınırlarını tek rehberde toplama.
+- [ ] Kademe2 son hacim/kaya/doğal Dünya düzeltmeleri: manual/responsive tema/hareket ve profesyonel görünüm kabulü; sayısal otomatik kabul bunun yerine geçmez.
+- [x] Desktop MD devir paketi e75ecca:384dosya/203metin/65305satır/181binary; hash ve metin dilimleri doğrulandı.
+
+## Aktif yükseltme U0–U9 · 2026-10-04
+
+WORDVERSE_MASTER_UPGRADE aktif görsel sözleşme; eski görsel plan yerine uygulanır. Orijinal ürün fazları/statüler korunur.
+
+- [~] U0: gerçekOS/repo/doctor,4yerelreferans,primaryXdüzeltmesi, güncel6sentetikbaseline/e75CIhata kaydı; son currentgate bekliyor.
+- [~] U1: experience-mode,asyncsceneSlot,owner-readyguard,guestfallback,authcallbackgeneration; üretim/demo ayrımı ve lifecycle testleri/manuelsonkontrol sürüyor.
+- [~] U2 başlangıcı: gerçek küresel premiumbodyshader,planetworldlight,productionsharedfixture/ACES/DPR; yakınsurface/gas/bloom/LOD ve görsel kalite açık.
+- [ ] U3 kesintisizkamera/LOD; enuzaktaküçükışık noktaları kullanıcısonkararı.
+- [ ] U4 stablehome/recordadapter/birth; coreOrbitcount veforcedbinaryaudit.
+- [ ] U5 kaliteliçeşitligalaksi/katalog;galaksilerhenüzkapalı.
+- [ ] U6 premiumpremiumphenomena/kara delik/eventdirector.
+- [ ] U7 özgünWebAudio/gesture/mixer/lifecycle.
+- [ ] U8 ≥50fenomen/5000kayıt/performance/fallback.
+- [ ] U9 entegrasyon/kabul/devir;main/prod/tag erken yok.
+
+- [x] U1 otomatik entegrasyon checkpoint 8dd7be1: 105 unit, 71 e2e, lint/typecheck/build/format; demo/guest raw storage ayrımı ve owner geçiş regresyonları geçti.
+- [x] Yeni demo yıldız/gezegeninde uzak küçük nokta LOD ve Chrome manuel kanıtı; 1440/768/390 sentetik açıların güncel yeniden çekimi.
+- [~] U2 yakın yüzey/gaz/selective bloom; 390 yakın çekim kadrajı, gaz içi düşük kontrast ve patchy planet terrain kalite kabulü açık.
+
+- [ ] U3 mouse wheel/trackpad zoom + drag pan: kesintisiz kamera, küçük nokta/detay geçişi, UI scroll çakışma koruması ve reduced-motion/touch kabulü. Kullanıcı mouse kaydırmayı ayrıca teyit etti.
+
+- [x] e968196 remote tam gate CI37158521409: 105 unit/71 e2e + build/lint/types/Go/format/release/audit; Vercel preview SUCCESS.

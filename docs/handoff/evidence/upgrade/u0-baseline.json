@@ -1,0 +1,16 @@
+{
+  "commit": "e75eccaee98f81bdf5a8c4f9c6bbc56cf03d4528",
+  "fixture": "u0-v1",
+  "browser": "Playwright Chromium, Windows11",
+  "viewports": [
+    1440,
+    768,
+    390
+  ],
+  "height": 900,
+  "dpr": 1,
+  "quality": "existing",
+  "seed": "fixture-home",
+  "referenceMatching": "pending",
+  "realUserData": false
+}
