@@ -32,6 +32,8 @@
     import '../../src/auth.css';
     import { createCosmicField } from '../../src/cosmic-field.js';
     import { mountCelestialSystem } from '../../src/celestial-system.js';
+    import '../../src/data/catalog/asteroids-1000.json';
+    import '../../src/data/catalog/fireballs-1000.json';
     const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: false });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
     renderer.setSize(innerWidth, innerHeight);
@@ -45,7 +47,7 @@
     const system = await mountCelestialSystem({
       scene,
       camera,
-      locale: 'tr',
+      locale: new URLSearchParams(location.search).get('lang') || 'tr',
       stage: 2,
       beforeOpen() {},
       onNavigate(position, distance) {

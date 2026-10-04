@@ -1,5 +1,8 @@
 # Bilinen sorunlar
 
+- Aktif sahne yalnız Orion ve yıldızlar. 8K optik doku gerçek 10K gözlem kaynağından türetilmiştir; framebuffer cihaz bütçesine göre daha düşük çözünürlükte çizilir. Yakın gazda özellikle yazılım GPU/12 adım modunda pütürlenme görülebilir. Ultra gerçekçilik kullanıcı kabulü bekliyor.
+- Orion gaz ve yıldız derinliği sanatsal modeldir; Gaia–Hubble WCS hizalama ve tam gaz-yıldız ışık sönümü açık. Mobil gerçek donanımda FPS ölçümü tamamlanmadı.
+
 - Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.
 - Son kademeli build ana JS ~409 kB; asteroid veri parçası ~545 kB nedeniyle Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
 - WebGL başlatılamazsa arayüzün tüm veri işlevleri ayrı bir liste modu ile güvence altında değil.

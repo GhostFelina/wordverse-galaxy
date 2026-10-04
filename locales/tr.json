@@ -509,5 +509,14 @@
     "signin": "Giriş yap",
     "guest": "Kendi evrenime geç",
     "preview": "Demo"
+  },
+  "nebulaTravel": {
+    "title": "Orion Nebulası · M42",
+    "close": "Kapat",
+    "guide": "Mouse tekerleğiyle gazın içine ilerle veya geri çık. Sürükleyerek yön değiştir. Hubble görüntüsü ve Gaia yıldız konumları gözlemseldir; gazın ve yıldızların derinliği görselleştirme için modellenmiştir.",
+    "overview": "Başlangıç görünümü",
+    "approach": "Orion’a yaklaş",
+    "band": "Gözlem bandı",
+    "sources": "Görüntü kaynakları"
   }
 }

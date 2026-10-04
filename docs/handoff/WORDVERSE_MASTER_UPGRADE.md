@@ -5,6 +5,10 @@
 **Specification language:** English · **User communication:** Turkish  
 **Objective:** Rescue the visual direction and deliver a convincing, living, explorable universe without damaging the working learning application.
 
+## Öncelikli aktif Orion düzeltmesi · 2026-10-04
+
+Son kullanıcı: yalnız Orion; sağ ortada yaklaşık %70 genişlik, daha derin ve yaşayan hacim, gerçek 8K doku. Esas yakın uçuş referansı https://www.youtube.com/watch?v=fkWrjrdT3Zg **00:58 sonrası**. Diğer nebula/gezegen/galaksi/asteroid/meteor katmanları kapalıdır. 20 bulutsu isteği artık uygulanmaz. Kullanıcı ilk Orion'u amatör buldu; kalite kabulü açık. Güncel uygulama/devir [HANDOFF.md](HANDOFF.md), araştırma [ORION_RESEARCH.md](ORION_RESEARCH.md). U2 aktif; hiçbir yükseltme fazı yalnız bu eklemeyle bitmiş sayılmaz.
+
 ## Son kullanıcı düzeltmeleri · 2026-10-04
 
 - Ana hareket/gaz uçuşu referansı **X videosunun sağ paneli**: https://x.com/ITangieff/status/2106060890407915571, 00:10–00:15. Kullanıcı açıkça doğruladı. Sf4oFaelTr4 gezegen videosu ikincil yüzey/terminator referansıdır; aşağıdaki eski “R5 primary / right-side” yorumu bu son karar tarafından değiştirilmiştir.

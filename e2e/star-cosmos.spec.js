@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 for (const locale of ['tr', 'en', 'es']) {
   for (const width of [1440, 768, 390]) {
-    test(`single star cosmos in ${locale} at ${width}`, async ({ page }) => {
+    test(`Orion and star cosmos in ${locale} at ${width}`, async ({ page }) => {
       const errors = [];
       page.on('pageerror', (error) => errors.push(error.message));
       page.on('console', (message) => {
@@ -16,14 +16,14 @@ for (const locale of ['tr', 'en', 'es']) {
       await page.goto(`/?lang=${locale}`);
       const canvas = page.locator('#universe');
       await expect(canvas)
-        .toHaveAttribute('data-scene-mode', 'stars-only')
+        .toHaveAttribute('data-scene-mode', 'orion-and-stars')
         .catch((error) => {
           throw new Error(`${error.message}\nConsole: ${JSON.stringify(errors)}`);
         });
       expect(Number(await canvas.getAttribute('data-star-capacity'))).toBeGreaterThan(5000);
       await expect(page.locator('#open-catalog')).toHaveCount(0);
       await expect(page.locator('#catalog-dialog')).toHaveCount(0);
-      for (const layer of ['nebulae', 'asteroids', 'fireballs', 'galaxies']) {
+      for (const layer of ['asteroids', 'fireballs', 'galaxies']) {
         await expect(canvas).toHaveAttribute(`data-${layer}`, '0');
       }
       const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));

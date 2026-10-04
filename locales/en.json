@@ -509,5 +509,14 @@
     "signin": "Sign in",
     "guest": "Enter my universe",
     "preview": "Demo"
+  },
+  "nebulaTravel": {
+    "title": "Orion Nebula · M42",
+    "close": "Close",
+    "guide": "Use the mouse wheel to fly into the gas or back out. Drag to steer. Hubble imagery and Gaia sky positions are observed; gas and stellar depth are reconstructed for visualization.",
+    "overview": "Initial view",
+    "approach": "Approach Orion",
+    "band": "Observation band",
+    "sources": "Image sources"
   }
 }

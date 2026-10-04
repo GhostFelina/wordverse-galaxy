@@ -13,8 +13,9 @@
     2,
     3
   ],
-  "visualStage": "stars-only-checkpoint; named-nebula-build-active",
+  "visualStage": "orion-only-real-8k-volume-acceptance-pending",
   "pausedVisualLayers": [
+    "other-nebulae",
     "galaxies",
     "planets",
     "asteroids",
@@ -38,17 +39,18 @@
     "lastRemoteCI": "success:37158521409",
     "primaryReference": "X right panel 00:10â€“00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
-    "userVisualAcceptance": "pending",
+    "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
     "distantPointImplementation": "premium demo and personal stars <=80; dense/catalog adapters pending",
-    "localUnitTests": 106,
-    "localBrowserTests": 71,
-    "integrationVerification": "remote lint/typecheck/105 unit/build/71 e2e/Go emails/format/release/audit passed; final local targeted account+experience 16 passed",
+    "localUnitTests": 109,
+    "localBrowserTests": 75,
+    "integrationVerification": "Latest code: lint/format/typecheck/build/109 unit and Orion 4/4 passed. Earlier full suite 74/75, then wheel-input coalescing fixed and all four affected Orion tests passed; no latest single-run 75/75 claim. Historical remote CI remains e968196. Cold first Orion test 22.7s; standalone cold flight previously timed out at 30s.",
     "preview": "Vercel PR7 preview success for e968196",
-    "remainingCurrentWork": "U2 gas filaments/dust/absorption/selective bloom, near-body quality and catalog/personal LOD adapters",
+    "remainingCurrentWork": "Orion user visual acceptance, close gas grain and cold shader load performance; WCS alignment/full gas-star extinction/mobile GPU budget open, U3-U9 remain; current remote CI pending push",
     "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
     "remoteBrowserTests": 71,
-    "localFinalTargetedTests": 25,
-    "currentUserTask": "Build exact 20 named real nebula textures with far visibility and fly-through; other nonstar layers stay off"
+    "localFinalTargetedTests": 4,
+    "currentUserTask": "Orion only; NASA fkWrjrdT3Zg 00:58 onward; wider 70% right-center overview, deeper living volume, real 8192x8192 observed texture, wheel fly-through and fixed catalogue stars",
+    "research": "docs/handoff/ORION_RESEARCH.md"
   }
 }

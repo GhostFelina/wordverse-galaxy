@@ -24,3 +24,10 @@
 ## Wordverse yükseltme özgün sahne
 
 `premium-bodies.js` yıldız granülasyon/limb ve prosedürel gezegen yüzeyi özgün GLSL; fotoğraf/katalog ölçümü iddiası yok. `showcase-scene` sanatsal sentetikdemo, üçüncü taraf video/müzik varlığı içermez. Yerel kullanıcıreferansları yalnız incelendi; dağıtılanasset olarak kopyalanmadı. Three r180 tone/color shaderchunklisansı mevcutThreeMIT olarak korunur.
+
+## Aktif Orion M42 gözlem dokuları
+
+- `public/assets/nebulae/orion*.webp`: ESA/Hubble heic0601a gözleminin 10K TIFF'inden 2K/4K/8K türevler. NASA, ESA, M. Robberto (STScI/ESA), Hubble Space Telescope Orion Treasury Project Team. [Görsel](https://esahubble.org/images/heic0601a/), [ESA şartları](https://esahubble.org/public/copyright/).
+- `orion-ir.webp`: NASA/Spitzer/JPL-Caltech kızılötesi gözlemi, [SVS 30959](https://svs.gsfc.nasa.gov/30959/), [NASA medya şartları](https://www.nasa.gov/nasa-brand-center/images-and-media/). Bu gözlem görselleri repo MIT kod lisansına dahil değildir; kredi uygulama panelinde görünür.
+- `src/data/nebula-environments.json`: ESA/Gaia/DPAC, CDS/VizieR Gaia DR3; Trapezium kimlik konumları CDS Sesame. Derinlik ve alan üyeliği konik katalog sorgusundan ölçülmedi.
+- NASA SVS 30957 animasyonu yöntem/görsel referanstır; klip ve üretim mesh'i uygulamaya kopyalanmadı. [Araştırma ve sınırlar](docs/handoff/ORION_RESEARCH.md).

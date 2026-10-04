@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import './style.css';
 import { createRenderQuality } from './render-quality.js';
 import { createPremiumBodies } from './premium-bodies.js';
+import { createNebulaSystem } from './nebula-system.js';
+import { mountNebulaUI } from './nebula-ui.js';
+import { nebulaBackPlane } from './nebula-layout.js';
 import { createExperienceMode, createSceneSlot } from './experience-mode.js';
 import { mountExperienceUI } from './experience-ui.js';
 import { coreOrbit } from './local-galaxy-layout.js';
@@ -47,6 +50,7 @@ const pan = { x: 0, y: 0 };
 let zoom = 160;
 let catalogDepth = 0;
 let cosmicField;
+let nebulaSystem, nebulaUI, travelingNebula = null;
 let renderQuality;
 let catalogReady = false;
 let pendingGuestWrites = 0;
@@ -57,8 +61,9 @@ const showcaseSlot = createSceneSlot();
 let experienceKey = '';
 const experience = createExperienceMode({ guestCount: universe.words.length, onChange: applyExperience });
 function syncRenderLoop() {
-  renderer?.setAnimationLoop(catalogReady && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
+  renderer?.setAnimationLoop(document.readyState === 'complete' && catalogReady && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
 }
+window.addEventListener('load', syncRenderLoop, { once: true });
 function applyExperience(state) {
   const app = $('#app');
   app.dataset.experience = state.mode || 'initializing';
@@ -278,8 +283,14 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
   cosmicField = createCosmicField(scene, innerWidth < 760);
-  $('#universe').dataset.sceneMode = 'stars-only';
+  nebulaSystem = createNebulaSystem(scene, camera, { compact: innerWidth < 760 });
+  nebulaUI = mountNebulaUI({ locale: uiLocale, records: nebulaSystem.records, beforeOpen: closePanels,
+    onFocus(record) { travelToNebula(record); zoom = Math.min(zoom, 160 - catalogDepth); },
+    onOverview() { closePanels(); focusedStarId = null; travelingNebula = null; nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
+  });
+  $('#universe').dataset.sceneMode = 'orion-and-stars';
   for (const key of ['galaxies', 'nebulae', 'asteroids', 'fireballs']) $('#universe').dataset[key] = '0';
+  $('#universe').dataset.nebulae = String(nebulaSystem.records.length);
   $('#universe').dataset.celestialStage = '0';
   catalogReady = true;
   syncRenderLoop();
@@ -380,7 +391,9 @@ function animate(ms) {
   const drift = reducedMotion ? 0 : clock;
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
   const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging ? 0 : pointer.x * 1.9);
-  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25);
+  const flightRecord = travelingNebula ? nebulaSystem.records[0] : null;
+  const descent = flightRecord ? THREE.MathUtils.smoothstep((flightRecord.position[2] + flightRecord.radius * 2 - camera.position.z) / (flightRecord.radius * 4), 0, 1) : 0;
+  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25) - (flightRecord ? flightRecord.radius * .35 * descent : 0);
   const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
   renderQuality.sample(cameraDelta);
@@ -389,9 +402,21 @@ function animate(ms) {
   camera.position.x += (targetX-camera.position.x)*planeDamping;
   camera.position.y += (targetY-camera.position.y)*planeDamping;
   camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
-  camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+  camera.lookAt(camera.position.x, camera.position.y - descent * 88, camera.position.z - 100);
   camera.updateMatrixWorld();
   cosmicField.update(camera);
+  const nebulaStatus = nebulaSystem.update(drift,renderer.getPixelRatio(),innerHeight);
+  $('#universe').dataset.nebulaReady = String(nebulaSystem.ready);
+  $('#universe').dataset.nebulaTextureResolution = String(nebulaSystem.textureResolution);
+  if (travelingNebula && Math.abs(camera.position.z - nebulaSystem.records[0].position[2]) < nebulaSystem.records[0].radius * 4) nebulaSystem.requestHighResolution(renderer);
+  $('#universe').dataset.nebulaStarSize = String(nebulaStatus.starSize);
+  $('#universe').dataset.nebulaWidth = String(nebulaSystem.records[0].overview.extentX);
+  $('#universe').dataset.nebulaFieldSources = String(nebulaSystem.fieldSourceCount);
+  $('#universe').dataset.nebulaLoaded = String(nebulaSystem.loaded);
+  $('#universe').dataset.visibleNebulae = String(nebulaStatus.visible);
+  $('#universe').dataset.insideNebula = nebulaStatus.inside ?? '';
+  $('#universe').dataset.cameraX = String(camera.position.x);
+  $('#universe').dataset.cameraY = String(camera.position.y);
   const visibleGalaxies = 0;
   const policy = experience.snapshot();
   wordGroup.visible = policy.ready && policy.mode !== 'showcase-demo' && (!denseStarMeshes || camera.position.z < 12000);
@@ -485,6 +510,7 @@ function animate(ms) {
     $('#universe').dataset.personalPoints = String(points);
   }
   renderer.render(scene, camera);
+  nebulaSystem.render(renderer);
   drawCalls = renderer.info.render.calls;
 }
 
@@ -538,6 +564,7 @@ function selectWord(id) {
   openPanel('detail');
 }
 function focusStar() {
+  travelingNebula = null; nebulaUI?.focused(null);
   catalogDepth = 0;
   if (!worldStars.has(selectedId)) return;
   preFocusPan = { ...pan };
@@ -714,6 +741,7 @@ function updateMeaningLanguage(event) {
 
 function switchGalaxy(id) {
   if (!universe.galaxies.some(g => g.id === id)) return;
+  travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect);
   catalogDepth = 0;
   pan.x = pan.y = pointer.x = pointer.y = 0;
   zoom = 160;
@@ -765,11 +793,20 @@ async function importUniverse(event) {
 
 function setZoom(value, focusX, focusY) {
   const previous = zoom;
-  zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value));
+  zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM - catalogDepth, value));
   if (focusX === undefined || focusY === undefined) return;
   const halfHeightChange = (previous - zoom) * Math.tan(THREE.MathUtils.degToRad(25));
   pan.x += (focusX / innerWidth - .5) * 2 * halfHeightChange * camera.aspect;
   pan.y += (.5 - focusY / innerHeight) * 2 * halfHeightChange;
+}
+function travelToNebula(record, keepPosition = false) {
+  const absoluteZ = zoom + catalogDepth;
+  focusedStarId = null; preFocusPan = null;
+  travelingNebula = record.id;
+  catalogDepth = nebulaBackPlane(record);
+  zoom = absoluteZ - catalogDepth;
+  if (!keepPosition) { pan.x = record.position[0]; pan.y = record.position[1]; pointer.x = pointer.y = 0; }
+  nebulaUI.focused(record);
 }
 function zoomOnGalaxy(value) {
   if (catalogDepth !== 0 || zoom > 650) { setZoom(value); return; }
@@ -789,7 +826,7 @@ function bindUI() {
   $('#universe-mode').addEventListener('click', () => {
     const button = $('#universe-mode');
     const immersive = !$('#app').classList.contains('immersive');
-    if (immersive) { closePanels(); preImmersiveZoom = zoom; if (words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
+    if (immersive) { closePanels(); preImmersiveZoom = zoom; if (!nebulaSystem && words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
     else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; preImmersiveZoom = null; }
     $('#app').classList.toggle('immersive', immersive);
     pan.x += immersive ? 31 : -31;
@@ -799,7 +836,7 @@ function bindUI() {
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
-  $('#home-btn').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; closePanels(); focusedStarId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -831,7 +868,7 @@ function bindUI() {
   $('#search-input').addEventListener('input', renderCollection);
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; focusedStarId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
   document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
@@ -854,10 +891,24 @@ function bindUI() {
     touches.delete(e.pointerId); dragging = false; dragStart = null; pinchStart = null; };
   canvas.addEventListener('pointerup', endPointer);
   canvas.addEventListener('pointercancel', endPointer);
-  const onZoomWheel = e => { e.preventDefault(); setZoom(zoom * Math.exp(e.deltaY * .00145), e.clientX, e.clientY); };
-  canvas.addEventListener('wheel', onZoomWheel, { passive: false });
-  $('#star-layer').addEventListener('wheel', onZoomWheel, { passive: false });
-  window.addEventListener('resize', () => { if (!renderer) return; camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7)); renderer.setSize(innerWidth, innerHeight); });
+  const onZoomWheel = e => {
+    if (activePanel || e.target.closest('button,a,input,textarea,select,dialog,.controls')) return;
+    e.preventDefault();
+    const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+    if (delta < 0 && !activePanel) {
+      const record = nebulaSystem?.pick((e.clientX / innerWidth - .5) * 2, (.5 - e.clientY / innerHeight) * 2);
+      if (record && record.id !== travelingNebula) travelToNebula(record);
+    }
+    if (travelingNebula) {
+      setZoom(zoom * Math.exp((delta < 0 ? Math.max(-160, delta) * .001 : delta * .00145)));
+      const record = nebulaSystem.records[0];
+      const steering = Math.min(zoom, record.radius) * .09;
+      pan.x += ((e.clientX / innerWidth - .5) * 2 * steering) * .15;
+      pan.y += ((.5 - e.clientY / innerHeight) * 2 * steering) * .15;
+    } else setZoom(zoom * Math.exp(delta * .00145), e.clientX, e.clientY);
+  };
+  $('#app').addEventListener('wheel', onZoomWheel, { passive: false });
+  window.addEventListener('resize', () => { if (!renderer) return; camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); if (!travelingNebula) nebulaSystem?.reframe(camera.aspect); renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7)); renderer.setSize(innerWidth, innerHeight); });
 }
 
 history.scrollRestoration = 'manual';

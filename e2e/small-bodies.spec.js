@@ -10,7 +10,8 @@ for (const locale of ['tr', 'en', 'es'])
         if (m.type() === 'error') errors.push(m.text());
       });
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(`/?lang=${locale}`);
+      // Archived layers stay testable in an isolated lab; the product is Orion-only.
+      await page.goto(`/tests/fixtures/celestial-lab.html?lang=${locale}`);
       const canvas = page.locator('#universe');
       await expect(canvas).toHaveAttribute('data-asteroids', '1000');
       await expect(canvas).toHaveAttribute('data-fireballs', '1000');
@@ -33,7 +34,7 @@ for (const locale of ['tr', 'en', 'es'])
       await page.locator('.celestial-results button').click();
       await expect(page.locator('#catalog-view')).toBeVisible();
       await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) + 465)).toBeLessThan(3);
-      await page.locator('#reset-view').click();
+      await page.locator('#catalog-view button').click();
       await expect(page.locator('#catalog-view')).not.toBeVisible();
       expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
       expect(errors).toEqual([]);

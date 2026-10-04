@@ -1,0 +1,102 @@
+.nebula-dialog {
+  width: min(960px, calc(100vw - 32px));
+  max-height: 85vh;
+  background: #08090b;
+  color: #eee;
+}
+.nebula-guide {
+  color: #a9aeb8;
+  line-height: 1.6;
+  max-width: 720px;
+}
+.nebula-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.nebula-card {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #252934;
+  border-radius: 12px;
+  background: #0b0d11;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nebula-card.priority {
+  border-color: #4d6382;
+}
+.nebula-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.nebula-card h3 {
+  font-size: 14px;
+  margin: 0;
+}
+.nebula-card a {
+  color: #aabbd5;
+  font-size: 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.nebula-card small {
+  color: #9198a5;
+  font-size: 11px;
+}
+.nebula-card button,
+.nebula-overview {
+  color: #e4eafd;
+  border: 1px solid #38455b;
+  background: #141b28;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nebula-credit {
+  position: fixed;
+  z-index: 6;
+  bottom: 18px;
+  left: 24px;
+  max-width: min(70vw, 700px);
+  border: 0;
+  background: #0009;
+  padding: 6px 10px;
+  color: #9ba9bd;
+  font: 10px/1.5 system-ui;
+  cursor: pointer;
+  text-align: left;
+}
+.controls .nebula-open {
+  padding: 0;
+}
+@media (max-width: 760px) {
+  .nebula-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .nebula-card {
+    padding: 8px;
+  }
+  .nebula-card img {
+    height: 100px;
+  }
+  .nebula-credit {
+    bottom: 10px;
+    left: 10px;
+    max-width: 60vw;
+  }
+}
+@media (max-width: 420px) {
+  .nebula-list {
+    grid-template-columns: 1fr;
+  }
+  .nebula-card img {
+    height: 170px;
+  }
+}

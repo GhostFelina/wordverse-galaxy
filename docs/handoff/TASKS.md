@@ -1,5 +1,13 @@
 # Görevler
 
+## Güncel öncelik · Orion / U2 · 2026-10-04
+
+- [x] Yalnız Orion; gerçek 10K Hubble kaynağından 8K yerel doku, Spitzer IR, 96 Gaia alan kaynağı ve dört Trapezium konumu.
+- [x] Ana gaz kesiti %70 genişlik, daha derin kesintisiz hacim; yavaş adveksiyon, gaz vadisine ilerleme ve perspektif yıldız geçişi.
+- [x] Orion son ilgili tarayıcı gate'leri 4/4; 109 unit, lint/typecheck/format/build. Önceki tam tur 74/75; düzeltilen wheel senaryosu ilgili dört testle tekrar geçti.
+- [~] Yakın gaz pütürlenmesi, cold shader yükleme (ilk test 22.7 s), son remote CI ve kullanıcı görsel kabulü; U2 tamamlandı sayılmaz.
+- [ ] Mobil gerçek GPU/FPS, WCS hizalama, tam gaz-yıldız sönümü; ardından U3–U9.
+
 Durum: `[ ]` bekliyor, `[~]` sürüyor, `[x]` doğrulandı. Sorumlu: codex veya claude. Dal adları faz başlığı altındadır.
 
 ## Faz 0 · `phase/0-audit-infrastructure` · codex
