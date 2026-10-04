@@ -2,7 +2,7 @@
 
 ## Aktif düzeltme · yan bulutsu görünümü · 2026-10-04
 
-Masaüstü `yan.png` incelendi. Sorun kelime yıldızında değil, ana Orion ayrıntısının yanından çıkan pürüzsüz mor şeritteydi. Bu bölüm aşağıdaki hacim kararlarını günceller; kullanıcı verisi ve yıldız optikleri korunur.
+Uygulama checkpoint **6f7301f**, `phase/4-universe`; devir takip commit’i aynı push paketindedir. Yeni remote CI sonucu kontrol edilmeli. Masaüstü `yan.png` incelendi. Sorun kelime yıldızında değil, ana Orion ayrıntısının yanından çıkan pürüzsüz mor şeritteydi. Bu bölüm aşağıdaki hacim kararlarını günceller; kullanıcı verisi ve yıldız optikleri korunur.
 
 - İnce Gaussian duvarın bütün derinlik boyunca uzaması ve düz skirt/veil katmanları kaldırıldı. Yan gaz üç sonlu 3B yoğunluk bölgesinin örtüşmesinden, dünya koordinatında türbülans deformasyonu ve farklı ölçekte lif/boşluk maskelerinden oluşur. Bu **sanatsal hacim modeli**, gözlemsel tomografi değildir.
 - Fotoğraf rehberinin UV sınırı dışında kenar pikselini uzatmak yerine gözlemsel sırt katkısı sönümlenir. Ana yıldızsız doku native 1254² olarak kalır; yeni görsel üretimi/upscale yok.
