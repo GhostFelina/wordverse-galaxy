@@ -15,6 +15,16 @@ test('word-star optics, surface, lateral passage and return use one continuous b
   await page.locator('#far').click();
   await expect(canvas).toHaveAttribute('data-shot', 'far');
   await expect(canvas).toHaveAttribute('data-detail', '0');
+  await page.locator('#approach').click();
+  await expect(canvas).toHaveAttribute('data-detail', '0');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-diameter'))).toBeGreaterThan(60);
+  await expect(canvas).toHaveAttribute('data-refined', 'true');
+  const still = await page.screenshot({ clip: { x: 680, y: 410, width: 80, height: 80 } });
+  await page.locator('#freeze').click();
+  await expect.poll(async () => Number(await canvas.getAttribute('data-simulation-time'))).toBeGreaterThan(0);
+  const alive = await page.screenshot({ clip: { x: 680, y: 410, width: 80, height: 80 } });
+  expect(alive.equals(still)).toBe(false);
+  await page.locator('#freeze').click();
   await page.locator('#close').click();
   await expect(canvas).toHaveAttribute('data-shot', 'close');
   await expect(canvas).toHaveAttribute('data-detail', '1');
@@ -30,7 +40,7 @@ test('word-star optics, surface, lateral passage and return use one continuous b
   expect(errors).toEqual([]);
 });
 
-test('real word records keep their positions through selection, addition, reload and distant LOD', async ({ page }) => {
+async function seedWordRecords(page) {
   const entries = [
     { id: 'steady', x: 31, y: 0, z: 18 },
     { id: 'second', x: 8, y: 12, z: 22 },
@@ -66,7 +76,12 @@ test('real word records keep their positions through selection, addition, reload
     entries,
   );
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/?lang=tr');
+  await page.goto('/?lang=tr', { waitUntil: 'domcontentloaded' });
+  return entries;
+}
+
+test('real word records keep their positions through selection, addition, reload and distant LOD', async ({ page }) => {
+  const entries = await seedWordRecords(page);
   const canvas = page.locator('#universe');
   await expect(canvas).toHaveAttribute('data-word-star-system', 'shared-photosphere-v1');
   const star = page.locator('[data-word-id="steady"]');
@@ -75,12 +90,14 @@ test('real word records keep their positions through selection, addition, reload
   const before = await star.boundingBox();
   await star.click();
   await expect(page.locator('#detail-word')).toHaveText('steady');
+  // Pointer remains over the selected star hit button; its wheel must zoom.
+  await page.mouse.wheel(0, -120);
+  await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(158);
+  await page.locator('[data-word-id="steady"]').click();
   await page.locator('#reveal-meaning').click();
   await expect(page.locator('#detail-meaning')).toBeVisible();
-  await page.locator('#focus-star').click();
-  await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
-  await expect.poll(async () => Number(await star.getAttribute('data-diameter'))).toBeGreaterThan(150);
-  await page.locator('#universe-mode').click();
+  await page.keyboard.press('Escape');
   await page.locator('#reset-view').click();
   await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);
   await page.locator('#open-add').click();
@@ -101,11 +118,32 @@ test('real word records keep their positions through selection, addition, reload
   await expect(canvas).toHaveAttribute('data-personal-points', '3');
   await expect(canvas).toHaveAttribute('data-background-stars', '0');
   await expect(canvas).toHaveAttribute('data-nebula-field-sources', '0');
-  await expect(canvas).toHaveAttribute('data-wheel-speed', '0.75');
+  await expect(canvas).toHaveAttribute('data-wheel-speed', '0.3');
   await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);
   await page.mouse.wheel(0, 9000);
   await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);
   await page.reload();
   await expect(page.locator('#star-layer .star-hit')).toHaveCount(3);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('wordverse.universe.v4')))).toEqual(saved);
+});
+
+test('selected star keeps wheel and button targeting inside its safe surface distance', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await seedWordRecords(page);
+  const canvas = page.locator('#universe');
+  const star = page.locator('[data-word-id="steady"]');
+  await star.click();
+  await page.locator('#focus-star').click();
+  await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
+  await expect.poll(async () => Number(await star.getAttribute('data-diameter'))).toBeGreaterThan(150);
+  await page.locator('#universe-mode').click();
+  for (let i = 0; i < 8; i++) await page.locator('#zoom-in').click();
+  await expect
+    .poll(async () => Number(await canvas.getAttribute('data-camera-target-z')))
+    .toBeGreaterThanOrEqual(18 + 0.45 * 1.35);
+  await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
+  const before = Number(await canvas.getAttribute('data-camera-target-z'));
+  await page.locator('#zoom-out').click();
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-target-z'))).toBeGreaterThan(before);
+  await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
 });

@@ -52,9 +52,9 @@
   <body>
     <canvas id="star-lab" aria-label="Kelime yıldızı ve Orion kalite sahnesi"></canvas>
     <nav aria-label="Yıldız görüşleri">
-      <button id="far">En uzak</button><button id="home">Genel</button><button id="focus">Yaklaş</button
-      ><button id="close">Yüzey</button><button id="side">Yanından geç</button><button id="passed">Arkasında</button
-      ><button id="freeze">Hareket</button>
+      <button id="general">Genel dağılım</button><button id="far">En uzak</button><button id="home">Genel</button
+      ><button id="focus">Yaklaş</button><button id="approach">%55 yaklaşım</button><button id="close">Yüzey</button
+      ><button id="side">Yanından geç</button><button id="passed">Arkasında</button><button id="freeze">Hareket</button>
     </nav>
     <footer>
       <strong>Wordverse / kelime yıldızı</strong><br />Tek yıldız ailesi · beyaz sıcak ışık · granülasyon · ince
@@ -64,6 +64,8 @@
       import * as THREE from 'three';
       import { createWordStarSystem } from '/src/word-star-system.js';
       import { createNebulaSystem } from '/src/nebula-system.js';
+      import { createStarTransmission } from '/src/star-nebula-transmission.js';
+      import { placeWordStar } from '/src/word-star-placement.js';
       const canvas = document.querySelector('canvas');
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
@@ -76,11 +78,25 @@
         camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100000);
       const gas = createNebulaSystem(scene, camera, { fieldStars: false });
       const stars = createWordStarSystem(scene);
-      stars.setEntries([{ id: 'quality-star', x: 31, y: 0, z: 18 }]);
+      const sample = [{ id: 'quality-star', x: 31, y: 0, z: 18 }];
+      const extinction = createStarTransmission(gas.starMedium);
+      camera.position.set(0, 0, 160);
+      camera.updateMatrixWorld();
+      let seed = 318;
+      const random = () => {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+      const distributed = [];
+      for (let i = 0; i < 12; i++)
+        distributed.push({ id: 'sample-' + i, ...placeWordStar(camera, distributed, { random, backZ: -1800 }) });
+      stars.setEntries(sample);
       const views = {
+        general: [0, 0, 160],
         far: [0, 0, 160],
         home: [0, 0, 160],
-        focus: [31, 0, 21.15],
+        focus: [31, 0, 19.6],
+        approach: [31, 0, 18 + 142 * Math.pow(0.6075 / 142, 0.55)],
         close: [31, 0, 19.3],
         side: [32.2, 0, 18.4],
         passed: [32.2, 0, 17],
@@ -90,6 +106,7 @@
       for (const name of Object.keys(views))
         document.getElementById(name).onclick = () => {
           shot = name;
+          stars.setEntries(name === 'general' ? distributed : sample);
         };
       document.querySelector('#freeze').onclick = () => {
         moving = !moving;
@@ -102,16 +119,18 @@
         gas.update(moving ? ms * 0.001 : 0, renderer.getPixelRatio(), innerHeight);
         stars.update(moving ? ms * 0.001 : 0, camera, innerHeight, renderer.getPixelRatio(), {
           selectedId: shot === 'focus' ? 'quality-star' : null,
+          transmission: (position) => extinction(position, camera),
         });
         renderer.render(scene, camera);
         gas.render(renderer);
-        canvas.dataset.ready = String(gas.ready);
+        canvas.dataset.ready = String(gas.ready && stars.ready);
+        canvas.dataset.simulationTime = String(moving ? ms * 0.001 : 0);
         canvas.dataset.shot = shot;
-        canvas.dataset.diameter = String(stars.state('quality-star').diameter);
-        canvas.dataset.detail = String(stars.state('quality-star').blend);
+        canvas.dataset.diameter = String(stars.state('quality-star')?.diameter ?? 0);
+        canvas.dataset.detail = String(stars.state('quality-star')?.blend ?? 0);
         canvas.dataset.refined = String(gas.refined);
         document.querySelector('#star-state').textContent =
-          `${stars.state('quality-star').diameter.toFixed(1)} px yüzey · ${renderer.info.render.calls} son geçiş draw call`;
+          `${(stars.state('quality-star')?.diameter ?? 0).toFixed(1)} px yüzey · ${renderer.info.render.calls} son geçiş draw call`;
       });
       addEventListener('resize', () => {
         camera.aspect = innerWidth / innerHeight;

@@ -1,8 +1,22 @@
+<!-- Aktif2026-10-04 yeni override: STAR_REFERENCE_PLAN.md;0.30wheel/targetlock;random yeni word positions;starless native1254gas;far/55% optics;visual extinction. Eski0.75/embeddedstars/erken photosphere hedefleri tarihidir. -->
+
 <!-- Aktif 2026-10-04 kullanıcı yönlendirmesi: kelime yıldızları ortak fotosfer; diğer bağımsız yıldızlar kaldırıldı; en uzak kamera 160; wheel %25 yavaş. HANDOFF üst bölümü güncel, aşağıdaki eski Orion/Gaia hedefleri tarihidir. -->
 
 # Görevler
 
-## Güncel öncelik · Orion / U2 · 2026-10-04
+## Güncel öncelik · referans yıldızları / U2 · 2026-10-04
+
+- [x] Masaüstü yaklaşım/genel/uzak ekran görüntülerini incele; sıralı planı `STAR_REFERENCE_PLAN.md` içine yaz.
+- [x] Yalnız kelime yıldızları; fotoğrafa gömülü ışıkları yıldızsız Orion türeviyle kaldır. Native 1254² ve değişen gaz ayrıntısını açıkça kaydet.
+- [x] Uzak keskin uçlar, %55 yaklaşım optik çekirdek, yavaş parlama ve daha geç yüzey geçişi; 128³ granülasyon dokusu.
+- [x] Yeni kelimelere random görünür konum/derinlik; mevcut konumları koru. Modellenmiş gaz sönümüyle arka ışıkları ilişkilendir.
+- [x] Seçili yıldıza wheel/buton hedef kilidi; 0.30 wheel, ±180 delta sınırı, ters yön iptali ve güvenli yüzey mesafesi.
+- [x] Son koddan sentetik PNG kanıtı; gerçek 5360'da mevcut yıldızla ileri/geri hedef zoom incelemesi; kullanıcı verisine yazma yok.
+- [x] Son 78/78 tarayıcı kontrolü (6.6 dakika); 114 unit ve lint/format/typecheck/build geçti.
+- [~] Commit/push ve yeni remote CI sonucu HANDOFF/STATE üstünde takip edilir.
+- [ ] Kullanıcı görsel kabulü, daha yüksek ayrıntılı yıldızsız gaz, bilimsel sönüm/WCS ve gerçek mobil GPU bütçesi. U2 sürer.
+
+## Önceki Orion checkpoint'i · tarihçe
 
 - [x] Yalnız Orion; gerçek 10K Hubble kaynağından 8K yerel doku, Spitzer IR, 96 Gaia alan kaynağı ve dört Trapezium konumu.
 - [x] Ana gaz kesiti %85 genişlik, 2.6 yarıçap derinlik, yaklaşık 2.74 kat uzun kesintisiz uçuş; dört gerçek Trapezium çekirdeği mevcut 96 Gaia kaynağından belirginleştirildi.

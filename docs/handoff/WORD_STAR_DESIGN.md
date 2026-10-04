@@ -1,3 +1,5 @@
+<!-- Yeni2026-10-04 STAR_REFERENCE_PLAN.md ve HANDOFF üst bölümü bu eski tasarım kaydındaki8–24px yüzey geçişi,0.75wheel ve fotoğraftaki yıldızların kalması kararlarının yerine geçer. -->
+
 # Kelime yıldızı sistemi · 2026-10-04
 
 ## Son kullanıcı referansları

@@ -58,7 +58,7 @@ try {
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(150);
   await page.mouse.wheel(0, -120);
   await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
-  await expect(canvas).toHaveAttribute('data-nebula-texture-resolution', '8192');
+  await expect(canvas).toHaveAttribute('data-nebula-texture-resolution', '1254');
   const entranceZ = Number(await canvas.getAttribute('data-camera-z'));
   await page.mouse.wheel(0, -120);
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(entranceZ - 50);

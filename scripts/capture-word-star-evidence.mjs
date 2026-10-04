@@ -44,7 +44,7 @@ try {
   const canvas = page.locator('#star-lab');
   await expect(canvas).toHaveAttribute('data-ready', 'true');
   await mkdir('docs/handoff/evidence/upgrade', { recursive: true });
-  for (const shot of ['far', 'focus', 'close', 'side']) {
+  for (const shot of ['general', 'far', 'approach', 'focus', 'close', 'side']) {
     await page.locator(`#${shot}`).click();
     await expect(canvas).toHaveAttribute('data-shot', shot);
     await expect(canvas).toHaveAttribute('data-refined', 'true');

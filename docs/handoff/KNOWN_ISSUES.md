@@ -1,13 +1,16 @@
 # Bilinen sorunlar
 
-- Güncel üretim sahnesi Orion ve yalnız kelime yıldızlarıdır; ayrı cosmic/Gaia/Trapezium/dekoratif demo yıldızları kaldırıldı. Orion gözlem dokusundaki ışık noktaları dokuya gömülüdür. Kelime yüzeyi prosedüreldir; gazla tam fiziksel ışık sönümü ve gerçek mobil GPU FPS ölçümü açık. En uzak kamera 160, wheel 0.75.
+- **Güncel override:** yalnız kelime yıldızları; fotoğrafa gömülü yıldızlar da `orion-starless.png` türeviyle kaldırıldı. Bu imagegen düzenlemesi native1254² ve gaz detayı kısmen değişti;8K değildir. Özgün8K dosyası korunur fakat aktif yıldızsız sahneye geri yüklenmez. Daha yüksek detaylı yıldızsız doku ve kullanıcı kabulü açık.
+- Gaz-yıldız görsel sönümü uygulandı, bilimsel kalibrasyon/WCS değildir. Yeni kelimeler random farklı derinliklerde ekran içinde oluşur; eskiler taşınmaz. Seçili hedef wheel/butonları kilitler; wheel0.30 ve ±180piksel delta sınırı uygulanır.
+
+- Güncel üretim sahnesi Orion ve yalnız kelime yıldızlarıdır; ayrı cosmic/Gaia/Trapezium/dekoratif demo yıldızları kapalıdır. Kelime yüzeyi prosedüreldir; gazla tam fiziksel ışık sönümü ve gerçek mobil GPU FPS ölçümü açık. En uzak kamera 160, wheel 0.30.
 - Önceki bea8bd7/6dba3c4 CI başarısızdı; son test ve CI durumu HANDOFF/STATE üstünde takip edilir.
 
-- Aktif sahne yalnız Orion ve yıldızlar. 8K optik doku gerçek 10K gözlem kaynağından türetilmiştir. Hareket sırasında framebuffer cihaz bütçesine göre düşebilir; kamera durunca viewport çözünürlüğüne (1920 px sınırı) ve 32 gaz adımına döner. 96³ yoğunluk/ince sırt örneklemesi çizgilenmeyi azaltır, modellenmiş iç gaz gözlemsel 8K tomografi değildir. Uzun iç uçuşta gaz ayrıntısı ve gerçek mobil GPU kalitesi için kullanıcı kabulü bekliyor.
+- Korunan özgün 8K optik doku gerçek 10K gözlem kaynağından türetilmiştir; aktif yıldızsız gaz türevi 1254²'dir. Hareket sırasında framebuffer cihaz bütçesine göre düşebilir; kamera durunca viewport çözünürlüğüne (1920 px sınırı) ve 32 gaz adımına döner. 96³ yoğunluk/ince sırt örneklemesi çizgilenmeyi azaltır; modellenmiş iç gaz gözlemsel tomografi değildir. Uzun iç uçuşta gaz ayrıntısı ve gerçek mobil GPU kalitesi için kullanıcı kabulü bekliyor.
 - Orion gaz ve yıldız derinliği sanatsal modeldir; Gaia–Hubble WCS hizalama ve tam gaz-yıldız ışık sönümü açık. Mobil gerçek donanımda FPS ölçümü tamamlanmadı.
 
 - Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.
-- Son kademeli build ana JS ~409 kB; asteroid veri parçası ~545 kB nedeniyle Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
+- Son build ana JS ~602 kB (gzip ~162 kB); Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
 - WebGL başlatılamazsa arayüzün tüm veri işlevleri ayrı bir liste modu ile güvence altında değil.
 - Mevcut görseller için kaynaklar `docs/ART_ASSET.md`, `docs/ASTRONOMY_REFERENCES.md` ve kök dizindeki `ATTRIBUTIONS.md` içinde. Yeni varlıklar eklendikçe merkezi atıf güncellenmeli.
 - Statik TR/EN/ES sayfaları üretildi. Kök URL `/` tarayıcı dili veya yerel tercih nedeniyle JavaScript açıldığında EN/ES'e dönebilir; statik HTML varsayılan TR'dir. Kanonik dil adresleri `/en/` ve `/es/` açık dili sabitler.

@@ -56,11 +56,10 @@ void main(){
  vec3 guidePosition=guideDistance>0. ? eye+ray*guideDistance : vec3(0.);
  vec2 uv=clamp(guidePosition.xy*.5+.5,vec2(.001),vec2(.999));
  vec3 observed=textureLod(image,uv,opticalLod).rgb;
- vec3 diffuse=textureLod(image,uv,opticalLod+4.).rgb;
+ vec3 diffuse=textureLod(image,uv,opticalLod+5.).rgb;
  float sharpLum=max(observed.r,max(observed.g,observed.b));
  float lum=max(diffuse.r,max(diffuse.g,diffuse.b));
- float saturation=sharpLum-min(observed.r,min(observed.g,observed.b));
- float stellarPeak=smoothstep(.06,.25,sharpLum-lum)*(1.-smoothstep(.07,.3,saturation));
+  float stellarPeak=smoothstep(.025,.14,sharpLum-lum);
  observed=mix(observed,diffuse,stellarPeak);
  vec3 macroColor=mix(textureLod(image,uv,opticalLod+8.).rgb,textureLod(infrared,uv,infraredLod+7.).rgb,.16);
  vec4 sum=vec4(0.);
@@ -160,7 +159,10 @@ export function createNebulaSystem(
     const ready = () => {
       if (!disposed && ++readyAssets === 2) loaded++;
     };
-    const texture = loader.load(compact ? record.texture : record.gasTexture.texture, ready);
+    const texture = loader.load(
+      !fieldStars ? record.starlessTexture.texture : compact ? record.texture : record.gasTexture.texture,
+      ready,
+    );
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = 1;
     const infrared = loader.load(record.infrared.texture, ready);
@@ -325,10 +327,16 @@ export function createNebulaSystem(
       renderer.autoClear = autoClear;
     },
     get textureResolution() {
-      return highResolutionState === 'ready' ? 8192 : compact ? 2048 : 4096;
+      return !fieldStars
+        ? records[0].starlessTexture.dimensions[0]
+        : highResolutionState === 'ready'
+          ? 8192
+          : compact
+            ? 2048
+            : 4096;
     },
     requestHighResolution(renderer) {
-      if (highResolutionState !== 'idle') return;
+      if (!fieldStars || highResolutionState !== 'idle') return;
       if (compact || renderer.capabilities.maxTextureSize < 8192) {
         highResolutionState = 'unsupported';
         return;
@@ -356,6 +364,9 @@ export function createNebulaSystem(
           highResolutionState = 'failed';
         },
       );
+    },
+    get starMedium() {
+      return { group: nodes[0].group, density };
     },
     get loaded() {
       return loaded;

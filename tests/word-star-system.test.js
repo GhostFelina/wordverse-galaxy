@@ -34,7 +34,7 @@ it('uses one star family, bounded surfaces for 5000 records, and natural behind-
   camera.updateMatrixWorld();
   system.update(0, camera, 900, 1);
   expect(system.detailCount).toBe(0);
-  camera.position.z = 22;
+  camera.position.z = 19;
   camera.updateMatrixWorld();
   system.update(0, camera, 900, 1);
   expect(system.state('0').blend).toBe(1);

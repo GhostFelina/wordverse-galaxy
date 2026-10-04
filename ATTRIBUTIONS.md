@@ -31,3 +31,8 @@
 - `orion-ir.webp`: NASA/Spitzer/JPL-Caltech kızılötesi gözlemi, [SVS 30959](https://svs.gsfc.nasa.gov/30959/), [NASA medya şartları](https://www.nasa.gov/nasa-brand-center/images-and-media/). Bu gözlem görselleri repo MIT kod lisansına dahil değildir; kredi uygulama panelinde görünür.
 - `src/data/nebula-environments.json`: ESA/Gaia/DPAC, CDS/VizieR Gaia DR3; Trapezium kimlik konumları CDS Sesame. Derinlik ve alan üyeliği konik katalog sorgusundan ölçülmedi.
 - NASA SVS 30957 animasyonu yöntem/görsel referanstır; klip ve üretim mesh'i uygulamaya kopyalanmadı. [Araştırma ve sınırlar](docs/handoff/ORION_RESEARCH.md).
+
+
+## Orion yıldızsız düzenleme
+
+`public/assets/nebulae/orion-starless.png`: yukarıdaki heic0601a gaz türevinin yerleşik imagegen ile yıldızları temizlenmiş düzenlemesi; Wordverse görselleştirmesi. NASA/ESA/STScI özgün kaynak kredisi korunur. Gerçek çözünürlük1254×1254; küçük gaz ayrıntıları üretimle değişmiştir, ham gözlem veya8K değildir. Özgün gözlem dosyaları silinmedi. [İstem ve varlık kaydı](docs/ART_ASSET.md).
