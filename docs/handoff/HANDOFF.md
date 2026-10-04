@@ -2,7 +2,7 @@
 
 ## Aktif referans / random yıldız / hedef zoom · 2026-10-04
 
-Bu üst bölüm aşağıdaki302c6fa checkpoint kararlarını günceller. Son kullanıcı `yaklaşım.png`, `genel.png`, `uzaktan görünüş.png` referanslarının analizi, %55 yaklaşım ışığı, yalnız kendi yıldızları, random ekran/depth konumları ve seçilen yıldıza kilitli daha yavaş zoom istedi. [Sıralı uygulama planı](STAR_REFERENCE_PLAN.md).
+Uygulama checkpoint **8511118**, `phase/4-universe`; belge takip commit’i aynı push paketindedir. Yeni remote Check sonucu henüz doğrulanmış değildir; en güncel run kontrol edilmeli. Bu üst bölüm aşağıdaki 302c6fa checkpoint kararlarını günceller. Son kullanıcı `yaklaşım.png`, `genel.png`, `uzaktan görünüş.png` referanslarının analizi, %55 yaklaşım ışığı, yalnız kendi yıldızları, random ekran/depth konumları ve seçilen yıldıza kilitli daha yavaş zoom istedi. [Sıralı uygulama planı](STAR_REFERENCE_PLAN.md).
 
 - Ortak optik aile: uzak keskin çekirdek/dört ince ışık çizgisi; orta mesafede kamera karşısına bakan **en çok24 quad** ile uzun çizgiler (GL point-size sınırına takılmaz). Çekirdek beyaz/lavanta, mor halo, yavaş farklı fazlı ±%14 parlama. Photosphere geçişi **8–24px →130–260px**; %55'te artık erkenden düz beyaz küreye dönmez. Azaltılmış harekette ışık sabit.
 - Yakın fotosferin granülasyonu `scripts/build-star-granulation.mjs` ile üretilen **128³ / 2 MiB** periyodik 3B dokuya taşındı. Her pikselde 27 komşu hücre hesaplamak yerine GPU doku örnekler; ayrıntı, yavaş akış ve kenar kararması korunur. Bu prosedürel modeldir, gözlemsel yıldız yüzeyi değildir. Tam yüzey geçişinde gereksiz optik quad kapatılır.

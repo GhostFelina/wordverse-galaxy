@@ -13,7 +13,8 @@
 - [x] Seçili yıldıza wheel/buton hedef kilidi; 0.30 wheel, ±180 delta sınırı, ters yön iptali ve güvenli yüzey mesafesi.
 - [x] Son koddan sentetik PNG kanıtı; gerçek 5360'da mevcut yıldızla ileri/geri hedef zoom incelemesi; kullanıcı verisine yazma yok.
 - [x] Son 78/78 tarayıcı kontrolü (6.6 dakika); 114 unit ve lint/format/typecheck/build geçti.
-- [~] Commit/push ve yeni remote CI sonucu HANDOFF/STATE üstünde takip edilir.
+- [x] Uygulama checkpoint 8511118; devir ve kanıtlar aynı dalın push paketinde.
+- [~] Yeni remote CI sonucu HANDOFF/STATE üstünde takip edilir; yerel 78/78 sonucu remote başarı yerine geçmez.
 - [ ] Kullanıcı görsel kabulü, daha yüksek ayrıntılı yıldızsız gaz, bilimsel sönüm/WCS ve gerçek mobil GPU bütçesi. U2 sürer.
 
 ## Önceki Orion checkpoint'i · tarihçe
