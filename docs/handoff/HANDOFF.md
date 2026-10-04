@@ -1,5 +1,15 @@
 # Devir durumu
 
+## Dağıtım / yedek doğrulaması · 2026-10-04
+
+- Sürüm1.14.1; uygulama/devir checkpoint e1b3850d3b9a5a4baffd219c4aaf9d906bbba086, origin/phase/4-universe üzerine push edildi.
+- Vercel Preview **READY**; URL https://wordverse-galaxy-gx5zjyq3m-mustafas-projects-92e683a9.vercel.app; Vite; Git deploy yaklaşık19s. CLI inspect aynı deployment için preview/READY doğruladı; korumalı erişimden HTTP200 alındı.
+- Yerel doctor tüm GitHub/Codex/Claude/env/bağımlılık kapılarında OK; lint/typecheck/build/sürüm kontrolü ve114 unit geçti; güvenli hedef testi1/1 geçti (26.8s).
+- Tam CI37220478118 bu kayıt anında çalışıyor: https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37220478118 . Tam79/79 başarı iddiası yok; sonucu devam ederken kontrol et.
+- Desktop/Wordverse-Yedekler/2026-10-04: doğrulanmış tam geçmiş Git bundle, HEAD kaynak ZIP, özel evren JSON, geri yükleme talimatı ve SHA256 manifest. JSON snapshot2 galaksi/20 kayıt; avatar veya tüm Supabase DB dump'ı değildir. Yedek ve sırlar Git'e alınmadı.
+- Desktop/WORDVERSE_CLAUDE_DEVIR.md: devam prompt'u ve15 devir/şartname/kaynak belgesinin tam UTF8 kopyası. Yeni ajan repodaki güncel HANDOFF/STATE'i esas alır.
+
+
 ## Codex / Claude devir checkpoint'i · 2026-10-04 · 1.14.1 geliştirme
 
 Son kullanıcı isteği: kaldığımız yeri kaydet; commit/push, sürüm, deploy, yedek ve Claude devrini tamamla. Aktif dal **phase/4-universe**, yerel adres **http://127.0.0.1:5360/**. Bu bölüm eski tarihli durumların önündedir. U2 aktif; orijinal Faz 0/1 bitti, Faz 2/3 kalanları ertelendi. U3–U9 tamamlanmadı.

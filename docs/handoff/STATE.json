@@ -40,15 +40,28 @@
     "completedPhases": [],
     "nextPhase": "U3",
     "lastVerifiedCommit": "6f7301f",
-    "lastRemoteCI": "37219468095 failure:114 unit passed;78/79 browser; safe-distance floating point boundary fixed in1.14.1; new CI pending",
+    "lastRemoteCI": {
+      "run": 37220478118,
+      "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+      "status": "in_progress",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37220478118"
+    },
     "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
     "localUnitTests": 114,
     "localBrowserTests": 79,
-    "integrationVerification": "114 unit + lint/format/typecheck/build passed; current related8/8 browser tests passed (1.7 min); lateral/front evidence and actual5360 drag reviewed; previous full78 and remote37217546979 passed on6e7177a, not new full79",
-    "preview": "New1.14.1 preview pending push; previous2ddb8d7 READY",
+    "integrationVerification": "114 unit + lint/typecheck/build/check:release passed on1.14.1; selected target browser1/1 passed26.8s; previous side related8/8; full79 remote pending",
+    "preview": {
+      "url": "https://wordverse-galaxy-gx5zjyq3m-mustafas-projects-92e683a9.vercel.app",
+      "target": "preview",
+      "status": "READY",
+      "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+      "framework": "Vite",
+      "buildDurationSeconds": 19,
+      "httpStatus": 200
+    },
     "remainingCurrentWork": "Verify1.14.1 CI/preview; visual acceptance, native1254 gas detail, mobile GPU, scientific calibration, then U3",
     "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
@@ -64,6 +77,12 @@
     "version": "1.14.1",
     "deploymentTarget": "preview",
     "privateBackup": "Desktop/Wordverse-Yedekler/2026-10-04",
-    "desktopHandoff": "Desktop/WORDVERSE_CLAUDE_DEVIR.md"
+    "desktopHandoff": "Desktop/WORDVERSE_CLAUDE_DEVIR.md",
+    "applicationCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+    "backupJson": {
+      "galaxies": 2,
+      "records": 20,
+      "exportedAt": "2026-10-04T17:22:14.887Z"
+    }
   }
 }
