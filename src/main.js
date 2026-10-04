@@ -605,7 +605,8 @@ function zoomWordTarget(factor) {
   if(!focusedStarId)preFocusPan={...pan};
   travelingNebula=null;nebulaUI?.focused(null);focusedStarId=selectedId;
   catalogDepth=chosen.position.z-200;
-  const near=WORD_STAR_RADIUS*1.35,far=Math.max(near,MAX_ZOOM-chosen.position.z);
+  // Keep the surface boundary safe after subtracting and re-adding catalogDepth.
+  const near=WORD_STAR_RADIUS*1.35 + Number.EPSILON*Math.max(1,Math.abs(catalogDepth),Math.abs(chosen.position.z))*4,far=Math.max(near,MAX_ZOOM-chosen.position.z);
   const distance=Math.max(near,Math.min(far,(absolute-chosen.position.z)*factor));
   setZoom(chosen.position.z+distance-catalogDepth);return true;
 }

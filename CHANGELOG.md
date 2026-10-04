@@ -1,6 +1,11 @@
 # Değişiklik kaydı
 
-## [Unreleased] — Faz 4 / 1.14.0 geliştirme (prod 1.11.0)
+## [Unreleased] — Faz 4 / 1.14.1 geliştirme (prod 1.11.0)
+
+- Orion yan gaz hacmi: sonlu3B türbülans, lif/boşluklar ve fotoğraf kenarı sönümü.
+- Yalnız kullanıcı yıldızları; ortak keskin optikler, random yeni konumlar, seçili hedef zoom, daha yavaş wheel.
+- Güvenli yıldız yüzeyi sınırında kayan nokta offset kaybı için ölçeklenmiş epsilon koruması.
+- Codex/Claude ve Windows/Mac devir checkpoint'i, özel Desktop yedek ve preview kaydı.
 
 - Aktif U0–U9 yükseltme şartnamesi; geçici demo, gerçek hesap ve misafir sahne politikası. İlk oturum/panel yarışları düzeltildi; prosedürel küresel yıldız/gezegen ve uzakta küçük nokta geçişi eklendi. Ölçülen kare süresine göre DPR adaptasyonu ve sentetik görsel laboratuvarı var; final estetik kabul açık.
 - Tek kâinat yıldız temeli, OLED siyah, kaynaklı 200 bulutsu atlası ve yakın gaz hacmi. İkinci görsel kademede 1000 JPL asteroid ve 1000 tarihsel CNEOS meteor gözlemi; arama/sayfalama/gezinti üç dilde. 300 galaksinin yeniden aktivasyonu ve görsel kalite kabulü bekliyor.

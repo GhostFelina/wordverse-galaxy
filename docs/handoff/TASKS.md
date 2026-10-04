@@ -1,3 +1,4 @@
+<!-- Güncel2026-10-04: HANDOFF başındaki1.14.1 devir checkpoint önceliklidir. U2 görsel kabulü açık; katalog katmanlarını yeniden etkinleştirme. -->
 <!-- Aktif2026-10-04 yeni override: STAR_REFERENCE_PLAN.md;0.30wheel/targetlock;random yeni word positions;starless native1254gas;far/55% optics;visual extinction. Eski0.75/embeddedstars/erken photosphere hedefleri tarihidir. -->
 
 <!-- Aktif 2026-10-04 kullanıcı yönlendirmesi: kelime yıldızları ortak fotosfer; diğer bağımsız yıldızlar kaldırıldı; en uzak kamera 160; wheel %25 yavaş. HANDOFF üst bölümü güncel, aşağıdaki eski Orion/Gaia hedefleri tarihidir. -->

@@ -157,7 +157,9 @@ test('selected star keeps wheel and button targeting inside its safe surface dis
   await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
   await expect.poll(async () => Number(await star.getAttribute('data-diameter'))).toBeGreaterThan(150);
   await page.locator('#universe-mode').click();
-  for (let i = 0; i < 8; i++) await page.locator('#zoom-in').click();
+  // Keyboard activation exercises the same native button handler without eight
+  // pointer actionability/stability waits competing with software WebGL.
+  for (let i = 0; i < 8; i++) await page.locator('#zoom-in').press('Enter');
   await expect
     .poll(async () => Number(await canvas.getAttribute('data-camera-target-z')))
     .toBeGreaterThanOrEqual(18 + 0.45 * 1.35);

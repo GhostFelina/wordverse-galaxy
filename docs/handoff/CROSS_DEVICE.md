@@ -1,12 +1,16 @@
 # Windows / MacBook · Codex / Claude ortak devam düzeni
 
-## Güncel cihaz devri · 2026-10-03
+## Güncel cihaz / ajan devri · 2026-10-04
+
+Kullanıcı ileride Claude veya MacBook ile devam etmek için güncel devir istedi. Aktif dal phase/4-universe, geliştirme sürümü1.14.1; HANDOFF başındaki2026-10-04 checkpoint geçerlidir. “Wordverse projemize kaldığımız yerden devam et” yeni cihazda devam yetkisidir. Mevcut klonu koru; temizse aktif dalı pull et, doctor ve ilgili resume komutunu çalıştır. Mac gerçek kurulumu bu Windows oturumunda doğrulanamadı; gerekli hesap girişleri cihazda tamamlanır.
+
+## Tarihsel cihaz durdurma · 2026-10-03
 
 Kullanıcı MacBook çalışmasını durdurdu ve Windows'ta devam edeceğini bildirdi.
 Kullanıcı Faz 2 kabulünü sonraya bırakarak Faz 3–9 geliştirmeye geçilmesini istedi (ADR012). Faz 2 tamamlandı sayılmaz. Aktif geliştirme cihazı **Windows**; dal **`phase/4-universe`**. Önce mevcut Windows
 klonunda değişiklikleri koruyarak temiz ağaçta `git fetch origin`,
 `git switch phase/4-universe`, `git pull --ff-only` çalıştır; güncel `HANDOFF.md`
-başındaki Windows devir bloğunu oku. Mac'te geliştirmeyi yeniden başlatma.
+başındaki Windows devir bloğunu oku. Bu eski durdurma kaydı, kullanıcının yeni devam komutunu engellemez.
 Mac'in yanlış eski main tabanındaki alternatif denemesi yalnız arşiv dalındadır:
 `checkpoint/mac-2026-10-03-paused` (`0f94672`); merge veya cloud migration için kullanma.
 Mac'in yeni yerel test veritabanı yedeği korunarak durduruldu.
