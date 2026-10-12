@@ -574,5 +574,32 @@
     "title": "Evren görünümü kullanılamıyor.",
     "copy": "Kelimelerin burada. Atlasını açabilir, kayıtlarını inceleyebilir ve kısa tekrar yapabilirsin.",
     "atlas": "Kelime atlasını aç"
+  },
+  "sky": {
+    "title": "Gökyüzü deneyimleri",
+    "hint": "Sakin, sanatsal bir sahne seç. Geçici olaylar kendiliğinden sona erer; kelime yıldızların korunur.",
+    "stillHint": "Azaltılmış hareket açık. Seçtiğin deneyim sabit bir görsel olarak gösterilir.",
+    "none": "Sakin gökyüzü",
+    "meteor": "Meteor",
+    "supernova": "Süpernova",
+    "blackhole": "Karadelik",
+    "stop": "Gökyüzü deneyimini bitir",
+    "artistic": "Sanatsal görselleştirme",
+    "depth": "Orion yolculuğu",
+    "return": "← Yıldızlarıma dön"
+  },
+  "share": {
+    "open": "Yıldız kartı",
+    "title": "Paylaşmaya değer bir kelime.",
+    "close": "Kartı kapat",
+    "hint": "Yalnızca bu kelime eklenir. İstersen anlamını dahil et; görseli indirip kendin paylaş.",
+    "format": "Kart biçimi",
+    "square": "Kare · 1:1",
+    "portrait": "Dikey · 4:5",
+    "includeMeaning": "Anlamını da ekle",
+    "download": "PNG indir",
+    "preview": "Kart önizlemesi",
+    "preparing": "Kartın hazırlanıyor…",
+    "unavailable": "Görsel hazırlanamadı. Yeniden dene."
   }
 }

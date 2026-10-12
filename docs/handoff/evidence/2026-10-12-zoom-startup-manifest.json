@@ -1,0 +1,43 @@
+{
+  "version": "1.16.1",
+  "applicationCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+  "preview": {
+    "deployment": "dpl_GMHPzLQUA9jhfYBDyfH14imfTkE9",
+    "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
+    "state": "READY",
+    "http": {
+      "html": 200,
+      "js": 200,
+      "css": 200
+    },
+    "assets": [
+      {
+        "asset": "main-DM-Yo1wu.js",
+        "remoteSha256": "52f6fed3df104495f1bc211bd52d377fb4d2e1036b1436db14ee4d0fce72bffb",
+        "localSha256": "52f6fed3df104495f1bc211bd52d377fb4d2e1036b1436db14ee4d0fce72bffb"
+      },
+      {
+        "asset": "main-CXT0u76f.css",
+        "remoteSha256": "34ac06114bd2690aa5e1505df044942ddb208989ba04485c7a1f505fe70cf4ac",
+        "localSha256": "34ac06114bd2690aa5e1505df044942ddb208989ba04485c7a1f505fe70cf4ac"
+      }
+    ],
+    "interactivePreviewAcceptance": false
+  },
+  "unitTests": 123,
+  "localBrowserChecks": {
+    "initialZoomGraphicsStellar": 10,
+    "cameraIdentityOrion": 17,
+    "assetFailureZoomGraphics": 6,
+    "finalZoomStartup": 5
+  },
+  "remote": "Previous1.16.1 failed9obsolete star-cosmos assertions; exact-target correction passes in complete1.17.0 local suite. New remote gate pending.",
+  "image": "2026-10-12-zoom-fixed-1440.png",
+  "performance": "2026-10-12-first-wheel-d3d11.json",
+  "limits": "Synthetic screenshots and headless short GPU measurement. No real user records or private screenshots exported. Production1.14.1 unchanged.",
+  "finalLocalGate": {
+    "unit": 132,
+    "browser": 106,
+    "status": "pass"
+  }
+}

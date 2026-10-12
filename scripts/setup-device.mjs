@@ -10,15 +10,15 @@ const end = '<!-- wordverse-routing:end -->';
 export function routeInstructions(previous, projectRoot, agent = 'codex') {
   const block = `${start}
 ## Wordverse projesine devam
-- Kullanıcı "wordverse projemize kaldığımız yerden devam et" veya "wordverse kaldığın yerden devam et" dediğinde proje: ${JSON.stringify(projectRoot)}.
+- Wordverse çalışma dizini: ${JSON.stringify(projectRoot)}.
 - Önce gerçek işletim sistemini ve kabuğu kontrol et, bu dizine geç ve ${agent === 'claude' ? 'CLAUDE.md' : 'AGENTS.md'}'yi oku.
 - Kayıtlı yol bu cihazda yoksa Windows yolunu macOS'ta kullanma. Gerçek Masaüstü/Projeler altında mevcut klonu bul; repo https://github.com/GhostFelina/wordverse-galaxy. İlk kurulum için aktif dalın docs/handoff/CROSS_DEVICE.md dosyasını oku.
 - Git durumunu kontrol et; temizse git pull --ff-only yap. Yerel değişiklikleri silme, force/reset kullanma.
-- docs/handoff/HANDOFF.md tek güncel görev kaynağıdır. MASTER_PROMPT.md, KNOWN_ISSUES.md, TASKS.md ve CROSS_DEVICE.md'yi oku. Bitmiş fazları yeniden başlatma.
+- docs/handoff/HANDOFF.md tek güncel görev kaynağıdır. docs/PRODUCT_SPEC.md, docs/VISUAL_SPEC.md, KNOWN_ISSUES.md, TASKS.md ve CROSS_DEVICE.md'yi oku. Bitmiş fazları yeniden başlatma.
 - Codex ve Claude aynı Git dalı/devir belgeleriyle sırayla çalışır. Limit yaklaşmadan anlamlı adımları commit/push et; diğer ajanın son işinden devam et. Aktif dal docs/handoff/STATE.json içindedir.
 - npm run doctor ile GitHub okuma/yazma, araç girişleri ve env isimlerini kontrol et. Eksik public env için setup:device kullan; cihaz/sır kopyalama bekleme. Rutin kurulumları ilerlet; hesap girişini kullanıcı tamamlar.
 - Kullanıcıyla Türkçe konuş, yerel uygulamayı 127.0.0.1:5360 üzerinde görünür tarayıcıda aç ve sıradaki görevleri sürdür.
-- Kullanıcı cihazlar arası kurulum ve bu proje yönlendirmesini 2026-10-03'te istedi. Bağımlılıkları bu cihazda yeniden kur; sırları ve tarayıcı verisini Git'e koyma.
+- Bağımlılıkları her cihazda yeniden kur; sırları ve tarayıcı verisini Git'e koyma.
 ${end}`;
   const from = previous.indexOf(start);
   const to = previous.indexOf(end);
@@ -29,10 +29,10 @@ ${end}`;
   return previous + (previous.endsWith('\n') ? '\n' : '\n\n') + block + '\n';
 }
 
-export function publicEnvironment(master, previous) {
-  const url = master.match(/Proje URL'si: `([^`]+)`/)?.[1];
-  const key = master.match(/Publishable key: `(sb_publishable_[^`]+)`/)?.[1];
-  if (!url || !key) throw new Error('Ana görevde public Supabase yapılandırması bulunamadı.');
+export function publicEnvironment(configuration, previous) {
+  const { url, publishableKey: key } = configuration;
+  if (!url?.startsWith('https://') || !key?.startsWith('sb_publishable_'))
+    throw new Error('Public istemci yapılandırması geçersiz.');
   const config = {
     VITE_SUPABASE_URL: url,
     VITE_SUPABASE_PUBLISHABLE_KEY: key,
@@ -67,7 +67,7 @@ export function preparePublicEnvironment(projectRoot) {
   const envFile = join(projectRoot, '.env.local');
   const previousEnv = existsSync(envFile) ? readFileSync(envFile, 'utf8') : '';
   const nextEnv = publicEnvironment(
-    readFileSync(join(projectRoot, 'docs/handoff/MASTER_PROMPT.md'), 'utf8'),
+    JSON.parse(readFileSync(join(projectRoot, 'config/public-client.json'), 'utf8')),
     previousEnv,
   );
   if (nextEnv !== previousEnv) writeFileSync(envFile, nextEnv, { encoding: 'utf8', mode: 0o600 });

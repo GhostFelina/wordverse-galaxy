@@ -574,5 +574,32 @@
     "title": "The universe view is unavailable.",
     "copy": "Your words are here. Open your atlas to explore your records or take a short recall session.",
     "atlas": "Open word atlas"
+  },
+  "sky": {
+    "title": "Sky experiences",
+    "hint": "Choose a quiet, artistic scene. Transient events end on their own; your word stars stay untouched.",
+    "stillHint": "Reduced motion is on. Your chosen experience is shown as a still illustration.",
+    "none": "Quiet sky",
+    "meteor": "Meteor",
+    "supernova": "Supernova",
+    "blackhole": "Black hole",
+    "stop": "End sky experience",
+    "artistic": "Artistic illustration",
+    "depth": "Orion journey",
+    "return": "← Return to my stars"
+  },
+  "share": {
+    "open": "Star card",
+    "title": "A word worth sharing.",
+    "close": "Close card",
+    "hint": "Only this word is included. Add its meaning if you choose; download the image and share it yourself.",
+    "format": "Card format",
+    "square": "Square · 1:1",
+    "portrait": "Portrait · 4:5",
+    "includeMeaning": "Include the meaning",
+    "download": "Download PNG",
+    "preview": "Card preview",
+    "preparing": "Preparing your card…",
+    "unavailable": "The image could not be prepared. Try again."
   }
 }

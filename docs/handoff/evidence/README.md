@@ -1,9 +1,9 @@
-# Faz 0 görsel kanıtı
+# Rendering evidence
 
-`2026-10-02-<genişlik>-<tema>-<hareket>.png` dosyaları izole Chromium test context'inde `scripts/capture-evidence.mjs` ile alındı. 1440, 768 ve 390 piksel; `dark`/`light`; `no-preference`/`reduce` kombinasyonlarının tamamı (12 görüntü) vardır.
+New gallery images in `docs/images` are captured from production modules using synthetic records in an isolated ephemeral localhost browser. Reproduce with `node scripts/capture-gallery.mjs`. No personal browser profile or storage is read.
 
-Ayrıca yerel Chrome'da mevcut altı kelimelik galaksi görsel olarak incelendi; bir yıldız ayrıntısı açıldı, anlam göz düğmesi ve yakınlaştırma kullanıldı. Kullanıcının mevcut kelimeleri değiştirilmedi. Tablet üst bar çakışması ve mobil alt istatistik taşması görülüp düzeltildikten sonra görseller yeniden alındı.
+`2026-10-12-before-desktop` and `2026-10-12-refined-desktop` contain deterministic general, approach, close and gas-side views. Granulation uses the same record seed; the source image resolution remains1254×1254.
 
-Sistem teması şu an uygulamanın koyu paletini değiştirmiyor; görüntüler bu davranışı belgeler. Açık tema tasarımı Faz 9 kapsamına alınmalı.
+Frame reports distinguish hardware-reported D3D11 and SwiftShader software WebGL. RAF intervals include scheduler/display pacing and are not GPU timer-query measurements. These fixtures do not certify all devices, visible-browser sessions or large collections.
 
-`2026-10-02-phase1-meaning-1440.png` ve `-390.png`: ayrı 5360 yerel adresinde, kişisel kayıtlardan yalıtılmış tarayıcıda galaksi anlam dili seçiminin masaüstü/mobil görüntüleri. Manuel tarayıcı kontrolünde seçim ve kelime formundaki anlam dili etiketi de görüldü.
+Earlier screenshots document historical synthetic test flows and may show now-disabled visual layers. Current feature descriptions follow the product specification.

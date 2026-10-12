@@ -28,11 +28,14 @@ float granule=texture(granulation,(n*45.+vec3(sin(n.y*18.),sin(n.z*18.),sin(n.x*
 // stay luminous, rather than looking like cracks on a solid porcelain ball.
 float broad=texture(granulation,(n*7.3+vec3(seed*.37,time*.001,seed*.19))/16.).r;
 float secondary=texture(granulation,(n*23.7+vec3(2.8,seed*.13,6.1))/16.).r;
-float cell=pow(max(.001,granule),.55);
-float convection=mix(.85,.24+.9*cell*cell+.06*secondary,resolved);
-float thermal=.84+.16*broad+.045*sin(n.x*9.1+n.y*7.3+seed)*sin(n.z*8.7-time*.04);
+float cell=pow(max(.001,granule),.58);
+float fine=texture(granulation,(n*96.+vec3(seed*.11,3.4,8.7))/16.).r;
+float fineResolved=1.-smoothstep(.25,.75,length(fwidth(n))*96.);
+float convection=mix(.85,.22+.98*cell*cell+.055*secondary,resolved);
+convection*=mix(1.,.92+.16*fine,fineResolved);
+float thermal=.76+.28*broad+.045*sin(n.x*9.1+n.y*7.3+seed)*sin(n.z*8.7-time*.04);
 float spots=1.-.065*smoothstep(.97,.998,dot(n,normalize(vec3(.35,.4,.72))));
-vec3 temperature=mix(vec3(1.6,.85,.38),vec3(2.65,2.25,1.8),.45+.55*cell);
+vec3 temperature=mix(vec3(1.8,.53,.14),vec3(2.85,1.88,1.03),.3+.7*cell);
 vec3 emission=temperature*convection*thermal*limb*spots*(1.+emphasis*.065);
 gl_FragColor=vec4(emission*transmission,blend);
 #include <tonemapping_fragment>

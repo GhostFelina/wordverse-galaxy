@@ -32,7 +32,15 @@ for (const locale of ['tr', 'en', 'es']) {
       await page.locator('#universe-mode').click();
       await page.mouse.move(width / 2, 450);
       await page.mouse.wheel(0, -600);
-      await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(90);
+      // Plain wheel is local zoom; entering Orion now requires explicit
+      // selection. A capped -600 impulse must not switch to its flight scale.
+      const expectedZ = 160 * Math.exp(-180 * 0.3 * 0.00145);
+      await expect
+        .poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-target-z')) - expectedZ))
+        .toBeLessThan(0.01);
+      await expect
+        .poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - expectedZ))
+        .toBeLessThan(0.3);
       await page.mouse.move(width / 2, 450);
       await page.mouse.down();
       await page.mouse.move(width / 2 + 70, 500, { steps: 4 });

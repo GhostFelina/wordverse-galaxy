@@ -7,13 +7,14 @@
     0,
     1
   ],
-  "handoff": "docs/handoff/HANDOFF.md",
-  "localUrl": "http://127.0.0.1:5360/",
   "deferredPhases": [
     2,
     3
   ],
-  "visualStage": "starless-orion-random-word-stars-target-zoom-acceptance-pending",
+  "handoff": "docs/handoff/HANDOFF.md",
+  "localUrl": "http://127.0.0.1:5360/",
+  "developmentVersion": "1.16.1",
+  "activeWork": "Desktop quality1.17.0, optional sky experiences, Orion navigation, private local cards and repository presentation",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -25,61 +26,35 @@
     "trapezium-points",
     "demo-star"
   ],
-  "visualRequirements": {
-    "nebulaeMinimum": 200,
-    "asteroidMeteorCombinedMinimum": 1000,
-    "galaxiesMinimum": 150,
-    "activation": "incremental",
-    "farthestGalaxiesVisible": false,
-    "farthestAppearance": "only word records;small sharp four-spike optics;log55% rounded diamond white/lavender core +violet halo;starless edited Orion texture1254native;maxcamera160/FOV75"
-  },
   "upgrade": {
-    "specification": "docs/handoff/WORDVERSE_MASTER_UPGRADE.md",
     "currentPhase": "U2",
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
+    "lastVerifiedCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
     "lastRemoteCI": {
-      "run": 38218283666,
-      "commit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
+      "run": 38220855746,
+      "commit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
       "status": "success",
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38218283666"
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38220855746"
     },
-    "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
-    "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
-    "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
-    "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
-    "localUnitTests": 123,
-    "localBrowserTests": 92,
-    "integrationVerification": "Son kaynak123unit/lint/typecheck/build/format/release geçti. Son genel38tarayıcı (atlas3+graphics2+camera8+smoke25)1.5m geçti; sahne hazır beklemesi sonrası atlas3/3 (14.7s) kanıt yenilendi. Önceki10hedefli atlas/grafik/yıldız turu54.6s geçti. Tam97remote gate push sonrası izlenir; eski92remote başarı8ad9614’e aittir.",
+    "localUnitTests": 132,
+    "suiteBrowserTests": 106,
+    "userVisualAcceptance": "pending",
     "preview": {
-      "url": "https://wordverse-galaxy-54l4qhw44-mustafas-projects-92e683a9.vercel.app",
+      "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
       "apiTarget": "staging",
       "status": "READY",
-      "commit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
-      "deployment": "dpl_DxzG7xBJNXkFwoY2cACEgZoR1g2h",
+      "commit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+      "deployment": "dpl_GMHPzLQUA9jhfYBDyfH14imfTkE9",
       "framework": "vite",
       "httpStatus": 200,
-      "runtime": "HTML/JS/CSS authenticated HTTP200 and local build SHA256 match; interactive preview and account acceptance not tested"
-    },
-    "remainingCurrentWork": "1.16.1 CI/preview, user desktop zoom/startup acceptance, U2 visual acceptance and persistent recall",
-    "navigationRequirement": "Perspective drag, selected-target pinch, canvas keyboard and real immersive entry implemented; camera5/5 targeted. Real touch device and whole U3 acceptance pending.",
-    "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
-    "remoteBrowserTests": 97,
-    "localFinalTargetedTests": 38,
-    "currentUserTask": "Fix zoom disappearing stars, drifting focus, first wheel hitch and cold black opening; desktop only, login/mobile deferred",
-    "research": "docs/handoff/STAR_REFERENCE_PLAN.md",
-    "suiteBrowserTests": 102,
-    "desktopFrameTimes": {
-      "hardware": "NVIDIA RTX5060Ti reported by WebGL",
-      "browser": "Chrome154/headless/ANGLE-D3D11",
-      "viewport": "1440x900",
-      "p95Ms": 7.1,
-      "durationPerShotMs": 5000,
-      "report": "docs/handoff/evidence/2026-10-12-desktop-d3d11-frame-times.json",
-      "acceptance": "Synthetic fixture only; visible user browser and large archives pending"
+      "runtime": "HTML/JS/CSS authenticated HTTP200 and local build SHA256 match; interactive preview and account acceptance not tested",
+      "version": "1.16.1",
+      "sourceCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+      "assetsMatchLocal": true,
+      "interactiveAcceptance": false
     },
     "zoomStartup": {
       "version": "1.16.1",
@@ -87,17 +62,31 @@
       "opening": "static Orion/loading, no global window-load gate, preserve unresolved owner isolation",
       "graphics": "compile scene/composite before visible draw; two persistent gas targets; failed assets atlas fallback",
       "hardwareEvidence": "docs/handoff/evidence/2026-10-12-first-wheel-d3d11.json",
+      "remoteStatus": "superseded by final1.17.0 local complete pass; remote pending",
+      "firstRemote": {
+        "run": 38223259818,
+        "status": "failure",
+        "passed": 93,
+        "failed": 9,
+        "reason": "Obsolete star-cosmos expects auto-flight <90; updated to exact local capped wheel pose. Runtime unchanged."
+      }
+    },
+    "desktopQuality": {
+      "version": "1.17.0",
+      "localGate": "132unit/106browser/lint/types/build/format/release/audit/24Go template checks pass",
+      "evidence": "docs/handoff/evidence/2026-10-12-desktop-quality-manifest.json",
+      "sky": "Explicit ephemeral meteor/supernova/black-hole illustrations, reduced-motion stills",
+      "navigation": "Shared wheel/button scale, no auto descent tilt, depth slider and return",
+      "cards": "1080px square/portrait local PNG, default meaning omitted, allowlisted content, invalidated on selection/owner change",
+      "privacy": "Current tree has technical specifications only; historical Git copies persist. No force/history rewrite",
       "remoteStatus": "pending"
     }
   },
-  "developmentVersion": "1.16.1",
   "checkpoint": {
-    "date": "2026-10-12",
-    "session": "docs/handoff/sessions/2026-10-12-zoom-startup.md",
-    "version": "1.16.1",
+    "version": "1.17.0",
+    "applicationCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
     "deploymentTarget": "preview",
-    "applicationCommit": "pending-next-commit",
-    "privateData": "Synthetic evidence only; real browser inspected without exports"
+    "date": "2026-10-12"
   },
   "production": {
     "version": "1.14.1",
@@ -110,19 +99,5 @@
     "httpStatus": 200,
     "date": "2026-10-04",
     "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app"
-  },
-  "previousCheckpoint": {
-    "date": "2026-10-04",
-    "session": "docs/handoff/sessions/2026-10-04-claude-handoff.md",
-    "version": "1.14.1",
-    "deploymentTarget": "preview",
-    "privateBackup": "Desktop/Wordverse-Yedekler/2026-10-04",
-    "desktopHandoff": "Desktop/WORDVERSE_CLAUDE_DEVIR.md",
-    "applicationCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
-    "backupJson": {
-      "galaxies": 2,
-      "records": 20,
-      "exportedAt": "2026-10-04T17:22:14.887Z"
-    }
   }
 }

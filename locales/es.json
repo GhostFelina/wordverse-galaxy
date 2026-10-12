@@ -574,5 +574,32 @@
     "title": "La vista del universo no está disponible.",
     "copy": "Tus palabras están aquí. Abre el atlas para consultar tus registros o hacer un repaso breve.",
     "atlas": "Abrir atlas de palabras"
+  },
+  "sky": {
+    "title": "Experiencias del cielo",
+    "hint": "Elige una escena artística y tranquila. Los eventos transitorios terminan solos; tus estrellas permanecen intactas.",
+    "stillHint": "El movimiento reducido está activado. La experiencia se muestra como una ilustración fija.",
+    "none": "Cielo tranquilo",
+    "meteor": "Meteoro",
+    "supernova": "Supernova",
+    "blackhole": "Agujero negro",
+    "stop": "Terminar experiencia",
+    "artistic": "Ilustración artística",
+    "depth": "Viaje por Orión",
+    "return": "← Volver a mis estrellas"
+  },
+  "share": {
+    "open": "Tarjeta estelar",
+    "title": "Una palabra para compartir.",
+    "close": "Cerrar tarjeta",
+    "hint": "Solo se incluye esta palabra. Añade su significado si quieres; descarga la imagen y compártela tú.",
+    "format": "Formato",
+    "square": "Cuadrada · 1:1",
+    "portrait": "Vertical · 4:5",
+    "includeMeaning": "Incluir el significado",
+    "download": "Descargar PNG",
+    "preview": "Vista previa",
+    "preparing": "Preparando tu tarjeta…",
+    "unavailable": "No se pudo preparar la imagen. Inténtalo de nuevo."
   }
 }

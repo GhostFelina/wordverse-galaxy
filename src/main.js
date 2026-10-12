@@ -6,8 +6,11 @@ import './product-polish.css';
 import './scene-loading.css';
 import { createRenderQuality } from './render-quality.js';
 import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.js';
+import { createSkyEvents } from './sky-events.js';
+import { mountSkyEventsUI, mountNebulaNavigation } from './sky-events-ui.js';
 import { mountSceneControls } from './scene-controls.js';
 import { mountRecallUI } from './recall-ui.js';
+import { mountWordCard } from './word-card.js';
 import { mountStellarPreview } from './stellar-preview.js';
 import { mountCollectionAtlas, queryAtlas } from './collection-atlas.js';
 import { mountGraphicsFallback } from './graphics-fallback.js';
@@ -30,6 +33,9 @@ import { mountAccountSync } from './account-sync-ui.js';
 const $ = (selector) => document.querySelector(selector);
 const stellarPreview = mountStellarPreview($('.detail-visual'));
 const uiLocale = getHomeLocale();
+const wordCard = mountWordCard({ locale: uiLocale, preview: stellarPreview,
+  getRecord: () => experience.snapshot().ready ? words.find(w => w.id === selectedId) : null,
+});
 // Begin the locked SDK chunk before IDB and heavy scene initialization.
 getSupabaseClient().catch(() => {});
 const t = (key, params) => translate(uiLocale, key, params);
@@ -63,6 +69,7 @@ let zoom = 160;
 let catalogDepth = 0;
 let nebulaSystem, nebulaUI, travelingNebula = null;
 let renderQuality;
+let skyEvents, skyEventsUI, nebulaNavigation;
 let catalogReady = false;
 let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
@@ -91,6 +98,8 @@ function applyExperience(state) {
   if (key === experienceKey) return;
   experienceKey = key;
   stellarPreview.hide();
+  wordCard.invalidate();
+  skyEvents?.select(null); skyEventsUI?.update({ kind: null });
   collectionAtlas?.reset();
   recallUI?.invalidate();
   // Clear the previous identity immediately; allow rapid UI transitions to settle
@@ -127,7 +136,7 @@ const starStageLabel = appearance => t(`names.stage.${appearance.stageId}`);
 const births = [];
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 let reducedMotion = motionPreference.matches;
-motionPreference.addEventListener('change', event => { reducedMotion = event.matches; pointer.x = pointer.y = 0; });
+motionPreference.addEventListener('change', event => { reducedMotion = event.matches; skyEvents?.setReducedMotion(reducedMotion); pointer.x = pointer.y = 0; });
 
 function persist() {
   if (accountSync?.persist(universe)) return true;
@@ -210,6 +219,16 @@ function initScene() {
     $('#universe').dataset.renderDpr = String(ratio);
   } });
   mountSceneControls({ locale: uiLocale, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
+  skyEvents = createSkyEvents({ reducedMotion });
+  skyEvents.warm(renderer).catch(() => { /* Optional sky illustrations may be unavailable. */ });
+  skyEventsUI = mountSkyEventsUI({ locale: uiLocale, reducedMotion,
+    container: document.querySelector('.scene-controls-content'),
+    onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); },
+  });
+  nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
+    onDepth(fraction) { if(travelingNebula) setZoom(MAX_ZOOM-catalogDepth-fraction*(MAX_ZOOM-catalogDepth-MIN_ZOOM)); },
+    onReturn() { $('#home-btn').click(); },
+  });
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
@@ -291,9 +310,7 @@ function animate(ms) {
   const drift = reducedMotion ? 0 : clock;
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
   const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging || reducedMotion ? 0 : pointer.x * 1.9);
-  const flightRecord = travelingNebula ? nebulaSystem.records[0] : null;
-  const descent = flightRecord ? THREE.MathUtils.smoothstep((flightRecord.frontZ - camera.position.z) / flightRecord.travelLength, 0, 1) : 0;
-  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging || reducedMotion ? 0 : pointer.y * 1.25) - (flightRecord ? flightRecord.radius * .23 * descent : 0);
+  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging || reducedMotion ? 0 : pointer.y * 1.25);
   const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
   renderQuality.sample(cameraDelta);
@@ -304,7 +321,7 @@ function animate(ms) {
   camera.position.x += (targetX-camera.position.x)*planeDamping;
   camera.position.y += (targetY-camera.position.y)*planeDamping;
   camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
-  camera.lookAt(camera.position.x, camera.position.y - descent * 18, camera.position.z - 100);
+  camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
   camera.updateMatrixWorld();
   const nebulaStatus = nebulaSystem.update(drift,renderer.getPixelRatio(),innerHeight);
   $('#universe').dataset.nebulaReady = String(nebulaSystem.ready);
@@ -361,6 +378,13 @@ function animate(ms) {
   $('#universe').dataset.starApproach = target ? starApproach(camera.position.z-target.position.z,MAX_ZOOM-target.position.z).toFixed(3) : '0';
   renderer.render(scene, camera);
   nebulaSystem.render(renderer);
+  const skyState = skyEvents.update(cameraDelta*.001, camera.aspect);
+  skyEvents.render(renderer);
+  skyEventsUI.update(skyState);
+  $('#universe').dataset.skyEvent = skyState.kind || '';
+  $('#universe').dataset.skyEventTime = String(skyState.elapsed);
+  $('#universe').dataset.nebulaFlight = String(!!travelingNebula);
+  nebulaNavigation.update(!!travelingNebula, (MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM));
   if (nebulaSystem.loaded) $('#app').dataset.sceneState = 'ready';
   $('#universe').dataset.nebulaRefined = String(nebulaSystem.refined);
   $('#universe').dataset.nebulaGasResolution = nebulaSystem.gasResolution.join('x');
@@ -368,7 +392,7 @@ function animate(ms) {
 }
 
 function openPanel(which) {
-  if (which !== 'detail') stellarPreview.hide();
+  if (which !== 'detail') { stellarPreview.hide(); wordCard.invalidate(); }
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   activePanel = which;
   syncRenderLoop();
@@ -388,9 +412,11 @@ function openPanel(which) {
 }
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
 function selectWord(id) {
+  wordCard.invalidate();
   const word = words.find(w => w.id === id); if (!word) return;
   $('#detail-atlas-back').hidden = activePanel !== 'collection';
   const isPlanet = entryKind(word) === 'conjunction';
+  wordCard.setEnabled(!isPlanet);
   selectedId = id;
   $('#object-record-label').textContent = t(isPlanet ? 'panel.recordPlanet' : 'panel.recordStar');
   $('#object-stage-label').textContent = t(isPlanet ? 'panel.planetAge' : 'panel.starStage');
@@ -813,10 +839,7 @@ function bindUI() {
     // Nebula flight is an explicit selection. A plain wheel gesture must never
     // switch depth scales or re-center on a different object under the pointer.
     if(travelingNebula) {
-      setZoom(zoom*Math.exp(delta*.001));
-      const record=nebulaSystem.records[0],steering=Math.min(zoom,record.radius)*.09;
-      pan.x+=(e.clientX/innerWidth-.5)*2*steering*.15;
-      pan.y+=(.5-e.clientY/innerHeight)*2*steering*.15;
+      setZoom(zoom*Math.exp(delta*.00145));
     } else setZoom(zoom*Math.exp(delta*.00145),e.clientX,e.clientY);
   };
   $('#app').addEventListener('wheel', onZoomWheel, { passive: false });

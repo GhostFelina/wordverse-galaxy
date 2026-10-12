@@ -1,31 +1,31 @@
-# Değişiklik kaydı
+# Changelog
 
-## [Unreleased] — 1.15.0 geliştirme · 2026-10-12
+## [1.17.0] — Development · 2026-10-12
 
-- Gerçek keşif modu, perspektife bağlı drag, hedefi koruyan pinch ve canvas klavye kontrolleri.
-- Üç dilde kalıcı cihaz görüntü tercihi ve gezinme rehberi: otomatik/yüksek/dengeli/hafif.
-- Yıldızsız Orion'un native1254 mip hesabı; temizlenmiş gazda ikinci yıldız filtresi kaldırıldı.
-- Kayıtları değiştirmeyen kısa hatırlama, gizli anlam, özdeğerlendirme ve zorlanılanları yeniden çalışma. Owner/galaksi değişimi oturumu temizler; FSRS/kalıcı geçmiş değildir.
-- Mobil Kelimelerim erişimi, form kısayolu izolasyonu ve canlı hareket azaltma desteği.
-- Masaüstü atlas/detay yüzeyleri, kompakt halkasız yıldız görseli, panel üzerine binen keşif düğmesi düzeltmesi, tekrar ilerleme çizgisi ve1024/1280/1440 yerleşimi.
-- Güncel kabul/yayın durumu HANDOFF/STATE; üretim1.14.1 korunur.
+- Warm multi-scale stellar convection, refined gas fibers and locally hosted licensed fonts.
+- Stable Orion cruise with shared wheel/button scaling, depth slider and direct return.
+- Opt-in meteor, supernova and illustrative black-hole experiences; reduced-motion stills, no vocabulary writes.
+- Local1080px square/portrait PNG star cards; meanings omitted by default.
+- Initial auth refresh cannot indefinitely block guest learning. Late identity resolution remains authoritative.
+- Current bilingual repository guides, synthetic gallery, community templates and technical specifications.
 
-## [Unreleased] — Faz 4 / 1.14.1 geliştirme (prod 1.14.1; 2026-10-04 kullanıcı yayın isteği)
+## [1.16.1] — Development · 2026-10-12
 
-- Orion yan gaz hacmi: sonlu3B türbülans, lif/boşluklar ve fotoğraf kenarı sönümü.
-- Yalnız kullanıcı yıldızları; ortak keskin optikler, random yeni konumlar, seçili hedef zoom, daha yavaş wheel.
-- Güvenli yıldız yüzeyi sınırında kayan nokta offset kaybı için ölçeklenmiş epsilon koruması.
-- Codex/Claude ve Windows/Mac devir checkpoint'i, özel Desktop yedek ve preview kaydı.
+- Cursor-local wheel zoom, hover-star focus and reversal without implicit Orion flight.
+- Visible startup, shader warmup, retained volume buffers and failed-asset atlas fallback.
 
-- Aktif U0–U9 yükseltme şartnamesi; geçici demo, gerçek hesap ve misafir sahne politikası. İlk oturum/panel yarışları düzeltildi; prosedürel küresel yıldız/gezegen ve uzakta küçük nokta geçişi eklendi. Ölçülen kare süresine göre DPR adaptasyonu ve sentetik görsel laboratuvarı var; final estetik kabul açık.
-- Tek kâinat yıldız temeli, OLED siyah, kaynaklı 200 bulutsu atlası ve yakın gaz hacmi. İkinci görsel kademede 1000 JPL asteroid ve 1000 tarihsel CNEOS meteor gözlemi; arama/sayfalama/gezinti üç dilde. 300 galaksinin yeniden aktivasyonu ve görsel kalite kabulü bekliyor.
-- Codex/Claude Windows/Mac kurulum/devir betikleri, public env hazırlığı ve doctor. Gerçek Mac kabulü ertelendi.
-- Üç dilde erişilebilir hesap penceresi, e-posta giriş/kayıt/sıfırlama ve yerel çıkış; gizlilik/koşullar statik taslakları. Google ve bulut senkron kabulü bekliyor.
-- Sayfalı bulut okuma ve hesap başına atomik IndexedDB evren/kuyruk çekirdeği eklendi; UI ve bulut yazma motoruna bağlantı sürüyor.
+## [1.16.0] — Development · 2026-10-12
 
-- Supabase CLI yerel proje yapılandırması ve kullanıcıya ait kayıtlar için RLS/senkron mimari kararı eklendi.
-- İlk girişte yerel ve bulut evrenlerini veri kaybı olmadan birleştiren saf çekirdek ve çakışma testleri eklendi; uygulama akışına bağlanması sürüyor.
-- IndexedDB birincil yerel evren deposu eklendi. localStorage eşzamanlı kurtarma kopyası olarak kalıyor; yazma yarım kalırsa sürüm numarasıyla yeni kopya seçiliyor. Eski yedek arşivi korunuyor.
+- Atlas filtering, natural/date sorting, dated records, return-to-list state and graphics fallback.
+
+## [1.15.0–1.15.1] — Development · 2026-10-12
+
+- Perspective camera gestures, keyboard navigation, adaptive quality and ephemeral recall.
+- Shared granular stellar surfaces, desktop detail preview and volumetric microfibers.
+
+## [1.14.1] — Production
+
+- Orion volume and personal word-star presentation. Subsequent desktop work remains in development previews pending release acceptance.
 
 ## [1.11.0] - 2026-10-02
 

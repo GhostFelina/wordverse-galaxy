@@ -1,0 +1,27 @@
+# Product specification
+
+Wordverse is a personal vocabulary atlas. A learned word becomes a navigable star; language galaxies separate records. The core loop is add → explore → recall. Meaning is concealed until explicitly revealed.
+
+## Current product
+
+- Desktop Three.js scene with a single Orion volume and personal word stars, shared optical/stellar surface materials and stable persisted positions.
+- Searchable atlas with word/conjunction filters, chronological/natural alphabetical sorting, record dates and return-to-atlas state.
+- A short ephemeral recall session: reveal, self-assess and repeat difficult items. No persistent mastery score or spaced-repetition claims.
+- Language galaxies, editing, record history and compatible JSON import/export. Guest records remain separate from account-owned storage.
+- Turkish, English and Spanish UI. Existing mobile layouts are maintained; new visual work is desktop-first.
+- Visible scene preparation and atlas fallback when graphics/assets fail. Explicit Orion flight, cursor-local wheel zoom and selected-star safe approach.
+
+- Local1080px square/portrait star-card export, explicit meaning inclusion, no account/record metadata or automatic posting.
+- Optional artistic sky experiences, reduced-motion stills and explicit termination. Orion cruise has a shared wheel/button depth scale and progress slider.
+
+## Data invariants
+
+Existing record IDs, coordinates, createdAt, type, language, meaning and events must survive upgrades, refresh, selection, rendering and image export. No visual effect may fabricate learning records. A pending or replaced identity must not expose another owner's content or rendered frame. Migrations are versioned and old backups remain importable.
+
+## Extension boundary
+
+Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other nebulae, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Optional artistic meteor/supernova/black-hole experiences are separate ephemeral illustrations; they never become records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
+
+## Delivery
+
+Development previews are distinct from production. Feature descriptions, screenshots and release notes must reflect actual behavior. Public screenshots use synthetic data. External assets retain their own licenses and provenance.

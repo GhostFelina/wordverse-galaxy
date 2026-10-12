@@ -1,7 +1,7 @@
 # Varlık atıfları
 
 - `public/assets/planets/*.jpg`: [NASA/JPL-Caltech Solar System Simulator haritaları](https://space.jpl.nasa.gov/tmaps/). Kullanım ve doku başına özgünlük notları [docs/ASTRONOMY_REFERENCES.md](docs/ASTRONOMY_REFERENCES.md) içinde. Atıf: **Courtesy NASA/JPL-Caltech**. Gezegen haritaları MIT kod lisansına dahil değildir.
-- `public/assets/nebula-gas.png`, `galaxy-dust-lanes.png`, `galaxy-barred-v1.png`, `galaxy-flocculent-v1.png`: Wordverse için ImageGen ile üretilen özgün görseller. İstemler ve astronomi esin kaynakları [docs/ART_ASSET.md](docs/ART_ASSET.md) içinde; doğrudan NASA/ESA fotoğrafı kopyası değildir.
+- `public/assets/nebula-gas.png`, `galaxy-dust-lanes.png`, `galaxy-barred-v1.png`, `galaxy-flocculent-v1.png`: Wordverse için ImageGen ile üretilen özgün görseller. Üretim ve astronomi esin kaynakları [docs/ART_ASSET.md](docs/ART_ASSET.md) içinde; doğrudan NASA/ESA fotoğrafı kopyası değildir.
 - UI, WebGL shader'ları ve prosedürel dokular: bu repo için yazılmış kod. İncelenen açık kaynak projeler ve astronomi başvuruları [docs/ASTRONOMY_REFERENCES.md](docs/ASTRONOMY_REFERENCES.md) içinde; bu projelerden kod kopyalanmadı.
 
 - `src/data/catalog/galaxies.json`: NASA Hubble Messier sayfalarından M31/M51/M87/M82/M104 kimlik ve uzaklık özeti; kaynaklar her kayıtta. Hiçbir NASA/ESA fotoğrafı kopyalanmadı. `catalog-shape.js`/`catalog-layer.js` özgün MIT kod ve sanatsal morfoloji çalışmaları; sahne ölçeği/yerleşimi gerçek koordinat değildir.
@@ -23,16 +23,22 @@
 
 ## Wordverse yükseltme özgün sahne
 
-`premium-bodies.js` yıldız granülasyon/limb ve prosedürel gezegen yüzeyi özgün GLSL; fotoğraf/katalog ölçümü iddiası yok. `showcase-scene` sanatsal sentetikdemo, üçüncü taraf video/müzik varlığı içermez. Yerel kullanıcıreferansları yalnız incelendi; dağıtılanasset olarak kopyalanmadı. Three r180 tone/color shaderchunklisansı mevcutThreeMIT olarak korunur.
+`premium-bodies.js` yıldız granülasyon/limb ve prosedürel gezegen yüzeyi özgün GLSL; fotoğraf/katalog ölçümü iddiası yok. `showcase-scene` sanatsal sentetikdemo, üçüncü taraf video/müzik varlığı içermez.  Three r180 tone/color shaderchunklisansı mevcutThreeMIT olarak korunur.
 
 ## Aktif Orion M42 gözlem dokuları
 
 - `public/assets/nebulae/orion*.webp`: ESA/Hubble heic0601a gözleminin 10K TIFF'inden 2K/4K/8K türevler. NASA, ESA, M. Robberto (STScI/ESA), Hubble Space Telescope Orion Treasury Project Team. [Görsel](https://esahubble.org/images/heic0601a/), [ESA şartları](https://esahubble.org/public/copyright/).
 - `orion-ir.webp`: NASA/Spitzer/JPL-Caltech kızılötesi gözlemi, [SVS 30959](https://svs.gsfc.nasa.gov/30959/), [NASA medya şartları](https://www.nasa.gov/nasa-brand-center/images-and-media/). Bu gözlem görselleri repo MIT kod lisansına dahil değildir; kredi uygulama panelinde görünür.
 - `src/data/nebula-environments.json`: ESA/Gaia/DPAC, CDS/VizieR Gaia DR3; Trapezium kimlik konumları CDS Sesame. Derinlik ve alan üyeliği konik katalog sorgusundan ölçülmedi.
-- NASA SVS 30957 animasyonu yöntem/görsel referanstır; klip ve üretim mesh'i uygulamaya kopyalanmadı. [Araştırma ve sınırlar](docs/handoff/ORION_RESEARCH.md).
+- NASA SVS 30957 animasyonu yöntem/görsel referanstır; klip ve üretim mesh'i uygulamaya kopyalanmadı. [Araştırma ve sınırlar](docs/VISUAL_SPEC.md).
 
 
 ## Orion yıldızsız düzenleme
 
-`public/assets/nebulae/orion-starless.png`: yukarıdaki heic0601a gaz türevinin yerleşik imagegen ile yıldızları temizlenmiş düzenlemesi; Wordverse görselleştirmesi. NASA/ESA/STScI özgün kaynak kredisi korunur. Gerçek çözünürlük1254×1254; küçük gaz ayrıntıları üretimle değişmiştir, ham gözlem veya8K değildir. Özgün gözlem dosyaları silinmedi. [İstem ve varlık kaydı](docs/ART_ASSET.md).
+`public/assets/nebulae/orion-starless.png`: yukarıdaki heic0601a gaz türevinin yerleşik imagegen ile yıldızları temizlenmiş düzenlemesi; Wordverse görselleştirmesi. NASA/ESA/STScI özgün kaynak kredisi korunur. Gerçek çözünürlük1254×1254; küçük gaz ayrıntıları üretimle değişmiştir, ham gözlem veya8K değildir. Özgün gözlem dosyaları silinmedi. [Varlık kaydı](docs/ART_ASSET.md).
+
+## Local fonts
+
+- `public/assets/fonts/dm-sans-variable.ttf`: [Google Fonts DM Sans](https://github.com/google/fonts/tree/main/ofl/dmsans), DM Sans Project Authors; SIL Open Font License1.1. Full license: `DM-Sans-OFL.txt`.
+- `public/assets/fonts/space-grotesk-variable.ttf`: [Google Fonts Space Grotesk](https://github.com/google/fonts/tree/main/ofl/spacegrotesk), Space Grotesk Project Authors; SIL Open Font License1.1. Full license: `Space-Grotesk-OFL.txt`.
+- Original procedural sky shader/card composition: MIT application code. Astronomy references guide morphology; no reference video or audio is redistributed.

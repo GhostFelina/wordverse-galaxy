@@ -102,6 +102,24 @@ export function mountStellarPreview(container) {
   return {
     show,
     hide: clear,
+    capture(id, size = 1024) {
+      if (disposed || contextLost || record?.id !== id || !stars?.ready || container.dataset.stellarPreview !== 'ready')
+        return null;
+      const image = document.createElement('canvas');
+      image.width = image.height = size;
+      const context = image.getContext('2d');
+      if (!context) return null;
+      try {
+        renderer.setSize(size, size, false);
+        stars.update(0, camera, size, 1, { selectedId: record.id });
+        renderer.render(scene, camera);
+        context.drawImage(canvas, 0, 0);
+        return image;
+      } finally {
+        renderer.setSize(384, 384, false);
+        draw(generation);
+      }
+    },
     dispose() {
       if (disposed) return;
       clear();

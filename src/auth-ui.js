@@ -2,6 +2,7 @@ import { translate, localePath } from './i18n.js';
 import { authErrorKey, getSupabaseClient } from './supabase-client.js';
 import { legalPath } from './legal-page.js';
 import './auth.css';
+import { createInitialIdentityGate } from './initial-identity.js';
 
 export function mountAuthUI({
   locale,
@@ -233,16 +234,22 @@ export function mountAuthUI({
       input.value = '';
     });
   });
+  const initialIdentity = createInitialIdentityGate(() => {
+    onIdentity(null);
+    onSession(null, 'INITIAL_SESSION');
+  });
   // Keep the auth callback synchronous to avoid Supabase's auth lock deadlock.
   getSupabaseClient()
     .then((connection) => {
       client = connection;
       if (!client) {
+        initialIdentity.resolve();
         onIdentity(null);
         onSession(null, 'INITIAL_SESSION');
         return;
       }
       client.auth.onAuthStateChange((event, nextSession) => {
+        initialIdentity.resolve();
         const accountChanged = session?.user?.id !== nextSession?.user?.id;
         session = nextSession;
         const revision = ++sessionRevision;
@@ -259,6 +266,7 @@ export function mountAuthUI({
       });
     })
     .catch(() => {
+      initialIdentity.resolve();
       status.textContent = t('network');
       onIdentity(null);
       onSession(null, 'INITIAL_SESSION');

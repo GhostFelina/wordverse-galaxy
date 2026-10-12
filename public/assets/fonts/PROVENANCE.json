@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-12",
+  "license": "SIL Open Font License1.1",
+  "files": [
+    {
+      "file": "dm-sans-variable.ttf",
+      "source": "https://github.com/google/fonts/tree/main/ofl/dmsans",
+      "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d"
+    },
+    {
+      "file": "space-grotesk-variable.ttf",
+      "source": "https://github.com/google/fonts/tree/main/ofl/spacegrotesk",
+      "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72"
+    }
+  ]
+}

@@ -80,8 +80,8 @@ void main(){
   vec3 curl=vec3(n-.5,fine-.5,n-fine)*.16;
   float micro=cloud((p+curl)*vec3(12.7,21.3,9.8)+vec3(2.8,11.3,6.1));
   float diffuseFilament=smoothstep(.24,.73,fine*.45+micro*.55);
-  float thread=pow(max(0.,1.-abs(fine*.7+micro*.3-.5)*3.),6.);
-  float filament=mix(diffuseFilament,thread,.6);
+  float thread=pow(max(0.,1.-abs(fine*.62+micro*.38-.5)*3.2),7.);
+  float filament=mix(diffuseFilament,thread,.66);
   float branches=smoothstep(.24,.64,n*.45+fine*.55);
   float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.42*(n-.5)+.18*(fine-.5);
   vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*.28;
@@ -97,7 +97,7 @@ void main(){
   float warm=smoothstep(-.8,.8,p.x+.45*p.z+(.5-n)*.4);
   vec3 gasColor=mix(macroColor,mix(vec3(.19,.16,.29),vec3(.48,.23,.16),warm),.38);
   float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
-  gas*=wall*(.12+1.25*n*n)*(.1+1.2*filament);
+  gas*=wall*(.1+1.3*n*n)*(.08+1.28*filament);
   float dust=smoothstep(.48,.7,cloud(p*3.9+vec3(7.,3.,2.)))*(1.-smoothstep(.04,.2,lum));
   float offset=p.z-principalZ;
   float halfStep=abs(ray.z*stride)*.5;

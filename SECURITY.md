@@ -1,7 +1,9 @@
-# Güvenlik
+# Security
 
-Güvenlik açığını herkese açık issue içinde paylaşma. GitHub deposundaki **Security → Report a vulnerability** akışını kullan.
+Guest vocabulary and history are stored locally in the browser, with an IndexedDB primary store and a recovery copy. Clearing all site data may remove both. JSON backups contain your records and should be kept private.
 
-Wordverse kelimeleri ve olay geçmişini bu tarayıcıdaki yerel depolamada ve IndexedDB'deki ikinci yerel kopyada tutar. Sunucuya kelime yüklemez. GitHub kod deposuna veya Vercel derlemesine kullanıcı verileri eklenmez. Tarayıcının tüm site verilerini silmek her iki yerel kopyayı da silebilir. JSON yedekleri kişisel kelimeleri içerir; onları özel tut.
+Optional account synchronization uses Supabase with account-owned data policies. Guest records are not automatically merged into an account. Image cards are generated locally; only explicitly selected content is included. Authentication, owner replacement and export are separate concerns.
 
-Bağımlılıklar proje kilit dosyasıyla sabitlenir. `npm ci`, `npm run check` ve `npm audit` doğrulama için kullanılır. İçe aktarılan JSON için boyut ve şema kontrolleri vardır; metinler HTML olarak işlenmez.
+Never attach passwords, access tokens, personal backups or account data to a public issue. To report a security concern, use [GitHub private vulnerability reporting](https://github.com/GhostFelina/wordverse-galaxy/security/advisories/new) when available; otherwise open a minimal issue requesting a private reporting channel without exploit details or sensitive data.
+
+Dependency checks run in CI. Public client configuration is not a service-role credential; server secrets and private environment files must remain outside the repository. External asset licenses are listed in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).

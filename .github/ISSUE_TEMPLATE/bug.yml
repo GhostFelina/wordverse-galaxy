@@ -1,0 +1,27 @@
+name: Bug report
+description: Report a reproducible problem with navigation, graphics or vocabulary workflows.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Use synthetic words and screenshots. Do not upload personal backups, account details or credentials.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: App version, browser, OS and GPU
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Synthetic screenshot or relevant error
