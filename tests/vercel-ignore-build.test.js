@@ -2,6 +2,7 @@ import { expect, it } from 'vitest';
 import { documentationOnly, ignoredBuildDecision } from '../scripts/vercel-ignore-build.mjs';
 it('skips documentation publication and builds actual application changes', () => {
   expect(documentationOnly(['README.md', 'docs/images/desktop.png'])).toBe(true);
+  expect(documentationOnly(['README.md', 'scripts/check-release-version.mjs'])).toBe(true);
   for (const file of [
     'src/main.js',
     'index.html',
