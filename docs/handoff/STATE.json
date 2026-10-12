@@ -39,31 +39,34 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
+    "lastVerifiedCommit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
     "lastRemoteCI": {
-      "run": 38213205397,
-      "commit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
+      "run": 38218283666,
+      "commit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
       "status": "success",
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38213205397"
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38218283666"
     },
     "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
     "localUnitTests": 120,
-    "localBrowserTests": 91,
-    "integrationVerification": "1.15.1 lint/typecheck/120unit/build/format/release passed; full92 local e2e running. Last successful remote91 gate remains2865d10; new result pending push.",
+    "localBrowserTests": 92,
+    "integrationVerification": "8ad9614 remote SUCCESS:120unit/92e2e(8.8m)/lint/typecheck/build/format/release/Go24/audit0. Local92 run91pass/1timeout; unchanged isolated travel1pass(16.2s). Preview READY from same Git SHA; protected runtime not tested.",
     "preview": {
-      "url": "https://wordverse-galaxy-nwxiqirsw-mustafas-projects-92e683a9.vercel.app",
+      "url": "https://wordverse-galaxy-8fjwb7hcv-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
+      "apiTarget": "staging",
       "status": "READY",
-      "commit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
-      "framework": "Vite"
+      "commit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
+      "deployment": "dpl_B9xWu5dnZA5RzNMJEBkT89XDNpUB",
+      "framework": "vite",
+      "runtime": "Protected runtime not tested"
     },
-    "remainingCurrentWork": "Desktop gas near/side detail, p95, renderer atlas fallback and persistent recall design. U2 visual acceptance pending. Mobile and auth setup deferred.",
+    "remainingCurrentWork": "Desktop hardware p95, renderer atlas fallback, persistent recall design; U2 visual acceptance pending. Login/mobile deferred.",
     "navigationRequirement": "Perspective drag, selected-target pinch, canvas keyboard and real immersive entry implemented; camera5/5 targeted. Real touch device and whole U3 acceptance pending.",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
-    "remoteBrowserTests": 91,
+    "remoteBrowserTests": 92,
     "localFinalTargetedTests": 37,
     "currentUserTask": "Desktop browser product and visual aesthetics; login/account and mobile deferred by user",
     "research": "docs/handoff/STAR_REFERENCE_PLAN.md"
@@ -74,7 +77,7 @@
     "session": "docs/handoff/sessions/2026-10-12-stellar-polish.md",
     "version": "1.15.1",
     "deploymentTarget": "preview",
-    "applicationCommit": "pending next application checkpoint",
+    "applicationCommit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
     "privateData": "Synthetic evidence only; real browser inspected without exports"
   },
   "production": {

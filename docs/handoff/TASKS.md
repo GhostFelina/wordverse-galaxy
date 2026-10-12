@@ -10,7 +10,7 @@
 - [x] Yakın yıldız hücre sıcaklığı/kenar ışığı ve corona; matching before/after kanıt.
 - [x] Aynı production fotosferle detay önizlemesi, seçim temizleme ve context restore/fallback.
 - [x] Kıvrımlı gaz mikro lifleri, native1254 kaynak ve sabit örnek bütçesi.
-- [ ] Son kaynak tam92tarayıcı gate ve remote CI/preview sonucu.
+- [x] Son kaynak remote92tarayıcı gate,120unit ve CI/previewREADY;8ad9614/Check38218283666. Yerel91pass/1timeout, izole travel1pass.
 - [ ] Gerçek GPU p95, atlas fallback ve U2 kullanıcı kabulü.
 
 
