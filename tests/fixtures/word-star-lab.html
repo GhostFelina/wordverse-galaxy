@@ -117,6 +117,12 @@
       };
       renderer.setAnimationLoop((ms) => {
         if (document.hidden) return;
+        // Let the surface asset finish before competing with software raymarch.
+        // Evidence must never capture the temporary uniform fallback texture.
+        if (!stars.ready) {
+          canvas.dataset.ready = 'false';
+          return;
+        }
         camera.position.fromArray(views[shot]);
         if (shot === 'nebula-angle') camera.lookAt(...gas.records[0].position);
         else camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);

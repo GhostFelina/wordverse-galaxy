@@ -1,4 +1,39 @@
 {
+  "recall": {
+    "open": "Repaso rápido · hasta 10 palabras",
+    "close": "Cerrar repaso",
+    "title": "Un momento para recordar.",
+    "eyebrow": "UNA PAUSA CON TUS PALABRAS",
+    "progress": "{current} / {total} completadas",
+    "empty": "Añade una palabra a esta galaxia antes de repasar.",
+    "think": "Intenta decir el significado. Muestra la respuesta cuando estés listo.",
+    "reveal": "Mostrar significado",
+    "again": "Volver a estudiar",
+    "remembered": "Lo recordé",
+    "done": "Esta ronda ha terminado.",
+    "result": "Recordaste {remembered} de {total} palabras.",
+    "retry": "Repasar las palabras difíciles",
+    "finish": "Volver a mi universo",
+    "sessionOnly": "Esta sesión no modifica tus registros. Los resultados pertenecen solo a esta sesión."
+  },
+  "scene": {
+    "title": "Vista",
+    "quality": "Calidad visual",
+    "auto": "Automática · según el dispositivo",
+    "high": "Alta · más detalle",
+    "balanced": "Equilibrada",
+    "low": "Ligera · más fluida",
+    "qualityHint": "Automática se adapta a tu dispositivo. Elige Ligera para mayor fluidez o Alta para más detalle.",
+    "navigation": "Explora tu universo",
+    "mouse": "Ratón",
+    "mouseHint": "Desplaza para acercarte y arrastra para moverte. Selecciona una estrella para centrar el zoom.",
+    "touch": "Táctil",
+    "touchHint": "Muévete con un dedo; junta o separa dos dedos para acercarte o alejarte.",
+    "keyboard": "Teclado",
+    "keyboardHint": "Enfoca el universo: flechas para moverte, + / − para acercarte, Home para restablecer.",
+    "return": "Volver",
+    "returnHint": "Escape cierra el panel, libera el enfoque o vuelve a la interfaz."
+  },
   "language": "Español",
   "nav": {
     "explore": "Explorar",
@@ -80,7 +115,8 @@
     "zoomOut": "Alejar",
     "resetView": "Restablecer vista",
     "hoverHint": "ACÉRCATE A UNA ESTRELLA PARA EXPLORAR",
-    "zoomHint": "DESPLÁZATE PARA ACERCAR"
+    "zoomHint": "DESPLÁZATE PARA ACERCAR",
+    "cameraInstructions": "Desplaza para acercarte o alejarte. Arrastra para moverte. Táctil: usa dos dedos. Teclado: flechas para moverte, + y − para acercarte, Home para restablecer, Escape para volver."
   },
   "panel": {
     "close": "Cerrar panel",

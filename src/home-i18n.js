@@ -75,6 +75,7 @@ export function applyHomeTranslations(locale) {
   fallback.href = 'https://wordverse-galaxy.vercel.app/';
   document.head.append(fallback);
   setAria('#universe', 'home.universeCanvas');
+  setText('#camera-instructions', 'home.cameraInstructions');
   setAria('#universe-mode', 'home.universeOnly');
   setAria('#home-btn', 'home.homeButton');
   setAria('.topnav', 'home.mainMenu');

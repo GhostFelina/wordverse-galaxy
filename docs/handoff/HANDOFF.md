@@ -1,5 +1,22 @@
 # Devir durumu
 
+## Aktif geliştirme · 2026-10-12 · 1.15.0
+
+**Son kullanıcı önceliği:** giriş/hesap ve teknik kurulum işleri ertelendi. Ardından mobil de ertelendi: yalnız masaüstü tarayıcıda ürün, görsel/estetik kalite ve kullanılabilirlik geliştirilecek. Daha önce yapılan mobil yerleşim korunur; yeni mobil çalışma/cihaz kabulü sürdürülmez. Masaüstü sahne/panel/tekrar önceliklidir.
+
+Kullanıcı kendi kararlarımızla profesyonel geliştirme, gerekli planı uygulama ve durmadan ilerleme istedi. Windows / PowerShell7.6.6; `Desktop/Projeler/kelime-evreni`, `phase/4-universe`. Başlangıç temiz30ab3c9; pull güncel, doctor bütün kapılarda OK. U2 aktif; U3 kamera bileşenleri bağımsız ilerledi. Kapalı kataloglar açılmadı.
+
+- Keşfet gerçek immersive mod; canvas +/-/ok/Home ve Escape dönüşü; perspektif drag; seçili hedefe pinch; cancel/capture temizleme; form kısayol izolasyonu; canlı reduced-motion ve hover parallax kapatma.
+- `scene-controls.js/css`, `render-quality.js`, `nebula-system.js`: auto/high/balanced/low. `wordverse.render-quality` cihaz tercihidir; evrene yazılmaz. Low DPR≤.75, gaz durunca .5viewport/16adım; balanced DPR≤1, gaz durunca .75viewport/24adım. Fiziksel mobil FPS kabulü değildir.
+- Orion native1254 mip gerçek boyuttan hesaplanır; yıldızsız türevde ikinci stellar-peak filtresi yok. Kaynak doku/hash değişmedi. `evidence/2026-10-12-gas-before` ve `-after`: aynı üretim modülleri, donmuş sentetik sahne,1440/390. Ön kadrajda sağ gaz lifleri belirgin; yan hacim hâlâ yumuşak ve sanatsal. Yeni8K/tomografi iddiası yok.
+- `recall-session.js`, `recall-ui.js`, `recall.css`: aktif galaksiden≤10benzersiz kayıt; gizli anlam/örnek, reveal sonrası özdeğerlendirme ve zorlanılanları yeniden çalışma. Ephemeral; FSRS, kalıcı başarı oranı veya cloud şema değişimi değildir. Owner/galaksi değişiminde modal/içerik silinir; aynı owner refresh korur. Mobil atlas menüsü görünür.
+- Son kaynak: 120unit, lint/typecheck/format/build geçti. Tam88 turda87pass/1fail: geliştirme sırasında Vite HMR celestial fixture'ı yeniden yükledi. Ardından celestial6/6 geçti. Son kamera8+recall4+smoke25=37/37 (2m); animasyon sonunu bekleyen masaüstü kanıtı3/3 (20.7s). Bu, tek turda91/91 iddiası değildir; remote tam91 gate push sonrası kontrol edilir. Önceki tam tur `.tools/go/bin/go.exe` Windows watch EBUSY yüzünden50pass/38fail idi; Vite `.tools` izlemiyor. İlk yeni pinch testi hero üzerindeki dokunmatik alan nedeniyle hatalıydı; gerçek immersive yüzeyde düzeltilip5/5 geçti. Soğuk capture denemeleri başarısızdı; granülasyon hazır olmadan fixture GPU çalıştırılmaz ve son before/after capture başarılıdır.
+- Masaüstü atlas/detay yüzeyleri sadeleştirildi; detay halkaları kaldırıldı, görsel alan170px; açık panel üzerinde immersive/görünüm düğmeleri gizli. Tekrar native progress çizgisi. 1024/1280/1440 sayaç/kaynak ve başlık çakışmaları giderildi; tarihli home/detail kanıtları sentetik. [Ürün tasarım planı](PRODUCT_DESIGN_PLAN.md).
+- Gerçek5360 keşif/görünüm paneli manuel incelendi; özel kullanıcı ekranları Git'e alınmadı. Yeni kanıtlar sentetiktir. Öğrenme/owner şeması, RLS, koordinatlar ve öğrenme tarihi değişmedi.
+- Sıradaki: commit/push/remoteCI/preview → masaüstü gaz içi ayrıntı ve p95 → kamera lifecycle/WebGL atlas fallback → kalıcı tekrar/FSRS migrasyonu → U4–U9. Mobil/hesap işleri ertelendi. Kullanıcı U2 görsel kabulü bekler.
+
+Yeni checkpoint preview hedeflidir. Üretim1.14.1; main merge/release/tag yapılmaz.
+
 ## Üretim adresi düzeltmesi · 2026-10-04
 
 Kullanıcı Vercel ana adresinde eski sürüm gördüğünü bildirdi; yeni yayın isteği önceki preview-only kararı için bu sürüme özgü üretim yetkisidir. Sebep: phase/4-universe pushları Preview'a gidiyordu; ana üretim alias eski1.11.0'dı. Testleri başarılı702461b / geliştirme1.14.1 preview'ı production'a promote edildi; üretim env ile yeni build13.6s.

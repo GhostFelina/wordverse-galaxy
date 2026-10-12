@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recall owner isolation fixture</title>
+  </head>
+  <body>
+    <button id="collection-btn">My words</button>
+    <section id="collection-panel"><div class="search-wrap"></div></section>
+    <button id="same-owner">Refresh same owner</button>
+    <button id="different-owner">Change owner</button>
+    <button id="different-galaxy">Change galaxy</button>
+    <script type="module">
+      import '/src/auth.css';
+      import { mountRecallUI } from '/src/recall-ui.js';
+      let identity = 'personal:owner-a:galaxy-a';
+      const ui = mountRecallUI({
+        locale: 'en',
+        getIdentity: () => identity,
+        getRecords: () => [{ id: 'a', word: 'Private fixture word', meaning: 'Owner A meaning' }],
+        beforeOpen: () => {},
+      });
+      document.querySelector('#same-owner').onclick = () => ui.refresh();
+      document.querySelector('#different-owner').onclick = () => {
+        identity = 'personal:owner-b:galaxy-a';
+        ui.refresh();
+      };
+      document.querySelector('#different-galaxy').onclick = () => {
+        identity = 'personal:owner-b:galaxy-b';
+        ui.refresh();
+      };
+      ui.refresh();
+    </script>
+  </body>
+</html>

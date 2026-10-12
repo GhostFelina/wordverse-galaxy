@@ -1,5 +1,7 @@
 # Bilinen sorunlar
 
+- **2026-10-12:**1.15.0 kamera/kalite/hatırlama geliştirmesi HANDOFF başındadır. Aktif1254² mip hesabı ve ikinci yıldız filtresi düzeltildi; native kaynak çözünürlüğü artmadı. Fiziksel mobil FPS/p95 ve gaz içi detay/kullanıcı kabulü açık. Kısa tekrar ephemeral; FSRS ve kalıcı tekrar geçmişi henüz yok. WebGL atlas fallback/lifecycle sıradaki iştir. Aşağıdaki eski sürüm/faz notları tarihsel olabilir.
+
 - **Güncel override:** yalnız kelime yıldızları; fotoğrafa gömülü yıldızlar da `orion-starless.png` türeviyle kaldırıldı. Bu imagegen düzenlemesi native1254² ve gaz detayı kısmen değişti;8K değildir. Özgün8K dosyası korunur fakat aktif yıldızsız sahneye geri yüklenmez. Daha yüksek detaylı yıldızsız doku ve kullanıcı kabulü açık.
 - Gaz-yıldız görsel sönümü uygulandı, bilimsel kalibrasyon/WCS değildir. Yeni kelimeler random farklı derinliklerde ekran içinde oluşur; eskiler taşınmaz. Seçili hedef wheel/butonları kilitler; wheel0.30 ve ±180piksel delta sınırı uygulanır.
 

@@ -37,7 +37,7 @@ const vertex = `varying vec3 localPosition;
 void main(){localPosition=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`;
 const fragment = `precision highp sampler3D;
 uniform sampler2D image;uniform sampler2D infrared;uniform sampler3D densityMap;
-uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float infraredLod;uniform float principalZ;varying vec3 localPosition;
+uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float infraredLod;uniform float principalZ;uniform float stellarSuppression;varying vec3 localPosition;
 float cloud(vec3 p){return texture(densityMap,p*.36+vec3(.17,.31,.53)).r;}
 float plume(vec3 p,vec3 center,vec3 extent){vec3 q=(p-center)/extent;return exp(-dot(q,q)*2.);}
 float erfApprox(float v){float v2=v*v;return sign(v)*sqrt(max(0.,1.-exp(-v2*(1.2732395+.147*v2)/(1.+.147*v2))));}
@@ -63,7 +63,7 @@ void main(){
  float sharpLum=max(observed.r,max(observed.g,observed.b));
  float lum=max(diffuse.r,max(diffuse.g,diffuse.b));
   float stellarPeak=smoothstep(.025,.14,sharpLum-lum);
- observed=mix(observed,diffuse,stellarPeak);
+ observed=mix(observed,diffuse,stellarPeak*stellarSuppression);
  vec3 macroColor=mix(textureLod(image,uv,opticalLod+8.).rgb,textureLod(infrared,uv,infraredLod+7.).rgb,.16);
  vec4 sum=vec4(0.);
  for(int i=0;i<48;i++){
@@ -142,6 +142,7 @@ export function createNebulaSystem(
     loaded = 0;
   let highResolutionState = 'idle';
   let shaderState = 'idle';
+  let qualityMode = 'auto';
   let gasScale = 0.55,
     lastGasFrame = 0,
     slowGasFrames = 0,
@@ -189,6 +190,7 @@ export function createNebulaSystem(
         opticalLod: { value: 0 },
         infraredLod: { value: 0 },
         principalZ: { value: ORION_PRINCIPAL_Z },
+        stellarSuppression: { value: fieldStars ? 1 : 0 },
       },
       vertexShader: vertex,
       fragmentShader: fragment,
@@ -224,6 +226,11 @@ export function createNebulaSystem(
   const savedColor = new THREE.Color(),
     size = new THREE.Vector2();
   return {
+    setQuality(mode) {
+      if (!['auto', 'high', 'balanced', 'low'].includes(mode)) return;
+      qualityMode = mode;
+      lastVolumeFrame = 0;
+    },
     records,
     get ready() {
       return shaderState === 'ready';
@@ -278,7 +285,8 @@ export function createNebulaSystem(
       lastGasView.copy(camera.matrixWorld);
       const resting = now - lastCameraMotion > 250;
       for (const node of nodes) {
-        if (resting) node.material.uniforms.steps.value = 32;
+        if (qualityMode === 'low') node.material.uniforms.steps.value = 16;
+        else if (resting) node.material.uniforms.steps.value = qualityMode === 'balanced' ? 24 : 32;
         else if (gasScale < 0.4) node.material.uniforms.steps.value = 16;
       }
       renderer.getSize(size);
@@ -286,10 +294,28 @@ export function createNebulaSystem(
       // volume between slow gas updates; stars and UI remain separate passes.
       const width = Math.min(
         1920,
-        Math.round(size.x * (resting ? 1 : Math.min(renderer.getPixelRatio(), 1) * gasScale)),
+        Math.max(
+          1,
+          Math.round(
+            size.x *
+              (resting
+                ? qualityMode === 'low'
+                  ? 0.5
+                  : qualityMode === 'balanced'
+                    ? 0.75
+                    : 1
+                : Math.min(renderer.getPixelRatio(), 1) * gasScale),
+          ),
+        ),
       );
       const height = Math.max(1, Math.round((width * size.y) / size.x));
-      const opticalWidth = highResolutionState === 'ready' ? 8192 : compact ? 2048 : 4096;
+      const opticalWidth = !fieldStars
+        ? records[0].starlessTexture.dimensions[0]
+        : highResolutionState === 'ready'
+          ? 8192
+          : compact
+            ? 2048
+            : 4096;
       // Implicit derivatives are undefined in a ray loop with divergent exits.
       // Choose mip footprints explicitly, retaining finer detail inside the gas.
       for (const node of nodes) {

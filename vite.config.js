@@ -26,7 +26,7 @@ export default defineConfig({
       },
     },
   ],
-  server: { port: 5350, strictPort: true },
+  server: { port: 5350, strictPort: true, watch: { ignored: ['**/.tools/**'] } },
   build: {
     rollupOptions: {
       input: {

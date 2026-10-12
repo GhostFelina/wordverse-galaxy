@@ -2,7 +2,11 @@ import { placeWordStar, starApproach } from './word-star-placement.js';
 import { createStarTransmission } from './star-nebula-transmission.js';
 import * as THREE from 'three';
 import './style.css';
+import './product-polish.css';
 import { createRenderQuality } from './render-quality.js';
+import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.js';
+import { mountSceneControls } from './scene-controls.js';
+import { mountRecallUI } from './recall-ui.js';
 import { createWordStarSystem, wordStarPosition, WORD_STAR_RADIUS } from './word-star-system.js';
 import { createNebulaSystem } from './nebula-system.js';
 import { mountNebulaUI } from './nebula-ui.js';
@@ -58,9 +62,12 @@ let catalogReady = false;
 let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
 let experienceUI;
+let recallUI;
 let experienceKey = '';
 const experience = createExperienceMode({ guestCount: universe.words.length, onChange: applyExperience });
 function syncRenderLoop() {
+  lastCameraMs = 0;
+  renderQuality?.resetTiming();
   renderer?.setAnimationLoop(document.readyState === 'complete' && catalogReady && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
 }
 window.addEventListener('load', syncRenderLoop, { once: true });
@@ -70,10 +77,12 @@ function applyExperience(state) {
   app.dataset.contentReady = String(state.ready);
   $('#universe').dataset.experience = state.mode || 'initializing';
   experienceUI?.update(state);
+  recallUI?.refresh();
   syncRenderLoop();
   const key = `${state.mode}:${state.ownerId}:${state.ready}`;
   if (key === experienceKey) return;
   experienceKey = key;
+  recallUI?.invalidate();
   // Clear the previous identity immediately; allow rapid UI transitions to settle
   // before compiling a scene that may already have been replaced.
   renderer?.clear();
@@ -105,7 +114,9 @@ const meaningLanguageLabel = galaxy => t('panel.meaningOf', { language: t(`names
 const typeLabel = (galaxy, kind = 'word') => t(kind === 'conjunction' ? 'panel.conjunctionType' : 'panel.wordType', { language: languageDisplay(galaxy?.language).toLocaleUpperCase(uiLocale) });
 const starStageLabel = appearance => t(`names.stage.${appearance.stageId}`);
 const births = [];
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+let reducedMotion = motionPreference.matches;
+motionPreference.addEventListener('change', event => { reducedMotion = event.matches; pointer.x = pointer.y = 0; });
 
 function persist() {
   if (accountSync?.persist(universe)) return true;
@@ -149,6 +160,7 @@ function refreshCounts() {
   $('#bottom-caption').textContent = t(words.length === 0 ? 'home.emptyCaption' : words.length < 10 ? 'home.earlyCaption' : 'home.growingCaption');
   $('#hero-description').textContent = words.length === 0 ? t('hero.empty', { galaxy: galaxyDisplay(activeGalaxy) }) : t('hero.filled');
   $('#hero-add').firstChild.textContent = `${t(words.length ? 'action.addWord' : 'action.addFirst')} `;
+  recallUI?.refresh();
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
 }
 
@@ -174,10 +186,12 @@ function initScene() {
     renderer.setPixelRatio(ratio);
     $('#universe').dataset.renderDpr = String(ratio);
   } });
+  mountSceneControls({ locale: uiLocale, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, .1, 100000);
   camera.position.z = zoom;
   nebulaSystem = createNebulaSystem(scene, camera, { compact: innerWidth < 760, fieldStars: false });
+  nebulaSystem.setQuality(renderQuality.mode);
   nebulaUI = mountNebulaUI({ locale: uiLocale, records: nebulaSystem.records, beforeOpen: closePanels,
     onFocus(record) { travelToNebula(record); zoom = Math.min(zoom, 160 - catalogDepth); },
     onOverview() { closePanels(); focusedStarId = selectedId = null; travelingNebula = null; nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
@@ -246,15 +260,15 @@ function animate(ms) {
   clock = ms * .001;
   const drift = reducedMotion ? 0 : clock;
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
-  const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging ? 0 : pointer.x * 1.9);
+  const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging || reducedMotion ? 0 : pointer.x * 1.9);
   const flightRecord = travelingNebula ? nebulaSystem.records[0] : null;
   const descent = flightRecord ? THREE.MathUtils.smoothstep((flightRecord.frontZ - camera.position.z) / flightRecord.travelLength, 0, 1) : 0;
-  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging ? 0 : pointer.y * 1.25) - (flightRecord ? flightRecord.radius * .23 * descent : 0);
+  const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging || reducedMotion ? 0 : pointer.y * 1.25) - (flightRecord ? flightRecord.radius * .23 * descent : 0);
   const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
   renderQuality.sample(cameraDelta);
   // Preserve at least one rendered pixel per CSS pixel after volume refinement.
-  if (nebulaSystem.refined && renderer.getPixelRatio() < 1) renderer.setPixelRatio(1);
+  if (renderQuality.mode === 'auto' && nebulaSystem.refined && renderer.getPixelRatio() < 1) renderer.setPixelRatio(Math.min(devicePixelRatio, 1));
   const planeDamping = 1-Math.exp(-cameraDelta*.0028);
   const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
   camera.position.x += (targetX-camera.position.x)*planeDamping;
@@ -531,6 +545,7 @@ function updateMeaningLanguage(event) {
 
 function switchGalaxy(id) {
   if (!universe.galaxies.some(g => g.id === id)) return;
+  recallUI?.invalidate();
   travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect);
   catalogDepth = 0;
   pan.x = pan.y = pointer.x = pointer.y = 0;
@@ -638,7 +653,7 @@ function bindUI() {
     button.setAttribute('aria-label', t(immersive ? 'home.showInterface' : 'home.universeOnly'));
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
-  $('#hero-explore').addEventListener('click', () => { $('#hero').style.opacity = '.18'; setTimeout(() => $('#hero').style.opacity = '', 2600); });
+  $('#hero-explore').addEventListener('click', () => { if (!$('#app').classList.contains('immersive')) $('#universe-mode').click(); $('#universe').focus({ preventScroll: true }); });
   $('#home-btn').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; closePanels(); focusedStarId = selectedId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
@@ -672,30 +687,63 @@ function bindUI() {
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
   $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; focusedStarId = selectedId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
-  document.addEventListener('keydown', e => { if (document.querySelector('dialog[open]')) return; if (e.key === 'Escape') { if (activePanel) closePanels(); else if(selectedId) { pan.x=camera.position.x;pan.y=camera.position.y;pointer.x=pointer.y=0;preFocusPan=null;selectedId=focusedStarId=null; } else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); } if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); } if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); } });
+  document.addEventListener('keydown', e => {
+    if (document.querySelector('dialog[open]')) return;
+    if (e.key === 'Escape') { if (activePanel) closePanels(); else if(selectedId && camera) { pan.x=camera.position.x;pan.y=camera.position.y;pointer.x=pointer.y=0;preFocusPan=null;selectedId=focusedStarId=null; } else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); return; }
+    if (isEditingTarget(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); }
+    if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); }
+    // Camera keys belong to the canvas; arrow keys elsewhere retain native UI behavior.
+    if (e.target !== $('#universe') || activePanel || !camera) return;
+    if (['+', '=', '-', '_'].includes(e.key)) { e.preventDefault(); zoomOnGalaxy(zoom * (['+', '='].includes(e.key) ? 1 / 1.15 : 1.15)); }
+    if (e.key === 'Home') { e.preventDefault(); $('#reset-view').click(); }
+    const directions = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
+    if (directions[e.key]) {
+      e.preventDefault();
+      if (focusedStarId) { focusedStarId = null; preFocusPan = null; pan.x = camera.position.x; pan.y = camera.position.y; }
+      const distance = Math.max(1, camera.position.z - (worldStars.get(selectedId)?.position.z ?? catalogDepth));
+      const step = worldUnitsPerPixel(distance, camera.fov, innerHeight) * 48;
+      pan.x += directions[e.key][0] * step; pan.y += directions[e.key][1] * step; pointer.x = pointer.y = 0;
+    }
+  });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
+    if (!camera || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    canvas.focus({ preventScroll: true });
     if (e.pointerType === 'touch') {
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
-      if (touches.size === 2) { const [a, b] = [...touches.values()]; pinchStart = { distance: Math.hypot(a.x - b.x, a.y - b.y), zoom }; dragging = false; dragStart = null; }
+      if (touches.size === 2) { const [a, b] = [...touches.values()]; pinchStart = { distance: Math.hypot(a.x - b.x, a.y - b.y) }; dragging = false; dragStart = null; }
     }
-    if (touches.size < 2) { if (focusedStarId) { focusedStarId = null; preFocusPan = null; pan.x = camera.position.x; pan.y = camera.position.y; } dragging = true; moved = false; dragStart = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y }; }
+    if (touches.size < 2) { dragging = true; moved = false; dragStart = { x: e.clientX, y: e.clientY }; }
     canvas.setPointerCapture(e.pointerId);
   });
   canvas.addEventListener('pointermove', e => {
     pointer.x = (e.clientX / innerWidth - .5) * 2; pointer.y = (.5 - e.clientY / innerHeight) * 2;
     if (e.pointerType === 'touch' && touches.has(e.pointerId)) {
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
-      if (touches.size === 2 && pinchStart) { const [a, b] = [...touches.values()]; const distance = Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)); setZoom(pinchStart.zoom * pinchStart.distance / distance, (a.x + b.x) / 2, (a.y + b.y) / 2); return; }
+      if (touches.size === 2 && pinchStart) { const [a, b] = [...touches.values()]; const distance = Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)); const factor = pinchRatio(pinchStart.distance, distance); if (!zoomWordTarget(factor)) setZoom(zoom * factor, (a.x + b.x) / 2, (a.y + b.y) / 2); pinchStart.distance = distance; moved = true; pointer.x = pointer.y = 0; return; }
     }
-    if (dragging && dragStart) { const factor = zoom / 160 * .12; pan.x = dragStart.panX - (e.clientX - dragStart.x) * factor; pan.y = dragStart.panY + (e.clientY - dragStart.y) * factor; moved ||= Math.abs(e.clientX - dragStart.x) + Math.abs(e.clientY - dragStart.y) > 4; }
+    if (dragging && dragStart) {
+      const dx = e.clientX - dragStart.x, dy = e.clientY - dragStart.y;
+      if (!moved && Math.abs(dx) + Math.abs(dy) <= 4) return;
+      if (!moved && focusedStarId) { focusedStarId = null; preFocusPan = null; pan.x = camera.position.x; pan.y = camera.position.y; }
+      const distance = Math.max(1, camera.position.z - (worldStars.get(selectedId)?.position.z ?? catalogDepth));
+      const factor = worldUnitsPerPixel(distance, camera.fov, innerHeight);
+      pan.x -= dx * factor; pan.y += dy * factor; dragStart = { x: e.clientX, y: e.clientY }; moved = true;
+    }
   });
   const endPointer = e => {
-    touches.delete(e.pointerId); dragging = false; dragStart = null; pinchStart = null; };
+    touches.delete(e.pointerId); dragging = false; dragStart = null; pinchStart = null;
+    pointer.x = pointer.y = 0;
+    // Continuing with the remaining finger starts a fresh gesture without a jump.
+    if (e.type === 'pointerup' && touches.size === 1) { const point = [...touches.values()][0]; dragging = true; dragStart = { ...point }; }
+  };
   canvas.addEventListener('pointerup', endPointer);
   canvas.addEventListener('pointercancel', endPointer);
+  canvas.addEventListener('lostpointercapture', e => { if (touches.has(e.pointerId)) endPointer(e); });
   const onZoomWheel = e => {
-    if (e.target.closest('button,a,input,textarea,select,dialog,.controls,.side-panel') && !e.target.closest('.star-hit')) return;
+    if (!camera || !e.deltaY) return;
+    if (e.target.closest('button,a,input,textarea,select,dialog,.controls,.side-panel,.scene-controls') && !e.target.closest('.star-hit')) return;
     e.preventDefault();
     const raw=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
     const delta=Math.max(-180,Math.min(180,raw))*.3;
@@ -718,7 +766,7 @@ function bindUI() {
     } else setZoom(zoom*Math.exp(delta*.00145),e.clientX,e.clientY);
   };
   $('#app').addEventListener('wheel', onZoomWheel, { passive: false });
-  window.addEventListener('resize', () => { if (!renderer) return; camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); if (!travelingNebula) nebulaSystem?.reframe(camera.aspect); renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7)); renderer.setSize(innerWidth, innerHeight); });
+  window.addEventListener('resize', () => { if (!renderer) return; camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); if (!travelingNebula) nebulaSystem?.reframe(camera.aspect); renderer.setPixelRatio(renderQuality.ratio); renderer.setSize(innerWidth, innerHeight); });
 }
 
 history.scrollRestoration = 'manual';
@@ -736,7 +784,7 @@ let profileUI;
 accountSync = mountAccountSync({
   locale: uiLocale,
   getUniverse: () => universe,
-  beforeSwitch: () => { closePanels(); profileUI?.close(); },
+  beforeSwitch: () => { closePanels(); profileUI?.close(); recallUI?.invalidate(); },
   notify: showToast,
   replaceUniverse: (next, context) => {
     universe = next;
@@ -754,6 +802,10 @@ accountSync = mountAccountSync({
   },
 });
 profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
+recallUI = mountRecallUI({ locale: uiLocale, getRecords: () => words,
+  getIdentity: () => { const state = experience.snapshot(); return state.ready && state.mode !== 'showcase-demo' ? `${state.mode}:${state.ownerId || 'guest'}:${universe.activeGalaxyId}` : null; },
+  beforeOpen: closePanels,
+});
 const handleSession = profileSessionListener(profileUI, accountSync.onSession);
 experienceUI = mountExperienceUI({ locale: uiLocale,
   onGuest: () => experience.enterGuest(), onDemo: () => experience.enterDemo(),
@@ -775,5 +827,6 @@ mountAuthUI({ locale: uiLocale, beforeOpen: closePanels,
   onProfile: () => { experience.enterGuest(); profileUI.open(); },
 });
 applyExperience(experience.snapshot());
+recallUI.refresh();
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

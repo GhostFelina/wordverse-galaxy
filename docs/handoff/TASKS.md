@@ -5,6 +5,20 @@
 
 # Görevler
 
+## Otonom geliştirme · 2026-10-12 · 1.15.0
+
+Son yönlendirme: yalnız masaüstü tarayıcıda ürün/görsel/estetik geliştirme. Mobil ve giriş/hesap işleri ertelendi. [Ürün tasarım planı](PRODUCT_DESIGN_PLAN.md).
+
+- [x] Keşif modu, perspektif drag, hedef pinch, canvas klavye/form izolasyonu.
+- [x] Üç dilde görüntü kalitesi ve gezinme rehberi; düşük/dengeli gaz bütçesi.
+- [x] Native1254 mip ve gereksiz ikinci yıldız filtresi düzeltmesi; before/after sentetik kanıt.
+- [x] Ephemeral kısa hatırlama/retry ve mobil atlas erişimi.
+- [~] Tam88tarayıcı gate, recall owner/galaksi izolasyonu, remoteCI/preview/checkpoint.
+- [ ] Masaüstü gaz içi ayrıntı, p95 ve kullanıcı U2 görsel kabulü; fiziksel mobil çalışma ertelendi.
+- [ ] Kamera lifecycle/WebGL yokken kullanılabilir atlas fallback.
+- [ ] Kalıcı tekrar/FSRS: kayıpsız migration/offline/owner-senkron tasarımı.
+- [ ] U4–U9; görsel kabul öncesinde kapalı katalogları açma.
+
 ## Güncel öncelik · referans yıldızları / U2 · 2026-10-04
 
 - [x] Masaüstü yaklaşım/genel/uzak ekran görüntülerini incele; sıralı planı `STAR_REFERENCE_PLAN.md` içine yaz.

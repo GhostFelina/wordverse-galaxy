@@ -1,5 +1,15 @@
 # Değişiklik kaydı
 
+## [Unreleased] — 1.15.0 geliştirme · 2026-10-12
+
+- Gerçek keşif modu, perspektife bağlı drag, hedefi koruyan pinch ve canvas klavye kontrolleri.
+- Üç dilde kalıcı cihaz görüntü tercihi ve gezinme rehberi: otomatik/yüksek/dengeli/hafif.
+- Yıldızsız Orion'un native1254 mip hesabı; temizlenmiş gazda ikinci yıldız filtresi kaldırıldı.
+- Kayıtları değiştirmeyen kısa hatırlama, gizli anlam, özdeğerlendirme ve zorlanılanları yeniden çalışma. Owner/galaksi değişimi oturumu temizler; FSRS/kalıcı geçmiş değildir.
+- Mobil Kelimelerim erişimi, form kısayolu izolasyonu ve canlı hareket azaltma desteği.
+- Masaüstü atlas/detay yüzeyleri, kompakt halkasız yıldız görseli, panel üzerine binen keşif düğmesi düzeltmesi, tekrar ilerleme çizgisi ve1024/1280/1440 yerleşimi.
+- Güncel kabul/yayın durumu HANDOFF/STATE; üretim1.14.1 korunur.
+
 ## [Unreleased] — Faz 4 / 1.14.1 geliştirme (prod 1.14.1; 2026-10-04 kullanıcı yayın isteği)
 
 - Orion yan gaz hacmi: sonlu3B türbülans, lif/boşluklar ve fotoğraf kenarı sönümü.

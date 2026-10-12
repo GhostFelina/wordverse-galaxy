@@ -50,9 +50,9 @@
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
-    "localUnitTests": 114,
-    "localBrowserTests": 79,
-    "integrationVerification": "1.14.1 source e1b3850: remote37220478118 SUCCESS114 unit/79 browser/lint/typecheck/build/format/release/audit/Go email checks; later documentation-only commits get independent CI",
+    "localUnitTests": 120,
+    "localBrowserTests": 91,
+    "integrationVerification": "1.15.0: 120 unit/lint/typecheck/format/build passed. Full88:87pass/1HMR-induced failure; celestial6/6 recovered. Final camera8+recall4+smoke25=37/37; desktop evidence3/3. Remote full91 pending push; historical remote CI is for1.14.1.",
     "preview": {
       "url": "https://wordverse-galaxy-gx5zjyq3m-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
@@ -62,15 +62,15 @@
       "buildDurationSeconds": 19,
       "httpStatus": 200
     },
-    "remainingCurrentWork": "Verify1.14.1 CI/preview; visual acceptance, native1254 gas detail, mobile GPU, scientific calibration, then U3",
-    "navigationRequirement": "wheel/trackpad zoom; drag pan; U3 continuous-camera and UI scroll isolation acceptance pending",
+    "remainingCurrentWork": "Commit/push/remote full91 CI/preview; then desktop gas detail, p95, renderer fallback and persistent recall design. U2 visual acceptance pending. Mobile and auth setup deferred.",
+    "navigationRequirement": "Perspective drag, selected-target pinch, canvas keyboard and real immersive entry implemented; camera5/5 targeted. Real touch device and whole U3 acceptance pending.",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
     "remoteBrowserTests": 79,
-    "localFinalTargetedTests": 8,
-    "currentUserTask": "Save version, commit/push, preview deploy, private backups and Codex/Claude handoff",
+    "localFinalTargetedTests": 37,
+    "currentUserTask": "Desktop browser product and visual aesthetics; login/account and mobile deferred by user",
     "research": "docs/handoff/STAR_REFERENCE_PLAN.md"
   },
-  "developmentVersion": "1.14.1",
+  "developmentVersion": "1.15.0",
   "checkpoint": {
     "date": "2026-10-04",
     "session": "docs/handoff/sessions/2026-10-04-claude-handoff.md",

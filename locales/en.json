@@ -1,4 +1,39 @@
 {
+  "recall": {
+    "open": "Quick recall · up to 10 words",
+    "close": "Close recall",
+    "title": "A moment to remember.",
+    "eyebrow": "A SHORT BREAK WITH YOUR WORDS",
+    "progress": "{current} / {total} completed",
+    "empty": "Add a word to this galaxy before starting recall.",
+    "think": "Try saying the meaning. Reveal the answer when you are ready.",
+    "reveal": "Show meaning",
+    "again": "Study again",
+    "remembered": "Remembered",
+    "done": "This round is complete.",
+    "result": "You remembered {remembered} of {total} words.",
+    "retry": "Try the difficult words again",
+    "finish": "Return to my universe",
+    "sessionOnly": "This short session does not change your records. Results belong to this session only."
+  },
+  "scene": {
+    "title": "View",
+    "quality": "Visual quality",
+    "auto": "Automatic · adapts to device",
+    "high": "High · more detail",
+    "balanced": "Balanced",
+    "low": "Light · smoother motion",
+    "qualityHint": "Automatic adapts to your device. Choose Light for smoother motion or High for more detail.",
+    "navigation": "Explore your universe",
+    "mouse": "Mouse",
+    "mouseHint": "Scroll to zoom and drag to move. Select a star to keep zoom focused on it.",
+    "touch": "Touch",
+    "touchHint": "Move with one finger; pinch with two fingers to zoom in or out.",
+    "keyboard": "Keyboard",
+    "keyboardHint": "Focus the universe: arrows to move, + / − to zoom, Home to reset.",
+    "return": "Return",
+    "returnHint": "Escape closes the panel, releases star focus or returns to the interface."
+  },
   "language": "English",
   "nav": {
     "explore": "Explore",
@@ -80,7 +115,8 @@
     "zoomOut": "Zoom out",
     "resetView": "Reset view",
     "hoverHint": "HOVER OVER A STAR TO EXPLORE",
-    "zoomHint": "SCROLL TO ZOOM"
+    "zoomHint": "SCROLL TO ZOOM",
+    "cameraInstructions": "Scroll to zoom. Drag to move. Touch: pinch with two fingers. Keyboard: arrow keys to move, + and − to zoom, Home to reset, Escape to return."
   },
   "panel": {
     "close": "Close panel",

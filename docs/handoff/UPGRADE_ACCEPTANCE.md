@@ -6,11 +6,11 @@ Uygulandı, otomatik doğrulandı, manuel görüldü, referans eşleşti ve kull
 |---|---|---|
 | WV-U01 | Demo onboarding sınırı | U1 experience-mode/main/auth bağlantısı; e2e/experience ve account-sync; manuel/model geçiş kabulü sürüyor |
 | WV-U02 | Canlı tam ekran cosmos | Üretimde ephemeral yıldız+gezegen+gaz demo ve upgrade-lab; final görsel kalite açık |
-| WV-U03 | Kesintisiz keşif | Henüz uygulanmadı / sonraki U-fazı |
-| WV-U04 | OLED/gaz kişisel alan | Henüz uygulanmadı / sonraki U-fazı |
-| WV-U05 | Yakın gerçekçi kelime yıldızı | premium-bodies demo/fixture içinde; gerçek kayıtlara U4 adapter henüz yok |
+| WV-U03 | Kesintisiz keşif | 1.15.0 immersive keşif, perspektif drag, seçili hedef zoom, canvas klavyesi ve Escape; kamera hedefli testleri geçti. Tam U3/cihaz kabulü açık |
+| WV-U04 | OLED/gaz kişisel alan | Orion + gerçek kayıt yıldızları aktif; native1254 mip ve ikinci filtre düzeltildi. Gaz içi ayrıntı ve görsel kabul açık |
+| WV-U05 | Yakın gerçekçi kelime yıldızı | Gerçek kayıtlar ortak word-star-system nokta/yüzey havuzunda; yaklaşım/yan geçiş/geri dönüş testleri var. Fiziksel ışık sönümü ve final optik kabul açık |
 | WV-U06 | Aydınlatılmış bağlaç gezegeni | premium-bodies demo/fixture içinde; gerçek kayıtlara U4 adapter henüz yok |
-| WV-U07 | Sabit kişisel merkez | Henüz uygulanmadı / sonraki U-fazı |
+| WV-U07 | Sabit kişisel merkez | Kayıt koordinatları seçim/ekleme/reload sırasında korunur; word-stars testi. Tam U4 ürün kabulü açık |
 | WV-U08 | Galaksi/bulutsu çeşitliliği | Henüz uygulanmadı / sonraki U-fazı |
 | WV-U09 | Asteroid/meteor/kuyruk | Henüz uygulanmadı / sonraki U-fazı |
 | WV-U10 | Süpernova/kilonova | Henüz uygulanmadı / sonraki U-fazı |
@@ -20,7 +20,7 @@ Uygulandı, otomatik doğrulandı, manuel görüldü, referans eşleşti ve kull
 | WV-U14 | Referans incelemesi | REFERENCE_ANALYSIS:4yerelgörsel/Xsplit/R5frame doğrulandı; kısa hareket/audio/ikincilvideo örnekleri açık |
 | WV-U15 | Özgün ambient ses | Henüz uygulanmadı / sonraki U-fazı |
 | WV-U16 | Veri/auth/misafir | Depo/schema/RLS değişmedi; account-sync mevcut regresyon ve stale-owner mode testleri, güncel fullgate bekliyor |
-| WV-U17 | Cihaz/performans | Measured-frameDPR temel kodu; fiziki mobil/5000/p95/goldenresponsive açık |
+| WV-U17 | Cihaz/performans | Auto/high/balanced/low kullanıcı tercihi ve gaz bütçesi; 1024/1280/1440 masaüstü kompozisyon kontrolü. Fiziki cihaz/5000/p95 açık; kullanıcı mobil çalışmasını erteledi |
 | WV-U18 | Kalıcı devir | Yeni şartname AGENTS/CLAUDE/HANDOFF/STATE/TASKS bağlantıları; commit/remoteCI bu checkpoint sonrasında kontrol edilir |
 
 Başlangıçe75ecca uzakCI37146273133:57pass/9fail (6accountsync,3desktopnebula). Yeni hedefli ilk25:23pass/2fail; initcold ve unavailableIDBguest erişimi düzeltildi, hedefli4/4tekrar geçti. Eski sonuç yeni kod kabulü değildir. Full71e2e/sonunit sonuçları HANDOFF güncellemesinde kaydedilir. Kullanıcı görsel kabulü yok.

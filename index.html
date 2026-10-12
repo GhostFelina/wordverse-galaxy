@@ -25,7 +25,8 @@
   </head>
   <body>
     <div id="app">
-      <canvas id="universe" aria-label="Etkileşimli kelime evreni"></canvas>
+      <canvas id="universe" tabindex="0" aria-describedby="camera-instructions" aria-label="Etkileşimli kelime evreni"></canvas>
+      <p id="camera-instructions" class="sr-only">Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön.</p>
       <div class="screen-vignette" aria-hidden="true"></div>
       <div class="grain" aria-hidden="true"></div>
 

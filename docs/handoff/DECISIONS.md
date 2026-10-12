@@ -1,5 +1,9 @@
 # Mimari kararlar
 
+## ADR015 — Otonom kalite ve hatırlama turu
+
+2026-10-12 kullanıcı kendi planımızla profesyonel geliştirmeyi yetkilendirdi. Mevcut Orion/word-star yönü korunur; U2 kabul edilmeden eski kataloglar açılmaz. Kamera/U3 bileşenleri ve kullanım düzeltmeleri bağımsız ilerler. Görüntü tercihi ayrı cihaz anahtarıdır; kalıcı öğrenme şeması değişmez. Kısa hatırlama yalnız oturum belleğinde, aktif galaksi ve owner ile sınırlıdır; FSRS/kalıcı başarı verisi sayılmaz. Owner/galaksi değişiminde içerik temizlenir. Yeni checkpoint1.15.0; yayın hedefi Preview, üretim/main/tag yetkisi genişletilmez.
+
 ## ADR-001 — Çalışan Vite + Three.js tabanını koru
 
 - **Bağlam:** Proje Vite 7, ES modülleri ve Three.js WebGL kullanıyor; 80+ yıldızda instancing var. 11 mevcut veri testi geçiyor.

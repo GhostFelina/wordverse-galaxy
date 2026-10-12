@@ -1,4 +1,39 @@
 {
+  "recall": {
+    "open": "Kısa tekrar · en fazla 10 kelime",
+    "close": "Tekrarı kapat",
+    "title": "Biraz hatırlayalım.",
+    "eyebrow": "KELİMELERİNLE KISA BİR MOLA",
+    "progress": "{current} / {total} tamamlandı",
+    "empty": "Tekrar için önce bu galaksiye bir kelime ekle.",
+    "think": "Anlamını söylemeyi dene. Hazır olduğunda cevabı aç.",
+    "reveal": "Anlamı göster",
+    "again": "Tekrar çalışacağım",
+    "remembered": "Hatırladım",
+    "done": "Bu tur tamamlandı.",
+    "result": "{total} kelimenin {remembered} tanesini hatırladın.",
+    "retry": "Zorlandıklarımı yeniden çalış",
+    "finish": "Evrenime dön",
+    "sessionOnly": "Bu kısa oturum kayıtlarını değiştirmez. Sonuçlar yalnızca bu oturum içindir."
+  },
+  "scene": {
+    "title": "Görünüm",
+    "quality": "Görüntü kalitesi",
+    "auto": "Otomatik · cihaza göre",
+    "high": "Yüksek · daha fazla ayrıntı",
+    "balanced": "Dengeli",
+    "low": "Hafif · daha akıcı",
+    "qualityHint": "Otomatik mod cihazının hızına uyum sağlar. Akıcılık için Hafif, ayrıntı için Yüksek seçebilirsin.",
+    "navigation": "Evreni keşfet",
+    "mouse": "Mouse",
+    "mouseHint": "Kaydırarak yakınlaş, sürükleyerek hareket et. Bir yıldız seçtiğinde zoom onu izler.",
+    "touch": "Dokunmatik",
+    "touchHint": "Tek parmakla hareket et; iki parmağı açıp kapatarak yakınlaş veya uzaklaş.",
+    "keyboard": "Klavye",
+    "keyboardHint": "Evreni seç: ok tuşları hareket, + / − zoom, Home başlangıç görünümü.",
+    "return": "Geri dönüş",
+    "returnHint": "Escape paneli kapatır, yıldız odağını bırakır veya arayüze döner."
+  },
   "language": "Türkçe",
   "nav": {
     "explore": "Keşfet",
@@ -80,7 +115,8 @@
     "zoomOut": "Uzaklaştır",
     "resetView": "Görünümü sıfırla",
     "hoverHint": "YILDIZA GEL VE KEŞFET",
-    "zoomHint": "KAYDIR VE YAKINLAŞTIR"
+    "zoomHint": "KAYDIR VE YAKINLAŞTIR",
+    "cameraInstructions": "Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön."
   },
   "panel": {
     "close": "Paneli kapat",
