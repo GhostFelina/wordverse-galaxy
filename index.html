@@ -24,7 +24,8 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Wordverse","url":"https://wordverse-galaxy.vercel.app/","description":"Öğrenilen kelimeleri dil başına ayrı, yaşayan bir galakside yıldızlara dönüştüren kişisel kelime atlası.","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"tr","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"featureList":["İngilizce ve İspanyolca kelime galaksileri","Etkileşimli kelime yıldızları","Yerel veri yedeği"]}</script>
   </head>
   <body>
-    <div id="app">
+    <div id="app" data-scene-state="loading">
+      <div id="scene-loading" role="status"><span>Evrenin hazırlanıyor…</span></div>
       <canvas id="universe" tabindex="0" aria-describedby="camera-instructions" aria-label="Etkileşimli kelime evreni"></canvas>
       <p id="camera-instructions" class="sr-only">Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön.</p>
       <div class="screen-vignette" aria-hidden="true"></div>

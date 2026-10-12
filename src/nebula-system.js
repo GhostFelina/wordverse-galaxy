@@ -143,6 +143,7 @@ export function createNebulaSystem(
     pickBounds = new THREE.Box3();
   let disposed = false,
     loaded = 0;
+  let assetFailed = false;
   let highResolutionState = 'idle';
   let shaderState = 'idle';
   let qualityMode = 'auto';
@@ -175,10 +176,16 @@ export function createNebulaSystem(
     const texture = loader.load(
       !fieldStars ? record.starlessTexture.texture : compact ? record.texture : record.gasTexture.texture,
       ready,
+      undefined,
+      () => {
+        assetFailed = true;
+      },
     );
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = 1;
-    const infrared = loader.load(record.infrared.texture, ready);
+    const infrared = loader.load(record.infrared.texture, ready, undefined, () => {
+      assetFailed = true;
+    });
     infrared.colorSpace = THREE.SRGBColorSpace;
     infrared.anisotropy = 1;
 
@@ -207,7 +214,11 @@ export function createNebulaSystem(
     group.add(volume);
     return { record, group, texture, infrared, material, environment };
   });
-  const target = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false });
+  // Keep motion and settled buffers alive: wheel input must not dispose and
+  // reallocate the full-resolution framebuffer at each start/stop.
+  const motionTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false });
+  const settledTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false });
+  let target = motionTarget;
   const compositeScene = new THREE.Scene(),
     compositeCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const compositeMaterial = new THREE.ShaderMaterial({
@@ -238,6 +249,9 @@ export function createNebulaSystem(
     get ready() {
       return shaderState === 'ready';
     },
+    get failed() {
+      return assetFailed || shaderState === 'failed';
+    },
     get refined() {
       return refinedFrame;
     },
@@ -251,10 +265,20 @@ export function createNebulaSystem(
         const mask = camera.layers.mask;
         camera.layers.set(1);
         camera.layers.enable(2);
-        renderer
-          .compileAsync(scene, camera)
+        Promise.all([renderer.compileAsync(scene, camera), renderer.compileAsync(compositeScene, compositeCamera)])
           .then(() => {
-            if (!disposed) shaderState = 'ready';
+            if (disposed) return;
+            renderer.getSize(size);
+            const settledScale = qualityMode === 'low' ? 0.5 : qualityMode === 'balanced' ? 0.75 : 1;
+            for (const [buffer, scale] of [
+              [motionTarget, Math.min(renderer.getPixelRatio(), 1) * gasScale],
+              [settledTarget, settledScale],
+            ]) {
+              const width = Math.min(1920, Math.max(1, Math.round(size.x * scale)));
+              buffer.setSize(width, Math.max(1, Math.round((width * size.y) / size.x)));
+              renderer.initRenderTarget(buffer);
+            }
+            shaderState = 'ready';
           })
           .catch(() => {
             if (!disposed) shaderState = 'failed';
@@ -326,6 +350,10 @@ export function createNebulaSystem(
         node.material.uniforms.opticalLod.value = Math.max(0, Math.log2((opticalWidth * footprint) / width));
         node.material.uniforms.infraredLod.value = Math.max(0, Math.log2((2048 * footprint) / width));
       }
+      const nextTarget = resting ? settledTarget : motionTarget;
+      const switched = target !== nextTarget;
+      target = nextTarget;
+      compositeMaterial.uniforms.image.value = target.texture;
       const resized = target.width !== width || target.height !== height;
       if (resized) target.setSize(width, height);
       renderer.getClearColor(savedColor);
@@ -335,6 +363,7 @@ export function createNebulaSystem(
       const animated = nodes.some((node) => node.material.uniforms.time.value !== 0);
       if (
         !resting ||
+        switched ||
         resized ||
         !lastVolumeFrame ||
         loaded !== lastLoaded ||
@@ -474,7 +503,8 @@ export function createNebulaSystem(
       }
       geometry.dispose();
       density.dispose();
-      target.dispose();
+      motionTarget.dispose();
+      settledTarget.dispose();
       compositeGeometry.dispose();
       compositeMaterial.dispose();
     },

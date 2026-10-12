@@ -116,7 +116,8 @@
     "resetView": "Görünümü sıfırla",
     "hoverHint": "YILDIZA GEL VE KEŞFET",
     "zoomHint": "KAYDIR VE YAKINLAŞTIR",
-    "cameraInstructions": "Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön."
+    "cameraInstructions": "Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön.",
+    "sceneLoading": "Evrenin hazırlanıyor…"
   },
   "panel": {
     "close": "Paneli kapat",

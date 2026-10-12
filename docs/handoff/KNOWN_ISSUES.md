@@ -1,4 +1,10 @@
+## 2026-10-12 · 1.16.1 zoom/startup
+
+Reported wheel auto-flight reproduced and removed; first draw/load gate and framebuffer churn addressed. 5 new regressions pass, local targeted checks pass. Short synthetic RTX5060Ti first-wheel RAF p95~7.1ms; visible-user/large-universe acceptance still pending. No production promotion; use local5360 or new preview.
+
 # Bilinen sorunlar
+
+- **1.16.0 masaüstü:** başlangıç WebGL yokluğu/context loss atlas-detal-tekrar fallback ve restore kabulü sentetik2testle geçti; atlas tür/tarih/sort ve korunmuş geri dönüş aktif. Headless gerçekGPU fixture p95~7.1ms; görünür Chrome/uzun seans/5000 kayıt kabulü hâlâ açık. FSRS/kalıcı tekrar henüz yok. Mobil/giriş ertelidir. Eski fallback yapılmadı notları bu kademede tarihsel kalır.
 
 - **2026-10-12:**1.15.0 kamera/kalite/hatırlama geliştirmesi HANDOFF başındadır. Aktif1254² mip hesabı ve ikinci yıldız filtresi düzeltildi; native kaynak çözünürlüğü artmadı. Fiziksel mobil FPS/p95 ve gaz içi detay/kullanıcı kabulü açık. Kısa tekrar ephemeral; FSRS ve kalıcı tekrar geçmişi henüz yok. WebGL atlas fallback/lifecycle sıradaki iştir. Aşağıdaki eski sürüm/faz notları tarihsel olabilir.
 

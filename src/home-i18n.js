@@ -37,6 +37,7 @@ export function applyHomeTranslations(locale) {
   };
   const setAria = (selector, key) => document.querySelector(selector).setAttribute('aria-label', t(key));
   document.documentElement.lang = locale;
+  setText('#scene-loading span', 'home.sceneLoading');
   document.title = t('home.title');
   document.querySelector('meta[name="description"]').content = t('home.metaDescription');
   document.querySelector('meta[property="og:title"]').content = t('home.ogTitle');

@@ -3,6 +3,7 @@ import { createStarTransmission } from './star-nebula-transmission.js';
 import * as THREE from 'three';
 import './style.css';
 import './product-polish.css';
+import './scene-loading.css';
 import { createRenderQuality } from './render-quality.js';
 import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.js';
 import { mountSceneControls } from './scene-controls.js';
@@ -74,7 +75,7 @@ const experience = createExperienceMode({ guestCount: universe.words.length, onC
 function syncRenderLoop() {
   lastCameraMs = 0;
   renderQuality?.resetTiming();
-  renderer?.setAnimationLoop(document.readyState === 'complete' && catalogReady && graphicsFallback?.available && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
+  renderer?.setAnimationLoop(catalogReady && graphicsFallback?.available && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
 }
 window.addEventListener('load', syncRenderLoop, { once: true });
 function applyExperience(state) {
@@ -95,6 +96,7 @@ function applyExperience(state) {
   // Clear the previous identity immediately; allow rapid UI transitions to settle
   // before compiling a scene that may already have been replaced.
   renderer?.clear();
+  app.dataset.sceneState = 'loading';
   sceneWakeAt = performance.now() + 150;
   focusedStarId = selectedId = null;
   closePanels();
@@ -273,6 +275,13 @@ function animate(ms) {
   if (document.querySelector('dialog[open]')) { lastCameraMs = 0; sceneWakeAt = performance.now() + 150; return; }
   if (performance.now() < sceneWakeAt) return;
   if (!renderer) return;
+  if (nebulaSystem.failed) { graphicsFallback.setAvailable(false); syncRenderLoop(); return; }
+  // Compile every scene material (including close stellar LODs) before the first
+  // visible draw. The static opening remains visible while the GPU warms up.
+  if (!nebulaSystem.ready) {
+    nebulaSystem.render(renderer);
+    return;
+  }
   const fpsMonitor = $('#fps-monitor');
   if (!fpsMonitor.hidden) {
     fpsFrames++;
@@ -290,7 +299,7 @@ function animate(ms) {
   renderQuality.sample(cameraDelta);
   // Preserve at least one rendered pixel per CSS pixel after volume refinement.
   if (renderQuality.mode === 'auto' && nebulaSystem.refined && renderer.getPixelRatio() < 1) renderer.setPixelRatio(Math.min(devicePixelRatio, 1));
-  const planeDamping = 1-Math.exp(-cameraDelta*.0028);
+  const planeDamping = 1-Math.exp(-cameraDelta*.0036);
   const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
   camera.position.x += (targetX-camera.position.x)*planeDamping;
   camera.position.y += (targetY-camera.position.y)*planeDamping;
@@ -352,6 +361,7 @@ function animate(ms) {
   $('#universe').dataset.starApproach = target ? starApproach(camera.position.z-target.position.z,MAX_ZOOM-target.position.z).toFixed(3) : '0';
   renderer.render(scene, camera);
   nebulaSystem.render(renderer);
+  if (nebulaSystem.loaded) $('#app').dataset.sceneState = 'ready';
   $('#universe').dataset.nebulaRefined = String(nebulaSystem.refined);
   $('#universe').dataset.nebulaGasResolution = nebulaSystem.gasResolution.join('x');
   drawCalls = renderer.info.render.calls;
@@ -784,16 +794,24 @@ function bindUI() {
     const raw=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
     const delta=Math.max(-180,Math.min(180,raw))*.3;
     const direction=Math.sign(delta);
-    if((lastWheelDirection && direction!==lastWheelDirection) || (Math.abs(zoom+catalogDepth-camera.position.z)>.2 && Math.sign(zoom+catalogDepth-camera.position.z)!==direction)) zoom=Math.max(MIN_ZOOM,camera.position.z-catalogDepth);
+    if((lastWheelDirection && direction!==lastWheelDirection) || (Math.abs(zoom+catalogDepth-camera.position.z)>.2 && Math.sign(zoom+catalogDepth-camera.position.z)!==direction)) {
+      zoom=Math.max(MIN_ZOOM,camera.position.z-catalogDepth);
+      if (!focusedStarId && !travelingNebula) {
+        // Reverse the current pose, including its cursor anchor, rather than
+        // retaining the unfinished pan from the previous zoom destination.
+        pan.x = camera.position.x; pan.y = camera.position.y;
+        pointer.x = pointer.y = 0;
+      }
+    }
     lastWheelDirection=direction;
+    const wheelStar = e.target.closest('.star-hit')?.dataset.wordId;
+    if (wheelStar && worldStars.has(wheelStar)) selectedId = wheelStar;
     if(worldStars.has(selectedId)) {
       if(activePanel)closePanels();
       zoomWordTarget(Math.exp(delta*.00145));return;
     }
-    if(delta<0&&!focusedStarId) {
-      const record=nebulaSystem?.pick((e.clientX/innerWidth-.5)*2,(.5-e.clientY/innerHeight)*2);
-      if(record&&record.id!==travelingNebula)travelToNebula(record);
-    }
+    // Nebula flight is an explicit selection. A plain wheel gesture must never
+    // switch depth scales or re-center on a different object under the pointer.
     if(travelingNebula) {
       setZoom(zoom*Math.exp(delta*.001));
       const record=nebulaSystem.records[0],steering=Math.min(zoom,record.radius)*.09;

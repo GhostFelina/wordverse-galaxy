@@ -116,7 +116,8 @@
     "resetView": "Reset view",
     "hoverHint": "HOVER OVER A STAR TO EXPLORE",
     "zoomHint": "SCROLL TO ZOOM",
-    "cameraInstructions": "Scroll to zoom. Drag to move. Touch: pinch with two fingers. Keyboard: arrow keys to move, + and − to zoom, Home to reset, Escape to return."
+    "cameraInstructions": "Scroll to zoom. Drag to move. Touch: pinch with two fingers. Keyboard: arrow keys to move, + and − to zoom, Home to reset, Escape to return.",
+    "sceneLoading": "Preparing your universe…"
   },
   "panel": {
     "close": "Close panel",

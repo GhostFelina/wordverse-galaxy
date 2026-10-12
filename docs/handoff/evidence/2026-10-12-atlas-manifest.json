@@ -21,5 +21,36 @@
   },
   "hashKind": "SHA256 of Windows working bytes before commit; Git may normalize text line endings",
   "capture": "Playwright collection-atlas and graphics-fallback specs; scene ready required before atlas captures",
-  "limits": "Injected canvas initialization failure/context loss; not physical device acceptance or measured GPU p95"
+  "limits": "Injected canvas initialization failure/context loss; not physical device acceptance or measured GPU p95",
+  "applicationCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+  "gitBlobIds": {
+    "src/main.js": "52d62b29b94a2a83420886cbb71986ba43243ef8",
+    "src/collection-atlas.js": "87052deb47c9e507fc547e4b6314c08ad191f2e0",
+    "src/collection-atlas.css": "97593e12008bdf1ce7dea5988b7776a37e458690",
+    "src/graphics-fallback.js": "910fffb23106cc8b16ea622c6657fff3bff1ffb5",
+    "src/graphics-fallback.css": "27dfe3e121d47827489816449a9d1cca0e31ac9c",
+    "src/stellar-preview.js": "8d945c743f2c84305310a62732df65a2cb0cd221",
+    "tests/collection-atlas.test.js": "4da8a0f515024f847e86e7883598471f2c5ea619",
+    "e2e/collection-atlas.spec.js": "9b17ddce645e27972cab1261a65e676225f90a56",
+    "e2e/graphics-fallback.spec.js": "55b6f5cad857c0c1e41d68c949db30d882492c11"
+  },
+  "preview": {
+    "url": "https://wordverse-galaxy-54l4qhw44-mustafas-projects-92e683a9.vercel.app",
+    "target": "preview",
+    "apiTarget": "staging",
+    "status": "READY",
+    "commit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+    "deployment": "dpl_DxzG7xBJNXkFwoY2cACEgZoR1g2h",
+    "framework": "vite",
+    "httpStatus": 200,
+    "runtime": "HTML/JS/CSS authenticated HTTP200 and local build SHA256 match; interactive preview and account acceptance not tested"
+  },
+  "previewBundleHashes": {
+    "main-DQUiiuXP.js": "803049d814cc8bd4c0a9398c4ecaa733d48f8b1f2666c353543b1d6d340e6b5e",
+    "main-BVSpb9FC.css": "60c48dc585c3fd43688519fb804c68a3fe46c0661c6da0a04fc13af1cff47108"
+  },
+  "performanceReports": [
+    "2026-10-12-desktop-frame-times.json",
+    "2026-10-12-desktop-d3d11-frame-times.json"
+  ]
 }

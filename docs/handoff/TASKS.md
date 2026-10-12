@@ -5,13 +5,22 @@
 
 # Görevler
 
+## 1.16.1 zoom/açılış
+
+- [x] Gerçek wheel otomatik Orion uçuşunu yeniden üret, cursor/word hedefini düzelt.
+- [x] Kalıcı hareket/sabit gaz tamponları ve ilk shader/composite hazırlığı.
+- [x] Görünür soğuk açılış, load engeli kaldırma, asset failure atlas fallback.
+- [x] Zoom/açılış5 yeni regression, mevcut graphics/stellar/camera/Orion/identity hedefleri.
+- [ ] Tam102 remote CI/preview ve kullanıcı masaüstü kabulü.
+
+
 ## 1.16.0 masaüstü atlas
 
 - [x] Masaüstü atlas tür filtreleri, tarih/alfabetik sıralama, arama temizleme ve boş sonuçtan dönüş.
 - [x] Tarihli serif kayıt satırları, kompakt toolbar;1024/1280/1440 kanıt.
 - [x] Detaydan atlas durumuna dönüş; owner/galaksi query sıfırlama.
 - [x] Başlangıç WebGL yokluğu ve context loss/restore sırasında atlas/detay/tekrar; sentetik2hedefli kabul.
-- [ ] Son97remote gate ve1.16preview.
+- [x] Son97remote gate Check38220855746 SUCCESS (5a00d01) ve1.16preview READY.
 - [ ] Gerçek masaüstüGPU p95, U2 görsel kabulü; kalıcı tekrar tasarımı.
 
 

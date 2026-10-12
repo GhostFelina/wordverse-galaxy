@@ -116,7 +116,8 @@
     "resetView": "Restablecer vista",
     "hoverHint": "ACÉRCATE A UNA ESTRELLA PARA EXPLORAR",
     "zoomHint": "DESPLÁZATE PARA ACERCAR",
-    "cameraInstructions": "Desplaza para acercarte o alejarte. Arrastra para moverte. Táctil: usa dos dedos. Teclado: flechas para moverte, + y − para acercarte, Home para restablecer, Escape para volver."
+    "cameraInstructions": "Desplaza para acercarte o alejarte. Arrastra para moverte. Táctil: usa dos dedos. Teclado: flechas para moverte, + y − para acercarte, Home para restablecer, Escape para volver.",
+    "sceneLoading": "Preparando tu universo…"
   },
   "panel": {
     "close": "Cerrar panel",

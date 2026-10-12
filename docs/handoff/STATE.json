@@ -54,31 +54,49 @@
     "localBrowserTests": 92,
     "integrationVerification": "Son kaynak123unit/lint/typecheck/build/format/release geçti. Son genel38tarayıcı (atlas3+graphics2+camera8+smoke25)1.5m geçti; sahne hazır beklemesi sonrası atlas3/3 (14.7s) kanıt yenilendi. Önceki10hedefli atlas/grafik/yıldız turu54.6s geçti. Tam97remote gate push sonrası izlenir; eski92remote başarı8ad9614’e aittir.",
     "preview": {
-      "url": "https://wordverse-galaxy-8fjwb7hcv-mustafas-projects-92e683a9.vercel.app",
+      "url": "https://wordverse-galaxy-54l4qhw44-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
       "apiTarget": "staging",
       "status": "READY",
-      "commit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
-      "deployment": "dpl_B9xWu5dnZA5RzNMJEBkT89XDNpUB",
+      "commit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+      "deployment": "dpl_DxzG7xBJNXkFwoY2cACEgZoR1g2h",
       "framework": "vite",
-      "runtime": "Protected runtime not tested"
+      "httpStatus": 200,
+      "runtime": "HTML/JS/CSS authenticated HTTP200 and local build SHA256 match; interactive preview and account acceptance not tested"
     },
-    "remainingCurrentWork": "Finish1.16 validation/preview; desktop hardware p95 and U2 visual acceptance; persistent recall/offline/owner design. Mobile/login deferred.",
+    "remainingCurrentWork": "1.16.1 CI/preview, user desktop zoom/startup acceptance, U2 visual acceptance and persistent recall",
     "navigationRequirement": "Perspective drag, selected-target pinch, canvas keyboard and real immersive entry implemented; camera5/5 targeted. Real touch device and whole U3 acceptance pending.",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
-    "remoteBrowserTests": 92,
+    "remoteBrowserTests": 97,
     "localFinalTargetedTests": 38,
-    "currentUserTask": "Desktop browser product and visual aesthetics; login/account and mobile deferred by user",
+    "currentUserTask": "Fix zoom disappearing stars, drifting focus, first wheel hitch and cold black opening; desktop only, login/mobile deferred",
     "research": "docs/handoff/STAR_REFERENCE_PLAN.md",
-    "suiteBrowserTests": 97
+    "suiteBrowserTests": 102,
+    "desktopFrameTimes": {
+      "hardware": "NVIDIA RTX5060Ti reported by WebGL",
+      "browser": "Chrome154/headless/ANGLE-D3D11",
+      "viewport": "1440x900",
+      "p95Ms": 7.1,
+      "durationPerShotMs": 5000,
+      "report": "docs/handoff/evidence/2026-10-12-desktop-d3d11-frame-times.json",
+      "acceptance": "Synthetic fixture only; visible user browser and large archives pending"
+    },
+    "zoomStartup": {
+      "version": "1.16.1",
+      "plainWheel": "explicit nebula flight only, hover word target, matched damping",
+      "opening": "static Orion/loading, no global window-load gate, preserve unresolved owner isolation",
+      "graphics": "compile scene/composite before visible draw; two persistent gas targets; failed assets atlas fallback",
+      "hardwareEvidence": "docs/handoff/evidence/2026-10-12-first-wheel-d3d11.json",
+      "remoteStatus": "pending"
+    }
   },
-  "developmentVersion": "1.16.0",
+  "developmentVersion": "1.16.1",
   "checkpoint": {
     "date": "2026-10-12",
-    "session": "docs/handoff/sessions/2026-10-12-desktop-atlas.md",
-    "version": "1.16.0",
+    "session": "docs/handoff/sessions/2026-10-12-zoom-startup.md",
+    "version": "1.16.1",
     "deploymentTarget": "preview",
-    "applicationCommit": "pending next application checkpoint",
+    "applicationCommit": "pending-next-commit",
     "privateData": "Synthetic evidence only; real browser inspected without exports"
   },
   "production": {

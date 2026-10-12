@@ -1,14 +1,28 @@
 # Devir durumu
 
+## Zoom ve açılış düzeltmeleri · 2026-10-12 · 1.16.1
+
+Son kullanıcı önceliği: zoom yıldızları kaybediyor, kadraj başka yere kayıyor, ilk tekerlek takılıyor ve açılış siyah/boş görünüyor. Gerçek 5360 Chrome'da ilk wheel (0.2 page) target160→-40.38, x0→116.34 görüldü; seçili yıldız yokken Orion pick otomatik uçuşu farklı derinlik ölçeğine geçiriyordu.
+
+- Plain wheel artık bulutsu seçmez; uçuş yalnız açık Orion seçimiyle başlar. Tekerlek doğrudan kelime yıldızının üzerindeyse o kayda kilitlenir; panel açılmaz. Pan/zoom damping aynı, cursor kadrajı yaklaşım boyunca tutarlı. Gerçek Chrome son gözlem: target160→148.53, x~3.40 ilk hareket; yıldızlar görünür. Kayıt/koordinat/owner değişimi yok.
+- Gaz hareket ve sabit kadraj tamponları ayrı, kalıcı ve önceden initialize edilir. Sahne + composite + yakın stellar materyalleri ilk görünür kareden önce compileAsync ile hazırlanır. Kalite/viewport değişimi gerekirse tampon boyutu yine değişebilir; hiç allocation yok iddiası değildir.
+- Başlangıçta aynı yıldızsız Orion ile statik görsel ve TR/EN/ES hazırlık durumu görünür. Render bütün window load'unu beklemez; unrelated image bloklanırken sahne çalışır. Owner çözülmeden kişisel GPU/içerik hâlâ kapalı. Shader/sky asset başarısızsa atlas fallback; sonsuz siyah yükleme yerine görünür erişim. Login/mobil geliştirilmedi.
+- Son kaynak123unit/lint/typecheck/build/format/release geçti. İlk10zoom/graphics/stellar (53.9s),17camera/experience/Orion (1.2m), son sky-failure ilavesinden sonra6zoom/graphics (23.2s), ardından hızlı reversal düzeltmesiyle5zoom/startup geçti. Tam102remote gate sonraki push için beklenir; eski97 başarı aşağıdaki5a00d01'e aittir.
+- Sentetik gerçek GPU ölçümü: Chrome/headless/ANGLE-D3D11 RTX5060Ti,1440×900, ilk wheel -180 sonrası2s RAF288kare,p95~7.1ms/max~12.9ms,errors0, kayıtlar aynı, yıldız görünür. Buffer allocation sayacı2→3; otomatik kalite yükselmesi de ölçüm içindedir. GPU timer query veya bütün donanımlarda takılma yok kabulü değildir. evidence/2026-10-12-first-wheel-d3d11.json ve zoom-fixed-1440.png. Özel kullanıcı kayıt/ekranları dışa aktarılmadı.
+- Sıradaki:1.16.1 CI/preview sonucu ve masaüstü kullanıcı zoom/açılış kabulü → U2 görsel kabulü/kalıcı tekrar. Preview-only; production1.14.1 değişmez. Kapalı katalogları açma.
+
+
 ## Masaüstü atlas geliştirmesi · 2026-10-12 · 1.16.0
 
 Kullanıcı devam istedi; masaüstü ürün/görsel önceliği sürer, mobil/giriş ertelidir. Atlas500–620px, daha kompakt başlık ve arama, serif kayıt adları, küçük dört uçlu ışıklar, kayıt tarihleri ve sakin ayırıcılar. Tümü/kelimeler/bağlaçlar filtresi; gerçek createdAt'a göre en yeni/en eski ve doğal alfabetik sıralama. NFC ve locale-aware kelime/anlam araması. Filtre/sort/search ephemeral, öğrenme deposuna yazılmaz. Kaydı açınca Atlasa dön aynı filtre/sort'u korur; owner/aktif galaksi değişiminde sıfırlanır.
 
 - WebGL başlangıç hatası veya ana context loss: masaüstü kalıcı ve sade atlas erişimi; immersive güvenli çıkış, kamera eylemleri kapalı, atlas/detay/tekrar kullanılabilir. Restore sonrası aynı sahne devam eder; kullanıcı kayıtları değişmez. Yeni mobil arayüz yok. Preview context kayıpken visibility yeniden çizimi de engellendi.
-- Son kaynak123unit/lint/typecheck/build/format/release geçti. Son genel38tarayıcı (atlas3+graphics2+camera8+smoke25)1.5m geçti; sahne hazır beklemesi sonrası atlas3/3 (14.7s) kanıt yenilendi. Önceki10hedefli atlas/grafik/yıldız turu54.6s geçti. Tam97remote gate push sonrası izlenir; eski92remote başarı8ad9614’e aittir.
+- Son kaynak123unit/lint/typecheck/build/format/release geçti. Son genel38tarayıcı (atlas3+graphics2+camera8+smoke25)1.5m geçti; sahne hazır beklemesi sonrası atlas3/3 (14.7s) kanıt yenilendi. Önceki10hedefli atlas/grafik/yıldız turu54.6s geçti. Remote Check38220855746 SUCCESS:123unit/97e2e(8.0m) ve diğer kapılar; source5a00d01. Eski92remote başarı8ad9614’e aittir.
 - Kanıtlar: atlas1440TR/1280EN/1024ES; grafik yokken1440sentetik. Gerçek5360 Chrome atlas/filtre manuel incelendi; özel ekran/kayıt dışa aktarılmadı.
+- Uygulama5a00d01. [1.16.0 preview](https://wordverse-galaxy-54l4qhw44-mustafas-projects-92e683a9.vercel.app) READY;aynı Git SHA/project doğrulandı. Mevcut Vercel CLI auth ileHTML/JS/CSS HTTP200; ana JS/CSS SHA256 yerel derlemeyle eşleşti. İnteraktif preview/hesap kabulü yapılmadı.
+- Masaüstü sentetik frame-time kanıtı:1440×900,3kadraj×5s/2s warmup; hareketli gaz ve12/1kelime yıldızı. Default Chromium153 SwiftShader:genel/yan p95~16.8ms, yakın~33.4ms. Ayrı ephemeral Chrome154 ANGLE/D3D11, WebGL renderer NVIDIA RTX5060Ti:üç kadraj p95~7.1ms (~144RAF/s), errors0/storage0. Browser profile/headless fixture; GPU timer query değildir, görünür kullanıcı Chrome/5000kayıt/uzun seans kabulü değildir. İki JSON evidence içinde; tarayıcı ayarı kalıcı değiştirilmedi.
 - Preview hedefi; production1.14.1/main/tag değişmedi. U2 görsel kabulü açık. Renderer fallback kabulü gerçekGPU p95 veya donanım kabulü değildir.
-- Sıradaki: remote97gate/preview → gerçek masaüstüGPU p95 ve görsel kabul → kalıcı tekrar/offline/owner tasarımı. Kapalı katalogları yeniden açma.
+- Sıradaki: son kullanıcı zoom/açılış sorunları (üst bölüm) → gerçek masaüstüGPU p95 ve görsel kabul → kalıcı tekrar/offline/owner tasarımı. Kapalı katalogları yeniden açma.
 
 
 ## Masaüstü görsel geliştirme · 2026-10-12 · 1.15.1
