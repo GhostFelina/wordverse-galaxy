@@ -72,6 +72,7 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
     if (m.type() === 'error') errors.push(m.text());
   });
   await open(page);
+  test.setTimeout(60000);
   const canvas = page.locator('#universe');
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
   await expect(canvas).toHaveAttribute('data-sky-event', '');
@@ -94,6 +95,11 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
   await page.locator('#universe-mode').click();
   await expect(page.locator('#sky-launcher summary')).toBeVisible();
   await page.locator('#sky-launcher summary').click();
+  await expect(page.locator('#living-sky')).toHaveAttribute('aria-pressed', 'false');
+  await page.locator('#living-sky').click();
+  await expect(canvas).toHaveAttribute('data-living-sky', 'true');
+  await page.locator('#living-sky').click();
+  await expect(canvas).toHaveAttribute('data-living-sky', 'false');
   await page.locator('[data-sky-quick="kilonova"]').click();
   await expect(canvas).toHaveAttribute('data-sky-event', 'kilonova');
   await expect(page.locator('#sky-launcher')).not.toHaveAttribute('open', '');
@@ -109,10 +115,13 @@ test('nebula depth slider, wheel reversal and buttons share one stable cruise', 
   await expect(page.locator('#nebula-navigation')).toBeVisible();
   await page.locator('#nebula-depth').fill('50');
   await expect
-    .poll(async () =>
-      Math.abs(
-        Number(await canvas.getAttribute('data-camera-z')) - Number(await canvas.getAttribute('data-camera-target-z')),
-      ),
+    .poll(
+      async () =>
+        Math.abs(
+          Number(await canvas.getAttribute('data-camera-z')) -
+            Number(await canvas.getAttribute('data-camera-target-z')),
+        ),
+      { timeout: 15000 },
     )
     .toBeLessThan(2);
   const x = Number(await canvas.getAttribute('data-camera-x'));
@@ -256,6 +265,7 @@ test('a stalled initial auth refresh opens guest learning and a late expired-ses
 test('Orion presents every active-galaxy word inside the cloud, focuses it there and restores stored coordinates', async ({
   page,
 }) => {
+  test.setTimeout(60000);
   await page.addInitScript(() => {
     const createdAt = '2026-10-12T09:00:00Z';
     localStorage.setItem(
@@ -295,10 +305,13 @@ test('Orion presents every active-galaxy word inside the cloud, focuses it there
   await expect(canvas).toHaveAttribute('data-nebula-flight', 'true');
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(-500);
   await expect
-    .poll(async () =>
-      Math.abs(
-        Number(await canvas.getAttribute('data-camera-target-z')) - Number(await canvas.getAttribute('data-camera-z')),
-      ),
+    .poll(
+      async () =>
+        Math.abs(
+          Number(await canvas.getAttribute('data-camera-target-z')) -
+            Number(await canvas.getAttribute('data-camera-z')),
+        ),
+      { timeout: 15000 },
     )
     .toBeLessThan(0.05);
   await page.mouse.move(720, 450);

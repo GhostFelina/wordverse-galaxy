@@ -82,6 +82,9 @@ try {
   await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
   await expect(page.locator('#universe')).toHaveAttribute('data-nebula-refined', 'true');
   await page.evaluate(() => document.fonts.ready);
+  await page.locator('#sky-launcher summary').click();
+  await page.locator('#living-sky').click();
+  await page.locator('#sky-launcher summary').click();
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
   await page.screenshot({ path: 'docs/images/wordverse-desktop.png' });
   await page.locator('#enter-nebula').click();
@@ -183,10 +186,10 @@ try {
     JSON.stringify(
       {
         date: '2026-10-12',
-        version: '1.20.0',
+        version: '1.21.0',
         viewport: '1440x900',
         records: 'Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed',
-        renderer: 'Production modules, Chromium, reduced motion',
+        renderer: 'Production modules, Chromium, reduced motion; living sky disabled for reproducible manual stills',
         card: '1080x1080 PNG; selected synthetic word only, meaning omitted',
         social: '1200x630 PNG, original branded composition, synthetic production scene',
         astronomy: 'Artistic procedural experiences; Orion guidance credits in ATTRIBUTIONS.md',

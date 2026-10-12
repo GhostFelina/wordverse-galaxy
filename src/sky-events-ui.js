@@ -1,7 +1,7 @@
 import { translate } from './i18n.js';
 import './sky-events.css';
 
-export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion }) {
+export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, reducedMotion }) {
   const t = (key) => translate(locale, `sky.${key}`);
   const heading = document.createElement('h3');
   heading.textContent = t('title');
@@ -43,7 +43,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
   const quickList = document.createElement('div');
   quickList.className = 'sky-event-options sky-quick-options';
   const quickButtons = new Map();
-  for (const kind of ['blackhole', 'kilonova', 'supernova', 'meteor', 'none']) {
+  for (const kind of ['blackhole', 'supernova', 'kilonova', 'meteor', 'none']) {
     const button = document.createElement('button');
     button.type = 'button';
     button.dataset.skyQuick = kind;
@@ -57,6 +57,15 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
     quickButtons.set(kind, button);
   }
   launcher.append(summary, quickList);
+  const live = document.createElement('button');
+  live.type = 'button';
+  live.id = 'living-sky';
+  live.setAttribute('aria-pressed', 'true');
+  live.textContent = t('livingOn');
+  live.addEventListener('click', () => onLiveChange(live.getAttribute('aria-pressed') !== 'true'));
+  const liveHint = document.createElement('p');
+  liveHint.textContent = t('livingHint');
+  quickList.append(live, liveHint);
   document.querySelector('#app').append(launcher);
   launcher.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -70,7 +79,11 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
   });
   let previous;
   return {
-    update({ kind }) {
+    update({ kind, living }) {
+      if (typeof living === 'boolean') {
+        live.setAttribute('aria-pressed', String(living));
+        live.textContent = t(living ? 'livingOn' : 'livingOff');
+      }
       if (previous === kind) return;
       previous = kind;
       for (const [id, button] of buttons) button.setAttribute('aria-pressed', String((kind || 'none') === id));

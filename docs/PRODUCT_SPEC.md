@@ -12,8 +12,8 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 - Visible scene preparation and atlas fallback when graphics/assets fail. Explicit Orion flight, cursor-local wheel zoom and selected-star safe approach.
 
 - Local1080px square/portrait star-card export, explicit meaning inclusion, no account/record metadata or automatic posting.
-- Optional artistic sky experiences, reduced-motion stills and explicit termination. Orion cruise has a shared wheel/button depth scale and progress slider.
-- Optional original spatial/stereo audio: no automatic playback, gesture activation, volume control, background-tab suspension, scene-depth/focus transitions and successful word-creation cues. No audio data contains record text or metadata.
+- Ephemeral artistic sky experiences with a restrained session-only shuffled director, manual-selection priority, quiet mode and reduced-motion stills. New automatic events wait during learning panels and stellar focus. Orion cruise has a shared wheel/button depth scale and progress slider.
+- Optional original spatial/stereo audio: no automatic playback, gesture activation, volume control, background-tab suspension, scene-depth/focus transitions and distinct durable creation/edit/delete cues. No audio data contains record text or metadata.
 
 - Explicit Orion entry fits all active-galaxy word stars into a reversible presentation frame, preserving stored coordinates and relative directions. Stellar approach uses the same presentation positions; return restores the home view.
 - Creation-date spectra use compressed artistic stages and a smooth minute tone. No physical mass/lifetime claim or automatic word-star death.

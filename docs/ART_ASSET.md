@@ -16,7 +16,7 @@ Scene, detail preview and PNG card use the same stellar surface and record seed.
 
 ## Sky experiences
 
-Meteor streak, supernova shell, neutron-star merger and illustrative black-hole disk are original procedural GLSL, with no external video/audio asset. They start only on explicit selection. Reduced motion produces a representative still. The black-hole illustration does not ray trace the surrounding scene or simulate orbital dynamics. Meteors occur in atmospheres; the overlay does not imply an atmospheric event inside Orion.
+Meteor streak, supernova shell, neutron-star merger and illustrative black-hole disk are original procedural GLSL, with no external video/audio asset. A session-only director sequences finite events with quiet intervals; manual selection takes priority and quiet mode disables automatic direction. Reduced motion produces a representative still. The black-hole illustration does not ray trace the surrounding scene or simulate orbital dynamics. Meteors occur in atmospheres; the overlay does not imply an atmospheric event inside Orion.
 
 ## Legacy assets
 

@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-12",
+  "source": "1.21.0 working tree",
+  "browser": "154.0.8037.98",
+  "launch": {
+    "channel": "chrome",
+    "headless": true,
+    "args": [
+      "--use-angle=d3d11"
+    ]
+  },
+  "reference": "https://github.com/google/angle/blob/main/doc/DebuggingTips.md",
+  "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "rendering": "hardware reported by WebGL",
+  "viewport": "1440x900",
+  "durationPerShotMs": 5000,
+  "warmupMs": 2000,
+  "scene": "Production modules in isolated synthetic word-star fixture, moving gas, general12stars/close1star; no user records",
+  "metric": "RAF frame interval; includes scheduler/display pacing, not GPU timer-query execution time",
+  "samples": [
+    {
+      "shot": "general",
+      "frames": 719,
+      "p50Ms": 7,
+      "p95Ms": 7.099999999999909,
+      "p99Ms": 7.100000000000364,
+      "averageFps": 143.8546647726135
+    },
+    {
+      "shot": "close",
+      "frames": 719,
+      "p50Ms": 7,
+      "p95Ms": 7.100000000000364,
+      "p99Ms": 7.100000000000364,
+      "averageFps": 143.8575430172069
+    },
+    {
+      "shot": "nebula-inside",
+      "frames": 720,
+      "p50Ms": 6.900000000001455,
+      "p95Ms": 7.099999999998545,
+      "p99Ms": 7.100000000002183,
+      "averageFps": 143.8532696649417
+    }
+  ],
+  "errors": [],
+  "storageKeys": 0,
+  "limits": "Headless Chromium fixture; not visible user Chrome acceptance, user-universe benchmark or 5000-star budget"
+}

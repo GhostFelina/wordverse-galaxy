@@ -55,6 +55,16 @@
 .sky-quick-options button {
   min-height: 44px;
 }
+.sky-quick-options #living-sky,
+.sky-quick-options p {
+  grid-column: 1 / -1;
+}
+.sky-quick-options p {
+  color: #94a9c8;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.6;
+}
 .sky-quick-options [data-sky-quick='kilonova'] {
   grid-column: 1 / -1;
 }

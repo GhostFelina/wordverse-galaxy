@@ -140,7 +140,7 @@ test('cold opening shows preparation and renders stars before unrelated slow ima
     await expect(page.locator('#scene-loading')).toHaveText('Preparando tu universo…');
     await expect(page.locator('#hero')).toBeVisible();
     release();
-    await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
+    await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready', { timeout: 15000 });
     expect(await page.evaluate(() => document.readyState)).not.toBe('complete');
     await expect(page.locator('[data-word-id="zoom-w"]')).toBeVisible();
     await expect(page.locator('#scene-loading')).toBeHidden();

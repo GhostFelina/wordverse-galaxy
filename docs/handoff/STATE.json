@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.20.0",
-  "activeWork": "Living randomized sky direction and durable word edit/delete audio",
+  "developmentVersion": "1.21.0",
+  "activeWork": "Varied sky placement and new events; visible distant spectra/scintillation and interior gas refinement",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -38,7 +38,7 @@
       "status": "success",
       "version": "1.18.0"
     },
-    "localUnitTests": 141,
+    "localUnitTests": 144,
     "suiteBrowserTests": 115,
     "userVisualAcceptance": "pending",
     "preview": {
@@ -120,12 +120,24 @@
       "audio": "Original HRTF birth/event cues, stereo speakers,4.8s filtered reverb/predelay, bounded output",
       "navigation": "Visible immersive sky launcher; direct entry opens unobstructed scene",
       "evidence": "docs/handoff/evidence/2026-10-12-orion-quality-manifest.json",
-      "remote": "pending"
+      "remote": {
+        "run": 38257361858,
+        "commit": "20981735f0f03bc0bd60c8fef875fa6521c2f115",
+        "status": "failure:113/115 browser, software-GPU focus/startup exceeded5s; precise assertions preserved and waits extended in1.21"
+      }
+    },
+    "livingSky": {
+      "version": "1.21.0",
+      "status": "Complete local144unit/115browser10.1m, format/release/audit/24Go pass",
+      "evidence": "docs/handoff/evidence/2026-10-12-living-quality-manifest.json",
+      "remote": "pending",
+      "director": "Session-only randomized timing/shuffled finite events, manual priority, quiet mode",
+      "audio": "Distinct durable edit/delete cues; original birth retained"
     }
   },
   "checkpoint": {
-    "version": "1.20.0",
-    "applicationCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+    "version": "1.21.0",
+    "applicationCommit": null,
     "deploymentTarget": "preview",
     "date": "2026-10-12"
   },

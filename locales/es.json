@@ -590,7 +590,10 @@
     "return": "← Volver a mis estrellas",
     "enter": "✧ Entrar en Orión",
     "wheelHint": "Desplaza hacia adelante para entrar en la nube; hacia atrás para alejarte.",
-    "kilonova": "Fusión de estrellas de neutrones"
+    "kilonova": "Fusión de estrellas de neutrones",
+    "livingOn": "Cielo vivo · activado",
+    "livingOff": "Cielo vivo · desactivado",
+    "livingHint": "Los eventos aleatorios se suceden con pausas tranquilas. Tu elección tiene prioridad; el audio solo suena al activarlo."
   },
   "share": {
     "open": "Tarjeta estelar",

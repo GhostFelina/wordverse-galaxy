@@ -1,3 +1,4 @@
+import { createLivingSky } from './living-sky.js';
 import { createOrionStarField } from './orion-star-field.js';
 import { placeWordStar, starApproach } from './word-star-placement.js';
 import { stellarSpectrum } from './stellar-evolution.js';
@@ -77,6 +78,7 @@ let nebulaSystem, nebulaUI, travelingNebula = null;
 let renderQuality;
 let skyEvents, skyEventsUI, nebulaNavigation, soundscape;
 let lastSoundUpdate = 0;
+let livingSky;
 let catalogReady = false;
 let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
@@ -106,6 +108,7 @@ function applyExperience(state) {
   experienceKey = key;
   stellarPreview.hide();
   wordCard.invalidate();
+  livingSky?.reset();
   skyEvents?.select(null); skyEventsUI?.update({ kind: null });
   soundscape?.event(null); soundscape?.update({});
   leaveOrionField();
@@ -239,11 +242,13 @@ function initScene() {
   } });
   mountSceneControls({ locale: uiLocale, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
   soundscape = mountSoundscape({ locale: uiLocale, container: document.querySelector('.scene-controls-content') });
+  livingSky = createLivingSky();
   skyEvents = createSkyEvents({ reducedMotion });
   skyEvents.warm(renderer).catch(() => { /* Optional sky illustrations may be unavailable. */ });
   skyEventsUI = mountSkyEventsUI({ locale: uiLocale, reducedMotion,
     container: document.querySelector('.scene-controls-content'),
-    onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
+    onLiveChange(enabled) { const automatic = !!livingSky.active; livingSky.setEnabled(enabled); if (!enabled && automatic) { skyEvents.select(null); soundscape.event(null); } skyEventsUI.update({...skyEvents.snapshot(),living:enabled}); },
+    onSelect(kind) { livingSky.manual(kind); skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
   });
   nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
     onEnter() { if (nebulaSystem?.ready) { closePanels(); if (!$('#app').classList.contains('immersive')) $('#universe-mode').click(); travelToNebula(nebulaSystem.records[0]); $('#universe').focus({ preventScroll: true }); } },
@@ -274,6 +279,10 @@ function initScene() {
   wordStarSystem = createWordStarSystem(wordGroup);
   rebuildWordStars();
   // Start the GPU loop after catalog initialization to avoid starving cold module loads.
+}
+function soundPosition(id) {
+  const position = worldStars.get(id)?.position;
+  return position && camera ? [Math.max(-8,Math.min(8,(position.x-camera.position.x)/100)),Math.max(-8,Math.min(8,(position.y-camera.position.y)/100)),Math.max(-16,Math.min(-.2,(position.z-camera.position.z)/100))] : undefined;
 }
 function spawnBirth(id) {
   if (worldStars.has(id) && !reducedMotion) births.push({ id, start: clock });
@@ -413,10 +422,14 @@ function animate(ms) {
   const target = focusedStarId ? worldStars.get(focusedStarId) : null;
   $('#universe').dataset.starApproach = target ? starApproach(camera.position.z-target.position.z,MAX_ZOOM-target.position.z).toFixed(3) : '0';
   renderer.render(scene, camera);
-  const skyState = skyEvents.update(cameraDelta*.001, camera.aspect, camera);
+  const directed = livingSky.tick(cameraDelta*.001,skyEvents.snapshot().kind,!!activePanel || !!focusedStarId);
+  if (directed) { skyEvents.select(directed.kind); soundscape.event(directed.kind); }
+  const skyState = skyEvents.update(cameraDelta*.001, camera.aspect, camera, livingSky.envelope);
   // Sky accents retain their own dark cores; personal stars are drawn last.
   nebulaSystem.render(renderer, () => skyEvents.render(renderer));
-  skyEventsUI.update(skyState);
+  skyEventsUI.update({...skyState,living:livingSky.enabled});
+  $('#universe').dataset.livingSky = String(livingSky.enabled);
+  $('#universe').dataset.skyOrigin = livingSky.active ? 'automatic' : 'manual';
   $('#universe').dataset.skyEvent = skyState.kind || '';
   $('#universe').dataset.skyEventTime = String(skyState.elapsed);
   if (ms-lastSoundUpdate>180) {
@@ -532,7 +545,11 @@ function saveWord(event) {
     const item = words.find(w => w.id === editedId);
     const before = item ? { ...item } : null;
     if (item) { Object.assign(item, { word, meaning, example, kind, planetType: kind === 'conjunction' ? (entryKind(item) === 'conjunction' ? planetType(item) : nextPlanetType(universe.words, item.galaxyId)) : undefined, updatedAt: new Date().toISOString() }); appendEvent(universe, 'word.updated', item.galaxyId, item.id, before, item); }
-    persist(); rebuildWordStars(); refreshCounts(); closePanels(); selectWord(editedId); showToast(t('message.wordUpdated'));
+    const identity = experience.snapshot(), stamp = item?.updatedAt;
+    persist(() => {
+      const current = experience.snapshot(), updated = words.find(w => w.id === editedId);
+      if (current.mode === identity.mode && current.ownerId === identity.ownerId && updated && updated.updatedAt === stamp && entryKind(updated) === 'word') soundscape?.action('edit',soundPosition(editedId));
+    }); rebuildWordStars(); refreshCounts(); closePanels(); selectWord(editedId); showToast(t('message.wordUpdated'));
     return;
   }
   const position = createPosition(kind === 'word' ? words.filter(w => entryKind(w) === 'word').length : words.length, Math.random(), kind);
@@ -545,8 +562,7 @@ function saveWord(event) {
     if (current.mode !== identity.mode || current.ownerId !== identity.ownerId || !words.some(w => w.id === item.id)) return;
     spawnBirth(item.id);
     if (kind === 'word') {
-      const position = worldStars.get(item.id)?.position;
-      soundscape?.birth(position ? [Math.max(-8,Math.min(8,(position.x-camera.position.x)/100)),Math.max(-8,Math.min(8,(position.y-camera.position.y)/100)),Math.max(-16,Math.min(-.2,(position.z-camera.position.z)/100))] : undefined);
+      soundscape?.birth(soundPosition(item.id));
     }
   });
   rebuildWordStars(); refreshCounts(); closePanels(); selectWord(item.id);
@@ -586,10 +602,15 @@ function openAdd() {
 function deleteSelected() {
   const word = words.find(w => w.id === selectedId); if (!word) return;
   if (!window.confirm(t(entryKind(word) === 'conjunction' ? 'message.removePlanetConfirm' : 'message.removeStarConfirm', { word: word.word }))) return;
+  const cuePosition = soundPosition(word.id), galaxyId = universe.activeGalaxyId;
   appendEvent(universe, 'word.deleted', word.galaxyId, word.id, word, null);
   universe.words = universe.words.filter(w => w.id !== selectedId);
   words = words.filter(w => w.id !== selectedId);
-  persist(); rebuildWordStars(); refreshCounts(); closePanels();
+  const identity = experience.snapshot();
+  persist(() => {
+    const current = experience.snapshot();
+    if (current.mode === identity.mode && current.ownerId === identity.ownerId && universe.activeGalaxyId === galaxyId && !words.some(w => w.id === word.id) && entryKind(word) === 'word') soundscape?.action('remove',cuePosition);
+  }); rebuildWordStars(); refreshCounts(); closePanels();
   showToast(t('message.wordRemoved'));
 }
 function renderCollection() {

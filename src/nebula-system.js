@@ -81,7 +81,7 @@ void main(){
   vec3 curl=vec3(n-.5,fine-.5,n-fine)*.16;
   // Resolve these wisps at the actual march stride. Extremely high axial
   // frequencies produced spoke-like streaks when flying through the volume.
-  vec3 frequency=vec3(6.4,8.1,12.8);
+  vec3 frequency=vec3(3.3,4.2,3.8);
   float detail=1.-smoothstep(.065,.17,stride*length(ray*frequency)*.36);
   float micro=mix(fine,cloud((p+curl)*frequency+vec3(2.8,11.3,6.1)),detail);
   float diffuseFilament=smoothstep(.27,.72,fine*.45+micro*.55);
@@ -93,10 +93,10 @@ void main(){
   // Their overlap is eroded by the shared turbulent field, never a flat skirt.
   // Account for the elongated depth transform: compact Z extents keep individual
   // clouds round in world space, instead of long tubes pointing at the eye.
-  float wall=(plume(flow,vec3(-.34,-.24,.25),vec3(.42,.32,.24))*.9
-             +plume(flow,vec3(.38,-.04,-.22),vec3(.38,.48,.28))*1.05
-             +plume(flow,vec3(.02,.22,.5),vec3(.47,.34,.2))*.65
-             +plume(flow,vec3(-.22,.17,-.62),vec3(.52,.33,.23))*.8
+  float wall=(plume(flow,vec3(-.34,-.24,.25),vec3(.42,.32,.17))*.9
+             +plume(flow,vec3(.38,-.04,-.22),vec3(.38,.48,.2))*1.05
+             +plume(flow,vec3(.02,.22,.5),vec3(.47,.34,.14))*.65
+             +plume(flow,vec3(-.22,.17,-.62),vec3(.52,.33,.16))*.8
              +plume(flow,vec3(.28,-.3,-.6),vec3(.3,.38,.18))*.65
              +plume(flow,vec3(-.46,-.04,-.37),vec3(.29,.5,.16))*.5
              +plume(flow,vec3(.36,.34,.62),vec3(.4,.28,.15))*.55)*branches;
@@ -112,7 +112,7 @@ void main(){
   vec3 gasColor=mix(macroColor,palette,.38+immersion*.5);
   gasColor*=mix(.65,1.25,smoothstep(.22,.8,micro));
   float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
-  float cavity=1.-.86*plume(p,vec3(0.,.04,0.),vec3(.32,.34,.85));
+  float cavity=1.-.86*plume(p,vec3(0.,.04,0.),vec3(.32,.34,.18));
   gas*=wall*(.14+1.8*n*n)*(.12+1.6*filament)*(1.+immersion*1.8)*cavity;
   float dust=smoothstep(.48,.7,cloud(p*3.9+vec3(7.,3.,2.)))*(1.-smoothstep(.04,.2,lum));
   float offset=p.z-principalZ;

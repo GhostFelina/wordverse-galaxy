@@ -1,9 +1,9 @@
 {
   "date": "2026-10-12",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "viewport": "1440x900",
   "records": "Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed",
-  "renderer": "Production modules, Chromium, reduced motion",
+  "renderer": "Production modules, Chromium, reduced motion; living sky disabled for reproducible manual stills",
   "card": "1080x1080 PNG; selected synthetic word only, meaning omitted",
   "social": "1200x630 PNG, original branded composition, synthetic production scene",
   "astronomy": "Artistic procedural experiences; Orion guidance credits in ATTRIBUTIONS.md",

@@ -285,6 +285,35 @@ export function createSoundscapeGraph(context) {
         source.stop(now + 4);
       }
     },
+    action(kind, position) {
+      if (disposed || !['edit', 'remove'].includes(kind)) return;
+      const removed = kind === 'remove',
+        now = context.currentTime,
+        duration = removed ? 1.5 : 0.9;
+      for (const [i, frequency] of (removed ? [220, 146.832] : [329.628, 440]).entries()) {
+        const source = track(context.createOscillator()),
+          envelope = gain(0),
+          panner = spatialVoice(position);
+        source.type = 'sine';
+        source.frequency.setValueAtTime(removed ? frequency : frequency * 0.94, now);
+        source.frequency.exponentialRampToValueAtTime(removed ? frequency * 0.5 : frequency, now + duration * 0.65);
+        envelope.gain.setValueAtTime(0, now);
+        envelope.gain.linearRampToValueAtTime(0.12 / (i + 1), now + 0.05 + i * 0.025);
+        envelope.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        source.connect(envelope);
+        envelope.connect(panner);
+        panner.connect(input);
+        const local = [source, envelope, panner],
+          entry = { source, envelope, local };
+        transients.add(entry);
+        source.onended = () => {
+          transients.delete(entry);
+          release(local);
+        };
+        source.start(now);
+        source.stop(now + duration + 0.05);
+      }
+    },
     stopEvents,
     dispose() {
       if (disposed) return;
@@ -385,6 +414,9 @@ export function createSoundscape({ createContext = () => new AudioContext(), onC
     },
     birth(position) {
       if (enabled && !hidden) graph?.birth(position);
+    },
+    action(kind, position) {
+      if (enabled && !hidden) graph?.action(kind, position);
     },
     async setHidden(value) {
       hidden = !!value;

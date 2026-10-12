@@ -590,7 +590,10 @@
     "return": "← Yıldızlarıma dön",
     "enter": "✧ Orion’a gir",
     "wheelHint": "Tekerleği ileri kaydır: bulutsunun içine ilerle. Geri kaydır: uzaklaş.",
-    "kilonova": "Nötron yıldızı çarpışması"
+    "kilonova": "Nötron yıldızı çarpışması",
+    "livingOn": "Canlı gökyüzü · açık",
+    "livingOff": "Canlı gökyüzü · kapalı",
+    "livingHint": "Sakin aralıklarla rastgele olaylar gelişir. Elle seçtiğin olay önceliklidir; ses yalnızca açtığında çalar."
   },
   "share": {
     "open": "Yıldız kartı",

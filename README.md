@@ -6,7 +6,7 @@
 
 **Turn the words you learn into a universe you can explore.** Add a word, find its star, approach its surface and reveal its meaning when you are ready. Wordverse pairs a personal vocabulary atlas with a cinematic Three.js scene.
 
-The live app runs **1.14.1**. The screenshots and features below describe **1.20.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
+The live app runs **1.14.1**. The screenshots and features below describe **1.21.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
 
 ## Explore, remember, share
 
@@ -17,8 +17,8 @@ The live app runs **1.14.1**. The screenshots and features below describe **1.20
 | A useful atlas | Search, filter words and conjunctions, sort naturally or by date, and return to the same list after opening a record. |
 | Short recall | Reveal a meaning, self-assess and revisit difficult words. Sessions are ephemeral; this is not a spaced-repetition scheduler. |
 | Star cards | Download a 1080px square or portrait PNG of one chosen word. Meanings stay off until explicitly included. |
-| Quiet sky experiences | Choose a meteor, supernova, distant black-hole disk or a neutron-star merger with inspiral and turbulent ejecta. Nothing starts automatically or changes your records. |
-| Sound of your universe | Enable an original cinematic atmosphere with spatial headphone cues, stereo speaker mode, depth-dependent reverberation and a soft birth cue after durable storage. Sound starts with your gesture. |
+| A living sky | A restrained shuffled sequence brings meteors, supernovae, a distant black-hole disk and neutron-star mergers into the scene. Choose any event yourself or switch to quiet sky; events never change your records. |
+| Sound of your universe | Enable an original cinematic atmosphere with spatial headphone cues, stereo speaker mode and depth-dependent reverberation. Creation, editing and deletion have distinct cues after durable storage. Sound starts with your gesture. |
 | Built for the browser | Turkish, English and Spanish; keyboard navigation, reduced motion, local fonts, adaptive graphics and an atlas fallback. |
 
 <p><img src="docs/images/wordverse-photosphere.png" alt="Warm procedural granular star surface" width="49%" /> <img src="docs/images/wordverse-blackhole.png" alt="Optional artistic black-hole disk" width="49%" /></p>
@@ -44,7 +44,7 @@ npm ci
 npm run dev -- --port 5360 --strictPort
 ```
 
-Open [127.0.0.1:5360](http://127.0.0.1:5360). Drag to move; use the wheel or `+` / `−` to zoom. Click **Enter Orion** to explore the cloud with your active-galaxy stars. The visible **✦ Sky experiences** control opens the illustrations, including in immersive mode. `Home` returns to the initial view; `Escape` leaves the current panel or focus. `/` opens the atlas.
+Open [127.0.0.1:5360](http://127.0.0.1:5360). Drag to move; use the wheel or `+` / `−` to zoom. Click **Enter Orion** to explore the cloud with your active-galaxy stars. The visible **✦ Sky experiences** control selects an illustration or toggles the living sky, including in immersive mode. Automatic events wait while a learning panel or stellar focus is active; hidden tabs pause the scene clock. `Home` returns to the initial view; `Escape` leaves the current panel or focus. `/` opens the atlas.
 
 Optional device/service setup: [device setup](docs/handoff/CROSS_DEVICE.md). Account synchronization exists in the development branch; its wider rollout is separate from this desktop visual release.
 

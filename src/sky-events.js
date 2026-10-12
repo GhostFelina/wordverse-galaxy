@@ -39,7 +39,7 @@ export function createSkyEventState({ reducedMotion = false } = {}) {
   };
 }
 
-const fragment = `varying vec2 uvEvent;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;
+const fragment = `varying vec2 uvEvent;uniform float envelope;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;
 float band(float value,float width){return exp(-pow(value/width,2.));}
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}
@@ -126,6 +126,7 @@ void main(){
   light=(vec3(.45,1.2,2.8)*(binary+halos+streams)+debris*(shell+ejecta)+vec3(2.8,1.7,.8)*remnant+vec3(.3,.8,1.3)*(jets+waves))*fade;
   alpha=min(.9,(binary+halos+streams+shell*.8+ejecta+remnant*.8+jets+waves)*fade);
  }
+ alpha*=envelope;light*=envelope;
  if(alpha<.001)discard;
  // Normal alpha blending keeps the bounded core dark and avoids screen flashes.
  gl_FragColor=vec4(light/max(.001,alpha),alpha);
@@ -141,6 +142,7 @@ export function createSkyEvents({ reducedMotion = false } = {}) {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       clock: { value: 0 },
+      envelope: { value: 1 },
       kind: { value: 0 },
       aspect: { value: 1 },
       blackholePosition: { value: new THREE.Vector2(0.66, 0.4) },
@@ -168,9 +170,10 @@ export function createSkyEvents({ reducedMotion = false } = {}) {
       await renderer.compileAsync(scene, camera);
       ready = true;
     },
-    update(delta, aspect, sceneCamera) {
+    update(delta, aspect, sceneCamera, envelope = 1) {
       const snapshot = state.update(delta);
       material.uniforms.clock.value = snapshot.elapsed;
+      material.uniforms.envelope.value = THREE.MathUtils.clamp(envelope, 0, 1);
       material.uniforms.kind.value = ['meteor', 'supernova', 'blackhole', 'kilonova'].indexOf(snapshot.kind) + 1;
       material.uniforms.aspect.value = aspect;
       if (snapshot.kind === 'blackhole' && sceneCamera) {

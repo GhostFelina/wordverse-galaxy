@@ -50,7 +50,9 @@ test('sound requires activation, reuses one context, suspends on mute and never 
   expect(errors).toEqual([]);
 });
 
-test('a saved word sounds once; duplicate, edit and muted creation do not play a birth cue', async ({ page }) => {
+test('durable creation, edit and deletion have distinct cues; duplicates and muted operations stay silent', async ({
+  page,
+}) => {
   await open(page);
   await page.locator('#soundscape-toggle').click();
   await expect(page.locator('#soundscape-toggle')).toHaveAttribute('data-audio-state', 'running');
@@ -70,16 +72,27 @@ test('a saved word sounds once; duplicate, edit and muted creation do not play a
   await page.locator('#edit-word').click();
   await page.locator('#meaning-input').fill('Updated synthetic meaning');
   await page.locator('#word-form').evaluate((form) => form.requestSubmit());
-  expect(await oscillatorCount()).toBe(original + 3);
+  expect(await oscillatorCount()).toBe(original + 5);
   await add('Luminous');
   await expect(page.locator('#form-error')).not.toBeEmpty();
-  expect(await oscillatorCount()).toBe(original + 3);
+  expect(await oscillatorCount()).toBe(original + 5);
   await page.locator('#add-panel .panel-close').click();
   await page.locator('#soundscape-toggle').click();
   await expect(page.locator('#soundscape-toggle')).toHaveAttribute('data-audio-state', 'suspended');
   await add('Ethereal');
   await expect(page.locator('#detail-word')).toHaveText('Ethereal');
-  expect(await oscillatorCount()).toBe(original + 3);
+  expect(await oscillatorCount()).toBe(original + 5);
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.locator('#delete-word').click();
+  await expect(page.locator('#detail-panel')).toHaveAttribute('aria-hidden', 'true');
+  expect(await oscillatorCount()).toBe(original + 5);
+  await page.locator('#soundscape-toggle').click();
+  await expect(page.locator('#soundscape-toggle')).toHaveAttribute('data-audio-state', 'running');
+  await page.locator('#collection-btn').click();
+  await page.locator('.collection-item').filter({ hasText: 'Luminous' }).click();
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.locator('#delete-word').click();
+  await expect.poll(oscillatorCount).toBe(original + 7);
 });
 
 test('native offline synthesis has audible stereo energy, bounded peaks and a distinct birth cue', async ({ page }) => {

@@ -1,40 +1,34 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.20.0; production1.14.1 remains unchanged.
+Active branch: phase/4-universe. Development1.21.0; production1.14.1 remains unchanged.
 
 ## Current implementation
 
-Shared procedural photospheres, stable far scintillation and creation-date color evolution. Six compressed stages interpolate continuously; a minute is a visual interval, never a physical age claim. Dates, coordinates, sizes and IDs remain stored unchanged. Detail and export reuse the same spectrum.
+Shared procedural photospheres, record-stable distant scintillation and creation-date spectra. Direct Orion entry fits every active-galaxy word into a reversible exploration frame; focus, wheel travel and return leave stored coordinates/dates untouched. Native1254 guidance, finite seven-lobe gas and adaptive retained buffers keep scene preparation visible.
 
-Direct Orion entry works during immersive stellar focus. Explicit depth cruise, wheel reversal and return preserve storage. Finite gas lobes use native1254 guidance with up to48 settled ray samples.
+A session-only living director sequences meteor, supernova, distant black-hole and neutron-star-merger illustrations with shuffled order, random calm intervals and finite soft envelopes. Manual selection has priority; quiet mode stops automatic direction. Learning panels/stellar focus defer new automatic events and hidden tabs pause the scene clock. Reduced motion holds representative stills. These events never become learning records.
 
-Optional meteor, supernova, small distant black-hole and neutron-star merger experiences are ephemeral. The merger has binary inspiral, ejecta and a synthesized chirp; personal word stars never explode or collide. Reduced motion holds representative stills.
-
-Original gesture-enabled stereo atmosphere and durable word-birth cues retain volume, mute, tab suspension and cancellation. No recordings or vocabulary data reach audio.
+Original gesture-enabled spatial/stereo audio follows scene depth/focus. Successful durable creation, edit and deletion have distinct synthesized cues, with identity/revision guards and muted/failed-operation silence. No vocabulary text reaches audio. Physical listening acceptance remains open; no Dolby/IMAX certification claim.
 
 ## Validation
 
-1.19:139 unit tests, lint/types/build and13 affected browser tests pass. Earlier other affected nebula/audio tests pass. Last complete local gate was1.18:136 unit/111 browser, format/release/audit and24 Go assertions. Remote1.18 CI38251613293 succeeded on09d1da4. A full new-version gate follows the next visual work.
+Complete1.21 local gate:144 unit/115 browser tests (10.1m), lint/types/build/format/release/audit and24 Go assertions pass. Native isolated Chrome verified an automatic opening, manual priority, quiet mode and unchanged synthetic records. Native48kHz offline synthesis includes creation/edit/delete and merger cues with bounded output. RTX5060Ti D3D11 RAF pacing is measured separately from GPU execution time.
 
-Gallery captures are synthetic, isolated and use production modules. No user records or private screenshots were exported.
+Evidence: [manifest](evidence/2026-10-12-living-quality-manifest.json). Gallery captures are synthetic and isolated. No personal records, private screenshots or conversation transcripts were exported.
 
-## Orion and spatial audio checkpoint
-
-The complete1.20 local gate passes141 unit/115 browser tests (7.2m), lint/types/build/format/release/audit and24 Go assertions. Orion contains a reversible active-galaxy star frame, wider/deeper seven-lobe gas, an unobstructed direct entry and visible immersive event launcher. Native48kHz offline audio verifies original stereo energy and directional HRTF cues with bounded output; physical listening acceptance is open. The synthetic frame report measures RAF pacing, not GPU execution time.
-
-Remote1.19 had112/113 browser passes; one precise camera convergence predicate exceeded its5s wait on software WebGL. Keep the accuracy requirement, allow the hosted GPU time to converge in the next test update.
+Remote1.20 had113/115 browser passes: precise focus convergence and cold shader readiness exceeded5s on hosted software WebGL.1.21 preserves the same assertions with15s waits. Fresh remote verification and preview follow the runtime checkpoint.
 
 ## Next
 
-1. Add an ephemeral shuffled sky director, restrained idle intervals, smooth event envelopes and manual-selection priority; reduced motion stays representative and hidden tabs pause the clock.
-2. Add distinct original edit/delete cues only after durable storage and current identity checks. Preserve creation cue semantics and failed/retried-operation silence.
-3. Review interior gas for radial streaks and refine finite cavities while retaining navigation/data invariants.
-4. Verify combined flows and fresh remote CI/preview provenance. Publish the refreshed default-main gallery with documentation-only changes.
+1. Vary ephemeral sky-event positions and add restrained comet/pulsar experiences without adding records or catalog layers.
+2. Inspect distant scintillation and minute spectrum visibility in the real local browser; improve perceptibility while preserving reduced-motion controls.
+3. Refine interior gas colour/depth/texture and review deterministic desktop captures.
+4. Verify combined flows, fresh remote CI and preview provenance. Publish the updated default-main gallery through a documentation-only branch.
 
 ## Publication and boundaries
 
-Default-main presentation PR10 (b39a0b6) passed CI. Main runtime is older than production: do not deploy it. Production dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F, source702461b remains preserved. PR7 remains a development draft.
+Default-main presentation PR10 (b39a0b6) passed CI. Main runtime is older than production: do not deploy it. Production dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F, source702461b remains preserved. PR7 stays a development draft. Repository description/topics are current; the social-preview PNG is ready but browser upload did not display it.
 
-Current files contain technical specifications only. Historical Git copies of obsolete internal briefs remain; no force push or history rewrite. Visual release acceptance, broad hardware acceptance, two-device account rollout, persistent recall scheduling and dedicated mobile work remain open.
+Current files contain technical specifications only. Historical Git copies of obsolete internal briefs remain; no force push or history rewrite. Broad hardware/visual acceptance, two-device account rollout, persistent recall scheduling and dedicated mobile work remain open.
 
 Read [product](../PRODUCT_SPEC.md), [visual](../VISUAL_SPEC.md), [issues](KNOWN_ISSUES.md), [tasks](TASKS.md) and [device setup](CROSS_DEVICE.md).

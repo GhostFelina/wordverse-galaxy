@@ -1,0 +1,19 @@
+{
+  "source": "1.21.0 working tree",
+  "method": "Native Chromium OfflineAudioContext; production synthesis; no vocabulary input; no normalization",
+  "rate": 48000,
+  "seconds": 40,
+  "channels": 2,
+  "volume": 0.65,
+  "peak": 0.3239555358886719,
+  "rms": 0.12599289057418814,
+  "sections": [
+    "quiet",
+    "nebula depth .8",
+    "word birth",
+    "neutron-star merger",
+    "durable edit at 24s left",
+    "durable delete at 28s right"
+  ],
+  "externalAssets": 0
+}

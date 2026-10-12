@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0] — Development · 2026-10-12
+
+- Session-only living sky: shuffled finite meteor, supernova, distant black-hole and neutron-star merger events, calm gaps and soft envelopes. Manual choices take priority; quiet mode stops automatic direction and hidden tabs pause its clock.
+- Distinct original word-edit and deletion cues follow durable storage and current identity checks. Creation retains its separate birth cue; failed operations and muted audio remain silent.
+- Compact finite interior gas lobes/cavity and lower stride-filtered microfrequencies reduce elongated streaks.
+- Precise hosted software-GPU camera/startup checks retain their accuracy with longer convergence waits.
+
 ## [1.20.0] — Development · 2026-10-12
 
 - Every active-galaxy word star participates in a reversible Orion exploration frame; selection, close approach, wheel reversal and return remain coherent without changing stored coordinates.

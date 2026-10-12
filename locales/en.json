@@ -590,7 +590,10 @@
     "return": "← Return to my stars",
     "enter": "✧ Enter Orion",
     "wheelHint": "Scroll forward to travel into the cloud; scroll back to move away.",
-    "kilonova": "Neutron-star merger"
+    "kilonova": "Neutron-star merger",
+    "livingOn": "Living sky · on",
+    "livingOff": "Living sky · off",
+    "livingHint": "Random experiences unfold with quiet intervals. Your manual selection takes priority; audio only plays when enabled."
   },
   "share": {
     "open": "Star card",
