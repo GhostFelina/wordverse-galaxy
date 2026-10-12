@@ -1,62 +1,73 @@
-# Wordverse ✦
+<p align="center"><strong>W O R D V E R S E</strong><br />A word. A star. A universe.</p>
 
-[Canlı evren](https://wordverse-galaxy.vercel.app/) · [Nasıl çalışır?](https://wordverse-galaxy.vercel.app/about.html) · [Sürümler](CHANGELOG.md)
+<p align="center"><a href="https://wordverse-galaxy.vercel.app">Open Wordverse</a> · <a href="docs/GUIDE.tr.md">Türkçe rehber</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
 
-[![CI](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml/badge.svg)](https://github.com/GhostFelina/wordverse-galaxy/actions/workflows/check.yml) ![Version](https://img.shields.io/badge/version-1.9.0-9dbdff) ![MIT](https://img.shields.io/badge/license-MIT-a5c9ef)
+![Wordverse desktop universe with synthetic words and Orion](docs/images/wordverse-desktop.png)
 
-**Öğrendiğin her kelime yaşayan bir galakside yıldız olur.** İngilizce ve İspanyolca için ayrı galaksilerle başla; yeni diller için yeni galaksiler aç. [Nasıl çalışır?](about.html)
+**Turn the words you learn into a universe you can explore.** Add a word, find its star, approach its surface and reveal its meaning when you are ready. Wordverse pairs a personal vocabulary atlas with a cinematic Three.js scene.
 
-## Özellikler
+The live app runs **1.14.1**. The screenshots and features below describe **1.17.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
 
-| Özellik | Davranış |
+## Explore, remember, share
+
+| Experience | What you can do |
 | --- | --- |
-| Kelime yıldızları | Her kelime beyaz doğar. Öğrenildiğinden beri geçen günler, sıkıştırılmış görsel yıldız evreleriyle temsil edilir. |
-| İkili yıldız hareketi | Her galaksideki en eski iki kelime ortak kütle merkezi çevresinde döner. Aralarında çizgi yoktur. |
-| Canlı galaksi | Bulutsu ve kozmik toz kayıt sayısıyla gelişir. Yıldızlar ve gezegenler hareket eder; kısa meteor ve seyrek kuyruklu yıldız geçişleri olur. |
-| Üç galaksi biçimi | Spiral, çubuklu spiral ve parçalı spiral görünümleri galaksi başına farklı disk, toz ve gaz yerleşimi kullanır. Yeni galaksinin biçimi dengeli rastgele seçilir ve saklanır. |
-| Çizgisiz yıldız kümeleri | Yeni kelimeler dört gevşek yıldız örüntüsüne yerleşir. Bulutsu bölgeleri galaksi büyüdükçe belirir; boş galakside görünmez. |
-| Bağlaç gezegenleri | Formdan “Bağlaç ekle” seçildiğinde kayıt, yıldız yerine NASA/JPL kaynaklı gezegen haritalarından birini taşıyan üç boyutlu bir gezegen olur. Seçim ve konum kaydedilir; düzenleme, arama, geçmiş ve JSON yedeği türünü korur. |
-| Gizli anlam | Yıldızın üzerine gelince yalnızca kelime görünür. Türkçe anlam, ayrıntıdaki göz ikonuyla açılır. |
-| Galaksiler | İngilizce ve boş İspanyolca galaksileri hazırdır. Yeni dil galaksileri oluşturulabilir, galaksi adları değiştirilebilir. |
-| Veri ve geçmiş | Ekleme, düzenleme, silme ve galaksi oluşturma olayları zaman damgasıyla kaydedilir. İkinci yerel kopya otomatik tutulur; JSON yedeği indirilebilir ve içeri alınabilir. |
-| Odak görünümü | Tek ikonla bütün arayüz gizlenir; yalnızca evren ve geri dönüş ikonu kalır. |
-| Yıldız takibi | Kelime ayrıntısındaki **Yıldıza yaklaş** düğmesi kamerayı hareket eden yıldızda tutar. Esc veya evren ikonu geri döner. |
+| Your word stars | Keep words in language galaxies, select a star and approach its warm granular surface. Existing positions stay stable. |
+| Orion flight | Travel through a continuous gas volume with the wheel, zoom buttons or depth slider. Return to your stars in one action. |
+| A useful atlas | Search, filter words and conjunctions, sort naturally or by date, and return to the same list after opening a record. |
+| Short recall | Reveal a meaning, self-assess and revisit difficult words. Sessions are ephemeral; this is not a spaced-repetition scheduler. |
+| Star cards | Download a 1080px square or portrait PNG of one chosen word. Meanings stay off until explicitly included. |
+| Quiet sky experiences | Choose a meteor, slowly expanding supernova or illustrative black-hole disk. Nothing starts automatically or changes your records. |
+| Built for the browser | Turkish, English and Spanish; keyboard navigation, reduced motion, local fonts, adaptive graphics and an atlas fallback. |
 
-Fareyle sürükle, tekerlekle yakınlaş, dokunmatik ekranda iki parmak kullan. `Shift+F` yerel FPS ve çizim çağrısı göstergesini açar.
+<p><img src="docs/images/wordverse-photosphere.png" alt="Warm procedural granular star surface" width="49%" /> <img src="docs/images/wordverse-blackhole.png" alt="Optional artistic black-hole disk" width="49%" /></p>
 
-## Hemen çalıştır
+## Run the development app
 
-Node.js ve npm gerekir. Windows PowerShell veya macOS Terminal içinde:
+Use **Node.js 24** and a current WebGL2 desktop browser. Guest learning works without a Supabase account or environment file.
 
-```bash
+```sh
+git clone --branch phase/4-universe https://github.com/GhostFelina/wordverse-galaxy.git
+cd wordverse-galaxy
 npm ci
-npm run dev
+npm run dev -- --port 5360 --strictPort
 ```
 
-Vite'ın gösterdiği yerel adresi aç. Kontroller için `npm run check` çalıştır.
+Open [127.0.0.1:5360](http://127.0.0.1:5360). Drag to move; use the wheel or `+` / `−` to zoom. Select **Orion** to enter the cloud. **View → Sky experiences** opens the optional illustrations. `Home` returns to the initial view; `Escape` leaves the current panel or focus. `/` opens the atlas.
 
-Kalabalık bir galaksiyi kişisel verileri kullanmadan denemek için `node scripts/generate-benchmark-fixture.mjs 200` komutu geçici dizine JSON yedeği üretir. Bu yedeği ayrı bir yerel test adresinde **Galaksilerim → Yedekten geri yükle** ile aç. 200 yıldızlı testte toplu çizim, çizim çağrısını 644'ten 20'ye düşürdü. Tarayıcı otomasyonunda FPS 1'e kısıtlandığından gerçek ön plan FPS ölçümü ayrıca yapılacak.
+Optional device/service setup: [device setup](docs/handoff/CROSS_DEVICE.md). Account synchronization exists in the development branch; its wider rollout is separate from this desktop visual release.
 
-## Veriler ve gizlilik
+## Your data stays yours
 
-Kelimeler kullanılan tarayıcının **yerel depolamasında**, o adres için saklanır. Her kayıttan sonra IndexedDB içinde ikinci bir yerel kopya oluşturulur; ana kayıt bozulursa uygulama açılışta bu kopyadan kurtarmayı dener. Sayfayı yenilemek verileri silmez. Tarayıcının **tüm site verilerini silmek iki yerel kopyayı da silebilir**. Başka tarayıcıya, cihaza veya yerel adresten Vercel adresine otomatik eşitleme henüz yoktur. **Galaksilerim → Evren verilerini ve geçmişi indir** ile JSON yedeği al; yeni adreste **Yedekten geri yükle** ile birleştir. Tarayıcı verilerini silmeden önce yedeğini indir.
+Guest records live in this browser, with an IndexedDB primary store and a local recovery copy. Storage is tied to the site address: localhost, previews and production have separate stores. Clearing all site data can remove both local copies. Download a JSON backup before moving or clearing a browser.
 
-Kişisel kelimeler GitHub deposunda veya Vercel dağıtımında bulunmaz. Yedek dosyaları `.gitignore` kapsamındadır. Uygulamada hesap veya sunucu tarafı veri toplama yoktur.
+Account-owned data is isolated from guest data. An opt-in account can use Supabase synchronization; guest records are not silently uploaded. Card export renders locally and has no automatic social posting. See [security and reporting](SECURITY.md).
 
-## Astronomi ve görsel yaklaşım
+## How it is built
 
-Gerçek yıldız rengi esas olarak sıcaklık ve kütleyle ilişkilidir. Wordverse, kelimenin öğrenilmesinden beri geçen günleri beyaz → sıcak beyaz → sarı → kehribar → kızıl dev → beyaz cüce biçiminde **sanatsal olarak sıkıştırılmış** bir yaşam döngüsüne çevirir. En eski iki kelime, çift nötron yıldızlarının ortak kütle merkezi hareketinden esinlenir; bu bilimsel ölçekte bir simülasyon değildir. Yörünge çizgileri gösterilmez.
+Three.js renders shared optical points, bounded close-surface meshes and a separately scaled Orion gas pass. Camera damping and explicit focus preserve existing word coordinates. Optional sky experiences use ephemeral state and one bounded shader pass. PNG cards reuse the detail star renderer without adding a continuous render loop.
 
-Kısa kayan yıldız geçişi sanatsal bir meteor etkisidir. Önceki spiral kuyruklu yıldız kaldırıldı; yeni kuyruklu yıldızın geniş toz kuyruğu ve dar iyon kuyruğu NASA tanımlarına göre ayrı çizilir. Fotoğraf veya video doğrudan kopyalanmadı. Kaynaklar ve tasarım kararları: [Astronomi referansları](docs/ASTRONOMY_REFERENCES.md).
+The Orion guidance image is a **1254 × 1254 starless, AI-edited derivative** of telescope imagery. Volume depth, stellar convection and sky experiences are artistic interpretations, not calibrated physical simulations or live observations. A meteor is an atmospheric phenomenon; its sky overlay is an illustration. Deferred catalogs remain in the repository but are not active scene features.
 
-## Teknoloji
+- [Product specification](docs/PRODUCT_SPEC.md) · [Visual specification](docs/VISUAL_SPEC.md)
+- [Asset provenance](docs/ART_ASSET.md) · [Attributions](ATTRIBUTIONS.md)
+- [Roadmap](docs/ROADMAP.md) · [Changelog](CHANGELOG.md)
 
-Vite, Three.js, GPU nokta çizimi, hafif sprite katmanları ve tarayıcı yerel depolaması. Masaüstü ve mobilde piksel oranı sınırlandırılır. Gaz ve toz dokuları `public/assets/` içindedir; [üretim ve kaynak bilgileri](docs/ART_ASSET.md) belgelenmiştir.
+## Quality checks
 
-## Sürümler ve katkı
+```sh
+npm run check          # lint, types, unit tests, build and browser flows
+npm run format:check
+npm run check:release
+npm audit --audit-level=high
+```
 
-Her yayımlanan güncellemede [SemVer](https://semver.org/) sürümü yükseltilir, [CHANGELOG.md](CHANGELOG.md) güncellenir ve `vX.Y.Z` Git etiketi oluşturulur. Özellikler için küçük sürüm, hata düzeltmeleri için yama sürümü kullanılır. Güvenlik bildirimleri için [SECURITY.md](SECURITY.md) dosyasına bak. Katkı adımları [CONTRIBUTING.md](CONTRIBUTING.md) içindedir.
+Install the test browser once with `npx playwright install chromium`. Fixtures use fake accounts and synthetic words. [Rendering evidence](docs/handoff/evidence/README.md) documents deterministic views and the limits of frame measurements. Hardware and software WebGL need separate review; one GPU's result is not a universal performance claim.
 
-Uygulama kodu MIT lisanslıdır. NASA/JPL kaynaklı gezegen haritaları MIT kapsamında değildir; [kaynak ve kullanım koşulları](docs/ASTRONOMY_REFERENCES.md) ayrıca belirtilmiştir.
+## Help build Wordverse
 
-Projeyi yararlı bulduysan [GitHub'da yıldız ver](https://github.com/GhostFelina/wordverse-galaxy).
+Focused contributions are welcome: accessible interactions, rendering improvements, robust vocabulary workflows and careful translations. Start with [CONTRIBUTING.md](CONTRIBUTING.md), or [report a reproducible issue](https://github.com/GhostFelina/wordverse-galaxy/issues/new/choose). Use synthetic examples rather than personal backups.
+
+If Wordverse helps you learn, a star or a screenshot shared with a friend helps others discover it.
+
+Application code is [MIT licensed](LICENSE). External imagery, catalog data and fonts keep their own licenses; see [ATTRIBUTIONS.md](ATTRIBUTIONS.md). NASA/ESA credits do not imply endorsement.

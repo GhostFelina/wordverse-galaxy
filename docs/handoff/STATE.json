@@ -1,0 +1,103 @@
+{
+  "project": "wordverse",
+  "repository": "GhostFelina/wordverse-galaxy",
+  "activeBranch": "phase/4-universe",
+  "activePhase": 4,
+  "completedPhases": [
+    0,
+    1
+  ],
+  "deferredPhases": [
+    2,
+    3
+  ],
+  "handoff": "docs/handoff/HANDOFF.md",
+  "localUrl": "http://127.0.0.1:5360/",
+  "developmentVersion": "1.16.1",
+  "activeWork": "Desktop quality1.17.0, optional sky experiences, Orion navigation, private local cards and repository presentation",
+  "pausedVisualLayers": [
+    "other-nebulae",
+    "galaxies",
+    "planets",
+    "asteroids",
+    "meteors",
+    "background-stars",
+    "gaia-points",
+    "trapezium-points",
+    "demo-star"
+  ],
+  "upgrade": {
+    "currentPhase": "U2",
+    "phaseStatus": "implementation-in-progress",
+    "completedPhases": [],
+    "nextPhase": "U3",
+    "lastVerifiedCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+    "lastRemoteCI": {
+      "run": 38220855746,
+      "commit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+      "status": "success",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38220855746"
+    },
+    "localUnitTests": 132,
+    "suiteBrowserTests": 106,
+    "userVisualAcceptance": "pending",
+    "preview": {
+      "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
+      "target": "preview",
+      "apiTarget": "staging",
+      "status": "READY",
+      "commit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+      "deployment": "dpl_GMHPzLQUA9jhfYBDyfH14imfTkE9",
+      "framework": "vite",
+      "httpStatus": 200,
+      "runtime": "HTML/JS/CSS authenticated HTTP200 and local build SHA256 match; interactive preview and account acceptance not tested",
+      "version": "1.16.1",
+      "sourceCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+      "assetsMatchLocal": true,
+      "interactiveAcceptance": false
+    },
+    "zoomStartup": {
+      "version": "1.16.1",
+      "plainWheel": "explicit nebula flight only, hover word target, matched damping",
+      "opening": "static Orion/loading, no global window-load gate, preserve unresolved owner isolation",
+      "graphics": "compile scene/composite before visible draw; two persistent gas targets; failed assets atlas fallback",
+      "hardwareEvidence": "docs/handoff/evidence/2026-10-12-first-wheel-d3d11.json",
+      "remoteStatus": "superseded by final1.17.0 local complete pass; remote pending",
+      "firstRemote": {
+        "run": 38223259818,
+        "status": "failure",
+        "passed": 93,
+        "failed": 9,
+        "reason": "Obsolete star-cosmos expects auto-flight <90; updated to exact local capped wheel pose. Runtime unchanged."
+      }
+    },
+    "desktopQuality": {
+      "version": "1.17.0",
+      "localGate": "132unit/106browser/lint/types/build/format/release/audit/24Go template checks pass",
+      "evidence": "docs/handoff/evidence/2026-10-12-desktop-quality-manifest.json",
+      "sky": "Explicit ephemeral meteor/supernova/black-hole illustrations, reduced-motion stills",
+      "navigation": "Shared wheel/button scale, no auto descent tilt, depth slider and return",
+      "cards": "1080px square/portrait local PNG, default meaning omitted, allowlisted content, invalidated on selection/owner change",
+      "privacy": "Current tree has technical specifications only; historical Git copies persist. No force/history rewrite",
+      "remoteStatus": "pending"
+    }
+  },
+  "checkpoint": {
+    "version": "1.17.0",
+    "applicationCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
+    "deploymentTarget": "preview",
+    "date": "2026-10-12"
+  },
+  "production": {
+    "version": "1.14.1",
+    "url": "https://wordverse-galaxy.vercel.app",
+    "deployment": "https://wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app",
+    "target": "production",
+    "status": "READY",
+    "sourceCommit": "702461b054985a19ed49c3524fe67028c65049ed",
+    "buildDurationSeconds": 13.6,
+    "httpStatus": 200,
+    "date": "2026-10-04",
+    "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app"
+  }
+}
