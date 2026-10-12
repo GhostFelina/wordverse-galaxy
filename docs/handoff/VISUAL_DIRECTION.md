@@ -1,5 +1,17 @@
 # Güncel görsel yön · yükseltme
 
+## 12 Ekim 2026 · güncel masaüstü yönü
+
+Bu bölüm aşağıdaki eski snapshot uygulama durumlarını günceller. Aktif sahne: yıldızsız Orion + gerçek kelime kayıtlarının ortak nokta/yüzey sistemi. Native gaz kaynağı1254²; yeni mip hesabı bunu kullanır ve ikinci stellar-peak temizliği uygulanmaz. Uzakta ince dört kollu optik, yaklaşınca granülasyon; diğer katalog/gezegen/dekoratif yıldız katmanları kapalıdır. U2 görsel kabulü açık.
+
+Masaüstünde tipografik ağırlık soldaki serif başlık/kelimede, renkli hacim sahnenin sağında. Atlas/detay yüzeyleri siyaha yakın lacivert; ince sınırlar, yeterli satır boşluğu, kontrollü buz mavisi vurgu. Detay panelindeki iki dekoratif yörünge kaldırıldı; kompakt170px ışık görseli anlam ve yaklaşım eylemine yer bırakır. Paneller açıkken keşif/görünüm düğmesi üzerlerine binmez. 1024/1280/1440 kompozisyonları ve tekrar kartı tarihli sentetik kanıtlarla incelendi.
+
+Kalite tercihi auto/high/balanced/low; durgun gaz sırasıyla32/32/24/16adım, low framebuffer.5viewport, balanced.75viewport. Bu, fiziksel donanım performans kabulü değildir. Kullanıcı mobil ve giriş/hesap çalışmasını erteledi; sonraki tur masaüstü gaz içi ayrıntı, yıldız-gaz derinlik hissi ve panel görseli/gerçek yıldız tutarlılığıdır. Büyük bloom ile ayrıntı kaybını örtme; native çözünürlük ve sanatsal hacim sınırlarını dürüstçe kaydet.
+
+---
+
+## Tarihsel başlangıç yönü
+
 Ana sözleşme WORDVERSE_MASTER_UPGRADE, güncel kullanıcı kararları üstündür. OLED#000 ve geniş siyah alan; yıldız HDR emisyonu ile gezegen yansıması ayrı. Three r180 outputColorSpaceSRGB +ACES/exposure0.85; yeni ShaderMaterial'larda tonemapping_fragment ardından colorspace_fragment. Kaynak: kurulu r180 shader chunks ve https://raw.githubusercontent.com/mrdoob/three.js/r180/src/renderers/shaders/ShaderChunk/colorspace_fragment.glsl.js . Eski shader çıktıları/composer/selective bloom denetimi U2 içinde açık.
 
 Yakın yıldız küresel yüzey/limb/granülasyon; yakın gezegen küresel gündüz-gece terminator. Prosedürel sanatsal gövdeler, gözlenen gerçek yıldız/gezegen fotoğrafı değil. Yakın gaz mevcut12adımboundedvolume; daha belirgin filament/toz/sönümleme ve geçiş gerekiyor. Bütün yeni demo yüzeyleri ephemeral, kullanıcı kaydına dönüşmez.

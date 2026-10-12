@@ -39,12 +39,12 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+    "lastVerifiedCommit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
     "lastRemoteCI": {
-      "run": 37220478118,
-      "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+      "run": 38213205397,
+      "commit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
       "status": "success",
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/37220478118"
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38213205397"
     },
     "primaryReference": "X right panel 00:10–00:15; user confirmed 2026-10-04",
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
@@ -52,38 +52,30 @@
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
     "localUnitTests": 120,
     "localBrowserTests": 91,
-    "integrationVerification": "1.15.0: 120 unit/lint/typecheck/format/build passed. Full88:87pass/1HMR-induced failure; celestial6/6 recovered. Final camera8+recall4+smoke25=37/37; desktop evidence3/3. Remote full91 pending push; historical remote CI is for1.14.1.",
+    "integrationVerification": "2865d10 remote Check38213205397 SUCCESS:120 unit/91 e2e(8.5m)/lint/typecheck/build/format/release/Go24/audit0. Local final camera8+recall4+smoke25=37/37 and desktop evidence3/3. Preview deployment SUCCESS; runtime preview authentication not tested.",
     "preview": {
-      "url": "https://wordverse-galaxy-gx5zjyq3m-mustafas-projects-92e683a9.vercel.app",
+      "url": "https://wordverse-galaxy-nwxiqirsw-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
       "status": "READY",
-      "commit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
-      "framework": "Vite",
-      "buildDurationSeconds": 19,
-      "httpStatus": 200
+      "commit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
+      "framework": "Vite"
     },
-    "remainingCurrentWork": "Commit/push/remote full91 CI/preview; then desktop gas detail, p95, renderer fallback and persistent recall design. U2 visual acceptance pending. Mobile and auth setup deferred.",
+    "remainingCurrentWork": "Desktop gas near/side detail, p95, renderer atlas fallback and persistent recall design. U2 visual acceptance pending. Mobile and auth setup deferred.",
     "navigationRequirement": "Perspective drag, selected-target pinch, canvas keyboard and real immersive entry implemented; camera5/5 targeted. Real touch device and whole U3 acceptance pending.",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
-    "remoteBrowserTests": 79,
+    "remoteBrowserTests": 91,
     "localFinalTargetedTests": 37,
     "currentUserTask": "Desktop browser product and visual aesthetics; login/account and mobile deferred by user",
     "research": "docs/handoff/STAR_REFERENCE_PLAN.md"
   },
   "developmentVersion": "1.15.0",
   "checkpoint": {
-    "date": "2026-10-04",
-    "session": "docs/handoff/sessions/2026-10-04-claude-handoff.md",
-    "version": "1.14.1",
+    "date": "2026-10-12",
+    "session": "docs/handoff/sessions/2026-10-12-desktop-product.md",
+    "version": "1.15.0",
     "deploymentTarget": "preview",
-    "privateBackup": "Desktop/Wordverse-Yedekler/2026-10-04",
-    "desktopHandoff": "Desktop/WORDVERSE_CLAUDE_DEVIR.md",
-    "applicationCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
-    "backupJson": {
-      "galaxies": 2,
-      "records": 20,
-      "exportedAt": "2026-10-04T17:22:14.887Z"
-    }
+    "applicationCommit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
+    "privateData": "No user records or screenshots exported; synthetic evidence only"
   },
   "production": {
     "version": "1.14.1",
@@ -96,5 +88,19 @@
     "httpStatus": 200,
     "date": "2026-10-04",
     "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app"
+  },
+  "previousCheckpoint": {
+    "date": "2026-10-04",
+    "session": "docs/handoff/sessions/2026-10-04-claude-handoff.md",
+    "version": "1.14.1",
+    "deploymentTarget": "preview",
+    "privateBackup": "Desktop/Wordverse-Yedekler/2026-10-04",
+    "desktopHandoff": "Desktop/WORDVERSE_CLAUDE_DEVIR.md",
+    "applicationCommit": "e1b3850d3b9a5a4baffd219c4aaf9d906bbba086",
+    "backupJson": {
+      "galaxies": 2,
+      "records": 20,
+      "exportedAt": "2026-10-04T17:22:14.887Z"
+    }
   }
 }

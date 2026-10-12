@@ -13,7 +13,7 @@ Son yönlendirme: yalnız masaüstü tarayıcıda ürün/görsel/estetik gelişt
 - [x] Üç dilde görüntü kalitesi ve gezinme rehberi; düşük/dengeli gaz bütçesi.
 - [x] Native1254 mip ve gereksiz ikinci yıldız filtresi düzeltmesi; before/after sentetik kanıt.
 - [x] Ephemeral kısa hatırlama/retry ve mobil atlas erişimi.
-- [~] Tam88tarayıcı gate, recall owner/galaksi izolasyonu, remoteCI/preview/checkpoint.
+- [x] Remote tam91tarayıcı gate,120unit; recall owner/galaksi izolasyonu;2865d10 Check38213205397SUCCESS/previewSUCCESS.
 - [ ] Masaüstü gaz içi ayrıntı, p95 ve kullanıcı U2 görsel kabulü; fiziksel mobil çalışma ertelendi.
 - [ ] Kamera lifecycle/WebGL yokken kullanılabilir atlas fallback.
 - [ ] Kalıcı tekrar/FSRS: kayıpsız migration/offline/owner-senkron tasarımı.

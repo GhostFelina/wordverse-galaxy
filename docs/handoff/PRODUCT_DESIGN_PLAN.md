@@ -11,7 +11,7 @@
 - [x] Açık panel üzerindeki tam ekran düğmesi çakışmasını giderme.
 - [x] En fazla 10 kayıttan kısa tekrar: gizli anlam → hatırlama → değerlendirme → zorlanılanları yeniden çalışma. İlerleme çizgisi; oturum verisi kalıcı kayıtlara yazılmaz.
 - [x] 1024/1280/1440 masaüstü yerleşimi için sayaç/kaynak ayrımı ve dar tarayıcı başlık alanı.
-- [ ] Son yerel tarayıcı kanıtlarını incele, checkpoint ve PR preview doğrulaması.
+- [x] Son yerel tarayıcı kanıtlarını incele;2865d10 checkpoint, remote120unit/91e2e SUCCESS ve PR preview deployment SUCCESS. Preview runtime giriş kabulü bu turun işi değildir.
 
 ## Sonraki ürün turu
 
