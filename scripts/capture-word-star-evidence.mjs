@@ -6,6 +6,7 @@ import { createServer } from 'node:net';
 const evidenceLabel = process.argv[2] || 'upgrade';
 if (!/^[a-zA-Z0-9-]+$/.test(evidenceLabel)) throw new Error('Invalid evidence label');
 const evidenceDirectory = `docs/handoff/evidence/${evidenceLabel}`;
+const desktopOnly = process.argv.includes('--desktop-only');
 
 // A separate fake-account server and browser never access the user's 5360 storage.
 const reservation = createServer();
@@ -62,11 +63,13 @@ try {
     await expect(canvas).toHaveAttribute('data-refined', 'true');
     await page.screenshot({ path: `${evidenceDirectory}/word-star-${shot}-1440.png` });
   }
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.locator('#close').click();
-  await expect(canvas).toHaveAttribute('data-shot', 'close');
-  await expect(canvas).toHaveAttribute('data-refined', 'true');
-  await page.screenshot({ path: `${evidenceDirectory}/word-star-close-390.png` });
+  if (!desktopOnly) {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('#close').click();
+    await expect(canvas).toHaveAttribute('data-shot', 'close');
+    await expect(canvas).toHaveAttribute('data-refined', 'true');
+    await page.screenshot({ path: `${evidenceDirectory}/word-star-close-390.png` });
+  }
   expect(errors).toEqual([]);
   expect(await page.evaluate(() => localStorage.length)).toBe(0);
   console.log('Shared production star optics/surface/passage evidence saved; no user records accessed.');

@@ -7,6 +7,7 @@ import { createRenderQuality } from './render-quality.js';
 import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.js';
 import { mountSceneControls } from './scene-controls.js';
 import { mountRecallUI } from './recall-ui.js';
+import { mountStellarPreview } from './stellar-preview.js';
 import { createWordStarSystem, wordStarPosition, WORD_STAR_RADIUS } from './word-star-system.js';
 import { createNebulaSystem } from './nebula-system.js';
 import { mountNebulaUI } from './nebula-ui.js';
@@ -24,6 +25,7 @@ import { mountAuthUI } from './auth-ui.js';
 import { mountAccountSync } from './account-sync-ui.js';
 
 const $ = (selector) => document.querySelector(selector);
+const stellarPreview = mountStellarPreview($('.detail-visual'));
 const uiLocale = getHomeLocale();
 // Begin the locked SDK chunk before IDB and heavy scene initialization.
 getSupabaseClient().catch(() => {});
@@ -82,6 +84,7 @@ function applyExperience(state) {
   const key = `${state.mode}:${state.ownerId}:${state.ready}`;
   if (key === experienceKey) return;
   experienceKey = key;
+  stellarPreview.hide();
   recallUI?.invalidate();
   // Clear the previous identity immediately; allow rapid UI transitions to settle
   // before compiling a scene that may already have been replaced.
@@ -337,6 +340,7 @@ function animate(ms) {
 }
 
 function openPanel(which) {
+  if (which !== 'detail') stellarPreview.hide();
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   activePanel = which;
   syncRenderLoop();
@@ -384,6 +388,7 @@ function selectWord(id) {
   $('#detail-sun').style.setProperty('--star-core', appearance.color);
   for (const [starId, nodes] of starNodes) nodes.label.classList.toggle('selected', starId === id);
   openPanel('detail');
+  if (isPlanet) stellarPreview.hide(); else stellarPreview.show(word);
 }
 function focusStar() {
   travelingNebula = null; nebulaUI?.focused(null);

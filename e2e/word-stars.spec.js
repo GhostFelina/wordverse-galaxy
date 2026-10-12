@@ -100,6 +100,46 @@ async function seedWordRecords(page) {
   return entries;
 }
 
+test('desktop detail uses the shared photosphere and clears or recovers its preview safely', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await seedWordRecords(page);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.locator('#universe')).toHaveAttribute('data-nebula-ready', 'true');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('.star-hit[data-word-id="steady"]').click();
+  const visual = page.locator('.detail-visual');
+  const preview = page.locator('.stellar-preview');
+  await expect(visual).toHaveAttribute('data-stellar-preview', 'ready');
+  await expect(preview).toHaveAttribute('data-record-id', 'steady');
+  await expect(preview).toHaveAttribute('data-surface-blend', '1');
+  await expect(page.locator('#detail-sun')).toBeHidden();
+  await expect(page.locator('#detail-panel')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  await page.screenshot({ path: 'docs/handoff/evidence/2026-10-12-shared-stellar-preview-1440.png' });
+  await page.evaluate(() => {
+    window.previewContextExtension = document
+      .querySelector('.stellar-preview')
+      .getContext('webgl2')
+      .getExtension('WEBGL_lose_context');
+    window.previewContextExtension.loseContext();
+  });
+  await expect(visual).toHaveAttribute('data-stellar-preview', 'unavailable');
+  await expect(page.locator('#detail-sun')).toBeVisible();
+  await expect(preview).not.toHaveAttribute('data-record-id', 'steady');
+  await page.evaluate(() => window.previewContextExtension.restoreContext());
+  await expect(visual).toHaveAttribute('data-stellar-preview', 'ready');
+  await page.locator('#close-detail').click();
+  await expect(visual).not.toHaveAttribute('data-stellar-preview', 'ready');
+  await expect(preview).not.toHaveAttribute('data-record-id', 'steady');
+  await page.locator('#collection-btn').click();
+  await page.locator('.collection-item').filter({ hasText: 'second' }).click();
+  await expect(visual).toHaveAttribute('data-stellar-preview', 'ready');
+  await expect(preview).toHaveAttribute('data-record-id', 'second');
+  await expect(preview).toHaveAttribute('data-surface-blend', '1');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+  expect(errors).toEqual([]);
+});
+
 test('real word records keep their positions through selection, addition, reload and distant LOD', async ({ page }) => {
   const entries = await seedWordRecords(page);
   const canvas = page.locator('#universe');

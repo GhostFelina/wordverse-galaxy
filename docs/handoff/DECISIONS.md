@@ -1,5 +1,9 @@
 # Mimari kararlar
 
+## ADR016 — Ortak masaüstü yıldız önizlemesi
+
+1.15.1 detay paneli CSS yıldızından shared production fotosfere geçer; aynı kayıt seedini, ACES/SRGB ve yüzey materyalini kullanır. Lazy ikinci WebGL context, 384px render/170px gösterim ve tek çizim; yükleme 15 saniye sınırlıdır. Panel/owner değişiminde seçim temizlenir; context kaybında mevcut CSS görseli fallback, restore sonrası yeniden çizim. Eşikleri değiştirmek yerine preview çözünürlüğü tam yüzey LOD sağlar; sahne koordinatları ve kullanıcı kayıtları değişmez. Mobil/giriş işleri ertelidir. Gazda mevcut örnek sayısıyla kıvrımlı anisotropik lif alanı; native1254 kaynak korunur. Preview hedefi ve U2 kullanıcı kabul kapısı sürer.
+
 ## ADR015 — Otonom kalite ve hatırlama turu
 
 2026-10-12 kullanıcı kendi planımızla profesyonel geliştirmeyi yetkilendirdi. Mevcut Orion/word-star yönü korunur; U2 kabul edilmeden eski kataloglar açılmaz. Kamera/U3 bileşenleri ve kullanım düzeltmeleri bağımsız ilerler. Görüntü tercihi ayrı cihaz anahtarıdır; kalıcı öğrenme şeması değişmez. Kısa hatırlama yalnız oturum belleğinde, aktif galaksi ve owner ile sınırlıdır; FSRS/kalıcı başarı verisi sayılmaz. Owner/galaksi değişiminde içerik temizlenir. Yeni checkpoint1.15.0; yayın hedefi Preview, üretim/main/tag yetkisi genişletilmez.

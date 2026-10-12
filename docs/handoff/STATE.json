@@ -52,7 +52,7 @@
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
     "localUnitTests": 120,
     "localBrowserTests": 91,
-    "integrationVerification": "2865d10 remote Check38213205397 SUCCESS:120 unit/91 e2e(8.5m)/lint/typecheck/build/format/release/Go24/audit0. Local final camera8+recall4+smoke25=37/37 and desktop evidence3/3. Preview deployment SUCCESS; runtime preview authentication not tested.",
+    "integrationVerification": "1.15.1 lint/typecheck/120unit/build/format/release passed; full92 local e2e running. Last successful remote91 gate remains2865d10; new result pending push.",
     "preview": {
       "url": "https://wordverse-galaxy-nwxiqirsw-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
@@ -68,14 +68,14 @@
     "currentUserTask": "Desktop browser product and visual aesthetics; login/account and mobile deferred by user",
     "research": "docs/handoff/STAR_REFERENCE_PLAN.md"
   },
-  "developmentVersion": "1.15.0",
+  "developmentVersion": "1.15.1",
   "checkpoint": {
     "date": "2026-10-12",
-    "session": "docs/handoff/sessions/2026-10-12-desktop-product.md",
-    "version": "1.15.0",
+    "session": "docs/handoff/sessions/2026-10-12-stellar-polish.md",
+    "version": "1.15.1",
     "deploymentTarget": "preview",
-    "applicationCommit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
-    "privateData": "No user records or screenshots exported; synthetic evidence only"
+    "applicationCommit": "pending next application checkpoint",
+    "privateData": "Synthetic evidence only; real browser inspected without exports"
   },
   "production": {
     "version": "1.14.1",

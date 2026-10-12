@@ -77,8 +77,11 @@ void main(){
 
   // Break the smooth extruded side ribbon into a porous, corrugated medium.
   // The same world-space field holds from the front, side and inside the cloud.
-  float micro=cloud(p*13.7+vec3(2.8,11.3,6.1));
-  float filament=smoothstep(.24,.73,fine*.45+micro*.55);
+  vec3 curl=vec3(n-.5,fine-.5,n-fine)*.16;
+  float micro=cloud((p+curl)*vec3(12.7,21.3,9.8)+vec3(2.8,11.3,6.1));
+  float diffuseFilament=smoothstep(.24,.73,fine*.45+micro*.55);
+  float thread=pow(max(0.,1.-abs(fine*.7+micro*.3-.5)*3.),6.);
+  float filament=mix(diffuseFilament,thread,.6);
   float branches=smoothstep(.24,.64,n*.45+fine*.55);
   float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.42*(n-.5)+.18*(fine-.5);
   vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*.28;

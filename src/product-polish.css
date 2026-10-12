@@ -47,7 +47,23 @@
   visibility: hidden;
   pointer-events: none;
 }
+.stellar-preview {
+  display: none;
+}
 @media (min-width: 761px) {
+  .stellar-preview {
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    display: none;
+    pointer-events: none;
+  }
+  .detail-visual[data-stellar-preview='ready'] .stellar-preview {
+    display: block;
+  }
+  .detail-visual[data-stellar-preview='ready'] .detail-sun {
+    visibility: hidden;
+  }
   .bottom-left {
     bottom: 58px;
   }

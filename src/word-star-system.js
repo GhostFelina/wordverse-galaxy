@@ -21,13 +21,19 @@ varying vec3 sphere;varying vec3 worldNormal;varying vec3 worldPosition;
 void main(){vec3 n=normalize(sphere);float angle=time*.004;
 n=mat3(cos(angle),0.,-sin(angle),0.,1.,0.,sin(angle),0.,cos(angle))*n;
 float mu=max(0.,dot(normalize(worldNormal),normalize(cameraPosition-worldPosition)));
-float limb=.24+.76*pow(mu,.6);
+float limb=.05+.95*pow(mu,1.2);
 float footprint=length(fwidth(n))*45.;float resolved=1.-smoothstep(.4,1.2,footprint);
 float granule=texture(granulation,(n*45.+vec3(sin(n.y*18.),sin(n.z*18.),sin(n.x*18.))*.35+seed+time*.006)/16.).r;
-float convection=mix(.78,.42+.65*granule,resolved);
-float spots=1.-.1*smoothstep(.98,.998,dot(n,normalize(vec3(.35,.4,.72))));
-vec3 hot=vec3(2.1,1.85,1.5)*convection;
-vec3 emission=hot*limb*spots*(1.+emphasis*.065);
+// Several convection scales soften the cached cell boundaries. Dark lanes
+// stay luminous, rather than looking like cracks on a solid porcelain ball.
+float broad=texture(granulation,(n*7.3+vec3(seed*.37,time*.001,seed*.19))/16.).r;
+float secondary=texture(granulation,(n*23.7+vec3(2.8,seed*.13,6.1))/16.).r;
+float cell=pow(max(.001,granule),.55);
+float convection=mix(.85,.24+.9*cell*cell+.06*secondary,resolved);
+float thermal=.84+.16*broad+.045*sin(n.x*9.1+n.y*7.3+seed)*sin(n.z*8.7-time*.04);
+float spots=1.-.065*smoothstep(.97,.998,dot(n,normalize(vec3(.35,.4,.72))));
+vec3 temperature=mix(vec3(1.6,.85,.38),vec3(2.65,2.25,1.8),.45+.55*cell);
+vec3 emission=temperature*convection*thermal*limb*spots*(1.+emphasis*.065);
 gl_FragColor=vec4(emission*transmission,blend);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
@@ -175,7 +181,7 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*(.86+.14*cos(time*1.3+phase))*gasT
             vertexShader: surfaceVertex,
             fragmentShader: `uniform float blend;uniform float transmission;varying vec3 worldNormal;varying vec3 worldPosition;
 void main(){float facing=abs(dot(normalize(worldNormal),normalize(cameraPosition-worldPosition)));
-gl_FragColor=vec4(vec3(1.3,1.55,1.7),pow(1.-facing,3.)*facing*.3*blend*transmission);
+gl_FragColor=vec4(vec3(2.2,1.75,1.3),pow(1.-facing,4.)*facing*.5*blend*transmission);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
 }`,

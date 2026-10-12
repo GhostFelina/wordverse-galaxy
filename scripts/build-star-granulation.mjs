@@ -35,7 +35,8 @@ for (let z = 0; z < size; z++)
         fy = fract(py),
         fz = fract(pz);
       let nearest = 8,
-        second = 8;
+        second = 8,
+        cellHeat = 1;
       for (let dz = -1; dz <= 1; dz++)
         for (let dy = -1; dy <= 1; dy++)
           for (let dx = -1; dx <= 1; dx++) {
@@ -47,11 +48,16 @@ for (let z = 0; z < size; z++)
             if (d < nearest) {
               second = nearest;
               nearest = d;
+              cellHeat = 0.78 + 0.22 * centers[k + 1];
             } else second = Math.min(second, d);
           }
       const gap = Math.sqrt(second) - Math.sqrt(nearest),
-        t = Math.max(0, Math.min(1, (gap - 0.008) / (0.13 - 0.008)));
-      data[x + size * (y + size * z)] = Math.round(255 * t * t * (3 - 2 * t));
+        t = Math.max(0, Math.min(1, (gap - 0.004) / (0.09 - 0.004))),
+        lane = t * t * (3 - 2 * t),
+        radial = Math.exp(-nearest * 2.5);
+      // Smooth hot cell centres and different cell energies; the old gap-only
+      // field saturated every interior into the same flat white polygon.
+      data[x + size * (y + size * z)] = Math.round(255 * (0.2 + 0.8 * radial * (0.82 + 0.18 * lane)) * cellHeat);
     }
 await mkdir('public/assets/stars', { recursive: true });
 await writeFile('public/assets/stars/granulation-128.bin', data);

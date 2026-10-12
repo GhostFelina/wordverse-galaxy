@@ -5,6 +5,15 @@
 
 # Görevler
 
+## 1.15.1 masaüstü görsel turu
+
+- [x] Yakın yıldız hücre sıcaklığı/kenar ışığı ve corona; matching before/after kanıt.
+- [x] Aynı production fotosferle detay önizlemesi, seçim temizleme ve context restore/fallback.
+- [x] Kıvrımlı gaz mikro lifleri, native1254 kaynak ve sabit örnek bütçesi.
+- [ ] Son kaynak tam92tarayıcı gate ve remote CI/preview sonucu.
+- [ ] Gerçek GPU p95, atlas fallback ve U2 kullanıcı kabulü.
+
+
 ## Otonom geliştirme · 2026-10-12 · 1.15.0
 
 Son yönlendirme: yalnız masaüstü tarayıcıda ürün/görsel/estetik geliştirme. Mobil ve giriş/hesap işleri ertelendi. [Ürün tasarım planı](PRODUCT_DESIGN_PLAN.md).

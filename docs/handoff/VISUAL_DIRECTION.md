@@ -1,5 +1,9 @@
 # Güncel görsel yön · yükseltme
 
+## 12 Ekim 2026 · 1.15.1 yüzey ve panel uyumu
+
+Yakın fotosferde hücre merkezi sıcaklık dağılımı, yumuşak hücre sınırları, merkez/kenar ışık düşüşü ve ince sıcak corona. Uzak dört uçlu optikler ve 130–260CSS px geçiş eşikleri korunur. Detay panelinde aynı shared fotosfer; CSS ışık görseli yalnız yükleme/grafik fallback olarak kalır. Gazda kıvrımlı anisotropik mikro lifler; yan hacim daha ayrıntılı ama hâlâ sanatsal ve yumuşaktır. Önce/sonra sekizer masaüstü kadraj photosphere-before/after; panel kanıtı shared-stellar-preview-1440.png. U2 kabulü ve fiziksel p95 kontrolü açık.
+
 ## 12 Ekim 2026 · güncel masaüstü yönü
 
 Bu bölüm aşağıdaki eski snapshot uygulama durumlarını günceller. Aktif sahne: yıldızsız Orion + gerçek kelime kayıtlarının ortak nokta/yüzey sistemi. Native gaz kaynağı1254²; yeni mip hesabı bunu kullanır ve ikinci stellar-peak temizliği uygulanmaz. Uzakta ince dört kollu optik, yaklaşınca granülasyon; diğer katalog/gezegen/dekoratif yıldız katmanları kapalıdır. U2 görsel kabulü açık.

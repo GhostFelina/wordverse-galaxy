@@ -50,3 +50,7 @@
 # Prosedürel kelime yıldızı granülasyonu · 2026-10-04
 
 `public/assets/stars/granulation-128.bin`: 128³ tek kanallı byte alanı, 2,097,152 byte. `node scripts/build-star-granulation.mjs` ile yeniden üretilebilir. Periyodik Voronoi hücre boşluğu modellenir; GPU doğrusal örnekleme, küresel koordinat deformasyonu ve yavaş hareket uygular. Wordverse kaynak kodundan üretilmiştir; üçüncü taraf görsel veya gerçek yıldız yüzeyi fotoğrafı değildir. Her karedeki 27 komşu aramasının maliyetini kaldırmak için önceden hesaplanır.
+
+## 1.15.1 fotosfer revizyonu · 2026-10-12
+
+Aynı 128³/2,097,152 byte özgün prosedürel önbellek yeniden üretildi. Hücre merkezine uzaklıktan üstel radyal sıcaklık, hücre başına deterministik enerji ve düşük ağırlıklı F2–F1 sınır katkısı kullanılır; önceki düz plato/sert çatlak görünümü azaltılır. Küresel limb darkening ve çok ölçekli konveksiyon shader içinde uygulanır. Masaüstü detay paneli aynı production yıldız sistemi ve kayıt seedini kullanır; tek seçime tek çizim, ayrı sürekli render döngüsü yok. Son binary SHA256: 567489ea2fa9d8e56f93e9f52fb5f236c32718140e1451316ba917376c91736a. Kanıt/source hashleri: `docs/handoff/evidence/2026-10-12-photosphere-manifest.json`. Gerçek yüzey gözlemi veya fiziksel sıcaklık kalibrasyonu değildir.
