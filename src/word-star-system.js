@@ -99,14 +99,14 @@ void main(){vec2 q=(gl_PointCoord-.5)*2.;float r=length(q);if(r>1.)discard;
 // core stays visible, and modulation fades before the photosphere resolves.
 float distant=1.-smoothstep(3.,18.,diameter);
 float shimmer=.62*sin(time*(.68+.07*sin(phase))+phase)+.38*sin(time*1.19+phase*2.37);
-float brilliance=1.+distant*shimmer*.21;
+float brilliance=1.+distant*shimmer*.28;
 float sigma=max(.13,diameter/span*.44);float diamondRadius=mix(r,abs(q.x)+abs(q.y),.65);float core=exp(-pow(diamondRadius/sigma,4.));
-float halo=exp(-r*r/(.11+distant*shimmer*.012))*.055;
+float halo=exp(-r*r/(.11+distant*shimmer*.018))*.065;
 float diamond=exp(-(abs(q.x)+abs(q.y))*16.)*.5;
 float rayWidth=max(1.8/span,.002);float spike=(exp(-pow(q.x/rayWidth,2.))+exp(-pow(q.y/rayWidth,2.)))*exp(-r*2.8)*.55*(1.-resolved)*(1.+distant*shimmer*.3);
 float birthRing=exp(-pow((r-(.2+.6*formationAge))/.065,2.))*formation*.13;
 float glow=((core+diamond)*(1.-resolved)+halo+spike+birthRing+exp(-r*r/.19)*formation*.13)*(1.-smoothstep(.8,1.,r));
-vec3 light=mix(mix(ageColor*1.6,mix(ageColor,vec3(1.),.12)*3.4,core),vec3(3.2,1.9,.7),formation*.25);
+vec3 light=mix(mix(ageColor*1.3,ageColor*2.2,core),vec3(3.2,1.9,.7),formation*.25);
 gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>

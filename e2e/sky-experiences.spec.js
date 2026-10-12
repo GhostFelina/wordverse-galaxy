@@ -1,5 +1,72 @@
 import { expect, test } from '@playwright/test';
 
+test('distant black-hole disk animates in a bounded region, keeps a dark shadow and freezes with reduced motion', async ({
+  page,
+}) => {
+  await page.goto('/tests/fixtures/sky-event-lab.html');
+  await expect(page.locator('#sky-lab')).toHaveAttribute('data-ready', 'true');
+  const result = await page.evaluate(async () => {
+    const THREE = await import('/node_modules/three/build/three.module.js');
+    const { createSkyEvents } = await import('/src/sky-events.js');
+    const renderer = new THREE.WebGLRenderer();
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    const target = new THREE.WebGLRenderTarget(512, 512);
+    const background = new THREE.DataTexture(new Uint8Array([32, 48, 64, 255]), 1, 1);
+    background.needsUpdate = true;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100000);
+    camera.position.z = 160;
+    camera.updateMatrixWorld();
+    const events = createSkyEvents();
+    await events.warm(renderer);
+    renderer.setRenderTarget(target);
+    renderer.setClearColor(new THREE.Color(32 / 255, 48 / 255, 64 / 255));
+    function capture(seconds) {
+      events.select('blackhole', { reposition: false });
+      events.update(0, 1, camera);
+      for (let elapsed = 0; elapsed < seconds - 0.00001; elapsed += 0.1) events.update(0.1, 1, camera);
+      renderer.render(scene, camera);
+      events.render(renderer, background);
+      const pixels = new Uint8Array(512 * 512 * 4);
+      renderer.readRenderTargetPixels(target, 0, 0, 512, 512, pixels);
+      return pixels;
+    }
+    const a = capture(2),
+      b = capture(12);
+    let changed = 0,
+      outsideChanges = 0,
+      redDisk = 0;
+    for (let i = 0; i < a.length; i += 4) {
+      const x = (i / 4) % 512,
+        y = Math.floor(i / 2048);
+      const different = a[i] !== b[i] || a[i + 1] !== b[i + 1] || a[i + 2] !== b[i + 2];
+      if (different) {
+        changed++;
+        if (Math.abs(x - 358.4) > 54 || Math.abs(y - 358.4) > 54) outsideChanges++;
+      }
+      if (a[i] > 60 && a[i] > a[i + 1] * 1.5 && a[i] > a[i + 2] * 2) redDisk++;
+    }
+    const center = (358 * 512 + 358) * 4;
+    const shadow = Array.from(a.slice(center, center + 3));
+    events.setReducedMotion(true);
+    const still = capture(0),
+      later = capture(12);
+    const frozen = still.every((value, index) => value === later[index]);
+    events.dispose();
+    target.dispose();
+    background.dispose();
+    renderer.dispose();
+    return { changed, outsideChanges, redDisk, shadow, frozen, storageKeys: localStorage.length };
+  });
+  expect(result.changed).toBeGreaterThan(50);
+  expect(result.changed).toBeLessThan(512 * 512 * 0.05);
+  expect(result.outsideChanges).toBe(0);
+  expect(result.redDisk).toBeGreaterThan(10);
+  expect(Math.max(...result.shadow)).toBeLessThan(4);
+  expect(result.frozen).toBe(true);
+  expect(result.storageKeys).toBe(0);
+});
+
 test('stellar ages color production photospheres and distant optics without storage writes', async ({ page }) => {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -82,6 +149,8 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
     ['supernova', '8'],
     ['blackhole', '0'],
     ['kilonova', '13'],
+    ['comet', '12'],
+    ['pulsar', '9'],
   ]) {
     await page.locator(`[data-sky-event="${kind}"]`).click();
     await expect(canvas).toHaveAttribute('data-sky-event', kind);
@@ -89,9 +158,9 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
     await expect(page.locator('.sky-event-status')).toContainText('Artistic illustration');
     await expect(page.locator('[data-word-id="sky-w"]')).toBeVisible();
   }
+  await page.locator('#scene-controls summary').click();
   await page.locator('.sky-event-status button').click();
   await expect(canvas).toHaveAttribute('data-sky-event', '');
-  await page.locator('#scene-controls summary').click();
   await page.locator('#universe-mode').click();
   await expect(page.locator('#sky-launcher summary')).toBeVisible();
   await page.locator('#sky-launcher summary').click();
@@ -105,6 +174,21 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
   await expect(page.locator('#sky-launcher')).not.toHaveAttribute('open', '');
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
   expect(errors).toEqual([]);
+});
+
+test('explicit motion preference enables stellar light and minute tones without changing learning records', async ({
+  page,
+}) => {
+  await open(page);
+  const canvas = page.locator('#universe');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await expect(canvas).toHaveAttribute('data-motion', 'reduced');
+  await page.locator('#scene-controls summary').click();
+  await page.locator('#scene-motion').selectOption('full');
+  await expect(canvas).toHaveAttribute('data-motion', 'full');
+  await page.locator('#scene-motion').selectOption('system');
+  await expect(canvas).toHaveAttribute('data-motion', 'reduced');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
 });
 
 test('nebula depth slider, wheel reversal and buttons share one stable cruise', async ({ page }) => {

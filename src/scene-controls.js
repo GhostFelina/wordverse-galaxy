@@ -1,7 +1,7 @@
 import { translate } from './i18n.js';
 import './scene-controls.css';
 
-export function mountSceneControls({ locale, onQuality }) {
+export function mountSceneControls({ locale, onQuality, onMotion = () => {} }) {
   const t = (key) => translate(locale, `scene.${key}`);
   const panel = document.createElement('details');
   panel.className = 'scene-controls';
@@ -39,6 +39,33 @@ export function mountSceneControls({ locale, onQuality }) {
   const description = document.createElement('p');
   description.textContent = t('qualityHint');
   const heading = document.createElement('h3');
+  const motionLabel = document.createElement('label');
+  motionLabel.htmlFor = 'scene-motion';
+  motionLabel.textContent = t('motion');
+  const motion = document.createElement('select');
+  motion.id = 'scene-motion';
+  for (const value of ['system', 'full', 'reduced']) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = t(`motion${value[0].toUpperCase()}${value.slice(1)}`);
+    motion.append(option);
+  }
+  try {
+    motion.value = localStorage.getItem('wordverse.motion') || 'system';
+  } catch {
+    /* Optional preference. */
+  }
+  if (!['system', 'full', 'reduced'].includes(motion.value)) motion.value = 'system';
+  motion.addEventListener('change', () => {
+    onMotion(motion.value);
+    try {
+      localStorage.setItem('wordverse.motion', motion.value);
+    } catch {
+      /* Optional preference. */
+    }
+  });
+  const motionHint = document.createElement('p');
+  motionHint.textContent = t('motionHint');
   heading.textContent = t('navigation');
   const instructions = document.createElement('dl');
   for (const key of ['mouse', 'touch', 'keyboard', 'return']) {
@@ -48,7 +75,7 @@ export function mountSceneControls({ locale, onQuality }) {
     definition.textContent = t(`${key}Hint`);
     instructions.append(term, definition);
   }
-  content.append(label, select, description, heading, instructions);
+  content.append(label, select, description, motionLabel, motion, motionHint, heading, instructions);
   panel.append(summary, content);
   document.querySelector('#app').append(panel);
   panel.addEventListener('keydown', (event) => {
@@ -62,4 +89,5 @@ export function mountSceneControls({ locale, onQuality }) {
     if (!panel.contains(event.target)) panel.open = false;
   });
   onQuality(select.value);
+  onMotion(motion.value);
 }

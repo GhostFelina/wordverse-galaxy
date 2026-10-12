@@ -32,14 +32,20 @@ try {
       }
     })
     .toBe(true);
-  browser = await chromium.launch();
+  const nativeChrome = process.env.WORDVERSE_CAPTURE_BROWSER === 'chrome';
+  browser = await chromium.launch(nativeChrome ? { channel: 'chrome', args: ['--use-angle=d3d11'] } : {});
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => {
-    if (m.type() === 'error') errors.push(m.text());
+    if (m.type() === 'error') errors.push(`${m.text()} (${m.location().url})`);
   });
   await page.addInitScript(() => {
+    let seed = 827;
+    Math.random = () => {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
     const entries = [
       ['Serendipity', 'A fortunate discovery', 31, 0, 18],
       ['Resilience', 'The ability to recover', -4, 14, -160],
@@ -82,6 +88,9 @@ try {
   await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
   await expect(page.locator('#universe')).toHaveAttribute('data-nebula-refined', 'true');
   await page.evaluate(() => document.fonts.ready);
+  await page.locator('#scene-controls summary').click();
+  await page.locator('#render-quality').selectOption('high');
+  await page.locator('#scene-controls summary').click();
   await page.locator('#sky-launcher summary').click();
   await page.locator('#living-sky').click();
   await page.locator('#sky-launcher summary').click();
@@ -104,6 +113,7 @@ try {
     ['50', 'interior'],
   ]) {
     await page.locator('#nebula-depth').fill(depth);
+    await expect(page.locator('#nebula-navigation output')).toHaveText(`${depth}%`);
     await expect
       .poll(async () =>
         Math.abs(
@@ -121,7 +131,7 @@ try {
     .toBeGreaterThan(159.8);
   await page.locator('#universe-mode').click();
   await page.locator('#scene-controls summary').click();
-  for (const kind of ['blackhole', 'supernova', 'meteor', 'kilonova']) {
+  for (const kind of ['blackhole', 'supernova', 'meteor', 'kilonova', 'comet', 'pulsar']) {
     await page.locator(`[data-sky-event="${kind}"]`).click();
     await expect(page.locator('#universe')).toHaveAttribute('data-sky-event', kind);
     await page.locator('#scene-controls summary').click();
@@ -186,10 +196,13 @@ try {
     JSON.stringify(
       {
         date: '2026-10-12',
-        version: '1.21.0',
+        version: '1.22.0',
         viewport: '1440x900',
         records: 'Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed',
         renderer: 'Production modules, Chromium, reduced motion; living sky disabled for reproducible manual stills',
+        browser: await browser.version(),
+        launch: nativeChrome ? 'Native Chrome, ANGLE D3D11 requested' : 'Playwright Chromium',
+        quality: 'Explicit high quality; reduced-motion stills',
         card: '1080x1080 PNG; selected synthetic word only, meaning omitted',
         social: '1200x630 PNG, original branded composition, synthetic production scene',
         astronomy: 'Artistic procedural experiences; Orion guidance credits in ATTRIBUTIONS.md',

@@ -42,5 +42,19 @@ describe('ephemeral sky experiences', () => {
     for (let i = 0; i < 250; i++) state.update(0.1);
     expect(state.snapshot()).toEqual(merger);
     expect(merger.elapsed).toBe(13);
+    for (const kind of ['comet', 'pulsar']) {
+      state.select(kind);
+      const still = state.snapshot();
+      state.update(100);
+      expect(state.snapshot()).toEqual(still);
+    }
+  });
+  it('ends comet and pulsar accents without retaining an event after their finite duration', () => {
+    for (const kind of ['comet', 'pulsar']) {
+      const state = createSkyEventState();
+      state.select(kind);
+      for (let i = 0; i < 300; i++) state.update(0.1);
+      expect(state.snapshot().kind).toBeNull();
+    }
   });
 });

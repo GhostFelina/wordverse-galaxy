@@ -32,7 +32,12 @@
     "keyboard": "Klavye",
     "keyboardHint": "Evreni seç: ok tuşları hareket, + / − zoom, Home başlangıç görünümü.",
     "return": "Geri dönüş",
-    "returnHint": "Escape paneli kapatır, yıldız odağını bırakır veya arayüze döner."
+    "returnHint": "Escape paneli kapatır, yıldız odağını bırakır veya arayüze döner.",
+    "motion": "Animasyonlar",
+    "motionSystem": "Cihaz tercihi",
+    "motionFull": "Canlı yıldızlar ve gökyüzü",
+    "motionReduced": "Sakin görünüm",
+    "motionHint": "Cihaz tercihi azaltılmış hareket ayarını izler. Canlı görünüm yıldız parlamasını ve renk tonlarını etkinleştirir."
   },
   "language": "Türkçe",
   "nav": {
@@ -593,7 +598,9 @@
     "kilonova": "Nötron yıldızı çarpışması",
     "livingOn": "Canlı gökyüzü · açık",
     "livingOff": "Canlı gökyüzü · kapalı",
-    "livingHint": "Sakin aralıklarla rastgele olaylar gelişir. Elle seçtiğin olay önceliklidir; ses yalnızca açtığında çalar."
+    "livingHint": "Sakin aralıklarla rastgele olaylar gelişir. Elle seçtiğin olay önceliklidir; ses yalnızca açtığında çalar.",
+    "comet": "Kuyruklu yıldız",
+    "pulsar": "Pulsar"
   },
   "share": {
     "open": "Yıldız kartı",

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.22.0] — Development · 2026-10-12
+
+- Randomized safe positions, scales and directions for finite sky experiences; comet and pulsar scenes with original position-aware sound cues.
+- Rebuilt distant black-hole illustration with bounded bent-ray integration, a dense red/copper disk, faster differential flow and local gas-background distortion. Personal stars and record coordinates remain independent.
+- More visible distant light modulation and minute spectra, with an explicit device/full/reduced animation preference.
+- Mip-filtered physical-space gas noise, stronger porous lobes, fixed physical march spacing with up to192 high-quality interior samples and fading photographic guidance during immersion.
+- Scene settings hide competing sky overlays while open. Hosted wheel/navigation test keeps its assertions with a longer overall software-GPU budget.
+
 ## [1.21.0] — Development · 2026-10-12
 
 - Session-only living sky: shuffled finite meteor, supernova, distant black-hole and neutron-star merger events, calm gaps and soft envelopes. Manual choices take priority; quiet mode stops automatic direction and hidden tabs pause its clock.

@@ -33,6 +33,7 @@ for (const width of [1440, 768, 390]) {
   });
 }
 test('slower wheel and zoom controls fly through Orion and back; drag and data stay isolated', async ({ page }) => {
+  test.setTimeout(60000);
   await page.setViewportSize({ width: 1440, height: 900 });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));

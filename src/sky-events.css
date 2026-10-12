@@ -51,6 +51,9 @@
   border-radius: 12px;
   background: #080c16f5;
   box-shadow: 0 16px 50px #0009;
+  max-height: calc(100vh - 380px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .sky-quick-options button {
   min-height: 44px;
@@ -176,6 +179,11 @@
 .sky-event-status[hidden],
 .nebula-navigation[hidden] {
   display: none;
+}
+#app:has(.scene-controls[open]) .sky-launcher,
+#app:has(.scene-controls[open]) .nebula-entry,
+#app:has(.scene-controls[open]) .sky-event-status {
+  visibility: hidden;
 }
 #app:has(.side-panel.open) .nebula-navigation,
 #app:has(dialog[open]) .nebula-navigation,

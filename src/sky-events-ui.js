@@ -10,7 +10,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
   const list = document.createElement('div');
   list.className = 'sky-event-options';
   const buttons = new Map();
-  for (const kind of ['none', 'meteor', 'supernova', 'blackhole', 'kilonova']) {
+  for (const kind of ['none', 'meteor', 'supernova', 'blackhole', 'kilonova', 'comet', 'pulsar']) {
     const button = document.createElement('button');
     button.type = 'button';
     button.dataset.skyEvent = kind;
@@ -43,7 +43,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
   const quickList = document.createElement('div');
   quickList.className = 'sky-event-options sky-quick-options';
   const quickButtons = new Map();
-  for (const kind of ['blackhole', 'supernova', 'kilonova', 'meteor', 'none']) {
+  for (const kind of ['blackhole', 'supernova', 'kilonova', 'comet', 'pulsar', 'meteor', 'none']) {
     const button = document.createElement('button');
     button.type = 'button';
     button.dataset.skyQuick = kind;
@@ -77,9 +77,14 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
   document.addEventListener('pointerdown', (event) => {
     if (!launcher.contains(event.target)) launcher.open = false;
   });
-  let previous;
+  let previous,
+    previousMotion = reducedMotion;
   return {
-    update({ kind, living }) {
+    update({ kind, living, reducedMotion: motion }) {
+      if (typeof motion === 'boolean' && motion !== previousMotion) {
+        previousMotion = motion;
+        hint.textContent = t(motion ? 'stillHint' : 'hint');
+      }
       if (typeof living === 'boolean') {
         live.setAttribute('aria-pressed', String(living));
         live.textContent = t(living ? 'livingOn' : 'livingOff');

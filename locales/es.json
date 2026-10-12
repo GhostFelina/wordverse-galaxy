@@ -32,7 +32,12 @@
     "keyboard": "Teclado",
     "keyboardHint": "Enfoca el universo: flechas para moverte, + / − para acercarte, Home para restablecer.",
     "return": "Volver",
-    "returnHint": "Escape cierra el panel, libera el enfoque o vuelve a la interfaz."
+    "returnHint": "Escape cierra el panel, libera el enfoque o vuelve a la interfaz.",
+    "motion": "Animación",
+    "motionSystem": "Preferencia del dispositivo",
+    "motionFull": "Estrellas y cielo vivos",
+    "motionReduced": "Vista tranquila",
+    "motionHint": "La preferencia del dispositivo respeta el movimiento reducido. La vista viva activa el centelleo y los tonos de las estrellas."
   },
   "language": "Español",
   "nav": {
@@ -593,7 +598,9 @@
     "kilonova": "Fusión de estrellas de neutrones",
     "livingOn": "Cielo vivo · activado",
     "livingOff": "Cielo vivo · desactivado",
-    "livingHint": "Los eventos aleatorios se suceden con pausas tranquilas. Tu elección tiene prioridad; el audio solo suena al activarlo."
+    "livingHint": "Los eventos aleatorios se suceden con pausas tranquilas. Tu elección tiene prioridad; el audio solo suena al activarlo.",
+    "comet": "Cometa",
+    "pulsar": "Púlsar"
   },
   "share": {
     "open": "Tarjeta estelar",

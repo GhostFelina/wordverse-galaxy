@@ -47,7 +47,7 @@ export function stellarSpectrum(record, now = Date.now(), animateTone = true) {
   const minute = Math.floor(appearance.ageMinutes);
   const signal = (i) => 0.65 * Math.sin(i * 1.618 + phase) + 0.35 * Math.sin(i * 0.413 + phase * 0.31);
   const tone = animateTone
-    ? (signal(minute) + (signal(minute + 1) - signal(minute)) * smooth(appearance.ageMinutes - minute)) * 0.055
+    ? (signal(minute) + (signal(minute + 1) - signal(minute)) * smooth(appearance.ageMinutes - minute)) * 0.13
     : 0;
   const channels = rgb(appearance.color);
   return { ...appearance, color: hex([channels[0] + tone, channels[1], channels[2] - tone]) };

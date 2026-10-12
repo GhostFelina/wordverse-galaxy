@@ -149,8 +149,10 @@ const starStageLabel = appearance => t(`names.stage.${appearance.stageId}`);
 const births = [];
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 let reducedMotion = motionPreference.matches;
+let motionMode = 'system';
 let lastAgeLabelUpdate = 0;
-motionPreference.addEventListener('change', event => { reducedMotion = event.matches; skyEvents?.setReducedMotion(reducedMotion); pointer.x = pointer.y = 0; });
+function applyMotionMode(mode) { motionMode = mode; reducedMotion = mode === 'reduced' || (mode === 'system' && motionPreference.matches); skyEvents?.setReducedMotion(reducedMotion); pointer.x = pointer.y = 0; }
+motionPreference.addEventListener('change', () => applyMotionMode(motionMode));
 
 function persist(onDurable) {
   if (accountSync?.persist(universe, onDurable)) return true;
@@ -240,7 +242,7 @@ function initScene() {
     renderer.setPixelRatio(ratio);
     $('#universe').dataset.renderDpr = String(ratio);
   } });
-  mountSceneControls({ locale: uiLocale, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
+  mountSceneControls({ locale: uiLocale, onMotion: applyMotionMode, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
   soundscape = mountSoundscape({ locale: uiLocale, container: document.querySelector('.scene-controls-content') });
   livingSky = createLivingSky();
   skyEvents = createSkyEvents({ reducedMotion });
@@ -248,7 +250,7 @@ function initScene() {
   skyEventsUI = mountSkyEventsUI({ locale: uiLocale, reducedMotion,
     container: document.querySelector('.scene-controls-content'),
     onLiveChange(enabled) { const automatic = !!livingSky.active; livingSky.setEnabled(enabled); if (!enabled && automatic) { skyEvents.select(null); soundscape.event(null); } skyEventsUI.update({...skyEvents.snapshot(),living:enabled}); },
-    onSelect(kind) { livingSky.manual(kind); skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
+    onSelect(kind) { livingSky.manual(kind); skyEvents.select(kind,{wide:$('#app').classList.contains('immersive')}); skyEventsUI.update(skyEvents.snapshot()); playSkySound(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
   });
   nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
     onEnter() { if (nebulaSystem?.ready) { closePanels(); if (!$('#app').classList.contains('immersive')) $('#universe-mode').click(); travelToNebula(nebulaSystem.records[0]); $('#universe').focus({ preventScroll: true }); } },
@@ -284,6 +286,7 @@ function soundPosition(id) {
   const position = worldStars.get(id)?.position;
   return position && camera ? [Math.max(-8,Math.min(8,(position.x-camera.position.x)/100)),Math.max(-8,Math.min(8,(position.y-camera.position.y)/100)),Math.max(-16,Math.min(-.2,(position.z-camera.position.z)/100))] : undefined;
 }
+function playSkySound(kind) { const center = skyEvents.snapshot().placement.center; soundscape.event(kind,[center[0]*8,center[1]*4,-6]); }
 function spawnBirth(id) {
   if (worldStars.has(id) && !reducedMotion) births.push({ id, start: clock });
 }
@@ -423,15 +426,17 @@ function animate(ms) {
   $('#universe').dataset.starApproach = target ? starApproach(camera.position.z-target.position.z,MAX_ZOOM-target.position.z).toFixed(3) : '0';
   renderer.render(scene, camera);
   const directed = livingSky.tick(cameraDelta*.001,skyEvents.snapshot().kind,!!activePanel || !!focusedStarId);
-  if (directed) { skyEvents.select(directed.kind); soundscape.event(directed.kind); }
+  if (directed) { skyEvents.select(directed.kind,{wide:$('#app').classList.contains('immersive')}); playSkySound(directed.kind); }
   const skyState = skyEvents.update(cameraDelta*.001, camera.aspect, camera, livingSky.envelope);
   // Sky accents retain their own dark cores; personal stars are drawn last.
-  nebulaSystem.render(renderer, () => skyEvents.render(renderer));
+  nebulaSystem.render(renderer, background => skyEvents.render(renderer,background));
   skyEventsUI.update({...skyState,living:livingSky.enabled});
   $('#universe').dataset.livingSky = String(livingSky.enabled);
   $('#universe').dataset.skyOrigin = livingSky.active ? 'automatic' : 'manual';
   $('#universe').dataset.skyEvent = skyState.kind || '';
   $('#universe').dataset.skyEventTime = String(skyState.elapsed);
+  $('#universe').dataset.skyPosition = skyState.placement.center.map(value=>value.toFixed(3)).join(',');
+  $('#universe').dataset.motion = reducedMotion ? 'reduced' : 'full';
   if (ms-lastSoundUpdate>180) {
     lastSoundUpdate=ms;
     soundscape.update({ depth: travelingNebula ? Math.min(1,Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: skyState.kind });

@@ -190,13 +190,39 @@ export function createSoundscapeGraph(context) {
       smooth(filter.frequency, mix.cutoff, 1.2);
       smooth(wet.gain, mix.wet, 1.5);
     },
-    event(kind) {
+    event(kind, position) {
       if (disposed) return;
       stopEvents();
+      if (kind === 'pulsar') {
+        const now = context.currentTime;
+        for (const frequency of [92, 92.65]) {
+          const source = track(context.createOscillator()),
+            envelope = gain(0),
+            panner = spatialVoice(position || [0, 1, -6]);
+          source.type = 'sine';
+          source.frequency.value = frequency;
+          envelope.gain.setValueAtTime(0, now);
+          envelope.gain.linearRampToValueAtTime(0.045, now + 2);
+          envelope.gain.exponentialRampToValueAtTime(0.0001, now + 26);
+          source.connect(envelope);
+          envelope.connect(panner);
+          panner.connect(input);
+          const local = [source, envelope, panner],
+            entry = { source, envelope, local };
+          transients.add(entry);
+          source.onended = () => {
+            transients.delete(entry);
+            release(local);
+          };
+          source.start(now);
+          source.stop(now + 26.1);
+        }
+        return;
+      }
       if (kind === 'kilonova') {
         const source = track(context.createOscillator()),
           envelope = gain(0),
-          panner = spatialVoice([-3, 2, -4]);
+          panner = spatialVoice(position || [-3, 2, -4]);
         const now = context.currentTime;
         source.type = 'sine';
         source.frequency.setValueAtTime(88, now);
@@ -218,14 +244,14 @@ export function createSoundscapeGraph(context) {
         source.start(now);
         source.stop(now + 16.1);
       }
-      if (!['meteor', 'supernova', 'kilonova'].includes(kind)) return;
+      if (!['meteor', 'supernova', 'kilonova', 'comet'].includes(kind)) return;
       const meteor = kind === 'meteor',
         merger = kind === 'kilonova',
-        duration = meteor ? 4.8 : merger ? 20 : 13;
+        duration = meteor ? 4.8 : merger ? 20 : kind === 'comet' ? 23 : 13;
       const source = track(context.createBufferSource()),
         envelope = gain(0),
         tone = track(context.createBiquadFilter()),
-        stereo = spatialVoice(meteor ? [-5, 2, -3] : merger ? [-3, 2, -4] : [2, 1, -5]);
+        stereo = spatialVoice(position || (meteor ? [-5, 2, -3] : merger ? [-3, 2, -4] : [2, 1, -5]));
       source.buffer = noise.buffer;
       source.loop = true;
       tone.type = meteor ? 'bandpass' : 'lowpass';
@@ -236,7 +262,7 @@ export function createSoundscapeGraph(context) {
       tone.frequency.exponentialRampToValueAtTime(meteor ? 400 : 90, now + duration);
       envelope.gain.setValueAtTime(0, now);
       envelope.gain.linearRampToValueAtTime(
-        meteor ? 0.3 : merger ? 0.24 : 0.45,
+        meteor ? 0.3 : merger ? 0.24 : kind === 'comet' ? 0.075 : 0.45,
         now + (meteor ? 0.9 : merger ? 8.5 : 3),
       );
       envelope.gain.exponentialRampToValueAtTime(0.0001, now + duration);
@@ -409,8 +435,8 @@ export function createSoundscape({ createContext = () => new AudioContext(), onC
       scene = next;
       if (enabled && !hidden) graph?.update(next);
     },
-    event(kind) {
-      if (enabled && !hidden) graph?.event(kind);
+    event(kind, position) {
+      if (enabled && !hidden) graph?.event(kind, position);
     },
     birth(position) {
       if (enabled && !hidden) graph?.birth(position);

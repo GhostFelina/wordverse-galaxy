@@ -32,7 +32,12 @@
     "keyboard": "Keyboard",
     "keyboardHint": "Focus the universe: arrows to move, + / − to zoom, Home to reset.",
     "return": "Return",
-    "returnHint": "Escape closes the panel, releases star focus or returns to the interface."
+    "returnHint": "Escape closes the panel, releases star focus or returns to the interface.",
+    "motion": "Animation",
+    "motionSystem": "Device preference",
+    "motionFull": "Living stars and sky",
+    "motionReduced": "Quiet view",
+    "motionHint": "Device preference follows reduced motion. Living view enables stellar scintillation and minute tones."
   },
   "language": "English",
   "nav": {
@@ -593,7 +598,9 @@
     "kilonova": "Neutron-star merger",
     "livingOn": "Living sky · on",
     "livingOff": "Living sky · off",
-    "livingHint": "Random experiences unfold with quiet intervals. Your manual selection takes priority; audio only plays when enabled."
+    "livingHint": "Random experiences unfold with quiet intervals. Your manual selection takes priority; audio only plays when enabled.",
+    "comet": "Comet",
+    "pulsar": "Pulsar"
   },
   "share": {
     "open": "Star card",

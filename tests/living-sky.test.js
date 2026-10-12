@@ -34,7 +34,7 @@ it('directs a shuffled bounded sequence with quiet gaps and smooth finite envelo
       previousStop = i;
     }
   }
-  expect(new Set(started)).toEqual(new Set(['meteor', 'supernova', 'blackhole', 'kilonova']));
+  expect(new Set(started)).toEqual(new Set(['meteor', 'supernova', 'blackhole', 'kilonova', 'comet', 'pulsar']));
   expect(stopped.length).toBeGreaterThan(20);
 });
 

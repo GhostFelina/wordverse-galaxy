@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.21.0",
-  "activeWork": "Varied sky placement and new events; visible distant spectra/scintillation and interior gas refinement",
+  "developmentVersion": "1.22.0",
+  "activeWork": "Verified1.22 runtime checkpoint, exact-source preview and doc-only professional GitHub publication",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -38,8 +38,8 @@
       "status": "success",
       "version": "1.18.0"
     },
-    "localUnitTests": 144,
-    "suiteBrowserTests": 115,
+    "localUnitTests": 147,
+    "suiteBrowserTests": 117,
     "userVisualAcceptance": "pending",
     "preview": {
       "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
@@ -130,13 +130,26 @@
       "version": "1.21.0",
       "status": "Complete local144unit/115browser10.1m, format/release/audit/24Go pass",
       "evidence": "docs/handoff/evidence/2026-10-12-living-quality-manifest.json",
-      "remote": "pending",
+      "remote": {
+        "run": 38275707330,
+        "commit": "694d10245f93092dd5e4e2f1d3f8a2f66f7d5236",
+        "status": "failure:114/115 browser; repeated wheel-button flow exceeded30s; same assertions retain60s total budget in1.22"
+      },
       "director": "Session-only randomized timing/shuffled finite events, manual priority, quiet mode",
       "audio": "Distinct durable edit/delete cues; original birth retained"
+    },
+    "skyVariety": {
+      "version": "1.22.0",
+      "status": "Complete local147unit/117browser7.3m and quality gates pass; native flow/audio, synthetic gallery and isolated hardware evidence recorded",
+      "sky": "Random safe positions/scale/angle, shuffled finite comet and pulsar with original positional cues",
+      "blackhole": "Bounded144-step midpoint strong-field approximation, differential red disk and local gas distortion; no calibrated Kerr claim",
+      "gas": "Fixed physical march spacing avoids nested box-exit sampling planes; mip-filtered density and up to192 high-quality samples",
+      "motion": "Device/full/reduced preference; stronger bounded distant light and minute spectra",
+      "evidence": "docs/handoff/evidence/2026-10-12-variety-quality-manifest.json"
     }
   },
   "checkpoint": {
-    "version": "1.21.0",
+    "version": "1.22.0",
     "applicationCommit": null,
     "deploymentTarget": "preview",
     "date": "2026-10-12"

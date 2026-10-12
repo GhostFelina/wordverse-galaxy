@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Wordverse · sky experiences</title>
+    <link rel="icon" href="data:," />
     <style>
       body {
         margin: 0;
@@ -44,7 +45,9 @@
         <option value="kilonova">Neutron-star merger</option>
         <option value="blackhole">Black hole</option>
         <option value="supernova">Supernova</option>
-        <option value="meteor">Meteor</option></select
+        <option value="meteor">Meteor</option>
+        <option value="comet">Comet</option>
+        <option value="pulsar">Pulsar</option></select
       ><input aria-label="Time" type="range" min="0" max="21" step=".1" value="3" /><output></output
       ><button id="play">Play</button>
     </nav>
@@ -65,7 +68,7 @@
       camera.position.z = 160;
       camera.updateMatrixWorld();
       const gas = createNebulaSystem(scene, camera, { fieldStars: false }),
-        event = createSkyEvents();
+        event = createSkyEvents({ random: () => 0.5 });
       let ready = false,
         playing = false,
         previous = 0;
@@ -74,7 +77,8 @@
         output = document.querySelector('output');
       function pose() {
         playing = false;
-        event.select(choice.value);
+        event.select(choice.value, { reposition: false });
+        event.update(0, camera.aspect, camera);
         let remaining = Number(time.value);
         while (remaining > 0.00001) {
           const delta = Math.min(0.1, remaining);
@@ -99,10 +103,11 @@
         }
         gas.update(0, 1, innerHeight);
         renderer.render(scene, camera);
-        gas.render(renderer, () => event.render(renderer));
+        gas.render(renderer, (background) => event.render(renderer, background));
         const snapshot = event.snapshot();
         output.textContent = snapshot.elapsed.toFixed(1) + ' s';
         renderer.domElement.dataset.ready = String(gas.ready);
+        renderer.domElement.dataset.refined = String(gas.refined);
         renderer.domElement.dataset.event = snapshot.kind || '';
         renderer.domElement.dataset.time = String(snapshot.elapsed);
       });
