@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('distant scintillation changes rendered light without moving the core and fades at resolved scale', async ({
+test('distant scintillation visibly changes tone-mapped cores without moving them and honors reduced motion', async ({
   page,
 }) => {
   const errors = [];
@@ -13,48 +13,63 @@ test('distant scintillation changes rendered light without moving the core and f
   const result = await page.evaluate(async () => {
     const THREE = await import('/node_modules/three/build/three.module.js');
     const { createWordStarSystem } = await import('/src/word-star-system.js');
-    const renderer = new THREE.WebGLRenderer();
-    const target = new THREE.WebGLRenderTarget(256, 256);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(256, 256);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.85;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 10000);
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 10000);
     camera.layers.enable(2);
     const system = createWordStarSystem(scene);
-    system.setEntries([{ id: 'twinkle-evidence', x: 0, y: 0, z: 0 }]);
-    renderer.setRenderTarget(target);
-    function capture(time, distance) {
+    const now = Date.parse('2026-10-12T12:00:00Z');
+    system.setEntries([{ id: 'twinkle-evidence', createdAt: '2026-10-01T12:00:00Z', x: 0, y: 0, z: 0 }]);
+    const focal = 256 / (2 * Math.tan(THREE.MathUtils.degToRad(75 / 2)));
+    function capture(time, diameter, reducedMotion = false) {
+      const distance = (0.9 * focal) / diameter;
       camera.position.set(0, 0, distance);
       camera.updateMatrixWorld();
-      system.update(time, camera, 256, 1);
+      system.update(time, camera, 256, 1, { now, reducedMotion });
       renderer.render(scene, camera);
       const pixels = new Uint8Array(256 * 256 * 4);
-      renderer.readRenderTargetPixels(target, 0, 0, 256, 256, pixels);
+      const gl = renderer.getContext();
+      gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
       let energy = 0,
         x = 0,
-        y = 0;
+        y = 0,
+        core = 0;
       for (let i = 0; i < pixels.length; i += 4) {
         const value = pixels[i] + pixels[i + 1] + pixels[i + 2];
         energy += value;
         x += value * ((i / 4) % 256);
         y += value * Math.floor(i / 1024);
+        if (Math.abs(((i / 4) % 256) - 127.5) < 2 && Math.abs(Math.floor(i / 1024) - 127.5) < 2) core += value;
       }
-      return { energy, x: x / energy, y: y / energy };
+      return { energy, core, x: x / energy, y: y / energy };
     }
-    const far = [0, 2, 4, 6].map((time) => capture(time, 1000));
-    const near = [0, 2, 4, 6].map((time) => capture(time, 5));
+    const times = Array.from({ length: 13 }, (_, i) => i);
+    const far = [0.75, 3.5, 10].map((diameter) => times.map((time) => capture(time, diameter)));
+    const near = times.map((time) => capture(time, 40));
+    const reduced = times.map((time) => capture(time, 3.5, true));
     system.dispose();
-    target.dispose();
     renderer.dispose();
-    return { far, near };
+    return { far, near, reduced };
   });
-  const energy = result.far.map((frame) => frame.energy);
-  expect(Math.min(...energy)).toBeGreaterThan(0);
-  expect(Math.max(...energy) / Math.min(...energy)).toBeGreaterThan(1.05);
-  expect(Math.max(...energy) / Math.min(...energy)).toBeLessThan(2);
-  for (const frame of result.far) {
-    expect(frame.x).toBeCloseTo(127.5, 1);
-    expect(frame.y).toBeCloseTo(127.5, 1);
+  for (const [index, frames] of result.far.entries()) {
+    const energy = frames.map((frame) => frame.energy);
+    const cores = frames.map((frame) => frame.core);
+    expect(Math.min(...cores)).toBeGreaterThan(100);
+    expect(Math.max(...cores) / Math.min(...cores), `core at diameter ${[0.75, 3.5, 10][index]}`).toBeGreaterThan(
+      index === 2 ? 1.2 : 1.6,
+    );
+    expect(Math.max(...energy) / Math.min(...energy)).toBeLessThan(4.5);
+    for (const frame of frames) {
+      expect(frame.x).toBeCloseTo(127.5, 1);
+      expect(frame.y).toBeCloseTo(127.5, 1);
+    }
   }
   expect(new Set(result.near.map((frame) => frame.energy)).size).toBe(1);
+  expect(new Set(result.reduced.map((frame) => frame.energy)).size).toBe(1);
   expect(errors).toEqual([]);
 });
 
@@ -248,6 +263,7 @@ test('real word records keep their positions through selection, addition, reload
 });
 
 test('selected star keeps wheel and button targeting inside its safe surface distance', async ({ page }) => {
+  test.setTimeout(60000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await seedWordRecords(page);
   const canvas = page.locator('#universe');
@@ -255,7 +271,9 @@ test('selected star keeps wheel and button targeting inside its safe surface dis
   await star.click();
   await page.locator('#focus-star').click();
   await expect(canvas).toHaveAttribute('data-focused-word', 'steady');
-  await expect.poll(async () => Number(await star.getAttribute('data-diameter'))).toBeGreaterThan(150);
+  await expect
+    .poll(async () => Number(await star.getAttribute('data-diameter')), { timeout: 15000 })
+    .toBeGreaterThan(150);
   await page.locator('#universe-mode').click();
   // Keyboard activation exercises the same native button handler without eight
   // pointer actionability/stability waits competing with software WebGL.

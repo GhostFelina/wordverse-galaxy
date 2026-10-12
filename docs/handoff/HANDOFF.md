@@ -1,10 +1,10 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development 1.22.0; production 1.14.1 remains unchanged.
+Active branch: phase/4-universe. Development 1.22.1; production 1.14.1 remains unchanged.
 
 ## Current implementation
 
-Shared procedural photospheres, stationary distant scintillation and continuous creation-date spectra. Device/full/reduced animation preference is explicit and persistent. Direct Orion entry presents every active-galaxy word in a reversible exploration frame; focus, wheel travel and return preserve stored coordinates/dates.
+Shared procedural photospheres, stationary distant scintillation and continuous creation-date spectra.1.22.1 corrects saturated additive alpha so visible distant cores breathe with their halos; reduced motion freezes the material clock directly. Device/full/reduced animation preference is explicit and persistent. Direct Orion entry presents every active-galaxy word in a reversible exploration frame; focus, wheel travel and return preserve stored coordinates/dates.
 
 The session-only living director shuffles meteor, supernova, distant black-hole, neutron-star-merger, comet and pulsar illustrations with random calm intervals, safe randomized positions, scales and directions. Manual selection has priority; quiet sky stops automatic direction. Learning panels/focus defer new automatic events and hidden tabs pause its clock. All experiences remain separate from vocabulary records.
 
@@ -16,7 +16,9 @@ Original gesture-enabled spatial/stereo audio follows depth and visual event pos
 
 ## Validation
 
-Targeted10 sky browser checks pass, including bounded moving red disk, dark shadow, reduced-motion stills, every event, motion preference, Orion travel and preserved records. Native isolated Chrome verifies an automatic opening, varied manual positions, quiet mode and unchanged synthetic records. Native 48kHz / 74s full-volume synthesis includes birth/edit/delete, merger, comet and pulsar with peak0.4984. Complete local gate passes: 147 unit / 117 browser tests (7.3m), lint, types, build, format, release checks, zero audit vulnerabilities and 24 Go assertions. The final fixed-spacing gallery has no console errors; camera depth labels match the captured28%/50% positions. Evidence: [manifest](evidence/2026-10-12-variety-quality-manifest.json). Exact-source preview and remote CI follow the runtime checkpoint.
+1.22.1:16 affected browser checks and65-frame native compositor validation pass. Six synthetic old white-dwarf cores over Orion show52–85 display-luminance variation with zero position drift and unchanged records. A new ACES/sRGB pixel check covers0.75/3.5/10px, bounded light, stationary centroids and still/close states. Fresh high-quality synthetic gallery and optional native animation have no console errors. Complete patch gate passes:147 unit/117 browser(8.5m), lint, types, build, format, release, zero audit vulnerabilities and24 Go assertions. [Patch evidence](evidence/2026-10-12-scintillation-quality-manifest.json).
+
+Targeted10 sky browser checks pass, including bounded moving red disk, dark shadow, reduced-motion stills, every event, motion preference, Orion travel and preserved records. Native isolated Chrome verifies an automatic opening, varied manual positions, quiet mode and unchanged synthetic records. Native 48kHz / 74s full-volume synthesis includes birth/edit/delete, merger, comet and pulsar with peak0.4984. Complete local gate passes: 147 unit / 117 browser tests (7.3m), lint, types, build, format, release checks, zero audit vulnerabilities and 24 Go assertions. The final fixed-spacing gallery has no console errors; camera depth labels match the captured28%/50% positions. Evidence: [manifest](evidence/2026-10-12-variety-quality-manifest.json). 1.22 source checkpoint e5fb759 is pushed; its preview is READY. Remote38281683299 reached115/117 and failed on two software-GPU deadlines.1.22.1 uses native keyboard event selection and15s close-target convergence; all behavioral assertions are retained. Exact-source patch preview and remote CI follow its runtime checkpoint.
 
 Remote1.21 reached114/115 browser passes: repeated wheel-button flow exceeded30s on software WebGL.1.22 keeps its assertions with60s total budget. Older precise focus/startup convergence waits remain15s.
 

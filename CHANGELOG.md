@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.22.1] — Development · 2026-10-12
+
+- Unsaturated distant optical alpha makes the visible core breathe with its halo, including old white-dwarf records over Orion. Smooth independent rhythms retain a nonzero minimum and fade with projected size.
+- Reduced motion freezes the stellar material clock directly. Pixel validation covers the final ACES/sRGB display output at subpixel, home and approaching sizes, stationary centroids and still/close states.
+- Hosted sky-selection checks use native keyboard activation; close-target convergence retains its150px assertion with a software-GPU wait budget.
+
 ## [1.22.0] — Development · 2026-10-12
 
 - Randomized safe positions, scales and directions for finite sky experiences; comet and pulsar scenes with original position-aware sound cues.

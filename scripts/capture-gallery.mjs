@@ -196,7 +196,7 @@ try {
     JSON.stringify(
       {
         date: '2026-10-12',
-        version: '1.22.0',
+        version: '1.22.1',
         viewport: '1440x900',
         records: 'Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed',
         renderer: 'Production modules, Chromium, reduced motion; living sky disabled for reproducible manual stills',

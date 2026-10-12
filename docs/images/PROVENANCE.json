@@ -1,6 +1,6 @@
 {
   "date": "2026-10-12",
-  "version": "1.22.0",
+  "version": "1.22.1",
   "viewport": "1440x900",
   "records": "Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed",
   "renderer": "Production modules, Chromium, reduced motion; living sky disabled for reproducible manual stills",
@@ -10,5 +10,13 @@
   "card": "1080x1080 PNG; selected synthetic word only, meaning omitted",
   "social": "1200x630 PNG, original branded composition, synthetic production scene",
   "astronomy": "Artistic procedural experiences; Orion guidance credits in ATTRIBUTIONS.md",
-  "errors": []
+  "errors": [],
+  "animation": {
+    "file": "wordverse-scintillation.gif",
+    "version": "1.22.1",
+    "captured": "65 native Chrome compositor frames, six synthetic old word records over Orion, full motion,720x380 desktop crop with controls omitted; no user profile access",
+    "encoded": "5fps,256-color global palette, stable Bayer dithering, no brightness or position manipulation",
+    "sha256": "6f3fa4bdb93ffc2a08eed8090ae5651bebe9aad2633674648a8f07213ca0d550",
+    "evidence": "../handoff/evidence/2026-10-12-scintillation-native.json"
+  }
 }

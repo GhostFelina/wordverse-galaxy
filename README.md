@@ -8,7 +8,7 @@
 
 **Turn the words you learn into a universe you can explore.** Add a word, find its star, approach its surface and reveal its meaning when you are ready. Wordverse pairs a personal vocabulary atlas with a cinematic Three.js scene.
 
-The live app runs **1.14.1**. The screenshots and features below describe **1.22.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
+The live app runs **1.14.1**. The screenshots and features below describe **1.22.1 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
 
 ## Explore, remember, share
 
@@ -26,6 +26,14 @@ The live app runs **1.14.1**. The screenshots and features below describe **1.22
 <p><img src="docs/images/wordverse-photosphere.png" alt="Warm procedural granular star surface" width="49%" /> <img src="docs/images/wordverse-blackhole.png" alt="Optional artistic black-hole disk" width="49%" /></p>
 
 <p><img src="docs/images/wordverse-orion-passage.png" alt="Personal stars among layered Orion gas" width="49%" /> <img src="docs/images/wordverse-kilonova-ejecta.png" alt="Original neutron-star merger ejecta illustration" width="49%" /></p>
+
+<details><summary>Watch distant starlight</summary>
+
+![Independent slow scintillation in six synthetic distant word stars, captured from the actual desktop scene](docs/images/wordverse-scintillation.gif)
+
+The visible cores and halos breathe at independent rhythms while their positions stay fixed. This native browser capture uses old records over Orion; the stars retain a visible light minimum. Choose **View → Animations → Living stars and sky** to enable it, or choose reduced motion for a still scene.
+
+</details>
 
 <details><summary>A comet and a quiet pulsar</summary>
 

@@ -152,7 +152,9 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
     ['comet', '12'],
     ['pulsar', '9'],
   ]) {
-    await page.locator(`[data-sky-event="${kind}"]`).click();
+    // Native keyboard activation validates the same accessible selection
+    // without two expensive software-WebGL frames for pointer stability.
+    await page.locator(`[data-sky-event="${kind}"]`).press('Enter');
     await expect(canvas).toHaveAttribute('data-sky-event', kind);
     await expect(canvas).toHaveAttribute('data-sky-event-time', time);
     await expect(page.locator('.sky-event-status')).toContainText('Artistic illustration');

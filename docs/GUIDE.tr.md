@@ -2,7 +2,7 @@
 
 Öğrendiğin kelimelerden keşfedilebilir bir evren oluştur. Bir kelime ekle, yıldızını bul, yüzeyine yaklaş ve hazır olduğunda anlamını aç.
 
-Canlı sürüm1.14.1; bu rehberdeki yeni masaüstü deneyimleri `phase/4-universe` dalındaki1.22.0 geliştirmesine aittir.
+Canlı sürüm1.14.1; bu rehberdeki yeni masaüstü deneyimleri `phase/4-universe` dalındaki1.22.1 geliştirmesine aittir.
 
 ## Kullanım
 

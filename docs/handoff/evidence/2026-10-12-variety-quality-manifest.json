@@ -1,7 +1,7 @@
 {
   "date": "2026-10-12",
   "version": "1.22.0",
-  "applicationCommit": null,
+  "applicationCommit": "e5fb7590a27c787f1092e3c8ea3dadfc2870775c",
   "local": {
     "unitTests": 147,
     "browserTests": 117,
@@ -37,13 +37,17 @@
   "nativeFlow": "2026-10-12-variety-native-flow.json",
   "nativeAudio": "2026-10-12-variety-native-audio.json",
   "hardwareFrames": "2026-10-12-variety-d3d11-frame-times.json",
-  "gallery": "../../images/PROVENANCE.json",
+  "gallery": "https://github.com/GhostFelina/wordverse-galaxy/blob/e5fb7590a27c787f1092e3c8ea3dadfc2870775c/docs/images/PROVENANCE.json",
   "limits": [
     "Artistic accelerated stellar evolution, reconstructed gas depth and approximate strong-field optics; no physical calibration",
     "Native RAF reports include scheduler/display pacing and are not GPU timer-query execution times",
     "Physical listening, broad hardware/large archives and user visual acceptance remain open"
   ],
-  "remoteCI": "pending runtime checkpoint",
+  "remoteCI": {
+    "run": 38281683299,
+    "commit": "e5fb7590a27c787f1092e3c8ea3dadfc2870775c",
+    "status": "failure:115/117 browser; six native pointer selections exhausted60s and focused body reached148.17px before5s.1.22.1 uses accessible keyboard selection and15s convergence without changing assertions."
+  },
   "preview": "pending exact runtime source",
   "production": "Preserved1.14.1; dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
 }

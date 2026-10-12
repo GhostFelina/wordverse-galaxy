@@ -99,7 +99,7 @@ void main(){vec2 q=(gl_PointCoord-.5)*2.;float r=length(q);if(r>1.)discard;
 // core stays visible, and modulation fades before the photosphere resolves.
 float distant=1.-smoothstep(3.,18.,diameter);
 float shimmer=.62*sin(time*(.68+.07*sin(phase))+phase)+.38*sin(time*1.19+phase*2.37);
-float brilliance=1.+distant*shimmer*.28;
+float brilliance=mix(1.,.65+.4*shimmer,distant);
 float sigma=max(.13,diameter/span*.44);float diamondRadius=mix(r,abs(q.x)+abs(q.y),.65);float core=exp(-pow(diamondRadius/sigma,4.));
 float halo=exp(-r*r/(.11+distant*shimmer*.018))*.065;
 float diamond=exp(-(abs(q.x)+abs(q.y))*16.)*.5;
@@ -107,7 +107,10 @@ float rayWidth=max(1.8/span,.002);float spike=(exp(-pow(q.x/rayWidth,2.))+exp(-p
 float birthRing=exp(-pow((r-(.2+.6*formationAge))/.065,2.))*formation*.13;
 float glow=((core+diamond)*(1.-resolved)+halo+spike+birthRing+exp(-r*r/.19)*formation*.13)*(1.-smoothstep(.8,1.,r));
 vec3 light=mix(mix(ageColor*1.3,ageColor*2.2,core),vec3(3.2,1.9,.7),formation*.25);
-gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
+// Keep additive alpha below saturation so the small visible core breathes,
+// rather than modulating only an almost invisible halo around a white pixel.
+float opticalAlpha=mix(glow,1.-exp(-glow*.9),distant);
+gl_FragColor=vec4(light, opticalAlpha*brilliance*(1.+emphasis*.3)*gasTransmission);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
 }`,
@@ -315,7 +318,8 @@ gl_FragColor=vec4(stellarColor*3.,(.12*glow+.045*stream+.085*spicule)*blend*tran
       const focal = height / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
       Object.assign(pointMaterial.uniforms.focal, { value: focal });
       pointMaterial.uniforms.dpr.value = dpr;
-      pointMaterial.uniforms.time.value = seconds;
+      const animationTime = reducedMotion ? 0 : seconds;
+      pointMaterial.uniforms.time.value = animationTime;
       pointMaterial.uniforms.selected.value = states.get(selectedId)?.index ?? -1;
       pointMaterial.uniforms.hovered.value = states.get(hoveredId)?.index ?? -1;
       pointMaterial.uniforms.birth.value = states.get(birthId)?.index ?? -1;
@@ -356,7 +360,7 @@ gl_FragColor=vec4(stellarColor*3.,(.12*glow+.045*stream+.085*spicule)*blend*tran
         let seed = 0;
         for (const char of entry.id) seed = (Math.imul(seed, 31) + char.charCodeAt(0)) >>> 0;
         mesh.material.uniforms.seed.value = seed % 100;
-        mesh.material.uniforms.time.value = seconds;
+        mesh.material.uniforms.time.value = animationTime;
         mesh.material.uniforms.stellarColor.value.copy(state.color);
         mesh.material.uniforms.blend.value = state.blend;
         mesh.material.uniforms.transmission.value = state.transmission;
@@ -381,7 +385,7 @@ gl_FragColor=vec4(stellarColor*3.,(.12*glow+.045*stream+.085*spicule)*blend*tran
           continue;
         }
         const u = mesh.material.uniforms;
-        u.time.value = seconds;
+        u.time.value = animationTime;
         u.stellarColor.value.copy(state.color);
         u.focal.value = focal;
         u.pixelSpan.value = Math.min(900, state.diameter * 4 + 32);

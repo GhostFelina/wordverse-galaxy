@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.22.0",
-  "activeWork": "Verified1.22 runtime checkpoint, exact-source preview and doc-only professional GitHub publication",
+  "developmentVersion": "1.22.1",
+  "activeWork": "Visible distant stellar core validation, exact-source preview and documentation-only professional GitHub publication",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -145,11 +145,25 @@
       "blackhole": "Bounded144-step midpoint strong-field approximation, differential red disk and local gas distortion; no calibrated Kerr claim",
       "gas": "Fixed physical march spacing avoids nested box-exit sampling planes; mip-filtered density and up to192 high-quality samples",
       "motion": "Device/full/reduced preference; stronger bounded distant light and minute spectra",
-      "evidence": "docs/handoff/evidence/2026-10-12-variety-quality-manifest.json"
+      "evidence": "docs/handoff/evidence/2026-10-12-variety-quality-manifest.json",
+      "remote": {
+        "run": 38281683299,
+        "commit": "e5fb7590a27c787f1092e3c8ea3dadfc2870775c",
+        "status": "failure:115/117 browser; six native pointer selections exhausted60s and focused body reached148.17px before5s.1.22.1 uses accessible keyboard selection and15s convergence without changing assertions."
+      }
+    },
+    "scintillation": {
+      "version": "1.22.1",
+      "status": "Complete local147unit/117browser8.5m, lint/types/build/format/release/audit/24Go pass; native visible cores and gallery verified",
+      "display": "Unsaturated distant optical alpha; independently phased visible cores/halos, nonzero minimum and size fade",
+      "reducedMotion": "Material animation clock frozen directly",
+      "nativeEvidence": "docs/handoff/evidence/2026-10-12-scintillation-native.json",
+      "animation": "docs/images/wordverse-scintillation.gif",
+      "limits": "Native synthetic framing and display measurements; user visual acceptance remains open"
     }
   },
   "checkpoint": {
-    "version": "1.22.0",
+    "version": "1.22.1",
     "applicationCommit": null,
     "deploymentTarget": "preview",
     "date": "2026-10-12"

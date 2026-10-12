@@ -1,0 +1,65 @@
+{
+  "version": "1.22.1",
+  "browser": "154.0.8037.98",
+  "scene": "Actual desktop home on5360, full motion, six synthetic old white-dwarf words; native Chrome ANGLE D3D11 requested",
+  "method": "65 actual compositor PNGs;4x4 core luminance and12px corner background; no color grading or light alterations",
+  "stars": [
+    {
+      "index": 0,
+      "diameter": 3.72,
+      "minimumCoreLuminance": 86.403625,
+      "maximumCoreLuminance": 150.1215,
+      "minimumContrast": 21.95132500000001,
+      "maximumContrast": 86.7404,
+      "maximumPositionDrift": 0
+    },
+    {
+      "index": 1,
+      "diameter": 3.72,
+      "minimumCoreLuminance": 76.32987499999999,
+      "maximumCoreLuminance": 132.253025,
+      "minimumContrast": 19.925224999999983,
+      "maximumContrast": 76.348375,
+      "maximumPositionDrift": 0
+    },
+    {
+      "index": 2,
+      "diameter": 3.72,
+      "minimumCoreLuminance": 37.273075,
+      "maximumCoreLuminance": 109.9274875,
+      "minimumContrast": 19.680874999999997,
+      "maximumContrast": 91.9609375,
+      "maximumPositionDrift": 0
+    },
+    {
+      "index": 3,
+      "diameter": 3.72,
+      "minimumCoreLuminance": 119.261175,
+      "maximumCoreLuminance": 171.092625,
+      "minimumContrast": 27.781824999999998,
+      "maximumContrast": 80.113275,
+      "maximumPositionDrift": 0
+    },
+    {
+      "index": 4,
+      "diameter": 3.72,
+      "minimumCoreLuminance": 36.2049875,
+      "maximumCoreLuminance": 120.94142500000001,
+      "minimumContrast": 25.355587500000002,
+      "maximumContrast": 110.038875,
+      "maximumPositionDrift": 0
+    },
+    {
+      "index": 5,
+      "diameter": 3.72,
+      "minimumCoreLuminance": 116.372975,
+      "maximumCoreLuminance": 172.547225,
+      "minimumContrast": 30.047974999999994,
+      "maximumContrast": 86.757325,
+      "maximumPositionDrift": 0
+    }
+  ],
+  "recordsUnchanged": true,
+  "errors": [],
+  "limits": "One machine and one nebula framing; not user acceptance or calibrated photometry"
+}
