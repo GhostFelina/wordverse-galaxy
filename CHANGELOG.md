@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.0] — Development · 2026-10-12
+
+- Original constellation W mark and favicon; a rebuilt desktop home with local geometric typography, warm ivory/copper accents, clearer learning copy and consistent first-visit/empty/populated states in TR/EN/ES.
+- Restructured navigation, galaxy/language actions, word creation, compact statistics and a unified scene toolbar. View and sky menus anchor above the toolbar; Orion flight controls remain reachable in immersion.
+- Consistent form, selection and galaxy surfaces, visible keyboard focus, accessible compact add action and wheel isolation over interface controls. Existing scene geometry, audio and vocabulary storage remain unchanged.
+- Reproducible isolated native-browser home captures and stronger navigation-bound/overlap checks.
+
 ## [1.22.1] — Development · 2026-10-12
 
 - Unsaturated distant optical alpha makes the visible core breathe with its halo, including old white-dwarf records over Orion. Smooth independent rhythms retain a nonzero minimum and fade with projected size.

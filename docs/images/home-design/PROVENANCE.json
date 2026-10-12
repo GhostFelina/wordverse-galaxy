@@ -1,0 +1,92 @@
+{
+  "version": "1.23.0",
+  "date": "2026-10-12",
+  "browser": "154.0.8037.98",
+  "renderer": "Fresh native Chrome; ANGLE D3D11 requested",
+  "quality": "High-quality reduced-motion scene; no CSS or canvas substitutions",
+  "privacy": "Synthetic vocabulary only, isolated ephemeral localhost. Existing user profiles and records are never accessed.",
+  "checks": "TR/EN/ES desktop states, empty state, menu bounds, Escape focus restoration and unchanged synthetic records",
+  "captures": [
+    {
+      "file": "docs/images/wordverse-desktop.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "5c1ca1b3b41d46ad4f721008f3143f626459f3be7e11488a4a66fb63b9405658"
+    },
+    {
+      "file": "docs/images/home-design/home-1440-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "e09957cca3b6f617b8f79b630aa95f8280b96d7695d39d67d4de10d2d1b5b549"
+    },
+    {
+      "file": "docs/images/home-design/home-1280-es.png",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "114851e838511c1a30f064cc340f9ac5c6e7311e3201644682a325efe1961264"
+    },
+    {
+      "file": "docs/images/home-design/home-1024-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "73d136112376798fc5c0164a729529bd8a07ad4031888abf5e14434853388bea"
+    },
+    {
+      "file": "docs/images/home-design/view-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2717cf8f236d561426c6042047866fd7bf9a6017dca80f033132de1fc777b4f6"
+    },
+    {
+      "file": "docs/images/home-design/sky-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2d7bf273dea42b93808d9f50637951422d92175e785128c5330e4db8f909b7af"
+    },
+    {
+      "file": "docs/images/home-design/galaxy-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "a226fc0e0bd0e0bc096eec059818dcb068b3ce8c95f6c69e02fb8ff76b79857b"
+    },
+    {
+      "file": "docs/images/home-design/add-panel.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "333494d5bb15d01f55e9e6313fdf15a22b548455379d662bc6e6c2a0a17018cb"
+    },
+    {
+      "file": "docs/images/home-design/first-visit.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "7d46f86af5f2e0c43142e7baef5c052a2903e1fd6f1068dc61b79ea79300860a"
+    },
+    {
+      "file": "docs/images/home-design/empty-home.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "827cceb50cd09a79d9d0a5cbfee85172d16f0b3208d452893b0e050bc572964e"
+    }
+  ],
+  "errors": []
+}

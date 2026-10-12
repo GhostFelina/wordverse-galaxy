@@ -39,6 +39,7 @@
 
 ## Local fonts
 
+- `public/favicon.svg`, `public/assets/wordverse-mark.svg` and `docs/images/wordverse-brand.svg`: original Wordverse constellation W artwork. No external brand or film asset; MIT project license.
 - `public/assets/fonts/dm-sans-variable.ttf`: [Google Fonts DM Sans](https://github.com/google/fonts/tree/main/ofl/dmsans), DM Sans Project Authors; SIL Open Font License1.1. Full license: `DM-Sans-OFL.txt`.
 - `public/assets/fonts/space-grotesk-variable.ttf`: [Google Fonts Space Grotesk](https://github.com/google/fonts/tree/main/ofl/spacegrotesk), Space Grotesk Project Authors; SIL Open Font License1.1. Full license: `Space-Grotesk-OFL.txt`.
 - Original procedural sky shader/card composition: MIT application code. Astronomy references guide morphology; no reference video or audio is redistributed.
