@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-12",
+  "beforeApplicationCommit": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
+  "afterVersion": "1.15.1",
+  "scope": "Desktop 1440x900 production modules and synthetic fixture; no user records",
+  "capture": "node scripts/capture-word-star-evidence.mjs 2026-10-12-photosphere-after --desktop-only",
+  "comparison": "before and after use matching frozen synthetic camera presets; generated cache and surface shader both changed; gas source texture unchanged",
+  "limits": "Artistic volumetric model; native Orion1254; no upscale, tomography or hardware p95 acceptance",
+  "hashKind": "SHA256 of Windows working files before commit; Git may normalize text line endings",
+  "sourceHashes": {
+    "src/word-star-system.js": "5b9cb4aa619ca4bb5048c2d72b70f679b718347be64133fba25ead6a934e4800",
+    "src/nebula-system.js": "bee1da3e1ee6dd05032c32ea4ebf950cbbfc533e51ee41a32e192a58e0e221b0",
+    "src/stellar-preview.js": "50d216ba0b5ec58892e68b9e9f0463234a994803833da281a5d90b8198faa4e6",
+    "scripts/build-star-granulation.mjs": "6fdf24b3483172c9eebed0f246bd5e36782e802ef02a2d2c91bc59b6a88bb5b5",
+    "public/assets/stars/granulation-128.bin": "567489ea2fa9d8e56f93e9f52fb5f236c32718140e1451316ba917376c91736a"
+  },
+  "imageHashes": {
+    "2026-10-12-photosphere-before/word-star-approach-1440.png": "32a33bdecbcf921366b4f3aa40a89abce798f40221c794357e29d34475492072",
+    "2026-10-12-photosphere-before/word-star-close-1440.png": "94777af5380eae867fb7784cada6b5730e7302f775c615ea0e12ec6886bdec91",
+    "2026-10-12-photosphere-before/word-star-far-1440.png": "ffa67bafb71be8e91d8b23d016bfa2f7eed9625c588690377b82b4973cd842f3",
+    "2026-10-12-photosphere-before/word-star-focus-1440.png": "cc6ee991948c354417ff09cad5a255000ce7d96bb295dfed7123e46635437788",
+    "2026-10-12-photosphere-before/word-star-general-1440.png": "d839442b1b13701e9a4aaec4af3a55b55c61a836cb6ca3c494bbafc705c2b962",
+    "2026-10-12-photosphere-before/word-star-nebula-angle-1440.png": "6bdfdf778b3ec574b152a0c750bfc93dde16b2bed6958965e70aacea71ca7781",
+    "2026-10-12-photosphere-before/word-star-nebula-side-1440.png": "cbcddc661595c9e28e6f0ffe0e3400b808484a720a21b37189e78870a3487d24",
+    "2026-10-12-photosphere-before/word-star-side-1440.png": "2482ccdcae254751270820844a250f3554dbd43ccd7b9b0a7d8fb1a96e440395",
+    "2026-10-12-photosphere-after/word-star-approach-1440.png": "24b896bff4b4b6a5593dd7f16b03ebb400f3f204fbdc070a19fdec70e349e4da",
+    "2026-10-12-photosphere-after/word-star-close-1440.png": "f463dacd9a43d1803debecc68810e7b32626685297a75c7e185af6fb5f75aa21",
+    "2026-10-12-photosphere-after/word-star-far-1440.png": "1d152bf425ddf63dc70730ac8a2c26033d71f8c954c3e2c009c8e0fbce356f9a",
+    "2026-10-12-photosphere-after/word-star-focus-1440.png": "fcadd559649f373c64640c011aab95732fbd637edbb43b7f9fd97ebbc8a4ff44",
+    "2026-10-12-photosphere-after/word-star-general-1440.png": "9c2ed91ccdfc41d4c42842d41be5d1e0065ef39f82aa8bb4cb21ba83d694956f",
+    "2026-10-12-photosphere-after/word-star-nebula-angle-1440.png": "cc2a43d7dc87a6f5823b1e7a2cfd6e554bbc3195f60851b8530662bdbbd47ac5",
+    "2026-10-12-photosphere-after/word-star-nebula-side-1440.png": "d913b1e33c04fe9e79687fe2e2f273dc8840e743792dffe5d61c3f323a2875f4",
+    "2026-10-12-photosphere-after/word-star-side-1440.png": "8d9b6e3eefec81526b02e54631a166dd53d150c929ed82c054838b0258bb4202",
+    "2026-10-12-shared-stellar-preview-1440.png": "8cdc4b84941de0df43ba52af4e638e660d59b85385dceaad653a16dbfa4d026c",
+    "2026-10-12-stellar-detail-1024-768-en.png": "393780b73c6475286b0a6dc7b3ef2eafd14edcf8d48bcd345d75f17b15cc1d71",
+    "2026-10-12-stellar-detail-1280-800-es.png": "6e07c3b9d926e5ed0d97ae84fba32e24900e58ef2d0cc7adea13ce46e7a45c01",
+    "2026-10-12-stellar-detail-1440-900-tr.png": "caed7c212b1bfa7c65d55669ebbb9f9244977b3ff4dd81b238443d26351106b2"
+  },
+  "afterApplicationCommit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
+  "cacheReproducibility": "Regenerated after tests; SHA256 unchanged",
+  "gitBlobIds": {
+    "src/word-star-system.js": "a1bb431de9caae6b62f568a9be70458f8053f17e",
+    "src/nebula-system.js": "6b4124997b8b142f7668b6635adc6bc03c3466cb",
+    "src/stellar-preview.js": "54d78267354d24f88972ffc113abe626baca8e0c",
+    "scripts/build-star-granulation.mjs": "e3bf01ed7d2cd47df4107bed2c999123a274c262",
+    "public/assets/stars/granulation-128.bin": "4e8d4d4eccaa82a29457da80a4834abdb9c4df03"
+  }
+}

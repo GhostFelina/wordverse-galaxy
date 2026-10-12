@@ -2,17 +2,18 @@
   "date": "2026-10-12",
   "version": "1.17.0",
   "sourceHashes": {
-    "src/main.js": "318893384ee6adb79276cb636594820e05ab8b3f8291da0148880c7c94dfdb84",
+    "src/main.js": "92ebee4e1dfcf2967dd63bf771ae4387afefcf389e2cb117f4fadf11b16f180f",
+    "src/locale-navigation.js": "b60e3b368d2294359e067f00458e4b6c19e45db9a416fdc7a3019d8b69f48da2",
     "src/nebula-system.js": "209b76818fbe1a47b6d242efccf9bbce6cbd00d72bcff9a1d2fcfeafaeac9201",
     "src/word-star-system.js": "a011dee0c6734ac55281acd0c9f969569a235d4335bbc5b56b80d414ea5479ee",
     "src/sky-events.js": "86cf75d3a6f9bbb936bbbb5c4f5ee84862528b61c71d4567662f1a3b686fdf7a",
-    "src/word-card.js": "39ce80562be3d0ef42539680708790e205bcd928714a256cbb46edcec9f59b49",
+    "src/word-card.js": "f46b0762a3ddd3a64b4914a717b98bdef9614d62fe3bb45070aa97ad344482bd",
     "src/stellar-preview.js": "4346bc7d0f2f2fa0509cf73679e2d8413e81e87bbc5cccfce52df1132cc0fb24"
   },
   "checks": {
     "unit": 132,
-    "browser": 106,
-    "browserDurationMinutes": 3.4,
+    "browser": 107,
+    "browserDurationMinutes": 3.5,
     "lint": "pass",
     "types": "pass",
     "build": "pass",
@@ -29,5 +30,12 @@
   "performance": "2026-10-12-refined-d3d11-frame-times.json",
   "privacy": "Synthetic fixtures and fresh isolated browsers; user storage was not exported or changed",
   "production": "1.14.1 preserved; development preview only",
-  "remote": "Pending source push and fresh CI/preview verification"
+  "remote": "Pending source push and fresh CI/preview verification",
+  "previousRemote": {
+    "run": 38242469696,
+    "status": "failure",
+    "passed": 104,
+    "failed": 2,
+    "reason": "Cold bootstrap races. Early locale entry, identity wait armed before GPU setup,2.5s guest fallback and separate content/graphics readiness checks; local full107passed."
+  }
 }

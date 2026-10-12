@@ -6,7 +6,7 @@
 
 Credit: NASA, ESA, M. Robberto (STScI/ESA), Hubble Space Telescope Orion Treasury Project Team. The original optical derivatives remain available. `orion-ir.webp` is the NASA/Spitzer/JPL-Caltech infrared guidance image. Media conditions and source links are in [ATTRIBUTIONS.md](../ATTRIBUTIONS.md).
 
-The volume uses a deterministic periodic 96³ density field, finite lobes, world-space filaments and a guidance ridge. Depth is reconstructed for navigation; it is not measured tomography.
+The volume uses a deterministic periodic 96³ density field, finite lobes, mip-filtered world-space filaments and a guidance ridge. Depth is reconstructed for navigation; it is not measured tomography.
 
 ## Procedural word photosphere
 
@@ -16,7 +16,7 @@ Scene, detail preview and PNG card use the same stellar surface and record seed.
 
 ## Sky experiences
 
-Meteor streak, supernova shell and illustrative black-hole disk are original procedural GLSL, with no external video/audio asset. They start only on explicit selection. Reduced motion produces a representative still. The black-hole illustration does not ray trace the surrounding scene or simulate orbital dynamics. Meteors occur in atmospheres; the overlay does not imply an atmospheric event inside Orion.
+Meteor streak, supernova shell, comet, pulsar, neutron-star merger and illustrative black-hole disk are original procedural GLSL, with no external video/audio asset. A session-only director sequences finite events with quiet intervals; manual selection takes priority and quiet mode disables automatic direction. Reduced motion produces a representative still. The black-hole illustration integrates bounded bent rays through an original thin-disk field and samples the existing gas buffer for local background distortion. Personal stars remain a separate foreground pass. It is an artistic strong-field approximation, not a calibrated Kerr metric, full-scene gravitational simulation or film-media asset. Meteors occur in atmospheres; the overlay does not imply an atmospheric event inside Orion.
 
 ## Legacy assets
 
@@ -25,3 +25,7 @@ Meteor streak, supernova shell and illustrative black-hole disk are original pro
 ## Local fonts
 
 DM Sans and Space Grotesk variable TTFs are unchanged Google Fonts repository files, under SIL Open Font License1.1. License texts are shipped beside the fonts. [Font sources and credits](../ATTRIBUTIONS.md#local-fonts).
+
+## Original audio
+
+Web Audio synthesis has no external recordings or soundtrack samples. Stereo harmonic voicings, deterministic noise/impulse response, HRTF transient cues and bounded waveshaping are original code. The atmosphere is an artistic sonification, not recorded sound traveling through space. [Web Audio spatialization](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics) defines the browser headphone model; [Dolby web delivery](https://professionalsupport.dolby.com/s/article/Dolby-Audio-and-Dolby-Atmos-in-web-apps?language=en_US) is a separate encoded-media/device pipeline and is not implemented here.

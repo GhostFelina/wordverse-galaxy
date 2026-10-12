@@ -1,0 +1,25 @@
+{
+  "codeCommit": "8dd7be1b343dd79bc329d8b99d561b5a6da42d30",
+  "browser": "Visible Chrome; Windows 11",
+  "capture": "CUA browser screenshot, synthetic lab; no auth/storage/user words",
+  "reviews": [
+    {
+      "file": "u2-far-manual.png",
+      "width": 65536,
+      "height": 4292542531
+    },
+    {
+      "file": "u2-planet-manual.png",
+      "width": 65536,
+      "height": 4292542531
+    }
+  ],
+  "findings": [
+    "Farthest view: OLED black and small distant lights; no oversized body discs.",
+    "Planet: visible day/night boundary after fixture view correction; patchy procedural terrain remains artistic.",
+    "Near star: sphere, granulation and limb visible; emission/corona quality still open.",
+    "Gas interior: too soft and low contrast; filaments/dust/absorption pending.",
+    "390 px close-body views clip sides; responsive shot framing and camera-path acceptance still open."
+  ],
+  "userAcceptance": "pending"
+}

@@ -1,15 +1,13 @@
 # Engineering tasks
 
-- [x] Wheel/startup regressions and exact local zoom test contract.
-- [x] Atlas filters/sort/date/back navigation and graphics fallback.
-- [x] Granular stellar/gas refinement with deterministic visual comparisons.
-- [x] Local, licensed UI fonts and desktop interaction consistency.
-- [x] Orion depth navigation and explicit ephemeral sky experiences.
-- [x] Opt-in downloadable word cards, meaning omitted by default.
-- [x] Current README, synthetic gallery, community templates and asset provenance.
-- [x] Current-tree documentation cleanup; historical Git copies remain.
-- [x] Complete local checks:132unit,106browser,24Go and all quality gates.
-- [ ] Fresh remote CI, preview provenance and final checkpoint.
-- [ ] Default-main presentation publication while preserving production.
+- [x] Stable wheel/startup, focus/reversal and graphics fallback.
+- [x] Shared stellar surface, visible distant scintillation and creation-date spectra.
+- [x] Reversible all-word Orion exploration and fixed-spacing finite gas.
+- [x] Original spatial/stereo audio and durable creation/edit/delete cues.
+- [x] Living shuffled sky, varied safe positions, comet/pulsar and manual priority.
+- [x] Rebuilt small red accretion disk and local gas lensing approximation.
+- [x] Explicit device/full/reduced motion preference and clear desktop controls.
+- [ ] Complete1.22.1 local/remote checks, preview provenance and doc-only main publication.
+- [ ] Broad hardware/user visual and physical audio acceptance.
 
-Deferred: visual release acceptance, persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout.
+Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.

@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.22.1] — Development · 2026-10-12
+
+- Unsaturated distant optical alpha makes the visible core breathe with its halo, including old white-dwarf records over Orion. Smooth independent rhythms retain a nonzero minimum and fade with projected size.
+- Reduced motion freezes the stellar material clock directly. Pixel validation covers the final ACES/sRGB display output at subpixel, home and approaching sizes, stationary centroids and still/close states.
+- Hosted sky-selection checks use native keyboard activation; close-target convergence retains its150px assertion with a software-GPU wait budget.
+
+## [1.22.0] — Development · 2026-10-12
+
+- Randomized safe positions, scales and directions for finite sky experiences; comet and pulsar scenes with original position-aware sound cues.
+- Rebuilt distant black-hole illustration with bounded bent-ray integration, a dense red/copper disk, faster differential flow and local gas-background distortion. Personal stars and record coordinates remain independent.
+- More visible distant light modulation and minute spectra, with an explicit device/full/reduced animation preference.
+- Mip-filtered physical-space gas noise, stronger porous lobes, fixed physical march spacing with up to192 high-quality interior samples and fading photographic guidance during immersion.
+- Scene settings hide competing sky overlays while open. Hosted wheel/navigation test keeps its assertions with a longer overall software-GPU budget.
+
+## [1.21.0] — Development · 2026-10-12
+
+- Session-only living sky: shuffled finite meteor, supernova, distant black-hole and neutron-star merger events, calm gaps and soft envelopes. Manual choices take priority; quiet mode stops automatic direction and hidden tabs pause its clock.
+- Distinct original word-edit and deletion cues follow durable storage and current identity checks. Creation retains its separate birth cue; failed operations and muted audio remain silent.
+- Compact finite interior gas lobes/cavity and lower stride-filtered microfrequencies reduce elongated streaks.
+- Precise hosted software-GPU camera/startup checks retain their accuracy with longer convergence waits.
+
+## [1.20.0] — Development · 2026-10-12
+
+- Every active-galaxy word star participates in a reversible Orion exploration frame; selection, close approach, wheel reversal and return remain coherent without changing stored coordinates.
+- Wider and longer gas volume, additional overlapping lobes and stride-filtered interior microstructure. High quality uses up to64 settled interior samples.
+- A visible sky-experience launcher also works in immersive mode. Direct Orion entry opens the unobstructed scene.
+- Original spatial headphone birth/event cues, stereo speaker mode, longer filtered reverberation with predelay and bounded output headroom. No external recordings or certification claims.
+- Synthetic interior galleries and native offline spatial-audio/hardware evidence.
+
+## [1.19.0] — Development · 2026-10-12
+
+- Continuous creation-date stellar colors, accelerated visual stages and subtle minute tone changes across scene, detail and cards.
+- Direct Orion entry during immersive stellar focus and stable wheel-driven depth travel.
+- An explicit neutron-star merger illustration: binary inspiral, turbulent ejecta, synthesized chirp and reduced-motion still.
+- Synthetic stellar-life and merger-phase galleries; stored learning records remain unchanged.
+
+## [1.18.0] — Development · 2026-10-12
+
+- Independent, slow distant scintillation with stable record-derived phases; the core stays visible and the effect fades on approach.
+- Hot, detailed stellar convection with a tapered perspective corona and a restrained birth pulse.
+- Compact volumetric gas lobes, a clearer interior cavity and higher settled interior sampling.
+- A small distant black-hole illustration with turbulent disk detail, asymmetric light and camera parallax; personal stars render in front.
+- Refined meteor trails and expanding supernova filaments.
+- Original opt-in stereo soundscape, scene-dependent depth and stellar focus, volume control and tab suspension. Saved word creation has a distinct synthesized cue; edits and duplicate submissions do not trigger it.
+
 ## [1.17.0] — Development · 2026-10-12
 
 - Warm multi-scale stellar convection, refined gas fibers and locally hosted licensed fonts.

@@ -1,0 +1,34 @@
+{
+  "version": "1.20.0",
+  "date": "2026-10-12",
+  "checks": {
+    "unit": 141,
+    "browser": 115,
+    "browserDuration": "7.2m",
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditHigh": "0 vulnerabilities",
+    "go": "24 auth assertions pass with project-local toolchain"
+  },
+  "gallery": "Synthetic isolated production modules; no personal records",
+  "hardware": "2026-10-12-orion-d3d11-frame-times.json",
+  "audio": "2026-10-12-spatial-native-audio.json",
+  "sourceSha256": {
+    "src/main.js": "f36fe9d8e4b1406d4d96aa031ca87cec0cf72cda41aacefa031e7fa456f86e19",
+    "src/orion-star-field.js": "e9d4df5b71d8c1cacfadef9f35d694c1791a1a077e142a5abe4b1d179fdb5721",
+    "src/nebula-layout.js": "0f540be7e353dcc1ba0cd5f32d1f4d4669c0016738f355ab8ac6f3bfcde215ce",
+    "src/nebula-system.js": "a6965d520f3302e7bd6acd2923a9780826df587fe7419137d27dba1f8fed32ac",
+    "src/word-star-system.js": "2ec0f4ec65f7a34cd9796f60330d87799f91240fafaa31cd0acb8af4f8cfff17",
+    "src/soundscape.js": "408e240118a563ddbbf3b7a4c90ddeb908c015aa9d0d9d3fc0a8f4ea3f9adec8",
+    "src/sky-events-ui.js": "76b93c873e592620703ce8ca5510c8da38b65e68d2ed4e7ab939e2cdf9876e1b"
+  },
+  "limits": [
+    "Hardware RAF pacing is not GPU execution timing or universal certification",
+    "No hardware listening acceptance",
+    "Interior visual acceptance remains open"
+  ],
+  "production": "Unchanged1.14.1"
+}

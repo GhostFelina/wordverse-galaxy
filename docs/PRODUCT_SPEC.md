@@ -12,7 +12,12 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 - Visible scene preparation and atlas fallback when graphics/assets fail. Explicit Orion flight, cursor-local wheel zoom and selected-star safe approach.
 
 - Local1080px square/portrait star-card export, explicit meaning inclusion, no account/record metadata or automatic posting.
-- Optional artistic sky experiences, reduced-motion stills and explicit termination. Orion cruise has a shared wheel/button depth scale and progress slider.
+- Ephemeral artistic sky experiences with a restrained session-only shuffled director, manual-selection priority, quiet mode and explicit device/full/reduced animation preferences. Event positions, scales and directions vary within safe zones; comet and pulsar join meteor, supernova, black-hole and neutron-star-merger illustrations. New automatic events wait during learning panels and stellar focus. Orion cruise has a shared wheel/button depth scale and progress slider.
+- Optional original spatial/stereo audio: no automatic playback, gesture activation, volume control, background-tab suspension, scene-depth/focus transitions and distinct durable creation/edit/delete cues. No audio data contains record text or metadata.
+
+- Explicit Orion entry fits all active-galaxy word stars into a reversible presentation frame, preserving stored coordinates and relative directions. Stellar approach uses the same presentation positions; return restores the home view.
+- Creation-date spectra use compressed artistic stages and a smooth minute tone. No physical mass/lifetime claim or automatic word-star death.
+- Visible sky controls work in immersive mode. Original headphone HRTF cues and speaker stereo use one gesture-enabled context; they are not certified Dolby/IMAX output.
 
 ## Data invariants
 
@@ -20,7 +25,7 @@ Existing record IDs, coordinates, createdAt, type, language, meaning and events 
 
 ## Extension boundary
 
-Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other nebulae, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Optional artistic meteor/supernova/black-hole experiences are separate ephemeral illustrations; they never become records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
+Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other nebulae, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Optional artistic meteor/comet/pulsar/supernova/black-hole/neutron-star-merger experiences are separate ephemeral illustrations; they never become records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
 
 ## Delivery
 
