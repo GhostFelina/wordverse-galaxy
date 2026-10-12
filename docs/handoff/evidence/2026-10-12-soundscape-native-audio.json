@@ -1,0 +1,17 @@
+{
+  "source": "1.18.0 working tree",
+  "method": "Native Chromium OfflineAudioContext; production synthesis; no vocabulary input; no normalization",
+  "rate": 44100,
+  "seconds": 24,
+  "channels": 2,
+  "volume": 0.65,
+  "peak": 0.27893930673599243,
+  "rms": 0.072511464304711,
+  "sections": [
+    "quiet",
+    "nebula depth .8",
+    "word birth",
+    "meteor"
+  ],
+  "externalAssets": 0
+}

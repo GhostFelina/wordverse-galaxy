@@ -42,3 +42,4 @@
 - `public/assets/fonts/dm-sans-variable.ttf`: [Google Fonts DM Sans](https://github.com/google/fonts/tree/main/ofl/dmsans), DM Sans Project Authors; SIL Open Font License1.1. Full license: `DM-Sans-OFL.txt`.
 - `public/assets/fonts/space-grotesk-variable.ttf`: [Google Fonts Space Grotesk](https://github.com/google/fonts/tree/main/ofl/spacegrotesk), Space Grotesk Project Authors; SIL Open Font License1.1. Full license: `Space-Grotesk-OFL.txt`.
 - Original procedural sky shader/card composition: MIT application code. Astronomy references guide morphology; no reference video or audio is redistributed.
+- `src/soundscape.js`: original Web Audio synthesis, including stereo harmonic pads, deterministic noise, generated reverberation and word-creation cues. No soundtrack, stock recording or external music asset is included. Application code license: MIT. The atmosphere is artistic sound design, not an astronomical measurement or data sonification.

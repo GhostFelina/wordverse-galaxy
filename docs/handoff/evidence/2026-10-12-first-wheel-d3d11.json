@@ -1,0 +1,21 @@
+{
+  "source": "1.16.1 working tree",
+  "viewport": [
+    1440,
+    900
+  ],
+  "test": "Fresh synthetic personal home, first wheel -180 over Orion, 2 second RAF intervals",
+  "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "frames": 288,
+  "p95Ms": 7.100000000000364,
+  "maxMs": 12.900000000000091,
+  "framebufferAllocationsBefore": 2,
+  "framebufferAllocationsAfter": 3,
+  "cameraZ": "147.95303734328965",
+  "targetZ": "147.94991661357014",
+  "cameraX": "7.395305863971186",
+  "starsVisible": 1,
+  "recordsUnchanged": true,
+  "errors": [],
+  "limits": "Headless Chrome D3D11/RTX5060Ti, short synthetic single-star home. RAF intervals are not GPU timer queries and do not certify all devices or visible user Chrome."
+}

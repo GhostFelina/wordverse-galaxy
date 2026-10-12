@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-12",
+  "version": "1.18.0",
+  "sourceHashes": {
+    "src/main.js": "a809377c94504e9fb628a91cf6999fed007664fcb0c3963afb45bc649d93ba6f",
+    "src/word-star-system.js": "94e80f31c327c1a2f8fdccc08f20c4bfc6c9635ed7fbdb0bfaf3c3aa7776abc9",
+    "src/nebula-system.js": "09a059756452731ec2c300c15a60f0056a7bb28339655137523140e133b93416",
+    "src/sky-events.js": "256db88d2c7147ff52865e8bd96be31961ffc920164dd1a8f45993371d8c07b4",
+    "src/soundscape.js": "c01396430ab1f0a6c3bc84e8d8bed7cf11c63cd67d62f7d28c7a918311ba7755",
+    "src/soundscape-ui.js": "7c6fcc6935ce9f65784aced8b6814c19b5f11b8fa282a50d4eaac4d1d0a93bf6",
+    "src/account-sync-ui.js": "1affba0d0761b5fc19182eba77320cd48e16139a2b1da914420746bc30d115eb"
+  },
+  "checks": {
+    "unit": 136,
+    "completeBrowser": 111,
+    "affectedBrowser": 20,
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "dependencyAudit": "zero vulnerabilities",
+    "browserDurationMinutes": 6.6,
+    "authEmailGo": 24
+  },
+  "visualEvidence": [
+    "2026-10-12-plasma-before",
+    "2026-10-12-plasma-after",
+    "../../images/PROVENANCE.json"
+  ],
+  "performance": "2026-10-12-plasma-d3d11-frame-times.json",
+  "audio": "2026-10-12-soundscape-native-audio.json",
+  "privacy": "Synthetic fixtures, fresh isolated browsers; no user storage changed/exported",
+  "production": "1.14.1 preserved; development preview only",
+  "remote": "Pending source checkpoint and preview verification"
+}
