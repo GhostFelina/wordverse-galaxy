@@ -14,7 +14,7 @@
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
   "developmentVersion": "1.22.1",
-  "activeWork": "Visible distant stellar core validation, exact-source preview and documentation-only professional GitHub publication",
+  "activeWork": "Verified1.22.1 desktop scene and professional GitHub publication; next user visual/physical audio and broad hardware acceptance",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -31,30 +31,49 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+    "lastVerifiedCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
     "lastRemoteCI": {
-      "run": 38251613293,
-      "commit": "09d1da4f991ba4171ace63a03fccc1d4d1ae3f33",
+      "run": 38284875605,
+      "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
       "status": "success",
-      "version": "1.18.0"
+      "version": "1.22.1",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38284875605",
+      "unitTests": 147,
+      "browserTests": 117
     },
     "localUnitTests": 147,
     "suiteBrowserTests": 117,
     "userVisualAcceptance": "pending",
     "preview": {
-      "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
+      "version": "1.22.1",
+      "url": "https://wordverse-galaxy-521vy0zo4-mustafas-projects-92e683a9.vercel.app",
+      "deployment": "dpl_AvziWAJJZpCM5A1L3YRmRp6g9nhP",
       "target": "preview",
       "apiTarget": "staging",
       "status": "READY",
-      "commit": "d59256073d60588551fde315bd3e90fc7cf73f11",
-      "deployment": "dpl_GMHPzLQUA9jhfYBDyfH14imfTkE9",
-      "framework": "vite",
+      "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+      "sourceCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
       "httpStatus": 200,
-      "runtime": "HTML/JS/CSS authenticated HTTP200 and local build SHA256 match; interactive preview and account acceptance not tested",
-      "version": "1.16.1",
-      "sourceCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
       "assetsMatchLocal": true,
-      "interactiveAcceptance": false
+      "assets": {
+        "js": {
+          "file": "/assets/main-CiVAxTky.js",
+          "sha256": "b5dda54b7bbd32c8a32e0ac68b4faaf3e9402da6dffc89317a89f54137f1866c",
+          "match": true
+        },
+        "css": {
+          "file": "/assets/main-DoEKwGGG.css",
+          "sha256": "1048ee8ae7dff5276485739a9cf2cc7d6a0b8f9e748c4a40e4f800feb42a5e51",
+          "match": true
+        },
+        "social": {
+          "file": "/assets/wordverse-social.png",
+          "sha256": "20347c192554a49b738bbe11caf8e382abea32bd8983926706dba885017d0752",
+          "match": true
+        }
+      },
+      "interactiveAcceptance": false,
+      "runtime": "Authenticated HTML/JS/CSS/social HTTP200; asset SHA256 matches verified local build. Interactive cloud/account acceptance not claimed."
     },
     "zoomStartup": {
       "version": "1.16.1",
@@ -159,12 +178,31 @@
       "reducedMotion": "Material animation clock frozen directly",
       "nativeEvidence": "docs/handoff/evidence/2026-10-12-scintillation-native.json",
       "animation": "docs/images/wordverse-scintillation.gif",
-      "limits": "Native synthetic framing and display measurements; user visual acceptance remains open"
+      "limits": "Native synthetic framing and display measurements; user visual acceptance remains open",
+      "runtimeCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+      "remote": {
+        "run": 38284875605,
+        "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+        "status": "success",
+        "version": "1.22.1",
+        "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38284875605",
+        "unitTests": 147,
+        "browserTests": 117
+      },
+      "publication": {
+        "main": "25bba71be7679df115c78a284dae520cc23c005b",
+        "pr": 11,
+        "prCI": 38285737384,
+        "mainCI": 38285963419,
+        "status": "Merged documentation-only; latest PR and main CI successful; native GitHub page and720x380 animated gallery verified",
+        "url": "https://github.com/GhostFelina/wordverse-galaxy/pull/11",
+        "productionDeploymentUnchanged": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
+      }
     }
   },
   "checkpoint": {
     "version": "1.22.1",
-    "applicationCommit": null,
+    "applicationCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
     "deploymentTarget": "preview",
     "date": "2026-10-12"
   },
@@ -178,6 +216,7 @@
     "buildDurationSeconds": 13.6,
     "httpStatus": 200,
     "date": "2026-10-04",
-    "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app"
+    "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app",
+    "deploymentId": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
   }
 }

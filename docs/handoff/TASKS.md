@@ -7,7 +7,7 @@
 - [x] Living shuffled sky, varied safe positions, comet/pulsar and manual priority.
 - [x] Rebuilt small red accretion disk and local gas lensing approximation.
 - [x] Explicit device/full/reduced motion preference and clear desktop controls.
-- [ ] Complete1.22.1 local/remote checks, preview provenance and doc-only main publication.
+- [x] Complete1.22.1 local/remote checks, exact-source preview provenance and doc-only main publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
 Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.
