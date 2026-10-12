@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-12",
+  "version": "1.17.0",
+  "viewport": "1440x900",
+  "records": "Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed",
+  "renderer": "Production modules, Chromium, reduced motion",
+  "card": "1080x1080 PNG; selected synthetic word only, meaning omitted",
+  "astronomy": "Artistic procedural experiences; Orion guidance credits in ATTRIBUTIONS.md",
+  "errors": []
+}

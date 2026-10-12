@@ -1,8 +1,31 @@
-# Değişiklik kaydı
+# Changelog
 
-## [Unreleased]
+## [1.17.0] — Development · 2026-10-12
 
-- Henüz değişiklik yok.
+- Warm multi-scale stellar convection, refined gas fibers and locally hosted licensed fonts.
+- Stable Orion cruise with shared wheel/button scaling, depth slider and direct return.
+- Opt-in meteor, supernova and illustrative black-hole experiences; reduced-motion stills, no vocabulary writes.
+- Local1080px square/portrait PNG star cards; meanings omitted by default.
+- Initial auth refresh cannot indefinitely block guest learning. Late identity resolution remains authoritative.
+- Current bilingual repository guides, synthetic gallery, community templates and technical specifications.
+
+## [1.16.1] — Development · 2026-10-12
+
+- Cursor-local wheel zoom, hover-star focus and reversal without implicit Orion flight.
+- Visible startup, shader warmup, retained volume buffers and failed-asset atlas fallback.
+
+## [1.16.0] — Development · 2026-10-12
+
+- Atlas filtering, natural/date sorting, dated records, return-to-list state and graphics fallback.
+
+## [1.15.0–1.15.1] — Development · 2026-10-12
+
+- Perspective camera gestures, keyboard navigation, adaptive quality and ephemeral recall.
+- Shared granular stellar surfaces, desktop detail preview and volumetric microfibers.
+
+## [1.14.1] — Production
+
+- Orion volume and personal word-star presentation. Subsequent desktop work remains in development previews pending release acceptance.
 
 ## [1.11.0] - 2026-10-02
 

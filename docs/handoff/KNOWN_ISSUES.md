@@ -1,10 +1,8 @@
-# Bilinen sorunlar
+# Known issues
 
-- Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.
-- İlk JS paketi 534 kB (minify); Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
-- WebGL başlatılamazsa arayüzün tüm veri işlevleri ayrı bir liste modu ile güvence altında değil.
-- Mevcut görseller için kaynaklar `docs/ART_ASSET.md`, `docs/ASTRONOMY_REFERENCES.md` ve kök dizindeki `ATTRIBUTIONS.md` içinde. Yeni varlıklar eklendikçe merkezi atıf güncellenmeli.
-- Statik TR/EN/ES sayfaları üretildi. Kök URL `/` tarayıcı dili veya yerel tercih nedeniyle JavaScript açıldığında EN/ES'e dönebilir; statik HTML varsayılan TR'dir. Kanonik dil adresleri `/en/` ve `/es/` açık dili sabitler.
-- Bulut hesabı, RLS ve cihazlar arası senkron Faz 2 kapsamında.
-- Sistem açık tema seçilse de uygulama yalnız koyu palet kullanıyor. Faz 9'da açık tema tasarımı ve testleri değerlendirilmeli.
-- Vercel preview SSO korumalı; anonim HTTP smoke için erişim yok. Preview build/check başarılı; prod URL izole tarayıcıda test edildi.
+- U2 visual review and broad hardware/large-archive acceptance remain open. Short synthetic RTX5060Ti first-wheel RAF p95~7.1ms/max~12.9ms is not universal GPU certification.
+- Main branch application is older than the promoted production build. Documentation-only changes must not trigger a production downgrade.
+- Account/network failures can delay identity resolution; content isolation is preserved. Account rollout and new mobile design are outside the current desktop presentation work.
+- Current Orion guidance is native1254, artistic depth. Do not claim true8K or measured gas tomography.
+- Persistent recall scheduling/FSRS and offline account reconciliation remain future work.
+- Historical Git revisions may contain obsolete internal briefs. Current source cleanup does not rewrite repository history.

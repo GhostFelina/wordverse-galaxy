@@ -1,9 +1,11 @@
-# Katkı
+# Contributing
 
-1. Yeni bir dal aç ve değişikliği küçük, anlaşılır bir commit ile hazırla.
-2. Gerekliyse gerçek davranışı doğrulayan test ekle; `npm run check` çalıştır.
-3. `package.json` sürümünü her güncellemede artır ve `CHANGELOG.md` dosyasına madde ekle.
-4. Kişisel kelime yedeklerini, API anahtarlarını ve `.env` dosyalarını commit etme.
-5. Pull request açıklamasında değişikliğin nedenini, görsel etkisini ve doğrulama sonucunu belirt.
+Wordverse welcomes focused changes to learning workflows, accessibility, translations and rendering. Development lives on `phase/4-universe`; production and development previews are separate.
 
-Yayın sürümü `vX.Y.Z` etiketiyle işaretlenir. Yeni özellikler küçük sürümü, düzeltmeler yama sürümünü artırır.
+Use Node24, `npm ci`, and `npm run dev -- --port 5360 --strictPort`. Guest use needs no service credentials. Install the browser test runner with `npx playwright install chromium`.
+
+Before opening a PR, run `npm run check`, `npm run format:check` and `npm run check:release`. Explain the user-visible behavior and your validation. Use deterministic synthetic screenshots for visual changes and note the GPU/browser and measurement limits.
+
+Preserve persisted IDs, coordinates, dates and owner isolation. Rendering, scene effects and exports must not alter vocabulary data. Update all three UI locales. Keep external asset licenses and provenance. Do not commit personal backups, account details, credentials or private task transcripts.
+
+See [product specification](docs/PRODUCT_SPEC.md), [visual specification](docs/VISUAL_SPEC.md) and [open issues](docs/handoff/KNOWN_ISSUES.md). Larger proposals should begin with an issue describing the learning or exploration need.
