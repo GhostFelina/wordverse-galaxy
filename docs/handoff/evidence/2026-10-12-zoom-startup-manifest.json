@@ -37,7 +37,7 @@
   "limits": "Synthetic screenshots and headless short GPU measurement. No real user records or private screenshots exported. Production1.14.1 unchanged.",
   "finalLocalGate": {
     "unit": 132,
-    "browser": 106,
+    "browser": 107,
     "status": "pass"
   }
 }

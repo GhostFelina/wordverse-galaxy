@@ -23,7 +23,7 @@ import { mountExperienceUI } from './experience-ui.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
-import { translate, formatDate, formatUnit, localePath } from './i18n.js';
+import { translate, formatDate, formatUnit } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountProfileUI, profileSessionListener } from './profile-ui.js';
 import { getSupabaseClient } from './supabase-client.js';
@@ -708,10 +708,6 @@ function zoomOnGalaxy(value) {
 }
 
 function bindUI() {
-  $('#ui-language').addEventListener('change', (event) => {
-    const nextLocale = event.target.value;
-    location.assign(localePath(nextLocale));
-  });
   $('#universe-mode').addEventListener('click', () => {
     if (!graphicsFallback.available) return;
     const button = $('#universe-mode');
@@ -858,7 +854,7 @@ window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationF
 applyHomeTranslations(uiLocale);
 collectionAtlas = mountCollectionAtlas({ locale: uiLocale, onChange: () => { if (activePanel === 'collection') renderCollection(); }, onBack: () => openPanel('collection') });
 graphicsFallback = mountGraphicsFallback({ locale: uiLocale, onAtlas: () => $('#collection-btn').click() });
-persist(); refreshCounts(); bindUI(); initScene();
+persist(); refreshCounts(); bindUI();
 let profileUI;
 accountSync = mountAccountSync({
   locale: uiLocale,
@@ -908,5 +904,7 @@ mountAuthUI({ locale: uiLocale, beforeOpen: closePanels,
 });
 applyExperience(experience.snapshot());
 recallUI.refresh();
+// Let identity/UI initialization run before expensive GPU preparation.
+requestAnimationFrame(() => { initScene(); syncRenderLoop(); });
 if (recoveredFromMirror) showToast(t('message.recovered'));
 if (archiveFailure) showToast(t('status.archiveError'));

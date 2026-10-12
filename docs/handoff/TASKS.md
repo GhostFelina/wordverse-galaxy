@@ -8,8 +8,9 @@
 - [x] Opt-in downloadable word cards, meaning omitted by default.
 - [x] Current README, synthetic gallery, community templates and asset provenance.
 - [x] Current-tree documentation cleanup; historical Git copies remain.
-- [x] Complete local checks:132unit,106browser,24Go and all quality gates.
+- [x] Complete local checks:132unit,107browser,24Go and all quality gates.
 - [ ] Fresh remote CI, preview provenance and final checkpoint.
-- [ ] Default-main presentation publication while preserving production.
+- [x] Default-main presentation publication, CI and production preservation verified.
 
 Deferred: visual release acceptance, persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout.
+

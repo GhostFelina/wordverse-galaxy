@@ -58,21 +58,31 @@ export function renderWordCard(content, surface, portrait = false) {
     ctx.fillStyle = glow;
     ctx.fillRect(390, 286, 300, 300);
   }
+  ctx.font = '400 28px "DM Sans",sans-serif';
+  const meaningLines = content.meaning ? lines(ctx, content.meaning, 830, portrait ? 4 : 2) : [];
+  const wordY = portrait ? 822 : content.meaning ? 690 : 716;
+  const lowerBoundary = canvas.height - (meaningLines.length ? 168 : 144);
   let fontSize = 92;
   ctx.font = `500 ${fontSize}px "DM Sans",sans-serif`;
-  while (lines(ctx, content.word, 870, 100).length > 2 && fontSize > 42) {
+  while (
+    (lines(ctx, content.word, 870, 100).length > 2 ||
+      wordY +
+        Math.min(2, lines(ctx, content.word, 870, 100).length) * fontSize * 1.15 +
+        (meaningLines.length ? 24 + meaningLines.length * 38 : 0) >
+        lowerBoundary) &&
+    fontSize > 42
+  ) {
     fontSize -= 4;
     ctx.font = `500 ${fontSize}px "DM Sans",sans-serif`;
   }
   ctx.fillStyle = '#f2f3f8';
   ctx.textAlign = 'center';
   const wordLines = lines(ctx, content.word, 870, 2);
-  const wordY = portrait ? 822 : 716;
   wordLines.forEach((line, i) => ctx.fillText(line, 540, wordY + i * fontSize * 1.15));
   if (content.meaning) {
     ctx.fillStyle = '#9dabc5';
     ctx.font = '400 28px "DM Sans",sans-serif';
-    lines(ctx, content.meaning, 830, portrait ? 4 : 2).forEach((line, i) =>
+    meaningLines.forEach((line, i) =>
       ctx.fillText(line, 540, wordY + wordLines.length * fontSize * 1.15 + 24 + i * 38),
     );
   }

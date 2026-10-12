@@ -37,6 +37,7 @@ async function open(page, motion = 'reduce') {
     ),
   );
   await page.goto('/?lang=en');
+  await expect(page.locator('#app')).toHaveAttribute('data-content-ready', 'true');
   await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
 }
 
@@ -119,6 +120,42 @@ test('star cards are opt-in, default to hidden meaning and download the requeste
   await page.locator('#share-word').click();
   await expect(page.locator('#word-card-meaning')).not.toBeChecked();
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});
+
+test('long card titles and opted-in meanings remain above the footer in both formats', async ({ page }) => {
+  await open(page);
+  const result = await page.evaluate(async () => {
+    const { renderWordCard } = await import('/src/word-card.js');
+    await document.fonts.ready;
+    const original = CanvasRenderingContext2D.prototype.fillText;
+    const measurements = [];
+    CanvasRenderingContext2D.prototype.fillText = function (text, x, y) {
+      measurements.push({ text, y, height: Number(this.font.match(/([\d.]+)px/)[1]) });
+      return original.call(this, text, x, y);
+    };
+    try {
+      const checks = [];
+      for (const portrait of [false, true]) {
+        measurements.length = 0;
+        renderWordCard(
+          {
+            word: 'A very long vocabulary expression with several extraordinary discoveries',
+            meaning:
+              'An intentionally included meaning that also wraps across multiple lines and must remain clear of the footer and frame.',
+          },
+          null,
+          portrait,
+        );
+        const footer = measurements.find((row) => row.text === 'wordverse-galaxy.vercel.app');
+        const content = measurements.filter((row) => row.y > 600 && row !== footer);
+        checks.push(content.length > 2 && content.every((row) => row.y + row.height + 12 < footer.y));
+      }
+      return checks;
+    } finally {
+      CanvasRenderingContext2D.prototype.fillText = original;
+    }
+  });
+  expect(result).toEqual([true, true]);
 });
 
 test('a stalled initial auth refresh opens guest learning and a late expired-session response preserves it', async ({

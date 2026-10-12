@@ -33,13 +33,15 @@
     "nextPhase": "U3",
     "lastVerifiedCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
     "lastRemoteCI": {
-      "run": 38220855746,
-      "commit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
-      "status": "success",
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38220855746"
+      "run": 38242469696,
+      "commit": "268f857704afc384d2a99d8a2d0718f15e410cf9",
+      "status": "failure",
+      "passed": 104,
+      "failed": 2,
+      "reason": "Cold-start language binding and initial-auth/GPU readiness coupling; corrected and complete local107-browser suite passed"
     },
     "localUnitTests": 132,
-    "suiteBrowserTests": 106,
+    "suiteBrowserTests": 107,
     "userVisualAcceptance": "pending",
     "preview": {
       "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
@@ -73,13 +75,19 @@
     },
     "desktopQuality": {
       "version": "1.17.0",
-      "localGate": "132unit/106browser/lint/types/build/format/release/audit/24Go template checks pass",
+      "localGate": "132unit/107browser/lint/types/build/format/release/audit/24Go pass",
       "evidence": "docs/handoff/evidence/2026-10-12-desktop-quality-manifest.json",
       "sky": "Explicit ephemeral meteor/supernova/black-hole illustrations, reduced-motion stills",
       "navigation": "Shared wheel/button scale, no auto descent tilt, depth slider and return",
       "cards": "1080px square/portrait local PNG, default meaning omitted, allowlisted content, invalidated on selection/owner change",
       "privacy": "Current tree has technical specifications only; historical Git copies persist. No force/history rewrite",
-      "remoteStatus": "pending"
+      "remoteStatus": "pending",
+      "publication": {
+        "main": "b39a0b6f7d52d7653a15a999680bd9ebc40b561f",
+        "pr": 10,
+        "ci": 38242976114,
+        "status": "merged with successful CI; main38243359773 also success; production unchanged"
+      }
     }
   },
   "checkpoint": {

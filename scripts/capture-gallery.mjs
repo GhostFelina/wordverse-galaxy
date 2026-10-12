@@ -110,8 +110,8 @@ try {
   await expect(page.locator('#star-lab')).toHaveAttribute('data-shot', 'close');
   await expect(page.locator('#star-lab')).toHaveAttribute('data-refined', 'true');
   await page.evaluate(() => {
-    document.querySelector('nav').hidden = true;
-    document.querySelector('footer').hidden = true;
+    document.querySelector('nav').style.display = 'none';
+    document.querySelector('footer').style.display = 'none';
   });
   await page.screenshot({ path: 'docs/images/wordverse-photosphere.png' });
   expect(errors).toEqual([]);

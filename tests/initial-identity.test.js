@@ -5,7 +5,7 @@ it('offers the guest view once on a stalled refresh without blocking late identi
   vi.useFakeTimers();
   const fallback = vi.fn();
   const gate = createInitialIdentityGate(fallback);
-  vi.advanceTimersByTime(3999);
+  vi.advanceTimersByTime(2499);
   expect(fallback).not.toHaveBeenCalled();
   vi.advanceTimersByTime(1);
   expect(fallback).toHaveBeenCalledTimes(1);
