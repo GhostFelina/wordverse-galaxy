@@ -9,6 +9,7 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 - A short ephemeral recall session: reveal, self-assess and repeat difficult items. No persistent mastery score or spaced-repetition claims.
 - Language galaxies, editing, record history and compatible JSON import/export. Guest records remain separate from account-owned storage.
 - Turkish, English and Spanish UI. Existing mobile layouts are maintained; new visual work is desktop-first.
+- Cohesive desktop home with an original constellation mark, clear word/atlas actions and a shared scene toolbar. First visitors can choose their own universe or exploration; existing records open directly into their personal sky.
 - Visible scene preparation and atlas fallback when graphics/assets fail. Explicit Orion flight, cursor-local wheel zoom and selected-star safe approach.
 
 - Local1080px square/portrait star-card export, explicit meaning inclusion, no account/record metadata or automatic posting.

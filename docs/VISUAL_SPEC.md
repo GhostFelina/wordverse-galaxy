@@ -2,7 +2,9 @@
 
 ## Direction
 
-A calm, cinematic learning atlas: near-black space, an observationally inspired Orion gas field, restrained white/lavender optical points and warm granular stellar surfaces. Serif display typography contrasts with compact, readable controls. Stars and records are the primary hierarchy; decorative elements remain secondary.
+A calm, cinematic learning atlas: near-black space, an observationally inspired Orion gas field, restrained white/lavender optical points and warm granular stellar surfaces. The desktop shell uses local Space Grotesk display typography and DM Sans controls, warm ivory action surfaces and copper-toned accents. An original constellation W identifies the brand. Stars and records are the primary hierarchy; decorative elements remain secondary.
+
+The first-visit, empty and populated home states share a typographic hierarchy. Primary navigation sits beside the wordmark; galaxy/language/account actions form the opposite group. A consolidated scene toolbar anchors its menus to the viewport and opens upward, with independent zoom controls below. Explicit Orion entry is visible above the scene. Keyboard focus, native select behavior, Escape return and panel scrolling remain available. Dedicated mobile design is deferred.
 
 ## Rendering boundaries
 
