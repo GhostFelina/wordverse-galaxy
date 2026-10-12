@@ -7,6 +7,7 @@ import './scene-loading.css';
 import { createRenderQuality } from './render-quality.js';
 import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.js';
 import { createSkyEvents } from './sky-events.js';
+import { mountSoundscape } from './soundscape-ui.js';
 import { mountSkyEventsUI, mountNebulaNavigation } from './sky-events-ui.js';
 import { mountSceneControls } from './scene-controls.js';
 import { mountRecallUI } from './recall-ui.js';
@@ -69,7 +70,8 @@ let zoom = 160;
 let catalogDepth = 0;
 let nebulaSystem, nebulaUI, travelingNebula = null;
 let renderQuality;
-let skyEvents, skyEventsUI, nebulaNavigation;
+let skyEvents, skyEventsUI, nebulaNavigation, soundscape;
+let lastSoundUpdate = 0;
 let catalogReady = false;
 let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
@@ -100,6 +102,7 @@ function applyExperience(state) {
   stellarPreview.hide();
   wordCard.invalidate();
   skyEvents?.select(null); skyEventsUI?.update({ kind: null });
+  soundscape?.event(null); soundscape?.update({});
   collectionAtlas?.reset();
   recallUI?.invalidate();
   // Clear the previous identity immediately; allow rapid UI transitions to settle
@@ -138,19 +141,27 @@ const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 let reducedMotion = motionPreference.matches;
 motionPreference.addEventListener('change', event => { reducedMotion = event.matches; skyEvents?.setReducedMotion(reducedMotion); pointer.x = pointer.y = 0; });
 
-function persist() {
-  if (accountSync?.persist(universe)) return true;
+function persist(onDurable) {
+  if (accountSync?.persist(universe, onDurable)) return true;
   try {
     const serialized = JSON.stringify(universe);
     const { localSaved, writePrimary } = persistLocalUniverse(universe, localStorage);
     pendingGuestWrites++;
     syncRenderLoop();
-    primaryWrites = primaryWrites.catch(() => {}).then(writePrimary).catch(() => {
+    const identity = experience.snapshot();
+    const galaxyId = universe.activeGalaxyId;
+    const saved = universe;
+    const notifyDurable = () => {
+      const current = experience.snapshot();
+      if (saved === universe && current.mode === identity.mode && current.ownerId === identity.ownerId && universe.activeGalaxyId === galaxyId) onDurable?.();
+    };
+    primaryWrites = primaryWrites.catch(() => {}).then(writePrimary).then(() => { if (!localSaved) notifyDurable(); }).catch(() => {
       if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
     }).finally(() => { pendingGuestWrites--; syncRenderLoop(); });
     mirrorWrites = mirrorWrites.catch(() => {}).then(() => writeUniverseMirror(JSON.parse(serialized))).catch(() => {
       if (!mirrorWarningShown) { mirrorWarningShown = true; showToast(t('message.mirrorError')); }
     });
+    if (localSaved) queueMicrotask(notifyDurable);
     return localSaved;
   }
   catch { showToast(t('status.storageError')); return false; }
@@ -219,11 +230,12 @@ function initScene() {
     $('#universe').dataset.renderDpr = String(ratio);
   } });
   mountSceneControls({ locale: uiLocale, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
+  soundscape = mountSoundscape({ locale: uiLocale, container: document.querySelector('.scene-controls-content') });
   skyEvents = createSkyEvents({ reducedMotion });
   skyEvents.warm(renderer).catch(() => { /* Optional sky illustrations may be unavailable. */ });
   skyEventsUI = mountSkyEventsUI({ locale: uiLocale, reducedMotion,
     container: document.querySelector('.scene-controls-content'),
-    onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); },
+    onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
   });
   nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
     onDepth(fraction) { if(travelingNebula) setZoom(MAX_ZOOM-catalogDepth-fraction*(MAX_ZOOM-catalogDepth-MIN_ZOOM)); },
@@ -351,6 +363,7 @@ function animate(ms) {
     selectedId, hoveredId: hoveredStarId, birthId: birth?.id,
     transmission(position,id) { if(!transmissionCache.has(id)) transmissionCache.set(id,starTransmission(position,camera));return transmissionCache.get(id); },
     birthStrength: birth ? Math.sin(Math.PI * Math.min(1, (clock - birth.start) / 1.4)) : 0,
+    birthProgress: birth ? Math.min(1, (clock-birth.start)/1.4) : 0,
   });
   const updateOverlays = words.length <= 80 || ms - lastOverlayUpdate >= 33;
   if (updateOverlays) lastOverlayUpdate = ms;
@@ -377,12 +390,16 @@ function animate(ms) {
   const target = focusedStarId ? worldStars.get(focusedStarId) : null;
   $('#universe').dataset.starApproach = target ? starApproach(camera.position.z-target.position.z,MAX_ZOOM-target.position.z).toFixed(3) : '0';
   renderer.render(scene, camera);
-  nebulaSystem.render(renderer);
-  const skyState = skyEvents.update(cameraDelta*.001, camera.aspect);
-  skyEvents.render(renderer);
+  const skyState = skyEvents.update(cameraDelta*.001, camera.aspect, camera);
+  // Sky accents retain their own dark cores; personal stars are drawn last.
+  nebulaSystem.render(renderer, () => skyEvents.render(renderer));
   skyEventsUI.update(skyState);
   $('#universe').dataset.skyEvent = skyState.kind || '';
   $('#universe').dataset.skyEventTime = String(skyState.elapsed);
+  if (ms-lastSoundUpdate>180) {
+    lastSoundUpdate=ms;
+    soundscape.update({ depth: travelingNebula ? Math.min(1,Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: skyState.kind });
+  }
   $('#universe').dataset.nebulaFlight = String(!!travelingNebula);
   nebulaNavigation.update(!!travelingNebula, (MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM));
   if (nebulaSystem.loaded) $('#app').dataset.sceneState = 'ready';
@@ -492,7 +509,14 @@ function saveWord(event) {
   const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word, meaning, example, kind, createdAt: new Date().toISOString(), ...position };
   if (kind === 'conjunction') item.planetType = nextPlanetType(universe.words, item.galaxyId);
   universe.words.push(item); words.push(item); appendEvent(universe, 'word.created', item.galaxyId, item.id, null, item);
-  const durable = persist(); rebuildWordStars(); refreshCounts(); if (durable) spawnBirth(item.id); closePanels(); selectWord(item.id);
+  const identity = experience.snapshot();
+  persist(() => {
+    const current = experience.snapshot();
+    if (current.mode !== identity.mode || current.ownerId !== identity.ownerId || !words.some(w => w.id === item.id)) return;
+    spawnBirth(item.id);
+    if (kind === 'word') soundscape?.birth();
+  });
+  rebuildWordStars(); refreshCounts(); closePanels(); selectWord(item.id);
   showToast(t(kind === 'conjunction' ? 'message.planetAdded' : 'message.starAdded', { word }));
 }
 function setFormTitle(isPlanet, editing) {

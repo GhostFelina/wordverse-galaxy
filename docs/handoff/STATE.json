@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.16.1",
-  "activeWork": "Desktop quality1.17.0, optional sky experiences, Orion navigation, private local cards and repository presentation",
+  "developmentVersion": "1.18.0",
+  "activeWork": "Creation-date stellar evolution, deeper Orion wheel travel and optional neutron-star merger",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -33,15 +33,13 @@
     "nextPhase": "U3",
     "lastVerifiedCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
     "lastRemoteCI": {
-      "run": 38242469696,
-      "commit": "268f857704afc384d2a99d8a2d0718f15e410cf9",
-      "status": "failure",
-      "passed": 104,
-      "failed": 2,
-      "reason": "Cold-start language binding and initial-auth/GPU readiness coupling; corrected and complete local107-browser suite passed"
+      "run": 38244714363,
+      "commit": "f59feb406031b7a5fc50702f24a06e777fc791c7",
+      "status": "success",
+      "version": "1.17.0"
     },
-    "localUnitTests": 132,
-    "suiteBrowserTests": 107,
+    "localUnitTests": 136,
+    "suiteBrowserTests": 111,
     "userVisualAcceptance": "pending",
     "preview": {
       "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
@@ -88,10 +86,22 @@
         "ci": 38242976114,
         "status": "merged with successful CI; main38243359773 also success; production unchanged"
       }
+    },
+    "sceneSound": {
+      "version": "1.18.0",
+      "status": "136unit/111browser and complete local quality gates pass; source checkpoint follows",
+      "visualEvidence": "docs/handoff/evidence/2026-10-12-plasma-after",
+      "hardwareEvidence": "docs/handoff/evidence/2026-10-12-plasma-d3d11-frame-times.json",
+      "audioEvidence": "docs/handoff/evidence/2026-10-12-soundscape-native-audio.json",
+      "audio": "Original gesture-enabled stereo synthesis, depth/focus mixes, word creation cue, volume, tab suspension; no recording or vocabulary input",
+      "blackhole": "Small distant bounded artistic projection, turbulent asymmetric disk, foreground word stars",
+      "production": "Unchanged1.14.1",
+      "twinkle": "Independent record-stable far-light phases, bounded core/halo modulation, projected-size fade and reduced-motion stills",
+      "persistence": "Birth cues wait for durable local storage; quota failures, retries, edits and identity changes do not replay creation"
     }
   },
   "checkpoint": {
-    "version": "1.17.0",
+    "version": "1.18.0",
     "applicationCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
     "deploymentTarget": "preview",
     "date": "2026-10-12"

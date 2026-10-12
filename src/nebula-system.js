@@ -49,7 +49,7 @@ void main(){
  float start=max(0.,max(low.x,max(low.y,low.z))),end=min(high.x,min(high.y,high.z));
  if(end<=start)discard;
  float stride=(end-start)/float(steps);
- // Stable midpoint sampling avoids visible screen-space grain inside thin walls.
+ // Stable midpoints retain a clean image without a screen-space dither grid.
  float jitter=.5;
  // Sample telescope guidance once at the principal ionization surface rather
  // than stretching every photographed feature through the entire ray.
@@ -70,7 +70,7 @@ void main(){
   if(i>=steps)break;
   vec3 p=eye+ray*(start+(float(i)+jitter)*stride);
   float n=cloud(p*1.6+vec3(time*.0006,.008*sin(time*.035),time*.00025));
-  float fine=cloud(p*4.8+vec3(5.3,1.7,9.));
+  float fine=cloud(p*3.6+vec3(5.3,1.7,9.));
   float feather=1.-smoothstep(.72,1.,length(p.xy)+.05*(n-.5));
   feather*=1.-smoothstep(.87,1.,abs(p.z));
   // Open cavity facing the observer; ionization wall and dusty back layer.
@@ -78,26 +78,36 @@ void main(){
   // Break the smooth extruded side ribbon into a porous, corrugated medium.
   // The same world-space field holds from the front, side and inside the cloud.
   vec3 curl=vec3(n-.5,fine-.5,n-fine)*.16;
-  float micro=cloud((p+curl)*vec3(12.7,21.3,9.8)+vec3(2.8,11.3,6.1));
-  float diffuseFilament=smoothstep(.24,.73,fine*.45+micro*.55);
-  float thread=pow(max(0.,1.-abs(fine*.62+micro*.38-.5)*3.2),7.);
-  float filament=mix(diffuseFilament,thread,.66);
+  // Resolve these wisps at the actual march stride. Extremely high axial
+  // frequencies produced spoke-like streaks when flying through the volume.
+  float micro=cloud((p+curl)*vec3(3.3,4.2,3.8)+vec3(2.8,11.3,6.1));
+  float diffuseFilament=smoothstep(.27,.72,fine*.45+micro*.55);
+  float filament=diffuseFilament;
   float branches=smoothstep(.24,.64,n*.45+fine*.55);
   float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.42*(n-.5)+.18*(fine-.5);
-  vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*.28;
+  vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*.16;
   // Finite three-dimensional lobes replace the infinitely extruded thin wall.
   // Their overlap is eroded by the shared turbulent field, never a flat skirt.
-  float wall=(plume(flow,vec3(-.34,-.24,.15),vec3(.42,.32,.68))*.7
-             +plume(flow,vec3(.38,-.04,-.2),vec3(.38,.48,.57))*.8
-             +plume(flow,vec3(.02,.22,.38),vec3(.47,.34,.45))*.45)*branches;
+  // Account for the 2.6x depth transform: compact Z extents keep individual
+  // clouds round in world space, instead of long tubes pointing at the eye.
+  float wall=(plume(flow,vec3(-.34,-.24,.25),vec3(.42,.32,.24))*.9
+             +plume(flow,vec3(.38,-.04,-.22),vec3(.38,.48,.28))*1.05
+             +plume(flow,vec3(.02,.22,.5),vec3(.47,.34,.2))*.65
+             +plume(flow,vec3(-.22,.17,-.62),vec3(.52,.33,.23))*.8
+             +plume(flow,vec3(.28,-.3,-.6),vec3(.3,.38,.22))*.65)*branches;
   // Keep telescope detail aligned in XY; projecting a photo onto XZ produced
   // stretched radial streaks along the long flight walls.
   // The deep medium uses diffuse colour, avoiding extrusion of photographed
   // stars into long rays. Observed fine detail belongs to the ionization ridge.
   float warm=smoothstep(-.8,.8,p.x+.45*p.z+(.5-n)*.4);
-  vec3 gasColor=mix(macroColor,mix(vec3(.19,.16,.29),vec3(.48,.23,.16),warm),.38);
+  float immersion=1.-smoothstep(.85,1.65,eye.z);
+  float blueLight=plume(p,vec3(-.18,.34,.12),vec3(.6,.6,.9));
+  vec3 palette=mix(vec3(.045,.09,.36),vec3(.56,.09,.015),warm);
+  palette=mix(palette,vec3(.045,.2,.52),blueLight*.65);
+  vec3 gasColor=mix(macroColor,palette,.38+immersion*.55);
   float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
-  gas*=wall*(.1+1.3*n*n)*(.08+1.28*filament);
+  float cavity=1.-.86*plume(p,vec3(0.,.04,0.),vec3(.32,.34,.85));
+  gas*=wall*(.14+1.8*n*n)*(.12+1.6*filament)*(1.+immersion*1.8)*cavity;
   float dust=smoothstep(.48,.7,cloud(p*3.9+vec3(7.,3.,2.)))*(1.-smoothstep(.04,.2,lum));
   float offset=p.z-principalZ;
   float halfStep=abs(ray.z*stride)*.5;
@@ -110,11 +120,11 @@ void main(){
   backing*=1.-opening;
   gas+=backing*2.5;
   gasColor=mix(gasColor,observed,clamp(backing*2.5/(gas+.001),0.,1.));
-  float extinction=gas*(2.5+dust*2.2);
+  float extinction=gas*(2.5+dust*3.4);
   float opacity=1.-exp(-extinction*stride);
   vec3 tint=mix(gasColor,gasColor*vec3(1.1,.89,.8),(1.-smoothstep(-.7,.4,p.z))*.2);
   float scatter=clamp(.85+(cloud(p*1.6+vec3(0.,.12,.04))-n)*2.5,.55,1.15);
-  vec3 light=tint*(3.1+wall*.3)*scatter*(1.-dust*.6);
+  vec3 light=tint*(3.1+immersion*(1.2+blueLight*2.2)+wall*.3)*scatter*(1.-dust*.78);
   sum.rgb+=(1.-sum.a)*light*opacity;
   sum.a+=(1.-sum.a)*opacity;
   if(sum.a>.985)break;
@@ -258,7 +268,7 @@ export function createNebulaSystem(
     get gasResolution() {
       return [target.width, target.height];
     },
-    render(renderer) {
+    render(renderer, beforeStars = () => {}) {
       if (disposed) return;
       if (shaderState === 'idle') {
         shaderState = 'compiling';
@@ -313,7 +323,9 @@ export function createNebulaSystem(
       const resting = now - lastCameraMotion > 250;
       for (const node of nodes) {
         if (qualityMode === 'low') node.material.uniforms.steps.value = 16;
-        else if (resting) node.material.uniforms.steps.value = qualityMode === 'balanced' ? 24 : 32;
+        else if (resting)
+          node.material.uniforms.steps.value =
+            qualityMode === 'balanced' ? 24 : Math.abs(node.material.uniforms.eye.value.z) < 1 ? 48 : 32;
         else if (gasScale < 0.4) node.material.uniforms.steps.value = 16;
       }
       renderer.getSize(size);
@@ -387,6 +399,7 @@ export function createNebulaSystem(
       const autoClear = renderer.autoClear;
       renderer.autoClear = false;
       renderer.render(compositeScene, compositeCamera);
+      beforeStars();
       camera.layers.set(2);
       renderer.clearDepth();
       renderer.render(scene, camera);

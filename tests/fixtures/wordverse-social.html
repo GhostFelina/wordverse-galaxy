@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Wordverse · Social cover</title>
+    <style>
+      @font-face {
+        font-family: 'DM Sans';
+        src: url('/assets/fonts/dm-sans-variable.ttf');
+        font-weight: 100 1000;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #000;
+        color: #edf2ff;
+        overflow: hidden;
+      }
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+      .brand {
+        position: absolute;
+        top: 48px;
+        left: 72px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font:
+          700 27px 'DM Sans',
+          sans-serif;
+        letter-spacing: -1px;
+      }
+      .brand img {
+        width: 36px;
+        height: 36px;
+      }
+      .brand sup {
+        color: #b0c8ef;
+        font-size: 14px;
+      }
+      main {
+        position: absolute;
+        top: 169px;
+        left: 72px;
+        width: 490px;
+      }
+      .eyebrow {
+        color: #abbad3;
+        font:
+          600 10px 'DM Sans',
+          sans-serif;
+        letter-spacing: 3px;
+      }
+      h1 {
+        font:
+          400 66px/1.04 Georgia,
+          serif;
+        letter-spacing: -2.5px;
+        margin: 26px 0 22px;
+      }
+      h1 em {
+        color: #b4cdff;
+        font-weight: 400;
+      }
+      p {
+        color: #a3b1ca;
+        font:
+          15px/1.7 'DM Sans',
+          sans-serif;
+        width: 330px;
+      }
+      footer {
+        position: absolute;
+        left: 72px;
+        bottom: 42px;
+        color: #7e93b5;
+        font:
+          11px 'DM Sans',
+          sans-serif;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="social-scene" aria-label="Synthetic word stars in Orion"></canvas>
+    <div class="brand"><img src="/favicon.svg" alt="" />wordverse<sup>✦</sup></div>
+    <main>
+      <div class="eyebrow">YOUR PERSONAL VOCABULARY ATLAS</div>
+      <h1>A word. A star.<br /><em>A universe.</em></h1>
+      <p>Turn the words you learn into a universe you can explore.</p>
+    </main>
+    <footer>wordverse-galaxy.vercel.app</footer>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createNebulaSystem } from '/src/nebula-system.js';
+      import { createWordStarSystem } from '/src/word-star-system.js';
+      const canvas = document.querySelector('canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setClearColor(0, 1);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100000);
+      camera.position.set(0, 0, 160);
+      camera.updateMatrixWorld();
+      const gas = createNebulaSystem(scene, camera, { fieldStars: false }),
+        stars = createWordStarSystem(scene);
+      stars.setEntries([
+        { id: 'cover-a', x: 31, y: 0, z: 18 },
+        { id: 'cover-b', x: 66, y: 21, z: -150 },
+        { id: 'cover-c', x: 55, y: -27, z: -200 },
+        { id: 'cover-d', x: -10, y: 15, z: -370 },
+      ]);
+      renderer.setAnimationLoop(() => {
+        gas.update(0, 1, innerHeight);
+        stars.update(0, camera, innerHeight, 1);
+        renderer.render(scene, camera);
+        gas.render(renderer);
+        canvas.dataset.ready = String(gas.ready && stars.ready && gas.refined);
+      });
+      addEventListener(
+        'pagehide',
+        () => {
+          renderer.setAnimationLoop(null);
+          stars.dispose();
+          gas.dispose();
+          renderer.dispose();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>

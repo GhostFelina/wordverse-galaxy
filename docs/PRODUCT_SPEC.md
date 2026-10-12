@@ -13,6 +13,7 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 
 - Local1080px square/portrait star-card export, explicit meaning inclusion, no account/record metadata or automatic posting.
 - Optional artistic sky experiences, reduced-motion stills and explicit termination. Orion cruise has a shared wheel/button depth scale and progress slider.
+- Optional original stereo audio: no automatic playback, gesture activation, volume control, background-tab suspension, scene-depth/focus transitions and successful word-creation cues. No audio data contains record text or metadata.
 
 ## Data invariants
 

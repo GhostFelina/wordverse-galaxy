@@ -420,6 +420,14 @@ test('account storage write failure keeps the edit in memory without upload and 
   const backend = await setupMockAccount(page);
   await page.addInitScript(() => {
     window.accountWritesBlocked = false;
+    const NativeAudioContext = window.AudioContext;
+    window.birthOscillators = 0;
+    window.AudioContext = class extends NativeAudioContext {
+      createOscillator() {
+        window.birthOscillators++;
+        return super.createOscillator();
+      }
+    };
     const original = IDBObjectStore.prototype.put;
     IDBObjectStore.prototype.put = function (...args) {
       if (this.transaction.db.name === 'wordverse-accounts' && window.accountWritesBlocked)
@@ -432,6 +440,9 @@ test('account storage write failure keeps the edit in memory without upload and 
   await signInAndOpenMerge(page);
   await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
   await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await page.locator('#soundscape-toggle').click();
+  await expect(page.locator('#soundscape-toggle')).toHaveAttribute('data-audio-state', 'running');
+  const originalOscillators = await page.evaluate(() => window.birthOscillators);
   const writes = backend.writes();
   await page.evaluate(() => {
     window.accountWritesBlocked = true;
@@ -442,6 +453,7 @@ test('account storage write failure keeps the edit in memory without upload and 
   await page.locator('#word-form button[type=submit]').click();
   await expect(page.locator('#sync-status')).toHaveText('Sync error · retry');
   await expect(page.locator('#account-storage-warning')).toContainText('Keep this page open');
+  expect(await page.evaluate(() => window.birthOscillators)).toBe(originalOscillators);
   expect(backend.writes()).toBe(writes);
   await page.locator('#close-detail').click();
   await page.locator('#collection-btn').click();
@@ -456,9 +468,15 @@ test('account storage write failure keeps the edit in memory without upload and 
   });
   await page.locator('#sync-status').click();
   await expect(page.locator('#sync-status')).toHaveText('Synced');
+  expect(await page.evaluate(() => window.birthOscillators)).toBe(originalOscillators);
   expect(
     backend.tables.wordverse_entries.filter((record) => record.payload.word === 'retained quota star'),
   ).toHaveLength(1);
+  await page.locator('#open-add').click();
+  await page.locator('#word-input').fill('durable sound star');
+  await page.locator('#meaning-input').fill('Synthetic saved creation');
+  await page.locator('#word-form button[type=submit]').click();
+  await expect.poll(() => page.evaluate(() => window.birthOscillators)).toBe(originalOscillators + 3);
   await page.reload();
   await expect(page.locator('#sync-status')).toHaveText('Synced');
   await page.locator('#collection-btn').click();

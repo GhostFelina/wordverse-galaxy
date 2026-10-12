@@ -6,18 +6,19 @@
 
 **Turn the words you learn into a universe you can explore.** Add a word, find its star, approach its surface and reveal its meaning when you are ready. Wordverse pairs a personal vocabulary atlas with a cinematic Three.js scene.
 
-The live app runs **1.14.1**. The screenshots and features below describe **1.17.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
+The live app runs **1.14.1**. The screenshots and features below describe **1.18.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
 
 ## Explore, remember, share
 
 | Experience | What you can do |
 | --- | --- |
-| Your word stars | Keep words in language galaxies, select a star and approach its warm granular surface. Existing positions stay stable. |
+| Your word stars | Keep words in language galaxies, watch their distant light shimmer, select a star and approach its warm granular surface. Existing positions stay stable. |
 | Orion flight | Travel through a continuous gas volume with the wheel, zoom buttons or depth slider. Return to your stars in one action. |
 | A useful atlas | Search, filter words and conjunctions, sort naturally or by date, and return to the same list after opening a record. |
 | Short recall | Reveal a meaning, self-assess and revisit difficult words. Sessions are ephemeral; this is not a spaced-repetition scheduler. |
 | Star cards | Download a 1080px square or portrait PNG of one chosen word. Meanings stay off until explicitly included. |
 | Quiet sky experiences | Choose a meteor, slowly expanding supernova or illustrative black-hole disk. Nothing starts automatically or changes your records. |
+| Sound of your universe | Enable an original stereo atmosphere that follows nebula depth and stellar focus. A newly saved word has a soft birth cue; sound starts with your gesture. |
 | Built for the browser | Turkish, English and Spanish; keyboard navigation, reduced motion, local fonts, adaptive graphics and an atlas fallback. |
 
 <p><img src="docs/images/wordverse-photosphere.png" alt="Warm procedural granular star surface" width="49%" /> <img src="docs/images/wordverse-blackhole.png" alt="Optional artistic black-hole disk" width="49%" /></p>

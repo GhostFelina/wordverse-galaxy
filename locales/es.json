@@ -81,10 +81,10 @@
   },
   "home": {
     "title": "Wordverse | Una galaxia viva de palabras",
-    "metaDescription": "Explora palabras en inglés y español como estrellas y conjunciones como planetas. Crea y respalda tu universo de palabras.",
+    "metaDescription": "Convierte las palabras aprendidas en estrellas navegables. Explora galaxias de idiomas, Orión, un atlas de vocabulario, repasos breves y tarjetas de estrellas.",
     "ogTitle": "Wordverse — Cada palabra que aprendes es una estrella",
-    "ogDescription": "Convierte palabras en estrellas y conjunciones en planetas. Una galaxia viva para cada idioma, con copia local.",
-    "ogImageAlt": "Nebulosa azul y violeta en el espacio oscuro",
+    "ogDescription": "Cada palabra aprendida se convierte en una estrella. Explora, recuerda y amplía tu universo de vocabulario.",
+    "ogImageAlt": "Atlas de vocabulario Wordverse, nebulosa de Orión y estrellas de palabras sintéticas",
     "schemaDescription": "Un atlas personal de palabras que convierte el vocabulario aprendido en estrellas dentro de una galaxia viva para cada idioma.",
     "feature1": "Galaxias de palabras en inglés y español",
     "feature2": "Estrellas de palabras interactivas",
@@ -601,5 +601,18 @@
     "preview": "Vista previa",
     "preparing": "Preparando tu tarjeta…",
     "unavailable": "No se pudo preparar la imagen. Inténtalo de nuevo."
+  },
+  "sound": {
+    "title": "Sonido del universo",
+    "hint": "Una atmósfera cinematográfica original acompaña la profundidad de tu viaje. El sonido comienza solo cuando lo activas.",
+    "volume": "Volumen",
+    "on": "Sonido activo",
+    "off": "Sin sonido",
+    "enable": "Activar sonido del universo",
+    "disable": "Desactivar sonido del universo",
+    "playing": "La atmósfera acompaña tu escena",
+    "quiet": "En silencio · pulsa ∿ para activar",
+    "paused": "Atmósfera en pausa",
+    "unsupported": "El audio no está disponible en este navegador."
   }
 }

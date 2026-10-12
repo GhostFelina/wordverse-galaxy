@@ -114,17 +114,23 @@ try {
     document.querySelector('footer').style.display = 'none';
   });
   await page.screenshot({ path: 'docs/images/wordverse-photosphere.png' });
+  await page.setViewportSize({ width: 1200, height: 630 });
+  await page.goto(`${base}/tests/fixtures/wordverse-social.html`);
+  await expect(page.locator('#social-scene')).toHaveAttribute('data-ready', 'true');
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: 'public/assets/wordverse-social.png' });
   expect(errors).toEqual([]);
   await writeFile(
     'docs/images/PROVENANCE.json',
     JSON.stringify(
       {
         date: '2026-10-12',
-        version: '1.17.0',
+        version: '1.18.0',
         viewport: '1440x900',
         records: 'Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed',
         renderer: 'Production modules, Chromium, reduced motion',
         card: '1080x1080 PNG; selected synthetic word only, meaning omitted',
+        social: '1200x630 PNG, original branded composition, synthetic production scene',
         astronomy: 'Artistic procedural experiences; Orion guidance credits in ATTRIBUTIONS.md',
         errors,
       },

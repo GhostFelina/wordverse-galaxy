@@ -234,16 +234,20 @@ export function mountAccountSync({ locale, getUniverse, replaceUniverse, beforeS
   return {
     onSession,
     open,
-    persist(universe) {
+    persist(universe, onDurable) {
       if (!engine) {
         guest = structuredClone(universe);
         return false;
       }
       const current = engine;
+      const token = generation;
       current
         .update(universe)
         .then(() => {
-          if (current === engine) current.flush();
+          if (current === engine && isCurrent(token)) {
+            onDurable?.();
+            current.flush();
+          }
         })
         .catch(() => {
           if (current === engine) setStatus('error');

@@ -30,8 +30,11 @@ export function createSkyEventState({ reducedMotion = false } = {}) {
   };
 }
 
-const fragment = `varying vec2 uvEvent;uniform float clock;uniform int kind;uniform float aspect;
+const fragment = `varying vec2 uvEvent;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;
 float band(float value,float width){return exp(-pow(value/width,2.));}
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}
+float turbulence(vec2 p){float sum=0.,weight=.5;mat2 turn=mat2(.8,.6,-.6,.8);for(int i=0;i<4;i++){sum+=noise(p)*weight;p=turn*p*2.07+3.1;weight*=.5;}return sum;}
 void main(){
  vec2 q=(uvEvent-.5)*2.;q.x*=aspect;
  vec3 light=vec3(0.);float alpha=0.;
@@ -40,34 +43,51 @@ void main(){
   vec2 head=mix(vec2(-aspect*.64,.62),vec2(aspect*.65,-.08),t);
   vec2 direction=normalize(vec2(aspect*1.29,-.7));vec2 d=q-head;
   float along=dot(d,direction),side=dot(d,vec2(-direction.y,direction.x));
-  float tail=band(side,.004+max(0.,-along)*.007)*exp(along*7.)*step(along,0.)*smoothstep(-.65,-.48,along);
-  float core=exp(-dot(d,d)*12000.);float halo=exp(-dot(d,d)*650.)*.12;
+  float ribbon=side+sin(along*26.+clock*.3)*.002*max(0.,-along);
+  float tail=band(ribbon,.003+max(0.,-along)*.009)*exp(along*6.)*step(along,0.)*smoothstep(-.8,-.58,along);
+  float vapor=band(ribbon,.018+max(0.,-along)*.016)*exp(along*5.)*step(along,0.)*smoothstep(-.9,-.65,along)*.08;
+  float core=exp(-dot(d,d)*16000.);float halo=exp(-dot(d,d)*450.)*.12;
   float fade=smoothstep(0.,.13,t)*(1.-smoothstep(.82,1.,t));
-  light=mix(vec3(.34,.57,1.),vec3(1.8,1.5,1.1),core)* (tail*.55+core+halo);
-  alpha=min(.85,(tail+core+halo)*fade);light*=fade;
+  light=mix(vec3(.19,.48,1.2),vec3(3.6,2.2,.85),core)* (tail*.8+core+halo)+vec3(.48,.14,.12)*vapor;
+  alpha=min(.92,(tail+core+halo+vapor)*fade);light*=fade;
  }else if(kind==2){
   vec2 d=q-vec2(aspect*.29,.17);float r=length(d);float angle=atan(d.y,d.x);
   float rise=smoothstep(0.,3.,clock),fade=1.-smoothstep(12.,18.,clock);
   float expansion=.035+min(clock,14.)*.022;
-  float wisps=.65+.35*sin(angle*17.+sin(angle*7.)*2.+r*65.);
-  float shell=band(r-expansion,.015+clock*.0018)*wisps;
+  if(r>.9)discard;
+  float turbulent=turbulence(d*18.+vec2(clock*.006,0.));
+  float folds=.014*sin(angle*7.+sin(angle*3.)*2.)+.009*sin(angle*19.+turbulent*3.);
+  float wisps=.35+.65*turbulence(vec2(angle*8.,r*45.-clock*.025));
+  float shell=band(r-expansion-folds,.009+clock*.0013)*(.3+wisps*1.2);
+  float inner=band(r-expansion*.76-folds*.7,.018+clock*.001)*wisps*.42;
+  float filaments=pow(max(0.,sin(angle*31.+turbulent*9.+r*36.)),8.)*band(r-expansion*.85,.04)*.3;
   float core=exp(-r*r/(.0003+.003*rise))*exp(-max(0.,clock-3.)*.35);
-  float haze=exp(-r*r/(.008+clock*.004))*.09;
-  alpha=min(.72,(shell*.55+core*.7+haze)*rise*fade);
-  light=(mix(vec3(.25,.4,.85),vec3(.95,.34,.16),wisps)*shell*.7+vec3(1.35,1.1,.85)*core+haze*vec3(.28,.22,.5))*rise*fade;
+  float haze=exp(-r*r/(.008+clock*.004))*.08*(.3+turbulent);
+  alpha=min(.85,(shell*.72+inner+filaments+core*.7+haze)*rise*fade);
+  light=(mix(vec3(.16,.45,1.4),vec3(2.4,.36,.055),wisps)*shell+vec3(.55,.24,1.1)*(inner+filaments)+vec3(2.7,1.6,.7)*core+haze*vec3(.28,.22,.5))*rise*fade;
  }else if(kind==3){
-  vec2 d=q-vec2(aspect*.29,.1);float r=length(d);float angle=atan(d.y,d.x);
+  // A distant accent in the upper sky, with a small apparent angular size.
+  vec2 d=(q-blackholePosition)/blackholeScale;float r=length(d);
+  if(r>.72)discard;
   float horizon=1.-smoothstep(.105,.112,r);
-  float photon=band(r-.121,.004)*.62;
-  vec2 disk=vec2(d.x,d.y*3.6);float dr=length(disk),da=atan(disk.y,disk.x);
-  float streak=.68+.2*sin(dr*170.-da*3.+clock*.65)+.12*sin(dr*310.+da*5.-clock*.2);
-  float ring=band(dr-.24,.08)*smoothstep(.13,.17,dr)*streak;
-  // Illustrative bent far-side disk, not a ray-traced gravity simulation.
-  float bent=band(length(vec2(d.x,d.y-.055))-.19,.012)*smoothstep(-.01,.07,d.y);
-  float facing=.65+.35*smoothstep(-.28,.25,-d.x);
-  float emission=(ring*(1.-horizon)+bent*(1.-horizon)*.6+photon)*facing;
-  alpha=max(horizon,min(.9,emission*1.5));
-  light=vec3(1.15,.49,.16)*emission+vec3(.45,.45,.64)*photon*.2;
+  float photon=(band(r-.116,.0026)*.24+band(r-.12,.009)*.055)*(.6+.4*smoothstep(.12,-.12,d.x));
+  vec2 disk=vec2(d.x,d.y*4.4);float dr=length(disk),da=atan(disk.y,disk.x);
+  float eddies=turbulence(vec2(dr*54.,da*9.-clock*.035));
+  float streak=.3+.7*pow(.5+.5*sin(dr*230.+eddies*6.-da*2.-clock*.28),2.);
+  float ring=band(dr-.23,.11)*smoothstep(.126,.16,dr)*(.4+streak*.6)*(.5+eddies);
+  // Polar turbulent emission and a layered bent far-side image. This is an
+  // artistic projection, not a gravitational ray tracer or background lens.
+  float arc=length(vec2(d.x,d.y*.9-.036));
+  float arcNoise=turbulence(vec2(arc*90.,atan(d.y,d.x)*7.-clock*.025));
+  float bent=(band(arc-.162,.009)+band(arc-.187,.012)*.33)*smoothstep(-.006,.055,d.y)*(.3+arcNoise);
+  float under=band(length(vec2(d.x,d.y*1.6+.018))-.138,.004)*smoothstep(.005,-.04,d.y)*.28;
+  float facing=.38+1.2*smoothstep(.32,-.28,d.x);
+  float emission=(ring+bent*.95+under)*(1.-horizon)*facing;
+  float bloom=(band(dr-.23,.19)*.025+band(arc-.19,.047)*.03)*(.5+eddies)*(1.-horizon);
+  float temperature=smoothstep(.12,.4,dr);
+  vec3 plasma=mix(vec3(3.1,1.45,.4),vec3(1.25,.22,.026),temperature);
+  alpha=max(horizon,min(.97,emission*2.1+photon+bloom));
+  light=plasma*emission+vec3(.8,.6,.3)*bent*(1.-horizon)*facing+vec3(2.5,1.3,.48)*photon+vec3(1.1,.25,.065)*bloom;
  }
  if(alpha<.001)discard;
  // Normal alpha blending keeps the bounded core dark and avoids screen flashes.
@@ -82,7 +102,13 @@ export function createSkyEvents({ reducedMotion = false } = {}) {
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const geometry = new THREE.PlaneGeometry(2, 2);
   const material = new THREE.ShaderMaterial({
-    uniforms: { clock: { value: 0 }, kind: { value: 0 }, aspect: { value: 1 } },
+    uniforms: {
+      clock: { value: 0 },
+      kind: { value: 0 },
+      aspect: { value: 1 },
+      blackholePosition: { value: new THREE.Vector2(0.66, 0.4) },
+      blackholeScale: { value: 0.48 },
+    },
     vertexShader: 'varying vec2 uvEvent;void main(){uvEvent=uv;gl_Position=vec4(position.xy,0.,1.);}',
     fragmentShader: fragment,
     transparent: true,
@@ -91,19 +117,43 @@ export function createSkyEvents({ reducedMotion = false } = {}) {
   });
   scene.add(new THREE.Mesh(geometry, material));
   let ready = false;
+  const anchor = new THREE.Vector3(),
+    projected = new THREE.Vector3();
+  let anchored = false;
   return {
     setReducedMotion: (value) => state.setReducedMotion(value),
-    select: (next) => state.select(next),
+    select(next) {
+      state.select(next);
+      anchored = false;
+    },
     snapshot: () => state.snapshot(),
     warm: async (renderer) => {
       await renderer.compileAsync(scene, camera);
       ready = true;
     },
-    update(delta, aspect) {
+    update(delta, aspect, sceneCamera) {
       const snapshot = state.update(delta);
       material.uniforms.clock.value = snapshot.elapsed;
       material.uniforms.kind.value = ['meteor', 'supernova', 'blackhole'].indexOf(snapshot.kind) + 1;
       material.uniforms.aspect.value = aspect;
+      if (snapshot.kind === 'blackhole' && sceneCamera) {
+        const tangent = Math.tan(THREE.MathUtils.degToRad(sceneCamera.fov / 2));
+        if (!anchored) {
+          anchor.set(
+            sceneCamera.position.x + 18000 * tangent * aspect * 0.66,
+            sceneCamera.position.y + 18000 * tangent * 0.4,
+            sceneCamera.position.z - 18000,
+          );
+          anchored = true;
+        }
+        projected.copy(anchor).project(sceneCamera);
+        material.uniforms.blackholePosition.value.set(projected.x * aspect, projected.y);
+        material.uniforms.blackholeScale.value = THREE.MathUtils.clamp(
+          (0.48 * 18000) / Math.max(100, sceneCamera.position.z - anchor.z),
+          0.28,
+          0.58,
+        );
+      } else material.uniforms.blackholePosition.value.set(aspect * 0.66, 0.4);
       return snapshot;
     },
     render(renderer) {

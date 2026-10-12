@@ -81,10 +81,10 @@
   },
   "home": {
     "title": "Wordverse | Kelimelerden Canlı Bir Galaksi",
-    "metaDescription": "İngilizce ve İspanyolca kelimelerini yıldız, bağlaçlarını gezegen olarak aynı galakside keşfet. Kişisel kelime evrenini oluştur ve yedekle.",
+    "metaDescription": "Öğrendiğin kelimeleri keşfedilebilir yıldızlara dönüştür. Dil galaksileri, Orion yolculuğu, kelime atlası, kısa tekrar ve özel yıldız kartları.",
     "ogTitle": "Wordverse — Öğrendiğin Her Kelime Bir Yıldız",
-    "ogDescription": "Kelimelerin yıldız, bağlaçların gezegen olsun. Her dil için ayrı canlı galaksi ve yerel yedek.",
-    "ogImageAlt": "Karanlık uzayda mavi ve mor bulutsu",
+    "ogDescription": "Öğrendiğin her kelime bir yıldız. Kişisel kelime atlasını keşfet, hatırla ve evrenini büyüt.",
+    "ogImageAlt": "Wordverse kelime atlası, Orion bulutsusu ve sentetik kelime yıldızları",
     "schemaDescription": "Öğrenilen kelimeleri dil başına ayrı, yaşayan bir galakside yıldızlara dönüştüren kişisel kelime atlası.",
     "feature1": "İngilizce ve İspanyolca kelime galaksileri",
     "feature2": "Etkileşimli kelime yıldızları",
@@ -601,5 +601,18 @@
     "preview": "Kart önizlemesi",
     "preparing": "Kartın hazırlanıyor…",
     "unavailable": "Görsel hazırlanamadı. Yeniden dene."
+  },
+  "sound": {
+    "title": "Evrenin sesi",
+    "hint": "Özgün sinematik atmosfer, yolculuğun derinliğiyle değişir. Ses yalnızca sen açınca başlar.",
+    "volume": "Ses düzeyi",
+    "on": "Ses açık",
+    "off": "Ses kapalı",
+    "enable": "Evrenin sesini aç",
+    "disable": "Evrenin sesini kapat",
+    "playing": "Sahneye eşlik eden atmosfer",
+    "quiet": "Sessiz · açmak için ∿ düğmesi",
+    "paused": "Atmosfer duraklatıldı",
+    "unsupported": "Bu tarayıcıda ses desteklenmiyor."
   }
 }

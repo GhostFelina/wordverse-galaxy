@@ -22,7 +22,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
   }
   const section = document.createElement('section');
   section.append(heading, hint, list);
-  container.insertBefore(section, container.querySelector('h3'));
+  container.insertBefore(section, container.querySelector(':scope > h3'));
   const status = document.createElement('div');
   status.className = 'sky-event-status';
   status.hidden = true;

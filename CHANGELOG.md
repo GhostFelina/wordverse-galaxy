@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.18.0] — Development · 2026-10-12
+
+- Independent, slow distant scintillation with stable record-derived phases; the core stays visible and the effect fades on approach.
+- Hot, detailed stellar convection with a tapered perspective corona and a restrained birth pulse.
+- Compact volumetric gas lobes, a clearer interior cavity and higher settled interior sampling.
+- A small distant black-hole illustration with turbulent disk detail, asymmetric light and camera parallax; personal stars render in front.
+- Refined meteor trails and expanding supernova filaments.
+- Original opt-in stereo soundscape, scene-dependent depth and stellar focus, volume control and tab suspension. Saved word creation has a distinct synthesized cue; edits and duplicate submissions do not trigger it.
+
 ## [1.17.0] — Development · 2026-10-12
 
 - Warm multi-scale stellar convection, refined gas fibers and locally hosted licensed fonts.

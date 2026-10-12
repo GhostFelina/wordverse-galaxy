@@ -57,7 +57,19 @@ try {
     throw error;
   }
   await mkdir(evidenceDirectory, { recursive: true });
-  for (const shot of ['general', 'far', 'approach', 'focus', 'close', 'side', 'nebula-side', 'nebula-angle']) {
+  for (const shot of [
+    'general',
+    'far',
+    'approach',
+    'focus',
+    'close',
+    'side',
+    'nebula-side',
+    'nebula-angle',
+    'nebula-entrance',
+    'nebula-inside',
+    'nebula-deep',
+  ]) {
     await page.locator(`#${shot}`).click();
     await expect(canvas).toHaveAttribute('data-shot', shot);
     await expect(canvas).toHaveAttribute('data-refined', 'true');

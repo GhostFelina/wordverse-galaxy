@@ -5,7 +5,9 @@ export default defineConfig({
   // Bound parallel WebGL contexts and cold Vite transforms on shared desktops.
   // Hosted runners use software WebGL. One GPU-heavy browser at a time keeps
   // storage/auth timing checks independent from another scene's shader compiler.
-  workers: process.env.CI ? 1 : 2,
+  // Software WebGL needs the same serial GPU workload locally as on CI;
+  // concurrent shader preparation can exhaust unrelated UI test deadlines.
+  workers: 1,
   use: { baseURL: process.env.WORDVERSE_BASE_URL || 'http://127.0.0.1:5350', browserName: 'chromium' },
   webServer: process.env.WORDVERSE_BASE_URL
     ? undefined

@@ -1,5 +1,63 @@
 import { expect, test } from '@playwright/test';
 
+test('distant scintillation changes rendered light without moving the core and fades at resolved scale', async ({
+  page,
+}) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  await page.goto('/tests/fixtures/word-star-lab.html');
+  await expect(page.locator('#star-lab')).toHaveAttribute('data-ready', 'true');
+  const result = await page.evaluate(async () => {
+    const THREE = await import('/node_modules/three/build/three.module.js');
+    const { createWordStarSystem } = await import('/src/word-star-system.js');
+    const renderer = new THREE.WebGLRenderer();
+    const target = new THREE.WebGLRenderTarget(256, 256);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 10000);
+    camera.layers.enable(2);
+    const system = createWordStarSystem(scene);
+    system.setEntries([{ id: 'twinkle-evidence', x: 0, y: 0, z: 0 }]);
+    renderer.setRenderTarget(target);
+    function capture(time, distance) {
+      camera.position.set(0, 0, distance);
+      camera.updateMatrixWorld();
+      system.update(time, camera, 256, 1);
+      renderer.render(scene, camera);
+      const pixels = new Uint8Array(256 * 256 * 4);
+      renderer.readRenderTargetPixels(target, 0, 0, 256, 256, pixels);
+      let energy = 0,
+        x = 0,
+        y = 0;
+      for (let i = 0; i < pixels.length; i += 4) {
+        const value = pixels[i] + pixels[i + 1] + pixels[i + 2];
+        energy += value;
+        x += value * ((i / 4) % 256);
+        y += value * Math.floor(i / 1024);
+      }
+      return { energy, x: x / energy, y: y / energy };
+    }
+    const far = [0, 2, 4, 6].map((time) => capture(time, 1000));
+    const near = [0, 2, 4, 6].map((time) => capture(time, 5));
+    system.dispose();
+    target.dispose();
+    renderer.dispose();
+    return { far, near };
+  });
+  const energy = result.far.map((frame) => frame.energy);
+  expect(Math.min(...energy)).toBeGreaterThan(0);
+  expect(Math.max(...energy) / Math.min(...energy)).toBeGreaterThan(1.05);
+  expect(Math.max(...energy) / Math.min(...energy)).toBeLessThan(2);
+  for (const frame of result.far) {
+    expect(frame.x).toBeCloseTo(127.5, 1);
+    expect(frame.y).toBeCloseTo(127.5, 1);
+  }
+  expect(new Set(result.near.map((frame) => frame.energy)).size).toBe(1);
+  expect(errors).toEqual([]);
+});
+
 test('Orion volume renders lateral framing and a genuine side view without writing records', async ({ page }) => {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -39,6 +97,8 @@ test('word-star optics, surface, lateral passage and return use one continuous b
   await expect(canvas).toHaveAttribute('data-detail', '0');
   await expect.poll(async () => Number(await canvas.getAttribute('data-diameter'))).toBeGreaterThan(60);
   await expect(canvas).toHaveAttribute('data-refined', 'true');
+  await page.locator('#close').click();
+  await expect(canvas).toHaveAttribute('data-detail', '1');
   const still = await page.screenshot({ clip: { x: 680, y: 410, width: 80, height: 80 } });
   await page.locator('#freeze').click();
   await expect.poll(async () => Number(await canvas.getAttribute('data-simulation-time'))).toBeGreaterThan(0);

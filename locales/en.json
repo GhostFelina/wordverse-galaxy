@@ -81,10 +81,10 @@
   },
   "home": {
     "title": "Wordverse | A Living Galaxy of Words",
-    "metaDescription": "Explore English and Spanish words as stars and conjunctions as planets in one galaxy. Build and back up your personal word universe.",
+    "metaDescription": "Turn learned words into navigable stars. Explore language galaxies, Orion flight, a vocabulary atlas, short recall and personal star cards.",
     "ogTitle": "Wordverse — Every Word You Learn Is a Star",
-    "ogDescription": "Turn words into stars and conjunctions into planets. A living galaxy for every language, with local backup.",
-    "ogImageAlt": "Blue and violet nebula in dark space",
+    "ogDescription": "Every word you learn becomes a star. Explore, recall and grow your personal vocabulary universe.",
+    "ogImageAlt": "Wordverse vocabulary atlas, Orion nebula and synthetic word stars",
     "schemaDescription": "A personal word atlas that turns learned vocabulary into stars in a living galaxy for each language.",
     "feature1": "English and Spanish word galaxies",
     "feature2": "Interactive word stars",
@@ -601,5 +601,18 @@
     "preview": "Card preview",
     "preparing": "Preparing your card…",
     "unavailable": "The image could not be prepared. Try again."
+  },
+  "sound": {
+    "title": "Sound of the universe",
+    "hint": "An original cinematic atmosphere follows the depth of your journey. Sound starts only when you turn it on.",
+    "volume": "Volume",
+    "on": "Sound on",
+    "off": "Sound off",
+    "enable": "Enable universe sound",
+    "disable": "Disable universe sound",
+    "playing": "Atmosphere follows your scene",
+    "quiet": "Quiet · use the ∿ button to enable",
+    "paused": "Atmosphere paused",
+    "unsupported": "Audio is unavailable in this browser."
   }
 }

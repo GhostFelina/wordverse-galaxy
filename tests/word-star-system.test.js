@@ -50,3 +50,16 @@ it('uses one star family, bounded surfaces for 5000 records, and natural behind-
   expect(released).toBe(1);
   expect(parent.children).toHaveLength(0);
 });
+
+it('keeps independent light phases stable when records are reordered or another star is added', () => {
+  const system = createWordStarSystem(new Group());
+  const a = { id: 'luminous', x: 31, y: 0, z: 18 };
+  const b = { id: 'ethereal', x: 8, y: 12, z: 22 };
+  system.setEntries([a, b]);
+  const phase = system.state(a.id).phase;
+  expect(phase).not.toBe(system.state(b.id).phase);
+  system.setEntries([b, { id: 'new', x: 50, y: 1, z: 20 }, a]);
+  expect(system.state(a.id).phase).toBe(phase);
+  expect(system.state(a.id).position.toArray()).toEqual([31, 0, 18]);
+  system.dispose();
+});
