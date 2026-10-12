@@ -13,7 +13,12 @@ export function documentationOnly(files, beforeConfig, afterConfig) {
     files.some(
       (file) =>
         !documentation(file) &&
-        !['vercel.json', 'scripts/vercel-ignore-build.mjs', 'tests/vercel-ignore-build.test.js'].includes(file),
+        ![
+          'vercel.json',
+          'scripts/vercel-ignore-build.mjs',
+          'tests/vercel-ignore-build.test.js',
+          'scripts/check-release-version.mjs',
+        ].includes(file),
     )
   )
     return false;

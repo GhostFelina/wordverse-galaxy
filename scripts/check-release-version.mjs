@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { ignoredBuildDecision } from './vercel-ignore-build.mjs';
 
 const version = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
 const parse = value => /^v?(\d+)\.(\d+)\.(\d+)$/.exec(value)?.slice(1).map(Number);
@@ -17,6 +18,7 @@ if (latest && !process.env.GITHUB_REF?.startsWith('refs/tags/')) {
   let headTags = [];
   try { headTags = execFileSync('git', ['tag', '--points-at', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim().split(/\r?\n/); } catch { /* Uncommitted setup. */ }
   const ahead = current.findIndex((part, i) => part !== latest.parts[i]);
-  if ((ahead < 0 && !headTags.includes(latest.tag)) || (ahead >= 0 && current[ahead] < latest.parts[ahead])) throw new Error(`Yeni güncelleme için ${latest.tag} sürümünden büyük bir package.json sürümü gerekli.`);
+  const unchangedDocumentation = ahead < 0 && ignoredBuildDecision() === 0;
+  if ((ahead < 0 && !headTags.includes(latest.tag) && !unchangedDocumentation) || (ahead >= 0 && current[ahead] < latest.parts[ahead])) throw new Error(`Yeni güncelleme için ${latest.tag} sürümünden büyük bir package.json sürümü gerekli.`);
 }
 console.log(`Sürüm kontrolü: ${version}${latest ? ` (son etiket ${latest.tag})` : ' (ilk yayın)'}`);
