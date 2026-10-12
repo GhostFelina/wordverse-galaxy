@@ -1,4 +1,6 @@
-<p align="center"><strong>W O R D V E R S E</strong><br />A word. A star. A universe.</p>
+<p align="center"><img src="docs/images/wordverse-brand.svg" alt="Wordverse constellation mark" width="52" /></p>
+<h1 align="center">wordverse</h1>
+<p align="center">One word. A new star.</p>
 
 <p align="center"><a href="https://wordverse-galaxy.vercel.app">Open Wordverse</a> · <a href="docs/GUIDE.tr.md">Türkçe rehber</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
 
@@ -8,12 +10,13 @@
 
 **Turn the words you learn into a universe you can explore.** Add a word, find its star, approach its surface and reveal its meaning when you are ready. Wordverse pairs a personal vocabulary atlas with a cinematic Three.js scene.
 
-The live app runs **1.14.1**. The screenshots and features below describe **1.22.1 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. All gallery records are synthetic.
+The live app runs **1.14.1**. The desktop home above shows **1.23.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. Other scene captures retain their **1.22.1** provenance. All gallery records are synthetic.
 
 ## Explore, remember, share
 
 | Experience | What you can do |
 | --- | --- |
+| A clear starting point | Create your own universe or explore first. The constellation mark, warm typography, language/galaxy choices and consolidated scene toolbar share one desktop design. |
 | Your word stars | Keep words in language galaxies, watch independent distant scintillation and creation-date colors, select a star and approach its granular surface. Stored positions and dates stay stable. |
 | Orion flight | Enter Orion with every word star from the active language galaxy. Explore a wider, deeper gas volume with the wheel or depth slider; focus any star inside and return in one action. |
 | A useful atlas | Search, filter words and conjunctions, sort naturally or by date, and return to the same list after opening a record. |

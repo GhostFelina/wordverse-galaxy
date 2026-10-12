@@ -42,18 +42,18 @@
   "language": "English",
   "nav": {
     "explore": "Explore",
-    "collection": "My words",
+    "collection": "Word atlas",
     "galaxies": "My galaxies"
   },
   "hero": {
-    "titleFirst": "Every word,",
-    "titleSecond": "a star.",
-    "empty": "{galaxy} is still empty. Every new word you learn will become a star here.",
-    "filled": "Every new word adds light to your universe. Move closer to the stars, discover their meanings, and watch your galaxy grow."
+    "titleFirst": "One word.",
+    "titleSecond": "A new star.",
+    "empty": "{galaxy} is waiting for its first star. Add a word you have learned and let this sky grow with you.",
+    "filled": "Give the words you learn a place in the sky. Explore your stars, recall their meanings, and grow a universe of your own."
   },
   "action": {
-    "addWord": "Add a new star",
-    "addFirst": "Create your first star",
+    "addWord": "Add a word",
+    "addFirst": "Add your first word",
     "showMeaning": "Show meaning",
     "hideMeaning": "Hide meaning"
   },
@@ -103,10 +103,10 @@
     "galaxySwitch": "Choose or create a galaxy",
     "languagePicker": "Interface language",
     "galaxyFallback": "This galaxy",
-    "eyebrow": "YOUR WORD UNIVERSE",
-    "exploreUniverse": "Explore the universe",
+    "eyebrow": "YOUR PERSONAL WORD ATLAS",
+    "exploreUniverse": "Explore the sky",
     "demoNote": "Add your first word and light up the darkness.",
-    "aboutLink": "How does Wordverse work? ↗",
+    "aboutLink": "About Wordverse ↗",
     "starLayer": "Word stars",
     "starStat": "STARS",
     "planetStat": "PLANETS",
@@ -122,7 +122,9 @@
     "hoverHint": "HOVER OVER A STAR TO EXPLORE",
     "zoomHint": "SCROLL TO ZOOM",
     "cameraInstructions": "Scroll to zoom. Drag to move. Touch: pinch with two fingers. Keyboard: arrow keys to move, + and − to zoom, Home to reset, Escape to return.",
-    "sceneLoading": "Preparing your universe…"
+    "sceneLoading": "Preparing your universe…",
+    "brandCaption": "VOCABULARY ATLAS",
+    "sceneTools": "Universe tools"
   },
   "panel": {
     "close": "Close panel",
@@ -547,10 +549,10 @@
   },
   "experience": {
     "title": "Discover light in the dark.",
-    "copy": "Approach stars, travel around planets and explore the depth of gas clouds.",
+    "copy": "Give the words you learn a place in the sky. Create your own universe, explore your stars and recall their meanings.",
     "explore": "Explore",
     "signin": "Sign in",
-    "guest": "Enter my universe",
+    "guest": "Create my universe",
     "preview": "Demo"
   },
   "nebulaTravel": {

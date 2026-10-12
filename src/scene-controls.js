@@ -77,7 +77,7 @@ export function mountSceneControls({ locale, onQuality, onMotion = () => {} }) {
   }
   content.append(label, select, description, motionLabel, motion, motionHint, heading, instructions);
   panel.append(summary, content);
-  document.querySelector('#app').append(panel);
+  (document.querySelector('#scene-dock') || document.querySelector('#app')).append(panel);
   panel.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && panel.open) {
       event.stopPropagation();

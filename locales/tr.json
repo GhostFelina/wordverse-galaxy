@@ -42,18 +42,18 @@
   "language": "Türkçe",
   "nav": {
     "explore": "Keşfet",
-    "collection": "Kelimelerim",
+    "collection": "Kelime atlası",
     "galaxies": "Galaksilerim"
   },
   "hero": {
-    "titleFirst": "Her kelime,",
-    "titleSecond": "bir yıldız.",
-    "empty": "{galaxy} henüz boş. Öğrendiğin her yeni kelime burada bir yıldıza dönüşecek.",
-    "filled": "Her yeni kelime evrenine bir ışık katıyor. Yıldızlara yaklaş, anlamlarını keşfet ve galaksinin büyümesini izle."
+    "titleFirst": "Bir kelime.",
+    "titleSecond": "Yeni bir yıldız.",
+    "empty": "{galaxy} ilk yıldızını bekliyor. Öğrendiğin bir kelimeyi ekle; bu gökyüzü seninle büyüsün.",
+    "filled": "Öğrendiğin kelimelere gökyüzünde bir yer aç. Yıldızları keşfet, anlamlarını hatırla, kendi evrenini büyüt."
   },
   "action": {
-    "addWord": "Yeni yıldız ekle",
-    "addFirst": "İlk yıldızını yarat",
+    "addWord": "Kelime ekle",
+    "addFirst": "İlk kelimeni ekle",
     "showMeaning": "Anlamı göster",
     "hideMeaning": "Anlamı gizle"
   },
@@ -103,10 +103,10 @@
     "galaxySwitch": "Galaksi seç veya oluştur",
     "languagePicker": "Arayüz dili",
     "galaxyFallback": "Bu galaksi",
-    "eyebrow": "KELİMELERİNİN EVRENİ",
-    "exploreUniverse": "Evreni keşfet",
+    "eyebrow": "KİŞİSEL KELİME ATLASIN",
+    "exploreUniverse": "Gökyüzünü keşfet",
     "demoNote": "İlk kelimeni ekle ve karanlıktaki ilk ışığı yak.",
-    "aboutLink": "Wordverse nasıl çalışır? ↗",
+    "aboutLink": "Wordverse hakkında ↗",
     "starLayer": "Kelime yıldızları",
     "starStat": "YILDIZ",
     "planetStat": "GEZEGEN",
@@ -122,7 +122,9 @@
     "hoverHint": "YILDIZA GEL VE KEŞFET",
     "zoomHint": "KAYDIR VE YAKINLAŞTIR",
     "cameraInstructions": "Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön.",
-    "sceneLoading": "Evrenin hazırlanıyor…"
+    "sceneLoading": "Evrenin hazırlanıyor…",
+    "brandCaption": "KELİME ATLASI",
+    "sceneTools": "Evren araçları"
   },
   "panel": {
     "close": "Paneli kapat",
@@ -547,10 +549,10 @@
   },
   "experience": {
     "title": "Karanlığın içindeki ışığı keşfet.",
-    "copy": "Yıldızlara yaklaş, gezegenlerin çevresinde gez ve gaz bulutlarının derinliğine ilerle.",
+    "copy": "Öğrendiğin kelimelere gökyüzünde bir yer aç. Kendi evrenini oluştur, yıldızlarını keşfet ve anlamlarını hatırla.",
     "explore": "Keşfet",
     "signin": "Giriş yap",
-    "guest": "Kendi evrenime geç",
+    "guest": "Kendi evrenimi aç",
     "preview": "Demo"
   },
   "nebulaTravel": {

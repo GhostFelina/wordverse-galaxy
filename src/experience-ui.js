@@ -7,8 +7,13 @@ export function mountExperienceUI({ locale, onGuest, onDemo, onSignin, onExplore
   panel.className = 'showcase-intro';
   panel.id = 'showcase-intro';
   panel.hidden = true;
-  const title = document.createElement('h2');
-  title.textContent = t('title');
+  const eyebrow = document.createElement('div');
+  eyebrow.className = 'eyebrow';
+  eyebrow.textContent = translate(locale, 'home.eyebrow');
+  const title = document.createElement('h1');
+  const emphasis = document.createElement('em');
+  emphasis.textContent = translate(locale, 'hero.titleSecond');
+  title.append(translate(locale, 'hero.titleFirst'), document.createElement('br'), emphasis);
   const copy = document.createElement('p');
   copy.textContent = t('copy');
   const actions = document.createElement('div');
@@ -21,11 +26,11 @@ export function mountExperienceUI({ locale, onGuest, onDemo, onSignin, onExplore
     return node;
   };
   actions.append(
+    button('showcase-guest', 'guest', onGuest),
     button('showcase-explore', 'explore', onExplore),
     button('showcase-signin', 'signin', onSignin),
-    button('showcase-guest', 'guest', onGuest),
   );
-  panel.append(title, copy, actions);
+  panel.append(eyebrow, title, copy, actions);
   document.querySelector('#app').append(panel);
   const preview = button('showcase-preview', 'preview', onDemo);
   preview.hidden = true;

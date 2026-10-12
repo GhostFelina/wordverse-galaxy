@@ -66,7 +66,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
   const liveHint = document.createElement('p');
   liveHint.textContent = t('livingHint');
   quickList.append(live, liveHint);
-  document.querySelector('#app').append(launcher);
+  (document.querySelector('#scene-dock') || document.querySelector('#app')).append(launcher);
   launcher.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       event.stopPropagation();
@@ -105,7 +105,12 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter }) {
   enter.type = 'button';
   enter.className = 'nebula-entry';
   enter.id = 'enter-nebula';
-  enter.textContent = t('enter');
+  const kicker = document.createElement('span');
+  kicker.className = 'nebula-entry-kicker';
+  kicker.textContent = 'ORION / M42';
+  const entryTitle = document.createElement('span');
+  entryTitle.textContent = t('enter');
+  enter.append(kicker, entryTitle);
   enter.title = t('wheelHint');
   enter.addEventListener('click', onEnter);
   document.querySelector('#app').append(enter);

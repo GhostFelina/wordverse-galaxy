@@ -18,5 +18,10 @@
     "encoded": "5fps,256-color global palette, stable Bayer dithering, no brightness or position manipulation",
     "sha256": "6f3fa4bdb93ffc2a08eed8090ae5651bebe9aad2633674648a8f07213ca0d550",
     "evidence": "../handoff/evidence/2026-10-12-scintillation-native.json"
+  },
+  "homeDesign": {
+    "version": "1.23.0",
+    "manifest": "home-design/PROVENANCE.json",
+    "replaces": "wordverse-desktop.png; other gallery captures and animation retain their original provenance"
   }
 }

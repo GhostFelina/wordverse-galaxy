@@ -68,7 +68,7 @@ export function mountSoundscape({ locale, container }) {
     void sound.setHidden(document.hidden);
   };
   document.addEventListener('visibilitychange', visibility);
-  document.querySelector('#app').append(toggle);
+  (document.querySelector('#scene-dock') || document.querySelector('#app')).append(toggle);
   const restored = (event) => {
     if (event.persisted) visibility();
   };

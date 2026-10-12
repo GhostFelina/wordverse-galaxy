@@ -42,18 +42,18 @@
   "language": "Español",
   "nav": {
     "explore": "Explorar",
-    "collection": "Mis palabras",
+    "collection": "Atlas de palabras",
     "galaxies": "Mis galaxias"
   },
   "hero": {
-    "titleFirst": "Cada palabra,",
-    "titleSecond": "una estrella.",
-    "empty": "{galaxy} aún está vacía. Cada palabra nueva que aprendas se convertirá aquí en una estrella.",
-    "filled": "Cada palabra nueva ilumina tu universo. Acércate a las estrellas, descubre sus significados y observa cómo crece tu galaxia."
+    "titleFirst": "Una palabra.",
+    "titleSecond": "Una estrella.",
+    "empty": "{galaxy} espera su primera estrella. Añade una palabra que hayas aprendido y deja que este cielo crezca contigo.",
+    "filled": "Dale a cada palabra un lugar en el cielo. Explora tus estrellas, recuerda sus significados y crea tu propio universo."
   },
   "action": {
-    "addWord": "Añadir una estrella",
-    "addFirst": "Crea tu primera estrella",
+    "addWord": "Añadir palabra",
+    "addFirst": "Añade tu primera palabra",
     "showMeaning": "Mostrar significado",
     "hideMeaning": "Ocultar significado"
   },
@@ -103,10 +103,10 @@
     "galaxySwitch": "Elegir o crear una galaxia",
     "languagePicker": "Idioma de la interfaz",
     "galaxyFallback": "Esta galaxia",
-    "eyebrow": "TU UNIVERSO DE PALABRAS",
-    "exploreUniverse": "Explorar el universo",
+    "eyebrow": "TU ATLAS PERSONAL DE PALABRAS",
+    "exploreUniverse": "Explorar el cielo",
     "demoNote": "Añade tu primera palabra e ilumina la oscuridad.",
-    "aboutLink": "¿Cómo funciona Wordverse? ↗",
+    "aboutLink": "Sobre Wordverse ↗",
     "starLayer": "Estrellas de palabras",
     "starStat": "ESTRELLAS",
     "planetStat": "PLANETAS",
@@ -122,7 +122,9 @@
     "hoverHint": "ACÉRCATE A UNA ESTRELLA PARA EXPLORAR",
     "zoomHint": "DESPLÁZATE PARA ACERCAR",
     "cameraInstructions": "Desplaza para acercarte o alejarte. Arrastra para moverte. Táctil: usa dos dedos. Teclado: flechas para moverte, + y − para acercarte, Home para restablecer, Escape para volver.",
-    "sceneLoading": "Preparando tu universo…"
+    "sceneLoading": "Preparando tu universo…",
+    "brandCaption": "ATLAS DE PALABRAS",
+    "sceneTools": "Herramientas del universo"
   },
   "panel": {
     "close": "Cerrar panel",
@@ -547,10 +549,10 @@
   },
   "experience": {
     "title": "Descubre la luz en la oscuridad.",
-    "copy": "Acércate a las estrellas, viaja entre planetas y explora la profundidad del gas.",
+    "copy": "Dale a cada palabra un lugar en el cielo. Crea tu universo, explora tus estrellas y recuerda sus significados.",
     "explore": "Explorar",
     "signin": "Iniciar sesión",
-    "guest": "Entrar en mi universo",
+    "guest": "Crear mi universo",
     "preview": "Demo"
   },
   "nebulaTravel": {

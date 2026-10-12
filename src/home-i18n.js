@@ -79,6 +79,8 @@ export function applyHomeTranslations(locale) {
   setText('#camera-instructions', 'home.cameraInstructions');
   setAria('#universe-mode', 'home.universeOnly');
   setAria('#home-btn', 'home.homeButton');
+  setText('.brand-caption', 'home.brandCaption');
+  setAria('#scene-dock', 'home.sceneTools');
   setAria('.topnav', 'home.mainMenu');
   setText('#explore-btn', 'nav.explore');
   setText('#collection-btn', 'nav.collection');
@@ -91,6 +93,7 @@ export function applyHomeTranslations(locale) {
   setAria('#galaxy-switch', 'home.galaxySwitch');
   setText('#active-galaxy-name', 'names.defaultGalaxy.english');
   setText('#open-add span:last-child', 'action.addWord');
+  setAria('#open-add', 'action.addWord');
   setOwnText('.hero .eyebrow', 'home.eyebrow');
   document.querySelector('.hero h1').replaceChildren(t('hero.titleFirst'), document.createElement('br'));
   const heroEm = document.createElement('em');

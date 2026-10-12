@@ -54,6 +54,11 @@ for (const [width, height, locale] of [
       '.bottom-left',
       '.controls',
       '#nebula-credit',
+      '#scene-dock',
+      '#galaxy-switch',
+      '#ui-language',
+      '#open-account',
+      '#sync-status',
     ]) {
       const box = await page.locator(selector).boundingBox();
       expect(box.x).toBeGreaterThanOrEqual(0);
@@ -64,6 +69,19 @@ for (const [width, height, locale] of [
     const controls = await page.locator('.controls').boundingBox();
     const credit = await page.locator('#nebula-credit').boundingBox();
     expect(stats.y + stats.height).toBeLessThanOrEqual(credit.y);
+    const header = await page.locator('.topbar button:visible, .topbar select:visible').evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const { left, right, top, bottom } = node.getBoundingClientRect();
+        return { left, right, top, bottom };
+      }),
+    );
+    for (let i = 0; i < header.length; i++) {
+      for (let j = i + 1; j < header.length; j++) {
+        const a = header[i],
+          b = header[j];
+        expect(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top).toBe(true);
+      }
+    }
     if (width <= 760) expect(stats.y + stats.height).toBeLessThanOrEqual(controls.y);
     await expect(page.locator('#hero-add')).toBeVisible();
     await expect(page.locator('#universe')).toHaveAttribute('data-nebula-refined', 'true');

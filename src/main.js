@@ -33,6 +33,7 @@ import { mountProfileUI, profileSessionListener } from './profile-ui.js';
 import { getSupabaseClient } from './supabase-client.js';
 import { mountAuthUI } from './auth-ui.js';
 import { mountAccountSync } from './account-sync-ui.js';
+import './home-design.css';
 
 const $ = (selector) => document.querySelector(selector);
 const stellarPreview = mountStellarPreview($('.detail-visual'));
@@ -895,7 +896,7 @@ function bindUI() {
   canvas.addEventListener('lostpointercapture', e => { if (touches.has(e.pointerId)) endPointer(e); });
   const onZoomWheel = e => {
     if (!camera || !graphicsFallback.available || !e.deltaY) return;
-    if (e.target.closest('button,a,input,textarea,select,dialog,.controls,.side-panel,.scene-controls') && !e.target.closest('.star-hit')) return;
+    if (e.target.closest('button,a,input,textarea,select,dialog,.controls,.side-panel,.scene-controls,.scene-dock,.sky-launcher,.nebula-navigation') && !e.target.closest('.star-hit')) return;
     e.preventDefault();
     const raw=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
     const delta=Math.max(-180,Math.min(180,raw))*.3;
