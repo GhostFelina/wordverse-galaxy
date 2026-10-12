@@ -50,9 +50,9 @@
     "farthestBodies": "small pointlike lights; detailed forms emerge on approach",
     "userVisualAcceptance": "pending; initial radial nebula rejected as amateur",
     "distantPointImplementation": "all word records use a shared point/surface pool; far boundary160; independent non-word star layers disabled",
-    "localUnitTests": 120,
+    "localUnitTests": 123,
     "localBrowserTests": 92,
-    "integrationVerification": "8ad9614 remote SUCCESS:120unit/92e2e(8.8m)/lint/typecheck/build/format/release/Go24/audit0. Local92 run91pass/1timeout; unchanged isolated travel1pass(16.2s). Preview READY from same Git SHA; protected runtime not tested.",
+    "integrationVerification": "Son kaynak123unit/lint/typecheck/build/format/release geçti. Son genel38tarayıcı (atlas3+graphics2+camera8+smoke25)1.5m geçti; sahne hazır beklemesi sonrası atlas3/3 (14.7s) kanıt yenilendi. Önceki10hedefli atlas/grafik/yıldız turu54.6s geçti. Tam97remote gate push sonrası izlenir; eski92remote başarı8ad9614’e aittir.",
     "preview": {
       "url": "https://wordverse-galaxy-8fjwb7hcv-mustafas-projects-92e683a9.vercel.app",
       "target": "preview",
@@ -63,21 +63,22 @@
       "framework": "vite",
       "runtime": "Protected runtime not tested"
     },
-    "remainingCurrentWork": "Desktop hardware p95, renderer atlas fallback, persistent recall design; U2 visual acceptance pending. Login/mobile deferred.",
+    "remainingCurrentWork": "Finish1.16 validation/preview; desktop hardware p95 and U2 visual acceptance; persistent recall/offline/owner design. Mobile/login deferred.",
     "navigationRequirement": "Perspective drag, selected-target pinch, canvas keyboard and real immersive entry implemented; camera5/5 targeted. Real touch device and whole U3 acceptance pending.",
     "ciFix": "pause GPU under dialogs and unresolved owner; clear stale owner frame; 150ms scene compilation debounce; CI software WebGL workers=1",
     "remoteBrowserTests": 92,
-    "localFinalTargetedTests": 37,
+    "localFinalTargetedTests": 38,
     "currentUserTask": "Desktop browser product and visual aesthetics; login/account and mobile deferred by user",
-    "research": "docs/handoff/STAR_REFERENCE_PLAN.md"
+    "research": "docs/handoff/STAR_REFERENCE_PLAN.md",
+    "suiteBrowserTests": 97
   },
-  "developmentVersion": "1.15.1",
+  "developmentVersion": "1.16.0",
   "checkpoint": {
     "date": "2026-10-12",
-    "session": "docs/handoff/sessions/2026-10-12-stellar-polish.md",
-    "version": "1.15.1",
+    "session": "docs/handoff/sessions/2026-10-12-desktop-atlas.md",
+    "version": "1.16.0",
     "deploymentTarget": "preview",
-    "applicationCommit": "8ad96141a348db8bf1a9feaf48cc7f1decc7d34c",
+    "applicationCommit": "pending next application checkpoint",
     "privateData": "Synthetic evidence only; real browser inspected without exports"
   },
   "production": {

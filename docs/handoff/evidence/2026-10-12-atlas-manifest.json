@@ -1,0 +1,25 @@
+{
+  "version": "1.16.0",
+  "date": "2026-10-12",
+  "scope": "Desktop production UI with synthetic records; no user media",
+  "sourceHashes": {
+    "src/main.js": "d86d22dd8fe223b5caf6369f608159e417d6c142250d64fda15c8a55fad39ca0",
+    "src/collection-atlas.js": "ff00d668c738bb7446b6c4c8a788fd64d55c36a135fb40f87f346bb7ea47df91",
+    "src/collection-atlas.css": "95e491be9f2ff78a1eafc713f01d3dbf0d947ff7e2ec48b85edba63751444a1d",
+    "src/graphics-fallback.js": "a07cf488ce2987dbbb35e3aef50d7ef165271b3096202014c096c98b00beb506",
+    "src/graphics-fallback.css": "14b4161dbe6433d7e9190b9e42c220d23ab4cefa1c644bfeca35e8b0a952c9e8",
+    "src/stellar-preview.js": "85f8e487efd8d0308b2e23c422afc506d54be8acd88bbf1512a3f346b03f808d",
+    "tests/collection-atlas.test.js": "7144298c03bcf7aac132ccedb7410133d19a0dd021105da8641a3a93f02cabd8",
+    "e2e/collection-atlas.spec.js": "6323f3742736d0ef1dd997569bca22b7b5f1deb681661f46a3c1391c44398a89",
+    "e2e/graphics-fallback.spec.js": "83a0b98f53196e1fb9a8d2d7361bd473261bb808966cf29c29ca51bf3fa50c3f"
+  },
+  "imageHashes": {
+    "2026-10-12-atlas-1440-tr.png": "6260c8beb5ddf20a93934f7f1e3171b04eb3f13fd86c5e6a32fac0ba1daeaf99",
+    "2026-10-12-atlas-1280-en.png": "930f02fa8883467296c54a57a0b5982a82165ae51c3522dbc576c1585f47eadf",
+    "2026-10-12-atlas-1024-es.png": "08ca46304abac23e2055a3d28d6738002fcf699dc1c9a8d3f4efefb72de8ef44",
+    "2026-10-12-graphics-fallback-1440.png": "941687f43dca8cb4b9e3a1c03897b81a32df7ba9be59b22a1014970d52965b9c"
+  },
+  "hashKind": "SHA256 of Windows working bytes before commit; Git may normalize text line endings",
+  "capture": "Playwright collection-atlas and graphics-fallback specs; scene ready required before atlas captures",
+  "limits": "Injected canvas initialization failure/context loss; not physical device acceptance or measured GPU p95"
+}

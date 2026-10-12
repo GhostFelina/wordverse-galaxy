@@ -13,6 +13,7 @@ export function mountStellarPreview(container) {
     generation = 0,
     started = 0,
     disposed = false;
+  let contextLost = false;
   const cancel = () => {
     cancelAnimationFrame(frame);
     frame = 0;
@@ -28,7 +29,7 @@ export function mountStellarPreview(container) {
   }
   function draw(ticket) {
     frame = 0;
-    if (disposed || ticket !== generation || !record || document.hidden) return;
+    if (disposed || contextLost || ticket !== generation || !record || document.hidden) return;
     if (!stars.ready) {
       if (performance.now() - started < 15_000) frame = requestAnimationFrame(() => draw(ticket));
       else container.dataset.stellarPreview = 'unavailable';
@@ -65,6 +66,10 @@ export function mountStellarPreview(container) {
     record = { id: nextRecord.id, x: 0, y: 0, z: 0 };
     try {
       initialize();
+      if (contextLost) {
+        container.dataset.stellarPreview = 'unavailable';
+        return;
+      }
       stars.setEntries([record]);
       started = performance.now();
       container.dataset.stellarPreview = 'loading';
@@ -75,18 +80,20 @@ export function mountStellarPreview(container) {
   }
   const visibility = () => {
     cancel();
-    if (!document.hidden && record && container.dataset.stellarPreview !== 'ready') {
+    if (!document.hidden && !contextLost && record && container.dataset.stellarPreview !== 'ready') {
       started = performance.now();
       frame = requestAnimationFrame(() => draw(generation));
     }
   };
   const lost = () => {
+    contextLost = true;
     cancel();
     container.dataset.stellarPreview = 'unavailable';
     delete canvas.dataset.recordId;
     delete canvas.dataset.surfaceBlend;
   };
   const restored = () => {
+    contextLost = false;
     if (record) show(record);
   };
   canvas.addEventListener('webglcontextlost', lost);

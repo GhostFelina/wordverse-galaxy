@@ -1,5 +1,9 @@
 # Mimari kararlar
 
+## ADR017 — Atlas çalışma alanı ve grafik fallback
+
+1.16.0 masaüstü atlas query state yalnız bellekte tutulur; en yeni artık array reverse yerine gerçek createdAt ile sıralanır, invalid tarihler sonda. Kayıt türü filtreleri ve locale/NFC araması aynı pipeline içinde; records mutate edilmez. Atlas/detay dönüşünde arama korunur, identity/galaksi değişiminde temizlenir. Mevcut mobil liste yolu korunur, yeni kontroller yalnız761px üzerindedir. Ana WebGL yokken ürün atlas/detay/tekrar üzerinden sürer; context recovery Three.js kaynak restorasyonuyla aynı sahnede gerçekleşir. Kamera loop unavailable iken kapalıdır; reload veya veri migration yapılmaz. Preview hedefi, U2 kullanıcı kabulü ve kapalı kataloglar korunur.
+
 ## ADR016 — Ortak masaüstü yıldız önizlemesi
 
 1.15.1 detay paneli CSS yıldızından shared production fotosfere geçer; aynı kayıt seedini, ACES/SRGB ve yüzey materyalini kullanır. Lazy ikinci WebGL context, 384px render/170px gösterim ve tek çizim; yükleme 15 saniye sınırlıdır. Panel/owner değişiminde seçim temizlenir; context kaybında mevcut CSS görseli fallback, restore sonrası yeniden çizim. Eşikleri değiştirmek yerine preview çözünürlüğü tam yüzey LOD sağlar; sahne koordinatları ve kullanıcı kayıtları değişmez. Mobil/giriş işleri ertelidir. Gazda mevcut örnek sayısıyla kıvrımlı anisotropik lif alanı; native1254 kaynak korunur. Preview hedefi ve U2 kullanıcı kabul kapısı sürer.

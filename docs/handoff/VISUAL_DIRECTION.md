@@ -1,5 +1,9 @@
 # Güncel görsel yön · yükseltme
 
+## 1.16.0 masaüstü atlas
+
+500–620px atlas,40px inset,52px serif başlık,23px serif kayıt adları; sağda küçük kayıt tarihleri. Tür seçimi az doygun buz mavisi, sayılar ikincil. Küçük dört uçlu record ışıkları büyük CSS glow disc yerine; gezegen türü ikonları mevcut kayıtları ayırt eder, kapalı sahne kataloglarını açmaz. Search focus ve boş sonuç reset eylemi belirgindir. Grafik fallback aynı koyu panel/serif diliyle sağ kompozisyonda atlas erişimi sunar. Sentetik evidence/2026-10-12-atlas-* ve graphics-fallback-1440.
+
 ## 12 Ekim 2026 · 1.15.1 yüzey ve panel uyumu
 
 Yakın fotosferde hücre merkezi sıcaklık dağılımı, yumuşak hücre sınırları, merkez/kenar ışık düşüşü ve ince sıcak corona. Uzak dört uçlu optikler ve 130–260CSS px geçiş eşikleri korunur. Detay panelinde aynı shared fotosfer; CSS ışık görseli yalnız yükleme/grafik fallback olarak kalır. Gazda kıvrımlı anisotropik mikro lifler; yan hacim daha ayrıntılı ama hâlâ sanatsal ve yumuşaktır. Önce/sonra sekizer masaüstü kadraj photosphere-before/after; panel kanıtı shared-stellar-preview-1440.png. U2 kabulü ve fiziksel p95 kontrolü açık.

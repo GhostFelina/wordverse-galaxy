@@ -5,6 +5,16 @@
 
 # Görevler
 
+## 1.16.0 masaüstü atlas
+
+- [x] Masaüstü atlas tür filtreleri, tarih/alfabetik sıralama, arama temizleme ve boş sonuçtan dönüş.
+- [x] Tarihli serif kayıt satırları, kompakt toolbar;1024/1280/1440 kanıt.
+- [x] Detaydan atlas durumuna dönüş; owner/galaksi query sıfırlama.
+- [x] Başlangıç WebGL yokluğu ve context loss/restore sırasında atlas/detay/tekrar; sentetik2hedefli kabul.
+- [ ] Son97remote gate ve1.16preview.
+- [ ] Gerçek masaüstüGPU p95, U2 görsel kabulü; kalıcı tekrar tasarımı.
+
+
 ## 1.15.1 masaüstü görsel turu
 
 - [x] Yakın yıldız hücre sıcaklığı/kenar ışığı ve corona; matching before/after kanıt.

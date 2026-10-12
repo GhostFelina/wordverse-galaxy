@@ -554,5 +554,24 @@
     "approach": "Approach Orion",
     "band": "Observation band",
     "sources": "Image sources"
+  },
+  "atlas": {
+    "filter": "Record type",
+    "all": "All",
+    "words": "Words",
+    "conjunctions": "Conjunctions",
+    "sort": "Sort records",
+    "newest": "Newest first",
+    "oldest": "Oldest first",
+    "alphabetical": "Alphabetical · A–Z",
+    "clearSearch": "Clear search",
+    "reset": "Show all records",
+    "noDate": "Date unavailable",
+    "back": "Back to atlas"
+  },
+  "graphics": {
+    "title": "The universe view is unavailable.",
+    "copy": "Your words are here. Open your atlas to explore your records or take a short recall session.",
+    "atlas": "Open word atlas"
   }
 }

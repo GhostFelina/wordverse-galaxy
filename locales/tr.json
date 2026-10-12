@@ -554,5 +554,24 @@
     "approach": "Orion’a yaklaş",
     "band": "Gözlem bandı",
     "sources": "Görüntü kaynakları"
+  },
+  "atlas": {
+    "filter": "Kayıt türü",
+    "all": "Tümü",
+    "words": "Kelimeler",
+    "conjunctions": "Bağlaçlar",
+    "sort": "Kayıtları sırala",
+    "newest": "En yeni önce",
+    "oldest": "En eski önce",
+    "alphabetical": "Alfabetik · A–Z",
+    "clearSearch": "Aramayı temizle",
+    "reset": "Tüm kayıtları göster",
+    "noDate": "Tarih belirtilmemiş",
+    "back": "Atlasa dön"
+  },
+  "graphics": {
+    "title": "Evren görünümü kullanılamıyor.",
+    "copy": "Kelimelerin burada. Atlasını açabilir, kayıtlarını inceleyebilir ve kısa tekrar yapabilirsin.",
+    "atlas": "Kelime atlasını aç"
   }
 }

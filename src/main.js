@@ -8,6 +8,8 @@ import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.
 import { mountSceneControls } from './scene-controls.js';
 import { mountRecallUI } from './recall-ui.js';
 import { mountStellarPreview } from './stellar-preview.js';
+import { mountCollectionAtlas, queryAtlas } from './collection-atlas.js';
+import { mountGraphicsFallback } from './graphics-fallback.js';
 import { createWordStarSystem, wordStarPosition, WORD_STAR_RADIUS } from './word-star-system.js';
 import { createNebulaSystem } from './nebula-system.js';
 import { mountNebulaUI } from './nebula-ui.js';
@@ -65,12 +67,14 @@ let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
 let experienceUI;
 let recallUI;
+let collectionAtlas;
+let graphicsFallback;
 let experienceKey = '';
 const experience = createExperienceMode({ guestCount: universe.words.length, onChange: applyExperience });
 function syncRenderLoop() {
   lastCameraMs = 0;
   renderQuality?.resetTiming();
-  renderer?.setAnimationLoop(document.readyState === 'complete' && catalogReady && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
+  renderer?.setAnimationLoop(document.readyState === 'complete' && catalogReady && graphicsFallback?.available && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
 }
 window.addEventListener('load', syncRenderLoop, { once: true });
 function applyExperience(state) {
@@ -79,12 +83,14 @@ function applyExperience(state) {
   app.dataset.contentReady = String(state.ready);
   $('#universe').dataset.experience = state.mode || 'initializing';
   experienceUI?.update(state);
+  graphicsFallback?.refresh();
   recallUI?.refresh();
   syncRenderLoop();
   const key = `${state.mode}:${state.ownerId}:${state.ready}`;
   if (key === experienceKey) return;
   experienceKey = key;
   stellarPreview.hide();
+  collectionAtlas?.reset();
   recallUI?.invalidate();
   // Clear the previous identity immediately; allow rapid UI transitions to settle
   // before compiling a scene that may already have been replaced.
@@ -176,9 +182,21 @@ function initScene() {
   try {
     renderer = new THREE.WebGLRenderer({ canvas: $('#universe'), antialias: true, alpha: false, powerPreference: 'high-performance' });
   } catch {
-    showToast(t('message.webglError'));
+    graphicsFallback.setAvailable(false);
+    if (!matchMedia('(min-width:761px)').matches) showToast(t('message.webglError'));
     return;
   }
+  $('#universe').addEventListener('webglcontextlost', () => {
+    if ($('#app').classList.contains('immersive')) $('#universe-mode').click();
+    graphicsFallback.setAvailable(false);
+    stellarPreview.hide();
+    syncRenderLoop();
+  });
+  $('#universe').addEventListener('webglcontextrestored', () => {
+    graphicsFallback.setAvailable(true);
+    lastCameraMs = 0;
+    syncRenderLoop();
+  });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
   renderer.setSize(innerWidth, innerHeight);
   renderer.setClearColor(0x000000, 1);
@@ -361,6 +379,7 @@ function openPanel(which) {
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
 function selectWord(id) {
   const word = words.find(w => w.id === id); if (!word) return;
+  $('#detail-atlas-back').hidden = activePanel !== 'collection';
   const isPlanet = entryKind(word) === 'conjunction';
   selectedId = id;
   $('#object-record-label').textContent = t(isPlanet ? 'panel.recordPlanet' : 'panel.recordStar');
@@ -482,18 +501,28 @@ function deleteSelected() {
 }
 function renderCollection() {
   const query = $('#search-input').value.trim().toLocaleLowerCase(uiLocale);
-  const result = [...words].reverse().filter(w => `${w.word} ${w.meaning}`.toLocaleLowerCase(uiLocale).includes(query));
+  const desktop = matchMedia('(min-width:761px)').matches;
+  const result = desktop && collectionAtlas ? queryAtlas(words, collectionAtlas.state()) : [...words].reverse().filter(w => `${w.word} ${w.meaning}`.toLocaleLowerCase(uiLocale).includes(query));
+  collectionAtlas?.update(words);
   $('#result-count').textContent = formatUnit(uiLocale, 'entry', result.length, { uppercase: true });
   const list = $('#collection-list'); list.replaceChildren();
-  if (!result.length) { const empty = document.createElement('div'); empty.className = 'collection-empty'; empty.textContent = t(words.length ? 'message.emptySearch' : 'message.emptyCollection'); list.append(empty); return; }
+  if (!result.length) { const empty = document.createElement('div'); empty.className = 'collection-empty'; empty.textContent = t(words.length ? 'message.emptySearch' : 'message.emptyCollection'); if (desktop) collectionAtlas?.appendEmptyAction(empty); list.append(empty); return; }
   for (const word of result) {
     const row = document.createElement('button'); row.className = 'collection-item'; row.type = 'button';
+    row.dataset.recordId = word.id;
     const star = document.createElement('span'); star.className = `collection-star${entryKind(word) === 'conjunction' ? ' planet' : ''}`; star.style.setProperty('--star-glow', starAge(word.createdAt).glow);
     const copy = document.createElement('span'); copy.className = 'collection-copy';
     const title = document.createElement('strong'); title.textContent = word.word;
     const sub = document.createElement('small'); sub.textContent = entryKind(word) === 'conjunction' ? t('message.planetCollection', { planet: t(`names.planet.${planetType(word)}`) }) : starStageLabel(starAge(word.createdAt));
     const arrow = document.createElement('span'); arrow.className = 'collection-arrow'; arrow.textContent = '↗';
     copy.append(title, sub); row.append(star, copy, arrow);
+    if (desktop) {
+      const date = document.createElement('time'); date.className = 'atlas-date';
+      const timestamp = Date.parse(word.createdAt);
+      if (Number.isFinite(timestamp)) { date.dateTime = new Date(timestamp).toISOString(); date.textContent = formatDate(uiLocale, timestamp, { day: 'numeric', month: 'short', year: 'numeric' }); }
+      else date.textContent = t('atlas.noDate');
+      row.insertBefore(date, arrow);
+    }
     row.addEventListener('click', () => selectWord(word.id)); list.append(row);
   }
 }
@@ -551,6 +580,7 @@ function updateMeaningLanguage(event) {
 function switchGalaxy(id) {
   if (!universe.galaxies.some(g => g.id === id)) return;
   recallUI?.invalidate();
+  collectionAtlas?.reset();
   travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect);
   catalogDepth = 0;
   pan.x = pan.y = pointer.x = pointer.y = 0;
@@ -647,6 +677,7 @@ function bindUI() {
     location.assign(localePath(nextLocale));
   });
   $('#universe-mode').addEventListener('click', () => {
+    if (!graphicsFallback.available) return;
     const button = $('#universe-mode');
     const immersive = !$('#app').classList.contains('immersive');
     if (immersive) { closePanels(); preImmersiveZoom = zoom + catalogDepth; if (!nebulaSystem && words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
@@ -699,7 +730,7 @@ function bindUI() {
     if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); }
     if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); }
     // Camera keys belong to the canvas; arrow keys elsewhere retain native UI behavior.
-    if (e.target !== $('#universe') || activePanel || !camera) return;
+    if (e.target !== $('#universe') || activePanel || !camera || !graphicsFallback.available) return;
     if (['+', '=', '-', '_'].includes(e.key)) { e.preventDefault(); zoomOnGalaxy(zoom * (['+', '='].includes(e.key) ? 1 / 1.15 : 1.15)); }
     if (e.key === 'Home') { e.preventDefault(); $('#reset-view').click(); }
     const directions = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
@@ -713,7 +744,7 @@ function bindUI() {
   });
   const canvas = $('#universe');
   canvas.addEventListener('pointerdown', e => {
-    if (!camera || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (!camera || !graphicsFallback.available || (e.pointerType === 'mouse' && e.button !== 0)) return;
     canvas.focus({ preventScroll: true });
     if (e.pointerType === 'touch') {
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -747,7 +778,7 @@ function bindUI() {
   canvas.addEventListener('pointercancel', endPointer);
   canvas.addEventListener('lostpointercapture', e => { if (touches.has(e.pointerId)) endPointer(e); });
   const onZoomWheel = e => {
-    if (!camera || !e.deltaY) return;
+    if (!camera || !graphicsFallback.available || !e.deltaY) return;
     if (e.target.closest('button,a,input,textarea,select,dialog,.controls,.side-panel,.scene-controls') && !e.target.closest('.star-hit')) return;
     e.preventDefault();
     const raw=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
@@ -784,6 +815,8 @@ function resetPageScroll() {
 resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 applyHomeTranslations(uiLocale);
+collectionAtlas = mountCollectionAtlas({ locale: uiLocale, onChange: () => { if (activePanel === 'collection') renderCollection(); }, onBack: () => openPanel('collection') });
+graphicsFallback = mountGraphicsFallback({ locale: uiLocale, onAtlas: () => $('#collection-btn').click() });
 persist(); refreshCounts(); bindUI(); initScene();
 let profileUI;
 accountSync = mountAccountSync({
@@ -792,6 +825,7 @@ accountSync = mountAccountSync({
   beforeSwitch: () => { closePanels(); profileUI?.close(); recallUI?.invalidate(); },
   notify: showToast,
   replaceUniverse: (next, context) => {
+    if (next.activeGalaxyId !== universe.activeGalaxyId) collectionAtlas?.reset();
     universe = next;
     words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
     if (!words.some(w => w.id === selectedId)) selectedId = null;

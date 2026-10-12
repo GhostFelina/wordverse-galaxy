@@ -554,5 +554,24 @@
     "approach": "Acercarse a Orión",
     "band": "Banda de observación",
     "sources": "Fuentes de imágenes"
+  },
+  "atlas": {
+    "filter": "Tipo de registro",
+    "all": "Todo",
+    "words": "Palabras",
+    "conjunctions": "Conjunciones",
+    "sort": "Ordenar registros",
+    "newest": "Más recientes",
+    "oldest": "Más antiguos",
+    "alphabetical": "Alfabético · A–Z",
+    "clearSearch": "Borrar búsqueda",
+    "reset": "Mostrar todos los registros",
+    "noDate": "Fecha no disponible",
+    "back": "Volver al atlas"
+  },
+  "graphics": {
+    "title": "La vista del universo no está disponible.",
+    "copy": "Tus palabras están aquí. Abre el atlas para consultar tus registros o hacer un repaso breve.",
+    "atlas": "Abrir atlas de palabras"
   }
 }

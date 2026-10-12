@@ -1,0 +1,205 @@
+.atlas-toolbar,
+.atlas-sort,
+.atlas-search-clear,
+.atlas-date,
+.atlas-reset,
+.atlas-back {
+  display: none;
+}
+.atlas-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (min-width: 761px) {
+  #collection-panel {
+    width: clamp(500px, 40vw, 620px);
+    padding: 40px;
+  }
+  #collection-panel .collection-top h2 {
+    margin-top: 32px;
+    font-size: 52px;
+  }
+  #collection-panel .collection-top p {
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+  #collection-panel .search-wrap {
+    min-height: 46px;
+    flex-shrink: 0;
+    background: #101a2b;
+    border-color: #a9c1ef2e;
+  }
+  #collection-panel .search-wrap:focus-within {
+    border-color: #9bb9ed;
+    box-shadow: 0 0 0 3px #9bb9ed12;
+  }
+  #search-input {
+    min-width: 0;
+  }
+  #search-input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .atlas-search-clear {
+    display: block;
+    border: 0;
+    padding: 3px 6px;
+    background: transparent;
+    color: #b7c8e6;
+    font-size: 20px;
+  }
+  .atlas-search-clear[hidden] {
+    display: none;
+  }
+  .atlas-toolbar {
+    display: flex;
+    gap: 6px;
+    padding: 18px 0 0;
+    flex-shrink: 0;
+  }
+  .atlas-toolbar button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 34px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
+    color: #a4b0c6;
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+  .atlas-toolbar button span {
+    font-size: 10px;
+    color: #8092b2;
+    font-variant-numeric: tabular-nums;
+  }
+  .atlas-toolbar button:hover {
+    color: #eef3ff;
+    background: #b6ccfa0b;
+  }
+  .atlas-toolbar button[aria-pressed='true'] {
+    background: #a6c3fa14;
+    border-color: #a6c3fa35;
+    color: #e7efff;
+  }
+  #collection-panel .collection-meta {
+    padding: 16px 0 12px;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    color: #9caac3;
+  }
+  #collection-panel .collection-meta > span:last-of-type {
+    display: none;
+  }
+  .atlas-sort {
+    display: block;
+  }
+  .atlas-sort select:focus-visible {
+    outline: 2px solid #9bafff;
+    outline-offset: 3px;
+  }
+  .atlas-sort select {
+    max-width: 210px;
+    background: #0d1522;
+    color: #b7c8e6;
+    border: 0;
+    padding: 7px 5px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  #collection-panel .collection-list {
+    min-height: 0;
+    padding-right: 6px;
+    scrollbar-gutter: stable;
+  }
+  #collection-panel .collection-item {
+    padding: 18px 10px;
+    gap: 16px;
+    border-color: #a9c1ef16;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+  #collection-panel .collection-copy {
+    gap: 7px;
+  }
+  #collection-panel .collection-copy strong {
+    font:
+      400 23px/1.2 Georgia,
+      serif;
+    letter-spacing: -0.025em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #collection-panel .collection-copy small {
+    font-size: 10px;
+    color: #94a4be;
+  }
+  #collection-panel .collection-star:not(.planet) {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    margin: 0 9px;
+    position: relative;
+    box-shadow:
+      0 0 8px 2px var(--star-glow),
+      0 0 20px 4px #b6ccfa22;
+  }
+  #collection-panel .collection-star:not(.planet)::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    background:
+      linear-gradient(90deg, transparent 46%, #f2f6ffb3 50%, transparent 54%),
+      linear-gradient(0deg, transparent 46%, #f2f6ffb3 50%, transparent 54%);
+  }
+  .atlas-date {
+    display: block;
+    font-size: 10px;
+    color: #8193b2;
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  #collection-panel .collection-arrow {
+    font-size: 16px;
+    color: #8ba6d4;
+  }
+  .atlas-reset {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 16px;
+    border: 1px solid #a6c3fa45;
+    background: #a6c3fa10;
+    border-radius: 3px;
+    color: #d9e6ff;
+    font-size: 12px;
+  }
+  .atlas-back {
+    display: block;
+    width: fit-content;
+    margin-top: 20px;
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    color: #b3c8eb;
+    font-size: 11px;
+  }
+  .atlas-back[hidden] {
+    display: none;
+  }
+  #collection-panel .collection-add {
+    flex-shrink: 0;
+    margin-top: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #collection-panel .collection-item {
+    transition: none;
+  }
+}
