@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { createWordStarSystem } from './word-star-system.js';
 
 // One lazy, bounded preview context. It draws the production photosphere once
-// per selection, with the same record seed; no extra idle animation loop.
+// per selection and bounded age refresh, with the same record seed.
 export function mountStellarPreview(container) {
   const canvas = document.createElement('canvas');
   canvas.className = 'stellar-preview';
@@ -18,6 +18,17 @@ export function mountStellarPreview(container) {
     cancelAnimationFrame(frame);
     frame = 0;
   };
+  const ageRefresh = setInterval(() => {
+    if (
+      !disposed &&
+      !contextLost &&
+      record &&
+      !document.hidden &&
+      !frame &&
+      container.dataset.stellarPreview === 'ready'
+    )
+      frame = requestAnimationFrame(() => draw(generation));
+  }, 15000);
   function clear() {
     generation++;
     cancel();
@@ -37,7 +48,10 @@ export function mountStellarPreview(container) {
     }
     // Render at 384px so the production LOD resolves its full surface, then
     // display at 170px; changing the surface thresholds would alter the scene.
-    stars.update(0, camera, 384, 1, { selectedId: record.id });
+    stars.update(0, camera, 384, 1, {
+      selectedId: record.id,
+      reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+    });
     renderer.render(scene, camera);
     canvas.dataset.recordId = record.id;
     canvas.dataset.surfaceBlend = String(stars.state(record.id)?.blend);
@@ -63,7 +77,7 @@ export function mountStellarPreview(container) {
   function show(nextRecord) {
     clear();
     if (disposed || !nextRecord || !matchMedia('(min-width:761px)').matches) return;
-    record = { id: nextRecord.id, x: 0, y: 0, z: 0 };
+    record = { id: nextRecord.id, createdAt: nextRecord.createdAt, x: 0, y: 0, z: 0 };
     try {
       initialize();
       if (contextLost) {
@@ -111,7 +125,10 @@ export function mountStellarPreview(container) {
       if (!context) return null;
       try {
         renderer.setSize(size, size, false);
-        stars.update(0, camera, size, 1, { selectedId: record.id });
+        stars.update(0, camera, size, 1, {
+          selectedId: record.id,
+          reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+        });
         renderer.render(scene, camera);
         context.drawImage(canvas, 0, 0);
         return image;
@@ -124,6 +141,7 @@ export function mountStellarPreview(container) {
       if (disposed) return;
       clear();
       disposed = true;
+      clearInterval(ageRefresh);
       document.removeEventListener('visibilitychange', visibility);
       canvas.removeEventListener('webglcontextlost', lost);
       canvas.removeEventListener('webglcontextrestored', restored);

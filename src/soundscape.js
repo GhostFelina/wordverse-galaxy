@@ -157,9 +157,36 @@ export function createSoundscapeGraph(context) {
     event(kind) {
       if (disposed) return;
       stopEvents();
-      if (!['meteor', 'supernova'].includes(kind)) return;
+      if (kind === 'kilonova') {
+        const source = track(context.createOscillator()),
+          envelope = gain(0);
+        const now = context.currentTime;
+        source.type = 'sine';
+        source.frequency.setValueAtTime(88, now);
+        source.frequency.exponentialRampToValueAtTime(620, now + 8.2);
+        source.frequency.exponentialRampToValueAtTime(55, now + 9.5);
+        envelope.gain.setValueAtTime(0, now);
+        envelope.gain.linearRampToValueAtTime(0.075, now + 8);
+        envelope.gain.exponentialRampToValueAtTime(0.0001, now + 16);
+        source.connect(envelope);
+        envelope.connect(input);
+        const local = [source, envelope],
+          entry = { source, envelope, local };
+        transients.add(entry);
+        source.onended = () => {
+          transients.delete(entry);
+          for (const node of local) {
+            node.disconnect();
+            nodes.delete(node);
+          }
+        };
+        source.start(now);
+        source.stop(now + 16.1);
+      }
+      if (!['meteor', 'supernova', 'kilonova'].includes(kind)) return;
       const meteor = kind === 'meteor',
-        duration = meteor ? 4.8 : 13;
+        merger = kind === 'kilonova',
+        duration = meteor ? 4.8 : merger ? 20 : 13;
       const source = track(context.createBufferSource()),
         envelope = gain(0),
         tone = track(context.createBiquadFilter()),
@@ -170,10 +197,13 @@ export function createSoundscapeGraph(context) {
       tone.Q.value = 0.5;
       const now = context.currentTime;
       tone.frequency.setValueAtTime(meteor ? 500 : 180, now);
-      tone.frequency.exponentialRampToValueAtTime(meteor ? 1900 : 780, now + (meteor ? 1.5 : 3));
+      tone.frequency.exponentialRampToValueAtTime(meteor ? 1900 : 780, now + (meteor ? 1.5 : merger ? 8.5 : 3));
       tone.frequency.exponentialRampToValueAtTime(meteor ? 400 : 90, now + duration);
       envelope.gain.setValueAtTime(0, now);
-      envelope.gain.linearRampToValueAtTime(meteor ? 0.3 : 0.45, now + (meteor ? 0.9 : 3));
+      envelope.gain.linearRampToValueAtTime(
+        meteor ? 0.3 : merger ? 0.24 : 0.45,
+        now + (meteor ? 0.9 : merger ? 8.5 : 3),
+      );
       envelope.gain.exponentialRampToValueAtTime(0.0001, now + duration);
       stereo.pan.setValueAtTime(meteor ? -0.8 : 0.15, now);
       if (meteor) stereo.pan.linearRampToValueAtTime(0.8, now + duration);

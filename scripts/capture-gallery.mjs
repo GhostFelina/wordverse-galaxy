@@ -72,7 +72,7 @@ try {
           x,
           y,
           z,
-          createdAt: '2026-10-12T09:00:00Z',
+          createdAt: new Date(Date.now() - [18, 60, 3, 0, 150, 500][i] * 60000).toISOString(),
         })),
       }),
     );
@@ -85,7 +85,7 @@ try {
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
   await page.screenshot({ path: 'docs/images/wordverse-desktop.png' });
   await page.locator('#scene-controls summary').click();
-  for (const kind of ['blackhole', 'supernova', 'meteor']) {
+  for (const kind of ['blackhole', 'supernova', 'meteor', 'kilonova']) {
     await page.locator(`[data-sky-event="${kind}"]`).click();
     await expect(page.locator('#universe')).toHaveAttribute('data-sky-event', kind);
     await page.locator('#scene-controls summary').click();
@@ -114,6 +114,31 @@ try {
     document.querySelector('footer').style.display = 'none';
   });
   await page.screenshot({ path: 'docs/images/wordverse-photosphere.png' });
+  await page.goto(base + '/tests/fixtures/stellar-evolution-lab.html');
+  await expect(page.locator('#evolution')).toHaveAttribute('data-ready', 'true');
+  await page.screenshot({ path: 'docs/images/wordverse-stellar-life.png' });
+  await page.locator('#far').click();
+  await expect(page.locator('#evolution')).toHaveAttribute('data-mode', 'far');
+  await page.screenshot({ path: 'docs/images/wordverse-stellar-light.png' });
+  await page.goto(base + '/tests/fixtures/sky-event-lab.html');
+  await expect(page.locator('#sky-lab')).toHaveAttribute('data-ready', 'true');
+  for (const [name, value] of [
+    ['inspiral', '3'],
+    ['merger', '8.8'],
+    ['ejecta', '13'],
+  ]) {
+    await page.getByLabel('Time').fill(value);
+    await expect
+      .poll(async () => Number(await page.locator('#sky-lab').getAttribute('data-time')))
+      .toBeCloseTo(Number(value), 5);
+    await page.evaluate(() => {
+      document.querySelector('nav').style.visibility = 'hidden';
+    });
+    await page.screenshot({ path: 'docs/images/wordverse-kilonova-' + name + '.png' });
+    await page.evaluate(() => {
+      document.querySelector('nav').style.visibility = '';
+    });
+  }
   await page.setViewportSize({ width: 1200, height: 630 });
   await page.goto(`${base}/tests/fixtures/wordverse-social.html`);
   await expect(page.locator('#social-scene')).toHaveAttribute('data-ready', 'true');
@@ -125,7 +150,7 @@ try {
     JSON.stringify(
       {
         date: '2026-10-12',
-        version: '1.18.0',
+        version: '1.19.0',
         viewport: '1440x900',
         records: 'Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed',
         renderer: 'Production modules, Chromium, reduced motion',

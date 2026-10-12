@@ -1,4 +1,5 @@
 import { placeWordStar, starApproach } from './word-star-placement.js';
+import { stellarSpectrum } from './stellar-evolution.js';
 import { createStarTransmission } from './star-nebula-transmission.js';
 import * as THREE from 'three';
 import './style.css';
@@ -139,6 +140,7 @@ const starStageLabel = appearance => t(`names.stage.${appearance.stageId}`);
 const births = [];
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 let reducedMotion = motionPreference.matches;
+let lastAgeLabelUpdate = 0;
 motionPreference.addEventListener('change', event => { reducedMotion = event.matches; skyEvents?.setReducedMotion(reducedMotion); pointer.x = pointer.y = 0; });
 
 function persist(onDurable) {
@@ -238,6 +240,7 @@ function initScene() {
     onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
   });
   nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
+    onEnter() { if (nebulaSystem?.ready) { closePanels(); travelToNebula(nebulaSystem.records[0]); $('#universe').focus({ preventScroll: true }); } },
     onDepth(fraction) { if(travelingNebula) setZoom(MAX_ZOOM-catalogDepth-fraction*(MAX_ZOOM-catalogDepth-MIN_ZOOM)); },
     onReturn() { $('#home-btn').click(); },
   });
@@ -320,6 +323,16 @@ function animate(ms) {
   }
   clock = ms * .001;
   const drift = reducedMotion ? 0 : clock;
+  if (ms - lastAgeLabelUpdate > 10000 && activePanel === 'detail') {
+    lastAgeLabelUpdate = ms;
+    const record = words.find(word => word.id === selectedId);
+    if (record && entryKind(record) === 'word') {
+      const appearance = stellarSpectrum(record, Date.now(), !reducedMotion);
+      $('#star-age-label').textContent = t('message.starAge', { stage: starStageLabel(appearance), age: formatUnit(uiLocale, 'day', appearance.ageDays) });
+      $('#detail-sun').style.setProperty('--star-core', appearance.color);
+      $('#detail-sun').style.setProperty('--star-glow', appearance.glow);
+    }
+  }
   const focusedStar = focusedStarId ? worldStars.get(focusedStarId) : null;
   const targetX = focusedStar ? focusedStar.position.x : pan.x + (dragging || reducedMotion ? 0 : pointer.x * 1.9);
   const targetY = focusedStar ? focusedStar.position.y : pan.y + (dragging || reducedMotion ? 0 : pointer.y * 1.25);
@@ -360,6 +373,7 @@ function animate(ms) {
   const birth = births.at(-1);
   if(ms-transmissionFrame>150) { transmissionCache.clear();transmissionFrame=ms; }
   wordStarSystem.update(drift, camera, innerHeight, renderer.getPixelRatio(), {
+    reducedMotion,
     selectedId, hoveredId: hoveredStarId, birthId: birth?.id,
     transmission(position,id) { if(!transmissionCache.has(id)) transmissionCache.set(id,starTransmission(position,camera));return transmissionCache.get(id); },
     birthStrength: birth ? Math.sin(Math.PI * Math.min(1, (clock - birth.start) / 1.4)) : 0,
@@ -450,7 +464,8 @@ function selectWord(id) {
   $('#meaning-hidden').hidden = false;
   $('#reveal-meaning').setAttribute('aria-pressed', 'false');
   $('#reveal-meaning').setAttribute('aria-label', t('message.revealMeaning', { label: meaningLabel }));
-  const appearance = starAge(word.createdAt);
+  const appearance = stellarSpectrum(word, Date.now(), !reducedMotion);
+  $('#star-age-label').title = t('message.visualAgeHint');
   $('#star-age-label').textContent = isPlanet ? t('message.planetAge', { planet: t(`names.planet.${planetType(word)}`), age: formatUnit(uiLocale, 'day', appearance.ageDays) }) : t('message.starAge', { stage: starStageLabel(appearance), age: formatUnit(uiLocale, 'day', appearance.ageDays) });
   $('#binary-label').hidden = worldStars.get(word.id)?.userData.binarySlot < 0;
   $('#detail-example').textContent = word.example || '';

@@ -11,3 +11,6 @@
 ## Deferred catalog sources
 
 OpenNGC, NASA/JPL Small-Body Database, CNEOS historical fireballs and Gaia DR3 retain their separate provenance in `src/data/catalog` and `src/data/nebula-environments.json`. Deferred layers do not constitute visible features. Data adaptation and licenses are in [ATTRIBUTIONS.md](../ATTRIBUTIONS.md).
+
+- [NASA star lifecycle](https://science.nasa.gov/mission/webb/star-lifecycle/): real evolution depends on mass. Wordverse uses a compressed illustrative sequence, not a stellar clock.
+- [NASA neutron-star kilonova](https://science.nasa.gov/asset/hubble/neutron-star-collision-creates-kilonova/): binary merger and ejecta inspiration. No reference media or waveforms are copied.

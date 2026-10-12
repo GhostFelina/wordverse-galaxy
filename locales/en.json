@@ -217,7 +217,7 @@
     },
     "stage": {
       "newborn": "Newborn · white",
-      "young": "Young · white",
+      "young": "Young · blue white",
       "mature": "Mature · yellow-white",
       "aging": "Aging · amber",
       "redGiant": "Red giant",
@@ -261,7 +261,8 @@
     "exported": "Your universe and event history were downloaded.",
     "imported": "The backup was merged; your existing words were kept.",
     "invalidBackup": "This file is not a valid Wordverse backup.",
-    "recovered": "Your universe was restored from the automatic local backup."
+    "recovered": "Your universe was restored from the automatic local backup.",
+    "visualAgeHint": "Accelerated visual age · gentle minute-based color changes"
   },
   "about": {
     "title": "How Wordverse Works | Word Galaxies and Data Backups",
@@ -284,7 +285,7 @@
       },
       {
         "title": "02 · Add a word",
-        "body": "Enter the word and its meaning. A new word is born as a white star, and the nebula grows with your vocabulary."
+        "body": "Add the word and its meaning. A new star joins your universe; its color evolves from its creation date."
       },
       {
         "title": "03 · Explore",
@@ -303,11 +304,11 @@
       },
       {
         "question": "Do the stars really age?",
-        "answer": "New stars appear white. The days since you learned a word are represented by a compressed visual life cycle that shifts toward warmer colors. This is not an astronomical time simulation; real star colors depend mainly on temperature and mass."
+        "answer": "A star’s color follows an accelerated visual life based on when its word was added. Each minute represents a visual day, smoothly moving from blue white to gold and red, then a cool white remnant. Dates and positions stay fixed. Real stellar evolution takes much longer and also depends on mass."
       },
       {
-        "question": "Why do the two oldest stars orbit together?",
-        "answer": "The two oldest words in each galaxy move around a shared center of mass, like a binary star system. This gives those words a visual emphasis; it does not mean they have physically become neutron stars."
+        "question": "Can word stars collide?",
+        "answer": "Your word stars keep their records and positions. The optional neutron-star merger in View illustrates an inspiraling binary, merger and kilonova cloud as a separate artistic sky experience."
       },
       {
         "question": "How do I navigate my galaxy?",
@@ -586,7 +587,10 @@
     "stop": "End sky experience",
     "artistic": "Artistic illustration",
     "depth": "Orion journey",
-    "return": "← Return to my stars"
+    "return": "← Return to my stars",
+    "enter": "✧ Enter Orion",
+    "wheelHint": "Scroll forward to travel into the cloud; scroll back to move away.",
+    "kilonova": "Neutron-star merger"
   },
   "share": {
     "open": "Star card",

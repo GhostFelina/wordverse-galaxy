@@ -10,7 +10,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
   const list = document.createElement('div');
   list.className = 'sky-event-options';
   const buttons = new Map();
-  for (const kind of ['none', 'meteor', 'supernova', 'blackhole']) {
+  for (const kind of ['none', 'meteor', 'supernova', 'blackhole', 'kilonova']) {
     const button = document.createElement('button');
     button.type = 'button';
     button.dataset.skyEvent = kind;
@@ -47,8 +47,16 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
   };
 }
 
-export function mountNebulaNavigation({ locale, onDepth, onReturn }) {
+export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter }) {
   const t = (key) => translate(locale, `sky.${key}`);
+  const enter = document.createElement('button');
+  enter.type = 'button';
+  enter.className = 'nebula-entry';
+  enter.id = 'enter-nebula';
+  enter.textContent = t('enter');
+  enter.title = t('wheelHint');
+  enter.addEventListener('click', onEnter);
+  document.querySelector('#app').append(enter);
   const panel = document.createElement('section');
   panel.className = 'nebula-navigation';
   panel.id = 'nebula-navigation';
@@ -69,12 +77,16 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn }) {
   home.type = 'button';
   home.textContent = t('return');
   home.addEventListener('click', onReturn);
-  panel.append(label, output, slider, home);
+  const hint = document.createElement('span');
+  hint.className = 'nebula-wheel-hint';
+  hint.textContent = t('wheelHint');
+  panel.append(label, output, slider, home, hint);
   document.querySelector('#app').append(panel);
   let previous = -1;
   return {
     update(active, fraction) {
       panel.hidden = !active;
+      enter.hidden = active;
       const percent = Math.round(Math.max(0, Math.min(1, fraction)) * 100);
       if (percent !== previous) {
         previous = percent;

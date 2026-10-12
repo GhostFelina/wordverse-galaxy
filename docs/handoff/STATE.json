@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.18.0",
-  "activeWork": "Creation-date stellar evolution, deeper Orion wheel travel and optional neutron-star merger",
+  "developmentVersion": "1.19.0",
+  "activeWork": "Orion exploration field, extended gas volume and original spatial audio",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -33,10 +33,10 @@
     "nextPhase": "U3",
     "lastVerifiedCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
     "lastRemoteCI": {
-      "run": 38244714363,
-      "commit": "f59feb406031b7a5fc50702f24a06e777fc791c7",
+      "run": 38251613293,
+      "commit": "09d1da4f991ba4171ace63a03fccc1d4d1ae3f33",
       "status": "success",
-      "version": "1.17.0"
+      "version": "1.18.0"
     },
     "localUnitTests": 136,
     "suiteBrowserTests": 111,
@@ -98,6 +98,14 @@
       "production": "Unchanged1.14.1",
       "twinkle": "Independent record-stable far-light phases, bounded core/halo modulation, projected-size fade and reduced-motion stills",
       "persistence": "Birth cues wait for durable local storage; quota failures, retries, edits and identity changes do not replay creation"
+    },
+    "stellarLife": {
+      "version": "1.19.0",
+      "status": "139 unit tests, lint, types, build and 13 affected browser tests pass; earlier remaining affected tests pass",
+      "timeline": "Continuous compressed creation-date spectrum; minute modulation; no physical lifetime prediction",
+      "events": "Explicit 22-second neutron-star merger, reduced-motion still and original chirp",
+      "navigation": "Direct Orion entry available during immersive stellar focus; wheel reversal and return preserve records",
+      "fullBrowserGate": "Last complete gate: 1.18.0, 111 tests"
     }
   },
   "checkpoint": {

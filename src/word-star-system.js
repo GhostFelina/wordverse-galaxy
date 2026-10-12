@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { stellarSpectrum } from './stellar-evolution.js';
 
 // One visual family for learning records. Coordinates remain in the record;
 // surface structure is procedural, not a photograph of an identified star.
@@ -16,7 +17,7 @@ export function stellarDetailBlend(diameter) {
 const surfaceVertex = `varying vec3 sphere;varying vec3 worldNormal;varying vec3 worldPosition;
 void main(){sphere=position;worldNormal=normalize(mat3(modelMatrix)*normal);
 worldPosition=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(worldPosition,1.);}`;
-const surfaceFragment = `precision highp sampler3D;uniform sampler3D granulation;uniform float time;uniform float seed;uniform float blend;uniform float emphasis;uniform float transmission;
+const surfaceFragment = `precision highp sampler3D;uniform sampler3D granulation;uniform float time;uniform float seed;uniform float blend;uniform float emphasis;uniform float transmission;uniform vec3 stellarColor;
 varying vec3 sphere;varying vec3 worldNormal;varying vec3 worldPosition;
 void main(){vec3 n=normalize(sphere);float angle=time*.004;
 n=mat3(cos(angle),0.,-sin(angle),0.,1.,0.,sin(angle),0.,cos(angle))*n;
@@ -36,7 +37,7 @@ convection*=mix(1.,.8+.4*fine,fineResolved);
 float thermal=.63+.55*broad+.075*sin(n.x*9.1+n.y*7.3+seed)*sin(n.z*8.7-time*.04);
 float activity=texture(granulation,(n*3.1+vec3(seed*.41,2.1,seed*.29))/16.).r;
 float spots=1.-.24*smoothstep(.64,.85,activity)*smoothstep(.15,.6,broad);
-vec3 temperature=mix(vec3(2.4,.24,.018),vec3(4.2,1.72,.36),.22+.78*cell);
+vec3 temperature=mix(stellarColor*.38,mix(stellarColor,vec3(1.),.035)*2.15,.12+.88*cell);
 vec3 emission=temperature*convection*thermal*limb*spots*(1.+emphasis*.065);
 gl_FragColor=vec4(emission*transmission,blend);
 #include <tonemapping_fragment>
@@ -85,14 +86,14 @@ export function createWordStarSystem(parent, { surfaceLimit = 24 } = {}) {
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-    vertexShader: `attribute float ordinal;attribute float lightPhase;attribute float detail;uniform float focal;uniform float dpr;uniform float selected;uniform float hovered;uniform float birth;uniform float birthStrength;uniform float birthProgress;attribute float transmission;attribute float extended;varying float gasTransmission;varying float phase;varying float formation;varying float formationAge;
+    vertexShader: `attribute vec3 starColor;varying vec3 ageColor;attribute float ordinal;attribute float lightPhase;attribute float detail;uniform float focal;uniform float dpr;uniform float selected;uniform float hovered;uniform float birth;uniform float birthStrength;uniform float birthProgress;attribute float transmission;attribute float extended;varying float gasTransmission;varying float phase;varying float formation;varying float formationAge;
 varying float resolved;varying float emphasis;varying float diameter;varying float span;
-void main(){vec4 p=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*p;
+void main(){ageColor=starColor;vec4 p=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*p;
 gasTransmission=transmission*(1.-extended);phase=lightPhase;diameter=p.z<0. ? .9*focal/max(.1,-p.z) : 0.;resolved=detail;
 formation=ordinal==birth ? birthStrength : 0.;formationAge=birthProgress;
 emphasis=ordinal==selected ? 1. : (ordinal==hovered ? .6 : 0.);emphasis+=formation*.65;
 span=clamp(diameter*1.65+24.+formation*55.,5.,128.);gl_PointSize=span*dpr;}`,
-    fragmentShader: `uniform float time;varying float gasTransmission;varying float phase;varying float resolved;varying float emphasis;varying float diameter;varying float span;varying float formation;varying float formationAge;
+    fragmentShader: `varying vec3 ageColor;uniform float time;varying float gasTransmission;varying float phase;varying float resolved;varying float emphasis;varying float diameter;varying float span;varying float formation;varying float formationAge;
 void main(){vec2 q=(gl_PointCoord-.5)*2.;float r=length(q);if(r>1.)discard;
 // Slow independent scintillation belongs to unresolved distant optics. The
 // core stays visible, and modulation fades before the photosphere resolves.
@@ -105,7 +106,7 @@ float diamond=exp(-(abs(q.x)+abs(q.y))*16.)*.5;
 float rayWidth=max(1.8/span,.002);float spike=(exp(-pow(q.x/rayWidth,2.))+exp(-pow(q.y/rayWidth,2.)))*exp(-r*2.8)*.55*(1.-resolved)*(1.+distant*shimmer*.3);
 float birthRing=exp(-pow((r-(.2+.6*formationAge))/.065,2.))*formation*.13;
 float glow=((core+diamond)*(1.-resolved)+halo+spike+birthRing+exp(-r*r/.19)*formation*.13)*(1.-smoothstep(.8,1.,r));
-vec3 light=mix(mix(vec3(1.4,.9,2.1),vec3(3.1,2.8,3.5),core),vec3(3.2,1.9,.7),formation*.45);
+vec3 light=mix(mix(ageColor*1.6,mix(ageColor,vec3(1.),.12)*3.4,core),vec3(3.2,1.9,.7),formation*.25);
 gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
@@ -125,6 +126,7 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
   let entries = [],
     disposed = false,
     detailCount = 0;
+  let lastAgeUpdate = -Infinity;
   const view = new THREE.Vector3();
   function releaseSurfaces() {
     for (const mesh of optics) {
@@ -146,6 +148,7 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
     },
     setEntries(next) {
       entries = next;
+      lastAgeUpdate = -Infinity;
       states.clear();
       const positions = new Float32Array(entries.length * 3);
       entries.forEach((entry, i) => {
@@ -154,7 +157,7 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
         let seed = 2166136261;
         for (const char of entry.id) seed = Math.imul(seed ^ char.charCodeAt(0), 16777619) >>> 0;
         const phase = (seed / 4294967296) * Math.PI * 2;
-        states.set(entry.id, { index: i, position, phase, diameter: 0, blend: 0 });
+        states.set(entry.id, { index: i, position, phase, color: new THREE.Color(), diameter: 0, blend: 0 });
       });
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute(
@@ -165,6 +168,7 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
         ),
       );
       geometry.setAttribute('detail', new THREE.BufferAttribute(new Float32Array(entries.length), 1));
+      geometry.setAttribute('starColor', new THREE.BufferAttribute(new Float32Array(entries.length * 3), 3));
       geometry.setAttribute(
         'lightPhase',
         new THREE.Float32BufferAttribute(
@@ -184,6 +188,7 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
             blend: { value: 0 },
             emphasis: { value: 0 },
             transmission: { value: 1 },
+            stellarColor: { value: new THREE.Color() },
           },
           vertexShader: surfaceVertex,
           fragmentShader: surfaceFragment,
@@ -204,9 +209,10 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
               transmission: material.uniforms.transmission,
               time: material.uniforms.time,
               seed: material.uniforms.seed,
+              stellarColor: material.uniforms.stellarColor,
             },
             vertexShader: `varying vec2 coronaUv;varying float viewDistance;void main(){coronaUv=uv;vec4 p=modelViewMatrix*vec4(0.,0.,0.,1.);viewDistance=length(p.xyz);p.xy+=position.xy;gl_Position=projectionMatrix*p;}`,
-            fragmentShader: `uniform float blend;uniform float transmission;uniform float time;uniform float seed;varying vec2 coronaUv;varying float viewDistance;
+            fragmentShader: `uniform vec3 stellarColor;uniform float blend;uniform float transmission;uniform float time;uniform float seed;varying vec2 coronaUv;varying float viewDistance;
 void main(){vec2 q=(coronaUv-.5)*2.;float r=length(q);if(r>1.)discard;
 // Perspective silhouette of the shared sphere; a tapered billboard has no
 // hard outer shell and retains a continuous glow during close approaches.
@@ -216,7 +222,7 @@ float a=atan(q.y,q.x);float flow=.55+.3*sin(a*13.+seed+sin(a*5.)*1.8)+.15*sin(a*
 float glow=exp(-max(0.,height)*7.)*(1.-smoothstep(.7,1.,r));
 float stream=pow(max(0.,flow),3.)*exp(-max(0.,height)*3.8);
 float spicule=exp(-pow((height-.08-flow*.055)/.035,2.))*flow;
-gl_FragColor=vec4(vec3(3.8,.64,.065),(.12*glow+.045*stream+.085*spicule)*blend*transmission);
+gl_FragColor=vec4(stellarColor*3.,(.12*glow+.045*stream+.085*spicule)*blend*transmission);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
 }`,
@@ -250,13 +256,14 @@ gl_FragColor=vec4(vec3(3.8,.64,.065),(.12*glow+.045*stream+.085*spicule)*blend*t
             attenuation: { value: 1 },
             birthPulse: { value: 0 },
             birthAge: { value: 0 },
+            stellarColor: { value: new THREE.Color() },
           },
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
-          vertexShader: `uniform float focal;uniform float pixelSpan;uniform float bodyDiameter;uniform float surfaceBlend;uniform float gain;uniform float lightPhase;uniform float attenuation;uniform float birthPulse;uniform float birthAge;varying float formation;varying float formationAge;
+          vertexShader: `uniform vec3 stellarColor;varying vec3 ageColor;uniform float focal;uniform float pixelSpan;uniform float bodyDiameter;uniform float surfaceBlend;uniform float gain;uniform float lightPhase;uniform float attenuation;uniform float birthPulse;uniform float birthAge;varying float formation;varying float formationAge;
           varying vec2 vUv;varying float resolved;varying float emphasis;varying float diameter;varying float span;varying float gasTransmission;varying float phase;
-          void main(){vUv=uv;resolved=surfaceBlend;emphasis=gain;diameter=bodyDiameter;span=pixelSpan;gasTransmission=attenuation;phase=lightPhase;formation=birthPulse;formationAge=birthAge;
+          void main(){ageColor=stellarColor;vUv=uv;resolved=surfaceBlend;emphasis=gain;diameter=bodyDiameter;span=pixelSpan;gasTransmission=attenuation;phase=lightPhase;formation=birthPulse;formationAge=birthAge;
           vec4 p=modelViewMatrix*vec4(0.,0.,0.,1.);p.xy+=(uv-.5)*pixelSpan*max(.1,-p.z)/focal;gl_Position=projectionMatrix*p;}`,
           fragmentShader: 'varying vec2 vUv;' + pointMaterial.fragmentShader.replace('gl_PointCoord', 'vUv'),
         });
@@ -288,10 +295,22 @@ gl_FragColor=vec4(vec3(3.8,.64,.065),(.12*glow+.045*stream+.085*spicule)*blend*t
         birthId = null,
         birthStrength = 0,
         birthProgress = 0,
+        now = Date.now(),
+        reducedMotion = false,
         transmission = () => 1,
       } = {},
     ) {
       if (disposed) return;
+      if (Math.abs(now - lastAgeUpdate) >= 1000) {
+        lastAgeUpdate = now;
+        const colors = geometry.getAttribute('starColor');
+        for (const entry of entries) {
+          const state = states.get(entry.id);
+          state.color.set(stellarSpectrum(entry, now, !reducedMotion).color);
+          colors.setXYZ(state.index, state.color.r, state.color.g, state.color.b);
+        }
+        colors.needsUpdate = true;
+      }
       root.updateMatrixWorld(true);
       const focal = height / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
       Object.assign(pointMaterial.uniforms.focal, { value: focal });
@@ -338,6 +357,7 @@ gl_FragColor=vec4(vec3(3.8,.64,.065),(.12*glow+.045*stream+.085*spicule)*blend*t
         for (const char of entry.id) seed = (Math.imul(seed, 31) + char.charCodeAt(0)) >>> 0;
         mesh.material.uniforms.seed.value = seed % 100;
         mesh.material.uniforms.time.value = seconds;
+        mesh.material.uniforms.stellarColor.value.copy(state.color);
         mesh.material.uniforms.blend.value = state.blend;
         mesh.material.uniforms.transmission.value = state.transmission;
         mesh.material.uniforms.emphasis.value = entry.id === selectedId ? 1 : entry.id === hoveredId ? 0.6 : 0;
@@ -362,6 +382,7 @@ gl_FragColor=vec4(vec3(3.8,.64,.065),(.12*glow+.045*stream+.085*spicule)*blend*t
         }
         const u = mesh.material.uniforms;
         u.time.value = seconds;
+        u.stellarColor.value.copy(state.color);
         u.focal.value = focal;
         u.pixelSpan.value = Math.min(900, state.diameter * 4 + 32);
         u.bodyDiameter.value = state.diameter;

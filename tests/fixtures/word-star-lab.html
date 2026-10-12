@@ -81,7 +81,9 @@
         camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100000);
       const gas = createNebulaSystem(scene, camera, { fieldStars: false });
       const stars = createWordStarSystem(scene);
-      const sample = [{ id: 'quality-star', x: 31, y: 0, z: 18 }];
+      const sample = [
+        { id: 'quality-star', createdAt: new Date(Date.now() - 18 * 60000).toISOString(), x: 31, y: 0, z: 18 },
+      ];
       const extinction = createStarTransmission(gas.starMedium);
       camera.position.set(0, 0, 160);
       camera.updateMatrixWorld();

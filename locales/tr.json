@@ -217,7 +217,7 @@
     },
     "stage": {
       "newborn": "Yeni doğan · beyaz",
-      "young": "Genç · beyaz",
+      "young": "Genç · mavi beyaz",
       "mature": "Olgun · sarı beyaz",
       "aging": "Yaşlanan · kehribar",
       "redGiant": "Kızıl dev",
@@ -261,7 +261,8 @@
     "exported": "Evrenin ve işlem geçmişin indirildi.",
     "imported": "Yedek birleştirildi; mevcut kelimelerin korundu.",
     "invalidBackup": "Bu dosya geçerli bir Wordverse yedeği değil.",
-    "recovered": "Evrenin otomatik yerel yedekten geri getirildi."
+    "recovered": "Evrenin otomatik yerel yedekten geri getirildi.",
+    "visualAgeHint": "Hızlandırılmış görsel ömür · dakikalık, yumuşak renk geçişleri"
   },
   "about": {
     "title": "Wordverse Nasıl Çalışır? | Kelime Galaksisi ve Veri Yedeği",
@@ -284,7 +285,7 @@
       },
       {
         "title": "02 · Kelime ekle",
-        "body": "Kelimeyi ve anlamını yaz. Yeni kelime beyaz bir yıldız olarak doğar; bulutsu kelimelerinle büyür."
+        "body": "Kelimeyi ve anlamını ekle. Yeni bir yıldız evrenine katılır; rengi eklenme tarihine göre evrilir."
       },
       {
         "title": "03 · Keşfet",
@@ -303,11 +304,11 @@
       },
       {
         "question": "Yıldızlar gerçekten yaşlanıyor mu?",
-        "answer": "Yeni yıldızlar beyaz görünür. Kelimenin öğrenilmesinden sonra geçen günler, beyazdan sıcak tonlara uzanan sıkıştırılmış bir görsel yaşam döngüsüyle temsil edilir. Bu bir astronomik zaman simülasyonu değildir; gerçek yıldızlarda renk esas olarak sıcaklık ve kütleyle ilişkilidir."
+        "answer": "Yıldızın rengi, kelimenin eklenme tarihinden hesaplanan hızlandırılmış görsel bir ömre bağlıdır. Her dakika bir görsel günü temsil eder; mavi beyazdan altın ve kızıl tonlara, ardından soğuk beyaz kalıntıya yumuşak geçişler olur. Kayıt tarihi ve konumu sabit kalır. Gerçek yıldız evrimi çok daha uzun sürer ve kütleye de bağlıdır."
       },
       {
-        "question": "En eski iki yıldız neden beraber dönüyor?",
-        "answer": "Her galaksideki en eski iki kelime, çift yıldızları andıran ortak kütle merkezi hareketi yapar. Bu kelimelere verilen görsel bir vurgudur; sözcüklerin fiziksel nötron yıldızına dönüştüğü anlamına gelmez."
+        "question": "Kelime yıldızları çarpışabilir mi?",
+        "answer": "Kelime yıldızları kayıtlarını ve konumlarını korur. Görünüm menüsündeki nötron yıldızı çarpışması, birbirine yaklaşan iki yıldızın birleşmesini ve kilonova bulutunu gösteren isteğe bağlı sanatsal bir deneyimdir."
       },
       {
         "question": "Galaksiyi nasıl gezebilirim?",
@@ -586,7 +587,10 @@
     "stop": "Gökyüzü deneyimini bitir",
     "artistic": "Sanatsal görselleştirme",
     "depth": "Orion yolculuğu",
-    "return": "← Yıldızlarıma dön"
+    "return": "← Yıldızlarıma dön",
+    "enter": "✧ Orion’a gir",
+    "wheelHint": "Tekerleği ileri kaydır: bulutsunun içine ilerle. Geri kaydır: uzaklaş.",
+    "kilonova": "Nötron yıldızı çarpışması"
   },
   "share": {
     "open": "Yıldız kartı",

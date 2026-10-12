@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const SKY_EVENTS = Object.freeze({ meteor: 6, supernova: 18, blackhole: 0 });
+export const SKY_EVENTS = Object.freeze({ meteor: 6, supernova: 18, blackhole: 0, kilonova: 22 });
 
 // Ephemeral presentation state. It never touches learning records or storage.
 export function createSkyEventState({ reducedMotion = false } = {}) {
@@ -23,7 +23,16 @@ export function createSkyEventState({ reducedMotion = false } = {}) {
     snapshot() {
       return {
         kind,
-        elapsed: reducedMotion && kind ? (kind === 'meteor' ? 2.6 : kind === 'supernova' ? 8 : 0) : elapsed,
+        elapsed:
+          reducedMotion && kind
+            ? kind === 'meteor'
+              ? 2.6
+              : kind === 'supernova'
+                ? 8
+                : kind === 'kilonova'
+                  ? 13
+                  : 0
+            : elapsed,
         reducedMotion,
       };
     },
@@ -88,6 +97,34 @@ void main(){
   vec3 plasma=mix(vec3(3.1,1.45,.4),vec3(1.25,.22,.026),temperature);
   alpha=max(horizon,min(.97,emission*2.1+photon+bloom));
   light=plasma*emission+vec3(.8,.6,.3)*bent*(1.-horizon)*facing+vec3(2.5,1.3,.48)*photon+vec3(1.1,.25,.065)*bloom;
+ }else if(kind==4){
+  vec2 d=q-vec2(-aspect*.54,.48);float r=length(d);
+  if(r>.76)discard;
+  // A compressed inspiral, merger and ejecta sequence, kept far from the UI.
+  // Personal word stars never become either binary in this illustration.
+  float merger=smoothstep(7.7,9.2,clock);
+  float orbitRadius=mix(.145,.008,smoothstep(0.,8.7,clock));
+  float angle=clock*.65+clock*clock*.12;
+  vec2 orbit=vec2(cos(angle),sin(angle)*.48)*orbitRadius;
+  float a=length(d-orbit),b=length(d+orbit);
+  float binary=(exp(-a*a/.00014)+exp(-b*b/.00014))*(1.-merger);
+  float halos=(exp(-a*a/.0015)+exp(-b*b/.0015))*.075*(1.-merger);
+  float spiralPhase=atan(d.y,d.x)*2.+r*56.-angle*2.;
+  float streams=pow(max(0.,sin(spiralPhase)),8.)*band(r-orbitRadius,.025)*.06*(1.-merger);
+  float age=max(0.,clock-8.4),expansion=.022+age*.027;
+  float fog=turbulence(d*22.+vec2(clock*.003,0.));
+  float folds=.013*sin(atan(d.y,d.x)*7.+fog*5.);
+  float wisps=.25+.75*turbulence(vec2(atan(d.y,d.x)*5.,r*32.-age*.04));
+  float shell=band(r-expansion-folds,.014+age*.002)*(.18+fog)*wisps*merger;
+  float ejecta=exp(-r*r/(.002+age*.006))*pow(.15+fog,2.)*merger*.48;
+  float cooling=smoothstep(1.,10.,age);
+  vec3 debris=mix(vec3(.12,.58,1.4),vec3(1.5,.18,.025),cooling);
+  float remnant=exp(-r*r/.0003)*merger*exp(-age*.18);
+  float jets=band(d.x+sin(d.y*12.)*.002,.007+abs(d.y)*.026)*exp(-abs(d.y)*7.)*smoothstep(.022,.06,abs(d.y))*merger*exp(-age*.28)*.06;
+  float waves=band(r-fract(clock*.1)*.62,.004)*smoothstep(.05,.22,r)*(1.-smoothstep(.4,.64,r))*(1.-merger)*.02;
+  float fade=smoothstep(0.,1.2,clock)*(1.-smoothstep(17.,22.,clock));
+  light=(vec3(.45,1.2,2.8)*(binary+halos+streams)+debris*(shell+ejecta)+vec3(2.8,1.7,.8)*remnant+vec3(.3,.8,1.3)*(jets+waves))*fade;
+  alpha=min(.9,(binary+halos+streams+shell*.8+ejecta+remnant*.8+jets+waves)*fade);
  }
  if(alpha<.001)discard;
  // Normal alpha blending keeps the bounded core dark and avoids screen flashes.
@@ -134,7 +171,7 @@ export function createSkyEvents({ reducedMotion = false } = {}) {
     update(delta, aspect, sceneCamera) {
       const snapshot = state.update(delta);
       material.uniforms.clock.value = snapshot.elapsed;
-      material.uniforms.kind.value = ['meteor', 'supernova', 'blackhole'].indexOf(snapshot.kind) + 1;
+      material.uniforms.kind.value = ['meteor', 'supernova', 'blackhole', 'kilonova'].indexOf(snapshot.kind) + 1;
       material.uniforms.aspect.value = aspect;
       if (snapshot.kind === 'blackhole' && sceneCamera) {
         const tangent = Math.tan(THREE.MathUtils.degToRad(sceneCamera.fov / 2));

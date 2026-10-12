@@ -62,8 +62,8 @@ test('galaxy appearances are stable for existing galaxies and balanced for new o
 test('star light follows the compressed age stages', () => {
   const now = Date.parse('2026-10-02T12:00:00.000Z');
   assert.equal(starAge(new Date(now).toISOString(), now).stageId, 'newborn');
-  assert.equal(starAge(new Date(now - 100 * 86400000).toISOString(), now).stageId, 'redGiant');
-  assert.equal(starAge(new Date(now - 400 * 86400000).toISOString(), now).stageId, 'whiteDwarf');
+  assert.equal(starAge(new Date(now - 100 * 60000).toISOString(), now).stageId, 'redGiant');
+  assert.equal(starAge(new Date(now - 400 * 60000).toISOString(), now).stageId, 'whiteDwarf');
 });
 
 test('backup merge preserves existing words and does not duplicate imported events', () => {

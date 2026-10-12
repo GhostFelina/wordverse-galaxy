@@ -17,6 +17,45 @@
   color: #f1f5ff;
   border-color: #adc6f080;
 }
+.sky-event-options [data-sky-event='kilonova'] {
+  grid-column: 1 / -1;
+}
+.nebula-wheel-hint {
+  grid-column: 1 / -1;
+  color: #94a9c8;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.nebula-entry {
+  position: fixed;
+  top: 244px;
+  right: clamp(24px, 4.6vw, 76px);
+  z-index: 10;
+  padding: 9px 12px;
+  color: #b9cde9;
+  background: #080c16cc;
+  border: 1px solid #a9c1ef30;
+  border-radius: 20px;
+  font:
+    11px/1.5 'Space Grotesk',
+    sans-serif;
+  cursor: pointer;
+}
+.nebula-entry:focus-visible {
+  outline: 2px solid #b4caff;
+  outline-offset: 3px;
+}
+.nebula-entry[hidden] {
+  display: none;
+}
+#app:has(.side-panel.open) .nebula-entry,
+#app:has(dialog[open]) .nebula-entry,
+#app[data-graphics='unavailable'] .nebula-entry {
+  display: none;
+}
+#app:has(.nebula-navigation:not([hidden])) .sky-event-status {
+  bottom: 210px;
+}
 .sky-event-status {
   position: fixed;
   bottom: 132px;
@@ -93,6 +132,9 @@
   outline-offset: 3px;
 }
 @media (max-width: 760px) {
+  #enter-nebula {
+    display: none;
+  }
   .sky-event-options,
   .sky-event-status,
   .nebula-navigation {

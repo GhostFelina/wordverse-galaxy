@@ -26,6 +26,9 @@ describe('ephemeral sky experiences', () => {
     expect(state.snapshot().kind).toBe('blackhole');
     state.select(null);
     expect(state.snapshot().kind).toBeNull();
+    state.select('kilonova');
+    for (let i = 0; i < 222; i++) state.update(0.1);
+    expect(state.snapshot().kind).toBeNull();
   });
   it('holds a representative still instead of animating under reduced motion', () => {
     const state = createSkyEventState({ reducedMotion: true });
@@ -34,5 +37,10 @@ describe('ephemeral sky experiences', () => {
     for (let i = 0; i < 200; i++) state.update(0.1);
     expect(state.snapshot()).toEqual(before);
     expect(before.elapsed).toBe(8);
+    state.select('kilonova');
+    const merger = state.snapshot();
+    for (let i = 0; i < 250; i++) state.update(0.1);
+    expect(state.snapshot()).toEqual(merger);
+    expect(merger.elapsed).toBe(13);
   });
 });

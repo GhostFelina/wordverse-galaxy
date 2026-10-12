@@ -1,5 +1,27 @@
 import { expect, test } from '@playwright/test';
 
+test('stellar ages color production photospheres and distant optics without storage writes', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/tests/fixtures/stellar-evolution-lab.html');
+  const canvas = page.locator('#evolution');
+  await expect(canvas).toHaveAttribute('data-ready', 'true');
+  const before = await page.screenshot({ clip: { x: 160, y: 260, width: 80, height: 80 } });
+  const colors = await canvas.getAttribute('data-colors');
+  await page.locator('#minute').click();
+  await expect(canvas).toHaveAttribute('data-minute', '1');
+  expect(await canvas.getAttribute('data-colors')).not.toBe(colors);
+  expect((await page.screenshot({ clip: { x: 160, y: 260, width: 80, height: 80 } })).equals(before)).toBe(false);
+  await page.locator('#far').click();
+  await expect(canvas).toHaveAttribute('data-mode', 'far');
+  expect(await page.evaluate(() => localStorage.length)).toBe(0);
+  expect(errors).toEqual([]);
+});
+
 async function open(page, motion = 'reduce') {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: motion });
@@ -58,6 +80,7 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
     ['meteor', '2.6'],
     ['supernova', '8'],
     ['blackhole', '0'],
+    ['kilonova', '13'],
   ]) {
     await page.locator(`[data-sky-event="${kind}"]`).click();
     await expect(canvas).toHaveAttribute('data-sky-event', kind);
@@ -96,6 +119,33 @@ test('nebula depth slider, wheel reversal and buttons share one stable cruise', 
   await expect(page.locator('#nebula-navigation')).toBeHidden();
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(159);
   await expect(page.locator('[data-word-id="sky-w"]')).toBeVisible();
+});
+
+test('direct Orion entry releases stellar focus and wheel travels into and out of the cloud without record writes', async ({
+  page,
+}) => {
+  await open(page);
+  const canvas = page.locator('#universe');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('[data-word-id="sky-w"]').click();
+  await page.locator('#focus-star').click();
+  await page.locator('#enter-nebula').click();
+  await expect(canvas).toHaveAttribute('data-nebula-flight', 'true');
+  await expect(canvas).toHaveAttribute('data-focused-word', '');
+  await page.locator('#nebula-depth').fill('0');
+  await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(2);
+  await page.mouse.move(720, 450);
+  await page.mouse.wheel(0, -180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(145);
+  await page.mouse.wheel(0, -180);
+  await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
+  const target = Number(await canvas.getAttribute('data-camera-target-z'));
+  await page.mouse.wheel(0, 180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-target-z'))).toBeGreaterThan(target);
+  await page.locator('#nebula-navigation button').click();
+  await expect(canvas).toHaveAttribute('data-nebula-flight', 'false');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(159);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
 });
 
 test('star cards are opt-in, default to hidden meaning and download the requested format without record writes', async ({

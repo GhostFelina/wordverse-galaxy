@@ -217,7 +217,7 @@
     },
     "stage": {
       "newborn": "Recién nacida · blanca",
-      "young": "Joven · blanca",
+      "young": "Joven · blanco azulado",
       "mature": "Madura · blanco amarillento",
       "aging": "Envejeciendo · ámbar",
       "redGiant": "Gigante roja",
@@ -261,7 +261,8 @@
     "exported": "Se descargaron tu universo y el historial de cambios.",
     "imported": "Se fusionó la copia de seguridad y se conservaron tus palabras.",
     "invalidBackup": "Este archivo no es una copia válida de Wordverse.",
-    "recovered": "Se restauró tu universo desde la copia local automática."
+    "recovered": "Se restauró tu universo desde la copia local automática.",
+    "visualAgeHint": "Edad visual acelerada · cambios suaves de color cada minuto"
   },
   "about": {
     "title": "Cómo funciona Wordverse | Galaxias de palabras y copias de seguridad",
@@ -284,7 +285,7 @@
       },
       {
         "title": "02 · Añade una palabra",
-        "body": "Escribe la palabra y su significado. La nueva palabra nace como una estrella blanca y la nebulosa crece con tu vocabulario."
+        "body": "Añade la palabra y su significado. Una nueva estrella se une a tu universo y su color evoluciona desde su fecha de creación."
       },
       {
         "title": "03 · Explora",
@@ -303,11 +304,11 @@
       },
       {
         "question": "¿Las estrellas envejecen de verdad?",
-        "answer": "Las estrellas nuevas se ven blancas. Los días transcurridos desde que aprendiste una palabra se representan con un ciclo visual comprimido que pasa a tonos más cálidos. No es una simulación del tiempo astronómico; el color real de una estrella depende sobre todo de su temperatura y masa."
+        "answer": "El color de una estrella sigue una vida visual acelerada basada en la fecha de creación de su palabra. Cada minuto representa un día visual, pasando suavemente del blanco azulado al dorado y rojo, y luego a un remanente blanco frío. Las fechas y posiciones se conservan. La evolución estelar real tarda mucho más y depende también de la masa."
       },
       {
-        "question": "¿Por qué orbitan juntas las dos estrellas más antiguas?",
-        "answer": "Las dos palabras más antiguas de cada galaxia giran alrededor de un centro de masa compartido, como un sistema binario. Es un énfasis visual; no significa que las palabras se hayan convertido físicamente en estrellas de neutrones."
+        "question": "¿Pueden chocar las estrellas de palabras?",
+        "answer": "Tus estrellas conservan sus registros y posiciones. La fusión opcional en Vista ilustra una pareja en espiral, su unión y una nube de kilonova como experiencia artística independiente."
       },
       {
         "question": "¿Cómo recorro mi galaxia?",
@@ -586,7 +587,10 @@
     "stop": "Terminar experiencia",
     "artistic": "Ilustración artística",
     "depth": "Viaje por Orión",
-    "return": "← Volver a mis estrellas"
+    "return": "← Volver a mis estrellas",
+    "enter": "✧ Entrar en Orión",
+    "wheelHint": "Desplaza hacia adelante para entrar en la nube; hacia atrás para alejarte.",
+    "kilonova": "Fusión de estrellas de neutrones"
   },
   "share": {
     "open": "Tarjeta estelar",

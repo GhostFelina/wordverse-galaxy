@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0] — Development · 2026-10-12
+
+- Continuous creation-date stellar colors, accelerated visual stages and subtle minute tone changes across scene, detail and cards.
+- Direct Orion entry during immersive stellar focus and stable wheel-driven depth travel.
+- An explicit neutron-star merger illustration: binary inspiral, turbulent ejecta, synthesized chirp and reduced-motion still.
+- Synthetic stellar-life and merger-phase galleries; stored learning records remain unchanged.
+
 ## [1.18.0] — Development · 2026-10-12
 
 - Independent, slow distant scintillation with stable record-derived phases; the core stays visible and the effect fades on approach.

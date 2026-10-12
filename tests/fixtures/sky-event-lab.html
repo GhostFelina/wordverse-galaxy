@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Wordverse · sky experiences</title>
+    <style>
+      body {
+        margin: 0;
+        background: #020408;
+        color: #dce8fb;
+        font: 13px system-ui;
+      }
+      canvas {
+        display: block;
+      }
+      nav {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      button,
+      select {
+        padding: 9px 14px;
+        color: inherit;
+        background: #101a2c;
+        border: 1px solid #9cb9e838;
+        border-radius: 6px;
+      }
+      input {
+        accent-color: #a8ccff;
+        width: 240px;
+      }
+      output {
+        min-width: 85px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <select aria-label="Experience">
+        <option value="kilonova">Neutron-star merger</option>
+        <option value="blackhole">Black hole</option>
+        <option value="supernova">Supernova</option>
+        <option value="meteor">Meteor</option></select
+      ><input aria-label="Time" type="range" min="0" max="21" step=".1" value="3" /><output></output
+      ><button id="play">Play</button>
+    </nav>
+    <canvas id="sky-lab"></canvas>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createSkyEvents } from '/src/sky-events.js';
+      import { createNebulaSystem } from '/src/nebula-system.js';
+      const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setClearColor(0x020408);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100000);
+      camera.position.z = 160;
+      camera.updateMatrixWorld();
+      const gas = createNebulaSystem(scene, camera, { fieldStars: false }),
+        event = createSkyEvents();
+      let ready = false,
+        playing = false,
+        previous = 0;
+      const choice = document.querySelector('select'),
+        time = document.querySelector('input'),
+        output = document.querySelector('output');
+      function pose() {
+        playing = false;
+        event.select(choice.value);
+        let remaining = Number(time.value);
+        while (remaining > 0.00001) {
+          const delta = Math.min(0.1, remaining);
+          event.update(delta, camera.aspect, camera);
+          remaining -= delta;
+        }
+      }
+      choice.onchange = time.oninput = pose;
+      document.querySelector('#play').onclick = () => {
+        event.select(choice.value);
+        playing = true;
+        previous = 0;
+      };
+      pose();
+      await event.warm(renderer);
+      ready = true;
+      renderer.setAnimationLoop((ms) => {
+        if (document.hidden || !ready) return;
+        if (playing) {
+          event.update(previous ? (ms - previous) / 1000 : 0, camera.aspect, camera);
+          previous = ms;
+        }
+        gas.update(0, 1, innerHeight);
+        renderer.render(scene, camera);
+        gas.render(renderer, () => event.render(renderer));
+        const snapshot = event.snapshot();
+        output.textContent = snapshot.elapsed.toFixed(1) + ' s';
+        renderer.domElement.dataset.ready = String(gas.ready);
+        renderer.domElement.dataset.event = snapshot.kind || '';
+        renderer.domElement.dataset.time = String(snapshot.elapsed);
+      });
+      addEventListener(
+        'pagehide',
+        () => {
+          renderer.setAnimationLoop(null);
+          gas.dispose();
+          event.dispose();
+          renderer.dispose();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>
