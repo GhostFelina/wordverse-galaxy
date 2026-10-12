@@ -16,7 +16,7 @@ Scene, detail preview and PNG card use the same stellar surface and record seed.
 
 ## Sky experiences
 
-Meteor streak, supernova shell and illustrative black-hole disk are original procedural GLSL, with no external video/audio asset. They start only on explicit selection. Reduced motion produces a representative still. The black-hole illustration does not ray trace the surrounding scene or simulate orbital dynamics. Meteors occur in atmospheres; the overlay does not imply an atmospheric event inside Orion.
+Meteor streak, supernova shell, neutron-star merger and illustrative black-hole disk are original procedural GLSL, with no external video/audio asset. They start only on explicit selection. Reduced motion produces a representative still. The black-hole illustration does not ray trace the surrounding scene or simulate orbital dynamics. Meteors occur in atmospheres; the overlay does not imply an atmospheric event inside Orion.
 
 ## Legacy assets
 
@@ -25,3 +25,7 @@ Meteor streak, supernova shell and illustrative black-hole disk are original pro
 ## Local fonts
 
 DM Sans and Space Grotesk variable TTFs are unchanged Google Fonts repository files, under SIL Open Font License1.1. License texts are shipped beside the fonts. [Font sources and credits](../ATTRIBUTIONS.md#local-fonts).
+
+## Original audio
+
+Web Audio synthesis has no external recordings or soundtrack samples. Stereo harmonic voicings, deterministic noise/impulse response, HRTF transient cues and bounded waveshaping are original code. The atmosphere is an artistic sonification, not recorded sound traveling through space. [Web Audio spatialization](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics) defines the browser headphone model; [Dolby web delivery](https://professionalsupport.dolby.com/s/article/Dolby-Audio-and-Dolby-Atmos-in-web-apps?language=en_US) is a separate encoded-media/device pipeline and is not implemented here.

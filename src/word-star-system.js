@@ -146,13 +146,13 @@ gl_FragColor=vec4(light,glow*(1.+emphasis*.3)*brilliance*gasTransmission);
     get ready() {
       return textureReady;
     },
-    setEntries(next) {
+    setEntries(next, { positionOf = wordStarPosition } = {}) {
       entries = next;
       lastAgeUpdate = -Infinity;
       states.clear();
       const positions = new Float32Array(entries.length * 3);
       entries.forEach((entry, i) => {
-        const position = wordStarPosition(entry);
+        const position = positionOf(entry);
         position.toArray(positions, i * 3);
         let seed = 2166136261;
         for (const char of entry.id) seed = Math.imul(seed ^ char.charCodeAt(0), 16777619) >>> 0;

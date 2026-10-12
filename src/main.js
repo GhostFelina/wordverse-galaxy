@@ -1,3 +1,4 @@
+import { createOrionStarField } from './orion-star-field.js';
 import { placeWordStar, starApproach } from './word-star-placement.js';
 import { stellarSpectrum } from './stellar-evolution.js';
 import { createStarTransmission } from './star-nebula-transmission.js';
@@ -58,6 +59,9 @@ const worldStars = new Map();
 const starNodes = new Map();
 let wordStarSystem;
 let hoveredStarId = null;
+let explorationField = null;
+const displayStarPosition = entry => explorationField ? explorationField.position(entry) : wordStarPosition(entry);
+function leaveOrionField() { if (!explorationField) return; explorationField = null; transmissionCache.clear(); rebuildWordStars(); }
 let starTransmission;
 let transmissionFrame = 0;
 let lastWheelDirection = 0;
@@ -104,6 +108,8 @@ function applyExperience(state) {
   wordCard.invalidate();
   skyEvents?.select(null); skyEventsUI?.update({ kind: null });
   soundscape?.event(null); soundscape?.update({});
+  leaveOrionField();
+  travelingNebula = null; catalogDepth = 0; zoom = 160; pan.x = pan.y = 0;
   collectionAtlas?.reset();
   recallUI?.invalidate();
   // Clear the previous identity immediately; allow rapid UI transitions to settle
@@ -237,11 +243,11 @@ function initScene() {
   skyEvents.warm(renderer).catch(() => { /* Optional sky illustrations may be unavailable. */ });
   skyEventsUI = mountSkyEventsUI({ locale: uiLocale, reducedMotion,
     container: document.querySelector('.scene-controls-content'),
-    onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
+    onSelect(kind) { skyEvents.select(kind); skyEventsUI.update(skyEvents.snapshot()); soundscape.event(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
   });
   nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
-    onEnter() { if (nebulaSystem?.ready) { closePanels(); travelToNebula(nebulaSystem.records[0]); $('#universe').focus({ preventScroll: true }); } },
-    onDepth(fraction) { if(travelingNebula) setZoom(MAX_ZOOM-catalogDepth-fraction*(MAX_ZOOM-catalogDepth-MIN_ZOOM)); },
+    onEnter() { if (nebulaSystem?.ready) { closePanels(); if (!$('#app').classList.contains('immersive')) $('#universe-mode').click(); travelToNebula(nebulaSystem.records[0]); $('#universe').focus({ preventScroll: true }); } },
+    onDepth(fraction) { if(travelingNebula) { focusedStarId = selectedId = null; catalogDepth = nebulaBackPlane(nebulaSystem.records[0]); setZoom(MAX_ZOOM-catalogDepth-fraction*(MAX_ZOOM-catalogDepth-MIN_ZOOM)); } },
     onReturn() { $('#home-btn').click(); },
   });
   scene = new THREE.Scene();
@@ -251,7 +257,7 @@ function initScene() {
   nebulaSystem.setQuality(renderQuality.mode);
   nebulaUI = mountNebulaUI({ locale: uiLocale, records: nebulaSystem.records, beforeOpen: closePanels,
     onFocus(record) { travelToNebula(record); zoom = Math.min(zoom, 160 - catalogDepth); },
-    onOverview() { closePanels(); focusedStarId = selectedId = null; travelingNebula = null; nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
+    onOverview() { closePanels(); focusedStarId = selectedId = null; travelingNebula = null; leaveOrionField(); nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
   });
   $('#universe').dataset.sceneMode = 'orion-and-stars';
   $('#universe').dataset.backgroundStars = '0';
@@ -282,9 +288,9 @@ function rebuildWordStars() {
   lastOverlayUpdate = -Infinity;
   const policy = experience.snapshot();
   const visibleWords = policy.ready && policy.mode !== 'showcase-demo' ? words.filter(word => entryKind(word) === 'word') : [];
-  wordStarSystem.setEntries(visibleWords);
+  wordStarSystem.setEntries(visibleWords, { positionOf: displayStarPosition });
   visibleWords.forEach(word => {
-    const group = new THREE.Group(); group.position.copy(wordStarPosition(word));
+    const group = new THREE.Group(); group.position.copy(displayStarPosition(word));
     group.userData = { word, binarySlot: -1 };
     wordGroup.add(group); worldStars.set(word.id, group);
     const button = document.createElement('button'); button.className = 'star-hit'; button.type = 'button';
@@ -302,6 +308,9 @@ function rebuildWordStars() {
   });
   $('#universe').dataset.personalRenderer = 'premium-surface';
   $('#universe').dataset.wordStarSystem = 'shared-photosphere-v1';
+  $('#universe').dataset.orionWordField = String(!!explorationField);
+  $('#universe').dataset.orionWordCount = String(explorationField ? visibleWords.length : 0);
+  transmissionCache.clear();
 }
 const projected = new THREE.Vector3();
 function animate(ms) {
@@ -412,10 +421,10 @@ function animate(ms) {
   $('#universe').dataset.skyEventTime = String(skyState.elapsed);
   if (ms-lastSoundUpdate>180) {
     lastSoundUpdate=ms;
-    soundscape.update({ depth: travelingNebula ? Math.min(1,Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: skyState.kind });
+    soundscape.update({ depth: travelingNebula ? Math.min(1,Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: skyState.kind });
   }
   $('#universe').dataset.nebulaFlight = String(!!travelingNebula);
-  nebulaNavigation.update(!!travelingNebula, (MAX_ZOOM-camera.position.z)/(MAX_ZOOM-catalogDepth-MIN_ZOOM));
+  nebulaNavigation.update(!!travelingNebula, (MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM));
   if (nebulaSystem.loaded) $('#app').dataset.sceneState = 'ready';
   $('#universe').dataset.nebulaRefined = String(nebulaSystem.refined);
   $('#universe').dataset.nebulaGasResolution = nebulaSystem.gasResolution.join('x');
@@ -478,7 +487,7 @@ function selectWord(id) {
   if (isPlanet) stellarPreview.hide(); else stellarPreview.show(word);
 }
 function focusStar() {
-  travelingNebula = null; nebulaUI?.focused(null);
+  if (!explorationField) { travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); }
   catalogDepth = 0;
   if (!worldStars.has(selectedId)) return;
   preFocusPan = { ...pan };
@@ -490,7 +499,13 @@ function focusStar() {
   zoom = position.z + WORD_STAR_RADIUS * 7 - catalogDepth;
 }
 function createPosition(index, variation = .5, kind = 'word') {
-  if (kind === 'word' && camera) return placeWordStar(camera, words, { width:innerWidth, height:innerHeight, backZ:nebulaSystem.records[0].position[2]-nebulaSystem.records[0].radius*2.6 });
+  if (kind === 'word' && camera) {
+    const positions = explorationField ? words.map(word => ({...word, ...Object.fromEntries(['x','y','z'].map((axis,i) => [axis,displayStarPosition(word).toArray()[i]]))})) : words;
+    const placed = placeWordStar(camera, positions, { width:innerWidth, height:innerHeight, backZ:nebulaSystem.records[0].position[2]-nebulaSystem.records[0].radius*3.6 });
+    if (!explorationField) return placed;
+    const stored = explorationField.stored(new THREE.Vector3(placed.x,placed.y,placed.z));
+    return { x:stored.x,y:stored.y,z:stored.z };
+  }
   // Existing coordinates are never re-laid out. New objects get a spacious
   // persisted position with an explicit minimum distance from current entries.
   for (let attempt = 0; attempt < 128; attempt++) {
@@ -529,7 +544,10 @@ function saveWord(event) {
     const current = experience.snapshot();
     if (current.mode !== identity.mode || current.ownerId !== identity.ownerId || !words.some(w => w.id === item.id)) return;
     spawnBirth(item.id);
-    if (kind === 'word') soundscape?.birth();
+    if (kind === 'word') {
+      const position = worldStars.get(item.id)?.position;
+      soundscape?.birth(position ? [Math.max(-8,Math.min(8,(position.x-camera.position.x)/100)),Math.max(-8,Math.min(8,(position.y-camera.position.y)/100)),Math.max(-16,Math.min(-.2,(position.z-camera.position.z)/100))] : undefined);
+    }
   });
   rebuildWordStars(); refreshCounts(); closePanels(); selectWord(item.id);
   showToast(t(kind === 'conjunction' ? 'message.planetAdded' : 'message.starAdded', { word }));
@@ -656,7 +674,7 @@ function switchGalaxy(id) {
   if (!universe.galaxies.some(g => g.id === id)) return;
   recallUI?.invalidate();
   collectionAtlas?.reset();
-  travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect);
+  travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect);
   catalogDepth = 0;
   pan.x = pan.y = pointer.x = pointer.y = 0;
   zoom = 160;
@@ -719,6 +737,7 @@ function travelToNebula(record, keepPosition = false) {
   const absoluteZ = zoom + catalogDepth;
   focusedStarId = null; preFocusPan = null;
   travelingNebula = record.id;
+  if (!explorationField) { explorationField = createOrionStarField(words.filter(word => entryKind(word) === 'word'), record); rebuildWordStars(); }
   catalogDepth = nebulaBackPlane(record);
   zoom = absoluteZ - catalogDepth;
   if (!keepPosition) { pan.x = record.position[0]; pan.y = record.position[1]; pointer.x = pointer.y = 0; }
@@ -728,7 +747,7 @@ function zoomWordTarget(factor) {
   const chosen=worldStars.get(selectedId);if(!chosen)return false;
   const absolute=zoom+catalogDepth;
   if(!focusedStarId)preFocusPan={...pan};
-  travelingNebula=null;nebulaUI?.focused(null);focusedStarId=selectedId;
+  if (!explorationField) { travelingNebula=null;nebulaUI?.focused(null); } focusedStarId=selectedId;
   catalogDepth=chosen.position.z-200;
   // Keep the surface boundary safe after subtracting and re-adding catalogDepth.
   const near=WORD_STAR_RADIUS*1.35 + Number.EPSILON*Math.max(1,Math.abs(catalogDepth),Math.abs(chosen.position.z))*4,far=Math.max(near,MAX_ZOOM-chosen.position.z);
@@ -752,7 +771,7 @@ function bindUI() {
     const button = $('#universe-mode');
     const immersive = !$('#app').classList.contains('immersive');
     if (immersive) { closePanels(); preImmersiveZoom = zoom + catalogDepth; if (!nebulaSystem && words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
-    else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; catalogDepth = 0; travelingNebula = null; nebulaUI?.focused(null); preImmersiveZoom = null; }
+    else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; catalogDepth = 0; travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); preImmersiveZoom = null; }
     $('#app').classList.toggle('immersive', immersive);
     pan.x += immersive ? 31 : -31;
     if (!immersive && focusedStarId) { focusedStarId = null; if (preFocusPan) { pan.x = preFocusPan.x; pan.y = preFocusPan.y; preFocusPan = null; } }
@@ -761,7 +780,7 @@ function bindUI() {
   });
   for (const sel of ['#open-add', '#hero-add', '#collection-add']) $(sel).addEventListener('click', openAdd);
   $('#hero-explore').addEventListener('click', () => { if (!$('#app').classList.contains('immersive')) $('#universe-mode').click(); $('#universe').focus({ preventScroll: true }); });
-  $('#home-btn').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; closePanels(); focusedStarId = selectedId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
+  $('#home-btn').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; closePanels(); focusedStarId = selectedId = null; preFocusPan = null; pan.x = pan.y = pointer.x = pointer.y = 0; zoom = 160; });
   $('#explore-btn').addEventListener('click', closePanels);
   $('#collection-btn').addEventListener('click', () => openPanel('collection'));
   $('#galaxy-switch').addEventListener('click', () => openPanel('galaxy'));
@@ -793,7 +812,7 @@ function bindUI() {
   $('#search-input').addEventListener('input', renderCollection);
   $('#zoom-in').addEventListener('click', () => zoomOnGalaxy(zoom / 1.38));
   $('#zoom-out').addEventListener('click', () => zoomOnGalaxy(zoom * 1.38));
-  $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; focusedStarId = selectedId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
+  $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; focusedStarId = selectedId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
   document.addEventListener('keydown', e => {
     if (document.querySelector('dialog[open]')) return;
     if (e.key === 'Escape') { if (activePanel) closePanels(); else if(selectedId && camera) { pan.x=camera.position.x;pan.y=camera.position.y;pointer.x=pointer.y=0;preFocusPan=null;selectedId=focusedStarId=null; } else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); return; }

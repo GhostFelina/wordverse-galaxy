@@ -8,6 +8,7 @@ export function soundscapeMix({ depth = 0, focused = false, event = null } = {})
     cutoff: 680 + depth * 780 + (focused ? 240 : 0),
     bass: event === 'blackhole' ? 0.16 : 0.055 + depth * 0.035,
     shimmer: focused ? 0.07 : 0.025 + depth * 0.022,
+    wet: 0.24 + depth * 0.18,
   };
 }
 
@@ -33,7 +34,9 @@ function noiseBuffer(context, seconds, seed, decay = false) {
 export function createSoundscapeGraph(context) {
   const sources = new Set(),
     nodes = new Set(),
-    transients = new Set();
+    transients = new Set(),
+    panners = new Set();
+  let spatial = true;
   const track = (node) => {
     nodes.add(node);
     return node;
@@ -62,20 +65,51 @@ export function createSoundscapeGraph(context) {
   limiter.attack.value = 0.02;
   limiter.release.value = 0.4;
   const reverb = track(context.createConvolver());
-  reverb.buffer = noiseBuffer(context, 3.2, 87135, true);
-  const wet = gain(0.3);
+  reverb.buffer = noiseBuffer(context, 4.8, 87135, true);
+  const wet = gain(0.24);
+  const predelay = track(context.createDelay(0.2));
+  predelay.delayTime.value = 0.045;
+  const tailFilter = track(context.createBiquadFilter());
+  tailFilter.type = 'lowpass';
+  tailFilter.frequency.value = 2600;
+  tailFilter.Q.value = 0.3;
+  const safety = track(context.createWaveShaper());
+  safety.curve = Float32Array.from({ length: 4096 }, (_, i) => 0.92 * Math.tanh(((i / 4095) * 2 - 1) * 2));
+  safety.oversample = '2x';
   input.connect(filter);
   filter.connect(highpass);
   highpass.connect(limiter);
-  filter.connect(reverb);
-  reverb.connect(wet);
+  filter.connect(predelay);
+  predelay.connect(reverb);
+  reverb.connect(tailFilter);
+  tailFilter.connect(wet);
   wet.connect(limiter);
-  limiter.connect(master);
+  limiter.connect(safety);
+  safety.connect(master);
   master.connect(context.destination);
   bass.connect(input);
   shimmer.connect(input);
   air.connect(input);
   const start = context.currentTime;
+  function spatialVoice(position = [0, 0, -3]) {
+    const panner = track(context.createPanner());
+    panner.panningModel = spatial ? 'HRTF' : 'equalpower';
+    panner.distanceModel = 'inverse';
+    panner.refDistance = 2;
+    panner.rolloffFactor = 0.12;
+    panner.positionX.value = clamp(position[0], -8, 8);
+    panner.positionY.value = clamp(position[1], -8, 8);
+    panner.positionZ.value = clamp(position[2], -16, -0.2);
+    panners.add(panner);
+    return panner;
+  }
+  function release(local) {
+    for (const node of local) {
+      node.disconnect();
+      nodes.delete(node);
+      panners.delete(node);
+    }
+  }
   function oscillator(frequency, level, pan, destination, type = 'sine', detune = 0) {
     const osc = track(context.createOscillator()),
       amplitude = gain(level),
@@ -134,15 +168,16 @@ export function createSoundscapeGraph(context) {
         /* Already ended. */
       }
       source.onended = () => {
-        for (const node of local) {
-          node.disconnect();
-          nodes.delete(node);
-        }
+        release(local);
       };
     }
     transients.clear();
   }
   return {
+    setSpatial(value) {
+      spatial = !!value;
+      for (const panner of panners) panner.panningModel = spatial ? 'HRTF' : 'equalpower';
+    },
     setVolume(value, smoothing = 0.25) {
       if (!disposed) smooth(master.gain, clamp(value, 0, 1) * 0.6, smoothing);
     },
@@ -153,13 +188,15 @@ export function createSoundscapeGraph(context) {
       smooth(bass.gain, mix.bass, 1.2);
       smooth(shimmer.gain, mix.shimmer, 0.8);
       smooth(filter.frequency, mix.cutoff, 1.2);
+      smooth(wet.gain, mix.wet, 1.5);
     },
     event(kind) {
       if (disposed) return;
       stopEvents();
       if (kind === 'kilonova') {
         const source = track(context.createOscillator()),
-          envelope = gain(0);
+          envelope = gain(0),
+          panner = spatialVoice([-3, 2, -4]);
         const now = context.currentTime;
         source.type = 'sine';
         source.frequency.setValueAtTime(88, now);
@@ -169,16 +206,14 @@ export function createSoundscapeGraph(context) {
         envelope.gain.linearRampToValueAtTime(0.075, now + 8);
         envelope.gain.exponentialRampToValueAtTime(0.0001, now + 16);
         source.connect(envelope);
-        envelope.connect(input);
-        const local = [source, envelope],
+        envelope.connect(panner);
+        panner.connect(input);
+        const local = [source, envelope, panner],
           entry = { source, envelope, local };
         transients.add(entry);
         source.onended = () => {
           transients.delete(entry);
-          for (const node of local) {
-            node.disconnect();
-            nodes.delete(node);
-          }
+          release(local);
         };
         source.start(now);
         source.stop(now + 16.1);
@@ -190,7 +225,7 @@ export function createSoundscapeGraph(context) {
       const source = track(context.createBufferSource()),
         envelope = gain(0),
         tone = track(context.createBiquadFilter()),
-        stereo = track(context.createStereoPanner());
+        stereo = spatialVoice(meteor ? [-5, 2, -3] : merger ? [-3, 2, -4] : [2, 1, -5]);
       source.buffer = noise.buffer;
       source.loop = true;
       tone.type = meteor ? 'bandpass' : 'lowpass';
@@ -205,8 +240,10 @@ export function createSoundscapeGraph(context) {
         now + (meteor ? 0.9 : merger ? 8.5 : 3),
       );
       envelope.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-      stereo.pan.setValueAtTime(meteor ? -0.8 : 0.15, now);
-      if (meteor) stereo.pan.linearRampToValueAtTime(0.8, now + duration);
+      if (meteor) {
+        stereo.positionX.linearRampToValueAtTime(5, now + duration);
+        stereo.positionY.linearRampToValueAtTime(-0.5, now + duration);
+      }
       source.connect(tone);
       tone.connect(envelope);
       envelope.connect(stereo);
@@ -216,25 +253,21 @@ export function createSoundscapeGraph(context) {
       transients.add(entry);
       source.onended = () => {
         transients.delete(entry);
-        for (const node of local) {
-          node.disconnect();
-          nodes.delete(node);
-        }
+        release(local);
       };
       source.start(now);
       source.stop(now + duration + 0.1);
     },
-    birth() {
+    birth(position) {
       if (disposed) return;
       const now = context.currentTime;
       for (const [i, frequency] of [293.664, 587.328, 880].entries()) {
         const source = track(context.createOscillator()),
           envelope = gain(0),
-          stereo = track(context.createStereoPanner());
+          stereo = spatialVoice(position);
         source.type = 'sine';
         source.frequency.setValueAtTime(frequency * (i === 0 ? 0.5 : 0.997), now);
         source.frequency.exponentialRampToValueAtTime(frequency, now + 0.65);
-        stereo.pan.value = (i - 1) * 0.3;
         envelope.gain.setValueAtTime(0, now);
         envelope.gain.linearRampToValueAtTime(0.24 / (1 + i), now + 0.12 + i * 0.06);
         envelope.gain.exponentialRampToValueAtTime(0.0001, now + 3.2 + i * 0.2);
@@ -246,10 +279,7 @@ export function createSoundscapeGraph(context) {
         transients.add(entry);
         source.onended = () => {
           transients.delete(entry);
-          for (const node of local) {
-            node.disconnect();
-            nodes.delete(node);
-          }
+          release(local);
         };
         source.start(now);
         source.stop(now + 4);
@@ -270,6 +300,7 @@ export function createSoundscapeGraph(context) {
       for (const node of nodes) node.disconnect();
       sources.clear();
       nodes.clear();
+      panners.clear();
     },
   };
 }
@@ -279,11 +310,12 @@ export function createSoundscape({ createContext = () => new AudioContext(), onC
     graph,
     enabled = false,
     volume = 0.32,
+    spatial = true,
     hidden = false,
     disposed = false,
     ticket = 0,
     scene = {};
-  const snapshot = () => ({ enabled, volume, state: context?.state || 'uninitialized', available: !disposed });
+  const snapshot = () => ({ enabled, volume, spatial, state: context?.state || 'uninitialized', available: !disposed });
   const notify = () => onChange(snapshot());
   return {
     snapshot,
@@ -315,6 +347,7 @@ export function createSoundscape({ createContext = () => new AudioContext(), onC
           return;
         }
         graph ||= createSoundscapeGraph(context);
+        graph.setSpatial(spatial);
         graph.update(scene);
         graph.setVolume(volume);
         notify();
@@ -338,6 +371,11 @@ export function createSoundscape({ createContext = () => new AudioContext(), onC
       if (enabled) graph?.setVolume(volume);
       notify();
     },
+    setSpatial(value) {
+      spatial = !!value;
+      graph?.setSpatial(spatial);
+      notify();
+    },
     update(next) {
       scene = next;
       if (enabled && !hidden) graph?.update(next);
@@ -345,8 +383,8 @@ export function createSoundscape({ createContext = () => new AudioContext(), onC
     event(kind) {
       if (enabled && !hidden) graph?.event(kind);
     },
-    birth() {
-      if (enabled && !hidden) graph?.birth();
+    birth(position) {
+      if (enabled && !hidden) graph?.birth(position);
     },
     async setHidden(value) {
       hidden = !!value;

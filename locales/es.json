@@ -608,7 +608,7 @@
   },
   "sound": {
     "title": "Sonido del universo",
-    "hint": "Una atmósfera cinematográfica original acompaña la profundidad de tu viaje. El sonido comienza solo cuando lo activas.",
+    "hint": "Una atmósfera cinematográfica original acompaña tu viaje. Con auriculares, escucha las estrellas y los eventos a tu alrededor. Activa el sonido para empezar.",
     "volume": "Volumen",
     "on": "Sonido activo",
     "off": "Sin sonido",
@@ -617,6 +617,9 @@
     "playing": "La atmósfera acompaña tu escena",
     "quiet": "En silencio · pulsa ∿ para activar",
     "paused": "Atmósfera en pausa",
-    "unsupported": "El audio no está disponible en este navegador."
+    "unsupported": "El audio no está disponible en este navegador.",
+    "output": "Modo de escucha",
+    "headphones": "Auriculares · espacial",
+    "speakers": "Altavoces · estéreo"
   }
 }

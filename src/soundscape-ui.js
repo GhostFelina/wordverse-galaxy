@@ -30,9 +30,20 @@ export function mountSoundscape({ locale, container }) {
   slider.step = '1';
   slider.value = '32';
   const status = document.createElement('span');
+  const outputLabel = document.createElement('label');
+  outputLabel.htmlFor = 'soundscape-output';
+  outputLabel.textContent = t('output');
+  const output = document.createElement('select');
+  output.id = 'soundscape-output';
+  for (const mode of ['headphones', 'speakers']) {
+    const option = document.createElement('option');
+    option.value = mode;
+    option.textContent = t(mode);
+    output.append(option);
+  }
   status.className = 'soundscape-state';
   status.setAttribute('role', 'status');
-  section.append(heading, description, label, slider, status);
+  section.append(heading, description, outputLabel, output, label, slider, status);
   container.insertBefore(section, container.querySelector(':scope > h3'));
   const supported = typeof window.AudioContext === 'function';
   const sound = createSoundscape({ onChange: update });
@@ -43,6 +54,7 @@ export function mountSoundscape({ locale, container }) {
     toggle.setAttribute('aria-label', t(state.enabled ? 'disable' : 'enable'));
     toggle.dataset.audioState = state.state;
     slider.setAttribute('aria-valuetext', `${Math.round(state.volume * 100)}%`);
+    output.value = state.spatial ? 'headphones' : 'speakers';
     status.textContent = t(!supported ? 'unsupported' : playing ? 'playing' : state.enabled ? 'paused' : 'quiet');
   }
   toggle.disabled = !supported;
@@ -51,6 +63,7 @@ export function mountSoundscape({ locale, container }) {
     void sound.toggle();
   });
   slider.addEventListener('input', () => sound.setVolume(Number(slider.value) / 100));
+  output.addEventListener('change', () => sound.setSpatial(output.value === 'headphones'));
   const visibility = () => {
     void sound.setHidden(document.hidden);
   };

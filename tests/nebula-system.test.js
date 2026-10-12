@@ -21,7 +21,7 @@ it('ships only Orion with verified optical/infrared assets and observed catalogu
   expect(fields[0].trapezium).toHaveLength(4);
   expect(fields[0].stars.every((star) => typeof star.sourceId === 'string')).toBe(true);
 });
-it('widens the principal gas section to 85 percent and extends the flight behind its entrance', () => {
+it('widens the principal gas section to 102 percent and extends the flight behind its entrance', () => {
   for (const aspect of [1440 / 900, 768 / 900, 390 / 900]) {
     const [record] = layoutNebulae(images, 8042026, aspect);
     const camera = new PerspectiveCamera(50, aspect, 0.1, 100000);
@@ -29,7 +29,7 @@ it('widens the principal gas section to 85 percent and extends the flight behind
     camera.updateMatrixWorld();
     const right = new Vector3(record.position[0] + record.radius, 0, record.principalZ).project(camera);
     const left = new Vector3(record.position[0] - record.radius, 0, record.principalZ).project(camera);
-    expect((right.x - left.x) / 2).toBeCloseTo(0.85, 5);
+    expect((right.x - left.x) / 2).toBeCloseTo(1.02, 5);
     expect((right.x + left.x) / 2).toBeCloseTo(0.3, 5);
     expect(record.frontZ).toBeLessThan(camera.position.z);
     expect(record.travelLength).toBeGreaterThan(record.radius * 1.15 * 2 * 2.2);

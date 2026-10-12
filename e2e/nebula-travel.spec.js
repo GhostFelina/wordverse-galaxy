@@ -16,7 +16,7 @@ for (const width of [1440, 768, 390]) {
     await expect(canvas).toHaveAttribute('data-nebulae', '1');
     await expect(canvas).toHaveAttribute('data-nebula-field-sources', '0');
     await expect(canvas).toHaveAttribute('data-nebula-bright-stars', '0');
-    await expect(canvas).toHaveAttribute('data-nebula-width', '0.85');
+    await expect(canvas).toHaveAttribute('data-nebula-width', '1.02');
     const raw = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
     await page.locator('#open-nebulae').click();
     await expect(page.locator('.nebula-card')).toHaveCount(1);

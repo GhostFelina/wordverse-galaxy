@@ -1,6 +1,6 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.19.0; production1.14.1 remains unchanged.
+Active branch: phase/4-universe. Development1.20.0; production1.14.1 remains unchanged.
 
 ## Current implementation
 
@@ -18,12 +18,18 @@ Original gesture-enabled stereo atmosphere and durable word-birth cues retain vo
 
 Gallery captures are synthetic, isolated and use production modules. No user records or private screenshots were exported.
 
+## Orion and spatial audio checkpoint
+
+The complete1.20 local gate passes141 unit/115 browser tests (7.2m), lint/types/build/format/release/audit and24 Go assertions. Orion contains a reversible active-galaxy star frame, wider/deeper seven-lobe gas, an unobstructed direct entry and visible immersive event launcher. Native48kHz offline audio verifies original stereo energy and directional HRTF cues with bounded output; physical listening acceptance is open. The synthetic frame report measures RAF pacing, not GPU execution time.
+
+Remote1.19 had112/113 browser passes; one precise camera convergence predicate exceeded its5s wait on software WebGL. Keep the accuracy requirement, allow the hosted GPU time to converge in the next test update.
+
 ## Next
 
-1. Add a temporary, deterministic Orion presentation frame for all active-galaxy word stars. Preserve stored coordinates and relative layout; keep selection/approach/return coherent.
-2. Extend cloud width/depth and improve interior turbulent gas, with bounded rendering cost and telescope attribution.
-3. Add original spatial cues, richer reverberation and clean cinematic headroom. No Dolby/IMAX certification claims.
-4. Verify the combined flow, fresh remote CI and preview provenance. Refresh default-main presentation with documentation-only changes.
+1. Add an ephemeral shuffled sky director, restrained idle intervals, smooth event envelopes and manual-selection priority; reduced motion stays representative and hidden tabs pause the clock.
+2. Add distinct original edit/delete cues only after durable storage and current identity checks. Preserve creation cue semantics and failed/retried-operation silence.
+3. Review interior gas for radial streaks and refine finite cavities while retaining navigation/data invariants.
+4. Verify combined flows and fresh remote CI/preview provenance. Publish the refreshed default-main gallery with documentation-only changes.
 
 ## Publication and boundaries
 

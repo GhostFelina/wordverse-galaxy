@@ -90,6 +90,13 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
   }
   await page.locator('.sky-event-status button').click();
   await expect(canvas).toHaveAttribute('data-sky-event', '');
+  await page.locator('#scene-controls summary').click();
+  await page.locator('#universe-mode').click();
+  await expect(page.locator('#sky-launcher summary')).toBeVisible();
+  await page.locator('#sky-launcher summary').click();
+  await page.locator('[data-sky-quick="kilonova"]').click();
+  await expect(canvas).toHaveAttribute('data-sky-event', 'kilonova');
+  await expect(page.locator('#sky-launcher')).not.toHaveAttribute('open', '');
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
   expect(errors).toEqual([]);
 });
@@ -244,4 +251,63 @@ test('a stalled initial auth refresh opens guest learning and a late expired-ses
   } finally {
     release();
   }
+});
+
+test('Orion presents every active-galaxy word inside the cloud, focuses it there and restores stored coordinates', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const createdAt = '2026-10-12T09:00:00Z';
+    localStorage.setItem(
+      'wordverse.universe.v4',
+      JSON.stringify({
+        version: 4,
+        activeGalaxyId: 'field-g',
+        events: [],
+        galaxies: [{ id: 'field-g', name: 'Orion field', language: 'English', createdAt }],
+        words: Array.from({ length: 12 }, (_, i) => ({
+          id: 'field-' + i,
+          galaxyId: 'field-g',
+          kind: 'word',
+          word: 'Stellar ' + i,
+          meaning: 'Synthetic',
+          createdAt,
+          x: ((i % 4) - 1.5) * 220,
+          y: (Math.floor(i / 4) - 1) * 130,
+          z: i * -200,
+        })),
+      }),
+    );
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/?lang=en');
+  const canvas = page.locator('#universe');
+  await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('#enter-nebula').click();
+  await expect(canvas).toHaveAttribute('data-orion-word-field', 'true');
+  await expect(canvas).toHaveAttribute('data-orion-word-count', '12');
+  await expect.poll(() => page.locator('.star-hit:visible').count()).toBe(12);
+  await page.locator('[data-word-id="field-5"]').click();
+  await page.locator('#focus-star').click();
+  await expect(canvas).toHaveAttribute('data-focused-word', 'field-5');
+  await expect(canvas).toHaveAttribute('data-nebula-flight', 'true');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(-500);
+  await expect
+    .poll(async () =>
+      Math.abs(
+        Number(await canvas.getAttribute('data-camera-target-z')) - Number(await canvas.getAttribute('data-camera-z')),
+      ),
+    )
+    .toBeLessThan(0.05);
+  await page.mouse.move(720, 450);
+  await page.mouse.wheel(0, -180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-star-approach'))).toBeGreaterThan(0.65);
+  await page.locator('#nebula-depth').fill('35');
+  await expect(canvas).toHaveAttribute('data-focused-word', '');
+  await page.locator('#nebula-navigation button').click();
+  await expect(canvas).toHaveAttribute('data-orion-word-field', 'false');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(159);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
 });

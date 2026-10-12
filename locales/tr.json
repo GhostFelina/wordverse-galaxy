@@ -608,7 +608,7 @@
   },
   "sound": {
     "title": "Evrenin sesi",
-    "hint": "Özgün sinematik atmosfer, yolculuğun derinliğiyle değişir. Ses yalnızca sen açınca başlar.",
+    "hint": "Özgün sinema atmosferi yolculuğun derinliğine eşlik eder. Kulaklıkta yıldız ve gök olayı seslerini çevrende duy. Sesi açarak başlat.",
     "volume": "Ses düzeyi",
     "on": "Ses açık",
     "off": "Ses kapalı",
@@ -617,6 +617,9 @@
     "playing": "Sahneye eşlik eden atmosfer",
     "quiet": "Sessiz · açmak için ∿ düğmesi",
     "paused": "Atmosfer duraklatıldı",
-    "unsupported": "Bu tarayıcıda ses desteklenmiyor."
+    "unsupported": "Bu tarayıcıda ses desteklenmiyor.",
+    "output": "Dinleme biçimi",
+    "headphones": "Kulaklık · mekânsal",
+    "speakers": "Hoparlör · stereo"
   }
 }

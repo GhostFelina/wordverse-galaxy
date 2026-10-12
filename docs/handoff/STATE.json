@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.19.0",
-  "activeWork": "Orion exploration field, extended gas volume and original spatial audio",
+  "developmentVersion": "1.20.0",
+  "activeWork": "Living randomized sky direction and durable word edit/delete audio",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -38,8 +38,8 @@
       "status": "success",
       "version": "1.18.0"
     },
-    "localUnitTests": 136,
-    "suiteBrowserTests": 111,
+    "localUnitTests": 141,
+    "suiteBrowserTests": 115,
     "userVisualAcceptance": "pending",
     "preview": {
       "url": "https://wordverse-galaxy-93syi6ek5-mustafas-projects-92e683a9.vercel.app",
@@ -105,11 +105,26 @@
       "timeline": "Continuous compressed creation-date spectrum; minute modulation; no physical lifetime prediction",
       "events": "Explicit 22-second neutron-star merger, reduced-motion still and original chirp",
       "navigation": "Direct Orion entry available during immersive stellar focus; wheel reversal and return preserve records",
-      "fullBrowserGate": "Last complete gate: 1.18.0, 111 tests"
+      "fullBrowserGate": "Last complete gate: 1.18.0, 111 tests",
+      "remote": {
+        "run": 38254972082,
+        "commit": "4eaa37608b66e59608021dbad45bdeb983041ee1",
+        "status": "failure:112/113 browser, software-GPU convergence exceeded5s; precise assertion preserved and wait adjustment follows"
+      }
+    },
+    "orionSpatial": {
+      "version": "1.20.0",
+      "status": "Complete local check141unit/115browser7.2m; lint/types/build/format/release/audit/24Go pass",
+      "stars": "All active-galaxy words in reversible Orion presentation; stored coordinates unchanged",
+      "gas": "Width1.02/depth3.6, finite seven lobes, three-scale periodic noise, stride-filtered microstructure, up to64 high-quality settled samples",
+      "audio": "Original HRTF birth/event cues, stereo speakers,4.8s filtered reverb/predelay, bounded output",
+      "navigation": "Visible immersive sky launcher; direct entry opens unobstructed scene",
+      "evidence": "docs/handoff/evidence/2026-10-12-orion-quality-manifest.json",
+      "remote": "pending"
     }
   },
   "checkpoint": {
-    "version": "1.18.0",
+    "version": "1.20.0",
     "applicationCommit": "d59256073d60588551fde315bd3e90fc7cf73f11",
     "deploymentTarget": "preview",
     "date": "2026-10-12"

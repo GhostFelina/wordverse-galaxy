@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.0] — Development · 2026-10-12
+
+- Every active-galaxy word star participates in a reversible Orion exploration frame; selection, close approach, wheel reversal and return remain coherent without changing stored coordinates.
+- Wider and longer gas volume, additional overlapping lobes and stride-filtered interior microstructure. High quality uses up to64 settled interior samples.
+- A visible sky-experience launcher also works in immersive mode. Direct Orion entry opens the unobstructed scene.
+- Original spatial headphone birth/event cues, stereo speaker mode, longer filtered reverberation with predelay and bounded output headroom. No external recordings or certification claims.
+- Synthetic interior galleries and native offline spatial-audio/hardware evidence.
+
 ## [1.19.0] — Development · 2026-10-12
 
 - Continuous creation-date stellar colors, accelerated visual stages and subtle minute tone changes across scene, detail and cards.

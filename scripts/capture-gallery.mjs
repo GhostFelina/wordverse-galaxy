@@ -84,6 +84,39 @@ try {
   await page.evaluate(() => document.fonts.ready);
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
   await page.screenshot({ path: 'docs/images/wordverse-desktop.png' });
+  await page.locator('#enter-nebula').click();
+  await expect(page.locator('#universe')).toHaveAttribute('data-orion-word-count', '6');
+  await expect.poll(() => page.locator('.star-hit:visible').count()).toBe(6);
+  await expect
+    .poll(async () =>
+      Math.abs(
+        Number(await page.locator('#universe').getAttribute('data-camera-z')) -
+          Number(await page.locator('#universe').getAttribute('data-camera-target-z')),
+      ),
+    )
+    .toBeLessThan(0.2);
+  await page.screenshot({ path: 'docs/images/wordverse-orion-entry.png' });
+  for (const [depth, name] of [
+    ['28', 'passage'],
+    ['50', 'interior'],
+  ]) {
+    await page.locator('#nebula-depth').fill(depth);
+    await expect
+      .poll(async () =>
+        Math.abs(
+          Number(await page.locator('#universe').getAttribute('data-camera-z')) -
+            Number(await page.locator('#universe').getAttribute('data-camera-target-z')),
+        ),
+      )
+      .toBeLessThan(0.2);
+    await expect(page.locator('#universe')).toHaveAttribute('data-nebula-refined', 'true');
+    await page.screenshot({ path: 'docs/images/wordverse-orion-' + name + '.png' });
+  }
+  await page.locator('#nebula-navigation button').click();
+  await expect
+    .poll(async () => Number(await page.locator('#universe').getAttribute('data-camera-z')))
+    .toBeGreaterThan(159.8);
+  await page.locator('#universe-mode').click();
   await page.locator('#scene-controls summary').click();
   for (const kind of ['blackhole', 'supernova', 'meteor', 'kilonova']) {
     await page.locator(`[data-sky-event="${kind}"]`).click();
@@ -150,7 +183,7 @@ try {
     JSON.stringify(
       {
         date: '2026-10-12',
-        version: '1.19.0',
+        version: '1.20.0',
         viewport: '1440x900',
         records: 'Synthetic gallery only, isolated ephemeral localhost and fresh browser; no user storage accessed',
         renderer: 'Production modules, Chromium, reduced motion',

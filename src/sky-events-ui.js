@@ -35,12 +35,46 @@ export function mountSkyEventsUI({ locale, container, onSelect, reducedMotion })
   close.addEventListener('click', () => onSelect(null));
   status.append(text, close);
   document.querySelector('#app').append(status);
+  const launcher = document.createElement('details');
+  launcher.className = 'sky-launcher';
+  launcher.id = 'sky-launcher';
+  const summary = document.createElement('summary');
+  summary.textContent = '✦ ' + t('title');
+  const quickList = document.createElement('div');
+  quickList.className = 'sky-event-options sky-quick-options';
+  const quickButtons = new Map();
+  for (const kind of ['blackhole', 'kilonova', 'supernova', 'meteor', 'none']) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.dataset.skyQuick = kind;
+    button.textContent = t(kind);
+    button.setAttribute('aria-pressed', String(kind === 'none'));
+    button.addEventListener('click', () => {
+      onSelect(kind === 'none' ? null : kind);
+      launcher.open = false;
+    });
+    quickList.append(button);
+    quickButtons.set(kind, button);
+  }
+  launcher.append(summary, quickList);
+  document.querySelector('#app').append(launcher);
+  launcher.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.stopPropagation();
+      launcher.open = false;
+      summary.focus();
+    }
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (!launcher.contains(event.target)) launcher.open = false;
+  });
   let previous;
   return {
     update({ kind }) {
       if (previous === kind) return;
       previous = kind;
       for (const [id, button] of buttons) button.setAttribute('aria-pressed', String((kind || 'none') === id));
+      for (const [id, button] of quickButtons) button.setAttribute('aria-pressed', String((kind || 'none') === id));
       status.hidden = !kind;
       text.textContent = kind ? `${t(kind)} · ${t('artistic')}` : '';
     },

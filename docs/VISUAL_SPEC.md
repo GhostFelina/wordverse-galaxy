@@ -13,10 +13,13 @@ A calm, cinematic learning atlas: near-black space, an observationally inspired 
 - Selected-target near boundary is radius×1.35 with floating-point safety. Plain wheel never implicitly starts nebula flight.
 - Optional events start quiet: no autonomous meteor bursts, flash trains or word-star explosions. The black-hole disk is illustrative, not a gravitational camera/record displacement.
 - The black-hole accent has a small apparent size, a distant camera-relative anchor and bounded zoom scale. Personal star optics/surfaces render in front. Turbulent disk emission and bent arcs are an artistic projection, not a relativistic ray tracer.
-- Stellar near views use hot multi-scale granulation and a continuous perspective corona. Interior gas uses compact world-space lobes, an open cavity and up to48 settled ray steps; telescope guidance remains native1254.
-- Scene audio is original procedural synthesis, enabled only by a gesture. Slow stereo voicings, filtered noise, reverberation and bounded gains follow depth/focus; mute, hidden tabs and event cancellation stop transient cues.
+- Stellar near views use hot multi-scale granulation and a continuous perspective corona. Interior gas uses compact world-space lobes, an open cavity and 48 automatic/64 high-quality settled interior ray steps; telescope guidance remains native1254.
+- Scene audio is original procedural synthesis, enabled only by a gesture. Slow stereo voicings, HRTF birth/event cues, filtered noise, depth-dependent reverberation and bounded gains follow depth/focus; mute, hidden tabs and event cancellation stop transient cues.
 - Gas raymarch quality and buffer resolution adapt independently from crisp stars/UI. Motion and settled buffers are retained. Shader and composite preparation precede the visible scene.
 - UI overlays remain readable at1024/1280/1440 desktop widths. Panels isolate their scrolling from the camera. Native focus, keyboard canvas controls, reduced motion and context-loss recovery remain functional.
+
+- Orion width is1.02 of the guidance frame and its artistic depth scale is3.6. The entrance stays outside the overview even on ultrawide screens. A periodic three-scale density field and stride-filtered microstructure retain layered interior gas without radial aliasing.
+- All active-galaxy words use a deterministic reversible interior frame during explicit entry, with the same optics, hit targets and selected-body approach. Stored geometry is unchanged.
 
 ## Review
 

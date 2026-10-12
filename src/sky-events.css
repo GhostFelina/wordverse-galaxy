@@ -20,6 +20,53 @@
 .sky-event-options [data-sky-event='kilonova'] {
   grid-column: 1 / -1;
 }
+.sky-launcher {
+  position: fixed;
+  top: 290px;
+  right: clamp(24px, 4.6vw, 76px);
+  z-index: 12;
+  color: #c7d8f1;
+  font:
+    11px/1.5 'Space Grotesk',
+    sans-serif;
+}
+.sky-launcher summary {
+  list-style: none;
+  padding: 9px 12px;
+  border: 1px solid #a9c1ef45;
+  border-radius: 20px;
+  background: #080c16df;
+  cursor: pointer;
+}
+.sky-launcher summary::-webkit-details-marker {
+  display: none;
+}
+.sky-quick-options {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 260px;
+  padding: 16px;
+  border: 1px solid #a9c1ef40;
+  border-radius: 12px;
+  background: #080c16f5;
+  box-shadow: 0 16px 50px #0009;
+}
+.sky-quick-options button {
+  min-height: 44px;
+}
+.sky-quick-options [data-sky-quick='kilonova'] {
+  grid-column: 1 / -1;
+}
+.sky-launcher :focus-visible {
+  outline: 2px solid #b4caff;
+  outline-offset: 3px;
+}
+#app:has(.side-panel.open) .sky-launcher,
+#app:has(dialog[open]) .sky-launcher,
+#app[data-graphics='unavailable'] .sky-launcher {
+  display: none;
+}
 .nebula-wheel-hint {
   grid-column: 1 / -1;
   color: #94a9c8;
@@ -136,6 +183,7 @@
     display: none;
   }
   .sky-event-options,
+  .sky-launcher,
   .sky-event-status,
   .nebula-navigation {
     display: none;

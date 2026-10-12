@@ -608,7 +608,7 @@
   },
   "sound": {
     "title": "Sound of the universe",
-    "hint": "An original cinematic atmosphere follows the depth of your journey. Sound starts only when you turn it on.",
+    "hint": "An original cinematic atmosphere follows your journey. Hear stellar and sky-event cues around you with headphones. Turn sound on to begin.",
     "volume": "Volume",
     "on": "Sound on",
     "off": "Sound off",
@@ -617,6 +617,9 @@
     "playing": "Atmosphere follows your scene",
     "quiet": "Quiet · use the ∿ button to enable",
     "paused": "Atmosphere paused",
-    "unsupported": "Audio is unavailable in this browser."
+    "unsupported": "Audio is unavailable in this browser.",
+    "output": "Listening mode",
+    "headphones": "Headphones · spatial",
+    "speakers": "Speakers · stereo"
   }
 }

@@ -23,7 +23,8 @@ function createDensityTexture() {
           pz = sine[z] + cosine[x];
         const a = noise.noise(px * 0.73 + 19.4, py * 0.73 + 7.1, pz * 0.73 + 31.8);
         const b = noise.noise(px * 2.04 + 8.7, py * 2.04 + 42.6, pz * 2.04 + 3.2);
-        data[index++] = Math.round(THREE.MathUtils.clamp(0.5 + a * 0.65 + b * 0.23, 0, 1) * 255);
+        const c = noise.noise(px * 4.17 + 27.3, py * 4.17 + 13.8, pz * 4.17 + 5.6);
+        data[index++] = Math.round(THREE.MathUtils.clamp(0.5 + a * 0.65 + b * 0.23 + c * 0.08, 0, 1) * 255);
       }
   const texture = new THREE.Data3DTexture(data, size, size, size);
   texture.format = THREE.RedFormat;
@@ -66,7 +67,7 @@ void main(){
  observed=mix(observed,diffuse,stellarPeak*stellarSuppression);
  vec3 macroColor=mix(textureLod(image,uv,opticalLod+8.).rgb,textureLod(infrared,uv,infraredLod+7.).rgb,.16);
  vec4 sum=vec4(0.);
- for(int i=0;i<48;i++){
+ for(int i=0;i<64;i++){
   if(i>=steps)break;
   vec3 p=eye+ray*(start+(float(i)+jitter)*stride);
   float n=cloud(p*1.6+vec3(time*.0006,.008*sin(time*.035),time*.00025));
@@ -80,7 +81,9 @@ void main(){
   vec3 curl=vec3(n-.5,fine-.5,n-fine)*.16;
   // Resolve these wisps at the actual march stride. Extremely high axial
   // frequencies produced spoke-like streaks when flying through the volume.
-  float micro=cloud((p+curl)*vec3(3.3,4.2,3.8)+vec3(2.8,11.3,6.1));
+  vec3 frequency=vec3(6.4,8.1,12.8);
+  float detail=1.-smoothstep(.065,.17,stride*length(ray*frequency)*.36);
+  float micro=mix(fine,cloud((p+curl)*frequency+vec3(2.8,11.3,6.1)),detail);
   float diffuseFilament=smoothstep(.27,.72,fine*.45+micro*.55);
   float filament=diffuseFilament;
   float branches=smoothstep(.24,.64,n*.45+fine*.55);
@@ -88,13 +91,15 @@ void main(){
   vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*.16;
   // Finite three-dimensional lobes replace the infinitely extruded thin wall.
   // Their overlap is eroded by the shared turbulent field, never a flat skirt.
-  // Account for the 2.6x depth transform: compact Z extents keep individual
+  // Account for the elongated depth transform: compact Z extents keep individual
   // clouds round in world space, instead of long tubes pointing at the eye.
   float wall=(plume(flow,vec3(-.34,-.24,.25),vec3(.42,.32,.24))*.9
              +plume(flow,vec3(.38,-.04,-.22),vec3(.38,.48,.28))*1.05
              +plume(flow,vec3(.02,.22,.5),vec3(.47,.34,.2))*.65
              +plume(flow,vec3(-.22,.17,-.62),vec3(.52,.33,.23))*.8
-             +plume(flow,vec3(.28,-.3,-.6),vec3(.3,.38,.22))*.65)*branches;
+             +plume(flow,vec3(.28,-.3,-.6),vec3(.3,.38,.18))*.65
+             +plume(flow,vec3(-.46,-.04,-.37),vec3(.29,.5,.16))*.5
+             +plume(flow,vec3(.36,.34,.62),vec3(.4,.28,.15))*.55)*branches;
   // Keep telescope detail aligned in XY; projecting a photo onto XZ produced
   // stretched radial streaks along the long flight walls.
   // The deep medium uses diffuse colour, avoiding extrusion of photographed
@@ -102,9 +107,10 @@ void main(){
   float warm=smoothstep(-.8,.8,p.x+.45*p.z+(.5-n)*.4);
   float immersion=1.-smoothstep(.85,1.65,eye.z);
   float blueLight=plume(p,vec3(-.18,.34,.12),vec3(.6,.6,.9));
-  vec3 palette=mix(vec3(.045,.09,.36),vec3(.56,.09,.015),warm);
+  vec3 palette=mix(vec3(.028,.08,.29),vec3(.46,.075,.012),warm);
   palette=mix(palette,vec3(.045,.2,.52),blueLight*.65);
-  vec3 gasColor=mix(macroColor,palette,.38+immersion*.55);
+  vec3 gasColor=mix(macroColor,palette,.38+immersion*.5);
+  gasColor*=mix(.65,1.25,smoothstep(.22,.8,micro));
   float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
   float cavity=1.-.86*plume(p,vec3(0.,.04,0.),vec3(.32,.34,.85));
   gas*=wall*(.14+1.8*n*n)*(.12+1.6*filament)*(1.+immersion*1.8)*cavity;
@@ -123,7 +129,7 @@ void main(){
   float extinction=gas*(2.5+dust*3.4);
   float opacity=1.-exp(-extinction*stride);
   vec3 tint=mix(gasColor,gasColor*vec3(1.1,.89,.8),(1.-smoothstep(-.7,.4,p.z))*.2);
-  float scatter=clamp(.85+(cloud(p*1.6+vec3(0.,.12,.04))-n)*2.5,.55,1.15);
+  float scatter=clamp(.85+(cloud(p*1.6+vec3(0.,.12,.04))-n)*2.5+(micro-.5)*.45,.45,1.2);
   vec3 light=tint*(3.1+immersion*(1.2+blueLight*2.2)+wall*.3)*scatter*(1.-dust*.78);
   sum.rgb+=(1.-sum.a)*light*opacity;
   sum.a+=(1.-sum.a)*opacity;
@@ -209,7 +215,7 @@ export function createNebulaSystem(
         steps: { value: 48 },
         opticalLod: { value: 0 },
         infraredLod: { value: 0 },
-        principalZ: { value: ORION_PRINCIPAL_Z },
+        principalZ: { value: record.principalLocalZ ?? ORION_PRINCIPAL_Z },
         stellarSuppression: { value: fieldStars ? 1 : 0 },
       },
       vertexShader: vertex,
@@ -325,7 +331,13 @@ export function createNebulaSystem(
         if (qualityMode === 'low') node.material.uniforms.steps.value = 16;
         else if (resting)
           node.material.uniforms.steps.value =
-            qualityMode === 'balanced' ? 24 : Math.abs(node.material.uniforms.eye.value.z) < 1 ? 48 : 32;
+            qualityMode === 'balanced'
+              ? 24
+              : Math.abs(node.material.uniforms.eye.value.z) < 1
+                ? qualityMode === 'high'
+                  ? 64
+                  : 48
+                : 32;
         else if (gasScale < 0.4) node.material.uniforms.steps.value = 16;
       }
       renderer.getSize(size);
