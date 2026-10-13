@@ -9,7 +9,8 @@
 - [x] Explicit device/full/reduced motion preference and clear desktop controls.
 - [x] Complete1.22.1 local/remote checks, exact-source preview provenance and doc-only main publication.
 - [x] Original constellation brand and cohesive TR/EN/ES desktop home, first-visit states, menus and scene toolbar.
-- [ ] Complete1.23.0 final gates, exact-source preview and documentation publication.
+- [x] Complete1.23.0 final gates, exact-source preview and documentation publication.
+- [x] Requested1.23.0 production release, public alias, HTTP/SHA256 and native Chrome verification.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
 Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.

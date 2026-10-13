@@ -1,6 +1,14 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.23.0; production1.14.1 remains unchanged.
+Active branch: phase/4-universe. Development and production1.23.0.
+
+## Verified1.23.0 production delivery
+
+Runtime **cd97c62** passed [exact-source CI](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376):147 unit/117 browser tests, lint/types/build/format/release, zero audit vulnerabilities and24 Go assertions. The user requested the latest work be deployed on2026-10-13. A clean detached worktree was built with production environment variables, staged, verified and promoted to [the public application](https://wordverse-galaxy.vercel.app).
+
+Production **dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc** is READY; the public alias resolves to that deployment. Ten public HTML/JS/CSS/social requests return HTTP200 and SHA256 matches the verified local build. Native Chrome loads the candidate scene without captured console errors and opens the public alias with the redesigned shell. Bounded deployment error logs returned no entries; this is not an account or broad hardware acceptance certificate. [Delivery evidence](evidence/2026-10-13-production-1.23.0.json). Previous production **dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F** remains the rollback reference.
+
+[Documentation publication12](https://github.com/GhostFelina/wordverse-galaxy/pull/12) merged before this release. Main application code is still older; do not deploy main over this production release. Further development defaults to previews.
 
 ## Current desktop shell
 
@@ -8,7 +16,7 @@ Active branch: phase/4-universe. Development1.23.0; production1.14.1 remains unc
 
 The compact existing layout retains access. Immersion hides the welcome layer; the compact status badge is separated from scene controls. UI wheel targets are isolated from camera gestures. Renderer, audio, records, coordinates, dates and ownership are unchanged. Dedicated mobile design and account rollout remain deferred.
 
-47 focused browser checks pass. Ten isolated native Chrome states cover three desktop sizes/locales, first visit, empty home and stable menus/forms; records remain unchanged. [Capture provenance](../images/home-design/PROVENANCE.json). Full final release checks are running. Format, release, zero-vulnerability audit and24 Go assertions pass. The1.22.1 delivery below is the verified scene baseline, not a1.23 cloud certificate.
+47 focused browser checks pass. Ten isolated native Chrome states cover three desktop sizes/locales, first visit, empty home and stable menus/forms; records remain unchanged. [Capture provenance](../images/home-design/PROVENANCE.json). Complete final release checks and exact-source production verification passed as recorded above. The1.22.1 delivery below remains historical scene evidence.
 
 ## Scene baseline implementation
 
@@ -30,10 +38,10 @@ Runtime **b06b9d0** is committed/pushed. Complete local147 unit/117 browser test
 
 ## Next acceptance
 
-0. Complete the1.23.0 release checks and exact-source development preview, publish documentation only, then review the redesigned home, first-visit flow and menus with the user. Do not restart the completed visual rendering phases.
+0. Review the deployed1.23.0 redesigned home, first-visit flow and menus with the user. Release checks, preview, documentation publication and requested production deployment are complete. Do not restart the completed visual rendering phases.
 1. Review distant core scintillation, gas passage and the small red disk in the actual user browser. Source/display checks are complete; user visual acceptance remains open.
 2. Extend isolated hardware/large-archive review and physical headphone/speaker listening. No universal GPU, calibrated astronomy or Dolby/IMAX certification claim.
-3. Separate GitHub social-preview settings upload remains unverified; the branded PNG is ready. Keep production dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F/source702461b preserved until an application release is requested.
+3. Separate GitHub social-preview settings upload remains unverified; the branded PNG is ready. Preserve production dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc/sourcecd97c62 and retain the prior production deployment as rollback reference.
 
 ## Boundaries
 

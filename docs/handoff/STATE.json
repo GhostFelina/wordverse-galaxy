@@ -14,7 +14,7 @@
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
   "developmentVersion": "1.23.0",
-  "activeWork": "Implemented desktop constellation brand and home shell; final release checks, preview provenance and documentation publication",
+  "activeWork": "Production1.23.0 delivered and verified; redesigned home and scene user acceptance remain open",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -31,49 +31,28 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+    "lastVerifiedCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
     "lastRemoteCI": {
-      "run": 38284875605,
-      "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+      "run": 38292465376,
       "status": "success",
-      "version": "1.22.1",
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38284875605",
       "unitTests": 147,
-      "browserTests": 117
+      "browserTests": 117,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376",
+      "commit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+      "version": "1.23.0"
     },
     "localUnitTests": 147,
     "suiteBrowserTests": 117,
     "userVisualAcceptance": "pending",
     "preview": {
-      "version": "1.22.1",
-      "url": "https://wordverse-galaxy-521vy0zo4-mustafas-projects-92e683a9.vercel.app",
-      "deployment": "dpl_AvziWAJJZpCM5A1L3YRmRp6g9nhP",
+      "version": "1.23.0",
+      "url": "https://wordverse-galaxy-fyqg0fqrh-mustafas-projects-92e683a9.vercel.app",
+      "deployment": "dpl_65Xuywzto3VwMU2m9c14AKZanS8s",
       "target": "preview",
-      "apiTarget": "staging",
       "status": "READY",
-      "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
-      "sourceCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
-      "httpStatus": 200,
-      "assetsMatchLocal": true,
-      "assets": {
-        "js": {
-          "file": "/assets/main-CiVAxTky.js",
-          "sha256": "b5dda54b7bbd32c8a32e0ac68b4faaf3e9402da6dffc89317a89f54137f1866c",
-          "match": true
-        },
-        "css": {
-          "file": "/assets/main-DoEKwGGG.css",
-          "sha256": "1048ee8ae7dff5276485739a9cf2cc7d6a0b8f9e748c4a40e4f800feb42a5e51",
-          "match": true
-        },
-        "social": {
-          "file": "/assets/wordverse-social.png",
-          "sha256": "20347c192554a49b738bbe11caf8e382abea32bd8983926706dba885017d0752",
-          "match": true
-        }
-      },
+      "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
       "interactiveAcceptance": false,
-      "runtime": "Authenticated HTML/JS/CSS/social HTTP200; asset SHA256 matches verified local build. Interactive cloud/account acceptance not claimed."
+      "runtime": "Exact-source Vercel preview metadata verified; production asset and browser evidence recorded separately."
     },
     "zoomStartup": {
       "version": "1.16.1",
@@ -201,27 +180,32 @@
     }
   },
   "checkpoint": {
-    "version": "1.22.1",
-    "applicationCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
-    "deploymentTarget": "preview",
-    "date": "2026-10-12"
+    "version": "1.23.0",
+    "applicationCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "deploymentTarget": "production",
+    "date": "2026-10-13"
   },
   "production": {
-    "version": "1.14.1",
+    "version": "1.23.0",
     "url": "https://wordverse-galaxy.vercel.app",
-    "deployment": "https://wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app",
+    "deployment": "https://wordverse-galaxy-3x4wsox8g-mustafas-projects-92e683a9.vercel.app",
+    "deploymentId": "dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc",
     "target": "production",
     "status": "READY",
-    "sourceCommit": "702461b054985a19ed49c3524fe67028c65049ed",
-    "buildDurationSeconds": 13.6,
+    "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "buildDurationSeconds": 27.618,
     "httpStatus": 200,
-    "date": "2026-10-04",
-    "rollbackDeployment": "wordverse-galaxy-4fd3ef67w-mustafas-projects-92e683a9.vercel.app",
-    "deploymentId": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
+    "assetsMatchLocal": true,
+    "date": "2026-10-13",
+    "verifiedAt": "2026-10-13T05:18:02.451Z",
+    "rollbackDeployment": "wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app",
+    "rollbackDeploymentId": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F",
+    "evidence": "docs/handoff/evidence/2026-10-13-production-1.23.0.json",
+    "runtime": "Public alias resolves to READY production; ten unauthenticated HTTP200 responses and SHA256 match verified local build. Native Chrome candidate scene/public shell verified; error query returned no entries."
   },
   "homeDesign": {
     "version": "1.23.0",
-    "status": "implemented-final-checks-running",
+    "status": "released-production-verified",
     "scope": "Desktop first-visit, empty and populated home; constellation W, local fonts, ivory/copper actions, grouped navigation and scene toolbar, upward menus, Orion entry, learning forms",
     "locales": [
       "tr",
@@ -231,9 +215,22 @@
     "focusedBrowserTests": 47,
     "evidence": "docs/images/home-design/PROVENANCE.json",
     "capture": "10 isolated native Chrome synthetic states; stable panels, menu bounds, keyboard return and unchanged records",
-    "local": "Full required npm run check is running; format, release, zero-vulnerability audit and24 Go checks passed",
-    "sourceCommit": null,
-    "remoteCI": null,
-    "next": "Finish exact-source checks and preview, publish documentation only, then obtain user visual acceptance. Preserve production1.14.1."
+    "local": "Local build/release pass; exact-source remote full gate147unit/117browser, lint/types/format/audit/24Go pass",
+    "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "remoteCI": {
+      "run": 38292465376,
+      "status": "success",
+      "unitTests": 147,
+      "browserTests": 117,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376",
+      "commit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+      "version": "1.23.0"
+    },
+    "next": "Obtain user visual acceptance of deployed home, first-visit flow, menus and scene. Future development uses previews; preserve production1.23.0.",
+    "publication": {
+      "pr": 12,
+      "main": "6023083",
+      "status": "Documentation-only merged2026-10-12 before requested production release"
+    }
   }
 }

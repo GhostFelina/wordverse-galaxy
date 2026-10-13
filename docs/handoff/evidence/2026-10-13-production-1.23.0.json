@@ -1,0 +1,83 @@
+{
+  "version": "1.23.0",
+  "verifiedAt": "2026-10-13T05:18:02.451Z",
+  "origin": "https://wordverse-galaxy.vercel.app",
+  "deploymentId": "dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc",
+  "deploymentUrl": "https://wordverse-galaxy-3x4wsox8g-mustafas-projects-92e683a9.vercel.app",
+  "target": "production",
+  "status": "READY",
+  "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+  "source": "Clean detached worktree from the exact CI-verified commit; production environment build staged before promotion.",
+  "ci": {
+    "run": 38292465376,
+    "status": "success",
+    "unitTests": 147,
+    "browserTests": 117,
+    "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376"
+  },
+  "buildDurationSeconds": 27.618,
+  "rollbackDeployment": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F",
+  "browser": "Native Chrome: production candidate scene loaded, no captured console errors; public alias opening verified separately. No account writes or personal records captured.",
+  "checks": [
+    {
+      "path": "/",
+      "httpStatus": 200,
+      "sha256": "f87ae2ee34f837ef7347cc3b7cdb14a4ff66e723914226f0555aa4a403c7767f",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/en/",
+      "httpStatus": 200,
+      "sha256": "d061d0b723ec14cfe9dcadb8fb4470f6de5469eb9e2e661973b8df974f21116d",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/es/",
+      "httpStatus": 200,
+      "sha256": "60f9be745117f8ec23bc8b4a930c133ed3bede97d8d95ebb98e93a19e16d359e",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/about.html",
+      "httpStatus": 200,
+      "sha256": "0e8e26728138c72d749dff03b947c2b76ff0871c38d31043abe6cfa6270f36a8",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/privacy/",
+      "httpStatus": 200,
+      "sha256": "05a2fb083b0bbf8c574b5b79f23c3a0f984c59ff3fbc49e68bcd95302233057c",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/terms/",
+      "httpStatus": 200,
+      "sha256": "e4b8d8795944c674509e14bbb2bfcbcd8a06f9165ae4640defaaefc5df816085",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/assets/i18n-CRepclzW.js",
+      "httpStatus": 200,
+      "sha256": "1d5983e6ab399291c0c0e3acbb56f51e7e113a090d262bc88951709d6936fc7a",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/assets/main-BMNtrZ4U.css",
+      "httpStatus": 200,
+      "sha256": "a3ef899e1cd434b8427cc405d4f43fae6c52b543a3bd738181fc43b5288d08a6",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/assets/main-BTCtMnqH.js",
+      "httpStatus": 200,
+      "sha256": "b693c75fa00f8b03c6d1462aa45d07a50d2c809c4304831e7a95d9f8bb16e9c2",
+      "matchesVerifiedBuild": true
+    },
+    {
+      "path": "/assets/wordverse-social.png",
+      "httpStatus": 200,
+      "sha256": "20347c192554a49b738bbe11caf8e382abea32bd8983926706dba885017d0752",
+      "matchesVerifiedBuild": true
+    }
+  ]
+}
