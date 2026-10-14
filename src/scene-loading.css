@@ -9,7 +9,7 @@
   content: '';
   position: absolute;
   inset: 7% 2% 6% 34%;
-  background: url('/assets/nebulae/orion-starless.png') center / contain no-repeat;
+  background: url('/assets/nebulae/orion-starless-v2.png') center / contain no-repeat;
   opacity: 0.5;
   mask-image: radial-gradient(ellipse, #000 30%, transparent 72%);
 }

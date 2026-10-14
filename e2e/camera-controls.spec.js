@@ -40,6 +40,8 @@ for (const [width, height, locale] of [
   [1440, 900, 'tr'],
   [1280, 800, 'es'],
   [1024, 768, 'en'],
+  [1920, 855, 'en'],
+  [2560, 900, 'en'],
 ]) {
   test(`home composition keeps navigation and footer apart at ${width}x${height}`, async ({ page }) => {
     await page.setViewportSize({ width, height });
@@ -47,6 +49,15 @@ for (const [width, height, locale] of [
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(`/?lang=${locale}`);
     await expect(page.locator('#universe')).toHaveAttribute('data-nebula-ready', 'true');
+    const recent = page.locator('#home-recent');
+    if (await recent.isVisible()) {
+      await page.evaluate(() => document.fonts.ready);
+      const [discovery, stats] = await Promise.all([recent.boundingBox(), page.locator('.bottom-left').boundingBox()]);
+      expect(discovery.y + discovery.height + 16).toBeLessThanOrEqual(stats.y);
+      const badge = page.locator('.bottom-left .live-indicator');
+      if (await badge.isVisible())
+        expect(discovery.y + discovery.height + 16).toBeLessThanOrEqual((await badge.boundingBox()).y);
+    }
     for (const selector of [
       '#home-btn',
       '#open-add',

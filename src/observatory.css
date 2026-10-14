@@ -1,0 +1,200 @@
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/assets/fonts/instrument-serif-italic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+#hero h1 em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.13em;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 761px) {
+  #hero h1 {
+    font-size: clamp(52px, min(4.8vw, 8.2dvh), 94px);
+  }
+}
+.interface-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+.home-recent {
+  max-width: 440px;
+  margin-top: 27px;
+  padding-top: 18px;
+  border-top: 1px solid var(--atlas-line);
+}
+.home-recent[hidden],
+.record-navigation[hidden] {
+  display: none;
+}
+.home-recent-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.home-recent h2 {
+  margin: 0;
+  color: var(--atlas-muted);
+  font:
+    500 10px/1.5 'DM Sans',
+    sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.random-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 0;
+  padding: 6px 0 6px 10px;
+  background: none;
+  color: var(--atlas-light);
+  font:
+    500 11px 'DM Sans',
+    sans-serif;
+  cursor: pointer;
+}
+.random-word:hover {
+  color: var(--atlas-paper);
+}
+.recent-word-list {
+  display: flex;
+  gap: 7px;
+  margin-top: 8px;
+}
+.recent-word {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  max-width: 145px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 24px;
+  color: #ddd6cd;
+  background: #121419b8;
+  font:
+    400 12px 'DM Sans',
+    sans-serif;
+  cursor: pointer;
+}
+.recent-word span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recent-word svg {
+  width: 13px;
+  height: 13px;
+  color: var(--atlas-muted);
+}
+.recent-word:hover {
+  border-color: #eed6b970;
+  background: #25211f;
+}
+.record-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0 20px;
+  padding: 9px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 14px;
+  background: #07090e;
+}
+.record-step {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--atlas-light);
+  background: #f2e6d708;
+  cursor: pointer;
+}
+.record-step:hover {
+  background: #f2e6d719;
+  border-color: var(--atlas-line);
+}
+.record-position {
+  color: var(--atlas-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.15em;
+}
+.star-label {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#app[data-star-labels='all'] .star-label[data-label-visible='true'] {
+  opacity: 1;
+}
+#app[data-star-labels='all'] .star-label {
+  transform: translate(16px, -28px);
+}
+#app[data-star-labels='none'] .star-label {
+  opacity: 0;
+}
+.star-label b {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+.scene-controls-content .star-view-heading {
+  margin-top: 24px;
+}
+.scene-controls .nebula-appearance-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+.nebula-appearance-label output {
+  color: var(--atlas-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+.scene-controls input[type='range'] {
+  width: 100%;
+  min-height: 32px;
+  accent-color: var(--atlas-light);
+  cursor: pointer;
+}
+#app.immersive .scene-controls {
+  display: block;
+}
+#app.immersive:has(.nebula-navigation:not([hidden])) .scene-dock .scene-controls-content {
+  top: calc(100% + 10px);
+  bottom: auto;
+  max-height: calc(100dvh - 180px);
+}
+@media (max-height: 800px) {
+  .home-recent {
+    display: none;
+  }
+}
+@media (min-width: 761px) and (max-height: 950px) {
+  #app:has(#home-recent:not([hidden])) .bottom-left .live-indicator {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .home-recent {
+    max-width: 100%;
+    margin-top: 20px;
+  }
+  .recent-word {
+    max-width: 31%;
+    padding: 9px;
+  }
+}

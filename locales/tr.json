@@ -38,7 +38,19 @@
     "motionSystem": "Cihaz tercihi",
     "motionFull": "Canlı yıldızlar ve gökyüzü",
     "motionReduced": "Sakin görünüm",
-    "motionHint": "Cihaz tercihi azaltılmış hareket ayarını izler. Canlı görünüm yıldız parlamasını ve renk tonlarını etkinleştirir."
+    "motionHint": "Cihaz tercihi azaltılmış hareket ayarını izler. Canlı görünüm yıldız parlamasını ve renk tonlarını etkinleştirir.",
+    "starView": "Yıldız görünümü",
+    "paths": "Yıldız yolları",
+    "pathsOff": "Kapalı",
+    "pathsOn": "Açık",
+    "labels": "Yıldız adları",
+    "labelsHover": "Üzerine gelince",
+    "labelsAll": "Görünür adlar",
+    "labelsNone": "Gizli",
+    "pathsHint": "Yollar yakın yıldızları görsel olarak bağlar. Yakından incelerken gizlenir; kayıtlarını değiştirmez.",
+    "gasTitle": "Nebula atmosferi",
+    "gasDensity": "Gaz yoğunluğu",
+    "gasLight": "Işık gücü"
   },
   "language": "Türkçe",
   "nav": {
@@ -635,5 +647,14 @@
     "output": "Dinleme biçimi",
     "headphones": "Kulaklık · mekânsal",
     "speakers": "Hoparlör · stereo"
+  },
+  "observatory": {
+    "recent": "Son keşiflerin",
+    "random": "Bir yıldız seç",
+    "open": "{word} kaydını aç",
+    "browse": "Kayıtlar arasında gezin",
+    "previous": "Önceki kayıt",
+    "next": "Sonraki kayıt",
+    "position": "{total} kayıt içinden {current}."
   }
 }

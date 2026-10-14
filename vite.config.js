@@ -38,7 +38,7 @@ export default defineConfig({
   optimizeDeps: {
     noDiscovery: true,
     // Auth identity gates the first scene; avoid a cold tree of SDK module transforms.
-    include: ['@supabase/supabase-js'],
+    include: ['@supabase/supabase-js', 'lucide'],
     exclude: ['three'],
   },
 });

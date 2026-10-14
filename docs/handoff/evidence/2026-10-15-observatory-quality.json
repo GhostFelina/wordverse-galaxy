@@ -1,0 +1,74 @@
+{
+  "version": "1.25.0",
+  "date": "2026-10-14T21:37:07.416Z",
+  "baseCommit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
+  "sourceHashes": {
+    "package.json": "d329af4b78f8485a1c44255008f3d574083c11e4d88d083dc3735aaaec0a6e64",
+    "package-lock.json": "20098424f243d1c9509686d37a95e1838858137f0ff79ea1082338d36f1cce00",
+    "src/main.js": "dd089bfc2c63d94b754fc6e0189f32111657e7f095c355e22d270329597bc034",
+    "src/nebula-system.js": "b03d04151cf8b2e16548426f91987199260337b1d89994dc8d7cfd4988057d6a",
+    "src/nebula-shader.js": "ff06050a30eeb3c18f3dcab61eb0dce0edbe18deecc1bb39714b137aed869cd6",
+    "src/nebula-density.js": "ab5fe6cdfa5ffe3eb46df113e846e1598c1b19da3aa483404e5d5ecbee05c562",
+    "src/nebula-quality.js": "a19b412bddcf59685a7488b85ac5ebf1612baa6816cdccdc4067e5652b616540",
+    "src/star-nebula-transmission.js": "11a041b18318027223f55a6abdcc4725f2999f739b6e9434fe30bd561fbd6ee0",
+    "src/camera-input.js": "b11f51a90379649fff3dbeb07361974f75aac2dc2834d2d586b56f4f448b3aab",
+    "src/observatory-ui.js": "14dbe34e612d121cd2481a28840e8c06f8846f61e29de0ddc3be8a69b3197e0a",
+    "src/observatory.css": "b987914a4f445f0a0af9a56d6dec0cabf07c0bf496955a2432d555a58e9afabd",
+    "src/constellation-paths.js": "65b1bab799d88ff9e81431e3ada1941d43512290426336ed0df9acbcac2c358e",
+    "src/word-exploration.js": "1199a35f3e0d2583783fbea128188068c05eb3c9193684ae3a10940614a1dbf0",
+    "src/scene-controls.js": "8dc23cff5335d15c390e10949ec4be65ae392403ee3b54f7568329a5acb13bb0",
+    "src/interface-icons.js": "8fbc25d2162f152945a567ad566d07cbcebae7ce95f3d200ec13bbfb06b8ea73",
+    "src/data/nebula-images.json": "351b7f0361a1aabff98cdc03e73dd6759b406a8e60b3466a2e33d747a070b2ee",
+    "src/data/nebula-density.json": "18cf6a5009d27f7c351b6815003ef552d597852f16e224716a2b1e189b66ca71",
+    "e2e/nebula-color.spec.js": "1ad707b019b1580e67bb6aa624bc9de7eb255b2da1cc022d0d6a477099ee1ba0",
+    "e2e/observatory.spec.js": "b732eaf45d6dad3fde71fef366d1cab28f10926719006c6f44d52949a1fd9e8d",
+    "e2e/nebula-travel.spec.js": "1017737b4ccc85bad7f0c796f72b425d30b563500ec49ca29add7019b9778117",
+    "e2e/zoom-startup.spec.js": "914134bc543ffbfab89d79ad054434169cf0436dd095032a484621b4db3f966f",
+    "e2e/camera-controls.spec.js": "7349855053a80dc019f0a93bfd96049ea560cb957524e4dc643bda7ceaadae55"
+  },
+  "local": {
+    "unitTests": 154,
+    "browserTests": 128,
+    "browserDurationMinutes": 6.9,
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditVulnerabilities": 0,
+    "goTemplateAssertions": 24,
+    "doctor": "all checks pass",
+    "finalLayoutBrowserTests": 15,
+    "distinctBrowserScenarios": 130,
+    "validationSequence": "Full128-case suite passes; final viewport-height CSS fix then passes all15 affected layout/discovery cases, including two added widths.",
+    "finalHomeCompositionTests": 5,
+    "layoutFollowUp": "A decorative footer badge was also hidden at short desktop heights; all five home-composition cases pass after this final adjustment. Native1920x855 DOM confirms38px recent-to-statistics gap."
+  },
+  "nativeVisuals": {
+    "manifest": "2026-10-15-observatory/PROVENANCE.json",
+    "captures": 24,
+    "consoleErrors": 0,
+    "review": "Native overview, interior, side, depth, detail, menu and compact/short screenshots inspected; user visual acceptance remains open."
+  },
+  "performance": {
+    "method": "Same9-second1920x1080 route,240 synthetic stars, fresh Chrome155/RTX5060Ti and SwiftShader profiles. RAF/CPU exclude first second; GPU queries cover timed frames after setup. Automatic strategies choose different intermediate resolutions: this is an adaptive strategy comparison, not equal-resolution shader throughput.",
+    "nativeGpuP95": [
+      1.608288,
+      0.937856
+    ],
+    "nativeRafP95": [
+      7.100000000000364,
+      7.100000000000364
+    ],
+    "softwareRafP95": [
+      90.40000000000009,
+      48.70000000000073
+    ],
+    "raw": "2026-10-15-observatory/performance/"
+  },
+  "records": "Synthetic record JSON unchanged across discovery, navigation, settings, flight and capture; owner isolation and persistence suite passes.",
+  "existingEvidence": "18 pre-existing modified historical PNGs remain byte-for-byte unchanged and excluded from this checkpoint.",
+  "remote": "Current source CI awaits push/verification. Prior1.24 source29c04d5 CI38633114408 succeeds.",
+  "production": "Preserved1.23.0/sourcecd97c62/dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc; no production deployment.",
+  "limits": "Two short isolated renderer configurations and native synthetic captures; no universal hardware, calibrated gas tomography or full accessibility certification."
+}

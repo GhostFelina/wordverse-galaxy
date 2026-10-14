@@ -48,10 +48,10 @@
       "processing": "Downsampled from observed 10K TIFF; 3-pixel median removes isolated stellar pixels in the gas guide. No generated detail or upscaling."
     },
     "starlessTexture": {
-      "texture": "/assets/nebulae/orion-starless.png",
+      "texture": "/assets/nebulae/orion-starless-v2.png",
       "dimensions": [1254, 1254],
-      "sha256": "34749715a28223a22526f2ac2f33ea345b1fae308a0307261be6a0982d479f81",
-      "processing": "Built-in imagegen edit of the Hubble-derived gas texture: removes all embedded stars and their spikes/halos; gas is AI-edited, not an unmodified observed photograph. Native resolution; no upscaling."
+      "sha256": "c4e31c2c3514e66b0642f4c1add7ae3a1dce8a6f1f1c9d6efac14cf0eb24520e",
+      "processing": "Conservative built-in imagegen star-removal edit of the observed Hubble-derived gas image alone. Original gas structure and photographic color were requested unchanged; stellar sources removed. AI-edited guide, native 1254 square, no upscaling; not an unmodified telescope observation."
     }
   }
 ]

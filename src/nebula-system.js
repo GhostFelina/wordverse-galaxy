@@ -1,156 +1,11 @@
 import * as THREE from 'three';
-import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
+import { createNebulaDensity } from './nebula-density.js';
+import { createNebulaQuality } from './nebula-quality.js';
+import { nebulaVertex, nebulaFragment } from './nebula-shader.js';
 import images from './data/nebula-images.json';
 import { layoutNebulae, ORION_DEPTH_SCALE, ORION_PRINCIPAL_Z } from './nebula-layout.js';
 import { createNebulaEnvironment } from './nebula-environment.js';
 
-// A deterministic, coherent density field, sampled on the GPU instead of
-// repeatedly evaluating expensive procedural octaves for every ray step.
-function createDensityTexture() {
-  const size = 96,
-    data = new Uint8Array(size ** 3),
-    noise = new ImprovedNoise();
-  // A closed coordinate loop makes each axis periodic. RepeatWrapping on
-  // ordinary nonperiodic noise exposed straight seams through the gas.
-  const sine = Array.from({ length: size }, (_, i) => Math.sin((i / size) * Math.PI * 2));
-  const cosine = Array.from({ length: size }, (_, i) => Math.cos((i / size) * Math.PI * 2));
-  let index = 0;
-  for (let z = 0; z < size; z++)
-    for (let y = 0; y < size; y++)
-      for (let x = 0; x < size; x++) {
-        const px = sine[x] + cosine[y],
-          py = sine[y] + cosine[z],
-          pz = sine[z] + cosine[x];
-        const a = noise.noise(px * 0.73 + 19.4, py * 0.73 + 7.1, pz * 0.73 + 31.8);
-        const b = noise.noise(px * 2.04 + 8.7, py * 2.04 + 42.6, pz * 2.04 + 3.2);
-        const c = noise.noise(px * 4.17 + 27.3, py * 4.17 + 13.8, pz * 4.17 + 5.6);
-        data[index++] = Math.round(THREE.MathUtils.clamp(0.5 + a * 0.65 + b * 0.23 + c * 0.08, 0, 1) * 255);
-      }
-  const texture = new THREE.Data3DTexture(data, size, size, size);
-  texture.format = THREE.RedFormat;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
-  texture.magFilter = THREE.LinearFilter;
-  texture.generateMipmaps = true;
-  texture.wrapS = texture.wrapT = texture.wrapR = THREE.RepeatWrapping;
-  texture.unpackAlignment = 1;
-  texture.needsUpdate = true;
-  return texture;
-}
-const vertex = `varying vec3 localPosition;
-void main(){localPosition=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`;
-const fragment = `precision highp sampler3D;
-uniform sampler2D image;uniform sampler2D infrared;uniform sampler3D densityMap;
-uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float infraredLod;uniform float principalZ;uniform float stellarSuppression;varying vec3 localPosition;
-float filteredCloud(vec3 p,float footprint){return textureLod(densityMap,p*.36+vec3(.17,.31,.53),clamp(log2(max(1.,footprint*96.))-.75,0.,1.8)).r;}
-float plume(vec3 p,vec3 center,vec3 extent){vec3 q=(p-center)/extent;return exp(-dot(q,q)*2.);}
-float erfApprox(float v){float v2=v*v;return sign(v)*sqrt(max(0.,1.-exp(-v2*(1.2732395+.147*v2)/(1.+.147*v2))));}
-void main(){
- vec3 ray=normalize(localPosition-eye);
- vec3 safe=sign(ray+vec3(.000001))*max(abs(ray),vec3(.000001));
- vec3 a=(-vec3(1.)-eye)/safe,b=(vec3(1.)-eye)/safe;
- vec3 low=min(a,b),high=max(a,b);
- float start=max(0.,max(low.x,max(low.y,low.z))),end=min(high.x,min(high.y,high.z));
- if(end<=start)discard;
- // Keep physical sample spacing independent of box-exit distance. Dividing
- // every ray into the same count exposed nested cube faces inside the cloud.
- float stride=4./float(steps)/length(ray*vec3(1.,1.,3.6));
- // A bounded static sample offset breaks aligned march planes without temporal
- // noise or a visible coarse dither grid. Navigation keeps the density fixed.
- float jitter=.5+.08*(fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)-.5);
- // Sample telescope guidance once at the principal ionization surface rather
- // than stretching every photographed feature through the entire ray.
- float guideDistance=(principalZ-eye.z)/safe.z;
- vec3 guidePosition=guideDistance>0. ? eye+ray*guideDistance : vec3(0.);
- vec2 guideUV=guidePosition.xy*.5+.5;
- float guideCoverage=guideDistance>0. ? (1.-smoothstep(.96,1.,max(abs(guidePosition.x),abs(guidePosition.y)))) : 0.;
- vec2 uv=clamp(guideUV,vec2(.001),vec2(.999));
- vec3 observed=textureLod(image,uv,opticalLod).rgb;
- vec3 diffuse=textureLod(image,uv,opticalLod+5.).rgb;
- float sharpLum=max(observed.r,max(observed.g,observed.b));
- float lum=max(diffuse.r,max(diffuse.g,diffuse.b));
-  float stellarPeak=smoothstep(.025,.14,sharpLum-lum);
- observed=mix(observed,diffuse,stellarPeak*stellarSuppression);
- vec3 macroColor=mix(textureLod(image,uv,opticalLod+8.).rgb,textureLod(infrared,uv,infraredLod+7.).rgb,.16);
- vec4 sum=vec4(0.);
- float immersion=1.-smoothstep(.65,1.08,eye.z);
- for(int i=0;i<192;i++){
-  if(start+(float(i)+.5)*stride>end)break;
-  vec3 p=eye+ray*(start+(float(i)+jitter)*stride);
-  vec3 metric=vec3(p.xy,p.z*3.6);
-  float broadFootprint=stride*length(ray*vec3(.95,.95,3.42))*.36;
-  float n=filteredCloud(metric*.95+vec3(time*.0006,.008*sin(time*.035),time*.00025),broadFootprint);
-  float fineFootprint=stride*length(ray*vec3(2.2,2.2,7.92))*.36;
-  float fine=filteredCloud(metric*2.2+vec3(5.3,1.7,9.),fineFootprint);
-  fine=clamp((fine-.5)*2.4+.5,0.,1.);
-  float feather=1.-smoothstep(.72,1.,length(p.xy)+.05*(n-.5));
-  feather*=1.-smoothstep(.87,1.,abs(p.z));
-  // Open cavity facing the observer; ionization wall and dusty back layer.
-
-  // Break the smooth extruded side ribbon into a porous, corrugated medium.
-  // The same world-space field holds from the front, side and inside the cloud.
-  vec3 curl=vec3(n-.5,fine-.5,n-fine)*vec3(.12,.12,.033);
-  // Resolve these wisps at the actual march stride. Extremely high axial
-  // frequencies produced spoke-like streaks when flying through the volume.
-  vec3 frequency=vec3(3.1,3.4,10.8);
-  float detail=1.-smoothstep(.065,.17,stride*length(ray*frequency)*.36);
-  float micro=mix(fine,filteredCloud((p+curl)*frequency+vec3(2.8,11.3,6.1),stride*length(ray*frequency)*.36),detail);
-  micro=clamp((micro-.5)*1.7+.5,0.,1.);
-  float diffuseFilament=smoothstep(.35,.76,fine*.45+micro*.55);
-  float filament=diffuseFilament;
-  float branches=smoothstep(.34,.7,n*.35+fine*.65);
-  float valley=-.42+.34*pow(p.x+.18*sin(p.z*2.),2.)+.16*p.z+.12*sin(p.z*3.+p.x*2.)+.42*(n-.5)+.18*(fine-.5);
-  vec3 flow=p+vec3(n-.5,fine-.5,micro-.5)*vec3(.12,.12,.033);
-  // Finite three-dimensional lobes replace the infinitely extruded thin wall.
-  // Their overlap is eroded by the shared turbulent field, never a flat skirt.
-  // Account for the elongated depth transform: compact Z extents keep individual
-  // clouds round in world space, instead of long tubes pointing at the eye.
-  float wall=(plume(flow,vec3(-.34,-.24,.25),vec3(.42,.32,.17))*.9
-             +plume(flow,vec3(.38,-.04,-.22),vec3(.38,.48,.2))*1.05
-             +plume(flow,vec3(.02,.22,.5),vec3(.47,.34,.14))*.65
-             +plume(flow,vec3(-.22,.17,-.62),vec3(.52,.33,.16))*.8
-             +plume(flow,vec3(.28,-.3,-.6),vec3(.3,.38,.18))*.65
-             +plume(flow,vec3(-.46,-.04,-.37),vec3(.29,.5,.16))*.5
-             +plume(flow,vec3(.36,.34,.62),vec3(.4,.28,.15))*.55)*branches;
-  // Keep telescope detail aligned in XY; projecting a photo onto XZ produced
-  // stretched radial streaks along the long flight walls.
-  // The deep medium uses diffuse colour, avoiding extrusion of photographed
-  // stars into long rays. Observed fine detail belongs to the ionization ridge.
-  float warm=smoothstep(-.8,.8,p.x+.45*p.z+(.5-n)*.4);
-  float blueLight=plume(p,vec3(-.18,.34,.12),vec3(.6,.6,.9));
-  vec3 palette=mix(vec3(.028,.08,.29),vec3(.46,.075,.012),warm);
-  palette=mix(palette,vec3(.045,.2,.52),blueLight*.65);
-  vec3 gasColor=mix(macroColor,palette,.38+immersion*.5);
-  gasColor*=mix(.65,1.25,smoothstep(.22,.8,micro));
-  float gas=smoothstep(.006,.24,max(gasColor.r,max(gasColor.g,gasColor.b)))*feather;
-  float cavity=1.-.86*plume(p,vec3(0.,.04,0.),vec3(.32,.34,.18));
-  gas*=wall*(.14+1.8*n*n)*(.12+1.6*filament)*(1.+immersion*1.8)*cavity;
-  float dust=smoothstep(.48,.7,fine)*(1.-smoothstep(.04,.2,mix(lum,.12,immersion)));
-  float offset=p.z-principalZ;
-  float halfStep=abs(ray.z*stride)*.5;
-  float ridge=0.;
-  if(abs(offset)<.22+halfStep){
-    ridge=halfStep>.0001 ? .055*.8862269*(erfApprox((offset+halfStep)/.055)-erfApprox((offset-halfStep)/.055))/(2.*halfStep) : exp(-pow(offset/.055,2.));
-  }
-  float backing=ridge*smoothstep(.006,.23,max(observed.r,max(observed.g,observed.b)))*feather*guideCoverage;
-  backing*=1.-immersion*.88;
-  float opening=(1.-smoothstep(.25,.65,abs(p.x)))*smoothstep(valley+.1,valley+.3,p.y);
-  backing*=1.-opening;
-  gas+=backing*2.5;
-  gasColor=mix(gasColor,observed,clamp(backing*2.5/(gas+.001),0.,1.));
-  float extinction=gas*(2.5+dust*3.4);
-  float opacity=1.-exp(-extinction*stride);
-  vec3 tint=mix(gasColor,gasColor*vec3(1.1,.89,.8),(1.-smoothstep(-.7,.4,p.z))*.2);
-  float scatter=clamp(.85+(filteredCloud(metric*.95+vec3(0.,.12,.04),broadFootprint)-n)*2.5+(micro-.5)*.45,.45,1.2);
-  vec3 light=tint*(3.1+immersion*(1.2+blueLight*2.2)+wall*.3)*scatter*(1.-dust*.78);
-  sum.rgb+=(1.-sum.a)*light*opacity;
-  sum.a+=(1.-sum.a)*opacity;
-  if(sum.a>.985)break;
- }
- if(sum.a<.001)discard;
- gl_FragColor=vec4(sum.rgb/max(.001,sum.a),sum.a);
- #include <tonemapping_fragment>
- #include <colorspace_fragment>
-}`;
 export function createNebulaSystem(
   scene,
   camera,
@@ -158,7 +13,9 @@ export function createNebulaSystem(
 ) {
   const records = layoutNebulae(images, 8042026, camera.aspect);
   const geometry = new THREE.BoxGeometry(2, 2, 2),
-    density = createDensityTexture();
+    volumeData = createNebulaDensity(),
+    density = volumeData.density,
+    quality = createNebulaQuality();
   const root = new THREE.Group();
   root.name = 'orion-volumetric-system';
   scene.add(root);
@@ -173,11 +30,7 @@ export function createNebulaSystem(
   let assetFailed = false;
   let highResolutionState = 'idle';
   let shaderState = 'idle';
-  let qualityMode = 'auto';
-  let gasScale = 0.55,
-    lastGasFrame = 0,
-    slowGasFrames = 0,
-    fastGasFrames = 0;
+  let lastGasFrame = 0;
   const lastGasView = new THREE.Matrix4();
   let lastCameraMotion = 0,
     lastVolumeFrame = 0,
@@ -221,6 +74,7 @@ export function createNebulaSystem(
         image: { value: texture },
         infrared: { value: infrared },
         densityMap: { value: density },
+        detailMap: { value: volumeData.detail },
         eye: { value: new THREE.Vector3() },
         time: { value: 0 },
         steps: { value: 48 },
@@ -228,9 +82,12 @@ export function createNebulaSystem(
         infraredLod: { value: 0 },
         principalZ: { value: record.principalLocalZ ?? ORION_PRINCIPAL_Z },
         stellarSuppression: { value: fieldStars ? 1 : 0 },
+        gasDensity: { value: 0.85 },
+        gasLight: { value: 1 },
+        encodedHdr: { value: 0 },
       },
-      vertexShader: vertex,
-      fragmentShader: fragment,
+      vertexShader: nebulaVertex,
+      fragmentShader: nebulaFragment,
       transparent: true,
       depthWrite: false,
       side: THREE.BackSide,
@@ -243,23 +100,25 @@ export function createNebulaSystem(
   });
   // Keep motion and settled buffers alive: wheel input must not dispose and
   // reallocate the full-resolution framebuffer at each start/stop.
-  const motionTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false });
-  const settledTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false });
+  const motionTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false, type: THREE.HalfFloatType });
+  const settledTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false, type: THREE.HalfFloatType });
   let target = motionTarget;
   const compositeScene = new THREE.Scene(),
     compositeCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const compositeMaterial = new THREE.ShaderMaterial({
-    uniforms: { image: { value: target.texture } },
+    uniforms: { image: { value: target.texture }, encodedHdr: { value: 0 } },
     vertexShader: 'varying vec2 imageUv;void main(){imageUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
-    fragmentShader: `uniform sampler2D image;varying vec2 imageUv;void main(){gl_FragColor=texture2D(image,imageUv);
+    fragmentShader: `uniform sampler2D image;uniform float encodedHdr;varying vec2 imageUv;void main(){gl_FragColor=texture2D(image,imageUv);
     gl_FragColor.rgb/=max(.00001,gl_FragColor.a);
+    if(encodedHdr>.5)gl_FragColor.rgb/=max(vec3(.0001),1.-gl_FragColor.rgb);
+    #include <tonemapping_fragment>
     #include <colorspace_fragment>
     gl_FragColor.rgb*=gl_FragColor.a;
     }`,
     transparent: true,
     depthTest: false,
     depthWrite: false,
-    toneMapped: false,
+    toneMapped: true,
     premultipliedAlpha: true,
   });
   const compositeGeometry = new THREE.PlaneGeometry(2, 2);
@@ -267,17 +126,27 @@ export function createNebulaSystem(
   const savedColor = new THREE.Color(),
     size = new THREE.Vector2();
   return {
+    resetTiming() {
+      lastGasFrame = 0;
+    },
+    setAppearance({ density = 0.85, light = 1 }) {
+      for (const node of nodes) {
+        node.material.uniforms.gasDensity.value = THREE.MathUtils.clamp(density, 0.4, 1.4);
+        node.material.uniforms.gasLight.value = THREE.MathUtils.clamp(light, 0.6, 1.4);
+      }
+      lastVolumeFrame = 0;
+    },
     setQuality(mode) {
       if (!['auto', 'high', 'balanced', 'low'].includes(mode)) return;
-      qualityMode = mode;
+      quality.setMode(mode);
       lastVolumeFrame = 0;
     },
     records,
     get ready() {
-      return shaderState === 'ready';
+      return shaderState === 'ready' && volumeData.ready;
     },
     get failed() {
-      return assetFailed || shaderState === 'failed';
+      return assetFailed || volumeData.failed || shaderState === 'failed';
     },
     get refined() {
       return refinedFrame;
@@ -289,19 +158,35 @@ export function createNebulaSystem(
       if (disposed) return;
       if (shaderState === 'idle') {
         shaderState = 'compiling';
+        // Preserve radiance above 1 until final display tone mapping. Older
+        // WebGL devices use reversible companding rather than clipped RGBA8.
+        if (!renderer.extensions.has('EXT_color_buffer_float')) {
+          motionTarget.texture.type = settledTarget.texture.type = THREE.UnsignedByteType;
+          compositeMaterial.uniforms.encodedHdr.value = 1;
+          for (const node of nodes) node.material.uniforms.encodedHdr.value = 1;
+        }
         const mask = camera.layers.mask;
         camera.layers.set(1);
         camera.layers.enable(2);
-        Promise.all([renderer.compileAsync(scene, camera), renderer.compileAsync(compositeScene, compositeCamera)])
+        Promise.all([
+          renderer.compileAsync(scene, camera),
+          renderer.compileAsync(compositeScene, compositeCamera),
+          volumeData.promise,
+        ])
           .then(() => {
             if (disposed) return;
+            if (volumeData.failed) {
+              shaderState = 'failed';
+              return;
+            }
+            renderer.initTexture(density);
+            renderer.initTexture(volumeData.detail);
             renderer.getSize(size);
-            const settledScale = qualityMode === 'low' ? 0.5 : qualityMode === 'balanced' ? 0.75 : 1;
-            for (const [buffer, scale] of [
-              [motionTarget, Math.min(renderer.getPixelRatio(), 1) * gasScale],
-              [settledTarget, settledScale],
+            for (const [buffer, resting] of [
+              [motionTarget, false],
+              [settledTarget, true],
             ]) {
-              const width = Math.min(1920, Math.max(1, Math.round(size.x * scale)));
+              const width = Math.max(1, Math.round(Math.min(1920, size.x) * quality.budget(resting).scale));
               buffer.setSize(width, Math.max(1, Math.round((width * size.y) / size.x)));
               renderer.initRenderTarget(buffer);
             }
@@ -313,22 +198,13 @@ export function createNebulaSystem(
         camera.layers.mask = mask;
         return;
       }
-      if (shaderState !== 'ready') return;
+      if (shaderState !== 'ready' || !volumeData.ready) return;
       // Adapt the expensive volume independently from crisp stars and UI.
       // Respond quickly to software GPUs; restore detail on measured fast devices.
       const now = performance.now(),
         elapsed = lastGasFrame ? now - lastGasFrame : 0;
       lastGasFrame = now;
-      slowGasFrames = elapsed > 120 ? slowGasFrames + 1 : 0;
-      fastGasFrames = elapsed > 0 && elapsed < 24 ? fastGasFrames + 1 : 0;
-      if (slowGasFrames >= 2) {
-        gasScale = Math.max(0.25, gasScale * 0.65);
-        slowGasFrames = 0;
-      }
-      if (fastGasFrames >= 180) {
-        gasScale = Math.min(1, gasScale + 0.1);
-        fastGasFrames = 0;
-      }
+      quality.sample(elapsed);
       // Use velocity, not per-frame distance: a software GPU's longer frames
       // must not postpone refinement after the same camera gesture.
       const moved = camera.matrixWorld.elements.some(
@@ -338,38 +214,10 @@ export function createNebulaSystem(
       if (moved) lastCameraMotion = now;
       lastGasView.copy(camera.matrixWorld);
       const resting = now - lastCameraMotion > 250;
-      for (const node of nodes) {
-        if (qualityMode === 'low') node.material.uniforms.steps.value = 16;
-        else if (resting)
-          node.material.uniforms.steps.value =
-            qualityMode === 'balanced'
-              ? 24
-              : Math.abs(node.material.uniforms.eye.value.z) < 1
-                ? qualityMode === 'high'
-                  ? 96
-                  : 64
-                : 32;
-        else if (gasScale < 0.4) node.material.uniforms.steps.value = 16;
-      }
+      const budget = quality.budget(resting);
+      for (const node of nodes) node.material.uniforms.steps.value = budget.steps;
       renderer.getSize(size);
-      // Refine a settled camera to viewport resolution. Cache that detailed
-      // volume between slow gas updates; stars and UI remain separate passes.
-      const width = Math.min(
-        1920,
-        Math.max(
-          1,
-          Math.round(
-            size.x *
-              (resting
-                ? qualityMode === 'low'
-                  ? 0.5
-                  : qualityMode === 'balanced'
-                    ? 0.75
-                    : 1
-                : Math.min(renderer.getPixelRatio(), 1) * gasScale),
-          ),
-        ),
-      );
+      const width = Math.max(1, Math.round(Math.min(1920, size.x) * budget.scale));
       const height = Math.max(1, Math.round((width * size.y) / size.x));
       const opticalWidth = !fieldStars
         ? records[0].starlessTexture.dimensions[0]
@@ -403,9 +251,8 @@ export function createNebulaSystem(
         !lastVolumeFrame ||
         loaded !== lastLoaded ||
         opticalWidth !== lastOpticalWidth ||
-        // Full-resolution raymarch advection is too costly on software GPUs.
-        // Keep the refined frame there; navigation and stars remain responsive.
-        (animated && gasScale >= 0.65 && now - lastVolumeFrame > 250)
+        // Budgeted gas advection is slower than the crisp star/UI pass.
+        (animated && now - lastVolumeFrame > budget.interval)
       ) {
         renderer.setClearColor(0x000000, 0);
         renderer.setRenderTarget(target);
@@ -469,10 +316,16 @@ export function createNebulaSystem(
       );
     },
     get starMedium() {
-      return { group: nodes[0].group, density };
+      return {
+        group: nodes[0].group,
+        density,
+        get strength() {
+          return nodes[0].material.uniforms.gasDensity.value;
+        },
+      };
     },
     get loaded() {
-      return loaded;
+      return volumeData.ready ? loaded : 0;
     },
     get fieldSourceCount() {
       return nodes.reduce((sum, node) => sum + node.environment.count, 0);
@@ -538,7 +391,7 @@ export function createNebulaSystem(
         environment.dispose();
       }
       geometry.dispose();
-      density.dispose();
+      volumeData.dispose();
       motionTarget.dispose();
       settledTarget.dispose();
       compositeGeometry.dispose();

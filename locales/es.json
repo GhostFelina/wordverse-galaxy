@@ -38,7 +38,19 @@
     "motionSystem": "Preferencia del dispositivo",
     "motionFull": "Estrellas y cielo vivos",
     "motionReduced": "Vista tranquila",
-    "motionHint": "La preferencia del dispositivo respeta el movimiento reducido. La vista viva activa el centelleo y los tonos de las estrellas."
+    "motionHint": "La preferencia del dispositivo respeta el movimiento reducido. La vista viva activa el centelleo y los tonos de las estrellas.",
+    "starView": "Aspecto de las estrellas",
+    "paths": "Rutas estelares",
+    "pathsOff": "Desactivadas",
+    "pathsOn": "Activadas",
+    "labels": "Nombres de estrellas",
+    "labelsHover": "Al pasar el cursor",
+    "labelsAll": "Nombres visibles",
+    "labelsNone": "Ocultos",
+    "pathsHint": "Las rutas conectan visualmente estrellas cercanas. Se ocultan al acercarte y nunca cambian tus registros.",
+    "gasTitle": "Atmósfera de la nebulosa",
+    "gasDensity": "Densidad del gas",
+    "gasLight": "Intensidad de la luz"
   },
   "language": "Español",
   "nav": {
@@ -635,5 +647,14 @@
     "output": "Modo de escucha",
     "headphones": "Auriculares · espacial",
     "speakers": "Altavoces · estéreo"
+  },
+  "observatory": {
+    "recent": "Tus últimos descubrimientos",
+    "random": "Elige una estrella",
+    "open": "Abrir {word}",
+    "browse": "Explorar registros",
+    "previous": "Registro anterior",
+    "next": "Registro siguiente",
+    "position": "Registro {current} de {total}"
   }
 }

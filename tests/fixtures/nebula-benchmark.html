@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="data:," />
+    <title>Synthetic nebula benchmark</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #000;
+      }
+      canvas {
+        display: block;
+      }
+      output {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas aria-label="Synthetic Orion benchmark"></canvas><output id="result"></output>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createNebulaSystem } from '/src/nebula-system.js';
+      import { createWordStarSystem } from '/src/word-star-system.js';
+      import { createStarTransmission } from '/src/star-nebula-transmission.js';
+      const canvas = document.querySelector('canvas'),
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setClearColor(0, 1);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100000);
+      const gas = createNebulaSystem(scene, camera, { fieldStars: false }),
+        stars = createWordStarSystem(scene),
+        record = gas.records[0];
+      const entries = Array.from({ length: 240 }, (_, i) => ({
+        id: 'synthetic-' + i,
+        createdAt: '2026-10-01T09:00:00Z',
+        x: record.position[0] + Math.sin(i * 12.7) * record.radius * 0.65,
+        y: Math.cos(i * 2.7) * record.radius * 0.5,
+        z: record.frontZ - record.travelLength * (0.08 + ((i % 37) / 37) * 0.78),
+      }));
+      stars.setEntries(entries);
+      const extinction = createStarTransmission(gas.starMedium),
+        cache = new Map();
+      let cacheAt = 0;
+      const gl = renderer.getContext(),
+        ext = gl.getExtension('EXT_disjoint_timer_query_webgl2'),
+        pending = [],
+        gpu = [],
+        cpu = [],
+        frames = [],
+        resolutions = [];
+      const info = gl.getExtension('WEBGL_debug_renderer_info');
+      let start = 0,
+        previous = 0,
+        done = false;
+      renderer.setAnimationLoop((ms) => {
+        if (done) return;
+        if (!start && gas.ready && stars.ready) {
+          start = ms;
+          previous = ms;
+        }
+        const elapsed = start ? ms - start : 0;
+        // Equal route and viewport for both source versions, including full stops.
+        const phase = Math.min(1, elapsed / 9000),
+          depth = phase < 0.55 ? (phase / 0.55) * 0.76 : phase < 0.72 ? 0.76 : 0.76 - ((phase - 0.72) / 0.28) * 0.38;
+        camera.position.set(
+          record.position[0] + Math.sin(phase * 6) * record.radius * 0.12,
+          Math.sin(phase * 9) * record.radius * 0.06,
+          160 - depth * (160 - record.position[2] + record.radius * 3.6),
+        );
+        camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+        camera.updateMatrixWorld();
+        gas.update(ms * 0.001, 1, innerHeight);
+        if (ms - cacheAt > 150) {
+          cache.clear();
+          cacheAt = ms;
+        }
+        stars.update(ms * 0.001, camera, innerHeight, 1, {
+          transmission: (position, id) => {
+            if (!cache.has(id)) cache.set(id, extinction(position, camera));
+            return cache.get(id);
+          },
+        });
+        let query;
+        if (start && ext && pending.length < 8) {
+          query = gl.createQuery();
+          gl.beginQuery(ext.TIME_ELAPSED_EXT, query);
+        }
+        const before = performance.now();
+        renderer.render(scene, camera);
+        gas.render(renderer);
+        const duration = performance.now() - before;
+        if (query) {
+          gl.endQuery(ext.TIME_ELAPSED_EXT);
+          pending.push(query);
+        }
+        if (ext) {
+          while (pending.length && gl.getQueryParameter(pending[0], gl.QUERY_RESULT_AVAILABLE)) {
+            const query = pending.shift();
+            if (!gl.getParameter(ext.GPU_DISJOINT_EXT)) gpu.push(gl.getQueryParameter(query, gl.QUERY_RESULT) / 1e6);
+            gl.deleteQuery(query);
+          }
+        }
+        if (start) {
+          if (elapsed > 1000) {
+            frames.push(ms - previous);
+            cpu.push(duration);
+            resolutions.push(gas.gasResolution);
+          }
+          previous = ms;
+        }
+        canvas.dataset.ready = String(gas.ready && stars.ready);
+        if (elapsed >= 9000) {
+          done = true;
+          renderer.setAnimationLoop(null);
+          const summary = (values) => {
+            const sorted = [...values].sort((a, b) => a - b),
+              q = (v) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * v))] ?? null;
+            return {
+              count: values.length,
+              p50: q(0.5),
+              p95: q(0.95),
+              p99: q(0.99),
+              max: q(1),
+              over50: values.filter((v) => v > 50).length,
+            };
+          };
+          document.querySelector('#result').textContent = JSON.stringify({
+            renderer: info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+            raf: summary(frames),
+            cpuSubmission: summary(cpu),
+            gpu: summary(gpu),
+            gasSizes: [...new Set(resolutions.map((v) => v.join('x')))],
+            records: entries.length,
+          });
+          canvas.dataset.done = 'true';
+        }
+      });
+    </script>
+  </body>
+</html>

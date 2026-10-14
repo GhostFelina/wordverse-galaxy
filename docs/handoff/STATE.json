@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.24.0",
-  "activeWork": "Learning interface1.24.0 locally verified; remote checkpoint verification and user visual acceptance next. Production1.23.0 preserved.",
+  "developmentVersion": "1.25.0",
+  "activeWork": "Nebula/observatory1.25 locally verified. Current source remote CI and user review of gas, flight and discovery remain next; production1.23.0 preserved.",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -31,18 +31,18 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "lastVerifiedCommit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
     "lastRemoteCI": {
-      "run": 38292465376,
+      "run": 38633114408,
       "status": "success",
       "unitTests": 147,
-      "browserTests": 117,
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376",
-      "commit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
-      "version": "1.23.0"
+      "browserTests": 122,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38633114408",
+      "commit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
+      "version": "1.24.0"
     },
-    "localUnitTests": 147,
-    "suiteBrowserTests": 122,
+    "localUnitTests": 154,
+    "suiteBrowserTests": 128,
     "userVisualAcceptance": "pending",
     "preview": {
       "version": "1.23.0",
@@ -235,17 +235,43 @@
   },
   "learningDesign": {
     "version": "1.24.0",
-    "status": "local-verified-awaiting-remote-and-user-review",
+    "status": "remote-CI-verified-user-acceptance-open",
     "scope": "Shared warm learning/dialog surfaces, home recall, atlas shortcuts and modal focus management",
     "unitTests": 147,
     "browserTests": 122,
-    "browserDurationMinutes": 12.0,
+    "browserDurationMinutes": 12,
     "gates": "lint/types/build/format/release/audit/24Go pass",
     "evidence": "docs/handoff/evidence/2026-10-14-learning-quality.json",
     "visualManifest": "docs/handoff/evidence/2026-10-14-learning-design/PROVENANCE.json",
     "nativeCaptures": 29,
     "browser": "Chrome155; fresh isolated synthetic origins; D3D11 requested",
     "production": "Preserved1.23.0; no production release in this checkpoint",
-    "next": "Check source push remote CI/preview, then user review of local1.24.0 home/atlas/form/recall and keyboard flow"
+    "next": "User acceptance remains open; current development is1.25.0.",
+    "remoteCI": {
+      "run": 38633114408,
+      "status": "success",
+      "unitTests": 147,
+      "browserTests": 122,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38633114408",
+      "commit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
+      "version": "1.24.0"
+    }
+  },
+  "observatory": {
+    "version": "1.25.0",
+    "status": "local-verified-awaiting-source-CI-and-user-review",
+    "scope": "Finite baked gas, HDR display/fallback, adaptive motion/rest budgets, bounded cruise, atmosphere controls, optional paths/labels and record discovery/navigation",
+    "unitTests": 154,
+    "browserTests": 128,
+    "browserDurationMinutes": 6.9,
+    "evidence": "docs/handoff/evidence/2026-10-15-observatory-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-15-observatory/PROVENANCE.json",
+    "nativeCaptures": 24,
+    "production": "Preserved1.23.0",
+    "next": "Check pushed source CI; obtain user review of actual high-quality interior, flight, density/light and discovery controls. No production release requested.",
+    "finalLayoutBrowserTests": 15,
+    "distinctBrowserScenarios": 130,
+    "layout": "Viewport-height type cap and recent section hidden below800px;16px footer gap passes at1920x855/2560x900.",
+    "finalHomeCompositionTests": 5
   }
 }

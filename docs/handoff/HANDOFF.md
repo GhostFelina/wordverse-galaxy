@@ -1,6 +1,16 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.24.0; production1.23.0.
+Active branch: phase/4-universe. Development1.25.0; production1.23.0.
+
+## Verified1.25.0 nebula and personal observatory
+
+Orion now uses asynchronously loaded finite 128³ density/light/dust/color and 64³ erosion fields, compact warped filaments/cavity, empty-space rejection and a front-only photographic guide. The selected native 1254×1254 starless edit was guided by the observed Hubble-derived gas image alone. HDR radiance reaches final ACES/sRGB display without premature byte clipping; a companded fallback handles non-float targets. Approximate stellar extinction samples the same loaded base density. Motion and rest share the adaptive budget; camera damping/cruise are bounded and pauses reset timing. Density/light settings remain reachable during flight. Automatic accents pause there; explicit manual events remain available. [Rendering notes](../NEBULA_RENDERING.md).
+
+Optional bounded star paths and collision-limited labels preserve stored geometry. Recent discoveries, random-word exploration and previous/next detail navigation follow the current atlas result order or recent order, with concealed meanings and identity clearing. Instrument Serif hero emphasis and Lucide utilities extend the existing palette.
+
+Complete local **154 unit / 128 full-suite browser tests (6.9 min) plus 15 final layout/discovery checks**, lint/types/build/format/release, zero audit vulnerabilities,24 Go assertions and doctor pass. Native Chrome155 captures24 isolated synthetic views across390/1024/1280/1440/1920 widths, including600px height and four flight depths. Stored records and18 pre-existing modified historical PNGs remain unchanged. [Quality evidence](evidence/2026-10-15-observatory-quality.json), [capture manifest](evidence/2026-10-15-observatory/PROVENANCE.json).
+
+The same 240-star automatic route yields native GPU p95 **1.61→0.94ms**, native RAF p95 **7.1→7.1ms**, and SwiftShader RAF p95 **90.4→48.7ms**. Intermediate resolutions differ deliberately; these short results measure the adaptive strategy, not equal-resolution throughput or all hardware. User visual acceptance remains open. Prior1.24 [source CI](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38633114408) succeeds;1.25 source CI awaits its push. Production remains the preserved1.23 deployment below.
 
 ## Verified1.24.0 learning interface
 
@@ -10,7 +20,7 @@ Ready personal skies expose **home recall** for the active galaxy; empty/showcas
 
 Complete local validation: **147unit/122browser(12.0m)**, lint/types/build/format/release, zero audit vulnerabilities and24 Go assertions pass. Five added browser cases cover translated home recall, hidden answers, unchanged records, focus return/cycling, search shortcuts, draft protection, fast close and empty state. Native Chrome155 captures29 isolated synthetic views at390/768/1024/1280/1440/1920 widths, including600px height. Record/menu/bounds checks pass with no captured console errors. [Visual manifest](evidence/2026-10-14-learning-design/PROVENANCE.json), [quality evidence](evidence/2026-10-14-learning-quality.json), [interface foundations](../DESIGN_SYSTEM.md).
 
-Test screenshots now go to isolated Playwright output paths;18 pre-existing modified historical PNGs remain byte-for-byte preserved and outside this source checkpoint. The local planning prompt/list stays outside Git. Remote CI/preview for1.24.0 must be checked after its source push; no remote1.24 success is claimed here. Production remains the verified1.23.0 below. User visual acceptance and broad hardware/audio acceptance remain open.
+Test screenshots now go to isolated Playwright output paths;18 pre-existing modified historical PNGs remain byte-for-byte preserved and outside this source checkpoint. The local planning prompt/list stays outside Git. Exact-source1.24.0 CI38633114408 succeeds; its historical preview is not a1.25 deployment. Production remains the verified1.23.0 below. User visual acceptance and broad hardware/audio acceptance remain open.
 
 ## Verified1.23.0 production delivery
 
@@ -48,7 +58,7 @@ Runtime **b06b9d0** is committed/pushed. Complete local147 unit/117 browser test
 
 ## Next acceptance
 
-0. Review the local1.24.0 learning surfaces, home recall and keyboard flow with the user; verify the source push's remote CI/preview before any later publication. The deployed1.23.0 home/first-visit/menu acceptance also remains open. Do not restart the completed visual rendering phases.
+0. Review local1.25.0 interior gas, side/flight, HDR light, atmosphere controls and personal discovery; verify its pushed source CI before publication. Prior1.24 source CI succeeds. The deployed1.23.0 home/first-visit/menu acceptance also remains open. Do not restart the completed visual rendering phases.
 1. Review distant core scintillation, gas passage and the small red disk in the actual user browser. Source/display checks are complete; user visual acceptance remains open.
 2. Extend isolated hardware/large-archive review and physical headphone/speaker listening. No universal GPU, calibrated astronomy or Dolby/IMAX certification claim.
 3. Separate GitHub social-preview settings upload remains unverified; the branded PNG is ready. Preserve production dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc/sourcecd97c62 and retain the prior production deployment as rollback reference.
@@ -58,3 +68,7 @@ Runtime **b06b9d0** is committed/pushed. Complete local147 unit/117 browser test
 PR7 remains a development draft with current behavior, validation and preview. Current files contain technical specifications and synthetic evidence only. No personal records, browser data, credentials, private screenshots or conversation transcripts enter Git. Historical obsolete briefs remain in old Git revisions; no force push or history rewrite.
 
 Read [product](../PRODUCT_SPEC.md), [visual](../VISUAL_SPEC.md), [issues](KNOWN_ISSUES.md), [tasks](TASKS.md) and [device setup](CROSS_DEVICE.md).
+
+Final layout follow-up: hero type responds to viewport height; recent discoveries hide at short heights. A16px minimum gap to footer statistics passes at1920×855 and2560×900. All15 affected layout/discovery cases pass after this CSS change (130 distinct browser scenarios across the full and focused runs).
+
+Final footer-badge adjustment: five home-composition cases pass; the visible1920×855 browser reports a38px recent-to-statistics gap with the decorative badge hidden.

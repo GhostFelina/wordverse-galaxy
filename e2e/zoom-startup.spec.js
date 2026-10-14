@@ -39,7 +39,7 @@ async function seed(page) {
 
 test('a failed sky asset gives visible atlas access instead of an endless black opening', async ({ page }) => {
   await seed(page);
-  await page.route('**/assets/nebulae/orion-starless.png', (route) => route.fulfill({ status: 404, body: '' }));
+  await page.route('**/assets/nebulae/orion-starless-v2.png', (route) => route.fulfill({ status: 404, body: '' }));
   await page.goto('/?lang=en');
   await expect(page.locator('#app')).toHaveAttribute('data-graphics', 'unavailable');
   await expect(page.locator('#scene-loading')).toBeHidden();

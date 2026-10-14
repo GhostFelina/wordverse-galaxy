@@ -6,6 +6,8 @@ The desktop atlas uses a dark observational setting, warm ivory actions and rest
 
 `src/home-design.css` defines the shell; `src/learning-design.css` extends its semantic tokens across learning surfaces and native dialogs. Space Grotesk is the display/word face and DM Sans is the reading/control face. Both fonts are local. Personal words wrap in detail and recall views; atlas rows truncate long labels while the full record remains available on selection.
 
+Version1.25 adds local Instrument Serif italic for hero emphasis, Lucide utility icons, compact recent-discovery pills and a previous/next record toolbar. `src/observatory.css` extends the same palette. The toolbar follows the atlas's current query/order and resets meaning to concealed; arrow keys activate it outside editing. Identity changes clear discovery/navigation state. View settings remain accessible during Orion flight, including gas density/light, bounded optional star paths and collision-limited labels. [Rendering and discovery behavior](NEBULA_RENDERING.md).
+
 | Role | Token | Value |
 | --- | --- | --- |
 | Primary text and action | `--atlas-paper` | `#f4efe7` |
@@ -40,3 +42,5 @@ Reduced motion removes panel, backdrop, row, focus-action and toast transitions.
 `node scripts/capture-learning-design.mjs` creates isolated synthetic screenshots and a SHA256 manifest under `docs/handoff/evidence/2026-10-14-learning-design`. Set `WORDVERSE_CAPTURE_BROWSER=chrome` for the installed Chrome channel; the script otherwise uses Playwright Chromium. It checks desktop locales, first/empty states, menus, recall/form bounds and unchanged synthetic records.
 
 Test-generated screenshots use Playwright's per-test output directory. Historical checked-in evidence is never refreshed implicitly by running tests. Visual inspection and these checks do not establish universal device performance or full accessibility compliance.
+
+The final home layout caps display type by viewport height and hides recent discoveries below800px height. Its footer separation is checked with a16px minimum at1920×855 and2560×900, alongside the existing desktop widths.

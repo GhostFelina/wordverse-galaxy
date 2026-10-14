@@ -22,9 +22,11 @@ Learning panels, record details and recall use the same warm typography/surfaces
 - Gas raymarch quality and buffer resolution adapt independently from crisp stars/UI. Motion and settled buffers are retained. Shader and composite preparation precede the visible scene.
 - UI overlays remain readable at1024/1280/1440 desktop widths. Panels isolate their scrolling from the camera. Native focus, keyboard canvas controls, reduced motion and context-loss recovery remain functional.
 
-- Orion width is1.02 of the guidance frame and its artistic depth scale is3.6. The entrance stays outside the overview even on ultrawide screens. A periodic three-scale density field, compact finite lobes/cavity and explicit density mip footprints, contrast-shaped erosion and stride-filtered microstructure reduce interior streaking. Photographic ridge weight fades during immersion; fine gas detail remains procedural. Broader artistic and hardware acceptance remains open.
+- Orion width is1.02 of the guidance frame and its artistic depth scale is3.6. The entrance stays outside the overview even on ultrawide screens. A finite128³ density/light/dust/color field and periodic64³ erosion replace the runtime96³ generator. HDR radiance is transformed at final display; a byte-target fallback preserves range through reversible companding. Both resting and motion stay inside the measured volume budget. Photographic ridge weight fades during immersion; fine gas detail remains procedural. Broader artistic and hardware acceptance remains open.
 - All active-galaxy words use a deterministic reversible interior frame during explicit entry, with the same optics, hit targets and selected-body approach. Stored geometry is unchanged.
 
 ## Review
 
 Compare deterministic general,55%,close and gas-side captures using production modules. Check texture detail at actual native resolution, highlight clipping, halo boundaries and temporal stability. Measure RAF pacing separately from GPU timing; headless fixtures do not certify all hardware or visible user sessions.
+
+Version1.25 adds device-local density/light controls accessible inside flight, optional bounded personal star paths and collision-limited labels. Recent/random discovery and filtered previous/next navigation preserve hidden meanings and stored geometry. Instrument Serif italic emphasizes the home heading. [Rendering and discovery specification](NEBULA_RENDERING.md).

@@ -24,7 +24,11 @@ for (const width of [1440, 768, 390]) {
     await page.locator('#nebula-overview').click();
     await motion(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);
     await expect(canvas).toHaveAttribute('data-nebula-refined', 'true');
-    await expect(canvas).toHaveAttribute('data-nebula-gas-resolution', `${width}x900`);
+    // Automatic quality must keep its measured budget even at rest.
+    const resolution = (await canvas.getAttribute('data-nebula-gas-resolution')).split('x').map(Number);
+    expect(resolution[0]).toBeGreaterThanOrEqual(Math.round(width * 0.25));
+    expect(resolution[0]).toBeLessThanOrEqual(width);
+    expect(Math.abs(resolution[0] / resolution[1] - width / 900)).toBeLessThan(0.01);
     for (const layer of ['asteroids', 'fireballs', 'galaxies'])
       await expect(canvas).toHaveAttribute(`data-${layer}`, '0');
     expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(raw);

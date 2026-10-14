@@ -40,7 +40,7 @@ it('defines the reference55 as logarithmic distance progress and clamps both bou
 });
 it('transmits foreground and empty sightlines while dimming background stars through gas', () => {
   const group = new Group(),
-    density = new Data3DTexture(new Uint8Array(64).fill(255), 4, 4, 4);
+    density = new Data3DTexture(new Uint8Array(64 * 4).fill(255), 4, 4, 4);
   const transmission = createStarTransmission({ group, density });
   const camera = new PerspectiveCamera();
   camera.position.set(0, -0.4, 3);

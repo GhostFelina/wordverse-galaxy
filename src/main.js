@@ -8,7 +8,7 @@ import './style.css';
 import './product-polish.css';
 import './scene-loading.css';
 import { createRenderQuality } from './render-quality.js';
-import { worldUnitsPerPixel, pinchRatio, isEditingTarget } from './camera-input.js';
+import { worldUnitsPerPixel, pinchRatio, isEditingTarget, nebulaCruiseStep, cameraDamping } from './camera-input.js';
 import { createSkyEvents } from './sky-events.js';
 import { mountSoundscape } from './soundscape-ui.js';
 import { mountSkyEventsUI, mountNebulaNavigation } from './sky-events-ui.js';
@@ -35,6 +35,10 @@ import { mountAuthUI } from './auth-ui.js';
 import { mountAccountSync } from './account-sync-ui.js';
 import './home-design.css';
 import './learning-design.css';
+import { createConstellationPaths } from './constellation-paths.js';
+import { visibleLabelIds, recentRecords } from './word-exploration.js';
+import { mountObservatory, mountRecordNavigation } from './observatory-ui.js';
+import { polishInterfaceIcons, icon } from './interface-icons.js';
 
 const $ = (selector) => document.querySelector(selector);
 const stellarPreview = mountStellarPreview($('.detail-visual'));
@@ -62,6 +66,10 @@ let renderer, scene, camera, wordGroup;
 const worldStars = new Map();
 const starNodes = new Map();
 let wordStarSystem;
+let constellationPaths, observatoryUI, recordNavigation;
+let starPathsEnabled = false, starLabelMode = 'hover';
+let gasAppearance = { density:.85, light:1 };
+let detailSequence = [], atlasSequence = [], detailFromAtlas = false;
 let hoveredStarId = null;
 let explorationField = null;
 const displayStarPosition = entry => explorationField ? explorationField.position(entry) : wordStarPosition(entry);
@@ -94,6 +102,7 @@ const experience = createExperienceMode({ guestCount: universe.words.length, onC
 function syncRenderLoop() {
   lastCameraMs = 0;
   renderQuality?.resetTiming();
+  nebulaSystem?.resetTiming();
   renderer?.setAnimationLoop(catalogReady && graphicsFallback?.available && experience.snapshot().ready && !pendingGuestWrites && (!activePanel || activePanel === 'detail') ? animate : null);
 }
 window.addEventListener('load', syncRenderLoop, { once: true });
@@ -105,10 +114,12 @@ function applyExperience(state) {
   experienceUI?.update(state);
   graphicsFallback?.refresh();
   recallUI?.refresh();
+  observatoryUI?.refresh();
   syncRenderLoop();
   const key = `${state.mode}:${state.ownerId}:${state.ready}`;
   if (key === experienceKey) return;
   experienceKey = key;
+  detailSequence = []; atlasSequence = []; recordNavigation?.update([], null);
   stellarPreview.hide();
   wordCard.invalidate();
   livingSky?.reset();
@@ -208,6 +219,7 @@ function refreshCounts() {
   $('#hero-description').textContent = words.length === 0 ? t('hero.empty', { galaxy: galaxyDisplay(activeGalaxy) }) : t('hero.filled');
   $('#hero-add').firstChild.textContent = `${t(words.length ? 'action.addWord' : 'action.addFirst')} `;
   recallUI?.refresh();
+  observatoryUI?.refresh();
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
 }
 
@@ -245,7 +257,7 @@ function initScene() {
     renderer.setPixelRatio(ratio);
     $('#universe').dataset.renderDpr = String(ratio);
   } });
-  mountSceneControls({ locale: uiLocale, onMotion: applyMotionMode, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; } });
+  mountSceneControls({ locale: uiLocale, onMotion: applyMotionMode, onQuality: mode => { renderQuality.setMode(mode); nebulaSystem?.setQuality(mode); $('#universe').dataset.qualityMode = mode; }, onStars: preferences => { starPathsEnabled = preferences.paths === 'on'; starLabelMode = preferences.labels; $('#app').dataset.starLabels = starLabelMode; }, onNebula: preferences => {gasAppearance=preferences;nebulaSystem?.setAppearance(preferences);transmissionCache.clear();} });
   soundscape = mountSoundscape({ locale: uiLocale, container: document.querySelector('.scene-controls-content') });
   livingSky = createLivingSky();
   skyEvents = createSkyEvents({ reducedMotion });
@@ -265,6 +277,7 @@ function initScene() {
   camera.position.z = zoom;
   nebulaSystem = createNebulaSystem(scene, camera, { compact: innerWidth < 760, fieldStars: false });
   nebulaSystem.setQuality(renderQuality.mode);
+  nebulaSystem.setAppearance(gasAppearance);
   nebulaUI = mountNebulaUI({ locale: uiLocale, records: nebulaSystem.records, beforeOpen: closePanels,
     onFocus(record) { travelToNebula(record); zoom = Math.min(zoom, 160 - catalogDepth); },
     onOverview() { closePanels(); focusedStarId = selectedId = null; travelingNebula = null; leaveOrionField(); nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
@@ -282,6 +295,7 @@ function initScene() {
   $('#universe').dataset.starCapacity = '0';
   wordGroup = new THREE.Group(); scene.add(wordGroup);
   wordStarSystem = createWordStarSystem(wordGroup);
+  constellationPaths = createConstellationPaths(wordGroup);
   rebuildWordStars();
   // Start the GPU loop after catalog initialization to avoid starving cold module loads.
 }
@@ -304,6 +318,7 @@ function rebuildWordStars() {
   const policy = experience.snapshot();
   const visibleWords = policy.ready && policy.mode !== 'showcase-demo' ? words.filter(word => entryKind(word) === 'word') : [];
   wordStarSystem.setEntries(visibleWords, { positionOf: displayStarPosition });
+  constellationPaths?.setRecords(visibleWords, displayStarPosition);
   visibleWords.forEach(word => {
     const group = new THREE.Group(); group.position.copy(displayStarPosition(word));
     group.userData = { word, binarySlot: -1 };
@@ -329,8 +344,8 @@ function rebuildWordStars() {
 }
 const projected = new THREE.Vector3();
 function animate(ms) {
-  if (document.hidden) { lastCameraMs = 0; return; }
-  if (document.querySelector('dialog[open]')) { lastCameraMs = 0; sceneWakeAt = performance.now() + 150; return; }
+  if (document.hidden) { lastCameraMs = 0; nebulaSystem?.resetTiming(); return; }
+  if (document.querySelector('dialog[open]')) { lastCameraMs = 0; nebulaSystem?.resetTiming(); sceneWakeAt = performance.now() + 150; return; }
   if (performance.now() < sceneWakeAt) return;
   if (!renderer) return;
   if (nebulaSystem.failed) { graphicsFallback.setAvailable(false); syncRenderLoop(); return; }
@@ -363,10 +378,8 @@ function animate(ms) {
   const cameraDelta = lastCameraMs ? Math.min(1000, ms-lastCameraMs) : 16.67;
   lastCameraMs = ms;
   renderQuality.sample(cameraDelta);
-  // Preserve at least one rendered pixel per CSS pixel after volume refinement.
-  if (renderQuality.mode === 'auto' && nebulaSystem.refined && renderer.getPixelRatio() < 1) renderer.setPixelRatio(Math.min(devicePixelRatio, 1));
-  const planeDamping = 1-Math.exp(-cameraDelta*.0036);
-  const zoomDamping = 1-Math.exp(-cameraDelta*.0036);
+  const planeDamping = cameraDamping(cameraDelta);
+  const zoomDamping = planeDamping;
   camera.position.x += (targetX-camera.position.x)*planeDamping;
   camera.position.y += (targetY-camera.position.y)*planeDamping;
   camera.position.z += (zoom+catalogDepth-camera.position.z)*zoomDamping;
@@ -405,6 +418,8 @@ function animate(ms) {
   });
   const updateOverlays = words.length <= 80 || ms - lastOverlayUpdate >= 33;
   if (updateOverlays) lastOverlayUpdate = ms;
+  const labelCandidates = [];
+  const immersive = $('#app').classList.contains('immersive');
   for (const [id, group] of worldStars) {
     if (!updateOverlays) continue;
     group.getWorldPosition(projected); projected.project(camera);
@@ -419,7 +434,13 @@ function animate(ms) {
     nodes.button.style.width = nodes.button.style.height = `${hitSize}px`;
     nodes.button.dataset.diameter = diameter.toFixed(2);
     if (visible) { nodes.button.style.left = nodes.label.style.left = `${x}px`; nodes.button.style.top = nodes.label.style.top = `${y}px`; }
+    if (visible && y > 110 && y < innerHeight - 140 && (immersive || x > Math.min(660,innerWidth*.52))) labelCandidates.push({ id, x, y, depth: projected.z, word: group.userData.word.word, priority: id === hoveredStarId || id === selectedId });
   }
+  if (updateOverlays && starLabelMode === 'all') { const visible = visibleLabelIds(labelCandidates,{width:innerWidth,height:innerHeight}); for(const [id,nodes] of starNodes) nodes.label.dataset.labelVisible = String(visible.has(id)); }
+  const paths = constellationPaths.update({ enabled: starPathsEnabled && wordGroup.visible, focused: !!focusedStarId });
+  $('#universe').dataset.starPaths = String(paths.visible);
+  $('#universe').dataset.starPathCount = String(paths.edges);
+  $('#universe').dataset.starLabels = starLabelMode;
   $('#universe').dataset.personalDetails = String(wordStarSystem.detailCount);
   $('#universe').dataset.personalPoints = String(wordStarSystem.pointCount);
   $('#universe').dataset.focusedWord = focusedStarId || '';
@@ -428,7 +449,7 @@ function animate(ms) {
   const target = focusedStarId ? worldStars.get(focusedStarId) : null;
   $('#universe').dataset.starApproach = target ? starApproach(camera.position.z-target.position.z,MAX_ZOOM-target.position.z).toFixed(3) : '0';
   renderer.render(scene, camera);
-  const directed = livingSky.tick(cameraDelta*.001,skyEvents.snapshot().kind,!!activePanel || !!focusedStarId);
+  const directed = livingSky.tick(cameraDelta*.001,skyEvents.snapshot().kind,!!activePanel || !!focusedStarId || !!travelingNebula);
   if (directed) { skyEvents.select(directed.kind,{wide:$('#app').classList.contains('immersive')}); playSkySound(directed.kind); }
   const skyState = skyEvents.update(cameraDelta*.001, camera.aspect, camera, livingSky.envelope);
   // Sky accents retain their own dark cores; personal stars are drawn last.
@@ -480,10 +501,13 @@ function openPanel(which) {
   document.documentElement.scrollLeft = document.body.scrollLeft = $('#app').scrollLeft = 0;
 }
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
-function selectWord(id) {
+function selectWord(id, keepNavigation = false) {
   wordCard.invalidate();
-  const word = words.find(w => w.id === id); if (!word) return;
-  $('#detail-atlas-back').hidden = activePanel !== 'collection';
+  const word = words.find(w => w.id === id); if (!word || !experience.snapshot().ready) return;
+  if (!keepNavigation) { detailFromAtlas = activePanel === 'collection'; detailSequence = (detailFromAtlas ? atlasSequence : recentRecords(words).map(w=>w.id)); }
+  detailSequence = detailSequence.filter(key=>words.some(w=>w.id===key));
+  recordNavigation?.update(detailSequence.map(key=>words.find(w=>w.id===key)),id);
+  $('#detail-atlas-back').hidden = !detailFromAtlas;
   const isPlanet = entryKind(word) === 'conjunction';
   wordCard.setEnabled(!isPlanet);
   selectedId = id;
@@ -633,6 +657,7 @@ function renderCollection() {
   const query = $('#search-input').value.trim().toLocaleLowerCase(uiLocale);
   const desktop = matchMedia('(min-width:761px)').matches;
   const result = desktop && collectionAtlas ? queryAtlas(words, collectionAtlas.state()) : [...words].reverse().filter(w => `${w.word} ${w.meaning}`.toLocaleLowerCase(uiLocale).includes(query));
+  atlasSequence = result.map(word=>word.id);
   collectionAtlas?.update(words);
   $('#result-count').textContent = formatUnit(uiLocale, 'entry', result.length, { uppercase: true });
   const list = $('#collection-list'); list.replaceChildren();
@@ -644,7 +669,7 @@ function renderCollection() {
     const copy = document.createElement('span'); copy.className = 'collection-copy';
     const title = document.createElement('strong'); title.textContent = word.word;
     const sub = document.createElement('small'); sub.textContent = entryKind(word) === 'conjunction' ? t('message.planetCollection', { planet: t(`names.planet.${planetType(word)}`) }) : starStageLabel(starAge(word.createdAt));
-    const arrow = document.createElement('span'); arrow.className = 'collection-arrow'; arrow.textContent = '↗';
+    const arrow = document.createElement('span'); arrow.className = 'collection-arrow'; arrow.append(icon('arrow'));
     copy.append(title, sub); row.append(star, copy, arrow);
     if (desktop) {
       const date = document.createElement('time'); date.className = 'atlas-date';
@@ -770,6 +795,7 @@ function setZoom(value, focusX, focusY) {
   pan.y += (.5 - focusY / innerHeight) * 2 * halfHeightChange;
 }
 function travelToNebula(record, keepPosition = false) {
+  if (livingSky?.active) { livingSky.reset(); skyEvents.select(null); soundscape.event(null); skyEventsUI.update({kind:null}); }
   selectedId = null;
   const absoluteZ = zoom + catalogDepth;
   focusedStarId = null; preFocusPan = null;
@@ -793,6 +819,7 @@ function zoomWordTarget(factor) {
 }
 function zoomOnGalaxy(value) {
   if(zoomWordTarget(value/zoom))return;
+  if (travelingNebula) { setZoom(zoom+nebulaCruiseStep(value<zoom?-120:120,MAX_ZOOM-catalogDepth-MIN_ZOOM)); return; }
   if (catalogDepth !== 0 || zoom > 650) { setZoom(value); return; }
   if (!words.length || !camera) { setZoom(value); return; }
   projected.set(31, 0, 0).project(camera);
@@ -869,6 +896,7 @@ function bindUI() {
       return;
     }
     if (isEditingTarget(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (activePanel === 'detail' && ['ArrowLeft','ArrowRight'].includes(e.key) && !$('#record-navigation').hidden) { e.preventDefault(); $(e.key==='ArrowLeft'?'#previous-record':'#next-record').click(); return; }
     if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); }
     if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); }
     // Camera keys belong to the canvas; arrow keys elsewhere retain native UI behavior.
@@ -945,7 +973,7 @@ function bindUI() {
     // Nebula flight is an explicit selection. A plain wheel gesture must never
     // switch depth scales or re-center on a different object under the pointer.
     if(travelingNebula) {
-      setZoom(zoom*Math.exp(delta*.00145));
+      setZoom(zoom+nebulaCruiseStep(delta,MAX_ZOOM-catalogDepth-MIN_ZOOM));
     } else setZoom(zoom*Math.exp(delta*.00145),e.clientX,e.clientY);
   };
   $('#app').addEventListener('wheel', onZoomWheel, { passive: false });
@@ -962,6 +990,9 @@ function resetPageScroll() {
 resetPageScroll();
 window.addEventListener('pageshow', () => { resetPageScroll(); requestAnimationFrame(resetPageScroll); setTimeout(resetPageScroll, 250); });
 applyHomeTranslations(uiLocale);
+polishInterfaceIcons();
+observatoryUI = mountObservatory({ locale: uiLocale, getRecords: ()=>words, isReady: ()=>experience.snapshot().ready && experience.snapshot().mode !== 'showcase-demo', getSelectedId: ()=>selectedId, onSelect: id=>selectWord(id) });
+recordNavigation = mountRecordNavigation({locale:uiLocale,onSelect:id=>selectWord(id,true)});
 collectionAtlas = mountCollectionAtlas({ locale: uiLocale, onChange: () => { if (activePanel === 'collection') renderCollection(); }, onBack: () => openPanel('collection') });
 graphicsFallback = mountGraphicsFallback({ locale: uiLocale, onAtlas: () => $('#collection-btn').click() });
 persist(); refreshCounts(); bindUI();

@@ -10,7 +10,13 @@ import { createNebulaSystem } from '../src/nebula-system.js';
 it('ships only Orion with verified optical/infrared assets and observed catalogue provenance', () => {
   expect(images.map((image) => image.id)).toEqual(['orion']);
   expect(fields.map((field) => field.id)).toEqual(['orion']);
-  for (const asset of [images[0], images[0].infrared, images[0].gasTexture, images[0].highResolution]) {
+  for (const asset of [
+    images[0],
+    images[0].infrared,
+    images[0].gasTexture,
+    images[0].highResolution,
+    images[0].starlessTexture,
+  ]) {
     expect(
       createHash('sha256')
         .update(readFileSync(new URL('../public' + asset.texture, import.meta.url)))

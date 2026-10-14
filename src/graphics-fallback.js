@@ -41,6 +41,7 @@ export function mountGraphicsFallback({ locale, onAtlas }) {
     refresh,
     setAvailable(value) {
       available = value;
+      app.dataset.sceneState = value ? 'loading' : 'failed';
       refresh();
     },
     get available() {

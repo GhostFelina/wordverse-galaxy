@@ -38,7 +38,19 @@
     "motionSystem": "Device preference",
     "motionFull": "Living stars and sky",
     "motionReduced": "Quiet view",
-    "motionHint": "Device preference follows reduced motion. Living view enables stellar scintillation and minute tones."
+    "motionHint": "Device preference follows reduced motion. Living view enables stellar scintillation and minute tones.",
+    "starView": "Star appearance",
+    "paths": "Star paths",
+    "pathsOff": "Off",
+    "pathsOn": "On",
+    "labels": "Star names",
+    "labelsHover": "On hover",
+    "labelsAll": "Visible names",
+    "labelsNone": "Hidden",
+    "pathsHint": "Paths visually connect nearby stars. They hide during a close approach and never change your records.",
+    "gasTitle": "Nebula atmosphere",
+    "gasDensity": "Gas density",
+    "gasLight": "Light intensity"
   },
   "language": "English",
   "nav": {
@@ -635,5 +647,14 @@
     "output": "Listening mode",
     "headphones": "Headphones · spatial",
     "speakers": "Speakers · stereo"
+  },
+  "observatory": {
+    "recent": "Your recent discoveries",
+    "random": "Find a star",
+    "open": "Open {word}",
+    "browse": "Browse records",
+    "previous": "Previous record",
+    "next": "Next record",
+    "position": "Record {current} of {total}"
   }
 }

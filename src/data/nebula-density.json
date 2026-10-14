@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "kind": "Artistic deterministic finite density, self-shadow, dust and color fields. Not observed tomography.",
+  "generator": "scripts/build-nebula-density.mjs",
+  "assets": [
+    {
+      "texture": "/assets/nebulae/orion-density-v1.wvz",
+      "dimensions": [128, 128, 128],
+      "channels": 4,
+      "encoding": "gzip uint8",
+      "bytes": 8388608,
+      "compressedBytes": 5851702,
+      "sha256": "fe54967ef82f9d6e2dbff71a194325d8911495a9c5630a2b951b3de87fd7061a"
+    },
+    {
+      "texture": "/assets/nebulae/orion-detail-v1.wvz",
+      "dimensions": [64, 64, 64],
+      "channels": 1,
+      "encoding": "gzip uint8",
+      "bytes": 262144,
+      "compressedBytes": 246841,
+      "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+    }
+  ]
+}

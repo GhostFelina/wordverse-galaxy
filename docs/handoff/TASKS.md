@@ -13,7 +13,10 @@
 - [x] Requested1.23.0 production release, public alias, HTTP/SHA256 and native Chrome verification.
 - [x] Cohesive1.24.0 atlas/form/detail/recall and dialog surfaces, translated home recall, atlas shortcuts and modal focus management.
 - [x] Complete1.24.0 local147unit/122browser and quality gates;29 native synthetic views, unchanged records and preserved historical evidence.
-- [ ] Verify1.24.0 source checkpoint remote CI/preview and obtain user visual acceptance before later publication.
+- [x] Verify1.24.0 exact-source remote CI.
+- [x] Rebuild1.25.0 finite gas/HDR pipeline, adaptive cruise budgets, atmosphere controls and personal discovery/navigation.
+- [x] Complete1.25.0 local154unit/128browser and gates;21 native synthetic captures and native/software strategy comparison.
+- [ ] Verify1.25.0 pushed source CI and obtain user visual acceptance before publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
 Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.
