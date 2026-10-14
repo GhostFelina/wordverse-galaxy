@@ -14,7 +14,8 @@
     "result": "You remembered {remembered} of {total} words.",
     "retry": "Try the difficult words again",
     "finish": "Return to my universe",
-    "sessionOnly": "This short session does not change your records. Results belong to this session only."
+    "sessionOnly": "This short session does not change your records. Results belong to this session only.",
+    "homeOpen": "Practice my words"
   },
   "scene": {
     "title": "View",
@@ -576,7 +577,8 @@
     "clearSearch": "Clear search",
     "reset": "Show all records",
     "noDate": "Date unavailable",
-    "back": "Back to atlas"
+    "back": "Back to atlas",
+    "shortcut": "Search the word atlas · / or Ctrl/⌘ K"
   },
   "graphics": {
     "title": "The universe view is unavailable.",

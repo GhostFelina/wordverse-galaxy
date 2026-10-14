@@ -14,7 +14,8 @@
     "result": "Recordaste {remembered} de {total} palabras.",
     "retry": "Repasar las palabras difíciles",
     "finish": "Volver a mi universo",
-    "sessionOnly": "Esta sesión no modifica tus registros. Los resultados pertenecen solo a esta sesión."
+    "sessionOnly": "Esta sesión no modifica tus registros. Los resultados pertenecen solo a esta sesión.",
+    "homeOpen": "Repasar mis palabras"
   },
   "scene": {
     "title": "Vista",
@@ -576,7 +577,8 @@
     "clearSearch": "Borrar búsqueda",
     "reset": "Mostrar todos los registros",
     "noDate": "Fecha no disponible",
-    "back": "Volver al atlas"
+    "back": "Volver al atlas",
+    "shortcut": "Buscar en el atlas · / o Ctrl/⌘ K"
   },
   "graphics": {
     "title": "La vista del universo no está disponible.",

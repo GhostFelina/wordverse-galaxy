@@ -28,7 +28,7 @@ for (const width of [1440, 768, 390]) {
     for (const layer of ['asteroids', 'fireballs', 'galaxies'])
       await expect(canvas).toHaveAttribute(`data-${layer}`, '0');
     expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(raw);
-    if (width === 1440) await page.screenshot({ path: 'docs/handoff/evidence/upgrade/orion-home-1440.png' });
+    if (width === 1440) await page.screenshot({ path: test.info().outputPath('orion-home-1440.png') });
     expect(errors).toEqual([]);
   });
 }

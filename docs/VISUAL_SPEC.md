@@ -8,6 +8,8 @@ The first-visit, empty and populated home states share a typographic hierarchy. 
 
 ## Rendering boundaries
 
+Learning panels, record details and recall use the same warm typography/surfaces as the shell. Search, selected filters, form choices and native dialogs share consistent focus, borders and spacing. [Interface foundations](DESIGN_SYSTEM.md) records the current tokens and keyboard behavior.
+
 - Current Orion color guidance is an AI-edited, starless native1254×1254 derivative of telescope imagery. No8K, tomography or calibrated astrophysical simulation claim. Depth/volume and stellar convection are artistic procedural models.
 - Camera far boundary160/FOV75; random positions are created once and persisted. Never re-layout old records for a screenshot.
 - Distant word stars use slow independent scintillation: bounded unsaturated optical alpha modulates the visible core and halo, with a nonzero light minimum, stationary cores, record-stable phases and projected-size fade. Display validation includes ACES/sRGB output at0.75/3.5/10px. A device/follow/full/reduced preference makes the behavior explicit. Reduced motion freezes the material clock; nearby optical bodies and surface texture remain distinct.

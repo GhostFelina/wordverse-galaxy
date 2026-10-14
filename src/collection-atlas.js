@@ -36,6 +36,14 @@ export function queryAtlas(records, { query = '', kind = 'all', sort = 'newest',
 export function mountCollectionAtlas({ locale, onChange, onBack }) {
   const t = (key) => translate(locale, `atlas.${key}`);
   const search = document.querySelector('#search-input');
+  const nav = document.querySelector('#collection-btn');
+  nav.setAttribute('aria-keyshortcuts', '/ Control+k Meta+k');
+  nav.title = t('shortcut');
+  const shortcut = document.createElement('kbd');
+  shortcut.className = 'atlas-shortcut';
+  shortcut.textContent = '/';
+  shortcut.setAttribute('aria-hidden', 'true');
+  nav.append(shortcut);
   const back = document.createElement('button');
   back.type = 'button';
   back.id = 'detail-atlas-back';

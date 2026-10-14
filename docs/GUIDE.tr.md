@@ -2,7 +2,7 @@
 
 Öğrendiğin kelimelerden keşfedilebilir bir evren oluştur. Bir kelime ekle, yıldızını bul, yüzeyine yaklaş ve hazır olduğunda anlamını aç.
 
-Canlı sürüm1.14.1; bu rehberdeki yeni masaüstü deneyimleri `phase/4-universe` dalındaki1.23.0 geliştirmesine aittir.
+Son doğrulanan canlı sürüm 1.23.0; ortak öğrenme panelleri ve yeni kısayollar `phase/4-universe` dalındaki 1.24.0 geliştirmesine aittir.
 
 ## Kullanım
 
@@ -14,6 +14,8 @@ Canlı sürüm1.14.1; bu rehberdeki yeni masaüstü deneyimleri `phase/4-univers
 - Gökyüzü, sakin aralıklarla karışık sırada farklı konumlarda meteor, süpernova, kuyruklu yıldız, pulsar, uzak karadelik ve nötron yıldızı çarpışması gösterir. **✦ Gökyüzü deneyimleri** bölümünde istediğin sahneyi seçebilir, **Canlı gökyüzü** düğmesiyle otomatik akışı kapatabilirsin. **Sakin gökyüzü** de akışı durdurur. Elle seçim önceliklidir; kelime paneli veya yıldız odağı açıkken yeni otomatik olay başlamaz. Sanatsal olaylar kelimeleri etkilemez; azaltılmış hareket açıkken sabit gösterilir.
 - **∿ Ses kapalı** düğmesiyle özgün uzay atmosferini aç. **Görünüm → Evrenin sesi** içinde ses düzeyini ve kulaklık/hoparlör biçimini ayarla. Kulaklık biçiminde işlem ve olay efektleri yön hissi taşır. Nebula derinliği, yıldız odağı ve seçilen gök olayı sesi değiştirir. Kelime başarıyla kaydedildiğinde doğuş, düzenlendiğinde kısa bir yükseliş, silindiğinde yumuşak bir sönüş duyulur; başarısız işlemler ses üretmez. Sekme arka plana geçtiğinde ses duraklar.
 - Üst menüdeki **Kelime atlası** ile kelimelerini aç; ara, türü filtrele, tarihe veya alfabeye göre sırala. Kısa hatırlama oturumunda anlamı kendin aç ve zorlandıklarını tekrar gör.
+- Aktif galaksinde kayıt varsa ana ekrandaki **Kısa tekrar yap** bağlantısıyla doğrudan hatırlama oturumuna başla. Anlamı hazır olduğunda aç; bu oturum kayıtlarını değiştirmez.
+- Yazı yazmadığın sırada `/` veya `Ctrl+K` (Mac’te `⌘K`) atlas aramasını açar. Bir kelime formunu düzenlerken kısayol taslağını kapatmaz. Panel içindeyken Tab/Shift+Tab ile dolaş; Escape ile kapatıp açtığın düğmeye dön.
 - Yıldız ayrıntısındaki **Yıldız kartı** ile kare veya dikey PNG indir. Anlam varsayılan olarak dahil edilmez; paylaşım otomatik yapılmaz.
 
 - Yıldız rengi eklenme tarihinden türetilir; hızlandırılmış görsel evreler arasında sürekli geçer ve her dakika küçük bir ton farkı oluşur. Gerçek yıldız ömrünü ölçmez.

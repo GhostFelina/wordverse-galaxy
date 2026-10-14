@@ -54,7 +54,7 @@ test('desktop atlas, details and short recall remain available when the universe
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
   await expect(page.locator('.graphics-fallback')).toBeVisible();
   await expect(page.locator('#hero-explore')).toBeDisabled();
-  await page.screenshot({ path: 'docs/handoff/evidence/2026-10-12-graphics-fallback-1440.png' });
+  await page.screenshot({ path: test.info().outputPath('2026-10-12-graphics-fallback-1440.png') });
   await page.locator('#graphics-open-atlas').click();
   await expect(page.locator('.collection-item')).toHaveCount(1);
   await page.locator('.collection-item').click();

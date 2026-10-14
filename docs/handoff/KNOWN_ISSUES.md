@@ -1,5 +1,7 @@
 # Known issues
 
+- Development1.24.0 passes local gates and native synthetic visual review; remote checkpoint CI/preview and user acceptance must be checked separately. Production stays1.23.0.
+
 - U2 visual review and broad hardware/large-archive acceptance remain open. Short synthetic RTX5060Ti first-wheel RAF p95~7.1ms/max~12.9ms is not universal GPU certification.
 - Main branch application is older than the promoted production build. Documentation-only changes must not trigger a production downgrade.
 - Account/network failures can delay identity resolution; content isolation is preserved. Account rollout and new mobile design are outside the current desktop presentation work.

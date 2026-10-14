@@ -85,7 +85,7 @@ for (const [width, height, locale] of [
     if (width <= 760) expect(stats.y + stats.height).toBeLessThanOrEqual(controls.y);
     await expect(page.locator('#hero-add')).toBeVisible();
     await expect(page.locator('#universe')).toHaveAttribute('data-nebula-refined', 'true');
-    await page.screenshot({ path: `docs/handoff/evidence/2026-10-12-home-${width}-${height}-${locale}.png` });
+    await page.screenshot({ path: test.info().outputPath(`2026-10-12-home-${width}-${height}-${locale}.png`) });
     await page.locator('#collection-btn').click();
     await expect(page.locator('#open-recall')).toBeVisible();
     await expect(page.locator('#universe-mode')).toBeHidden();
@@ -94,7 +94,7 @@ for (const [width, height, locale] of [
     await expect(page.locator('#detail-panel')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
     await expect(page.locator('.detail-orbit').first()).toBeHidden();
     await expect(page.locator('#universe-mode')).toBeHidden();
-    await page.screenshot({ path: `docs/handoff/evidence/2026-10-12-detail-${width}-${height}-${locale}.png` });
+    await page.screenshot({ path: test.info().outputPath(`2026-10-12-detail-${width}-${height}-${locale}.png`) });
   });
 }
 
@@ -124,7 +124,7 @@ for (const [width, locale] of [
     await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeCloseTo(160, 1);
     await expect(canvas).toHaveAttribute('data-nebula-loaded', '1');
     await expect(canvas).toHaveAttribute('data-nebula-refined', 'true');
-    await page.screenshot({ path: `docs/handoff/evidence/2026-10-12-view-controls-${width}-${locale}.png` });
+    await page.screenshot({ path: test.info().outputPath(`2026-10-12-view-controls-${width}-${locale}.png`) });
     await page.reload();
     await expect(canvas).toHaveAttribute('data-quality-mode', 'low');
     await page.locator('#scene-controls summary').click();

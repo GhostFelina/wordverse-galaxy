@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.23.0",
-  "activeWork": "Production1.23.0 delivered and verified; redesigned home and scene user acceptance remain open",
+  "developmentVersion": "1.24.0",
+  "activeWork": "Learning interface1.24.0 locally verified; remote checkpoint verification and user visual acceptance next. Production1.23.0 preserved.",
   "pausedVisualLayers": [
     "other-nebulae",
     "galaxies",
@@ -42,7 +42,7 @@
       "version": "1.23.0"
     },
     "localUnitTests": 147,
-    "suiteBrowserTests": 117,
+    "suiteBrowserTests": 122,
     "userVisualAcceptance": "pending",
     "preview": {
       "version": "1.23.0",
@@ -232,5 +232,20 @@
       "main": "6023083",
       "status": "Documentation-only merged2026-10-12 before requested production release"
     }
+  },
+  "learningDesign": {
+    "version": "1.24.0",
+    "status": "local-verified-awaiting-remote-and-user-review",
+    "scope": "Shared warm learning/dialog surfaces, home recall, atlas shortcuts and modal focus management",
+    "unitTests": 147,
+    "browserTests": 122,
+    "browserDurationMinutes": 12.0,
+    "gates": "lint/types/build/format/release/audit/24Go pass",
+    "evidence": "docs/handoff/evidence/2026-10-14-learning-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-14-learning-design/PROVENANCE.json",
+    "nativeCaptures": 29,
+    "browser": "Chrome155; fresh isolated synthetic origins; D3D11 requested",
+    "production": "Preserved1.23.0; no production release in this checkpoint",
+    "next": "Check source push remote CI/preview, then user review of local1.24.0 home/atlas/form/recall and keyboard flow"
   }
 }

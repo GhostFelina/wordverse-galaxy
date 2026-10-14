@@ -7,6 +7,8 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 - Desktop Three.js scene with a single Orion volume and personal word stars, shared optical/stellar surface materials and stable persisted positions.
 - Searchable atlas with word/conjunction filters, chronological/natural alphabetical sorting, record dates and return-to-atlas state.
 - A short ephemeral recall session: reveal, self-assess and repeat difficult items. No persistent mastery score or spaced-repetition claims.
+- Ready personal skies with active-galaxy records expose recall directly from home. The atlas remains its other entry point; empty and demonstration states hide the home action.
+- Atlas search supports `/` outside editing and `Control/Meta+K`; open learning panels retain a bounded keyboard focus cycle and restore their opener on close.
 - Language galaxies, editing, record history and compatible JSON import/export. Guest records remain separate from account-owned storage.
 - Turkish, English and Spanish UI. Existing mobile layouts are maintained; new visual work is desktop-first.
 - Cohesive desktop home with an original constellation mark, clear word/atlas actions and a shared scene toolbar. First visitors can choose their own universe or exploration; existing records open directly into their personal sky.

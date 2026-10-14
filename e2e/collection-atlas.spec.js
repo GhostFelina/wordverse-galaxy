@@ -119,7 +119,7 @@ for (const [locale, width, height] of [
     await expect(panel).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
     const layout = await panel.evaluate((element) => ({ scroll: element.scrollWidth, width: element.clientWidth }));
     expect(layout.scroll).toBeLessThanOrEqual(layout.width + 1);
-    await page.screenshot({ path: `docs/handoff/evidence/2026-10-12-atlas-${width}-${locale}.png` });
+    await page.screenshot({ path: test.info().outputPath(`2026-10-12-atlas-${width}-${locale}.png`) });
     await rows.filter({ hasText: 'Bloom' }).click();
     await expect(page.locator('#detail-word')).toHaveText('Bloom');
     await page.getByRole('button', { name: labels[locale].back, exact: true }).click();

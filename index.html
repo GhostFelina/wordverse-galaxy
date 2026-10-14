@@ -63,7 +63,7 @@
             <button class="text-cta" id="hero-explore">Gökyüzünü keşfet <span aria-hidden="true">→</span></button>
           </div>
           <div class="demo-note" id="demo-note"><span class="demo-spark">✧</span> İlk kelimeni ekle ve karanlıktaki ilk ışığı yak.</div>
-          <a class="about-link" href="/about.html">Wordverse hakkında ↗</a>
+          <div class="hero-links" id="home-learning"><a class="about-link" href="/about.html">Wordverse hakkında ↗</a></div>
         </section>
 
         <div id="star-layer" class="star-layer" aria-label="Kelime yıldızları"></div>
@@ -95,7 +95,7 @@
       </div>
 
       <div class="panel-backdrop" id="panel-backdrop"></div>
-      <section class="side-panel" id="detail-panel" aria-labelledby="detail-word" aria-hidden="true" inert>
+      <section class="side-panel" id="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-word" aria-hidden="true" inert>
         <button class="panel-close" id="close-detail" aria-label="Paneli kapat">×</button>
         <div class="panel-kicker"><span class="panel-kicker-dot"></span> <span id="object-record-label">YILDIZ KAYDI</span> <span id="detail-number">NO. 001</span></div>
         <div class="detail-visual"><div class="detail-orbit orbit-one"></div><div class="detail-orbit orbit-two"></div><div class="detail-sun" id="detail-sun"></div></div>
@@ -114,7 +114,7 @@
         <div class="detail-actions"><button id="edit-word">Düzenle</button><button class="delete-link" id="delete-word">Yıldızı kaldır</button></div>
       </section>
 
-      <section class="side-panel form-panel" id="add-panel" aria-labelledby="form-title" aria-hidden="true" inert>
+      <section class="side-panel form-panel" id="add-panel" role="dialog" aria-modal="true" aria-labelledby="form-title" aria-hidden="true" inert>
         <button class="panel-close" id="close-add" aria-label="Paneli kapat">×</button>
         <div class="panel-kicker"><span class="panel-kicker-dot"></span> YENİ BİR IŞIK <span>NO. <span id="next-number">001</span></span></div>
         <div class="form-heading"><div class="form-asterisk">✳</div><h2 id="form-title">Yeni bir yıldız<br /><em>doğuyor.</em></h2><p id="form-copy">Bugün öğrendiğin kelimeyi ekle. Evreninde ona özel bir yer açalım.</p></div>
@@ -131,14 +131,14 @@
         </form>
       </section>
 
-      <section class="collection-panel" id="collection-panel" aria-labelledby="collection-title" aria-hidden="true" inert>
+      <section class="collection-panel" id="collection-panel" role="dialog" aria-modal="true" aria-labelledby="collection-title" aria-hidden="true" inert>
         <div class="collection-top"><div><div class="panel-kicker"><span class="panel-kicker-dot"></span> YILDIZ ATLASI</div><h2 id="collection-title">Kelimelerim<span>.</span></h2><p>Evreninde parlayan bütün kelimeler.</p></div><button class="panel-close collection-close" id="close-collection" aria-label="Koleksiyonu kapat">×</button></div>
         <div class="search-wrap"><span>⌕</span><input id="search-input" type="search" placeholder="Bir yıldız ara..." aria-label="Kelime ara" /></div>
         <div class="collection-meta"><span id="result-count">0 YILDIZ</span><span>EN YENİ ÖNCE</span></div>
         <div id="collection-list" class="collection-list"></div>
         <button class="collection-add" id="collection-add"><span>+</span> Yeni kelime ekle</button>
       </section>
-      <section class="collection-panel galaxy-panel" id="galaxy-panel" aria-labelledby="galaxy-panel-title" aria-hidden="true" inert>
+      <section class="collection-panel galaxy-panel" id="galaxy-panel" role="dialog" aria-modal="true" aria-labelledby="galaxy-panel-title" aria-hidden="true" inert>
         <div class="collection-top"><div><div class="panel-kicker"><span class="panel-kicker-dot"></span> GALAKSİ HARİTASI</div><h2 id="galaxy-panel-title">Galaksilerim<span>.</span></h2><p>Her dilin kendine ait boş bir göğü olsun.</p></div><button class="panel-close collection-close" id="close-galaxy" aria-label="Galaksileri kapat">×</button></div>
         <div class="galaxy-current"><span id="galaxy-language">İngilizce</span><div class="galaxy-current-title"><strong id="galaxy-name-detail">İngilizce Galaksisi</strong><button id="rename-galaxy" type="button" aria-label="Galaksi adını düzenle">✎</button></div><form id="rename-galaxy-form" hidden><input id="rename-galaxy-input" type="text" maxlength="60" aria-label="Yeni galaksi adı" required /><button type="submit">Kaydet</button><button id="cancel-rename-galaxy" type="button" aria-label="Vazgeç">×</button></form><label class="meaning-language-label" for="meaning-language-current">Anlam dili</label><select id="meaning-language-current"><option value="tr">Türkçe</option><option value="en">English</option><option value="es">Español</option></select></div>
         <div id="galaxy-list" class="galaxy-list"></div>

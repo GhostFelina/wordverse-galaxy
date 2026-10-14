@@ -14,7 +14,8 @@
     "result": "{total} kelimenin {remembered} tanesini hatırladın.",
     "retry": "Zorlandıklarımı yeniden çalış",
     "finish": "Evrenime dön",
-    "sessionOnly": "Bu kısa oturum kayıtlarını değiştirmez. Sonuçlar yalnızca bu oturum içindir."
+    "sessionOnly": "Bu kısa oturum kayıtlarını değiştirmez. Sonuçlar yalnızca bu oturum içindir.",
+    "homeOpen": "Kısa tekrar yap"
   },
   "scene": {
     "title": "Görünüm",
@@ -576,7 +577,8 @@
     "clearSearch": "Aramayı temizle",
     "reset": "Tüm kayıtları göster",
     "noDate": "Tarih belirtilmemiş",
-    "back": "Atlasa dön"
+    "back": "Atlasa dön",
+    "shortcut": "Kelime atlasında ara · / veya Ctrl/⌘ K"
   },
   "graphics": {
     "title": "Evren görünümü kullanılamıyor.",

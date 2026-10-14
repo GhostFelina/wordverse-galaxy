@@ -17,9 +17,15 @@ export function mountRecallUI({ locale, getRecords, getIdentity, beforeOpen }) {
   trigger.id = 'open-recall';
   trigger.type = 'button';
   document.querySelector('#collection-panel .search-wrap').before(trigger);
+  const homeTrigger = node('button', t('homeOpen'), 'home-recall');
+  homeTrigger.id = 'home-recall';
+  homeTrigger.type = 'button';
+  homeTrigger.hidden = true;
+  document.querySelector('#home-learning')?.prepend(homeTrigger);
   document.body.append(dialog);
   let session = null,
-    identity = null;
+    identity = null,
+    returnTarget = null;
   function button(id, key, action, className = 'recall-action') {
     const result = node('button', t(key), className);
     result.type = 'button';
@@ -114,25 +120,34 @@ export function mountRecallUI({ locale, getRecords, getIdentity, beforeOpen }) {
     if (dialog.open) dialog.close();
     dialog.replaceChildren();
   }
-  trigger.addEventListener('click', () => {
+  function start(event) {
     if (!getIdentity()) return;
+    returnTarget = event.currentTarget;
     identity = getIdentity();
     session = createRecallSession(getRecords());
     beforeOpen();
     render();
     dialog.showModal();
     focusPrimary();
-  });
+  }
+  trigger.addEventListener('click', start);
+  homeTrigger.addEventListener('click', start);
   dialog.addEventListener('close', () => {
     session = null;
     identity = null;
     dialog.replaceChildren();
-    document.querySelector('#collection-btn')?.focus();
+    const target =
+      returnTarget?.isConnected && !returnTarget.hidden && returnTarget !== trigger
+        ? returnTarget
+        : document.querySelector('#collection-btn');
+    target?.focus();
+    returnTarget = null;
   });
   return {
     invalidate,
     refresh() {
       trigger.disabled = !getIdentity() || !getRecords().length;
+      homeTrigger.hidden = trigger.disabled;
       if (dialog.open && identity !== getIdentity()) invalidate();
     },
   };

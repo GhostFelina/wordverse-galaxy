@@ -34,6 +34,7 @@ import { getSupabaseClient } from './supabase-client.js';
 import { mountAuthUI } from './auth-ui.js';
 import { mountAccountSync } from './account-sync-ui.js';
 import './home-design.css';
+import './learning-design.css';
 
 const $ = (selector) => document.querySelector(selector);
 const stellarPreview = mountStellarPreview($('.detail-visual'));
@@ -55,6 +56,7 @@ let words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
 let selectedId = null;
 let editingId = null;
 let activePanel = null;
+let panelReturnTarget = null;
 let toastTimer;
 let renderer, scene, camera, wordGroup;
 const worldStars = new Map();
@@ -452,6 +454,7 @@ function animate(ms) {
 
 function openPanel(which) {
   if (which !== 'detail') { stellarPreview.hide(); wordCard.invalidate(); }
+  if (!activePanel && which) panelReturnTarget = document.activeElement;
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   activePanel = which;
   syncRenderLoop();
@@ -464,9 +467,16 @@ function openPanel(which) {
   }
   $('#explore-btn').classList.toggle('active', !which || which === 'detail' || which === 'add');
   $('#collection-btn').classList.toggle('active', which === 'collection');
-  if (which === 'add') setTimeout(() => $('#word-input').focus(), 380);
-  if (which === 'collection') { renderCollection(); setTimeout(() => $('#search-input').focus(), 380); }
-  if (which === 'galaxy') renderGalaxies();
+  const focusPanel = selector => setTimeout(() => { if (activePanel === which && !$(`#${which}-panel`).contains(document.activeElement)) $(selector)?.focus({ preventScroll: true }); }, 380);
+  if (which === 'add') focusPanel('#word-input');
+  if (which === 'collection') { renderCollection(); focusPanel('#search-input'); }
+  if (which === 'galaxy') { renderGalaxies(); focusPanel('#close-galaxy'); }
+  if (which === 'detail') focusPanel('#close-detail');
+  if (!which) {
+    const target = panelReturnTarget;
+    panelReturnTarget = null;
+    if (target instanceof HTMLElement && target.isConnected && target.getClientRects().length && !target.closest('[inert]')) target.focus({ preventScroll: true });
+  }
   document.documentElement.scrollLeft = document.body.scrollLeft = $('#app').scrollLeft = 0;
 }
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
@@ -842,7 +852,22 @@ function bindUI() {
   $('#reset-view').addEventListener('click', () => {  $('#app').classList.remove('catalog-exploring'); travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); nebulaSystem?.reframe(camera.aspect); catalogDepth = 0; focusedStarId = selectedId = null; preFocusPan = null; pan.x = $('#app').classList.contains('immersive') ? 31 : 0; pan.y = 0; zoom = 160; });
   document.addEventListener('keydown', e => {
     if (document.querySelector('dialog[open]')) return;
+    if (e.key === 'Tab' && activePanel) {
+      const panel = $(`#${activePanel}-panel`);
+      const targets = [...panel.querySelectorAll('button,input,select,textarea,a[href],[tabindex="0"]')].filter(node => !node.disabled && !node.hidden && node.getClientRects().length && !node.closest('[inert]'));
+      const first = targets[0], last = targets.at(-1);
+      if (first && (!panel.contains(document.activeElement) || (e.shiftKey ? document.activeElement === first : document.activeElement === last))) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+      return;
+    }
     if (e.key === 'Escape') { if (activePanel) closePanels(); else if(selectedId && camera) { pan.x=camera.position.x;pan.y=camera.position.y;pointer.x=pointer.y=0;preFocusPan=null;selectedId=focusedStarId=null; } else if ($('#app').classList.contains('immersive')) $('#universe-mode').click(); return; }
+    if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === 'k' && (!isEditingTarget(e.target) || e.target === $('#search-input')) && (!activePanel || activePanel === 'collection')) {
+      e.preventDefault();
+      if (activePanel === 'collection') { $('#search-input').focus(); return; }
+      const state = experience.snapshot();
+      if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return;
+      openPanel('collection');
+      return;
+    }
     if (isEditingTarget(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === '/' && !activePanel) { e.preventDefault(); const state = experience.snapshot(); if ((!state.ready || state.mode === 'showcase-demo') && !experience.enterGuest()) return; openPanel('collection'); }
     if (e.shiftKey && e.key.toLowerCase() === 'f' && !activePanel) { const monitor = $('#fps-monitor'); monitor.hidden = !monitor.hidden; fpsFrames = 0; fpsLast = performance.now(); }

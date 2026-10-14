@@ -10,7 +10,7 @@
 
 **Turn the words you learn into a universe you can explore.** Add a word, find its star, approach its surface and reveal its meaning when you are ready. Wordverse pairs a personal vocabulary atlas with a cinematic Three.js scene.
 
-The live app runs **1.14.1**. The desktop home above shows **1.23.0 development** on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe), ahead of production. Other scene captures retain their **1.22.1** provenance. All gallery records are synthetic.
+The last verified production release is **1.23.0**. This development branch is **1.24.0**, with cohesive learning panels, home recall access and improved keyboard navigation. The desktop image above retains its **1.23.0** provenance; other scene captures retain their **1.22.1** provenance. All gallery records are synthetic. Development lives on [`phase/4-universe`](https://github.com/GhostFelina/wordverse-galaxy/tree/phase/4-universe).
 
 ## Explore, remember, share
 

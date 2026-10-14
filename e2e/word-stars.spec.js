@@ -190,7 +190,7 @@ test('desktop detail uses the shared photosphere and clears or recovers its prev
   await expect(preview).toHaveAttribute('data-surface-blend', '1');
   await expect(page.locator('#detail-sun')).toBeHidden();
   await expect(page.locator('#detail-panel')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
-  await page.screenshot({ path: 'docs/handoff/evidence/2026-10-12-shared-stellar-preview-1440.png' });
+  await page.screenshot({ path: test.info().outputPath('2026-10-12-shared-stellar-preview-1440.png') });
   await page.evaluate(() => {
     window.previewContextExtension = document
       .querySelector('.stellar-preview')

@@ -93,7 +93,7 @@ for (const [width, locale] of [
     await page.locator('#recall-reveal').click();
     await expect(dialog.locator('.recall-meaning')).toContainText('Hidden answer');
     await expect(dialog.locator('img')).toHaveCount(0);
-    await page.screenshot({ path: `docs/handoff/evidence/2026-10-12-recall-${width}-${locale}.png` });
+    await page.screenshot({ path: test.info().outputPath(`2026-10-12-recall-${width}-${locale}.png`) });
     await page.locator('#recall-again').click();
     await expect(dialog.locator('progress')).toHaveAttribute('value', '1');
     await expect(dialog.locator('#recall-word')).not.toHaveText(first);

@@ -1,6 +1,16 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development and production1.23.0.
+Active branch: phase/4-universe. Development1.24.0; production1.23.0.
+
+## Verified1.24.0 learning interface
+
+The atlas, entry form, detail view, recall and native account/card dialogs now share the home palette, Space Grotesk/DM Sans typography, quieter borders, readable supporting text and consistent action/focus surfaces. Forms use a tighter vertical rhythm and equal-height translated entry choices. Empty results, loading copy, graphics fallback, toast and profile totals follow the same surfaces. Reduced motion removes the learning-panel transitions.
+
+Ready personal skies expose **home recall** for the active galaxy; empty/showcase skies hide it. Meanings remain concealed until revealed. Atlas navigation displays its `/` shortcut on wide screens; `/` and Control/Meta+K open search outside editing. Repeated Control/Meta+K in search retains focus and its query; forms and native dialogs retain their context. Labeled modal side panels cycle Tab/Shift+Tab and restore their opener. Delayed autofocus checks the current panel and respects focus already placed inside it.
+
+Complete local validation: **147unit/122browser(12.0m)**, lint/types/build/format/release, zero audit vulnerabilities and24 Go assertions pass. Five added browser cases cover translated home recall, hidden answers, unchanged records, focus return/cycling, search shortcuts, draft protection, fast close and empty state. Native Chrome155 captures29 isolated synthetic views at390/768/1024/1280/1440/1920 widths, including600px height. Record/menu/bounds checks pass with no captured console errors. [Visual manifest](evidence/2026-10-14-learning-design/PROVENANCE.json), [quality evidence](evidence/2026-10-14-learning-quality.json), [interface foundations](../DESIGN_SYSTEM.md).
+
+Test screenshots now go to isolated Playwright output paths;18 pre-existing modified historical PNGs remain byte-for-byte preserved and outside this source checkpoint. The local planning prompt/list stays outside Git. Remote CI/preview for1.24.0 must be checked after its source push; no remote1.24 success is claimed here. Production remains the verified1.23.0 below. User visual acceptance and broad hardware/audio acceptance remain open.
 
 ## Verified1.23.0 production delivery
 
@@ -38,7 +48,7 @@ Runtime **b06b9d0** is committed/pushed. Complete local147 unit/117 browser test
 
 ## Next acceptance
 
-0. Review the deployed1.23.0 redesigned home, first-visit flow and menus with the user. Release checks, preview, documentation publication and requested production deployment are complete. Do not restart the completed visual rendering phases.
+0. Review the local1.24.0 learning surfaces, home recall and keyboard flow with the user; verify the source push's remote CI/preview before any later publication. The deployed1.23.0 home/first-visit/menu acceptance also remains open. Do not restart the completed visual rendering phases.
 1. Review distant core scintillation, gas passage and the small red disk in the actual user browser. Source/display checks are complete; user visual acceptance remains open.
 2. Extend isolated hardware/large-archive review and physical headphone/speaker listening. No universal GPU, calibrated astronomy or Dolby/IMAX certification claim.
 3. Separate GitHub social-preview settings upload remains unverified; the branded PNG is ready. Preserve production dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc/sourcecd97c62 and retain the prior production deployment as rollback reference.

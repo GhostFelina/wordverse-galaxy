@@ -1,0 +1,41 @@
+{
+  "version": "1.24.0",
+  "date": "2026-10-14T20:33:01.086637+00:00",
+  "baseCommit": "106bd63",
+  "sourceHashes": {
+    "index.html": "9b2874013d48cc82c829c148027199937b7995336476b4e996a5d13f441c7111",
+    "package.json": "5b46de19c736ae5a8990e591630580235ce6640afec190fa5faabb9627427efa",
+    "package-lock.json": "16e2460112284d69403fd46b2cdd1d38a4785e725c9b24379d3ba278a5c21df3",
+    "src/main.js": "c1fcc0893863ab86e3594ecffbb454505c951149e90ce112e10598065ca76a14",
+    "src/learning-design.css": "82875eff986c8536c23c95bea425ea61e5af28d4703731dc30191b828b76599d",
+    "src/recall-ui.js": "de04eef198ea85eb8c051bdfa03eddc583cb79a540ed68f8d2b298d9dcc0939b",
+    "src/collection-atlas.js": "5473ccd1dc285bf816ea3d2942cf75d1a5169e43df450f205d8116800a49d6a5",
+    "locales/tr.json": "dbeebb4f86d05a72bc14f8878ace6a8082065ac0218c7df6951e704a2debae89",
+    "locales/en.json": "2540266e86b37f5b411fde3f0fe5410dc9907da7d03864dce0516c2652cb373e",
+    "locales/es.json": "6c628a4abb15bf0ec9f8a2b12f1d8a9217f70fb73a79c92ee5fef2dea6601aec",
+    "e2e/learning-design.spec.js": "95155f76200790e16d80104e394e6175fc93773d8a26ca54430fbbaa9a53d00d"
+  },
+  "local": {
+    "unitTests": 147,
+    "browserTests": 122,
+    "browserDurationMinutes": 12.0,
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditVulnerabilities": 0,
+    "goTemplateAssertions": 24
+  },
+  "nativeVisuals": {
+    "manifest": "2026-10-14-learning-design/PROVENANCE.json",
+    "captures": 29,
+    "consoleErrors": 0,
+    "review": "Saved screenshots and before/after crops inspected, including compact, short, desktop and wide states. User visual acceptance remains open."
+  },
+  "records": "Synthetic records unchanged during screenshot, navigation and recall checks; owner isolation and persistence browser suite passes.",
+  "existingEvidence": "18 pre-existing modified PNG files remain byte-for-byte unchanged and are excluded from this checkpoint.",
+  "remote": "Not yet claimed; check CI and preview after the source push.",
+  "production": "Preserved1.23.0, sourcecd97c62/dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc.",
+  "limits": "Synthetic local Windows/browser checks; no universal hardware, physical listening or full accessibility certification."
+}
