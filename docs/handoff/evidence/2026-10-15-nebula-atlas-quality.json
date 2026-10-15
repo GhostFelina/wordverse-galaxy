@@ -1,0 +1,87 @@
+{
+  "version": "1.27.0",
+  "date": "2026-10-15T10:07:18.051Z",
+  "baseCommit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
+  "sourceHashes": {
+    "package.json": "65942f3e2c72649ed0182fff083d4cd67a682adbcd5ebdf127cc444ae6a9265a",
+    "package-lock.json": "aab599f62b5803060a362a6088263de6563a6c413a4263d1a216ba5ae8dc4cd8",
+    "src/main.js": "c7e09a9828b08dd95e1466e5f35011d06a9e6a5ec7282e3aecf5f951ac410fdc",
+    "src/nebula-system.js": "d6b991d888a740f77f06ba820594c392f3c17e5d80ebe13f5d5056dcb9dfe230",
+    "src/nebula-shader.js": "35444d8270e690e3e490384f3341544ba808a892bf44d9712126c99becd6f666",
+    "src/nebula-experiences.js": "4f5c889ec561f0020b415d89f4269c11a8ca8ba9b464227b2a24eb97b7dc1ad6",
+    "src/nebula-ui.js": "fe1f51e660f4a5a8c539f1f6118bd002bebe23a6788dee1e2bfb26bba39e70de",
+    "src/sky-events.js": "bb26295e969d1af13d0d63a2bd5077fcb35d4a57c3691f1e4efd1c32aad17af9",
+    "src/sky-events-ui.js": "3c949204e09f7a01461bc3714c73ef7df159b9f3412ae78292fc2d4230305d02",
+    "src/blackhole-shader.js": "d69319912afa57ec8d2cedaaee0d47f64be4276e747ccc45e7ec25ce1c7473a5",
+    "src/exploration-design.css": "a9a0fd92e8228701453210e176a3256ccb1e810452b7bda6fa849f8ea195dcf6",
+    "src/data/popular-nebulae.json": "8b423485a5231691f07a0de95bdd6b7c8453d6336ade258a8fce6a1c57145f74",
+    "scripts/build-popular-nebulae.mjs": "ad90c1e74539deb053b546916178eaf45db7c9151ee3f925653f22650934e042",
+    "scripts/build-nebula-previews.mjs": "9225fe1e1fb6606c95fb15c61bf6aa1e5c0488d6499d0e5123c59d1d7f798c42",
+    "scripts/capture-nebula-atlas.mjs": "6dac3704f982edf8998d8cd3d4c8f1b9cca467020018aeeeb8416eda44b1db6a",
+    "tests/fixtures/nebula-preview.html": "d9f5180617c3ca8658c80126304a4a8ae9c2245c8fdd38c2cdc33b0b420e10d6",
+    "tests/nebula-system.test.js": "73f4466a9c335f27a6d962470813342798c5f5388511e08b265c703d4590505e",
+    "e2e/nebula-experiences.spec.js": "563ae2972e506b2d23d4549811248670cdb27f0c38a1db884bdbfc029668620c",
+    "e2e/nebula-travel.spec.js": "1d69a160fefbfe069bc1150fced9ad8c7f0152fd2ec6c7cf305bdd747f45c888",
+    "e2e/sky-experiences.spec.js": "cbba680c2e35a51efd6cc458947363c994ad550a9c4b87b87e9cbcfaf8157f55",
+    "locales/tr.json": "511c3fe19ab4a544198c9132386323cdb6666e99b40297b25d53c9fa3f6a7972",
+    "locales/en.json": "d98d5ec209c720b9ac8e354cd18e184d551f0c0a7403c816f887f900d46f42e4",
+    "locales/es.json": "a36a81a94932bceb8375ae2dd3b526a8785bae24ed3ed91d9f010b4534ac4ebb",
+    "e2e/zoom-startup.spec.js": "7d2c24d07a3c897da4f14b7f3b70a2e25686006748e0261f24cf9bfd0780e02d"
+  },
+  "local": {
+    "unitTests": 160,
+    "browserTests": 142,
+    "browserStatus": "pass with focused rerun",
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditVulnerabilities": 0,
+    "goTemplateAssertions": 24,
+    "fullBrowserRun": {
+      "passed": 140,
+      "failed": 2,
+      "durationMinutes": 8.6,
+      "reason": "Two legacy wheel tests targeted the newly default-open gallery. Their setup now collapses it before exercising the same sky anchor; runtime unchanged after the full run."
+    },
+    "focusedRerun": {
+      "file": "e2e/zoom-startup.spec.js",
+      "passed": 5,
+      "failed": 0,
+      "durationSeconds": 11.6
+    }
+  },
+  "native": {
+    "captures": 37,
+    "manifest": "2026-10-15-nebula-atlas/PROVENANCE.json",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "blackHoleCloseRaf": {
+      "count": 60,
+      "p50": 7,
+      "p95": 7.100000000000136
+    },
+    "consoleErrors": [],
+    "vocabularyStorage": "Synthetic records only; unchanged after every application capture."
+  },
+  "assets": {
+    "popularScenes": 10,
+    "totalScenes": 14,
+    "popularVolumeBytes": 32275440,
+    "previewBytes": 271348,
+    "alternateCacheLimit": 3,
+    "provenance": "src/data/popular-nebulae.json",
+    "renderedPreviewProvenance": "public/assets/nebulae/previews/PROVENANCE.json"
+  },
+  "production": {
+    "version": "1.23.0",
+    "action": "preserved; no production release"
+  },
+  "remote": "Source CI follows checkpoint push; previous1.26 source CI38713062693 succeeds.",
+  "limits": [
+    "Original artistic 128-cubed interiors; no measured tomography or native8K claim.",
+    "Source photographic guides are1280px wide, letterboxed on1536-square guide canvases.",
+    "A short60-frame native headless RAF sample is not a universal GPU/frame-rate certificate.",
+    "User visual acceptance remains open."
+  ]
+}

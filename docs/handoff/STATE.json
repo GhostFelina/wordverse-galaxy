@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.26.0",
-  "activeWork": "Nebula exploration1.26: three original volumes,22 shuffled phenomena and refined home/language controls pass local158unit/138browser gates. Source CI and user visual acceptance follow; production1.23.0 preserved.",
+  "developmentVersion": "1.27.0",
+  "activeWork": "Fourteen-scene searchable nebula atlas, ten popular observation-guided volumes, bounded cache and reversible black-hole inspection verified locally:160unit/142browser cases,37 native synthetic captures. Checkpoint source CI and user visual review follow; production1.23.0 preserved.",
   "pausedVisualLayers": [
     "other-observed-nebula-catalog",
     "galaxies",
@@ -31,18 +31,18 @@
     "phaseStatus": "implementation-in-progress",
     "completedPhases": [],
     "nextPhase": "U3",
-    "lastVerifiedCommit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
+    "lastVerifiedCommit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
     "lastRemoteCI": {
-      "run": 38633114408,
+      "run": 38713062693,
       "status": "success",
-      "unitTests": 147,
-      "browserTests": 122,
-      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38633114408",
-      "commit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
-      "version": "1.24.0"
+      "unitTests": 158,
+      "browserTests": 138,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693",
+      "commit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
+      "version": "1.26.0"
     },
-    "localUnitTests": 158,
-    "suiteBrowserTests": 138,
+    "localUnitTests": 160,
+    "suiteBrowserTests": 142,
     "userVisualAcceptance": "pending",
     "preview": {
       "version": "1.23.0",
@@ -283,7 +283,7 @@
   },
   "nebulaExperiences": {
     "version": "1.26.0",
-    "status": "local-verified-source-CI-and-user-review-pending",
+    "status": "verified-source-CI-user-review-pending",
     "scenes": [
       "orion",
       "ion-veil",
@@ -298,6 +298,41 @@
     "nativeCaptures": 17,
     "evidence": "docs/handoff/evidence/2026-10-15-nebula-experiences-quality.json",
     "visualManifest": "docs/handoff/evidence/2026-10-15-nebula-experiences/PROVENANCE.json",
-    "next": "Verify checkpoint source CI; review distant/interior gas,22 phenomena and home/language controls in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0."
+    "next": "Verify checkpoint source CI; review distant/interior gas,22 phenomena and home/language controls in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0.",
+    "remoteCI": {
+      "run": 38713062693,
+      "status": "success",
+      "commit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693"
+    }
+  },
+  "nebulaAtlas": {
+    "version": "1.27.0",
+    "status": "local-verified-source-CI-user-review-pending",
+    "scenes": [
+      "carina",
+      "eagle",
+      "horsehead",
+      "helix",
+      "crab",
+      "ring",
+      "rosette",
+      "tarantula",
+      "lagoon",
+      "trifid"
+    ],
+    "sceneCount": 14,
+    "addedPopularVolumes": 10,
+    "alternateCacheLimit": 3,
+    "previewBytes": 271348,
+    "popularVolumeBytes": 32275440,
+    "blackHole": "176-step warm disk with explicit close inspection and return",
+    "unitTests": 160,
+    "browserTests": 142,
+    "evidence": "docs/handoff/evidence/2026-10-15-nebula-atlas-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-15-nebula-atlas/PROVENANCE.json",
+    "next": "Verify checkpoint source CI and review all14 scenes and near black-hole inspection in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0.",
+    "nativeCaptures": 37,
+    "browserValidation": "140 pass in full8.6m run; two legacy gallery-covered wheel points fixed in test setup, then all5 zoom/startup cases pass in11.6s. All142 scenarios covered."
   }
 }

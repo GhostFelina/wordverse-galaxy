@@ -1,9 +1,9 @@
 import { translate } from './i18n.js';
 import './sky-events.css';
 import { SKY_EVENTS } from './sky-event-catalog.js';
-import { NEBULA_EXPERIENCES } from './nebula-experiences.js';
+import { NEBULA_EXPERIENCES, nebulaPreview, searchNebulae } from './nebula-experiences.js';
 
-export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, reducedMotion }) {
+export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, onInspect, reducedMotion }) {
   const t = (key) => translate(locale, `sky.${key}`);
   const heading = document.createElement('h3');
   heading.textContent = t('title');
@@ -32,10 +32,18 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
   text.setAttribute('role', 'status');
   const close = document.createElement('button');
   close.type = 'button';
+  close.id = 'stop-sky-event';
   close.textContent = '×';
   close.setAttribute('aria-label', t('stop'));
   close.addEventListener('click', () => onSelect(null));
-  status.append(text, close);
+  const inspect = document.createElement('button');
+  inspect.type = 'button';
+  inspect.id = 'blackhole-inspect';
+  inspect.className = 'blackhole-inspect';
+  inspect.textContent = t('blackholeInspect');
+  inspect.hidden = true;
+  inspect.addEventListener('click', () => onInspect?.());
+  status.append(text, inspect, close);
   document.querySelector('#app').append(status);
   const launcher = document.createElement('details');
   launcher.className = 'sky-launcher';
@@ -80,9 +88,16 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
     if (!launcher.contains(event.target)) launcher.open = false;
   });
   let previous,
-    previousMotion = reducedMotion;
+    previousMotion = reducedMotion,
+    previousInspection;
   return {
-    update({ kind, living, reducedMotion: motion }) {
+    update({ kind, living, inspection, reducedMotion: motion }) {
+      if (previous !== kind || previousInspection !== !!inspection) {
+        previousInspection = !!inspection;
+        inspect.hidden = kind !== 'blackhole';
+        inspect.textContent = t(inspection ? 'blackholeDistant' : 'blackholeInspect');
+        inspect.setAttribute('aria-pressed', String(!!inspection));
+      }
       if (typeof motion === 'boolean' && motion !== previousMotion) {
         previousMotion = motion;
         hint.textContent = t(motion ? 'stillHint' : 'hint');
@@ -101,7 +116,7 @@ export function mountSkyEventsUI({ locale, container, onSelect, onLiveChange, re
   };
 }
 
-export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPreview }) {
+export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPreview, onBrowse }) {
   const t = (key) => translate(locale, `sky.${key}`);
   const enter = document.createElement('button');
   enter.type = 'button';
@@ -117,13 +132,52 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
   const picker = document.createElement('details');
   picker.id = 'nebula-picker';
   picker.className = 'nebula-picker';
+  picker.open = innerWidth > 760;
   const summary = document.createElement('summary');
-  summary.textContent = t('nebulaCollection') + ' · 04';
+  summary.textContent = t('nebulaCollection') + ' · ' + NEBULA_EXPERIENCES.length;
   const gallery = document.createElement('div');
   gallery.className = 'nebula-gallery';
   const galleryHint = document.createElement('p');
   galleryHint.textContent = t('nebulaPreviewHint');
   gallery.append(galleryHint);
+  const search = document.createElement('input');
+  search.type = 'search';
+  search.className = 'nebula-search';
+  search.placeholder = t('nebulaSearch');
+  search.setAttribute('aria-label', t('nebulaSearch'));
+  const browse = document.createElement('button');
+  browse.type = 'button';
+  browse.className = 'nebula-atlas-link';
+  browse.textContent = t('nebulaBrowse') + ` · ${NEBULA_EXPERIENCES.length} ↗`;
+  browse.addEventListener('click', () => onBrowse?.());
+  const choiceList = document.createElement('div');
+  choiceList.className = 'nebula-choice-list';
+  const empty = document.createElement('p');
+  empty.className = 'nebula-no-results';
+  empty.textContent = t('nebulaNoResults');
+  empty.hidden = true;
+  const names = Object.fromEntries(NEBULA_EXPERIENCES.map((item) => [item.id, t('nebulaNames.' + item.id)]));
+  const groups = document.createElement('div');
+  groups.className = 'nebula-groups';
+  const groupButtons = new Map();
+  let group = 'all';
+  for (const [id, key, count] of [
+    ['all', 'nebulaAll', 14],
+    ['popular', 'nebulaPopular', 10],
+  ]) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.dataset.nebulaGroup = id;
+    button.textContent = `${t(key)} · ${count}`;
+    button.setAttribute('aria-pressed', String(id === group));
+    button.addEventListener('click', () => {
+      group = id;
+      filter();
+    });
+    groups.append(button);
+    groupButtons.set(id, button);
+  }
+  gallery.append(search, groups, browse, choiceList, empty);
   const choices = new Map();
   for (const experience of NEBULA_EXPERIENCES) {
     const button = document.createElement('button');
@@ -135,6 +189,13 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
     swatch.className = 'nebula-swatch';
     swatch.dataset.nebulaSwatch = experience.id;
     swatch.setAttribute('aria-hidden', 'true');
+    const preview = document.createElement('img');
+    preview.src = nebulaPreview(experience);
+    preview.alt = '';
+    preview.width = 128;
+    preview.height = 96;
+    preview.decoding = 'async';
+    swatch.append(preview);
     const copy = document.createElement('span');
     const name = document.createElement('strong');
     name.textContent = t('nebulaNames.' + experience.id);
@@ -147,14 +208,32 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
     button.append(swatch, copy, index);
     button.addEventListener('click', () => select(experience.id, false));
     choices.set(experience.id, button);
-    gallery.append(button);
+    choiceList.append(button);
   }
+  function filter() {
+    const matches = new Set(
+      searchNebulae(search.value, locale, names)
+        .filter((item) => group === 'all' || item.source)
+        .map((item) => item.id),
+    );
+    for (const [id, button] of choices) button.hidden = !matches.has(id);
+    for (const [id, button] of groupButtons) button.setAttribute('aria-pressed', String(id === group));
+    empty.hidden = matches.size > 0;
+    choiceList.scrollTop = 0;
+  }
+  search.addEventListener('input', filter);
   const galleryDive = document.createElement('button');
   galleryDive.type = 'button';
   galleryDive.className = 'nebula-gallery-dive';
   galleryDive.textContent = t('nebulaDive');
   galleryDive.addEventListener('click', () => select(selected, true));
   gallery.append(galleryDive);
+  const sourceCredit = document.createElement('a');
+  sourceCredit.className = 'nebula-source-credit';
+  sourceCredit.target = '_blank';
+  sourceCredit.rel = 'noopener noreferrer';
+  sourceCredit.hidden = true;
+  gallery.append(sourceCredit);
   picker.append(summary, gallery);
   picker.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -165,7 +244,7 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
   });
   picker.addEventListener('wheel', (event) => event.stopPropagation(), { passive: true });
   document.addEventListener('pointerdown', (event) => {
-    if (!picker.contains(event.target)) picker.open = false;
+    if (innerWidth <= 760 && !picker.contains(event.target)) picker.open = false;
   });
   const status = document.createElement('span');
   status.className = 'nebula-selection-status';
@@ -189,7 +268,7 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
       if (!opened) status.textContent = t('nebulaFailed');
       else {
         selected = name;
-        picker.open = false;
+        picker.open = innerWidth > 760;
         summary.focus();
       }
     } catch {
@@ -232,6 +311,7 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
   let previous = -1;
   let previousExperience;
   return {
+    select,
     update(active, fraction, experience = 'orion') {
       panel.hidden = !active;
       enter.hidden = active;
@@ -246,6 +326,12 @@ export function mountNebulaNavigation({ locale, onDepth, onReturn, onEnter, onPr
         entryTitle.textContent = t('nebulaDive');
         label.textContent =
           experience === 'orion' ? t('depth') : t('nebulaNames.' + experience) + ' · ' + t('nebulaDepth');
+        const profile = NEBULA_EXPERIENCES.find((item) => item.id === experience);
+        sourceCredit.hidden = !profile.source;
+        if (profile.source) {
+          sourceCredit.href = profile.source;
+          sourceCredit.textContent = `${profile.credit} · ${t('nebulaDepthCredit')} ↗`;
+        }
       }
       const percent = Math.round(Math.max(0, Math.min(1, fraction)) * 100);
       if (percent !== previous) {

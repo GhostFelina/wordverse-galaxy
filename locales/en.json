@@ -570,9 +570,9 @@
     "preview": "Demo"
   },
   "nebulaTravel": {
-    "title": "Orion Nebula · M42",
+    "title": "Nebula atlas",
     "close": "Close",
-    "guide": "Use the wheel to fly into the gas or back out. Drag to steer. The starless gas texture is edited from a Hubble reference; volume depth is reconstructed. Only your added words appear as stars.",
+    "guide": "Choose a nebula, preview it from afar or dive through its gas. Photo sources appear on each card; depth and motion are artistic models. Your word stars are preserved.",
     "overview": "Initial view",
     "approach": "Approach Orion",
     "band": "Observation band",
@@ -633,13 +633,33 @@
       "orion": "Orion",
       "ion-veil": "Ion Veil",
       "ember-reach": "Ember Reach",
-      "tidal-shell": "Tidal Blue"
+      "tidal-shell": "Tidal Blue",
+      "carina": "Carina",
+      "eagle": "Eagle",
+      "horsehead": "Horsehead",
+      "helix": "Helix",
+      "crab": "Crab",
+      "ring": "Ring",
+      "rosette": "Rosette",
+      "tarantula": "Tarantula",
+      "lagoon": "Lagoon",
+      "trifid": "Trifid"
     },
     "nebulaDescriptions": {
       "orion": "Copper light · deep gas valleys",
       "ion-veil": "Teal gas · folded ionized curtains",
       "ember-reach": "Crimson dust · light-carved pillars",
-      "tidal-shell": "Blue light · hollow wind shell"
+      "tidal-shell": "Blue light · hollow wind shell",
+      "carina": "Stellar winds · immense gas cliffs",
+      "eagle": "Pillars of Creation · irradiated dust",
+      "horsehead": "Dark neck · infrared gas veil",
+      "helix": "Double gas shell · cometary knots",
+      "crab": "Supernova remnant · fine gas filaments",
+      "ring": "Luminous ring · translucent cavity",
+      "rosette": "Dust detail within Rosette · folded fibers",
+      "tarantula": "Stellar nursery · branching gas web",
+      "lagoon": "Bright gas valley · dark dust channel",
+      "trifid": "Three dust lanes · blue reflection"
     },
     "protostar": "Protostar formation",
     "jet": "Bipolar gas jet",
@@ -656,7 +676,16 @@
     "binary": "Mass-transfer binary",
     "nova": "Classical nova",
     "lightEcho": "Light echo",
-    "magnetic": "Magnetic gas striations"
+    "magnetic": "Magnetic gas striations",
+    "blackholeInspect": "Inspect the black hole ↗",
+    "blackholeDistant": "Return to distant view ↙",
+    "nebulaSearch": "Search name or catalog code…",
+    "nebulaBrowse": "Open the complete atlas",
+    "nebulaNoResults": "No nebulae match this search.",
+    "nebulaObservedGuide": "Observed photograph · artistic depth during flight",
+    "nebulaDepthCredit": "Wordverse: artistic depth and gas motion",
+    "nebulaAll": "All",
+    "nebulaPopular": "Famous nebulae"
   },
   "share": {
     "open": "Star card",

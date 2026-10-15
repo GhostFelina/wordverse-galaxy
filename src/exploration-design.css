@@ -46,7 +46,7 @@
   top: 204px;
   right: var(--atlas-margin);
   z-index: 14;
-  width: 238px;
+  width: 272px;
   color: #dfd5c8;
   font:
     400 11px 'DM Sans',
@@ -77,9 +77,9 @@
   position: absolute;
   top: calc(100% + 9px);
   right: 0;
-  width: 318px;
-  max-height: calc(100dvh - 300px);
-  overflow: auto;
+  width: 340px;
+  max-height: calc(100dvh - 430px);
+  overflow: hidden;
   overscroll-behavior: contain;
   padding: 12px;
   border: 1px solid #eed6b92b;
@@ -88,8 +88,45 @@
   backdrop-filter: blur(24px);
   box-shadow: 0 22px 70px #0009;
 }
+.nebula-picker[open] .nebula-gallery {
+  display: flex;
+  flex-direction: column;
+}
+.nebula-gallery > * {
+  flex-shrink: 0;
+}
+.nebula-gallery > .nebula-choice-list {
+  flex: 1 1 auto;
+  min-height: 90px;
+}
+.nebula-gallery > .nebula-source-credit {
+  max-height: 62px;
+  overflow: auto;
+}
+.nebula-groups {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+}
+.nebula-groups button {
+  flex: 1;
+  border: 1px solid #eed6b921;
+  border-radius: 7px;
+  padding: 7px 4px;
+  color: #b9aea1;
+  background: transparent;
+  cursor: pointer;
+  font:
+    400 10px 'DM Sans',
+    sans-serif;
+}
+.nebula-groups button[aria-pressed='true'] {
+  background: #eed6b91a;
+  color: #f5d7af;
+  border-color: #eed6b949;
+}
 .nebula-gallery > p {
-  margin: 6px 8px 14px;
+  margin: 2px 4px 9px;
   font:
     400 11px/1.7 'DM Sans',
     sans-serif;
@@ -100,8 +137,8 @@
   align-items: center;
   gap: 12px;
   width: 100%;
-  min-height: 76px;
-  padding: 10px;
+  min-height: 66px;
+  padding: 7px;
   border: 1px solid transparent;
   border-radius: 11px;
   text-align: left;
@@ -112,12 +149,73 @@
 .nebula-choice:hover {
   background: #eed6b909;
 }
+.nebula-choice[hidden],
+.nebula-card[hidden],
+.nebula-no-results[hidden] {
+  display: none;
+}
+.nebula-choice-list {
+  max-height: 310px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.nebula-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #eed6b931;
+  border-radius: 10px;
+  background: #070b12;
+  color: #f0dfca;
+  padding: 12px;
+  font:
+    400 12px 'DM Sans',
+    sans-serif;
+}
+.nebula-search:focus-visible {
+  outline: 2px solid #d6b186;
+  outline-offset: 2px;
+}
+.nebula-atlas-link {
+  width: 100%;
+  padding: 10px 6px;
+  color: #dfb985;
+  background: none;
+  border: 0;
+  text-align: left;
+  font:
+    500 11px 'DM Sans',
+    sans-serif;
+  cursor: pointer;
+}
+.nebula-result-count,
+.nebula-no-results {
+  color: #c5b7a5;
+  font:
+    400 12px/1.6 'DM Sans',
+    sans-serif;
+}
+.nebula-card a {
+  overflow-wrap: anywhere;
+}
+.nebula-source-credit {
+  display: block;
+  color: #a99d8d;
+  font:
+    400 9px/1.6 'DM Sans',
+    sans-serif;
+  margin: 10px 4px 0;
+  overflow-wrap: anywhere;
+}
+.nebula-source-credit[hidden] {
+  display: none;
+}
 .nebula-choice[aria-pressed='true'] {
   background: #eed6b90c;
   border-color: #eed6b931;
 }
 .nebula-choice > span:nth-child(2) {
   flex: 1;
+  min-width: 0;
 }
 .nebula-choice strong {
   display: block;
@@ -127,6 +225,11 @@
   margin-bottom: 6px;
 }
 .nebula-choice small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 145px;
   color: #a9a7a2;
   font:
     400 10px/1.5 'DM Sans',
@@ -147,6 +250,191 @@
   background:
     radial-gradient(ellipse at 60% 35%, #d18a6170, transparent 55%),
     radial-gradient(ellipse at 30% 60%, #475a8a, #0b1021 75%);
+}
+.nebula-swatch {
+  position: relative;
+  overflow: hidden;
+  width: 68px;
+  height: 50px;
+}
+.nebula-swatch img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+.nebula-choice:hover img {
+  transform: scale(1.08);
+}
+.nebula-choice[aria-pressed='true'] .nebula-index {
+  color: #efd6b2;
+}
+@media (min-width: 761px) {
+  .nebula-choice-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    align-content: start;
+  }
+  .nebula-choice {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    gap: 6px;
+    min-width: 0;
+    min-height: 88px;
+    padding: 7px;
+  }
+  .nebula-choice .nebula-swatch {
+    width: 100%;
+    height: 56px;
+  }
+  .nebula-choice strong {
+    font-size: 11px;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .nebula-choice small,
+  .nebula-gallery-dive {
+    display: none;
+  }
+  .nebula-index {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 4px;
+    padding: 3px 4px;
+    background: #04070bc9;
+    white-space: nowrap;
+    font-size: 8px;
+  }
+}
+@media (min-width: 761px) and (max-height: 850px) {
+  .nebula-gallery > p:first-child {
+    display: none;
+  }
+}
+.nebula-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.auth-dialog.nebula-dialog {
+  width: min(980px, calc(100vw - 32px));
+  max-width: none;
+  max-height: 90dvh;
+  padding: clamp(20px, 3vw, 36px);
+}
+.nebula-dialog .nebula-guide {
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+.nebula-dialog .nebula-overview {
+  margin-bottom: 14px;
+}
+.nebula-card img {
+  height: 200px;
+  object-fit: contain;
+  background: #020409;
+}
+.nebula-card p {
+  margin: 0;
+  color: #bcb1a4;
+  font:
+    400 12px/1.6 'DM Sans',
+    sans-serif;
+}
+.nebula-card button {
+  background: #ead3b31a;
+  border-color: #ead3b33a;
+  color: #f2dec3;
+  min-height: 44px;
+  font:
+    500 12px 'DM Sans',
+    sans-serif;
+}
+.blackhole-inspect {
+  padding: 9px 12px;
+  border: 1px solid #e6bc7e75 !important;
+  border-radius: 12px;
+  color: #f2d8b5;
+  background: #121217ef;
+  font:
+    500 11px 'DM Sans',
+    sans-serif !important;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+}
+.sky-event-status {
+  z-index: 18;
+  max-width: calc(100vw - 48px);
+}
+#app:has(#universe[data-blackhole-view='close']) .nebula-picker,
+#app:has(#universe[data-blackhole-view='close']) .nebula-entry {
+  display: none;
+}
+.blackhole-inspect:hover {
+  background: #282018;
+  border-color: #e6bc7eb5;
+}
+.blackhole-inspect[hidden],
+#app:has(.side-panel.open) .blackhole-inspect,
+#app:has(dialog[open]) .blackhole-inspect,
+#app:has(#scene-controls[open]) .blackhole-inspect {
+  display: none;
+}
+@media (min-width: 761px) and (max-height: 720px) {
+  #enter-nebula {
+    top: 108px;
+    right: calc(var(--atlas-margin) + 292px);
+    min-width: 160px;
+  }
+  .nebula-picker {
+    top: 108px;
+    width: 238px;
+  }
+  .nebula-gallery {
+    max-height: calc(100dvh - 320px);
+    padding: 8px;
+    width: 278px;
+  }
+  .nebula-gallery > p {
+    display: none;
+  }
+  .nebula-choice {
+    padding: 5px 6px;
+    min-height: 44px;
+    gap: 9px;
+  }
+  .nebula-swatch {
+    width: 42px;
+    height: 34px;
+  }
+  .nebula-choice .nebula-swatch {
+    height: 38px;
+  }
+  .nebula-choice {
+    gap: 4px;
+    min-height: 65px;
+  }
+  .nebula-choice strong {
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+  .nebula-choice small {
+    display: none;
+    font-size: 9px;
+    max-width: 157px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nebula-gallery-dive {
+    min-height: 38px;
+    padding: 8px;
+    margin-top: 6px;
+  }
 }
 [data-nebula-swatch='ion-veil'] {
   background:
@@ -214,6 +502,9 @@
 #app:has(.scene-controls[open]) .nebula-picker {
   visibility: hidden;
 }
+#app:has(#sky-launcher[open]) .nebula-picker {
+  visibility: hidden;
+}
 #app.immersive .nebula-picker {
   top: 108px;
 }
@@ -230,6 +521,12 @@
   min-height: 44px;
 }
 @media (max-width: 760px) {
+  .nebula-list {
+    grid-template-columns: 1fr;
+  }
+  .nebula-card img {
+    height: 170px;
+  }
   #nebula-navigation:not([hidden]) {
     display: grid;
     width: min(340px, calc(100vw - 36px));

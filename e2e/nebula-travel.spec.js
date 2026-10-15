@@ -19,8 +19,8 @@ for (const width of [1440, 768, 390]) {
     await expect(canvas).toHaveAttribute('data-nebula-width', '1.02');
     const raw = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
     await page.locator('#open-nebulae').click();
-    await expect(page.locator('.nebula-card')).toHaveCount(1);
-    await expect(page.locator('.nebula-card h3')).toHaveText('Orion Nebulası');
+    await expect(page.locator('.nebula-card')).toHaveCount(14);
+    await expect(page.locator('.nebula-card h3').first()).toHaveText('Orion Nebulası');
     await page.locator('#nebula-overview').click();
     await motion(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(3);
     await expect(canvas).toHaveAttribute('data-nebula-refined', 'true');

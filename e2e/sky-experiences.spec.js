@@ -161,7 +161,7 @@ test('chosen sky experiences compile, stay still with reduced motion and never w
     await expect(page.locator('[data-word-id="sky-w"]')).toBeVisible();
   }
   await page.locator('#scene-controls summary').click();
-  await page.locator('.sky-event-status button').click();
+  await page.locator('#stop-sky-event').click();
   await expect(canvas).toHaveAttribute('data-sky-event', '');
   await page.locator('#universe-mode').click();
   await expect(page.locator('#sky-launcher summary')).toBeVisible();

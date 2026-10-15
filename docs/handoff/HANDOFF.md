@@ -1,8 +1,22 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.26.0; production1.23.0.
+Active branch: phase/4-universe. Development1.27.0; production1.23.0.
 
-## Current1.26.0 nebula exploration
+## Current1.27.0 nebula atlas and black-hole inspection
+
+The desktop gallery is visible at startup with genuine image cards, a fourteen-scene total, translated name/catalog search and a ten-popular-nebula filter. The shared bottom atlas now contains every scene and uses the same dive/loading/retry path. Carina, Eagle, Horsehead, Helix, Crab, Ring, Rosette, Tarantula, Lagoon and Trifid add official fully credited ESA/Hubble guides and independent128³ artistic interiors. Source/guide dimensions and hashes are in `src/data/popular-nebulae.json`; these are artistic depth reconstructions, not measured tomography. [Specification](../NEBULA_EXPERIENCES.md).
+
+Only271KB of new WebP previews is needed for all ten cards. Full guides and32.3MB of independently selectable compressed fields load on selection. A three-entry alternate-volume LRU disposes evicted density/detail/guide textures. Gas and star extinction change together; stored coordinates, records and owner boundaries remain unchanged.
+
+The warm black-hole disk uses176-step bent rays, differential shearing, finer optical-depth variation and asymmetric emission. Explicit near inspection has a dark observing backdrop and integrated distant-return action; immersion/home exit and nebula flight reset close inspection. Competing selection surfaces hide in inspection. The22-phenomenon director and reduced-motion behavior remain.
+
+Local **160unit /142browser scenarios** verified:140 pass in the full8.6min run; two old wheel tests now collapse the default-open gallery before targeting the same sky point, then all5 zoom/startup cases pass in11.6s. Application source did not change after the full run. Lint/types/build/format/release/audit0/24Go checks pass. Native Chrome155/RTX5060Ti D3D11 captures37 synthetic home/gallery/search/far/interior/inspection views with unchanged vocabulary storage and no captured console errors. The60-frame close-inspection RAF p95 is7.1ms; this is a short native sample, not universal hardware certification. [Quality record](evidence/2026-10-15-nebula-atlas-quality.json), [visual provenance](evidence/2026-10-15-nebula-atlas/PROVENANCE.json).
+
+Local app responds at127.0.0.1:5360. Use an ordinary local browser for visual acceptance; automated captures use isolated test contexts. User visual acceptance remains open. Keep all user records and the18 pre-existing modified historical PNGs outside checkpoint staging. Production1.23.0 is preserved.
+
+Prior1.26 exact-source [CI38713062693](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693) succeeds on243fd9e.
+
+## Verified1.26.0 nebula exploration
 
 Three original128³ volumes join Orion through an explicit four-scene preview/flight selector: Ion Veil, Ember Reach and Tidal Blue. Separate warped sheets, eroded pillars and an empty wind shell share the finite gas/HDR pipeline, density/light settings, selected-star extinction and reversible geometry. Optional payloads load on demand; failure preserves the active scene, retry works, and late selection results cannot override return/disposal. [Specification](../NEBULA_EXPERIENCES.md).
 
@@ -10,7 +24,7 @@ One catalog now defines22 distinct cosmic phenomena across the production shader
 
 Complete local validation: **158unit / 138browser (6.4min)**, lint/types/build/format/release, zero audit vulnerabilities and24 Go template assertions pass. Native Chrome155/RTX5060Ti D3D11 captures17 synthetic home/menu/far/interior views and a22-event gallery at390/1024/1280/1440/1920 widths, with no captured console errors and unchanged vocabulary data. [Visual provenance](evidence/2026-10-15-nebula-experiences/PROVENANCE.json), [quality record](evidence/2026-10-15-nebula-experiences-quality.json). User visual acceptance and broader hardware/performance acceptance remain open. Production1.23.0 is preserved.
 
-Prior1.25.0 exact-source [CI38643136937](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38643136937) is successful;1.26.0 source CI follows its checkpoint push.
+Both1.25.0 CI38643136937 and1.26.0 exact-source [CI38713062693](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693) succeed.
 
 ## Verified1.25.0 nebula and personal observatory
 

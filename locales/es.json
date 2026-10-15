@@ -570,9 +570,9 @@
     "preview": "Demo"
   },
   "nebulaTravel": {
-    "title": "Nebulosa de Orión · M42",
+    "title": "Atlas de nebulosas",
     "close": "Cerrar",
-    "guide": "Usa la rueda para entrar en el gas o salir. Arrastra para cambiar de dirección. La textura de gas sin estrellas se edita desde una referencia Hubble; la profundidad se reconstruye. Solo tus palabras añadidas aparecen como estrellas.",
+    "guide": "Elige una nebulosa, obsérvala de lejos o recorre su gas. Cada tarjeta indica la fuente fotográfica; la profundidad y el movimiento son artísticos. Tus estrellas se conservan.",
     "overview": "Vista inicial",
     "approach": "Acercarse a Orión",
     "band": "Banda de observación",
@@ -633,13 +633,33 @@
       "orion": "Orión",
       "ion-veil": "Velo Iónico",
       "ember-reach": "Pilares de Brasa",
-      "tidal-shell": "Marea Azul"
+      "tidal-shell": "Marea Azul",
+      "carina": "Carina",
+      "eagle": "Águila",
+      "horsehead": "Cabeza de Caballo",
+      "helix": "Hélice",
+      "crab": "Cangrejo",
+      "ring": "Anillo",
+      "rosette": "Roseta",
+      "tarantula": "Tarántula",
+      "lagoon": "Laguna",
+      "trifid": "Trífida"
     },
     "nebulaDescriptions": {
       "orion": "Luz cobriza · profundos valles de gas",
       "ion-veil": "Gas turquesa · cortinas ionizadas",
       "ember-reach": "Polvo carmesí · pilares esculpidos",
-      "tidal-shell": "Luz azul · envoltura hueca de viento"
+      "tidal-shell": "Luz azul · envoltura hueca de viento",
+      "carina": "Vientos estelares · acantilados de gas",
+      "eagle": "Pilares de la Creación · polvo irradiado",
+      "horsehead": "Cuello oscuro · velo infrarrojo",
+      "helix": "Doble envoltura · nudos cometarios",
+      "crab": "Remanente de supernova · finos filamentos",
+      "ring": "Anillo luminoso · cavidad translúcida",
+      "rosette": "Detalle de polvo en Roseta · fibras plegadas",
+      "tarantula": "Cuna estelar · red de gas ramificada",
+      "lagoon": "Valle de gas brillante · canal de polvo",
+      "trifid": "Tres bandas de polvo · reflejo azul"
     },
     "protostar": "Formación de protoestrella",
     "jet": "Chorro de gas bipolar",
@@ -656,7 +676,16 @@
     "binary": "Binaria con transferencia de masa",
     "nova": "Nova clásica",
     "lightEcho": "Eco de luz",
-    "magnetic": "Estrías magnéticas del gas"
+    "magnetic": "Estrías magnéticas del gas",
+    "blackholeInspect": "Examinar el agujero negro ↗",
+    "blackholeDistant": "Volver a la vista lejana ↙",
+    "nebulaSearch": "Buscar por nombre o catálogo…",
+    "nebulaBrowse": "Abrir el atlas completo",
+    "nebulaNoResults": "No hay nebulosas para esta búsqueda.",
+    "nebulaObservedGuide": "Fotografía observada · profundidad artística en el vuelo",
+    "nebulaDepthCredit": "Wordverse: profundidad artística y movimiento del gas",
+    "nebulaAll": "Todas",
+    "nebulaPopular": "Nebulosas famosas"
   },
   "share": {
     "open": "Tarjeta estelar",

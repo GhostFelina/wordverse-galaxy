@@ -20,6 +20,7 @@ import { mountCollectionAtlas, queryAtlas } from './collection-atlas.js';
 import { mountGraphicsFallback } from './graphics-fallback.js';
 import { createWordStarSystem, wordStarPosition, WORD_STAR_RADIUS } from './word-star-system.js';
 import { createNebulaSystem } from './nebula-system.js';
+import { nebulaExperience } from './nebula-experiences.js';
 import { mountNebulaUI } from './nebula-ui.js';
 import { nebulaBackPlane } from './nebula-layout.js';
 import { createExperienceMode } from './experience-mode.js';
@@ -75,7 +76,7 @@ let detailSequence = [], atlasSequence = [], detailFromAtlas = false;
 let hoveredStarId = null;
 let explorationField = null;
 const displayStarPosition = entry => explorationField ? explorationField.position(entry) : wordStarPosition(entry);
-function leaveOrionField() { nebulaSystem?.selectExperience('orion'); if (!explorationField) return; explorationField = null; transmissionCache.clear(); rebuildWordStars(); }
+function leaveOrionField() { skyEvents?.inspectBlackHole(false); nebulaSystem?.selectExperience('orion'); if (!explorationField) return; explorationField = null; transmissionCache.clear(); rebuildWordStars(); }
 let starTransmission;
 let transmissionFrame = 0;
 let lastWheelDirection = 0;
@@ -268,16 +269,25 @@ function initScene() {
     container: document.querySelector('.scene-controls-content'),
     onLiveChange(enabled) { const automatic = !!livingSky.active; livingSky.setEnabled(enabled); if (!enabled && automatic) { skyEvents.select(null); soundscape.event(null); } skyEventsUI.update({...skyEvents.snapshot(),living:enabled}); },
     onSelect(kind) { livingSky.manual(kind); skyEvents.select(kind,skyPlacementOptions()); skyEventsUI.update(skyEvents.snapshot()); playSkySound(kind); soundscape.update({ depth: travelingNebula ? Math.min(1, Math.max(0,(MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM))) : 0, focused: !!focusedStarId, event: kind }); },
+    onInspect() {
+      livingSky.manual('blackhole');
+      if (!$('#app').classList.contains('immersive')) $('#universe-mode').click();
+      skyEvents.inspectBlackHole(!skyEvents.snapshot().inspection);
+      skyEventsUI.update(skyEvents.snapshot());
+    },
   });
   nebulaNavigation = mountNebulaNavigation({ locale: uiLocale,
+    onBrowse() { $('#open-nebulae').click(); },
     async onPreview(name) {
       if (!nebulaSystem?.ready || !(await nebulaSystem.selectExperience(name))) return false;
+      skyEvents.inspectBlackHole(false);
       transmissionCache.clear();
-      nebulaUI.focused(name === 'orion' ? null : { name: t('sky.nebulaNames.' + name), nameTr: t('sky.nebulaNames.' + name), credit: t('sky.artistic') });
+      nebulaUI.focused(name === 'orion' ? null : { name: t('sky.nebulaNames.' + name), nameTr: t('sky.nebulaNames.' + name), credit: (nebulaExperience(name).credit || t('sky.artistic')) + (nebulaExperience(name).source ? ' · ' + t('sky.nebulaDepthCredit') : '') });
       return true;
     },
     async onEnter(name = 'orion') {
       if (!nebulaSystem?.ready || !(await nebulaSystem.selectExperience(name))) return false;
+      skyEvents.inspectBlackHole(false);
       closePanels();
       if (!$('#app').classList.contains('immersive')) $('#universe-mode').click();
       travelToNebula(nebulaSystem.records[0]);
@@ -285,7 +295,7 @@ function initScene() {
       if (name !== 'orion') {
         const record = nebulaSystem.records[0];
         zoom = record.frontZ + record.radius * .7 - catalogDepth;
-        nebulaUI.focused({ ...record, name: t('sky.nebulaNames.' + name), nameTr: t('sky.nebulaNames.' + name), credit: t('sky.artistic') });
+        nebulaUI.focused({ ...record, name: t('sky.nebulaNames.' + name), nameTr: t('sky.nebulaNames.' + name), credit: (nebulaExperience(name).credit || t('sky.artistic')) + (nebulaExperience(name).source ? ' · ' + t('sky.nebulaDepthCredit') : '') });
       }
       $('#universe').focus({ preventScroll: true });
       return true;
@@ -300,6 +310,7 @@ function initScene() {
   nebulaSystem.setQuality(renderQuality.mode);
   nebulaSystem.setAppearance(gasAppearance);
   nebulaUI = mountNebulaUI({ locale: uiLocale, records: nebulaSystem.records, beforeOpen: closePanels,
+    onExperience(id) { return nebulaNavigation.select(id, true); },
     onFocus(record) { nebulaSystem.selectExperience('orion'); travelToNebula(record); zoom = Math.min(zoom, 160 - catalogDepth); },
     onOverview() { closePanels(); focusedStarId = selectedId = null; travelingNebula = null; leaveOrionField(); nebulaUI.focused(null); nebulaSystem.reframe(camera.aspect); catalogDepth = 0; zoom = 160; pan.x = pan.y = pointer.x = pointer.y = 0; },
   });
@@ -481,6 +492,7 @@ function animate(ms) {
   $('#universe').dataset.skyOrigin = livingSky.active ? 'automatic' : 'manual';
   $('#universe').dataset.skyEvent = skyState.kind || '';
   $('#universe').dataset.skyEventTime = String(skyState.elapsed);
+  $('#universe').dataset.blackholeView = skyState.inspection ? 'close' : 'distant';
   $('#universe').dataset.skyPosition = skyState.placement.center.map(value=>value.toFixed(3)).join(',');
   $('#universe').dataset.motion = reducedMotion ? 'reduced' : 'full';
   if (ms-lastSoundUpdate>180) {
@@ -489,6 +501,7 @@ function animate(ms) {
   }
   $('#universe').dataset.nebulaFlight = String(!!travelingNebula);
   $('#universe').dataset.nebulaExperience = nebulaSystem.experience;
+  $('#universe').dataset.nebulaCache = String(nebulaSystem.cachedVolumes);
   nebulaNavigation.update(!!travelingNebula, (MAX_ZOOM-camera.position.z)/(MAX_ZOOM-nebulaBackPlane(nebulaSystem.records[0])-MIN_ZOOM), nebulaSystem.experience);
   if (nebulaSystem.loaded) $('#app').dataset.sceneState = 'ready';
   $('#universe').dataset.nebulaRefined = String(nebulaSystem.refined);
@@ -818,6 +831,7 @@ function setZoom(value, focusX, focusY) {
   pan.y += (.5 - focusY / innerHeight) * 2 * halfHeightChange;
 }
 function travelToNebula(record, keepPosition = false) {
+  skyEvents?.inspectBlackHole(false);
   if (livingSky?.active) { livingSky.reset(); skyEvents.select(null); soundscape.event(null); skyEventsUI.update({kind:null}); }
   selectedId = null;
   const absoluteZ = zoom + catalogDepth;
@@ -857,6 +871,7 @@ function bindUI() {
     if (!graphicsFallback.available) return;
     const button = $('#universe-mode');
     const immersive = !$('#app').classList.contains('immersive');
+    if (!immersive) skyEvents?.inspectBlackHole(false);
     if (immersive) { closePanels(); preImmersiveZoom = zoom + catalogDepth; if (!nebulaSystem && words.length > 0 && words.length < 25) zoom = Math.min(zoom, words.length < 10 ? 72 : 105); }
     else if (preImmersiveZoom !== null) { zoom = preImmersiveZoom; catalogDepth = 0; travelingNebula = null; leaveOrionField(); nebulaUI?.focused(null); preImmersiveZoom = null; }
     $('#app').classList.toggle('immersive', immersive);

@@ -570,9 +570,9 @@
     "preview": "Demo"
   },
   "nebulaTravel": {
-    "title": "Orion Nebulası · M42",
+    "title": "Bulutsu atlası",
     "close": "Kapat",
-    "guide": "Mouse tekerleğiyle gazın içine ilerle veya geri çık. Sürükleyerek yön değiştir. Yıldızsız gaz dokusu Hubble referansından düzenlenmiştir; hacmin derinliği modellenmiştir. Yalnız eklediğin kelimeler yıldız olarak görünür.",
+    "guide": "Bir bulutsu seç, uzaktan izle veya gaz katmanlarına dal. Fotoğraf kaynakları her kartta; derinlik ve hareket sanatsal olarak modellenmiştir. Kendi kelime yıldızların korunur.",
     "overview": "Başlangıç görünümü",
     "approach": "Orion’a yaklaş",
     "band": "Gözlem bandı",
@@ -633,13 +633,33 @@
       "orion": "Orion",
       "ion-veil": "İyon Perdesi",
       "ember-reach": "Köz Sütunları",
-      "tidal-shell": "Mavi Gelgit"
+      "tidal-shell": "Mavi Gelgit",
+      "carina": "Karina",
+      "eagle": "Kartal",
+      "horsehead": "Atbaşı",
+      "helix": "Helis",
+      "crab": "Yengeç",
+      "ring": "Halka",
+      "rosette": "Rozet",
+      "tarantula": "Tarantula",
+      "lagoon": "Lagün",
+      "trifid": "Üç Boğumlu"
     },
     "nebulaDescriptions": {
       "orion": "Bakır ışık · derin gaz vadileri",
       "ion-veil": "Turkuaz gaz · kıvrımlı iyon perdeleri",
       "ember-reach": "Kızıl toz · ışıkla oyulan sütunlar",
-      "tidal-shell": "Mavi ışık · içi boş rüzgâr kabuğu"
+      "tidal-shell": "Mavi ışık · içi boş rüzgâr kabuğu",
+      "carina": "Yıldız rüzgârları · dev gaz uçurumları",
+      "eagle": "Yaratılış Sütunları · ışınlanan toz",
+      "horsehead": "Karanlık boyun · kızılötesi gaz perdesi",
+      "helix": "Çift gaz kabuğu · kuyruklu düğümler",
+      "crab": "Süpernova kalıntısı · ince gaz lifleri",
+      "ring": "Parlayan halka · saydam iç boşluk",
+      "rosette": "Rozet içindeki toz ayrıntısı · kıvrımlı lifler",
+      "tarantula": "Yıldız doğumevi · örümceksi gaz ağı",
+      "lagoon": "Parlak gaz vadisi · karanlık toz kanalı",
+      "trifid": "Üçlü toz yolları · mavi yansıma"
     },
     "protostar": "Önyıldız oluşumu",
     "jet": "Çift kutuplu gaz jeti",
@@ -656,7 +676,16 @@
     "binary": "Madde aktaran çift yıldız",
     "nova": "Klasik nova",
     "lightEcho": "Işık yankısı",
-    "magnetic": "Manyetik gaz çizgileri"
+    "magnetic": "Manyetik gaz çizgileri",
+    "blackholeInspect": "Karadeliği yakından incele ↗",
+    "blackholeDistant": "Uzak görünüme dön ↙",
+    "nebulaSearch": "Ad veya katalog koduyla ara…",
+    "nebulaBrowse": "Atlasın tamamını aç",
+    "nebulaNoResults": "Bu aramada bulutsu bulunamadı.",
+    "nebulaObservedGuide": "Gözlemsel fotoğraf · dalışta sanatsal derinlik",
+    "nebulaDepthCredit": "Wordverse: sanatsal derinlik ve gaz hareketi",
+    "nebulaAll": "Tümü",
+    "nebulaPopular": "Tanınmış bulutsular"
   },
   "share": {
     "open": "Yıldız kartı",

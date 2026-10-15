@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Original nebula preview</title>
+    <link rel="icon" href="data:," />
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #020409;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="preview"></canvas>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createNebulaSystem } from '/src/nebula-system.js';
+      const canvas = document.querySelector('canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setPixelRatio(1);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      renderer.setClearColor(0x020409);
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100000);
+      const gas = createNebulaSystem(scene, camera, { fieldStars: false });
+      gas.setQuality('high');
+      const record = gas.records[0];
+      camera.position.set(record.position[0], 0, 160);
+      camera.updateMatrixWorld();
+      let selecting = false,
+        selected = false;
+      renderer.setAnimationLoop(() => {
+        if (gas.ready && !selecting) {
+          selecting = true;
+          gas.selectExperience(new URLSearchParams(location.search).get('scene') || 'orion').then((ok) => {
+            selected = ok;
+          });
+        }
+        gas.update(0, 1, innerHeight);
+        renderer.render(scene, camera);
+        gas.render(renderer);
+        canvas.dataset.ready = String(selected && gas.loaded > 0 && gas.refined);
+      });
+      addEventListener(
+        'pagehide',
+        () => {
+          renderer.setAnimationLoop(null);
+          gas.dispose();
+          renderer.dispose();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>

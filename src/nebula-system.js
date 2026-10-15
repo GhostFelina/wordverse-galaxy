@@ -32,6 +32,15 @@ export function createNebulaSystem(
   let activeVolume = volumeData,
     activeExperience = 'orion',
     selectionRevision = 0;
+  function pruneVolumes() {
+    for (const [id, entry] of alternateVolumes) {
+      if (alternateVolumes.size <= 3) break;
+      if (id === activeExperience || !entry.settled) continue;
+      entry.volume.dispose();
+      entry.guide?.dispose();
+      alternateVolumes.delete(id);
+    }
+  }
   let assetFailed = false;
   let highResolutionState = 'idle';
   let shaderState = 'idle';
@@ -94,6 +103,7 @@ export function createNebulaSystem(
         gasCool: { value: new THREE.Vector3(0.055, 0.16, 0.32) },
         gasWarm: { value: new THREE.Vector3(0.56, 0.22, 0.09) },
         gasGlow: { value: 1 },
+        guideEnabled: { value: 1 },
       },
       vertexShader: nebulaVertex,
       fragmentShader: nebulaFragment,
@@ -138,21 +148,69 @@ export function createNebulaSystem(
     get experience() {
       return activeExperience;
     },
+    get cachedVolumes() {
+      return alternateVolumes.size;
+    },
     async selectExperience(name) {
       const experience = nebulaExperience(name);
       if (!experience || disposed) return false;
       const revision = ++selectionRevision;
       let next = volumeData;
+      let guide = null;
       if (experience.manifest) {
         if (alternateVolumes.get(name)?.failed) {
-          alternateVolumes.get(name).dispose();
+          alternateVolumes.get(name).volume.dispose();
+          alternateVolumes.get(name).guide?.dispose();
           alternateVolumes.delete(name);
         }
-        if (!alternateVolumes.has(name)) alternateVolumes.set(name, densityFactory({ manifest: experience.manifest }));
-        next = alternateVolumes.get(name);
-        await next.promise;
+        if (!alternateVolumes.has(name)) {
+          const entry = {
+            volume: densityFactory({ manifest: experience.manifest }),
+            guide: null,
+            failed: false,
+            settled: false,
+          };
+          entry.promise = Promise.all([
+            entry.volume.promise,
+            experience.guide
+              ? (loader.loadAsync
+                  ? loader.loadAsync(experience.guide)
+                  : Promise.resolve(loader.load(experience.guide))
+                ).then((texture) => {
+                  if (disposed) {
+                    texture.dispose();
+                    return;
+                  }
+                  texture.colorSpace = THREE.SRGBColorSpace;
+                  entry.guide = texture;
+                })
+              : Promise.resolve(),
+          ])
+            .catch(() => {
+              entry.failed = true;
+            })
+            .finally(() => {
+              entry.failed ||= entry.volume.failed;
+              entry.settled = true;
+            });
+          alternateVolumes.set(name, entry);
+        }
+        const entry = alternateVolumes.get(name);
+        // Touch the LRU only on selection; optional volumes never load at startup.
+        alternateVolumes.delete(name);
+        alternateVolumes.set(name, entry);
+        await entry.promise;
+        next = entry.volume;
+        guide = entry.guide;
+        if (entry.failed) {
+          pruneVolumes();
+          return false;
+        }
       }
-      if (disposed || revision !== selectionRevision || !next.ready) return false;
+      if (disposed || revision !== selectionRevision || !next.ready) {
+        pruneVolumes();
+        return false;
+      }
       for (const node of nodes) {
         node.material.uniforms.densityMap.value = next.density;
         node.material.uniforms.detailMap.value = next.detail;
@@ -160,9 +218,12 @@ export function createNebulaSystem(
         node.material.uniforms.gasCool.value.fromArray(experience.cool);
         node.material.uniforms.gasWarm.value.fromArray(experience.warm);
         node.material.uniforms.gasGlow.value = experience.glow;
+        node.material.uniforms.image.value = guide || node.texture;
+        node.material.uniforms.guideEnabled.value = name === 'orion' || guide ? 1 : 0;
       }
       activeVolume = next;
       activeExperience = name;
+      pruneVolumes();
       lastVolumeFrame = 0;
       lastGasFrame = 0;
       return true;
@@ -260,13 +321,15 @@ export function createNebulaSystem(
       renderer.getSize(size);
       const width = Math.max(1, Math.round(Math.min(1920, size.x) * budget.scale));
       const height = Math.max(1, Math.round((width * size.y) / size.x));
-      const opticalWidth = !fieldStars
-        ? records[0].starlessTexture.dimensions[0]
-        : highResolutionState === 'ready'
-          ? 8192
-          : compact
-            ? 2048
-            : 4096;
+      const opticalWidth = nebulaExperience(activeExperience)?.guide
+        ? 1536
+        : !fieldStars
+          ? records[0].starlessTexture.dimensions[0]
+          : highResolutionState === 'ready'
+            ? 8192
+            : compact
+              ? 2048
+              : 4096;
       // Implicit derivatives are undefined in a ray loop with divergent exits.
       // Choose mip footprints explicitly, retaining finer detail inside the gas.
       for (const node of nodes) {
@@ -327,7 +390,7 @@ export function createNebulaSystem(
             : 4096;
     },
     requestHighResolution(renderer) {
-      if (!fieldStars || highResolutionState !== 'idle') return;
+      if (activeExperience !== 'orion' || !fieldStars || highResolutionState !== 'idle') return;
       if (compact || renderer.capabilities.maxTextureSize < 8192) {
         highResolutionState = 'unsupported';
         return;
@@ -345,7 +408,7 @@ export function createNebulaSystem(
           texture.anisotropy = 1;
           const previous = node.texture;
           node.texture = texture;
-          node.material.uniforms.image.value = texture;
+          if (activeExperience === 'orion') node.material.uniforms.image.value = texture;
           previous.dispose();
           highResolutionState = 'ready';
         },
@@ -435,7 +498,10 @@ export function createNebulaSystem(
       }
       geometry.dispose();
       volumeData.dispose();
-      alternateVolumes.forEach((volume) => volume.dispose());
+      alternateVolumes.forEach(({ volume, guide }) => {
+        volume.dispose();
+        guide?.dispose();
+      });
       motionTarget.dispose();
       settledTarget.dispose();
       compositeGeometry.dispose();

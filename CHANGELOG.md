@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.0] — Development · 2026-10-15
+
+- Unified the visible preview gallery and nebula atlas: fourteen scenes, genuine rendered/observational thumbnails, translated name/catalog search, a ten-popular-nebula filter and shared dive/loading/retry behavior.
+- Added Carina, Eagle, Horsehead, Helix, Crab, Ring, Rosette, Tarantula, Lagoon and Trifid. Official ESA/Hubble guides retain complete credits, source links and checksums; each has a distinct original128³ artistic depth field, never a measured tomography claim.
+- Load optional volumes/guides on selection and retain at most three alternate volume entries, disposing evicted GPU textures. Gas and stellar extinction switch atomically without moving stored records.
+- Reworked the black-hole disk with finer sheared structure, restrained warm lighting and explicit near inspection/distant return. Reduced motion and immersion exit remain reversible.
+- Added repeatable native visual captures, all-ten flight checks, search/bounds cases and cache/asset integrity validation.
+
 ## [1.26.0] — Development · 2026-10-15
 
 - Three original128³ nebula volumes join Orion: turquoise Ion Veil, crimson Ember Reach and Tidal Blue's wind shell. Explicit distant previews, gas-layer flight, density/light controls, retryable optional loading and reversible return preserve vocabulary geometry.

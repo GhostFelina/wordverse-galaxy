@@ -46,7 +46,7 @@ export function createSkyEventState({ reducedMotion = false } = {}) {
   };
 }
 
-const fragment = `varying vec2 uvEvent;uniform float envelope;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;uniform vec2 eventPosition;uniform float eventScale;uniform float eventAngle;uniform float eventDuration;uniform sampler2D backgroundImage;uniform float backgroundAvailable;
+const fragment = `varying vec2 uvEvent;uniform float envelope;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;uniform vec2 eventPosition;uniform float eventScale;uniform float eventAngle;uniform float eventDuration;uniform sampler2D backgroundImage;uniform float backgroundAvailable;uniform float inspection;
 float band(float value,float width){return exp(-pow(value/width,2.));}
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}
@@ -167,6 +167,7 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
       eventDuration: { value: 30 },
       backgroundImage: { value: null },
       backgroundAvailable: { value: 0 },
+      inspection: { value: 0 },
     },
     vertexShader: 'varying vec2 uvEvent;void main(){uvEvent=uv;gl_Position=vec4(position.xy,0.,1.);}',
     fragmentShader: fragment,
@@ -180,17 +181,22 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
     projected = new THREE.Vector3();
   let anchored = false;
   let anchorDistance = 18000;
+  let inspection = false;
   let placement = { center: [0.4, 0.4], scale: 0.84, angle: 0 };
   return {
     setReducedMotion: (value) => state.setReducedMotion(value),
     select(next, { wide = false, reposition = true, distance = 18000 } = {}) {
       state.select(next);
+      inspection = false;
       if (state.snapshot().kind && reposition)
         placement = createSkyPlacement({ random, wide, previous: placement.center });
       anchored = false;
       anchorDistance = THREE.MathUtils.clamp(distance, 180, 18000);
     },
-    snapshot: () => ({ ...state.snapshot(), placement: { ...placement, center: [...placement.center] } }),
+    inspectBlackHole(value = true) {
+      inspection = state.snapshot().kind === 'blackhole' && !!value;
+    },
+    snapshot: () => ({ ...state.snapshot(), inspection, placement: { ...placement, center: [...placement.center] } }),
     warm: async (renderer) => {
       await renderer.compileAsync(scene, camera);
       ready = true;
@@ -201,6 +207,7 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
       material.uniforms.envelope.value = THREE.MathUtils.clamp(envelope, 0, 1);
       material.uniforms.kind.value = Object.keys(SKY_EVENTS).indexOf(snapshot.kind) + 1;
       material.uniforms.aspect.value = aspect;
+      material.uniforms.inspection.value = inspection ? 1 : 0;
       material.uniforms.eventScale.value = placement.scale;
       material.uniforms.eventAngle.value = placement.angle;
       material.uniforms.eventDuration.value = SKY_EVENTS[snapshot.kind] || 45;
@@ -230,7 +237,11 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
         material.uniforms.eventPosition.value.set(aspect * placement.center[0], placement.center[1]);
         material.uniforms.blackholePosition.value.copy(material.uniforms.eventPosition.value);
       }
-      return { ...snapshot, placement: { ...placement, center: [...placement.center] } };
+      if (snapshot.kind === 'blackhole' && inspection) {
+        material.uniforms.blackholePosition.value.set(0, 0.08);
+        material.uniforms.blackholeScale.value = Math.min(1.15, aspect * 1.45);
+      }
+      return { ...snapshot, inspection, placement: { ...placement, center: [...placement.center] } };
     },
     render(renderer, background) {
       if (!ready || !state.snapshot().kind) return;

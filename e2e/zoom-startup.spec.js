@@ -55,6 +55,8 @@ test('plain wheel over Orion keeps personal stars and a continuous local depth s
   const canvas = page.locator('#universe');
   await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
   const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  // The visible gallery owns this screen region until explicitly collapsed.
+  await page.locator('#nebula-picker summary').click();
   await page.mouse.move(1080, 450);
   await page.mouse.wheel(0, -180);
   await expect.poll(async () => Number(await canvas.getAttribute('data-camera-target-z'))).toBeLessThan(160);
@@ -81,6 +83,7 @@ test('reversing the wheel during damping returns the cursor anchor without sidew
   await page.goto('/?lang=en');
   const canvas = page.locator('#universe');
   await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
+  await page.locator('#nebula-picker summary').click();
   await page.mouse.move(1080, 450);
   await page.mouse.wheel(0, -180);
   await expect

@@ -20,7 +20,11 @@
 - [x] Add three original nebula volumes, explicit preview/flight,22 shuffled cosmic phenomena and a refined home/native-name language menu.
 - [x] Verify optional-load retry, selection cancellation, record preservation, compact flight, menu keyboard/wheel isolation and distinct animated/still event output.
 - [x] Complete1.26.0 local158unit/138browser and quality gates, with synthetic native-GPU visual evidence.
-- [ ] Verify1.26.0 pushed source CI and obtain user visual acceptance before publication.
+- [x] Verify1.26.0 exact-source CI38713062693.
+- [x] Unify the visible preview gallery and atlas; add ten credited popular nebula scenes, translated search, bounded cache and reversible black-hole inspection.
+- [x] Complete1.27.0 local160unit/142browser scenario coverage, required gates and37 native synthetic captures.
+- [ ] Verify1.27.0 checkpoint source CI.
+- [ ] User visual acceptance before publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
 Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.

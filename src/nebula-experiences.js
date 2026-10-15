@@ -1,6 +1,7 @@
 import ionVeil from './data/ion-veil.json';
 import ember from './data/ember-reach.json';
 import tidal from './data/tidal-shell.json';
+import popular from './data/popular-nebulae.json';
 
 // Original volumes are independent of the observational Orion catalog.
 export const NEBULA_EXPERIENCES = Object.freeze(
@@ -33,6 +34,21 @@ export const NEBULA_EXPERIENCES = Object.freeze(
       warm: [0.21, 0.46, 0.65],
       glow: 1.9,
     },
+    ...popular,
   ].map(Object.freeze),
 );
 export const nebulaExperience = (id) => NEBULA_EXPERIENCES.find((item) => item.id === id);
+export const nebulaPreview = (experience) => experience.preview || `/assets/nebulae/previews/${experience.id}-v2.png`;
+export function searchNebulae(query, locale = 'en', names = {}) {
+  const normalize = (value) =>
+    value
+      .toLocaleLowerCase(locale)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/ı/g, 'i')
+      .replace(/[^\p{L}\p{N}]/gu, '');
+  const term = normalize(query.trim());
+  return NEBULA_EXPERIENCES.filter((item) =>
+    normalize(`${names[item.id] || ''} ${item.id} ${item.code}`).includes(term),
+  );
+}
