@@ -4,6 +4,8 @@ void main(){localPosition=position;gl_Position=projectionMatrix*modelViewMatrix*
 export const nebulaFragment = `precision highp sampler3D;
 uniform sampler2D image;uniform sampler3D densityMap;uniform sampler3D detailMap;
 uniform vec3 eye;uniform float time;uniform int steps;uniform float opticalLod;uniform float principalZ;uniform float stellarSuppression;uniform float gasDensity;uniform float gasLight;uniform float encodedHdr;
+uniform float ionVeil;
+uniform vec3 gasCool;uniform vec3 gasWarm;uniform float gasGlow;
 varying vec3 localPosition;
 void main(){
  vec3 ray=normalize(localPosition-eye);
@@ -18,7 +20,7 @@ void main(){
  float guideDistance=(principalZ-eye.z)/safe.z;
  vec3 guidePosition=eye+ray*max(0.,guideDistance);
  vec2 uv=clamp(guidePosition.xy*.5+.5,vec2(.001),vec2(.999));
- float guideCoverage=(1.-smoothstep(.84,1.,max(abs(guidePosition.x),abs(guidePosition.y))))*step(0.,guideDistance);
+ float guideCoverage=(1.-smoothstep(.84,1.,max(abs(guidePosition.x),abs(guidePosition.y))))*step(0.,guideDistance)*(1.-step(.5,ionVeil));
  vec3 observed=textureLod(image,uv,opticalLod).rgb;
  vec3 diffuse=textureLod(image,uv,opticalLod+4.).rgb;
  float peak=smoothstep(.025,.14,max(observed.r,max(observed.g,observed.b))-max(diffuse.r,max(diffuse.g,diffuse.b)));
@@ -34,16 +36,23 @@ void main(){
   if(distance>end)break;
   vec3 p=eye+ray*distance;
   vec3 advection=vec3(sin(time*.018)*.002,time*.00022,sin(time*.013)*.0009);
+  if(ionVeil>.5)advection=vec3(sin(time*.075+p.z*2.8)*.009,sin(time*.055+p.x*3.)*.008,sin(time*.04)*.003);
   vec4 field=textureLod(densityMap,clamp(p*.5+.5+advection,vec3(0.),vec3(1.)),densityLod);
   if(field.r<.025 && (immersion>.99 || guideCoverage<.01 || abs(p.z-principalZ)>.16))continue;
   vec3 detailUV=(p*metric)*1.3+vec3(.17,.31,.53)+advection;
   float detail=textureLod(detailMap,detailUV,detailLod).r;
   float erosion=.035+1.8*pow(smoothstep(.3,.72,detail),2.);
+  if(ionVeil>.5)erosion=.32+1.65*pow(smoothstep(.26,.76,detail),1.6);
   float density=field.r*field.r*2.5*erosion;
   float dust=field.b;
   float warm=field.a;
-  vec3 color=mix(vec3(.055,.16,.32),vec3(.56,.22,.09),warm);
+  vec3 color=mix(gasCool,gasWarm,warm);
   color=mix(color,vec3(.36,.22,.32),smoothstep(.32,.75,detail)*.2);
+  if(ionVeil>.5){
+   color=mix(gasCool,gasWarm,smoothstep(.35,.93,warm));
+   vec3 rim=ionVeil<1.5?vec3(.43,.61,.59):ionVeil<2.5?vec3(1.1,.52,.15):vec3(.32,.66,1.);
+   color=mix(color,rim,smoothstep(.51,.79,detail)*.5);
+  }
   float lighting=.16+field.g*.84;
   float ridge=abs(p.z-principalZ)<.16 ? exp(-pow((p.z-principalZ)/.05,2.)) : 0.;
   float photo=ridge*guideCoverage*(1.-immersion)*1.45;
@@ -54,6 +63,7 @@ void main(){
   float opacity=1.-exp(-total*(2.2+dust*1.7)*stride*length(ray*metric));
   vec3 photoColor=mix(vec3(dot(observed,vec3(.2126,.7152,.0722))),observed,.76);
   vec3 emission=mix(color*(1.6+field.g*.9)*lighting*(1.-dust*.58),photoColor*2.7,photo/max(.0001,density+photo))*gasLight;
+  emission*=gasGlow;
   sum.rgb+=(1.-sum.a)*emission*opacity;
   sum.a+=(1.-sum.a)*opacity;
   if(sum.a>.985)break;

@@ -137,7 +137,8 @@
     "cameraInstructions": "Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön.",
     "sceneLoading": "Evrenin hazırlanıyor…",
     "brandCaption": "KELİME ATLASI",
-    "sceneTools": "Evren araçları"
+    "sceneTools": "Evren araçları",
+    "languageHint": "Kelimelerin aynı kalır. Sadece arayüzün dili değişir."
   },
   "panel": {
     "close": "Paneli kapat",
@@ -599,7 +600,7 @@
   },
   "sky": {
     "title": "Gökyüzü deneyimleri",
-    "hint": "Sakin, sanatsal bir sahne seç. Geçici olaylar kendiliğinden sona erer; kelime yıldızların korunur.",
+    "hint": "22 kozmik olaydan birini seç. Zamanı sıkıştırılmış gök olayları, bulutsuların içinde de yaşar.",
     "stillHint": "Azaltılmış hareket açık. Seçtiğin deneyim sabit bir görsel olarak gösterilir.",
     "none": "Sakin gökyüzü",
     "meteor": "Meteor",
@@ -614,9 +615,48 @@
     "kilonova": "Nötron yıldızı çarpışması",
     "livingOn": "Canlı gökyüzü · açık",
     "livingOff": "Canlı gökyüzü · kapalı",
-    "livingHint": "Sakin aralıklarla rastgele olaylar gelişir. Elle seçtiğin olay önceliklidir; ses yalnızca açtığında çalar.",
+    "livingHint": "22 farklı olay, rastgele konum ve sakin aralıklarla belirir. Sessiz gökyüzü otomatik olayları durdurur.",
     "comet": "Kuyruklu yıldız",
-    "pulsar": "Pulsar"
+    "pulsar": "Pulsar",
+    "veilEnter": "İyon Perdesi’ni aç",
+    "veilHint": "Saydam gaz lifleri, inci ışık ve yavaş akış. Seçerek aç.",
+    "veilDepth": "İyon Perdesi yolculuğu",
+    "veilLoading": "Gaz katmanları hazırlanıyor…",
+    "veilFailed": "Sahne açılamadı. Yeniden deneyebilirsin.",
+    "nebulaCollection": "Bulutsuları keşfet",
+    "nebulaPreviewHint": "Uzak görünüm için bir bulutsu seç. Hazır olduğunda gaz katmanlarına dal.",
+    "nebulaDive": "Bulutsunun içine dal ↗",
+    "nebulaDepth": "Dalış derinliği",
+    "nebulaLoading": "Bulutsu hazırlanıyor…",
+    "nebulaFailed": "Bulutsu yüklenemedi. Yeniden deneyebilirsin.",
+    "nebulaNames": {
+      "orion": "Orion",
+      "ion-veil": "İyon Perdesi",
+      "ember-reach": "Köz Sütunları",
+      "tidal-shell": "Mavi Gelgit"
+    },
+    "nebulaDescriptions": {
+      "orion": "Bakır ışık · derin gaz vadileri",
+      "ion-veil": "Turkuaz gaz · kıvrımlı iyon perdeleri",
+      "ember-reach": "Kızıl toz · ışıkla oyulan sütunlar",
+      "tidal-shell": "Mavi ışık · içi boş rüzgâr kabuğu"
+    },
+    "protostar": "Önyıldız oluşumu",
+    "jet": "Çift kutuplu gaz jeti",
+    "bowshock": "Yıldızın yay şoku",
+    "ionfront": "İyonlaşma cephesi",
+    "dustwave": "Toz dalgası",
+    "reflection": "Yansıma bulutsusu",
+    "darkcloud": "Karanlık moleküler bulut",
+    "globule": "Bok globülü",
+    "pillar": "Gaz ve toz sütunu",
+    "windbubble": "Yıldız rüzgârı kabarcığı",
+    "planetary": "Gezegenimsi bulutsu",
+    "remnant": "Süpernova kalıntısı",
+    "binary": "Madde aktaran çift yıldız",
+    "nova": "Klasik nova",
+    "lightEcho": "Işık yankısı",
+    "magnetic": "Manyetik gaz çizgileri"
   },
   "share": {
     "open": "Yıldız kartı",

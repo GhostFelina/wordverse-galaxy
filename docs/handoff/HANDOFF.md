@@ -1,6 +1,16 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.25.0; production1.23.0.
+Active branch: phase/4-universe. Development1.26.0; production1.23.0.
+
+## Current1.26.0 nebula exploration
+
+Three original128³ volumes join Orion through an explicit four-scene preview/flight selector: Ion Veil, Ember Reach and Tidal Blue. Separate warped sheets, eroded pillars and an empty wind shell share the finite gas/HDR pipeline, density/light settings, selected-star extinction and reversible geometry. Optional payloads load on demand; failure preserves the active scene, retry works, and late selection results cannot override return/disposal. [Specification](../NEBULA_EXPERIENCES.md).
+
+One catalog now defines22 distinct cosmic phenomena across the production shader, translated menus and shuffled session director. Automatic accents also run inside nebula flight; quiet mode, manual priority, learning/focus deferral, hidden-tab timing and representative reduced-motion stills remain. The16 new branches have distinct readback signatures and evolving pixels. The home navigation/actions and native-name language menu share warm surfaces, selected-state marks and keyboard focus. Compact flight controls and menu wheel isolation remain usable.
+
+Complete local validation: **158unit / 138browser (6.4min)**, lint/types/build/format/release, zero audit vulnerabilities and24 Go template assertions pass. Native Chrome155/RTX5060Ti D3D11 captures17 synthetic home/menu/far/interior views and a22-event gallery at390/1024/1280/1440/1920 widths, with no captured console errors and unchanged vocabulary data. [Visual provenance](evidence/2026-10-15-nebula-experiences/PROVENANCE.json), [quality record](evidence/2026-10-15-nebula-experiences-quality.json). User visual acceptance and broader hardware/performance acceptance remain open. Production1.23.0 is preserved.
+
+Prior1.25.0 exact-source [CI38643136937](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38643136937) is successful;1.26.0 source CI follows its checkpoint push.
 
 ## Verified1.25.0 nebula and personal observatory
 
@@ -58,7 +68,7 @@ Runtime **b06b9d0** is committed/pushed. Complete local147 unit/117 browser test
 
 ## Next acceptance
 
-0. Review local1.25.0 interior gas, side/flight, HDR light, atmosphere controls and personal discovery; verify its pushed source CI before publication. Prior1.24 source CI succeeds. The deployed1.23.0 home/first-visit/menu acceptance also remains open. Do not restart the completed visual rendering phases.
+0. Review local1.26.0's three added nebulae, distant/interior flight,22 cosmic phenomena, home and language menu; verify its source CI before publication. Prior1.25 exact-source CI succeeds. The deployed1.23.0 acceptance also remains open. Do not restart completed rendering phases.
 1. Review distant core scintillation, gas passage and the small red disk in the actual user browser. Source/display checks are complete; user visual acceptance remains open.
 2. Extend isolated hardware/large-archive review and physical headphone/speaker listening. No universal GPU, calibrated astronomy or Dolby/IMAX certification claim.
 3. Separate GitHub social-preview settings upload remains unverified; the branded PNG is ready. Preserve production dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc/sourcecd97c62 and retain the prior production deployment as rollback reference.

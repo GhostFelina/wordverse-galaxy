@@ -1,0 +1,65 @@
+{
+  "version": "1.26.0",
+  "date": "2026-10-15T09:25:55.049Z",
+  "baseCommit": "ed196860e31a4e67c585d3d1b422833b9d9a86f1",
+  "sourceHashes": {
+    "package.json": "0d7b3287e73cdc8c2d7809ed846c4f4716df4e8989462f5bbeb76ce93e3f91d9",
+    "package-lock.json": "e26406e57c123d8315ed77f7e594ca6a19bd67e818c5ee53ef2eb54e37fbc3b2",
+    "src/main.js": "2458435ccb15401fc007f632ec76c3f155d5fd9cfeeb139f010586254350e245",
+    "src/nebula-system.js": "72cd10405a177f28092b5fcfb38d91e2dbef0d5fd1d904e75dd21e27aaaf955b",
+    "src/nebula-density.js": "03bee0432d4dd28645e1e1ccedde6f5378ca119415f000e047a25d87c199e9e1",
+    "src/nebula-shader.js": "2f1f742d4b3bc0b65b5e89749e640269e594e759a0ae5a7afaab6cbf5d22682d",
+    "src/nebula-experiences.js": "672ca9aca78e89e39fb9bd2a229d5c8bc051f83463772e0c0195bbdd7956a896",
+    "src/sky-events.js": "a8e243e4ca18c91e990427d525cc9fbc72aac6e7a363f775858e5802490ba7e9",
+    "src/sky-event-catalog.js": "a59b97e12d05cbf4f5a02b54a5dc7ead582d44e09d9ecf86fbec4247c3e9902a",
+    "src/nebula-event-shader.js": "159ae15974c6b68d82d22d1d229db58c8e9dadf54b17f2d888ca9d10ebc5b876",
+    "src/living-sky.js": "8b210a475727c3c23f69d6f1346bc51e74398d3260ac720d7e1d9ed9dd890da9",
+    "src/sky-events-ui.js": "e3f8135f4d7df3f6e4e9e63f648a98ce18b93e2690df8772beca96967d051957",
+    "src/language-picker.js": "210a20b7323f7f05e01467cc53f3a270853c948e89b391ccf9a40596ebaf5589",
+    "src/language-picker.css": "67acb5547992b5a2ae9588b2fb56878deaea7b6359c849c21d08590c79632713",
+    "src/locale-navigation.js": "b04daf255a2a9ed74df13a0804a022dd048160370349ea2d8dc340c78d033ef5",
+    "src/exploration-design.css": "65ea1750d62f8cf9a92fd372e9db48668d781751e0e710282f89fc38cffca3c2",
+    "scripts/build-ion-veil.mjs": "cc973f9bb24a87b439dad3456384f5726b01ba23d8f0fe2478d12f606952e38f",
+    "scripts/build-nebula-experiences.mjs": "e2a41674f9bf628784be91b13be421d133b1264a9339429dff380e71de8dff31",
+    "scripts/capture-nebula-experiences.mjs": "56ec4a36acb693bd4e3e667315f40111982c15050083be442113766c8bb5594b",
+    "tests/sky-events.test.js": "4401f62475d0d1ab5991e4cae793b9e3bc1d406bb4871d58b154937e456571f1",
+    "tests/living-sky.test.js": "93c6557d254713a8411700897789c0ffb88f0dd7e94070e89893aa29b881302a",
+    "tests/nebula-system.test.js": "24f80a0a2184234091ce590a015a2eec6c96a5fa0400a30d08466dd2352f37b6",
+    "e2e/nebula-experiences.spec.js": "d565dc7b98eb330d844aeedf4f55fcb67bcc89066dd34c952e942227f3be0e25",
+    "e2e/camera-controls.spec.js": "8faf31c1b871f68ea636a2fefa72faa09c98bbdfd2e59b44cf2e22099d1e88ab",
+    "locales/tr.json": "cc07d8e9c0a1f65281099fd163b4ece08189f8cb3d9e878ce5afbfb576387536",
+    "locales/en.json": "f1dadb1d370244470c8e2d760496162d221b429b638267827066fe172edebd9b",
+    "locales/es.json": "4ca0bdd13018b378c40390e962d51210f52cdea138b4b99cacf75b2fa7fc4281",
+    "src/data/ion-veil.json": "675d97b643475da985ba9d766ea84a5f6abb92f926c7f1f1deb48d8c31533ecb",
+    "src/data/ember-reach.json": "ebb4f53a476a0e623a340eb43d549fd8e107da98ddc704144b40e3f61b38db80",
+    "src/data/tidal-shell.json": "75d9e83269fdaa533ae5253f79738901b5627b298dc0a734f8906d6b5cc74e40"
+  },
+  "local": {
+    "unitTests": 158,
+    "browserTests": 138,
+    "browserDurationMinutes": 6.4,
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditVulnerabilities": 0,
+    "goTemplateAssertions": 24
+  },
+  "native": {
+    "captures": 17,
+    "manifest": "2026-10-15-nebula-experiences/PROVENANCE.json",
+    "renderer": "NVIDIA GeForce RTX5060Ti / Direct3D11",
+    "vocabularyStorage": "Unchanged after each application capture; synthetic records only.",
+    "consoleErrors": []
+  },
+  "production": {
+    "version": "1.23.0",
+    "action": "preserved; no production release"
+  },
+  "remote": "Checkpoint source CI follows push.",
+  "limits": [
+    "Artistic original128-cubed volumes; no measured objects, tomography or8K claim.",
+    "No universal GPU/frame-rate guarantee or user visual acceptance claim."
+  ]
+}

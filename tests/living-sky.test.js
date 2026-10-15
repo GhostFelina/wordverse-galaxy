@@ -1,5 +1,6 @@
 import { expect, it } from 'vitest';
 import { createLivingSky } from '../src/living-sky.js';
+import { SKY_EVENTS } from '../src/sky-event-catalog.js';
 
 it('directs a shuffled bounded sequence with quiet gaps and smooth finite envelopes', () => {
   let seed = 17;
@@ -34,7 +35,9 @@ it('directs a shuffled bounded sequence with quiet gaps and smooth finite envelo
       previousStop = i;
     }
   }
-  expect(new Set(started)).toEqual(new Set(['meteor', 'supernova', 'blackhole', 'kilonova', 'comet', 'pulsar']));
+  expect(new Set(started)).toEqual(new Set(Object.keys(SKY_EVENTS)));
+  // A full shuffled cycle contains every distinct phenomenon before repetition.
+  expect(new Set(started.slice(0, 22)).size).toBe(22);
   expect(stopped.length).toBeGreaterThan(20);
 });
 
@@ -43,7 +46,7 @@ it('pauses idle direction during learning, prioritizes manual choices and honors
   for (let i = 0; i < 3000; i++) expect(director.tick(0.1, null, true)).toBeNull();
   for (let i = 0; i < 119; i++) expect(director.tick(0.1)).toBeNull();
   const first = director.tick(0.1);
-  expect(first?.kind).toBe('meteor');
+  expect(Object.hasOwn(SKY_EVENTS, first?.kind)).toBe(true);
   director.manual('blackhole');
   for (let i = 0; i < 3000; i++) expect(director.tick(0.1, 'blackhole')).toBeNull();
   for (let i = 0; i < 899; i++) expect(director.tick(0.1)).toBeNull();

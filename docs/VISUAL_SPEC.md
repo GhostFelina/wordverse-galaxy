@@ -4,7 +4,7 @@
 
 A calm, cinematic learning atlas: near-black space, an observationally inspired Orion gas field, restrained white/lavender optical points and warm granular stellar surfaces. The desktop shell uses local Space Grotesk display typography and DM Sans controls, warm ivory action surfaces and copper-toned accents. An original constellation W identifies the brand. Stars and records are the primary hierarchy; decorative elements remain secondary.
 
-The first-visit, empty and populated home states share a typographic hierarchy. Primary navigation sits beside the wordmark; galaxy/language/account actions form the opposite group. A consolidated scene toolbar anchors its menus to the viewport and opens upward, with independent zoom controls below. Explicit Orion entry is visible above the scene. Keyboard focus, native select behavior, Escape return and panel scrolling remain available. Dedicated mobile design is deferred.
+The first-visit, empty and populated home states share a typographic hierarchy. Primary navigation sits beside the wordmark; galaxy/language/account actions form the opposite group. A consolidated scene toolbar anchors its menus to the viewport and opens upward, with independent zoom controls below. Explicit nebula entry and a four-scene preview selector are visible above the scene. The language menu uses native names, a globe and selected-state marks; its native select remains a fallback. Keyboard focus, Escape return and panel scrolling remain available. Dedicated mobile design is deferred.
 
 ## Rendering boundaries
 
@@ -30,3 +30,5 @@ Learning panels, record details and recall use the same warm typography/surfaces
 Compare deterministic general,55%,close and gas-side captures using production modules. Check texture detail at actual native resolution, highlight clipping, halo boundaries and temporal stability. Measure RAF pacing separately from GPU timing; headless fixtures do not certify all hardware or visible user sessions.
 
 Version1.25 adds device-local density/light controls accessible inside flight, optional bounded personal star paths and collision-limited labels. Recent/random discovery and filtered previous/next navigation preserve hidden meanings and stored geometry. Instrument Serif italic emphasizes the home heading. [Rendering and discovery specification](NEBULA_RENDERING.md).
+
+Version1.26 extends the warm editorial shell and adds three independently baked original128³ gas volumes: folded turquoise ionized sheets, crimson eroded pillars, and a blue corrugated wind shell with an empty cavity. They share finite raymarching, HDR, budgets and reversible star geometry. Six existing and16 new astronomical vignettes share bounded placement, manual priority, finite duration and still representations. These original scenes are artistic, without observational or physical calibration claims. [Exploration specification](NEBULA_EXPERIENCES.md).

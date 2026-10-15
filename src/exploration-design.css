@@ -1,0 +1,269 @@
+/* The observatory: quiet editorial surfaces framing a living volumetric sky. */
+.topbar {
+  background: linear-gradient(180deg, #080b11ed, #080b1170);
+  border-bottom-color: #e8dac817;
+}
+.topnav {
+  background: #e8dac805;
+  border-color: #e8dac815;
+  border-radius: 24px;
+}
+.topnav .nav-link {
+  border-radius: 20px;
+}
+.topnav .nav-link.active {
+  background: #e8dac813;
+  box-shadow: none;
+}
+.hero .eyebrow {
+  color: #cab9a4;
+  letter-spacing: 0.19em;
+}
+.hero > p {
+  color: #bcb6b0;
+  max-width: 410px;
+}
+.hero .primary-cta {
+  border-radius: 12px;
+  box-shadow:
+    0 5px 36px #e6b78313,
+    inset 0 1px #fff9;
+}
+.hero .text-cta {
+  border-radius: 12px;
+  border-color: #eadcca25;
+  background: #080b1138;
+}
+.hero .text-cta:hover {
+  background: #eadcca0d;
+  border-color: #eadcca60;
+}
+.home-recent {
+  border-top-color: #eadcca1a;
+}
+.nebula-picker {
+  position: fixed;
+  top: 204px;
+  right: var(--atlas-margin);
+  z-index: 14;
+  width: 238px;
+  color: #dfd5c8;
+  font:
+    400 11px 'DM Sans',
+    sans-serif;
+}
+.nebula-picker > summary {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 12px 14px;
+  border: 1px solid #eed6b92b;
+  border-radius: 11px;
+  cursor: pointer;
+  background: #0c0e13b8;
+  backdrop-filter: blur(12px);
+}
+.nebula-picker > summary::after {
+  content: '+';
+  color: #cbbda9;
+}
+.nebula-picker[open] > summary::after {
+  content: '−';
+}
+.nebula-picker summary::-webkit-details-marker {
+  display: none;
+}
+.nebula-gallery {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  width: 318px;
+  max-height: calc(100dvh - 300px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 12px;
+  border: 1px solid #eed6b92b;
+  border-radius: 16px;
+  background: #0e1118fa;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 22px 70px #0009;
+}
+.nebula-gallery > p {
+  margin: 6px 8px 14px;
+  font:
+    400 11px/1.7 'DM Sans',
+    sans-serif;
+  color: #a9a59e;
+}
+.nebula-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 76px;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  text-align: left;
+  color: #e4ded6;
+  background: none;
+  cursor: pointer;
+}
+.nebula-choice:hover {
+  background: #eed6b909;
+}
+.nebula-choice[aria-pressed='true'] {
+  background: #eed6b90c;
+  border-color: #eed6b931;
+}
+.nebula-choice > span:nth-child(2) {
+  flex: 1;
+}
+.nebula-choice strong {
+  display: block;
+  font:
+    500 13px 'DM Sans',
+    sans-serif;
+  margin-bottom: 6px;
+}
+.nebula-choice small {
+  color: #a9a7a2;
+  font:
+    400 10px/1.5 'DM Sans',
+    sans-serif;
+}
+.nebula-index {
+  font:
+    400 9px 'Space Grotesk',
+    sans-serif;
+  color: #978f85;
+}
+.nebula-swatch {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 9px;
+  border: 1px solid #fff2;
+  background:
+    radial-gradient(ellipse at 60% 35%, #d18a6170, transparent 55%),
+    radial-gradient(ellipse at 30% 60%, #475a8a, #0b1021 75%);
+}
+[data-nebula-swatch='ion-veil'] {
+  background:
+    repeating-linear-gradient(125deg, transparent 0 7px, #9cd8d31a 11px, transparent 15px),
+    radial-gradient(ellipse at 40% 40%, #619f9f, #092329 70%);
+}
+[data-nebula-swatch='ember-reach'] {
+  background:
+    repeating-linear-gradient(80deg, transparent 0 6px, #090c16b3 9px 15px, transparent 20px),
+    radial-gradient(ellipse at 50% 20%, #dc9d57, #672e28 45%, #140e1d 90%);
+}
+[data-nebula-swatch='tidal-shell'] {
+  background: radial-gradient(ellipse at 50% 50%, #050e22 28%, #608eb7 37%, #1c4e7c 45%, #080f20 65%);
+}
+.nebula-selection-status {
+  position: fixed;
+  top: 258px;
+  right: var(--atlas-margin);
+  z-index: 16;
+  max-width: 238px;
+  color: #d5c5b1;
+  background: #0d1118f7;
+  border: 1px solid #eadcca25;
+  border-radius: 10px;
+  padding: 12px;
+  font:
+    400 11px/1.6 'DM Sans',
+    sans-serif;
+}
+.nebula-picker[hidden],
+.nebula-selection-status[hidden] {
+  display: none;
+}
+.nebula-choice:disabled,
+.nebula-entry:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+.nebula-gallery-dive {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  border: 1px solid #eed6b93b;
+  border-radius: 10px;
+  padding: 12px;
+  background: #eed6b914;
+  color: #f1ddc2;
+  font:
+    500 12px 'DM Sans',
+    sans-serif;
+  cursor: pointer;
+}
+.nebula-gallery-dive:hover {
+  background: #eed6b924;
+}
+.nebula-gallery-dive:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+#app:has(.side-panel.open) .nebula-picker,
+#app:has(dialog[open]) .nebula-picker,
+#app[data-graphics='unavailable'] .nebula-picker {
+  display: none;
+}
+#app:has(.scene-controls[open]) .nebula-picker {
+  visibility: hidden;
+}
+#app.immersive .nebula-picker {
+  top: 108px;
+}
+#app.immersive .nebula-selection-status {
+  top: 158px;
+}
+.sky-event-options [data-sky-event='kilonova'],
+.sky-quick-options [data-sky-quick='kilonova'] {
+  grid-column: auto;
+}
+.sky-event-options button {
+  font-size: 11px;
+  line-height: 1.5;
+  min-height: 44px;
+}
+@media (max-width: 760px) {
+  #nebula-navigation:not([hidden]) {
+    display: grid;
+    width: min(340px, calc(100vw - 36px));
+    bottom: 18px;
+  }
+  .nebula-picker {
+    top: auto;
+    bottom: 210px;
+    right: 18px;
+    width: 186px;
+  }
+  .nebula-gallery {
+    top: auto;
+    bottom: calc(100% + 9px);
+    width: min(310px, calc(100vw - 36px));
+    max-height: calc(100dvh - 220px);
+  }
+  #app.immersive .nebula-picker {
+    top: 82px;
+    bottom: auto;
+  }
+  #app.immersive .nebula-gallery {
+    top: calc(100% + 9px);
+    bottom: auto;
+  }
+  .nebula-selection-status {
+    top: 180px;
+    right: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero button,
+  .language-trigger,
+  .nebula-choice {
+    transition: none;
+  }
+}

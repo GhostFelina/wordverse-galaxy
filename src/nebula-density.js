@@ -1,7 +1,11 @@
 import * as THREE from 'three';
-import volume from './data/nebula-density.json';
+import defaultVolume from './data/nebula-density.json';
 
-export function createNebulaDensity({ load = typeof window === 'undefined' ? null : loadCompressed } = {}) {
+export function createNebulaDensity({
+  load = typeof window === 'undefined' ? null : loadCompressed,
+  manifest = defaultVolume,
+} = {}) {
+  const volume = manifest;
   const textures = volume.assets.map((asset, index) => {
     const texture = new THREE.Data3DTexture(new Uint8Array(index === 0 ? [0, 255, 0, 128] : [128]), 1, 1, 1);
     texture.format = index === 0 ? THREE.RGBAFormat : THREE.RedFormat;

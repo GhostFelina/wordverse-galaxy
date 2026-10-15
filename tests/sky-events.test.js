@@ -1,7 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { createSkyEventState } from '../src/sky-events.js';
+import { createSkyEventState, SKY_EVENTS } from '../src/sky-events.js';
 
 describe('ephemeral sky experiences', () => {
+  it('offers 22 finite or explicitly dismissible phenomena with representative, frozen stills', () => {
+    expect(Object.keys(SKY_EVENTS)).toHaveLength(22);
+    for (const [kind, duration] of Object.entries(SKY_EVENTS)) {
+      const state = createSkyEventState();
+      state.select(kind);
+      expect(state.snapshot().kind).toBe(kind);
+      for (let i = 0; i < 500; i++) state.update(0.1);
+      expect(state.snapshot().kind).toBe(duration ? null : kind);
+      state.setReducedMotion(true);
+      state.select(kind);
+      const still = state.snapshot();
+      state.update(0.1);
+      expect(state.snapshot()).toEqual(still);
+      if (duration) expect(still.elapsed).toBeGreaterThan(0);
+    }
+  });
   it('starts quiet, replaces events and bounds elapsed time across pauses', () => {
     const state = createSkyEventState();
     expect(state.snapshot().kind).toBeNull();

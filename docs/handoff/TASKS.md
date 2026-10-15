@@ -16,7 +16,11 @@
 - [x] Verify1.24.0 exact-source remote CI.
 - [x] Rebuild1.25.0 finite gas/HDR pipeline, adaptive cruise budgets, atmosphere controls and personal discovery/navigation.
 - [x] Complete1.25.0 local154unit/128browser and gates;21 native synthetic captures and native/software strategy comparison.
-- [ ] Verify1.25.0 pushed source CI and obtain user visual acceptance before publication.
+- [x] Verify1.25.0 exact-source CI38643136937.
+- [x] Add three original nebula volumes, explicit preview/flight,22 shuffled cosmic phenomena and a refined home/native-name language menu.
+- [x] Verify optional-load retry, selection cancellation, record preservation, compact flight, menu keyboard/wheel isolation and distinct animated/still event output.
+- [x] Complete1.26.0 local158unit/138browser and quality gates, with synthetic native-GPU visual evidence.
+- [ ] Verify1.26.0 pushed source CI and obtain user visual acceptance before publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
 Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.

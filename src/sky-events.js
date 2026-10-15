@@ -1,15 +1,9 @@
 import * as THREE from 'three';
 import { createSkyPlacement } from './sky-event-placement.js';
 import { BLACK_HOLE_GLSL } from './blackhole-shader.js';
-
-export const SKY_EVENTS = Object.freeze({
-  meteor: 6,
-  supernova: 18,
-  blackhole: 0,
-  kilonova: 22,
-  comet: 24,
-  pulsar: 28,
-});
+import { NEBULA_EVENT_GLSL } from './nebula-event-shader.js';
+import { SKY_EVENTS } from './sky-event-catalog.js';
+export { SKY_EVENTS } from './sky-event-catalog.js';
 
 // Ephemeral presentation state. It never touches learning records or storage.
 export function createSkyEventState({ reducedMotion = false } = {}) {
@@ -44,7 +38,7 @@ export function createSkyEventState({ reducedMotion = false } = {}) {
                     ? 12
                     : kind === 'pulsar'
                       ? 9
-                      : 0
+                      : SKY_EVENTS[kind] * 0.45
             : elapsed,
         reducedMotion,
       };
@@ -52,7 +46,7 @@ export function createSkyEventState({ reducedMotion = false } = {}) {
   };
 }
 
-const fragment = `varying vec2 uvEvent;uniform float envelope;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;uniform vec2 eventPosition;uniform float eventScale;uniform float eventAngle;uniform sampler2D backgroundImage;uniform float backgroundAvailable;
+const fragment = `varying vec2 uvEvent;uniform float envelope;uniform float clock;uniform int kind;uniform float aspect;uniform vec2 blackholePosition;uniform float blackholeScale;uniform vec2 eventPosition;uniform float eventScale;uniform float eventAngle;uniform float eventDuration;uniform sampler2D backgroundImage;uniform float backgroundAvailable;
 float band(float value,float width){return exp(-pow(value/width,2.));}
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}
@@ -143,6 +137,7 @@ void main(){
   light=(vec3(.65,1.5,2.8)*(nucleus+halo+jets)+vec3(.18,.48,.9)*magnetosphere)*fade;
   alpha=min(.82,(nucleus+halo+jets+magnetosphere)*fade);
  }
+ if(kind>=7){${NEBULA_EVENT_GLSL}}
  alpha*=envelope;light*=envelope;
  if(alpha<.001)discard;
  // Normal alpha blending keeps the bounded core dark and avoids screen flashes.
@@ -169,6 +164,7 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
       eventPosition: { value: new THREE.Vector2() },
       eventScale: { value: 0.84 },
       eventAngle: { value: 0 },
+      eventDuration: { value: 30 },
       backgroundImage: { value: null },
       backgroundAvailable: { value: 0 },
     },
@@ -183,14 +179,16 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
   const anchor = new THREE.Vector3(),
     projected = new THREE.Vector3();
   let anchored = false;
+  let anchorDistance = 18000;
   let placement = { center: [0.4, 0.4], scale: 0.84, angle: 0 };
   return {
     setReducedMotion: (value) => state.setReducedMotion(value),
-    select(next, { wide = false, reposition = true } = {}) {
+    select(next, { wide = false, reposition = true, distance = 18000 } = {}) {
       state.select(next);
       if (state.snapshot().kind && reposition)
         placement = createSkyPlacement({ random, wide, previous: placement.center });
       anchored = false;
+      anchorDistance = THREE.MathUtils.clamp(distance, 180, 18000);
     },
     snapshot: () => ({ ...state.snapshot(), placement: { ...placement, center: [...placement.center] } }),
     warm: async (renderer) => {
@@ -205,13 +203,14 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
       material.uniforms.aspect.value = aspect;
       material.uniforms.eventScale.value = placement.scale;
       material.uniforms.eventAngle.value = placement.angle;
+      material.uniforms.eventDuration.value = SKY_EVENTS[snapshot.kind] || 45;
       if (snapshot.kind && sceneCamera) {
         const tangent = Math.tan(THREE.MathUtils.degToRad(sceneCamera.fov / 2));
         if (!anchored) {
           anchor.set(
-            sceneCamera.position.x + 18000 * tangent * aspect * placement.center[0],
-            sceneCamera.position.y + 18000 * tangent * placement.center[1],
-            sceneCamera.position.z - 18000,
+            sceneCamera.position.x + anchorDistance * tangent * aspect * placement.center[0],
+            sceneCamera.position.y + anchorDistance * tangent * placement.center[1],
+            sceneCamera.position.z - anchorDistance,
           );
           anchored = true;
         }
@@ -223,6 +222,10 @@ export function createSkyEvents({ reducedMotion = false, random = Math.random } 
           0.14,
           0.28,
         );
+        if (anchorDistance < 18000)
+          material.uniforms.eventScale.value =
+            placement.scale *
+            THREE.MathUtils.clamp(anchorDistance / Math.max(100, sceneCamera.position.z - anchor.z), 0.5, 1.5);
       } else {
         material.uniforms.eventPosition.value.set(aspect * placement.center[0], placement.center[1]);
         material.uniforms.blackholePosition.value.copy(material.uniforms.eventPosition.value);

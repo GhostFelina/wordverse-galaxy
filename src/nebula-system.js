@@ -3,17 +3,18 @@ import { createNebulaDensity } from './nebula-density.js';
 import { createNebulaQuality } from './nebula-quality.js';
 import { nebulaVertex, nebulaFragment } from './nebula-shader.js';
 import images from './data/nebula-images.json';
+import { nebulaExperience } from './nebula-experiences.js';
 import { layoutNebulae, ORION_DEPTH_SCALE, ORION_PRINCIPAL_Z } from './nebula-layout.js';
 import { createNebulaEnvironment } from './nebula-environment.js';
 
 export function createNebulaSystem(
   scene,
   camera,
-  { loader = new THREE.TextureLoader(), compact = false, fieldStars = true } = {},
+  { loader = new THREE.TextureLoader(), compact = false, fieldStars = true, densityFactory = createNebulaDensity } = {},
 ) {
   const records = layoutNebulae(images, 8042026, camera.aspect);
   const geometry = new THREE.BoxGeometry(2, 2, 2),
-    volumeData = createNebulaDensity(),
+    volumeData = densityFactory(),
     density = volumeData.density,
     quality = createNebulaQuality();
   const root = new THREE.Group();
@@ -27,6 +28,10 @@ export function createNebulaSystem(
     pickBounds = new THREE.Box3();
   let disposed = false,
     loaded = 0;
+  const alternateVolumes = new Map();
+  let activeVolume = volumeData,
+    activeExperience = 'orion',
+    selectionRevision = 0;
   let assetFailed = false;
   let highResolutionState = 'idle';
   let shaderState = 'idle';
@@ -85,6 +90,10 @@ export function createNebulaSystem(
         gasDensity: { value: 0.85 },
         gasLight: { value: 1 },
         encodedHdr: { value: 0 },
+        ionVeil: { value: 0 },
+        gasCool: { value: new THREE.Vector3(0.055, 0.16, 0.32) },
+        gasWarm: { value: new THREE.Vector3(0.56, 0.22, 0.09) },
+        gasGlow: { value: 1 },
       },
       vertexShader: nebulaVertex,
       fragmentShader: nebulaFragment,
@@ -126,6 +135,38 @@ export function createNebulaSystem(
   const savedColor = new THREE.Color(),
     size = new THREE.Vector2();
   return {
+    get experience() {
+      return activeExperience;
+    },
+    async selectExperience(name) {
+      const experience = nebulaExperience(name);
+      if (!experience || disposed) return false;
+      const revision = ++selectionRevision;
+      let next = volumeData;
+      if (experience.manifest) {
+        if (alternateVolumes.get(name)?.failed) {
+          alternateVolumes.get(name).dispose();
+          alternateVolumes.delete(name);
+        }
+        if (!alternateVolumes.has(name)) alternateVolumes.set(name, densityFactory({ manifest: experience.manifest }));
+        next = alternateVolumes.get(name);
+        await next.promise;
+      }
+      if (disposed || revision !== selectionRevision || !next.ready) return false;
+      for (const node of nodes) {
+        node.material.uniforms.densityMap.value = next.density;
+        node.material.uniforms.detailMap.value = next.detail;
+        node.material.uniforms.ionVeil.value = experience.mode;
+        node.material.uniforms.gasCool.value.fromArray(experience.cool);
+        node.material.uniforms.gasWarm.value.fromArray(experience.warm);
+        node.material.uniforms.gasGlow.value = experience.glow;
+      }
+      activeVolume = next;
+      activeExperience = name;
+      lastVolumeFrame = 0;
+      lastGasFrame = 0;
+      return true;
+    },
     resetTiming() {
       lastGasFrame = 0;
     },
@@ -318,7 +359,9 @@ export function createNebulaSystem(
     get starMedium() {
       return {
         group: nodes[0].group,
-        density,
+        get density() {
+          return activeVolume.density;
+        },
         get strength() {
           return nodes[0].material.uniforms.gasDensity.value;
         },
@@ -392,6 +435,7 @@ export function createNebulaSystem(
       }
       geometry.dispose();
       volumeData.dispose();
+      alternateVolumes.forEach((volume) => volume.dispose());
       motionTarget.dispose();
       settledTarget.dispose();
       compositeGeometry.dispose();

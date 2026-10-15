@@ -1,0 +1,152 @@
+{
+  "version": "1.26.0",
+  "date": "2026-10-15T09:25:14.490Z",
+  "browser": "155.0.8059.40",
+  "graphics": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gasResolution": "1440x900",
+    "quality": "high"
+  },
+  "source": "Production modules on an isolated test origin/context. Synthetic records only; vocabulary storage checked after every capture.",
+  "motion": "reduced; high gas quality",
+  "captures": [
+    {
+      "file": "home-1440-900-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "8a446fe1226c8cb73cee6d9e013ecc7adff1fedbcce6ada94a7d832ef36465c9"
+    },
+    {
+      "file": "language-1440-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "a4f47240e418f2c3096ea72368494e74738513d04e8d196036e7a0fbf9a61eec"
+    },
+    {
+      "file": "home-1024-900-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 900
+      },
+      "sha256": "82a74f5b4d4b9e26e2d724deb5246e383edecfbd73f9e72f9ff0165c00d545b0"
+    },
+    {
+      "file": "language-1024-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 900
+      },
+      "sha256": "dca332a8a25da56545192850c2699b4524bfe6ce3d09021d18d2207419fc326b"
+    },
+    {
+      "file": "home-390-900-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "sha256": "b461c9d8a0f8fbff39bb13d2c39521e4b5b9edd8ce4d5da8221bf03efda5885f"
+    },
+    {
+      "file": "language-390-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "sha256": "16c266abd3277a163a4e1f3b2824d8eaf504f1db5668c117055d94d6d745cc59"
+    },
+    {
+      "file": "home-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "22ad5cd016e8c566cb1abee8b649522b8be6da63eb0811ea37181c3f7ea32df9"
+    },
+    {
+      "file": "home-1920-855-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 855
+      },
+      "sha256": "b42afda600e867503e41ec57058526966cf222d01b3ec2fdc21d5285fbccc3aa"
+    },
+    {
+      "file": "nebula-gallery.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "45b3d14ae1e941b2d06d896bd685a790038481005b2d4b47d5515611701082c3"
+    },
+    {
+      "file": "ion-veil-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "76ab07e323e520b43d7214099002346b44b004e31e3c6456f18a48790931a952"
+    },
+    {
+      "file": "ion-veil-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "ccac2335af0fb99e6c83e2c0592f7bb0e88f0d27c8d36ddb69744de4a6c41938"
+    },
+    {
+      "file": "ember-reach-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "5bf9cf4302da2bd370f5ab8a88d17e433e8e821e66ceff05b66888f6ae85bd2a"
+    },
+    {
+      "file": "ember-reach-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "1ff0defaaed47a2bcc7492bc4ec2ed2b5b49846ab3ebaafbd9c77d5583236bd3"
+    },
+    {
+      "file": "tidal-shell-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "f76e7cd98abffbe9a7492ffa42e33268aab7a6f3a1304f62a93997fe9b04feba"
+    },
+    {
+      "file": "tidal-shell-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "510520f56121b0aea58b363823674e1f1d50fce20915356b6843097e9b015bb9"
+    },
+    {
+      "file": "cosmic-event-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "f39a274a3a432a13efd3008ea9bae42606c563f1bd9df59f73b125e05f99ef55"
+    },
+    {
+      "file": "cosmic-phenomena-22.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "cbb2107202f8fda5020d0c8f7cbc898cd07516cbe32b3b22aac8b49e1a1d3557"
+    }
+  ],
+  "consoleErrors": [],
+  "limits": "Native headless Chrome review; user visual acceptance and broader GPU/performance acceptance remain open."
+}

@@ -67,7 +67,7 @@ for (const [width, height, locale] of [
       '#nebula-credit',
       '#scene-dock',
       '#galaxy-switch',
-      '#ui-language',
+      '#language-trigger',
       '#open-account',
       '#sync-status',
     ]) {
@@ -80,12 +80,14 @@ for (const [width, height, locale] of [
     const controls = await page.locator('.controls').boundingBox();
     const credit = await page.locator('#nebula-credit').boundingBox();
     expect(stats.y + stats.height).toBeLessThanOrEqual(credit.y);
-    const header = await page.locator('.topbar button:visible, .topbar select:visible').evaluateAll((nodes) =>
-      nodes.map((node) => {
-        const { left, right, top, bottom } = node.getBoundingClientRect();
-        return { left, right, top, bottom };
-      }),
-    );
+    const header = await page
+      .locator('.topbar button:visible, .topbar select:visible:not([aria-hidden="true"])')
+      .evaluateAll((nodes) =>
+        nodes.map((node) => {
+          const { left, right, top, bottom } = node.getBoundingClientRect();
+          return { left, right, top, bottom };
+        }),
+      );
     for (let i = 0; i < header.length; i++) {
       for (let j = i + 1; j < header.length; j++) {
         const a = header[i],

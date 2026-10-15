@@ -13,10 +13,10 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.25.0",
-  "activeWork": "Nebula/observatory1.25 locally verified. Current source remote CI and user review of gas, flight and discovery remain next; production1.23.0 preserved.",
+  "developmentVersion": "1.26.0",
+  "activeWork": "Nebula exploration1.26: three original volumes,22 shuffled phenomena and refined home/language controls pass local158unit/138browser gates. Source CI and user visual acceptance follow; production1.23.0 preserved.",
   "pausedVisualLayers": [
-    "other-nebulae",
+    "other-observed-nebula-catalog",
     "galaxies",
     "planets",
     "asteroids",
@@ -41,8 +41,8 @@
       "commit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
       "version": "1.24.0"
     },
-    "localUnitTests": 154,
-    "suiteBrowserTests": 128,
+    "localUnitTests": 158,
+    "suiteBrowserTests": 138,
     "userVisualAcceptance": "pending",
     "preview": {
       "version": "1.23.0",
@@ -272,6 +272,32 @@
     "finalLayoutBrowserTests": 15,
     "distinctBrowserScenarios": 130,
     "layout": "Viewport-height type cap and recent section hidden below800px;16px footer gap passes at1920x855/2560x900.",
-    "finalHomeCompositionTests": 5
+    "finalHomeCompositionTests": 5,
+    "remoteCI": {
+      "run": 38643136937,
+      "status": "success",
+      "commit": "ed196860e31a4e67c585d3d1b422833b9d9a86f1",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38643136937",
+      "version": "1.25.0"
+    }
+  },
+  "nebulaExperiences": {
+    "version": "1.26.0",
+    "status": "local-verified-source-CI-and-user-review-pending",
+    "scenes": [
+      "orion",
+      "ion-veil",
+      "ember-reach",
+      "tidal-shell"
+    ],
+    "addedVolumes": 3,
+    "cosmicPhenomena": 22,
+    "unitTests": 158,
+    "browserTests": 138,
+    "browserDurationMinutes": 6.4,
+    "nativeCaptures": 17,
+    "evidence": "docs/handoff/evidence/2026-10-15-nebula-experiences-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-15-nebula-experiences/PROVENANCE.json",
+    "next": "Verify checkpoint source CI; review distant/interior gas,22 phenomena and home/language controls in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0."
   }
 }

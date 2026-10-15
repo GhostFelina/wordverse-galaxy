@@ -1,5 +1,6 @@
 // Session-only direction. Randomness never receives record data or persists.
-const durations = { meteor: 6, supernova: 18, blackhole: 45, kilonova: 22, comet: 24, pulsar: 28 };
+import { SKY_EVENTS } from './sky-event-catalog.js';
+const durations = { ...SKY_EVENTS, blackhole: 45 };
 export function createLivingSky({ random = Math.random } = {}) {
   const sample = () => Math.max(0, Math.min(0.999999, Number(random()) || 0));
   let enabled = true,
@@ -10,7 +11,7 @@ export function createLivingSky({ random = Math.random } = {}) {
     bag = [];
   function nextKind() {
     if (!bag.length) {
-      bag = ['meteor', 'meteor', 'blackhole', 'supernova', 'kilonova', 'comet', 'pulsar'];
+      bag = Object.keys(durations);
       for (let i = bag.length - 1; i > 0; i--) {
         const j = Math.floor(sample() * (i + 1));
         [bag[i], bag[j]] = [bag[j], bag[i]];

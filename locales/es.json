@@ -137,7 +137,8 @@
     "cameraInstructions": "Desplaza para acercarte o alejarte. Arrastra para moverte. Táctil: usa dos dedos. Teclado: flechas para moverte, + y − para acercarte, Home para restablecer, Escape para volver.",
     "sceneLoading": "Preparando tu universo…",
     "brandCaption": "ATLAS DE PALABRAS",
-    "sceneTools": "Herramientas del universo"
+    "sceneTools": "Herramientas del universo",
+    "languageHint": "Tus palabras siguen contigo. Solo cambia el idioma de la interfaz."
   },
   "panel": {
     "close": "Cerrar panel",
@@ -599,7 +600,7 @@
   },
   "sky": {
     "title": "Experiencias del cielo",
-    "hint": "Elige una escena artística y tranquila. Los eventos transitorios terminan solos; tus estrellas permanecen intactas.",
+    "hint": "Elige entre 22 eventos cósmicos. Procesos celestes con el tiempo comprimido también ocurren dentro de las nebulosas.",
     "stillHint": "El movimiento reducido está activado. La experiencia se muestra como una ilustración fija.",
     "none": "Cielo tranquilo",
     "meteor": "Meteoro",
@@ -614,9 +615,48 @@
     "kilonova": "Fusión de estrellas de neutrones",
     "livingOn": "Cielo vivo · activado",
     "livingOff": "Cielo vivo · desactivado",
-    "livingHint": "Los eventos aleatorios se suceden con pausas tranquilas. Tu elección tiene prioridad; el audio solo suena al activarlo.",
+    "livingHint": "22 eventos diferentes aparecen en posiciones aleatorias con pausas tranquilas. Cielo tranquilo detiene los eventos automáticos.",
     "comet": "Cometa",
-    "pulsar": "Púlsar"
+    "pulsar": "Púlsar",
+    "veilEnter": "Entrar en Velo Iónico",
+    "veilHint": "Filamentos de gas translúcido, luz nacarada y corrientes lentas. Selecciona para entrar.",
+    "veilDepth": "Viaje al Velo Iónico",
+    "veilLoading": "Preparando capas de gas…",
+    "veilFailed": "Escena no disponible. Puedes intentarlo de nuevo.",
+    "nebulaCollection": "Explorar nebulosas",
+    "nebulaPreviewHint": "Elige una nebulosa para verla de lejos. Sumérgete en sus capas de gas cuando quieras.",
+    "nebulaDive": "Sumergirse en la nebulosa ↗",
+    "nebulaDepth": "Profundidad de vuelo",
+    "nebulaLoading": "Preparando tu nebulosa…",
+    "nebulaFailed": "No se pudo cargar la nebulosa. Puedes intentarlo de nuevo.",
+    "nebulaNames": {
+      "orion": "Orión",
+      "ion-veil": "Velo Iónico",
+      "ember-reach": "Pilares de Brasa",
+      "tidal-shell": "Marea Azul"
+    },
+    "nebulaDescriptions": {
+      "orion": "Luz cobriza · profundos valles de gas",
+      "ion-veil": "Gas turquesa · cortinas ionizadas",
+      "ember-reach": "Polvo carmesí · pilares esculpidos",
+      "tidal-shell": "Luz azul · envoltura hueca de viento"
+    },
+    "protostar": "Formación de protoestrella",
+    "jet": "Chorro de gas bipolar",
+    "bowshock": "Choque de proa estelar",
+    "ionfront": "Frente de ionización",
+    "dustwave": "Onda de polvo",
+    "reflection": "Nebulosa de reflexión",
+    "darkcloud": "Nube molecular oscura",
+    "globule": "Glóbulo de Bok",
+    "pillar": "Pilar de gas y polvo",
+    "windbubble": "Burbuja de viento estelar",
+    "planetary": "Nebulosa planetaria",
+    "remnant": "Remanente de supernova",
+    "binary": "Binaria con transferencia de masa",
+    "nova": "Nova clásica",
+    "lightEcho": "Eco de luz",
+    "magnetic": "Estrías magnéticas del gas"
   },
   "share": {
     "open": "Tarjeta estelar",

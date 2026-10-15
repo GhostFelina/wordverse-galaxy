@@ -16,7 +16,7 @@ Gas radiance stays in half-float targets until the final ACES/sRGB display pass.
 
 The volume budget controls both moving and settled resolution. Resting never bypasses a slow device's budget. Fast recovery uses hysteresis; slow frames reduce it quickly. Retained motion/settled targets avoid allocating a full viewport buffer at every gesture. Cached gas animation updates at a slower cadence than crisp stars and controls. Pauses, native dialogs and loop restarts reset timing rather than counting their idle duration as a slow rendered frame.
 
-Wheel cruise is proportional to the finite journey, independent of the remote back plane. Impulses and camera damping are bounded; a stalled frame cannot complete most of a camera transition in one update. Selected-star approach retains its separate safe surface boundary. Automatic sky events pause during Orion flight; manual selections remain available. View settings stay reachable inside the journey.
+Wheel cruise is proportional to the finite journey, independent of the remote back plane. Impulses and camera damping are bounded; a stalled frame cannot complete most of a camera transition in one update. Selected-star approach retains its separate safe surface boundary. Version1.26 enables automatic cosmic events during flight while retaining manual priority, quiet mode and learning/focus deferral. View settings stay reachable inside the journey. [Additional volumes and phenomena](NEBULA_EXPERIENCES.md).
 
 ## Controls and discovery
 

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "kind": "Original artistic ionized sheets; no observed object or tomography claim.",
+  "generator": "scripts/build-ion-veil.mjs",
+  "assets": [
+    {
+      "texture": "/assets/nebulae/ion-veil-v1.wvz",
+      "dimensions": [128, 128, 128],
+      "channels": 4,
+      "encoding": "gzip uint8",
+      "bytes": 8388608,
+      "compressedBytes": 6649243,
+      "sha256": "bed69e1562df8a993cd3d80bd91ff59a14172865193253038d9ab50172b90fb1"
+    },
+    {
+      "texture": "/assets/nebulae/orion-detail-v1.wvz",
+      "dimensions": [64, 64, 64],
+      "channels": 1,
+      "encoding": "gzip uint8",
+      "bytes": 262144,
+      "compressedBytes": 246841,
+      "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 
 ## Current product
 
-- Desktop Three.js scene with a single Orion volume and personal word stars, shared optical/stellar surface materials and stable persisted positions.
+- Desktop Three.js scene defaulting to Orion, with three explicitly selected original gas volumes (Ion Veil, Ember Reach and Tidal Blue), personal word stars, shared optical/stellar surface materials and stable persisted positions.
 - Searchable atlas with word/conjunction filters, chronological/natural alphabetical sorting, record dates and return-to-atlas state.
 - A short ephemeral recall session: reveal, self-assess and repeat difficult items. No persistent mastery score or spaced-repetition claims.
 - Ready personal skies with active-galaxy records expose recall directly from home. The atlas remains its other entry point; empty and demonstration states hide the home action.
@@ -28,7 +28,9 @@ Existing record IDs, coordinates, createdAt, type, language, meaning and events 
 
 ## Extension boundary
 
-Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other nebulae, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Optional artistic meteor/comet/pulsar/supernova/black-hole/neutron-star-merger experiences are separate ephemeral illustrations; they never become records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
+Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other observed nebula catalogs, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Three original artistic nebula volumes and 22 ephemeral cosmic phenomena are explicitly available without becoming learning records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
+
+Version1.26 adds a four-scene selector with distant previews and explicit volume entry. Gas density/light and depth controls apply to every scene. The session director can run inside flight, defers during learning/focus and avoids automatic activity under reduced motion. The interface-language menu exposes native language names, selected state, keyboard navigation and locale routes independently of scene or account readiness. [Exploration specification](NEBULA_EXPERIENCES.md).
 
 ## Delivery
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0] — Development · 2026-10-15
+
+- Three original128³ nebula volumes join Orion: turquoise Ion Veil, crimson Ember Reach and Tidal Blue's wind shell. Explicit distant previews, gas-layer flight, density/light controls, retryable optional loading and reversible return preserve vocabulary geometry.
+- Expanded the shuffled living sky from6 to22 distinct astronomical illustrations. New evolving protostars, jets, shocks, dust structures, binaries and light echoes appear during flight with manual priority, quiet mode and reduced-motion stills.
+- Refined the home navigation and action surfaces. The interface-language menu uses native names, selected marks, keyboard navigation and independent locale links, with a native fallback. Compact flight depth/return controls remain reachable and menu scrolling is isolated from camera input.
+- Added payload-integrity, selection-race and visual shader checks, translated menu/flight browser scenarios and reproducible synthetic native-GPU captures.
+
 ## [1.23.0] — Development · 2026-10-12
 
 - Original constellation W mark and favicon; a rebuilt desktop home with local geometric typography, warm ivory/copper accents, clearer learning copy and consistent first-visit/empty/populated states in TR/EN/ES.

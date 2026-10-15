@@ -1,6 +1,7 @@
 # Known issues
 
-- Development1.25.0 passes local gates and native synthetic review; current source CI and user acceptance remain open. Prior1.24 CI succeeds. Production stays1.23.0.
+- Development1.26.0 passes complete158unit/138browser and local gates with native synthetic review. Current source CI follows its push; prior1.25 exact-source CI succeeds. User visual acceptance remains open; production stays1.23.0.
+- The three optional density payloads total17.3MB compressed and load only on explicit selection. They are original artistic128³ fields, not measured objects or tomography. Texture fidelity, broader GPU/network and large-archive acceptance remain open.
 - The240-star SwiftShader route improves to48.7ms RAF p95 with lower adaptive detail; it is not a60fps software-rendering guarantee. The compressed volume payload is about6.1MB plus the1.9MB starless guide. Broader GPU/network and large-archive review remain open.
 
 - U2 visual review and broad hardware/large-archive acceptance remain open. Short synthetic RTX5060Ti first-wheel RAF p95~7.1ms/max~12.9ms is not universal GPU certification.

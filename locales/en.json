@@ -137,7 +137,8 @@
     "cameraInstructions": "Scroll to zoom. Drag to move. Touch: pinch with two fingers. Keyboard: arrow keys to move, + and − to zoom, Home to reset, Escape to return.",
     "sceneLoading": "Preparing your universe…",
     "brandCaption": "VOCABULARY ATLAS",
-    "sceneTools": "Universe tools"
+    "sceneTools": "Universe tools",
+    "languageHint": "Your words stay with you. Only the interface language changes."
   },
   "panel": {
     "close": "Close panel",
@@ -599,7 +600,7 @@
   },
   "sky": {
     "title": "Sky experiences",
-    "hint": "Choose a quiet, artistic scene. Transient events end on their own; your word stars stay untouched.",
+    "hint": "Choose from 22 cosmic events. Time-compressed celestial processes unfold inside nebulae, too.",
     "stillHint": "Reduced motion is on. Your chosen experience is shown as a still illustration.",
     "none": "Quiet sky",
     "meteor": "Meteor",
@@ -614,9 +615,48 @@
     "kilonova": "Neutron-star merger",
     "livingOn": "Living sky · on",
     "livingOff": "Living sky · off",
-    "livingHint": "Random experiences unfold with quiet intervals. Your manual selection takes priority; audio only plays when enabled.",
+    "livingHint": "22 different events appear at random positions with calm gaps. Quiet sky stops automatic events.",
     "comet": "Comet",
-    "pulsar": "Pulsar"
+    "pulsar": "Pulsar",
+    "veilEnter": "Enter Ion Veil",
+    "veilHint": "Translucent gas filaments, pearlescent light and slow currents. Select to enter.",
+    "veilDepth": "Ion Veil journey",
+    "veilLoading": "Preparing gas layers…",
+    "veilFailed": "Scene unavailable. You can try again.",
+    "nebulaCollection": "Explore nebulae",
+    "nebulaPreviewHint": "Choose a nebula for a distant view. Dive through its gas layers when you are ready.",
+    "nebulaDive": "Dive into the nebula ↗",
+    "nebulaDepth": "Flight depth",
+    "nebulaLoading": "Preparing your nebula…",
+    "nebulaFailed": "This nebula could not load. You can try again.",
+    "nebulaNames": {
+      "orion": "Orion",
+      "ion-veil": "Ion Veil",
+      "ember-reach": "Ember Reach",
+      "tidal-shell": "Tidal Blue"
+    },
+    "nebulaDescriptions": {
+      "orion": "Copper light · deep gas valleys",
+      "ion-veil": "Teal gas · folded ionized curtains",
+      "ember-reach": "Crimson dust · light-carved pillars",
+      "tidal-shell": "Blue light · hollow wind shell"
+    },
+    "protostar": "Protostar formation",
+    "jet": "Bipolar gas jet",
+    "bowshock": "Stellar bow shock",
+    "ionfront": "Ionization front",
+    "dustwave": "Dust wave",
+    "reflection": "Reflection nebula",
+    "darkcloud": "Dark molecular cloud",
+    "globule": "Bok globule",
+    "pillar": "Gas and dust pillar",
+    "windbubble": "Stellar wind bubble",
+    "planetary": "Planetary nebula",
+    "remnant": "Supernova remnant",
+    "binary": "Mass-transfer binary",
+    "nova": "Classical nova",
+    "lightEcho": "Light echo",
+    "magnetic": "Magnetic gas striations"
   },
   "share": {
     "open": "Star card",
