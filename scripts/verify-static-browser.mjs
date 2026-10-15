@@ -3,9 +3,9 @@ import { chromium } from '@playwright/test';
 
 const browser = await chromium.launch();
 for (const [locale, homeTitle, aboutTitle] of [
-  ['tr', 'Her kelime,', 'Nasıl çalışır?'],
-  ['en', 'Every word,', 'How does it work?'],
-  ['es', 'Cada palabra,', '¿Cómo funciona?'],
+  ['tr', 'Bir kelime.', 'Nasıl çalışır?'],
+  ['en', 'One word.', 'How does it work?'],
+  ['es', 'Una palabra.', '¿Cómo funciona?'],
 ]) {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();

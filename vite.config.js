@@ -26,7 +26,7 @@ export default defineConfig({
       },
     },
   ],
-  server: { port: 5350, strictPort: true },
+  server: { port: 5350, strictPort: true, watch: { ignored: ['**/.tools/**'] } },
   build: {
     rollupOptions: {
       input: {
@@ -37,6 +37,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     noDiscovery: true,
+    // Auth identity gates the first scene; avoid a cold tree of SDK module transforms.
+    include: ['@supabase/supabase-js', 'lucide'],
     exclude: ['three'],
   },
 });

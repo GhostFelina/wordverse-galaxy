@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-12",
+  "version": "1.22.0",
+  "applicationCommit": "e5fb7590a27c787f1092e3c8ea3dadfc2870775c",
+  "local": {
+    "unitTests": 147,
+    "browserTests": 117,
+    "browserDurationMinutes": 7.3,
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditVulnerabilities": 0,
+    "goAssertions": 24
+  },
+  "sourceFilesSha256": {
+    "src/blackhole-shader.js": "e369c0253a98830dc52a9a72ed2bba8482b07f43a383a324b5297f5f8ae18b1b",
+    "src/sky-events.js": "d6952d553809ba62a5a8f945f6e6678a9cb9049a58789f07b211bb1c2c145e46",
+    "src/sky-event-placement.js": "2188866c9bcf19c4dfe23cd69161086321344fa50f91ed46737ec7231552a805",
+    "src/nebula-system.js": "59124e1991e8395b4d39f4da94edd6a45d6a4fb15b47fd2f78131c98cbe69a0f",
+    "src/word-star-system.js": "7efd28f0ff73145ac671dc7fe826b042e2cc349b054256434d9daacb5006899f",
+    "src/stellar-evolution.js": "71f4b116bdb1975a9753c4711f921ef8a3b1751fad2f2db51fac2ab0e8f84427",
+    "src/soundscape.js": "53e40d91581568ace87a10978a60aa9647194df8bd514988ab7189d5852e4765",
+    "src/main.js": "f466749638a9f387300bc9f841480bee9aa505cb997e39c6fd9f4bc88700dd78",
+    "src/scene-controls.js": "9f060dcf1621ee2aab80f9337d24eae88c3cefeb06b0ea7c2465d764a75e92da",
+    "src/sky-events-ui.js": "36f2c0711899def0de740d2ab926c2dddce07a497930ccaaa69613b9b95a5906"
+  },
+  "coverage": [
+    "Stationary bounded distant scintillation and minute-spectrum rendered color changes",
+    "Every finite event, randomized safe placement and records preserved",
+    "Moving red accretion image in a small region, dark shadow, reduced-motion pixel equality",
+    "Orion all-word entry, wheel reversal, focus and return; original coordinates and dates preserved",
+    "Durable birth/edit/delete sounds; failed or muted operations silent",
+    "Fresh synthetic gallery and 1080px card export with no personal profile access"
+  ],
+  "nativeFlow": "2026-10-12-variety-native-flow.json",
+  "nativeAudio": "2026-10-12-variety-native-audio.json",
+  "hardwareFrames": "2026-10-12-variety-d3d11-frame-times.json",
+  "gallery": "https://github.com/GhostFelina/wordverse-galaxy/blob/e5fb7590a27c787f1092e3c8ea3dadfc2870775c/docs/images/PROVENANCE.json",
+  "limits": [
+    "Artistic accelerated stellar evolution, reconstructed gas depth and approximate strong-field optics; no physical calibration",
+    "Native RAF reports include scheduler/display pacing and are not GPU timer-query execution times",
+    "Physical listening, broad hardware/large archives and user visual acceptance remain open"
+  ],
+  "remoteCI": {
+    "run": 38281683299,
+    "commit": "e5fb7590a27c787f1092e3c8ea3dadfc2870775c",
+    "status": "failure:115/117 browser; six native pointer selections exhausted60s and focused body reached148.17px before5s.1.22.1 uses accessible keyboard selection and15s convergence without changing assertions."
+  },
+  "preview": "pending exact runtime source",
+  "production": "Preserved1.14.1; dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
+}

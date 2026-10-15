@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "generator": "scripts/build-nebula-previews.mjs",
+  "source": "Direct deterministic production-volume renders; no vocabulary data or generated bitmap substitutes.",
+  "assets": [
+    {
+      "file": "orion-v2.png",
+      "dimensions": [
+        768,
+        512
+      ],
+      "sha256": "feee1d402268375ddccc75c242e923ad48e91e47ceaa4bd9a691b48b2cfba7cb"
+    },
+    {
+      "file": "ion-veil-v2.png",
+      "dimensions": [
+        768,
+        512
+      ],
+      "sha256": "f6ca17c5c18cf3da7cdb316f2a6fdfbf249b5fa1fc07cb6b6dbbcd5423664df0"
+    },
+    {
+      "file": "ember-reach-v2.png",
+      "dimensions": [
+        768,
+        512
+      ],
+      "sha256": "f652263f307a35e1436a7722a690a0cb4f47a4d17e226bae212dfd99f504f706"
+    },
+    {
+      "file": "tidal-shell-v2.png",
+      "dimensions": [
+        768,
+        512
+      ],
+      "sha256": "9b67d5707e147f2ad9dff775f269e00205d08ee90d0cf741d049e75865548d8e"
+    }
+  ]
+}

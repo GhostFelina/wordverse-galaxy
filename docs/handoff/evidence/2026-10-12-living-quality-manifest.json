@@ -1,0 +1,34 @@
+{
+  "version": "1.21.0",
+  "date": "2026-10-12",
+  "checks": {
+    "unit": 144,
+    "browser": 115,
+    "browserDuration": "10.1m",
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditHigh": "0 vulnerabilities",
+    "go": "24 auth assertions pass with project-local toolchain"
+  },
+  "gallery": "Synthetic isolated production modules; no personal records",
+  "hardware": "2026-10-12-living-d3d11-frame-times.json",
+  "audio": "2026-10-12-living-native-audio.json",
+  "nativeFlow": "2026-10-12-living-native-flow.json",
+  "sourceSha256": {
+    "src/main.js": "35dfd98a1c1b30b5118c43b2eecb5736820a37d10e127d065428757d20f6c9e4",
+    "src/living-sky.js": "ea1e9de9869360081afbc512e4949b446137ed4be543ea36ff5c6bfc19ebf021",
+    "src/nebula-system.js": "475dd98aefc2a91c7d6ad32c6b9e53fe5c27f05f506cc8794bce09b5fd358fb1",
+    "src/sky-events.js": "1e2d78307cb37efb16dc604e6c814aa8ff0d653c8034aeac22f0d17929b83c2b",
+    "src/soundscape.js": "16c3f5d85e02e60fbd7b180cd2e1bd5d1fcdd3c1a15d965af6c15d320e8bc6c6",
+    "src/sky-events-ui.js": "29fa121988a330b08dce48d493db5469f67d5e812a501e0864ecc0130ec91dd8"
+  },
+  "limits": [
+    "Hardware RAF pacing is not GPU execution timing or universal certification",
+    "No hardware listening acceptance",
+    "Interior visual acceptance remains open"
+  ],
+  "production": "Unchanged1.14.1"
+}

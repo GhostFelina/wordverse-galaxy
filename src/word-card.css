@@ -1,0 +1,71 @@
+.word-card-dialog {
+  width: min(460px, calc(100vw - 48px));
+  max-height: calc(100dvh - 48px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.word-card-dialog h2 {
+  margin-right: 32px;
+}
+.word-card-dialog > p {
+  font:
+    12px/1.7 'DM Sans',
+    sans-serif;
+  color: #94a5c0;
+}
+.word-card-dialog select {
+  width: 100%;
+  border: 1px solid #9ab4de40;
+  color: #dce7fa;
+  background: #111827;
+  padding: 10px;
+  border-radius: 6px;
+  font:
+    12px 'DM Sans',
+    sans-serif;
+}
+.word-card-meaning {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 14px 0;
+  color: #c1cfe4;
+  font:
+    12px/1.5 'DM Sans',
+    sans-serif;
+}
+.word-card-meaning input {
+  accent-color: #9fb7df;
+}
+.word-card-image {
+  display: block;
+  max-height: 38vh;
+  max-width: 100%;
+  margin: 12px auto;
+  border-radius: 4px;
+}
+#word-card-download {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b0c9ed80;
+  border-radius: 6px;
+  color: #ecf2ff;
+  background: #273a58;
+  font:
+    500 12px 'DM Sans',
+    sans-serif;
+  cursor: pointer;
+}
+#word-card-download:disabled {
+  opacity: 0.4;
+  cursor: wait;
+}
+.word-card-dialog :focus-visible {
+  outline: 2px solid #b4caff;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  #share-word {
+    display: none;
+  }
+}

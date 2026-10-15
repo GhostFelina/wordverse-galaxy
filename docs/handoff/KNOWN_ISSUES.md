@@ -1,25 +1,13 @@
-# Bilinen sorunlar
+# Known issues
 
-- Tek `src/main.js` dosyası büyük; içerik, çizim ve depolama sorumlulukları iç içe. Faz 0 ADR geçiş planı uygulanmalı.
-- Son Faz 2 ana JS paketi yaklaşık 575 kB (minify); Vite 500 kB uyarısı veriyor. Faz 9 performans bütçesi henüz ölçülmedi.
-- WebGL başlatılamazsa arayüzün tüm veri işlevleri ayrı bir liste modu ile güvence altında değil.
-- Mevcut görseller için kaynaklar `docs/ART_ASSET.md`, `docs/ASTRONOMY_REFERENCES.md` ve kök dizindeki `ATTRIBUTIONS.md` içinde. Yeni varlıklar eklendikçe merkezi atıf güncellenmeli.
-- Statik TR/EN/ES sayfaları üretildi. Kök URL `/` tarayıcı dili veya yerel tercih nedeniyle JavaScript açıldığında EN/ES'e dönebilir; statik HTML varsayılan TR'dir. Kanonik dil adresleri `/en/` ve `/es/` açık dili sabitler.
-- Bulut hesabı, RLS ve cihazlar arası senkron Faz 2 kapsamında.
-- Sistem açık tema seçilse de uygulama yalnız koyu palet kullanıyor. Faz 9'da açık tema tasarımı ve testleri değerlendirilmeli.
-- Vercel preview SSO korumalı; anonim HTTP smoke için erişim yok. Preview build/check başarılı; prod URL izole tarayıcıda test edildi.
-- Faz 2 hedef Wordverse Supabase projesine Chrome Dashboard erişimi var; dört tablo uygulandı ve RLS testi geçti. Bağlı Supabase uygulaması ve CLI başka hesaplara bağlı olduğundan hedef projeye bu araçlarla erişilemiyor; Dashboard'da uygulanan migration geçmişi CLI ile ayrıca eşleştirilmeli. Yanlış projeye değişiklik uygulanmamalı.
-- Hesap UI ve Google/bulut senkron taslak dalda yerelde gerçek hesapla doğrulandı; prod hâlâ v1.11.0. E-posta doğrulama/sıfırlama gerçek posta kutusuyla doğrulanmalı. Supabase prod Site URL ve izinli dönüş kalıpları kaydedildi.
-- Google `cortexia-language` projesi Cortexia'nın mevcut istemcisi ve ortak consent markasını içeriyor. Wordverse ayrı istemcisi/provider etkin; gerçek giriş çalışıyor fakat consent marka ve hukuki linkleri Cortexia'dan kalma. Marka Wordverse'e çevrilirse Cortexia giriş ekranı da etkilenir; bu etki çözülmeli. Wordverse hukuki prod URL'leri henüz yayında değil.
-- Kullanıcı veri sorumlusu adı/iletişimini Mustafa Kılıç ve kopukfad@gmail.com olarak verdi; üç dil taslağa işlendi. Sağlayıcı log/yedek saklama süreleri ve Singapur bölgesine aktarım güvenceleri tamamlanmadı. KVKK/GDPR uyumu tamamlandı sayılmaz.
-- MacBook kurulumu henüz cihazda denenmedi; CROSS_DEVICE.md ve setup:device ilk Mac oturumu için hazır. Codex geçmişi ve yerel tarayıcı depoları kendiliğinden eşitlenmez.
-- 2026-10-03 15:54 güncel Security Advisor: 0 hata, 1 Auth uyarısı (Leaked Password Protection Disabled). Bu koruma Pro+ plan gerektiriyor; ücretli plan açılmadı. Önceki 0 uyarı kaydı güncel değildir. Avatar RLS rollback testi geçti; Storage API upload/upsert/delete ve dosya limit reddi henüz denenmedi.
-- Supabase storage.protect_delete doğrudan SQL DELETE'i engelliyor. Bu korumayı kapatma; dosyalar Storage API ile yönetilmeli. Avatar SQL kabulü yalnız metadata/RLS; ilk başarısız test fixture'ı transaction ile geri alındı, düzeltilmiş test geçti.
-- Yedek stratejisi belgelendi; otomatik dump/özel cihaz dışı kopya ve izole restore tatbikatı henüz yapılmadı. JSON yedek tam Auth/Storage felaket kurtarması değildir.
-- 2026-10-03 gerçek Dashboard, default mail ile custom template düzenlemesine izin vermiyor: custom SMTP veya Pro istiyor. Confirmation/recovery TR/EN/ES şablonları ve preview repoda hazır, hosted'e uygulanmadı. Kullanıcı SMTP/hesap girişlerini sonraya bıraktı; bağımsız kod/test işlerini sürdür, tekrar aynı soruyu sorma.
+- Development1.27.0 adds the searchable fourteen-scene atlas and explicit near black-hole inspection. Local160unit/142browser scenarios and required static/build/security/template gates pass, with37 native synthetic captures. Two legacy wheel coordinates required collapsing the now-visible gallery in test setup; all5 focused zoom/startup cases pass. Source CI follows checkpoint push. Prior1.26 exact-source CI succeeds. User visual acceptance remains open; production stays1.23.0.
+- Ten popular observation-guided fields add32.3MB compressed, independently selected; ten WebP previews total271KB. Full guides load on selection and at most three alternate volumes stay cached. Source photos are1280px wide on1536-square guide canvases; no native8K or measured depth claim.
+- The three original optional density payloads total17.3MB compressed and load only on explicit selection. They are original artistic128³ fields, not measured objects or tomography. Texture fidelity, broader GPU/network and large-archive acceptance remain open.
+- The240-star SwiftShader route improves to48.7ms RAF p95 with lower adaptive detail; it is not a60fps software-rendering guarantee. The compressed volume payload is about6.1MB plus the1.9MB starless guide. Broader GPU/network and large-archive review remain open.
 
-- Avatar client helper/SDK fixture hazır, profil UI'ına bağlı değil. Oturum upload sonrası koparsa eski hesabın yüklemesi sunucuda kalabilir; late result yeni hesaba verilmez, otomatik cleanup yapılmaz. MIME değişimi için yeni path gerekir. Client signature check tam dosya decode veya hosted boyut/MIME/RLS kabulü değildir; AVATAR_API_ACCEPTANCE.md bu kontrolleri ayırır.
-
-- IndexedDB hesap deposu için simulated onblocked/late native connection close ve SecurityError/recovery kabulü geçti (82 unit/40 e2e). Gerçek tarayıcı gizlilik politikası veya fiziksel cihaz depolama engeli sınanmadı; bu kontroller yerine geçmez.
-
-- Hesap IDB yazma/kota hatasında mevcut kalıcı kopya korunur ve yeni değişiklik bu sayfa açıkken bellekte tutulur. Retry başarısından önce reload/çıkış yeni değişikliği kaybettirebilir; kalıcı depoya yazılamayan verinin reload dayanıklılığı iddia edilmez. UI hata/retry ve kalıcı açık tutma/JSON export yönlendirmesi gösterir. Gerçek disk doldurma yapılmadı; kabul DOMException injection kullanır.
+- U2 visual review and broad hardware/large-archive acceptance remain open. Short synthetic RTX5060Ti first-wheel RAF p95~7.1ms/max~12.9ms is not universal GPU certification.
+- Main branch application is older than the promoted production build. Documentation-only changes must not trigger a production downgrade.
+- Account/network failures can delay identity resolution; content isolation is preserved. Account rollout and new mobile design are outside the current desktop presentation work.
+- Current Orion guidance is native1254, artistic depth. Do not claim true8K or measured gas tomography.
+- Persistent recall scheduling/FSRS and offline account reconciliation remain future work.
+- Historical Git revisions may contain obsolete internal briefs. Current source cleanup does not rewrite repository history.

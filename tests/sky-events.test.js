@@ -1,0 +1,76 @@
+import { describe, expect, it } from 'vitest';
+import { createSkyEventState, SKY_EVENTS } from '../src/sky-events.js';
+
+describe('ephemeral sky experiences', () => {
+  it('offers 22 finite or explicitly dismissible phenomena with representative, frozen stills', () => {
+    expect(Object.keys(SKY_EVENTS)).toHaveLength(22);
+    for (const [kind, duration] of Object.entries(SKY_EVENTS)) {
+      const state = createSkyEventState();
+      state.select(kind);
+      expect(state.snapshot().kind).toBe(kind);
+      for (let i = 0; i < 500; i++) state.update(0.1);
+      expect(state.snapshot().kind).toBe(duration ? null : kind);
+      state.setReducedMotion(true);
+      state.select(kind);
+      const still = state.snapshot();
+      state.update(0.1);
+      expect(state.snapshot()).toEqual(still);
+      if (duration) expect(still.elapsed).toBeGreaterThan(0);
+    }
+  });
+  it('starts quiet, replaces events and bounds elapsed time across pauses', () => {
+    const state = createSkyEventState();
+    expect(state.snapshot().kind).toBeNull();
+    state.select('meteor');
+    state.update(300);
+    expect(state.snapshot().elapsed).toBe(0.1);
+    state.select('supernova');
+    expect(state.snapshot().elapsed).toBe(0);
+    state.update(NaN);
+    state.update(-10);
+    expect(state.snapshot().elapsed).toBe(0);
+    state.select('unknown');
+    expect(state.snapshot().kind).toBeNull();
+  });
+  it('ends transient events but keeps a chosen black hole until dismissed', () => {
+    const state = createSkyEventState();
+    state.select('meteor');
+    for (let i = 0; i < 62; i++) state.update(0.1);
+    expect(state.snapshot().kind).toBeNull();
+    state.select('blackhole');
+    for (let i = 0; i < 200; i++) state.update(0.1);
+    expect(state.snapshot().kind).toBe('blackhole');
+    state.select(null);
+    expect(state.snapshot().kind).toBeNull();
+    state.select('kilonova');
+    for (let i = 0; i < 222; i++) state.update(0.1);
+    expect(state.snapshot().kind).toBeNull();
+  });
+  it('holds a representative still instead of animating under reduced motion', () => {
+    const state = createSkyEventState({ reducedMotion: true });
+    state.select('supernova');
+    const before = state.snapshot();
+    for (let i = 0; i < 200; i++) state.update(0.1);
+    expect(state.snapshot()).toEqual(before);
+    expect(before.elapsed).toBe(8);
+    state.select('kilonova');
+    const merger = state.snapshot();
+    for (let i = 0; i < 250; i++) state.update(0.1);
+    expect(state.snapshot()).toEqual(merger);
+    expect(merger.elapsed).toBe(13);
+    for (const kind of ['comet', 'pulsar']) {
+      state.select(kind);
+      const still = state.snapshot();
+      state.update(100);
+      expect(state.snapshot()).toEqual(still);
+    }
+  });
+  it('ends comet and pulsar accents without retaining an event after their finite duration', () => {
+    for (const kind of ['comet', 'pulsar']) {
+      const state = createSkyEventState();
+      state.select(kind);
+      for (let i = 0; i < 300; i++) state.update(0.1);
+      expect(state.snapshot().kind).toBeNull();
+    }
+  });
+});

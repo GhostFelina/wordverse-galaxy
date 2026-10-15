@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-12",
+  "version": "1.22.1",
+  "applicationCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+  "local": {
+    "unitTests": 147,
+    "browserTests": 117,
+    "browserDurationMinutes": 8.5,
+    "lint": "pass",
+    "types": "pass",
+    "build": "pass",
+    "format": "pass",
+    "release": "pass",
+    "auditVulnerabilities": 0,
+    "goAssertions": 24
+  },
+  "sourceFilesSha256": {
+    "src/word-star-system.js": "3792380ca081eeab6695ed1007bd9da93627864c4b10715495462355ef436bae",
+    "src/nebula-system.js": "59124e1991e8395b4d39f4da94edd6a45d6a4fb15b47fd2f78131c98cbe69a0f",
+    "src/main.js": "f466749638a9f387300bc9f841480bee9aa505cb997e39c6fd9f4bc88700dd78",
+    "src/blackhole-shader.js": "e369c0253a98830dc52a9a72ed2bba8482b07f43a383a324b5297f5f8ae18b1b",
+    "e2e/word-stars.spec.js": "afafa4d804cdd54b87e2b1dc76234d84ee8d0cda9926a4c44fb3ac8e52fd1fe9",
+    "e2e/sky-experiences.spec.js": "8a3730b346cec9e7ef4dd1638073207c87599554dd02c024d9b3ce24ce001675"
+  },
+  "display": "Default framebuffer ACES/sRGB pixel validation:0.75/3.5/10px cores; nonzero minimum, far contrast, size fade, stationary centroids; near and reduced-motion equality",
+  "native": "2026-10-12-scintillation-native.json",
+  "gallery": "../../images/PROVENANCE.json",
+  "unchangedFeaturesEvidence": "2026-10-12-variety-quality-manifest.json",
+  "remoteCI": {
+    "run": 38284875605,
+    "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+    "status": "success",
+    "version": "1.22.1",
+    "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38284875605",
+    "unitTests": 147,
+    "browserTests": 117
+  },
+  "preview": {
+    "version": "1.22.1",
+    "url": "https://wordverse-galaxy-521vy0zo4-mustafas-projects-92e683a9.vercel.app",
+    "deployment": "dpl_AvziWAJJZpCM5A1L3YRmRp6g9nhP",
+    "target": "preview",
+    "apiTarget": "staging",
+    "status": "READY",
+    "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+    "sourceCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+    "httpStatus": 200,
+    "assetsMatchLocal": true,
+    "assets": {
+      "js": {
+        "file": "/assets/main-CiVAxTky.js",
+        "sha256": "b5dda54b7bbd32c8a32e0ac68b4faaf3e9402da6dffc89317a89f54137f1866c",
+        "match": true
+      },
+      "css": {
+        "file": "/assets/main-DoEKwGGG.css",
+        "sha256": "1048ee8ae7dff5276485739a9cf2cc7d6a0b8f9e748c4a40e4f800feb42a5e51",
+        "match": true
+      },
+      "social": {
+        "file": "/assets/wordverse-social.png",
+        "sha256": "20347c192554a49b738bbe11caf8e382abea32bd8983926706dba885017d0752",
+        "match": true
+      }
+    },
+    "interactiveAcceptance": false,
+    "runtime": "Authenticated HTML/JS/CSS/social HTTP200; asset SHA256 matches verified local build. Interactive cloud/account acceptance not claimed."
+  },
+  "production": {
+    "version": "1.14.1",
+    "deployment": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F",
+    "unchanged": true,
+    "sourceCommit": "702461b054985a19ed49c3524fe67028c65049ed"
+  },
+  "limits": [
+    "One native synthetic framing and software-GPU pixel validation; user visual acceptance remains open",
+    "Audio source unchanged; prior1.22 audio evidence remains historical. Previous frame reports refer to1.22.0, not patch performance certification."
+  ],
+  "publication": {
+    "main": "25bba71be7679df115c78a284dae520cc23c005b",
+    "pr": 11,
+    "prCI": 38285737384,
+    "mainCI": 38285963419,
+    "status": "Merged documentation-only; latest PR and main CI successful; native GitHub page and720x380 animated gallery verified",
+    "url": "https://github.com/GhostFelina/wordverse-galaxy/pull/11",
+    "productionDeploymentUnchanged": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
+  }
+}

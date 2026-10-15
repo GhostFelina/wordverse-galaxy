@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-12",
+  "purpose": "Synthetic visual evidence; no real user records",
+  "sourceRevision": "2865d1054fc1a374c51cfe79d3f64ba5ec531e43",
+  "before": "Same frozen word-star lab before native-width mip and duplicate stellar suppression fixes; not an exact clean Git revision",
+  "after": "Same lab after both fixes",
+  "caveats": [
+    "Visual inspection is not user acceptance",
+    "Native starless texture remains 1254x1254",
+    "Volumetric depth is artistic; physical mobile GPU performance remains unmeasured"
+  ],
+  "hashes": {
+    "public/assets/nebulae/orion-starless.png": "34749715a28223a22526f2ac2f33ea345b1fae308a0307261be6a0982d479f81",
+    "tests/fixtures/word-star-lab.html": "aa53c8eb04641d5c73454c6b8024e28b080f3b1f824a3f7a02f9f97f59fcdf73",
+    "src/word-star-system.js": "ca6bd5e16b820c7e7d462ea367934c1ce398beaa6ee4a39ddcb022a5beee9809",
+    "src/nebula-system.js": "a92a0d2d168e45edb9830f7482f3d91f1cc96a2487a9c0ab10c0e0d9c479215b",
+    "scripts/capture-word-star-evidence.mjs": "0b9b05ae68ceb06455a61b86408ce3bee0bd9195965b368c211f86cfcba2f470"
+  },
+  "hashEncoding": "SHA256 raw Windows capture worktree bytes; Git blob IDs below identify the cross-device canonical source.",
+  "gitBlobIds": {
+    "public/assets/nebulae/orion-starless.png": "94e8f07ab57e11fcababb60123b6c3b851be643d",
+    "tests/fixtures/word-star-lab.html": "4941ceec7ba4066c8ea11dc0b0d6736552e41457",
+    "src/word-star-system.js": "982810068c794f426c3a5fd10b6c0008384b4f2c",
+    "src/nebula-system.js": "764118f75a432bc6315ec8ba14a1a00ab2b6e4cf",
+    "scripts/capture-word-star-evidence.mjs": "2d12990d6012eaa6f2eca477f6a48b03d08a1037"
+  }
+}

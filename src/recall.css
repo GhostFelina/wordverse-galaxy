@@ -1,0 +1,88 @@
+.recall-trigger {
+  width: 100%;
+  padding: 13px 16px;
+  margin: 0 0 18px;
+  border: 1px solid #a9c1ef60;
+  border-radius: 5px;
+  background: #adbeef14;
+  color: #e2eaff;
+  font: 600 12px system-ui;
+}
+.recall-trigger:hover {
+  background: #adbeef28;
+}
+.recall-trigger:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.recall-dialog {
+  width: min(540px, calc(100vw - 28px));
+  background: #0a101d;
+}
+.recall-progress {
+  color: #a3b4d2;
+  font: 12px system-ui;
+  margin: 20px 0;
+}
+.recall-card {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 0;
+  border-top: 1px solid #a9c1ef25;
+  border-bottom: 1px solid #a9c1ef25;
+  margin-bottom: 22px;
+  overflow-wrap: anywhere;
+}
+.recall-card h3 {
+  font:
+    400 clamp(30px, 6vw, 44px)/1.2 Georgia,
+    serif;
+  color: #edf1ff;
+  margin: 0 0 14px;
+}
+.recall-meaning {
+  font: 16px/1.6 system-ui;
+  color: #d2def7;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.recall-example {
+  font: italic 13px/1.7 system-ui;
+  color: #a3b4d2;
+  white-space: pre-wrap;
+}
+.recall-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.recall-action {
+  flex: 1;
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #a9c1ef50;
+  border-radius: 5px;
+  background: #18243b;
+  color: #e7eeff;
+  font: 600 12px system-ui;
+}
+#recall-remembered,
+#recall-reveal {
+  background: #c1d1f4;
+  color: #101929;
+}
+.recall-action:hover {
+  filter: brightness(1.12);
+}
+.recall-note {
+  color: #8090ac;
+  font: 11px/1.6 system-ui;
+  margin: 22px 0 0;
+}
+.recall-trigger:focus-visible,
+.recall-action:focus-visible {
+  outline: 2px solid #b4caff;
+  outline-offset: 3px;
+}

@@ -1,0 +1,68 @@
+.soundscape-toggle {
+  position: fixed;
+  top: 201px;
+  right: clamp(24px, 4.6vw, 76px);
+  z-index: 9;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #a9b9d4;
+  background: #080c16c9;
+  border: 1px solid #a9c1ef30;
+  border-radius: 18px;
+  padding: 7px 12px;
+  cursor: pointer;
+  font:
+    11px/1.5 'Space Grotesk',
+    sans-serif;
+}
+.soundscape-toggle > span:first-child {
+  font-size: 19px;
+  line-height: 1;
+}
+.soundscape-toggle[aria-pressed='true'] {
+  color: #e7efff;
+  border-color: #aac4f060;
+}
+.soundscape-toggle:hover {
+  border-color: #b4caff80;
+}
+.soundscape-toggle:focus-visible {
+  outline: 2px solid #b4caff;
+  outline-offset: 3px;
+}
+.soundscape-controls input {
+  width: 100%;
+  margin: 12px 0;
+  accent-color: #b3c8ef;
+}
+.soundscape-state {
+  display: block;
+  color: #889dbd;
+  font-size: 10px;
+}
+.soundscape-controls select {
+  width: 100%;
+  margin: 8px 0 16px;
+  padding: 9px 10px;
+  color: #c5d4eb;
+  background: #101827;
+  border: 1px solid #adc3e338;
+  border-radius: 7px;
+  font: inherit;
+}
+#app:has(#scene-controls[open]) .soundscape-toggle,
+#app:has(.side-panel.open) .soundscape-toggle,
+#app:has(dialog[open]) .soundscape-toggle {
+  visibility: hidden;
+}
+#app.immersive .soundscape-toggle {
+  top: 158px;
+  opacity: 0.7;
+}
+@media (max-width: 760px) {
+  .soundscape-toggle,
+  .soundscape-controls {
+    display: none;
+  }
+}

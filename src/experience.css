@@ -1,0 +1,66 @@
+.showcase-intro {
+  position: fixed;
+  z-index: 6;
+  bottom: 100px;
+  left: clamp(20px, 4vw, 64px);
+  max-width: 430px;
+  pointer-events: auto;
+  color: #f4efe6;
+}
+.showcase-intro[hidden] {
+  display: none;
+}
+.showcase-intro h2 {
+  font:
+    400 clamp(24px, 3vw, 38px)/1.15 Georgia,
+    serif;
+  margin: 0 0 14px;
+}
+.showcase-intro p {
+  font: 14px/1.6 system-ui;
+  color: #aaa;
+  max-width: 350px;
+}
+.showcase-intro > div {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.showcase-intro button {
+  border: 1px solid #555;
+  border-radius: 24px;
+  padding: 10px 16px;
+  background: #080808;
+  color: #eee;
+  cursor: pointer;
+}
+#showcase-preview {
+  font-size: 12px;
+  width: auto;
+  padding: 8px 10px;
+}
+#app[data-experience='showcase-demo'] .hero,
+#app[data-experience='showcase-demo'] .bottom-left,
+#app[data-experience='showcase-demo'] #star-layer {
+  visibility: hidden;
+  pointer-events: none;
+}
+#app[data-content-ready='false'] #star-layer,
+#app[data-content-ready='false'] .bottom-left,
+#app[data-content-ready='false'] #galaxy-switch {
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .showcase-intro {
+    bottom: 130px;
+    max-width: calc(100vw - 40px);
+  }
+  .showcase-intro p {
+    font-size: 12px;
+  }
+  .showcase-intro button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="data:," />
+    <meta charset="UTF-8" />
+    <title>Wordverse · stellar life</title>
+    <style>
+      body {
+        margin: 0;
+        background: #030509;
+        color: #dfe9f9;
+        font: 14px system-ui;
+      }
+      canvas {
+        display: block;
+      }
+      header {
+        position: absolute;
+        top: 34px;
+        left: 44px;
+      }
+      h1 {
+        font: 36px Georgia;
+        margin: 10px 0;
+      }
+      small {
+        letter-spacing: 0.18em;
+        color: #97b2d9;
+      }
+      nav {
+        position: absolute;
+        right: 44px;
+        top: 48px;
+        display: flex;
+        gap: 8px;
+      }
+      button {
+        padding: 10px 16px;
+        border: 1px solid #adc3e338;
+        background: #111b2b;
+        color: #dfe9f9;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .labels {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .labels span {
+        position: absolute;
+        transform: translateX(-50%);
+        text-align: center;
+        color: #aac0db;
+      }
+      footer {
+        position: absolute;
+        bottom: 25px;
+        left: 44px;
+        color: #7690b2;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <small>WORDVERSE · STELLAR LIFE</small>
+      <h1>Every star has its own time.</h1>
+      <p>One creation date. A continuous spectrum.</p>
+    </header>
+    <nav>
+      <button id="near">Photospheres</button><button id="far">Distant light</button
+      ><button id="minute">+ 1 minute</button>
+    </nav>
+    <canvas id="evolution"></canvas>
+    <div class="labels"></div>
+    <footer>Accelerated artistic timeline · dates and coordinates remain stored</footer>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createWordStarSystem } from '/src/word-star-system.js';
+      import { stellarEvolution } from '/src/stellar-evolution.js';
+      const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setClearColor(0x030509);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 10000);
+      camera.layers.enable(2);
+      const stars = createWordStarSystem(scene),
+        now = Date.parse('2026-10-12T12:00:00Z'),
+        ages = [0, 3, 18, 60, 150, 500];
+      let offset = 0,
+        far = false;
+      const records = () =>
+        ages.map((age, i) => ({
+          id: 'age-' + i,
+          createdAt: new Date(now - age * 60000).toISOString(),
+          x: ((i % 3) - 1) * (far ? 28 : 1.6),
+          y: (i < 3 ? 1 : -1) * (far ? 15 : 0.53),
+          z: 0,
+        }));
+      const labels = document.querySelector('.labels');
+      ages.forEach(() => labels.append(document.createElement('span')));
+      function reset() {
+        stars.setEntries(records());
+        camera.position.set(0, far ? 0 : 0.13, far ? 120 : 3.2);
+        camera.updateMatrixWorld();
+      }
+      document.querySelector('#near').onclick = () => {
+        far = false;
+        reset();
+      };
+      document.querySelector('#far').onclick = () => {
+        far = true;
+        reset();
+      };
+      document.querySelector('#minute').onclick = () => {
+        offset += 60000;
+      };
+      reset();
+      renderer.setAnimationLoop(() => {
+        if (!stars.ready || document.hidden) return;
+        stars.update(0, camera, innerHeight, 1, { now: now + offset, reducedMotion: true });
+        renderer.render(scene, camera);
+        const appearances = records().map((record) => stellarEvolution(record.createdAt, now + offset));
+        [...labels.children].forEach((label, i) => {
+          label.textContent = ages[i] + offset / 60000 + ' min · ' + appearances[i].stageId;
+          const record = records()[i];
+          const position = new THREE.Vector3(record.x, record.y, record.z).project(camera);
+          const radius = (0.45 * innerHeight) / (2 * Math.tan((25 * Math.PI) / 180) * camera.position.z);
+          label.style.left = (position.x * 0.5 + 0.5) * innerWidth + 'px';
+          label.style.top = (-position.y * 0.5 + 0.5) * innerHeight + radius + 25 + 'px';
+        });
+        renderer.domElement.dataset.ready = 'true';
+        renderer.domElement.dataset.minute = String(offset / 60000);
+        renderer.domElement.dataset.mode = far ? 'far' : 'near';
+        renderer.domElement.dataset.colors = JSON.stringify(appearances.map((a) => a.color));
+      });
+      addEventListener(
+        'pagehide',
+        () => {
+          renderer.setAnimationLoop(null);
+          stars.dispose();
+          renderer.dispose();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wordverse · Catalog study</title>
+  </head>
+  <body style="margin: 0; background: #02040a">
+    <div id="app">
+      <canvas id="universe"></canvas>
+      <div class="controls"></div>
+    </div>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createSpaceDetails } from '../../src/space-details.js';
+      import { createCosmicField } from '../../src/cosmic-field.js';
+      import { rebaseTravelZoom } from '../../src/universe-travel.js';
+      import { createFlightField } from '../../src/flight-field.js';
+      import '../../src/auth.css';
+      import '../../src/style.css';
+      import { createCatalogLayer, overviewZoom } from '../../src/catalog-layer.js';
+      import { mountCatalogUI } from '../../src/catalog-ui.js';
+      const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+      renderer.setClearColor(0x02040a);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 10000);
+      const target = new THREE.Vector3(0, 0, 750);
+      camera.position.copy(target);
+      const layer = createCatalogLayer(scene, { compact: innerWidth < 760 });
+      const details = createSpaceDetails(scene, innerWidth < 760);
+      const cosmic = createCosmicField(scene, innerWidth < 760);
+      const flight = createFlightField(scene, innerWidth < 760);
+      let depth = 0;
+      const resize = () => {
+        renderer.setSize(innerWidth, innerHeight);
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+      };
+      resize();
+      addEventListener('resize', resize);
+      const catalog = mountCatalogUI({
+        locale: 'tr',
+        beforeOpen() {},
+        onFocus(record, { navigate = true } = {}) {
+          const absoluteTarget = target.z;
+          depth = record.scenePosition[2];
+          layer.focus(record);
+          flight.focus(record);
+          details.focus(record);
+          target.set(record.scenePosition[0], record.scenePosition[1], depth + 250);
+        },
+        onOverview() {
+          depth = 0;
+          target.set(0, 0, overviewZoom(camera.aspect));
+        },
+        onHome() {
+          depth = 0;
+          flight.home();
+          details.home();
+          target.set(0, 0, 750);
+        },
+      });
+      document.querySelector('canvas').addEventListener('click', (event) => {
+        if (depth === 0) {
+          const record = layer.pick(camera, event.clientX, event.clientY, innerWidth, innerHeight);
+          if (record) catalog.focus(record);
+        }
+      });
+      document.querySelector('canvas').addEventListener(
+        'wheel',
+        (event) => {
+          event.preventDefault();
+          if (event.deltaY < 0 && depth === 0 && target.z > 650) {
+            const record = layer.pick(camera, event.clientX, event.clientY, innerWidth, innerHeight, 110);
+            if (record) catalog.focus(record, { navigate: false });
+          }
+          const next = rebaseTravelZoom(target.z - depth, depth, (target.z - depth) * Math.exp(event.deltaY * 0.00145));
+          depth = next.depth;
+          target.z = depth + Math.max(19, Math.min(50000, next.value));
+        },
+        { passive: false },
+      );
+      renderer.setAnimationLoop(() => {
+        if (document.hidden) return;
+        camera.position.lerp(target, 0.055);
+        camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+        camera.updateMatrixWorld();
+        catalog.setVisibleCount(layer.update(camera, camera.position.z - depth, depth !== 0));
+        flight.update(camera);
+        cosmic.update(camera);
+        details.update(camera);
+        renderer.domElement.dataset.viewDistance = String(camera.position.z - depth);
+        renderer.render(scene, camera);
+      });
+    </script>
+  </body>
+</html>

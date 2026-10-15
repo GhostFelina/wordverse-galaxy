@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#02040a" />
-    <meta name="description" content="İngilizce ve İspanyolca kelimelerini yıldız, bağlaçlarını gerçek gezegen dokulu gezegen olarak aynı galakside keşfet. Kişisel kelime evrenini oluştur ve yedekle." />
+    <meta name="description" content="Öğrendiğin kelimeleri keşfedilebilir yıldızlara dönüştür. Dil galaksileri, Orion yolculuğu, kelime atlası, kısa tekrar ve özel yıldız kartları." />
     <link rel="canonical" href="https://wordverse-galaxy.vercel.app/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="robots" content="index,follow" />
@@ -13,61 +13,63 @@
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content="Wordverse" />
     <meta property="og:title" content="Wordverse — Öğrendiğin Her Kelime Bir Yıldız" />
-    <meta property="og:description" content="Kelimelerin yıldız, bağlaçların gezegen olsun. Her dil için ayrı canlı galaksi ve yerel yedek." />
-    <meta property="og:image" content="https://wordverse-galaxy.vercel.app/assets/nebula-gas.png" />
-    <meta property="og:image:alt" content="Karanlık uzayda mavi ve mor bulutsu" />
+    <meta property="og:description" content="Öğrendiğin her kelime bir yıldız. Kişisel kelime atlasını keşfet, hatırla ve evrenini büyüt." />
+    <meta property="og:image" content="https://wordverse-galaxy.vercel.app/assets/wordverse-social.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Wordverse kelime atlası, Orion bulutsusu ve sentetik kelime yıldızları" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Wordverse — Öğrendiğin Her Kelime Bir Yıldız" />
-    <meta name="twitter:description" content="Kelimelerin yıldız, bağlaçların gezegen olsun. Her dil için ayrı canlı galaksi ve yerel yedek." />
-    <meta name="twitter:image" content="https://wordverse-galaxy.vercel.app/assets/nebula-gas.png" />
+    <meta name="twitter:description" content="Öğrendiğin her kelime bir yıldız. Kişisel kelime atlasını keşfet, hatırla ve evrenini büyüt." />
+    <meta name="twitter:image" content="https://wordverse-galaxy.vercel.app/assets/wordverse-social.png" />
     <title>Wordverse | Kelimelerden Canlı Bir Galaksi</title>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Wordverse","url":"https://wordverse-galaxy.vercel.app/","description":"Öğrenilen kelimeleri dil başına ayrı, yaşayan bir galakside yıldızlara dönüştüren kişisel kelime atlası.","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"tr","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"featureList":["İngilizce ve İspanyolca kelime galaksileri","Etkileşimli kelime yıldızları","Yerel veri yedeği"]}</script>
   </head>
   <body>
-    <div id="app">
-      <canvas id="universe" aria-label="Etkileşimli kelime evreni"></canvas>
+    <div id="app" data-scene-state="loading">
+      <div id="scene-loading" role="status"><span>Evrenin hazırlanıyor…</span></div>
+      <canvas id="universe" tabindex="0" aria-describedby="camera-instructions" aria-label="Etkileşimli kelime evreni"></canvas>
+      <p id="camera-instructions" class="sr-only">Kaydır: yakınlaş ve uzaklaş. Sürükle: hareket et. Dokunmatik: iki parmakla yakınlaş. Klavye: ok tuşlarıyla hareket et, + ve − ile yakınlaş, Home ile sıfırla, Escape ile geri dön.</p>
       <div class="screen-vignette" aria-hidden="true"></div>
       <div class="grain" aria-hidden="true"></div>
 
-      <button id="universe-mode" class="universe-mode" type="button" aria-label="Sadece evreni göster" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-        </svg>
-      </button>
-
       <header class="topbar">
         <button class="brand" id="home-btn" aria-label="Ana görünüme dön">
-          <span class="brand-mark"><span></span></span>
-          <span class="brand-name">wordverse<span class="brand-star">✦</span></span>
+          <svg class="brand-symbol" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <path d="m5 11 7 21 8-15 8 15 7-21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="5" cy="11" r="2" fill="currentColor" /><circle cx="12" cy="32" r="2" fill="currentColor" /><circle cx="28" cy="32" r="2" fill="currentColor" /><circle cx="35" cy="11" r="2" fill="currentColor" />
+            <path d="m20 5 1.9 6.1L28 13l-6.1 1.9L20 21l-1.9-6.1L12 13l6.1-1.9L20 5Z" fill="currentColor" />
+          </svg>
+          <span class="brand-copy"><span class="brand-name">wordverse</span><span class="brand-caption">KELİME ATLASI</span></span>
         </button>
         <nav class="topnav" aria-label="Ana menü">
           <button class="nav-link active" id="explore-btn">Keşfet</button>
-          <button class="nav-link" id="collection-btn">Kelimelerim</button>
+          <button class="nav-link" id="collection-btn">Kelime atlası</button>
         </nav>
         <div class="top-actions">
-          <span class="live-indicator"><span class="live-dot"></span> KİŞİSEL EVRENİN</span>
           <select id="ui-language" class="ui-language" aria-label="Arayüz dili"><option value="tr">TR</option><option value="en">EN</option><option value="es">ES</option></select>
-          <button class="galaxy-switch" id="galaxy-switch" type="button" aria-label="Galaksi seç veya oluştur"><span class="galaxy-switch-orbit">✧</span><span id="active-galaxy-name">İngilizce Galaksisi</span><span class="galaxy-switch-arrow">⌄</span></button>
-          <button class="add-button" id="open-add"><span class="plus">+</span><span>Yeni yıldız ekle</span></button>
+          <button class="galaxy-switch" id="galaxy-switch" type="button" aria-label="Galaksi seç veya oluştur"><svg class="galaxy-switch-orbit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-35 12 12)" /><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none" /></svg><span id="active-galaxy-name">İngilizce Galaksisi</span><span class="galaxy-switch-arrow" aria-hidden="true">⌄</span></button>
+          <button class="add-button" id="open-add" aria-label="Kelime ekle"><span class="plus" aria-hidden="true">+</span><span>Kelime ekle</span></button>
         </div>
       </header>
 
       <main>
         <section class="hero" id="hero">
-          <div class="eyebrow"><span class="eyebrow-line"></span> KELİMELERİNİN EVRENİ <span class="eyebrow-index">/ 001</span></div>
-          <h1>Her kelime,<br /><em>bir yıldız.</em></h1>
-          <p id="hero-description">Şimdilik burası bomboş bir kainat. Öğrendiğin her İngilizce kelime bir yıldıza dönüşecek; galaksin seninle büyüyecek.</p>
+          <div class="eyebrow"><span class="eyebrow-line"></span> KİŞİSEL KELİME ATLASIN <span class="eyebrow-index" aria-hidden="true">01 / ∞</span></div>
+          <h1>Bir kelime.<br /><em>Yeni bir yıldız.</em></h1>
+          <p id="hero-description">İlk kelimene gökyüzünde bir yer aç. Öğrendikçe yıldızların çoğalsın, kendi evrenin büyüsün.</p>
           <div class="hero-buttons">
-            <button class="primary-cta" id="hero-add">İlk yıldızını yarat <span aria-hidden="true">↗</span></button>
-            <button class="text-cta" id="hero-explore">Evreni keşfet <span aria-hidden="true">→</span></button>
+            <button class="primary-cta" id="hero-add">İlk kelimeni ekle <span aria-hidden="true">↗</span></button>
+            <button class="text-cta" id="hero-explore">Gökyüzünü keşfet <span aria-hidden="true">→</span></button>
           </div>
           <div class="demo-note" id="demo-note"><span class="demo-spark">✧</span> İlk kelimeni ekle ve karanlıktaki ilk ışığı yak.</div>
-          <a class="about-link" href="/about.html">Wordverse nasıl çalışır? ↗</a>
+          <div class="hero-links" id="home-learning"><a class="about-link" href="/about.html">Wordverse hakkında ↗</a></div>
         </section>
 
         <div id="star-layer" class="star-layer" aria-label="Kelime yıldızları"></div>
 
         <aside class="bottom-left">
+          <span class="live-indicator"><span class="live-dot"></span> KİŞİSEL EVRENİN</span>
           <div class="stat"><strong id="star-count">00</strong><span>YILDIZ</span></div>
           <div class="stat"><strong id="planet-count">00</strong><span>GEZEGEN</span></div>
           <div class="stat-separator"></div>
@@ -86,8 +88,14 @@
         <div class="fps-monitor" id="fps-monitor" hidden>FPS —</div>
       </main>
 
+      <div id="scene-dock" class="scene-dock" role="group" aria-label="Evren araçları">
+        <button id="universe-mode" class="universe-mode" type="button" aria-label="Sadece evreni göster" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg>
+        </button>
+      </div>
+
       <div class="panel-backdrop" id="panel-backdrop"></div>
-      <section class="side-panel" id="detail-panel" aria-labelledby="detail-word" aria-hidden="true" inert>
+      <section class="side-panel" id="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-word" aria-hidden="true" inert>
         <button class="panel-close" id="close-detail" aria-label="Paneli kapat">×</button>
         <div class="panel-kicker"><span class="panel-kicker-dot"></span> <span id="object-record-label">YILDIZ KAYDI</span> <span id="detail-number">NO. 001</span></div>
         <div class="detail-visual"><div class="detail-orbit orbit-one"></div><div class="detail-orbit orbit-two"></div><div class="detail-sun" id="detail-sun"></div></div>
@@ -106,7 +114,7 @@
         <div class="detail-actions"><button id="edit-word">Düzenle</button><button class="delete-link" id="delete-word">Yıldızı kaldır</button></div>
       </section>
 
-      <section class="side-panel form-panel" id="add-panel" aria-labelledby="form-title" aria-hidden="true" inert>
+      <section class="side-panel form-panel" id="add-panel" role="dialog" aria-modal="true" aria-labelledby="form-title" aria-hidden="true" inert>
         <button class="panel-close" id="close-add" aria-label="Paneli kapat">×</button>
         <div class="panel-kicker"><span class="panel-kicker-dot"></span> YENİ BİR IŞIK <span>NO. <span id="next-number">001</span></span></div>
         <div class="form-heading"><div class="form-asterisk">✳</div><h2 id="form-title">Yeni bir yıldız<br /><em>doğuyor.</em></h2><p id="form-copy">Bugün öğrendiğin kelimeyi ekle. Evreninde ona özel bir yer açalım.</p></div>
@@ -123,14 +131,14 @@
         </form>
       </section>
 
-      <section class="collection-panel" id="collection-panel" aria-labelledby="collection-title" aria-hidden="true" inert>
+      <section class="collection-panel" id="collection-panel" role="dialog" aria-modal="true" aria-labelledby="collection-title" aria-hidden="true" inert>
         <div class="collection-top"><div><div class="panel-kicker"><span class="panel-kicker-dot"></span> YILDIZ ATLASI</div><h2 id="collection-title">Kelimelerim<span>.</span></h2><p>Evreninde parlayan bütün kelimeler.</p></div><button class="panel-close collection-close" id="close-collection" aria-label="Koleksiyonu kapat">×</button></div>
         <div class="search-wrap"><span>⌕</span><input id="search-input" type="search" placeholder="Bir yıldız ara..." aria-label="Kelime ara" /></div>
         <div class="collection-meta"><span id="result-count">0 YILDIZ</span><span>EN YENİ ÖNCE</span></div>
         <div id="collection-list" class="collection-list"></div>
         <button class="collection-add" id="collection-add"><span>+</span> Yeni kelime ekle</button>
       </section>
-      <section class="collection-panel galaxy-panel" id="galaxy-panel" aria-labelledby="galaxy-panel-title" aria-hidden="true" inert>
+      <section class="collection-panel galaxy-panel" id="galaxy-panel" role="dialog" aria-modal="true" aria-labelledby="galaxy-panel-title" aria-hidden="true" inert>
         <div class="collection-top"><div><div class="panel-kicker"><span class="panel-kicker-dot"></span> GALAKSİ HARİTASI</div><h2 id="galaxy-panel-title">Galaksilerim<span>.</span></h2><p>Her dilin kendine ait boş bir göğü olsun.</p></div><button class="panel-close collection-close" id="close-galaxy" aria-label="Galaksileri kapat">×</button></div>
         <div class="galaxy-current"><span id="galaxy-language">İngilizce</span><div class="galaxy-current-title"><strong id="galaxy-name-detail">İngilizce Galaksisi</strong><button id="rename-galaxy" type="button" aria-label="Galaksi adını düzenle">✎</button></div><form id="rename-galaxy-form" hidden><input id="rename-galaxy-input" type="text" maxlength="60" aria-label="Yeni galaksi adı" required /><button type="submit">Kaydet</button><button id="cancel-rename-galaxy" type="button" aria-label="Vazgeç">×</button></form><label class="meaning-language-label" for="meaning-language-current">Anlam dili</label><select id="meaning-language-current"><option value="tr">Türkçe</option><option value="en">English</option><option value="es">Español</option></select></div>
         <div id="galaxy-list" class="galaxy-list"></div>
@@ -149,6 +157,7 @@
       </section>
       <div class="toast" id="toast" role="status"></div>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/locale-navigation.js"></script>
+  <script type="module" src="/src/main.js"></script>
   </body>
 </html>

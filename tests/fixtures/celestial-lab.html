@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="tr">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wordverse · Gök cismi katmanları</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: system-ui;
+    }
+    canvas {
+      display: block;
+      touch-action: none;
+    }
+    body > p {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      color: #b9cbe8;
+      font: 13px system-ui;
+      pointer-events: none;
+    }
+  </style>
+  <canvas id="universe" aria-label="Kesintisiz yıldız kâinatı"></canvas>
+  <div class="controls" style="position: fixed; top: 24px; left: 24px; z-index: 3"></div>
+  <p>200 bulutsu · 1000 asteroid · 1000 tarihsel meteor gözlemi · Sanatsal görselleştirme</p>
+  <script type="module">
+    import * as THREE from 'three';
+    import '../../src/auth.css';
+    import { createCosmicField } from '../../src/cosmic-field.js';
+    import { mountCelestialSystem } from '../../src/celestial-system.js';
+    import '../../src/data/catalog/asteroids-1000.json';
+    import '../../src/data/catalog/fireballs-1000.json';
+    const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: false });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setClearColor(0x000000);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100000);
+    const field = createCosmicField(scene, innerWidth < 760);
+    const target = new THREE.Vector3(0, 0, 160);
+    camera.position.copy(target);
+    const canvas = renderer.domElement;
+    const system = await mountCelestialSystem({
+      scene,
+      camera,
+      locale: new URLSearchParams(location.search).get('lang') || 'tr',
+      stage: 2,
+      beforeOpen() {},
+      onNavigate(position, distance) {
+        target.set(position[0], position[1], position[2] + distance);
+      },
+      onHome() {
+        target.set(0, 0, 160);
+      },
+    });
+    canvas.dataset.sceneMode = 'layered-cosmos';
+    canvas.dataset.nebulae = String(system.counts.nebulae);
+    canvas.dataset.asteroids = String(system.counts.asteroids);
+    canvas.dataset.fireballs = String(system.counts.fireballs);
+    canvas.dataset.starCapacity = String(field.capacity);
+    canvas.addEventListener(
+      'wheel',
+      (event) => {
+        event.preventDefault();
+        target.z = Math.max(19, Math.min(50000, target.z * Math.exp(event.deltaY * 0.00145)));
+      },
+      { passive: false },
+    );
+    let drag = null;
+    canvas.addEventListener('pointerdown', (event) => {
+      drag = { x: event.clientX, y: event.clientY, tx: target.x, ty: target.y };
+      canvas.setPointerCapture(event.pointerId);
+    });
+    canvas.addEventListener('pointermove', (event) => {
+      if (drag) {
+        const factor = target.z / innerHeight;
+        target.x = drag.tx - (event.clientX - drag.x) * factor;
+        target.y = drag.ty + (event.clientY - drag.y) * factor;
+      }
+    });
+    canvas.addEventListener('pointerup', () => (drag = null));
+    let previous = 0;
+    renderer.setAnimationLoop((time) => {
+      if (document.hidden) {
+        previous = 0;
+        return;
+      }
+      const delta = previous ? Math.min(1000, time - previous) : 16.67;
+      previous = time;
+      camera.position.lerp(target, 1 - Math.exp(-delta * 0.0036));
+      camera.lookAt(camera.position.x, camera.position.y, camera.position.z - 100);
+      field.update(camera);
+      system.update(time);
+      renderer.render(scene, camera);
+      canvas.dataset.cameraZ = String(camera.position.z);
+    });
+  </script>
+</html>

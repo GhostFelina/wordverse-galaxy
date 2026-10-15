@@ -1,0 +1,316 @@
+{
+  "version": "1.27.0",
+  "date": "2026-10-15T10:05:32.451Z",
+  "browser": "155.0.8059.40",
+  "graphics": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gasResolution": "1152x720",
+    "dpr": "1"
+  },
+  "blackHoleCloseFrames": {
+    "count": 60,
+    "p50": 7,
+    "p95": 7.100000000000136
+  },
+  "source": "Native production modules, isolated synthetic vocabulary; storage checked after every capture.",
+  "captures": [
+    {
+      "file": "home-1440-900-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "495f448dcef13a53b81974adea59a84a13e7a5a82e7fef4703bc4b5ce4a7df7e"
+    },
+    {
+      "file": "home-1024-768-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "1da029bf5b2c5c1a3110a322ddc169600d3234b589b5af278eeb19d77e450e2b"
+    },
+    {
+      "file": "home-390-900-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "sha256": "8362d7fbd4a718eb77b325ba6fb9ee18d6e9484b01fa063e8d8e94938b7ebdcd"
+    },
+    {
+      "file": "home-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "ca55128f5f17ccdffa05097e0cb3b152a113f41a71fed2aa879c1c1a496b0b06"
+    },
+    {
+      "file": "home-1920-1080-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "6fd62cb8bbd4334cdfb79a987ae89cfb35f800e04af78b179b971708f5ac05cb"
+    },
+    {
+      "file": "gallery-popular-ten.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "af89acf750feb61748da01227f25a393dfa01906df749bd3e7747b629d1b3a3f"
+    },
+    {
+      "file": "language-native-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2f7317c529c06e7fc12da8b814021d1a571109605c3efd6370854bd95a366769"
+    },
+    {
+      "file": "atlas-ring-search.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "6104d607c6fff035a1e5ac90f9a2357d9850971c56c75877a4b0d4419a85def5"
+    },
+    {
+      "file": "atlas-all-fourteen.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "d56d6274ae84aaa4870e976e9b18fa26bb7b46ebb506a828b96949857acc4f02"
+    },
+    {
+      "file": "ion-veil-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "a6b1374dc48b2d2f472fc0ef301519419a3059edab817092f74e4acb952f6b26"
+    },
+    {
+      "file": "ion-veil-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "bc6cfeb9a536a6b9dce2fe8ad4ba75510d131e2ccb02fbba03d39fea91e6a5e5"
+    },
+    {
+      "file": "ember-reach-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "ec2227076a685bd7f89b54c8df873c2e1b115e0bcd876c39676eb88112143def"
+    },
+    {
+      "file": "ember-reach-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2388d944ec5f77821ec43d3f4dfa9e5310159fe675c23653335a3dde90bb8334"
+    },
+    {
+      "file": "tidal-shell-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2ac9ecb1bd6f68b12975c63cc03b97c254598e7b20501ca1f36331b1b0c6bae4"
+    },
+    {
+      "file": "tidal-shell-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "ba75632e0a43edd8131999126a61a9ef01fbbe87309b748c818af9d5cce612de"
+    },
+    {
+      "file": "carina-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "9a89b5c99b214fcac99fc5e09625f9c5b519f9593ca946a2557fc15c88a86e7f"
+    },
+    {
+      "file": "carina-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "8eafb285534a8653ef70879c34987b5cf4b9089b8dc9ec69d924e31179b41546"
+    },
+    {
+      "file": "eagle-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "faefe9f53e796a8c18e1dc822d1b04bfe487a157261095cf59ee0529a12cf590"
+    },
+    {
+      "file": "eagle-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "0aa98a76b8fe4c46815d53da0f09038332fa9381cc931e8b723eba5e1d17c7bd"
+    },
+    {
+      "file": "horsehead-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "a68284a222401dac5a69745d322d5622fa82a9a236d4970a831734079ccd7f5e"
+    },
+    {
+      "file": "horsehead-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "cf038b6082d7816cebb5b5791fc5e6061e70da329f4089db141cdc7a2e77df42"
+    },
+    {
+      "file": "helix-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "53b0b6c8c4bb96b5c86a09289aae37241513f59a53831f5f4826c49e1d67660f"
+    },
+    {
+      "file": "helix-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "437a81c54522a58f3927301b978e69a166568b9c8b07499089d132d79a55ae7a"
+    },
+    {
+      "file": "crab-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "1f2eae236a9677d004569ac098ad5b16d14259c83499430d0bdae5456ae73564"
+    },
+    {
+      "file": "crab-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "1b6930e353346a65c476999cf17a85e17f8ee45f526d839f8d11704c03e4ab9a"
+    },
+    {
+      "file": "ring-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "ef7e579e273044e90d8dd676efb0bbdf07cb4c1eb8127c8ae379c9db8a97b251"
+    },
+    {
+      "file": "ring-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2d4da4bacd10b38b2e728836c5f84f3874ab36cd8688be2ed041fda4b346c24b"
+    },
+    {
+      "file": "rosette-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "397db249891c0aa439530816b2c2b1330b0286f751f9cb71c116d715c7656270"
+    },
+    {
+      "file": "rosette-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "3be2751971326ffa0a053b0a1b8fa0e349b6dcd587e17e3703268c7df6780e43"
+    },
+    {
+      "file": "tarantula-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "13ba2e414054758a611bee72f729e2f97c5796502a23087a93be976e942c980a"
+    },
+    {
+      "file": "tarantula-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "398597b1185da260eedaae4a1c3495151df1294ee2a0299c92b6c091e1013da0"
+    },
+    {
+      "file": "lagoon-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "11e017dc20c5c2c5410b32a873811768da09454cdbfb7bcd667fd5cfcfad42f2"
+    },
+    {
+      "file": "lagoon-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "86746dacb54789b9008039cad405fa4b4a0f2b08fea11165bea88277dfa3cd52"
+    },
+    {
+      "file": "trifid-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "8ca686ffbb5a279c4f6ca4409e882c64f43263b6552b9d4abc001ac0e3178b22"
+    },
+    {
+      "file": "trifid-inside.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2ee151a8b0f01d9bdbb5b0c6a63c412fb5a7ed95606933dc398f0adb65e2c2aa"
+    },
+    {
+      "file": "blackhole-far.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "77e3e2e45819d519e67c8c3eb308186998ccb38f93de12d0127173002d2cb1d5"
+    },
+    {
+      "file": "blackhole-close.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "d581f1a1928eba1db13c5606934f1b879964fe64002ca03a1f5eeddfa60636a6"
+    }
+  ],
+  "consoleErrors": [],
+  "limits": "Short native headless run; user visual acceptance and other GPU performance remain open."
+}

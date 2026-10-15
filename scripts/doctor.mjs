@@ -45,7 +45,7 @@ export function doctor({ agent = null, pushCheck = false } = {}) {
   add('Aktif dal', branch === state.activeBranch, `Beklenen dal: ${state.activeBranch}`);
   add(
     'Devir belgeleri',
-    ['HANDOFF.md', 'MASTER_PROMPT.md', 'TASKS.md', 'KNOWN_ISSUES.md', 'CROSS_DEVICE.md'].every((file) =>
+    ['HANDOFF.md', 'TASKS.md', 'KNOWN_ISSUES.md', 'CROSS_DEVICE.md'].every((file) =>
       existsSync(join(projectRoot, 'docs/handoff', file)),
     ),
     'Ortak görev belgeleri repoda bulunmalı.',

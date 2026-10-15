@@ -1,0 +1,67 @@
+[
+  {
+    "id": "M31",
+    "nameKey": "andromeda",
+    "morphology": "spiral",
+    "distanceMly": 2.5,
+    "seed": 31,
+    "inclination": 0.46,
+    "rotation": -0.38,
+    "scenePosition": [-310, 180, -230],
+    "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-31/",
+    "license": "Original procedural rendering: MIT; factual metadata paraphrased from NASA, no source media copied",
+    "renderKind": "artistic-morphology"
+  },
+  {
+    "id": "M51",
+    "nameKey": "whirlpool",
+    "morphology": "grand-design",
+    "distanceMly": 31,
+    "seed": 51,
+    "inclination": 0.9,
+    "rotation": 0.35,
+    "scenePosition": [340, 220, -260],
+    "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-51/",
+    "license": "Original procedural rendering: MIT; factual metadata paraphrased from NASA, no source media copied",
+    "renderKind": "artistic-morphology"
+  },
+  {
+    "id": "M87",
+    "nameKey": "virgo",
+    "morphology": "elliptical",
+    "distanceMly": 54,
+    "seed": 87,
+    "inclination": 0.78,
+    "rotation": 0.2,
+    "scenePosition": [-350, -210, -280],
+    "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-87/",
+    "license": "Original procedural rendering: MIT; factual metadata paraphrased from NASA, no source media copied",
+    "renderKind": "artistic-morphology"
+  },
+  {
+    "id": "M82",
+    "nameKey": "cigar",
+    "morphology": "starburst",
+    "distanceMly": 12,
+    "seed": 82,
+    "inclination": 0.2,
+    "rotation": -0.5,
+    "scenePosition": [360, -210, -240],
+    "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-82/",
+    "license": "Original procedural rendering: MIT; factual metadata paraphrased from NASA, no source media copied",
+    "renderKind": "artistic-morphology"
+  },
+  {
+    "id": "M104",
+    "nameKey": "sombrero",
+    "morphology": "edge-on",
+    "distanceMly": 28,
+    "seed": 104,
+    "inclination": 0.23,
+    "rotation": 0.06,
+    "scenePosition": [10, 380, -250],
+    "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-104/",
+    "license": "Original procedural rendering: MIT; factual metadata paraphrased from NASA, no source media copied",
+    "renderKind": "artistic-morphology"
+  }
+]

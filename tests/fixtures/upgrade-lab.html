@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wordverse U1–U2 · Yapay sahne</title>
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+        color: #eee;
+        font: 14px system-ui;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      aside {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+        max-width: calc(100vw - 40px);
+      }
+      button {
+        padding: 8px;
+        margin: 4px;
+        background: #111;
+        color: #eee;
+        border: 1px solid #666;
+        cursor: pointer;
+      }
+      p {
+        max-width: 470px;
+      }
+      #state {
+        color: #bbb;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="universe" aria-label="Yapay premium evren"></canvas>
+    <aside>
+      <p>U1–U2 görsel laboratuvarı · gerçek kullanıcı verisi, auth ve kalıcı yazma yok.</p>
+      <button id="far">En uzak · küçük noktalar</button>
+      <button id="wide">Geniş görünüm</button><button id="star">Yıldız yüzeyi</button
+      ><button id="planet">Gezegen</button><button id="gas">Gaz içinden geçiş</button
+      ><button id="freeze">Hareketi durdur</button>
+      <p id="state" role="status">Yükleniyor</p>
+    </aside>
+    <script type="module">
+      import * as THREE from 'three';
+      import { createPremiumBodies } from '/src/premium-bodies.js';
+      import { createNebulaVolume } from '/src/nebula-volume.js';
+      import { createCosmicField } from '/src/cosmic-field.js';
+      import { createRenderQuality } from '/src/render-quality.js';
+      const canvas = document.querySelector('canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));
+      renderer.setClearColor(0x000000, 1);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.85;
+      const quality = createRenderQuality({
+        maximum: Math.min(1.5, devicePixelRatio),
+        onChange: (value) => {
+          renderer.setPixelRatio(value);
+          canvas.dataset.dpr = String(value);
+        },
+      });
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100000);
+      const stars = createCosmicField(scene, innerWidth < 760);
+      const bodies = createPremiumBodies(scene);
+      const gas = createNebulaVolume(scene);
+      gas.focus({ scenePosition: [-20, 14, -110], kind: 'emission', seed: 4204, majorArcmin: 8 });
+      let shot = 'wide',
+        moving = !matchMedia('(prefers-reduced-motion: reduce)').matches,
+        last = 0;
+      const position = new THREE.Vector3(0, 0, 120),
+        target = new THREE.Vector3(0, 0, 0);
+      camera.position.copy(position);
+      for (const name of ['far', 'wide', 'star', 'planet', 'gas'])
+        document.getElementById(name).onclick = () => {
+          shot = name;
+          if (name === 'far') {
+            position.set(0, 0, 50000);
+            target.set(0, 0, 0);
+          }
+          if (name === 'wide') {
+            position.set(0, 0, 120);
+            target.set(0, 0, 0);
+          }
+          if (name === 'star') {
+            position.set(-18, 9, 14);
+            target.copy(bodies.star.position);
+          }
+          if (name === 'planet') {
+            position.set(2, 1, 28);
+            target.copy(bodies.planet.position);
+          }
+          if (name === 'gas') {
+            position.set(-20, 14, -90);
+            target.set(-20, 14, -180);
+          }
+        };
+      document.getElementById('freeze').onclick = () => {
+        moving = !moving;
+      };
+      renderer.setAnimationLoop((ms) => {
+        if (document.hidden) {
+          last = 0;
+          return;
+        }
+        if (last) quality.sample(Math.min(1000, ms - last));
+        last = ms;
+        const time = moving ? ms * 0.001 : 0;
+        camera.position.copy(position);
+        if (shot === 'gas' && moving) camera.position.x += Math.sin(time * 0.25) * 12;
+        camera.lookAt(target);
+        camera.updateMatrixWorld();
+        stars.update(camera);
+        gas.update(camera);
+        bodies.update(time, camera, innerHeight, renderer.getPixelRatio());
+        renderer.render(scene, camera);
+        canvas.dataset.ready = 'true';
+        canvas.dataset.shot = shot;
+        document.querySelector('#state').textContent =
+          `${shot} · ${renderer.info.render.calls} draw calls · sanatsal prosedürel gök cisimleri`;
+      });
+      addEventListener('resize', () => {
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+      });
+      addEventListener(
+        'pagehide',
+        () => {
+          renderer.setAnimationLoop(null);
+          stars.dispose();
+          gas.dispose();
+          bodies.dispose();
+          renderer.dispose();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>

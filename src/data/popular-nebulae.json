@@ -1,0 +1,462 @@
+[
+  {
+    "id": "carina",
+    "code": "NGC 3372",
+    "mode": 4,
+    "morphology": "cloud",
+    "cool": [0.035, 0.14, 0.24],
+    "warm": [0.72, 0.29, 0.09],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/carina-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 3918974,
+          "sha256": "db083ca2b6b7d84d6099bdb412fa95bd51b6d71f9b5476b980d45885e75b7281"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/carina-guide.jpg",
+    "preview": "/assets/nebulae/popular/carina-preview.webp",
+    "source": "https://esahubble.org/images/heic0707a/",
+    "credit": "NASA, ESA, N. Smith (University of California, Berkeley), and The Hubble Heritage Team (STScI/AURA)",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic0707a.jpg",
+    "sourceSha256": "8071632a2d895f0bfdb8b5ff80456eafc3ff71ee2b8fa8e28b84b5994fcec4d3",
+    "guideSha256": "e3caf884f48ea1a46b0a6c341672f86c9659d2352b4464dff1d494a65cc07b3f",
+    "sourceDimensions": [1280, 620],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "bdf1e56faa492717372627dc66703a9bed901bed8cc1f13ce20f973f362f81ea"
+  },
+  {
+    "id": "eagle",
+    "code": "M16",
+    "mode": 5,
+    "morphology": "pillars",
+    "cool": [0.035, 0.22, 0.23],
+    "warm": [0.65, 0.29, 0.08],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/eagle-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 3227534,
+          "sha256": "8fb0ea40051b7639287b83289f2603851fa4c04285a29685430c4d8be87568db"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/eagle-guide.jpg",
+    "preview": "/assets/nebulae/popular/eagle-preview.webp",
+    "source": "https://esahubble.org/images/heic1501a/",
+    "credit": "NASA, ESA/Hubble and the Hubble Heritage Team",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic1501a.jpg",
+    "sourceSha256": "285e1f921b1fc258f48532e83dcfd30a7f9bcc704e1af9b0fa2c6468e31bc39d",
+    "guideSha256": "1f6820059f676ed75c94b56946ea4273eece0e89cfce90180f13a77d493a749f",
+    "sourceDimensions": [1280, 1335],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "622e490daa94d12b60253b9ba46ad600336fb8518c2e45b19d45c72203bb08f1"
+  },
+  {
+    "id": "horsehead",
+    "code": "B33",
+    "mode": 6,
+    "morphology": "horse",
+    "cool": [0.08, 0.14, 0.28],
+    "warm": [0.47, 0.23, 0.16],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/horsehead-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 3226326,
+          "sha256": "0c7119a99e14aa5453d4c6ef9ebcd3b57aa41123b7e1ed5cf6fd4b6408f77f80"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/horsehead-guide.jpg",
+    "preview": "/assets/nebulae/popular/horsehead-preview.webp",
+    "source": "https://esahubble.org/images/heic1307a/",
+    "credit": "NASA, ESA, and the Hubble Heritage Team (AURA/STScI)",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic1307a.jpg",
+    "sourceSha256": "172ac4229a5ed2e7c3daf5dd48ccd7bfb7ed1a81bea6f7ff4df15b2edd73537e",
+    "guideSha256": "26e4cfe2f4157a758807098c2e1eb98303b816e3ef50ed1b04cff92345a77b3a",
+    "sourceDimensions": [1280, 1338],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "25c9b15357542d8a6737fd62a171e3ce4372db9a6245e77e36f0dabd4e14f9a2"
+  },
+  {
+    "id": "helix",
+    "code": "NGC 7293",
+    "mode": 7,
+    "morphology": "helix",
+    "cool": [0.025, 0.24, 0.31],
+    "warm": [0.78, 0.22, 0.065],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/helix-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 2916158,
+          "sha256": "dd490ecf862ea22ca69803cb4329e14e913706f988202f50a57ffb777659b7e8"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/helix-guide.jpg",
+    "preview": "/assets/nebulae/popular/helix-preview.webp",
+    "source": "https://esahubble.org/images/opo0432b/",
+    "credit": "NASA, ESA, C.R. O'Dell (Vanderbilt University), and M. Meixner, P. McCullough, and G. Bacon ( Space Telescope Science Institute )",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/opo0432b.jpg",
+    "sourceSha256": "4ab07d67d0f3bd703be53a34a903c37ee7afb02096bdb98f86e953769e5b5d48",
+    "guideSha256": "3d97c41d526706aea0e2f20c40250b7ba3d06af6cb4a8ebde79ac24880e30e7c",
+    "sourceDimensions": [1280, 847],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "4c6dc1e3b6d6f077566bfc2b4a5b02d10769930adb6cf37ab019153954ea19fc"
+  },
+  {
+    "id": "crab",
+    "code": "M1",
+    "mode": 8,
+    "morphology": "remnant",
+    "cool": [0.03, 0.15, 0.29],
+    "warm": [0.82, 0.28, 0.09],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/crab-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 2791874,
+          "sha256": "8901fdb9114e0be3f4e15d90f36a6dd6474043f2bc655ec765dbdf4e5d91db71"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/crab-guide.jpg",
+    "preview": "/assets/nebulae/popular/crab-preview.webp",
+    "source": "https://esahubble.org/images/heic0515a/",
+    "credit": "NASA, ESA and Allison Loll/Jeff Hester (Arizona State University). Acknowledgement: Davide De Martin (ESA/Hubble)",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic0515a.jpg",
+    "sourceSha256": "9b9162b9a679c04fe9224dd3338691fa1eb56599e111ebd750f6eafe9d028bdc",
+    "guideSha256": "627c5a0f5d0c1393c448ebf1bd1c423e297773011a5ede900464bcf6a4a17977",
+    "sourceDimensions": [1280, 1280],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "cb0a0cda803a58877e2fdde42fb236aefdf3c6e474355e20437563104b4d6b07"
+  },
+  {
+    "id": "ring",
+    "code": "M57",
+    "mode": 9,
+    "morphology": "ring",
+    "cool": [0.025, 0.22, 0.32],
+    "warm": [0.78, 0.24, 0.075],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/ring-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 1895744,
+          "sha256": "4236056b4adf09f8576d84102131a4419d71be95af723cc7da21e1ece01c977b"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/ring-guide.jpg",
+    "preview": "/assets/nebulae/popular/ring-preview.webp",
+    "source": "https://esahubble.org/images/heic1310a/",
+    "credit": "NASA, ESA, and C. Robert O’Dell (Vanderbilt University).",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic1310a.jpg",
+    "sourceSha256": "8a3003ab28b0a3a45e97d63ef879a5c55a2029ded9cb174818f09646aeb3b806",
+    "guideSha256": "642a5cde8c469c8060008d145cadee17c1a34acd60ed9156a53e64073a191b76",
+    "sourceDimensions": [1280, 1280],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "0338cc1e908d67f6b10978d3fdc4a038d078053dd66638b978500ce3970628a2"
+  },
+  {
+    "id": "rosette",
+    "code": "NGC 2237",
+    "mode": 10,
+    "morphology": "rosette",
+    "cool": [0.07, 0.13, 0.28],
+    "warm": [0.72, 0.19, 0.12],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/rosette-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 3133255,
+          "sha256": "b760d42c7adf4d8cb3aeed14655a9b4a7a9ca0059be9ac79ef7aff04f98f5167"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/rosette-guide.jpg",
+    "preview": "/assets/nebulae/popular/rosette-preview.webp",
+    "source": "https://esahubble.org/images/heic2505f/",
+    "credit": "NASA, ESA, STScI",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic2505f.jpg",
+    "sourceSha256": "2e9a6a29be1035fee104282d478f0274c418e8e2b02146cc7a792a4d150a15a1",
+    "guideSha256": "03674f4bada005664eb7185b13cf2e14da87e88678a0fba343ea3f9133fa4b09",
+    "sourceDimensions": [1280, 1255],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "7446a3ec1d7c6f03838d40232fb938d360f18b8892a70adc2d50c13307fd62a4"
+  },
+  {
+    "id": "tarantula",
+    "code": "NGC 2070",
+    "mode": 11,
+    "morphology": "web",
+    "cool": [0.03, 0.18, 0.24],
+    "warm": [0.67, 0.25, 0.08],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/tarantula-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 3030889,
+          "sha256": "ea6214a74a703f4911dac6734afcd0819f4c709a88186edfa2eca9a8f3b51f54"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/tarantula-guide.jpg",
+    "preview": "/assets/nebulae/popular/tarantula-preview.webp",
+    "source": "https://esahubble.org/images/heic1206a/",
+    "credit": "NASA, ESA, ESO, D. Lennon and E. Sabbi (ESA/STScI), J. Anderson, S. E. de Mink, R. van der Marel, T. Sohn, and N. Walborn (STScI), N. Bastian (Excellence Cluster, Munich), L. Bedin (INAF, Padua), E. Bressert (ESO), P. Crowther (Sheffield), A. de Koter (Amsterdam), C. Evans (UKATC/STFC, Edinburgh), A. Herrero (IAC, Tenerife), N. Langer (AifA, Bonn), I. Platais (JHU) and H. Sana (Amsterdam)",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic1206a.jpg",
+    "sourceSha256": "e132dd119d87a69a36bd4dfaf7365eac7509447adf8f10e99eefd1e9f7efbbb7",
+    "guideSha256": "91a95ebe3b9fe7f0a8e76a4ae813f8d2afc5f2bd741a1d250e8f0b58725a88d1",
+    "sourceDimensions": [1280, 1024],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "6540393ee6f225b0eecbf59aa84167f4b78ec9d9d16172601051f4f752055ff9"
+  },
+  {
+    "id": "lagoon",
+    "code": "M8",
+    "mode": 12,
+    "morphology": "lagoon",
+    "cool": [0.035, 0.17, 0.27],
+    "warm": [0.83, 0.28, 0.1],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/lagoon-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 4115535,
+          "sha256": "9126ac374e5d5d7890131ac43c17e51406d2b6135811a8f71fd5f2827399b42a"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/lagoon-guide.jpg",
+    "preview": "/assets/nebulae/popular/lagoon-preview.webp",
+    "source": "https://esahubble.org/images/heic1808a/",
+    "credit": "NASA, ESA, STScI",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/heic1808a.jpg",
+    "sourceSha256": "43cb96804e1b09c3bb3dbe00770719838f90eac34557971636a709ff8eddff6e",
+    "guideSha256": "20f2ca97e15f9a76cb40861e65346dfce1c3fb8f255f7c530506644c2dc51af0",
+    "sourceDimensions": [1280, 1614],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "761db78e17d3a7a9b6f8e6b4b36eec26c6724ca455a36af9d713ab3267bb825f"
+  },
+  {
+    "id": "trifid",
+    "code": "M20",
+    "mode": 13,
+    "morphology": "trifid",
+    "cool": [0.045, 0.12, 0.35],
+    "warm": [0.65, 0.19, 0.15],
+    "glow": 1.4,
+    "manifest": {
+      "version": 1,
+      "kind": "Observed photographic guide with original artistic depth; not measured 3D tomography.",
+      "generator": "scripts/build-popular-nebulae.mjs",
+      "assets": [
+        {
+          "texture": "/assets/nebulae/popular/trifid-v1.wvz",
+          "dimensions": [128, 128, 128],
+          "channels": 4,
+          "encoding": "gzip uint8",
+          "bytes": 8388608,
+          "compressedBytes": 4019151,
+          "sha256": "eddeecb570388afb9c09d07a6dd4b4ded9f84d981f9450686217b7838d92c90d"
+        },
+        {
+          "texture": "/assets/nebulae/orion-detail-v1.wvz",
+          "dimensions": [64, 64, 64],
+          "channels": 1,
+          "encoding": "gzip uint8",
+          "bytes": 262144,
+          "compressedBytes": 246841,
+          "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+        }
+      ]
+    },
+    "guide": "/assets/nebulae/popular/trifid-guide.jpg",
+    "preview": "/assets/nebulae/popular/trifid-preview.webp",
+    "source": "https://esahubble.org/images/opo0417c/",
+    "credit": "NASA, ESA, and The Hubble Heritage Team (AURA/STScI)",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://esahubble.org/copyright/",
+    "originalImage": "https://cdn.esahubble.org/archives/images/screen/opo0417c.jpg",
+    "sourceSha256": "c56abd176306b9ea16c50fe20586b59cd9017203945d0ff1e4406054b86859d6",
+    "guideSha256": "bcc64d7dfacbd69322c1d962ae2c80ba49dad91fd5e05d7ef457de82b2e0dc95",
+    "sourceDimensions": [1280, 1290],
+    "guideDimensions": [1536, 1536],
+    "previewSha256": "952abc26c67e357368e2e60a978a7662841bd85668aec2c8142b9cca8df6e2ae"
+  }
+]

@@ -1,0 +1,37 @@
+# Product specification
+
+Wordverse is a personal vocabulary atlas. A learned word becomes a navigable star; language galaxies separate records. The core loop is add → explore → recall. Meaning is concealed until explicitly revealed.
+
+## Current product
+
+- Desktop Three.js scene defaulting to Orion, with three explicitly selected original gas volumes (Ion Veil, Ember Reach and Tidal Blue) and ten observation-guided popular nebula experiences, personal word stars, shared optical/stellar surface materials and stable persisted positions.
+- Searchable atlas with word/conjunction filters, chronological/natural alphabetical sorting, record dates and return-to-atlas state.
+- A short ephemeral recall session: reveal, self-assess and repeat difficult items. No persistent mastery score or spaced-repetition claims.
+- Ready personal skies with active-galaxy records expose recall directly from home. The atlas remains its other entry point; empty and demonstration states hide the home action.
+- Atlas search supports `/` outside editing and `Control/Meta+K`; open learning panels retain a bounded keyboard focus cycle and restore their opener on close.
+- Language galaxies, editing, record history and compatible JSON import/export. Guest records remain separate from account-owned storage.
+- Turkish, English and Spanish UI. Existing mobile layouts are maintained; new visual work is desktop-first.
+- Cohesive desktop home with an original constellation mark, clear word/atlas actions and a shared scene toolbar. First visitors can choose their own universe or exploration; existing records open directly into their personal sky.
+- Visible scene preparation and atlas fallback when graphics/assets fail. Explicit Orion flight, cursor-local wheel zoom and selected-star safe approach.
+
+- Local1080px square/portrait star-card export, explicit meaning inclusion, no account/record metadata or automatic posting.
+- Ephemeral artistic sky experiences with a restrained session-only shuffled director, manual-selection priority, quiet mode and explicit device/full/reduced animation preferences. Event positions, scales and directions vary within safe zones; comet and pulsar join meteor, supernova, black-hole and neutron-star-merger illustrations. New automatic events wait during learning panels and stellar focus. Orion cruise has a shared wheel/button depth scale and progress slider.
+- Optional original spatial/stereo audio: no automatic playback, gesture activation, volume control, background-tab suspension, scene-depth/focus transitions and distinct durable creation/edit/delete cues. No audio data contains record text or metadata.
+
+- Explicit Orion entry fits all active-galaxy word stars into a reversible presentation frame, preserving stored coordinates and relative directions. Stellar approach uses the same presentation positions; return restores the home view.
+- Creation-date spectra use compressed artistic stages and a smooth minute tone. No physical mass/lifetime claim or automatic word-star death.
+- Visible sky controls work in immersive mode. Original headphone HRTF cues and speaker stereo use one gesture-enabled context; they are not certified Dolby/IMAX output.
+
+## Data invariants
+
+Existing record IDs, coordinates, createdAt, type, language, meaning and events must survive upgrades, refresh, selection, rendering and image export. No visual effect may fabricate learning records. A pending or replaced identity must not expose another owner's content or rendered frame. Migrations are versioned and old backups remain importable.
+
+## Extension boundary
+
+Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other observed nebula catalogs, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Three original artistic nebula volumes, ten observation-guided nebula experiences and22 ephemeral cosmic phenomena are explicitly available without becoming learning records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
+
+Version1.27 adds the searchable fourteen-scene gallery/atlas with a ten-popular-nebula filter, on-demand guides/volumes and a three-entry alternate cache. Explicit black-hole near inspection returns safely to the distant view. Version1.26 introduced a four-scene selector with distant previews and explicit volume entry. Gas density/light and depth controls apply to every scene. The session director can run inside flight, defers during learning/focus and avoids automatic activity under reduced motion. The interface-language menu exposes native language names, selected state, keyboard navigation and locale routes independently of scene or account readiness. [Exploration specification](NEBULA_EXPERIENCES.md).
+
+## Delivery
+
+Development previews are distinct from production. Feature descriptions, screenshots and release notes must reflect actual behavior. Public screenshots use synthetic data. External assets retain their own licenses and provenance.

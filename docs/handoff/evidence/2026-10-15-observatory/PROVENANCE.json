@@ -1,0 +1,204 @@
+{
+  "version": "1.25.0",
+  "date": "2026-10-14T21:46:09.761Z",
+  "browser": "155.0.8059.40",
+  "renderer": "Fresh native Chrome, ANGLE D3D11 requested",
+  "quality": "High; reduced motion in the actual app; frozen production-module fixture. Native viewport resolution, no canvas substitution or image upscaling.",
+  "privacy": "Only isolated synthetic records; no existing browser profile, personal record or private screenshot is accessed.",
+  "checks": "TR/EN/ES, short/narrow screens, menu bounds, concealed meanings, record navigation, camera convergence, unchanged stored records, and six production volume angles.",
+  "captures": [
+    {
+      "file": "home-1440-900-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "281e70654d74b160691b2685fa0940317dbdca1e6ecfd14f4a1bc3b490737257"
+    },
+    {
+      "file": "detail-1440-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "1cc22aceb1da514973fd524673a058f047fd0c59aa4927d433708a3344853abf"
+    },
+    {
+      "file": "atmosphere-controls-1440-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "4aa09cd08392243dddcef71e1e320e012a4bd5712b2fd274894ea244a5e02ae5"
+    },
+    {
+      "file": "home-1024-900-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 900
+      },
+      "sha256": "db55b208633b1d5499928af46d42143b840ee3244ba498406f77c21c672afa2c"
+    },
+    {
+      "file": "detail-1024-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 900
+      },
+      "sha256": "e0bc1f5f2ed023c15b8125119bbe5e7c5e48153692195561b596dba9d4456734"
+    },
+    {
+      "file": "home-390-900-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "sha256": "0bc09c2d3d0df68c2bcd4398c7e5a31bc13cd6421a0594875e2635b47439b405"
+    },
+    {
+      "file": "detail-390-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "sha256": "4abf02683bae874d372ecba1e4c4cb2125d65e9ba818b37cb2f6d3f725a39c98"
+    },
+    {
+      "file": "atmosphere-controls-390-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "sha256": "00789c781247c3cd1345821576704595aa7040384654585828c068ffaf864128"
+    },
+    {
+      "file": "home-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "3561c49cd11048aafbeb51a03bdce291de45b90539c627e741dcc0ad375b280b"
+    },
+    {
+      "file": "home-1920-1080-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "37e18c6f71de8b5536f0c6e46c56f9a6cf84cffdbcc1fcb86cd1c9cb2b09d606"
+    },
+    {
+      "file": "detail-1920-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "c4bcb1799857324698bca1e9cd817a84e11918cb208acdc07b8629328d9a2b3d"
+    },
+    {
+      "file": "home-1920-855-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 855
+      },
+      "sha256": "0d3b0d6cb895b5e93087538f2b02f476c783fbfcbd3b763cc6d34d26771747c5"
+    },
+    {
+      "file": "home-2560-900-en.png",
+      "viewport": {
+        "width": 2560,
+        "height": 900
+      },
+      "sha256": "fe462a9c44308c8d989cb0da525b8ac94f531b19a08f99f636c8467a3a4efb26"
+    },
+    {
+      "file": "detail-2560-en.png",
+      "viewport": {
+        "width": 2560,
+        "height": 900
+      },
+      "sha256": "92e0fca3a8c8d1e3f5b2562d9f08d9fedea44d48b7a680bbf2b3457454337daa"
+    },
+    {
+      "file": "flight-depth-15.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "32b71012cf2ba875d2d0cecf78003b834fff4a6346dfcc698c2c4d3be0ca7eb2"
+    },
+    {
+      "file": "flight-depth-40.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "915aed87fcd3450d9529d874d876122368ec7a42750c1dfdca17e19b96325d50"
+    },
+    {
+      "file": "flight-depth-65.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "a3f3d75538ba28cc3852b525b57b344cfb9f3be633f86600426f36e8bd74e6b5"
+    },
+    {
+      "file": "flight-depth-85.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "26308b167ec52c431fb93d935b51d3231a606bd4e980ef3863ddc9e6eafaf16e"
+    },
+    {
+      "file": "volume-general.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "25f79ea0b5185313eb3048a83ba8e99e2e1ee119dcc03d91578acd56e90d0cb9"
+    },
+    {
+      "file": "volume-nebula-entrance.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "b965e828057f0e945e121e66c5c054c22598b920c12f53f36db0004a04604789"
+    },
+    {
+      "file": "volume-nebula-inside.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "52140ff613f31d22b5a08c6411a02370c6d5744dc5837d3a22cfbb0a3371d5b8"
+    },
+    {
+      "file": "volume-nebula-deep.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "1dd730715640432abfda5857d6d7069933c428a6c9dcf6df46a12b3f99b811f5"
+    },
+    {
+      "file": "volume-nebula-angle.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "9c679831cf20c49de8185ea548e4284c51d82df8bd77923f32b7db04c3f0ea8c"
+    },
+    {
+      "file": "volume-nebula-side.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "e135e7861b6f996a756e5a4aaa921fd92d379b5c24dd9d1aa8b01c5da622de2f"
+    }
+  ],
+  "errors": []
+}

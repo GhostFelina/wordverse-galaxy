@@ -1,0 +1,12 @@
+{
+  "source": "1.21.0 working tree",
+  "method": "Fresh isolated native Chrome, hardware ANGLE request, production app, one synthetic word",
+  "browser": "154.0.8037.98",
+  "firstAutomaticEvent": "meteor",
+  "observedOpeningMs": 13079,
+  "manualPriority": "pass",
+  "quietMode": "pass",
+  "recordsUnchanged": true,
+  "errors": [],
+  "limits": "One randomized opening, not the complete shuffle distribution or all-device timing guarantee"
+}

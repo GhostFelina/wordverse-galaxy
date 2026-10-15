@@ -207,9 +207,9 @@ for (const [locale, heading, question] of [
 }
 
 for (const [locale, heading] of [
-  ['tr', 'Her kelime,'],
-  ['en', 'Every word,'],
-  ['es', 'Cada palabra,'],
+  ['tr', 'Bir kelime.'],
+  ['en', 'One word.'],
+  ['es', 'Una palabra.'],
 ]) {
   test(`home hero and metadata are localized in ${locale}`, async ({ page }) => {
     await page.goto(`/?lang=${locale}`);
@@ -230,7 +230,7 @@ test('language picker changes the whole page and keeps the choice', async ({ pag
   await page.goto('/?lang=tr');
   await page.locator('#ui-language').selectOption('es');
   await expect(page).toHaveURL(/\/es\/$/);
-  await expect(page.locator('.hero h1')).toContainText('Cada palabra,');
+  await expect(page.locator('.hero h1')).toContainText('Una palabra.');
   await page.locator('#open-add').click();
   await expect(page.locator('#form-title')).toContainText('estrella.');
   await expect(page.locator('#submit-word')).toContainText('Añadir estrella al universo');

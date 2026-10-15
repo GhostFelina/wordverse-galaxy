@@ -1,0 +1,412 @@
+import { expect, test } from '@playwright/test';
+
+test('distant black-hole disk animates in a bounded region, keeps a dark shadow and freezes with reduced motion', async ({
+  page,
+}) => {
+  await page.goto('/tests/fixtures/sky-event-lab.html');
+  await expect(page.locator('#sky-lab')).toHaveAttribute('data-ready', 'true');
+  const result = await page.evaluate(async () => {
+    const THREE = await import('/node_modules/three/build/three.module.js');
+    const { createSkyEvents } = await import('/src/sky-events.js');
+    const renderer = new THREE.WebGLRenderer();
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    const target = new THREE.WebGLRenderTarget(512, 512);
+    const background = new THREE.DataTexture(new Uint8Array([32, 48, 64, 255]), 1, 1);
+    background.needsUpdate = true;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100000);
+    camera.position.z = 160;
+    camera.updateMatrixWorld();
+    const events = createSkyEvents();
+    await events.warm(renderer);
+    renderer.setRenderTarget(target);
+    renderer.setClearColor(new THREE.Color(32 / 255, 48 / 255, 64 / 255));
+    function capture(seconds) {
+      events.select('blackhole', { reposition: false });
+      events.update(0, 1, camera);
+      for (let elapsed = 0; elapsed < seconds - 0.00001; elapsed += 0.1) events.update(0.1, 1, camera);
+      renderer.render(scene, camera);
+      events.render(renderer, background);
+      const pixels = new Uint8Array(512 * 512 * 4);
+      renderer.readRenderTargetPixels(target, 0, 0, 512, 512, pixels);
+      return pixels;
+    }
+    const a = capture(2),
+      b = capture(12);
+    let changed = 0,
+      outsideChanges = 0,
+      redDisk = 0;
+    for (let i = 0; i < a.length; i += 4) {
+      const x = (i / 4) % 512,
+        y = Math.floor(i / 2048);
+      const different = a[i] !== b[i] || a[i + 1] !== b[i + 1] || a[i + 2] !== b[i + 2];
+      if (different) {
+        changed++;
+        if (Math.abs(x - 358.4) > 54 || Math.abs(y - 358.4) > 54) outsideChanges++;
+      }
+      if (a[i] > 60 && a[i] > a[i + 1] * 1.5 && a[i] > a[i + 2] * 2) redDisk++;
+    }
+    const center = (358 * 512 + 358) * 4;
+    const shadow = Array.from(a.slice(center, center + 3));
+    events.setReducedMotion(true);
+    const still = capture(0),
+      later = capture(12);
+    const frozen = still.every((value, index) => value === later[index]);
+    events.dispose();
+    target.dispose();
+    background.dispose();
+    renderer.dispose();
+    return { changed, outsideChanges, redDisk, shadow, frozen, storageKeys: localStorage.length };
+  });
+  expect(result.changed).toBeGreaterThan(50);
+  expect(result.changed).toBeLessThan(512 * 512 * 0.05);
+  expect(result.outsideChanges).toBe(0);
+  expect(result.redDisk).toBeGreaterThan(10);
+  expect(Math.max(...result.shadow)).toBeLessThan(4);
+  expect(result.frozen).toBe(true);
+  expect(result.storageKeys).toBe(0);
+});
+
+test('stellar ages color production photospheres and distant optics without storage writes', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/tests/fixtures/stellar-evolution-lab.html');
+  const canvas = page.locator('#evolution');
+  await expect(canvas).toHaveAttribute('data-ready', 'true');
+  const before = await page.screenshot({ clip: { x: 160, y: 260, width: 80, height: 80 } });
+  const colors = await canvas.getAttribute('data-colors');
+  await page.locator('#minute').click();
+  await expect(canvas).toHaveAttribute('data-minute', '1');
+  expect(await canvas.getAttribute('data-colors')).not.toBe(colors);
+  expect((await page.screenshot({ clip: { x: 160, y: 260, width: 80, height: 80 } })).equals(before)).toBe(false);
+  await page.locator('#far').click();
+  await expect(canvas).toHaveAttribute('data-mode', 'far');
+  expect(await page.evaluate(() => localStorage.length)).toBe(0);
+  expect(errors).toEqual([]);
+});
+
+async function open(page, motion = 'reduce') {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: motion });
+  await page.addInitScript(() =>
+    localStorage.setItem(
+      'wordverse.universe.v4',
+      JSON.stringify({
+        version: 4,
+        activeGalaxyId: 'sky-g',
+        events: [],
+        galaxies: [
+          {
+            id: 'sky-g',
+            name: 'Synthetic sky',
+            language: 'English',
+            meaningLanguage: 'en',
+            createdAt: '2026-10-12T09:00:00Z',
+          },
+        ],
+        words: [
+          {
+            id: 'sky-w',
+            galaxyId: 'sky-g',
+            kind: 'word',
+            word: 'Serendipity',
+            meaning: 'Private test meaning',
+            example: 'Private test example',
+            x: 31,
+            y: 0,
+            z: 18,
+            createdAt: '2026-10-12T09:00:00Z',
+          },
+        ],
+      }),
+    ),
+  );
+  await page.goto('/?lang=en');
+  await expect(page.locator('#app')).toHaveAttribute('data-content-ready', 'true');
+  await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
+}
+
+test('chosen sky experiences compile, stay still with reduced motion and never write learning data', async ({
+  page,
+}) => {
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => {
+    if (m.type() === 'error') errors.push(m.text());
+  });
+  await open(page);
+  test.setTimeout(60000);
+  const canvas = page.locator('#universe');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await expect(canvas).toHaveAttribute('data-sky-event', '');
+  await page.locator('#scene-controls summary').click();
+  for (const [kind, time] of [
+    ['meteor', '2.6'],
+    ['supernova', '8'],
+    ['blackhole', '0'],
+    ['kilonova', '13'],
+    ['comet', '12'],
+    ['pulsar', '9'],
+  ]) {
+    // Native keyboard activation validates the same accessible selection
+    // without two expensive software-WebGL frames for pointer stability.
+    await page.locator(`[data-sky-event="${kind}"]`).press('Enter');
+    await expect(canvas).toHaveAttribute('data-sky-event', kind);
+    await expect(canvas).toHaveAttribute('data-sky-event-time', time);
+    await expect(page.locator('.sky-event-status')).toContainText('Artistic illustration');
+    await expect(page.locator('[data-word-id="sky-w"]')).toBeVisible();
+  }
+  await page.locator('#scene-controls summary').click();
+  await page.locator('#stop-sky-event').click();
+  await expect(canvas).toHaveAttribute('data-sky-event', '');
+  await page.locator('#universe-mode').click();
+  await expect(page.locator('#sky-launcher summary')).toBeVisible();
+  await page.locator('#sky-launcher summary').click();
+  await expect(page.locator('#living-sky')).toHaveAttribute('aria-pressed', 'false');
+  await page.locator('#living-sky').click();
+  await expect(canvas).toHaveAttribute('data-living-sky', 'true');
+  await page.locator('#living-sky').click();
+  await expect(canvas).toHaveAttribute('data-living-sky', 'false');
+  await page.locator('[data-sky-quick="kilonova"]').click();
+  await expect(canvas).toHaveAttribute('data-sky-event', 'kilonova');
+  await expect(page.locator('#sky-launcher')).not.toHaveAttribute('open', '');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+  expect(errors).toEqual([]);
+});
+
+test('explicit motion preference enables stellar light and minute tones without changing learning records', async ({
+  page,
+}) => {
+  await open(page);
+  const canvas = page.locator('#universe');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await expect(canvas).toHaveAttribute('data-motion', 'reduced');
+  await page.locator('#scene-controls summary').click();
+  await page.locator('#scene-motion').selectOption('full');
+  await expect(canvas).toHaveAttribute('data-motion', 'full');
+  await page.locator('#scene-motion').selectOption('system');
+  await expect(canvas).toHaveAttribute('data-motion', 'reduced');
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});
+
+test('nebula depth slider, wheel reversal and buttons share one stable cruise', async ({ page }) => {
+  await open(page);
+  const canvas = page.locator('#universe');
+  await page.locator('#open-nebulae').click();
+  await page.locator('[data-nebula="orion"]').click();
+  await expect(page.locator('#nebula-navigation')).toBeVisible();
+  await page.locator('#nebula-depth').fill('50');
+  await expect
+    .poll(
+      async () =>
+        Math.abs(
+          Number(await canvas.getAttribute('data-camera-z')) -
+            Number(await canvas.getAttribute('data-camera-target-z')),
+        ),
+      { timeout: 15000 },
+    )
+    .toBeLessThan(2);
+  const x = Number(await canvas.getAttribute('data-camera-x'));
+  await page.mouse.move(920, 450);
+  await page.mouse.wheel(0, -180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-target-z'))).toBeLessThan(-1000);
+  await page.mouse.wheel(0, 180);
+  await page.locator('#zoom-out').click();
+  expect(Math.abs(Number(await canvas.getAttribute('data-camera-x')) - x)).toBeLessThan(1);
+  await page.locator('#nebula-navigation button').click();
+  await expect(page.locator('#nebula-navigation')).toBeHidden();
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(159);
+  await expect(page.locator('[data-word-id="sky-w"]')).toBeVisible();
+});
+
+test('direct Orion entry releases stellar focus and wheel travels into and out of the cloud without record writes', async ({
+  page,
+}) => {
+  await open(page);
+  const canvas = page.locator('#universe');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('[data-word-id="sky-w"]').click();
+  await page.locator('#focus-star').click();
+  await page.locator('#enter-nebula').click();
+  await expect(canvas).toHaveAttribute('data-nebula-flight', 'true');
+  await expect(canvas).toHaveAttribute('data-focused-word', '');
+  await page.locator('#nebula-depth').fill('0');
+  await expect.poll(async () => Math.abs(Number(await canvas.getAttribute('data-camera-z')) - 160)).toBeLessThan(2);
+  await page.mouse.move(720, 450);
+  await page.mouse.wheel(0, -180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(145);
+  await page.mouse.wheel(0, -180);
+  await expect(canvas).toHaveAttribute('data-inside-nebula', 'orion');
+  const target = Number(await canvas.getAttribute('data-camera-target-z'));
+  await page.mouse.wheel(0, 180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-target-z'))).toBeGreaterThan(target);
+  await page.locator('#nebula-navigation button').click();
+  await expect(canvas).toHaveAttribute('data-nebula-flight', 'false');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(159);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});
+
+test('star cards are opt-in, default to hidden meaning and download the requested format without record writes', async ({
+  page,
+}) => {
+  await open(page);
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('[data-word-id="sky-w"]').click();
+  await expect(page.locator('.detail-visual')).toHaveAttribute('data-stellar-preview', 'ready');
+  await page.locator('#share-word').click();
+  await expect(page.locator('#word-card-meaning')).not.toBeChecked();
+  await expect(page.locator('#word-card-download')).toBeEnabled();
+  expect(await page.locator('.word-card-image').evaluate((img) => [img.naturalWidth, img.naturalHeight])).toEqual([
+    1080, 1080,
+  ]);
+  await page.locator('#word-card-format').selectOption('portrait');
+  await expect(page.locator('#word-card-dialog [role="status"]')).toHaveText('1080 × 1350 · PNG');
+  const pending = page.waitForEvent('download');
+  await page.locator('#word-card-download').click();
+  expect((await pending).suggestedFilename()).toBe('wordverse-star.png');
+  await page.getByRole('button', { name: 'Close card', exact: true }).click();
+  await page.locator('#share-word').click();
+  await expect(page.locator('#word-card-meaning')).not.toBeChecked();
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});
+
+test('long card titles and opted-in meanings remain above the footer in both formats', async ({ page }) => {
+  await open(page);
+  const result = await page.evaluate(async () => {
+    const { renderWordCard } = await import('/src/word-card.js');
+    await document.fonts.ready;
+    const original = CanvasRenderingContext2D.prototype.fillText;
+    const measurements = [];
+    CanvasRenderingContext2D.prototype.fillText = function (text, x, y) {
+      measurements.push({ text, y, height: Number(this.font.match(/([\d.]+)px/)[1]) });
+      return original.call(this, text, x, y);
+    };
+    try {
+      const checks = [];
+      for (const portrait of [false, true]) {
+        measurements.length = 0;
+        renderWordCard(
+          {
+            word: 'A very long vocabulary expression with several extraordinary discoveries',
+            meaning:
+              'An intentionally included meaning that also wraps across multiple lines and must remain clear of the footer and frame.',
+          },
+          null,
+          portrait,
+        );
+        const footer = measurements.find((row) => row.text === 'wordverse-galaxy.vercel.app');
+        const content = measurements.filter((row) => row.y > 600 && row !== footer);
+        checks.push(content.length > 2 && content.every((row) => row.y + row.height + 12 < footer.y));
+      }
+      return checks;
+    } finally {
+      CanvasRenderingContext2D.prototype.fillText = original;
+    }
+  });
+  expect(result).toEqual([true, true]);
+});
+
+test('a stalled initial auth refresh opens guest learning and a late expired-session response preserves it', async ({
+  page,
+}) => {
+  // Fake, expired SDK session. No real account or credentials are accessed.
+  await page.addInitScript(() =>
+    localStorage.setItem(
+      'sb-wordverse-auth-auth-token',
+      JSON.stringify({
+        access_token: 'synthetic-expired',
+        refresh_token: 'synthetic-refresh',
+        expires_at: 1,
+        expires_in: 1,
+        token_type: 'bearer',
+        user: { id: 'late-synthetic-owner' },
+      }),
+    ),
+  );
+  let release;
+  const hold = new Promise((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/auth/v1/token**', async (route) => {
+    await hold;
+    await route.fulfill({
+      status: 400,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'invalid_grant', error_description: 'Synthetic expired session' }),
+    });
+  });
+  try {
+    await open(page);
+    await expect(page.locator('#app')).toHaveAttribute('data-experience', 'guest-personal');
+    await expect(page.locator('[data-word-id="sky-w"]')).toBeVisible();
+  } finally {
+    release();
+  }
+});
+
+test('Orion presents every active-galaxy word inside the cloud, focuses it there and restores stored coordinates', async ({
+  page,
+}) => {
+  test.setTimeout(60000);
+  await page.addInitScript(() => {
+    const createdAt = '2026-10-12T09:00:00Z';
+    localStorage.setItem(
+      'wordverse.universe.v4',
+      JSON.stringify({
+        version: 4,
+        activeGalaxyId: 'field-g',
+        events: [],
+        galaxies: [{ id: 'field-g', name: 'Orion field', language: 'English', createdAt }],
+        words: Array.from({ length: 12 }, (_, i) => ({
+          id: 'field-' + i,
+          galaxyId: 'field-g',
+          kind: 'word',
+          word: 'Stellar ' + i,
+          meaning: 'Synthetic',
+          createdAt,
+          x: ((i % 4) - 1.5) * 220,
+          y: (Math.floor(i / 4) - 1) * 130,
+          z: i * -200,
+        })),
+      }),
+    );
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/?lang=en');
+  const canvas = page.locator('#universe');
+  await expect(page.locator('#app')).toHaveAttribute('data-scene-state', 'ready');
+  const before = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await page.locator('#enter-nebula').click();
+  await expect(canvas).toHaveAttribute('data-orion-word-field', 'true');
+  await expect(canvas).toHaveAttribute('data-orion-word-count', '12');
+  await expect.poll(() => page.locator('.star-hit:visible').count()).toBe(12);
+  await page.locator('[data-word-id="field-5"]').click();
+  await page.locator('#focus-star').click();
+  await expect(canvas).toHaveAttribute('data-focused-word', 'field-5');
+  await expect(canvas).toHaveAttribute('data-nebula-flight', 'true');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeLessThan(-500);
+  await expect
+    .poll(
+      async () =>
+        Math.abs(
+          Number(await canvas.getAttribute('data-camera-target-z')) -
+            Number(await canvas.getAttribute('data-camera-z')),
+        ),
+      { timeout: 15000 },
+    )
+    .toBeLessThan(0.05);
+  await page.mouse.move(720, 450);
+  await page.mouse.wheel(0, -180);
+  await expect.poll(async () => Number(await canvas.getAttribute('data-star-approach'))).toBeGreaterThan(0.65);
+  await page.locator('#nebula-depth').fill('35');
+  await expect(canvas).toHaveAttribute('data-focused-word', '');
+  await page.locator('#nebula-navigation button').click();
+  await expect(canvas).toHaveAttribute('data-orion-word-field', 'false');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-camera-z'))).toBeGreaterThan(159);
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(before);
+});

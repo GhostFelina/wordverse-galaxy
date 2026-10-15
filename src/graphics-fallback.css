@@ -1,0 +1,58 @@
+.graphics-fallback[hidden] {
+  display: none;
+}
+.graphics-fallback {
+  position: absolute;
+  z-index: 4;
+  left: 58%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(360px, 35vw);
+  padding: 28px;
+  border: 1px solid #a9c1ef26;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #121d30, #080e18);
+  box-shadow: 0 20px 80px #0005;
+}
+.graphics-fallback h2 {
+  margin: 0 0 14px;
+  font:
+    400 28px/1.15 Georgia,
+    serif;
+  letter-spacing: -0.025em;
+}
+.graphics-fallback p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #a4b0c6;
+  margin: 0 0 22px;
+}
+.graphics-fallback button {
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 1px solid #a6c3fa50;
+  border-radius: 3px;
+  background: #a6c3fa12;
+  color: #e3edff;
+  font-size: 12px;
+}
+#app[data-graphics='unavailable'] .star-layer,
+#app[data-graphics='unavailable'] .scene-controls,
+#app[data-graphics='unavailable'] .universe-mode,
+#app[data-graphics='unavailable'] .controls,
+#app[data-graphics='unavailable'] .interaction-hint,
+#app[data-graphics='unavailable'] #nebula-credit {
+  display: none;
+}
+#app[data-graphics='unavailable'] #hero-explore {
+  opacity: 0.45;
+  cursor: default;
+}
+#app:has(.side-panel.open, .collection-panel.open) .graphics-fallback {
+  visibility: hidden;
+}
+@media (max-width: 760px) {
+  .graphics-fallback {
+    display: none;
+  }
+}

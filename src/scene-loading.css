@@ -1,0 +1,32 @@
+#scene-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 68% 48%, #15111e 0, #080811 40%, #020307 75%);
+}
+#scene-loading::before {
+  content: '';
+  position: absolute;
+  inset: 7% 2% 6% 34%;
+  background: url('/assets/nebulae/orion-starless-v2.png') center / contain no-repeat;
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse, #000 30%, transparent 72%);
+}
+#scene-loading span {
+  position: absolute;
+  right: 8%;
+  bottom: 20%;
+  color: #c6cbe0;
+  font:
+    12px/1.6 system-ui,
+    sans-serif;
+  letter-spacing: 0.03em;
+}
+#app[data-scene-state='ready'] #scene-loading,
+#app[data-graphics='unavailable'] #scene-loading {
+  display: none;
+}
+#app:has(.side-panel.open) #scene-loading span {
+  visibility: hidden;
+}

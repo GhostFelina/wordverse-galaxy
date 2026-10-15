@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
+  "version": "1.24.0",
+  "browser": "Chrome155, ANGLE NVIDIA D3D11",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "source": "Isolated synthetic production-module word-star-lab fixture captured before1.25 changes. Full motion baseline; candidate fixture captures use frozen motion. Camera view/framing match; no personal data or canvas substitution.",
+  "captures": [
+    {
+      "file": "inside.png",
+      "sha256": "14a2bead425d367feabfb6a03a342f18fb44008eb1a1ef93890ff150f4a19678"
+    },
+    {
+      "file": "deep.png",
+      "sha256": "99013b60eeba18dba625326ac036ae2cb7c90b58ea2f514cc1f94c15a661bccc"
+    },
+    {
+      "file": "entrance.png",
+      "sha256": "8ef15b49929ab1755216a821113a3efbe93c23f3af4012600e5b6fc22faf50fd"
+    }
+  ]
+}

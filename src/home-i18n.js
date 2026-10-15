@@ -37,6 +37,7 @@ export function applyHomeTranslations(locale) {
   };
   const setAria = (selector, key) => document.querySelector(selector).setAttribute('aria-label', t(key));
   document.documentElement.lang = locale;
+  setText('#scene-loading span', 'home.sceneLoading');
   document.title = t('home.title');
   document.querySelector('meta[name="description"]').content = t('home.metaDescription');
   document.querySelector('meta[property="og:title"]').content = t('home.ogTitle');
@@ -75,8 +76,11 @@ export function applyHomeTranslations(locale) {
   fallback.href = 'https://wordverse-galaxy.vercel.app/';
   document.head.append(fallback);
   setAria('#universe', 'home.universeCanvas');
+  setText('#camera-instructions', 'home.cameraInstructions');
   setAria('#universe-mode', 'home.universeOnly');
   setAria('#home-btn', 'home.homeButton');
+  setText('.brand-caption', 'home.brandCaption');
+  setAria('#scene-dock', 'home.sceneTools');
   setAria('.topnav', 'home.mainMenu');
   setText('#explore-btn', 'nav.explore');
   setText('#collection-btn', 'nav.collection');
@@ -89,6 +93,7 @@ export function applyHomeTranslations(locale) {
   setAria('#galaxy-switch', 'home.galaxySwitch');
   setText('#active-galaxy-name', 'names.defaultGalaxy.english');
   setText('#open-add span:last-child', 'action.addWord');
+  setAria('#open-add', 'action.addWord');
   setOwnText('.hero .eyebrow', 'home.eyebrow');
   document.querySelector('.hero h1').replaceChildren(t('hero.titleFirst'), document.createElement('br'));
   const heroEm = document.createElement('em');

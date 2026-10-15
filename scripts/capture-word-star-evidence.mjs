@@ -1,0 +1,91 @@
+import { chromium, expect } from '@playwright/test';
+import { spawn } from 'node:child_process';
+import { mkdir } from 'node:fs/promises';
+import { createServer } from 'node:net';
+
+const evidenceLabel = process.argv[2] || 'upgrade';
+if (!/^[a-zA-Z0-9-]+$/.test(evidenceLabel)) throw new Error('Invalid evidence label');
+const evidenceDirectory = `docs/handoff/evidence/${evidenceLabel}`;
+const desktopOnly = process.argv.includes('--desktop-only');
+
+// A separate fake-account server and browser never access the user's 5360 storage.
+const reservation = createServer();
+await new Promise((resolve) => reservation.listen(0, '127.0.0.1', resolve));
+const port = reservation.address().port;
+await new Promise((resolve) => reservation.close(resolve));
+const base = `http://127.0.0.1:${port}`;
+const server = spawn(
+  process.execPath,
+  ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', String(port), '--strictPort'],
+  {
+    env: {
+      ...process.env,
+      VITE_SUPABASE_URL: 'https://wordverse-auth.test',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test',
+    },
+    stdio: 'ignore',
+    windowsHide: true,
+  },
+);
+let browser;
+try {
+  await expect
+    .poll(async () => {
+      try {
+        return (await fetch(base)).ok;
+      } catch {
+        return false;
+      }
+    })
+    .toBe(true);
+  browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => {
+    if (m.type() === 'error') errors.push(m.text());
+  });
+  page.on('requestfailed', (request) =>
+    errors.push(`${new URL(request.url()).pathname}: ${request.failure()?.errorText}`),
+  );
+  await page.goto(`${base}/tests/fixtures/word-star-lab.html`, { waitUntil: 'domcontentloaded' });
+  const canvas = page.locator('#star-lab');
+  try {
+    await expect(canvas).toHaveAttribute('data-ready', 'true');
+  } catch (error) {
+    console.error('Capture startup errors:', errors);
+    throw error;
+  }
+  await mkdir(evidenceDirectory, { recursive: true });
+  for (const shot of [
+    'general',
+    'far',
+    'approach',
+    'focus',
+    'close',
+    'side',
+    'nebula-side',
+    'nebula-angle',
+    'nebula-entrance',
+    'nebula-inside',
+    'nebula-deep',
+  ]) {
+    await page.locator(`#${shot}`).click();
+    await expect(canvas).toHaveAttribute('data-shot', shot);
+    await expect(canvas).toHaveAttribute('data-refined', 'true');
+    await page.screenshot({ path: `${evidenceDirectory}/word-star-${shot}-1440.png` });
+  }
+  if (!desktopOnly) {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('#close').click();
+    await expect(canvas).toHaveAttribute('data-shot', 'close');
+    await expect(canvas).toHaveAttribute('data-refined', 'true');
+    await page.screenshot({ path: `${evidenceDirectory}/word-star-close-390.png` });
+  }
+  expect(errors).toEqual([]);
+  expect(await page.evaluate(() => localStorage.length)).toBe(0);
+  console.log('Shared production star optics/surface/passage evidence saved; no user records accessed.');
+} finally {
+  await browser?.close();
+  server.kill();
+}

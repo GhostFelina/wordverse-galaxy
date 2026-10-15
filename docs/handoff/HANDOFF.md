@@ -1,46 +1,98 @@
-# Devir durumu
+# Engineering status
 
-## Son güncelleme
+Active branch: phase/4-universe. Development1.27.0; production1.23.0.
 
-2026-10-03 17:58 · Codex / Windows. Faz 2 son kod `5740cd1` CI/preview başarılı. Faz 3 ilk profil kodu `ece9b2d`: CI 37131669514 / preview CvFFycrJm7pzdXJdgVCM5cyxhZ12 geçti. Dil-label koruması 707b929 CI37131921502 misafir initial-session yarışıyla başarısız oldu; son identity-only close fix commit'i `git log -1`, uzak kontrol push sonrası. [Draft PR #6](https://github.com/GhostFelina/wordverse-galaxy/pull/6).
+## Current1.27.0 nebula atlas and black-hole inspection
 
-## Şu an aktif faz ve branch
+The desktop gallery is visible at startup with genuine image cards, a fourteen-scene total, translated name/catalog search and a ten-popular-nebula filter. The shared bottom atlas now contains every scene and uses the same dive/loading/retry path. Carina, Eagle, Horsehead, Helix, Crab, Ring, Rosette, Tarantula, Lagoon and Trifid add official fully credited ESA/Hubble guides and independent128³ artistic interiors. Source/guide dimensions and hashes are in `src/data/popular-nebulae.json`; these are artistic depth reconstructions, not measured tomography. [Specification](../NEBULA_EXPERIENCES.md).
 
-**Faz 3 · phase/3-profile · geliştirme 1.13.0.** Production v1.11.0. Faz 0/1 tamamlandı, Faz 2 kabulü **ertelendi, tamamlanmadı**. Kullanıcı son yazma hatası işi bitince Faz 3–9'a geçilmesini ve Faz 2'ye sonra dönülmesini açıkça istedi (ADR012). Yeni dal phase/2-auth-sync temellidir; draft PR base phase/2-auth-sync, main'e erken merge/tag/prod deploy yok.
+Only271KB of new WebP previews is needed for all ten cards. Full guides and32.3MB of independently selectable compressed fields load on selection. A three-entry alternate-volume LRU disposes evicted density/detail/guide textures. Gas and star extinction change together; stored coordinates, records and owner boundaries remain unchanged.
 
-## Son oturumda yapılanlar
+The warm black-hole disk uses176-step bent rays, differential shearing, finer optical-depth variation and asymmetric emission. Explicit near inspection has a dark observing backdrop and integrated distant-return action; immersion/home exit and nebula flight reset close inspection. Competing selection surfaces hide in inspection. The22-phenomenon director and reduced-motion behavior remain.
 
-- Profile session close yarış düzeltmesi: INITIAL_SESSION null ve same-owner token refresh profili kapatmaz; owner transition close önce, session forwarding sonra. 2 ek unit, full **86 unit / 45 e2e**, format/lint/typecheck/build geçti; simulated late initial notification manual fixture açık kaldı, evidence/2026-10-03-profile-session.png.
-- Kullanıcı yeni öncelik verdi: evren/katalog ve gök olaylarının görsel işlerini önce yap; bunlar bitince diğerlerine dön. Mevcut profil race fix commit/push sonrası Faz 4 görsel/katalog dalına geç. Faz 3 alanlar/tercihler henüz tamamlanmadı; pause/deferred görev listesinde kalır.
+Local **160unit /142browser scenarios** verified:140 pass in the full8.6min run; two old wheel tests now collapse the default-open gallery before targeting the same sky point, then all5 zoom/startup cases pass in11.6s. Application source did not change after the full run. Lint/types/build/format/release/audit0/24Go checks pass. Native Chrome155/RTX5060Ti D3D11 captures37 synthetic home/gallery/search/far/interior/inspection views with unchanged vocabulary storage and no captured console errors. The60-frame close-inspection RAF p95 is7.1ms; this is a short native sample, not universal hardware certification. [Quality record](evidence/2026-10-15-nebula-atlas-quality.json), [visual provenance](evidence/2026-10-15-nebula-atlas/PROVENANCE.json).
 
-- Son Faz 2 yazma hatası işi: engine localSaved flag, TR/EN/ES kalıcı alert açık tut/retry/JSON yedek yönlendirmesi. Başarılı persist/hesap değişimi kapatır, network error tek başına göstermez. Mobilde buton engeli pointer-events:none ile düzeldi; 82 unit/42 e2e + responsive ek kontrol/manual. `5740cd1` CI ve preview 6ybzwxP8ByM6WzenHG2SnkB4vmqq geçti.
-- Faz 3 başladı: src/profile-statistics.js salt okunur açık evren toplamları, dil dağılımı, en eski tarihli kayıt ve son 5 kayıt. Deleted kayıtlar sayılmaz; invalid/future dates eski/son listesine girmez. Girdiler ve dönen kayıtlar ayrı; kullanıcı verisi değiştirilmez.
-- Son guard: dil alias Map ile lookup (constructor/prototype metinleri çökme üretmez), string olmayan dil unknown sayılır. EN responsive e2e constructor alanıyla geçti; son tam gate 84 unit/45 e2e + Go24/format başarılı.
-- src/profile-ui.js/profile.css: Hesap menüsü > Profil ve istatistikler. TR/EN/ES, dialog aç/kapat, mevcut açık misafir/hesap evreni. FSRS olmadığı için tekrar başarısı uydurulmaz. Profil kimliği/tercih formu henüz yok.
-- 2 yeni unit + 3 localized Playwright: toplam **84 unit / 45 e2e**, lint/typecheck/build/format geçti. 1440/768/390 tema/hareket/taşma, literal HTML text/XSS ve guest bytes koruması geçti. İlk auth testi profile button auth-link seçti; ayrı submit stiline alındı ve temiz full gate tekrar geçti.
-- Gerçek 5360 hesapta profil 3 yıldız/3 gezegen/2 galaksi manual görüldü; veriler değişmedi. Paylaşılan screenshot yalnız yapay fixture: evidence/2026-10-03-profile-statistics.png. Yerel uygulama görünür açık.
-- STATE/CROSS_DEVICE/ROADMAP/TASKS aktif Faz 3'e güncellendi; doctor iki CLI/GitHub/public env/aktif dal kontrollerini geçti. Mac pause sürüyor.
+Local app responds at127.0.0.1:5360. Use an ordinary local browser for visual acceptance; automated captures use isolated test contexts. User visual acceptance remains open. Keep all user records and the18 pre-existing modified historical PNGs outside checkpoint staging. Production1.23.0 is preserved.
 
-## Yarım kalan iş
+Prior1.26 exact-source [CI38713062693](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693) succeeds on243fd9e.
 
-- Faz 3: owner'a bağlı görünen ad/kullanıcı adı/tercihler modeli ve kalıcı form. Kullanıcı adı henüz herkese açık/unique diye sunulmaz. Profil, istatistik/heatmap, seri/hedef/ayar/rozet, JSON+CSV ve onaylı hesap silme/parçalı public sharing işleri TASKS'ta.
-- Faz 2 ertelenen kabul: SMTP/mail/hosted Go render, gerçek Storage API dosya limit/RLS, doğru CLI hesabı/migration history, fiziksel iki cihaz/Mac runtime, hukuki saklama/transfer/consent marka ve prod auth. Kullanıcı erteledi; tekrar soru sorma.
-- Yalnız Supabase mrkmtcpzyvooreeokmkp. Dashboard'da uygulanan migrations 20261002181057_initial_user_data, 20261003064254_conditional_sync_writes, 20261003123923_private_avatars. MCP/CLI başka hesap; kör db push/history repair yok. Avatar SQL metadata/RLS kabulü Storage API kabulü değildir; storage.protect_delete kapatma.
+## Verified1.26.0 nebula exploration
 
-## Sıradaki ilk 3 adım
+Three original128³ volumes join Orion through an explicit four-scene preview/flight selector: Ion Veil, Ember Reach and Tidal Blue. Separate warped sheets, eroded pillars and an empty wind shell share the finite gas/HDR pipeline, density/light settings, selected-star extinction and reversible geometry. Optional payloads load on demand; failure preserves the active scene, retry works, and late selection results cannot override return/disposal. [Specification](../NEBULA_EXPERIENCES.md).
 
-1. Gerçek OS/shell/git; temiz pull, STATE aktif dalı phase/3-profile; doctor. Son profil/statistics kodunu tekrar başlatma. 5360'ı görünür açık tut.
-2. Faz 3 profil alanları/tercihleri: mevcut settings JSON/CAS altyapısını ve unknown fields korunmasını incele; owner/guest izolasyonu ve conflict testleriyle ilerle. Auth user_metadata izin yetkisi için kullanılmaz. Public sharing varsayılan kapalı kalır.
-3. Faz 3'ü bağımsız bölümlerle tamamla, ardından Faz 4–9 sırasıyla. Faz 2 kalan kabulüne sonra dön; erteleme prod kabulü değildir. Commit/push/PR/CI ve devir belgelerini her anlamlı adımda güncelle.
+One catalog now defines22 distinct cosmic phenomena across the production shader, translated menus and shuffled session director. Automatic accents also run inside nebula flight; quiet mode, manual priority, learning/focus deferral, hidden-tab timing and representative reduced-motion stills remain. The16 new branches have distinct readback signatures and evolving pixels. The home navigation/actions and native-name language menu share warm surfaces, selected-state marks and keyboard focus. Compact flight controls and menu wheel isolation remain usable.
 
-## Dikkat edilmesi gerekenler
+Complete local validation: **158unit / 138browser (6.4min)**, lint/types/build/format/release, zero audit vulnerabilities and24 Go template assertions pass. Native Chrome155/RTX5060Ti D3D11 captures17 synthetic home/menu/far/interior views and a22-event gallery at390/1024/1280/1440/1920 widths, with no captured console errors and unchanged vocabulary data. [Visual provenance](evidence/2026-10-15-nebula-experiences/PROVENANCE.json), [quality record](evidence/2026-10-15-nebula-experiences-quality.json). User visual acceptance and broader hardware/performance acceptance remain open. Production1.23.0 is preserved.
 
-- Türkçe, otonom geliştirme, Durum Analiz = güncel Durum/İş/Sonuç-kalan-adım tablosu. Faz 0/1'i yeniden yapma; fazların tamamlanmasını uydurma.
-- Windows C:\Users\User\Desktop\Projeler\kelime-evreni; taşıma. Mac /Users/felina/Projects/wordverse-galaxy mevcut klon korunur. Mac pause sürer. Eski yanlış-main checkpoint/mac-2026-10-03-paused 0f94672 merge/SQL uygulanmaz.
-- Gerçek hesap 6 kayıt/2 galaksi, misafir 13 kayıt ve v4/v3/v2 arşivler korunur. Testler yapay kayıt/ayrı namespace/origin kullanır. Sır, token, gerçek JSON yedek Git/log'a girmez.
-- Yerel yazma hatasında retry öncesi memory değişikliği reload korunmaz; persistent warning ve JSON yedek yönlendirmesi vardır. Tarayıcı verisi/sırlar cihazlar arasında otomatik eşitlenmez.
-- Geçmiş Faz 2 ayrıntıları sessions/2026-10-03-pre-profile-handoff.md, 1742/1749 session'lar ve TASKS'ta. Güncel görev kaynağı bu dosyadır.
+Both1.25.0 CI38643136937 and1.26.0 exact-source [CI38713062693](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693) succeed.
 
-## Doğrulanmamış iddialar
+## Verified1.25.0 nebula and personal observatory
 
-Profil alanları/avatar entegrasyonu/seri/heatmap/hedef/CSV/hesap silme/paylaşım; FSRS/recall oranı; gerçek Mac/fiziksel cihazlar; hosted mail/Storage API; otomatik backup/restore; prod Faz 2; gerçek privacy-policy IDB engeli veya fiziksel disk kotası; KVKK/GDPR; 5.000 yıldız FPS tamamlandı sayılmaz.
+Orion now uses asynchronously loaded finite 128³ density/light/dust/color and 64³ erosion fields, compact warped filaments/cavity, empty-space rejection and a front-only photographic guide. The selected native 1254×1254 starless edit was guided by the observed Hubble-derived gas image alone. HDR radiance reaches final ACES/sRGB display without premature byte clipping; a companded fallback handles non-float targets. Approximate stellar extinction samples the same loaded base density. Motion and rest share the adaptive budget; camera damping/cruise are bounded and pauses reset timing. Density/light settings remain reachable during flight. Automatic accents pause there; explicit manual events remain available. [Rendering notes](../NEBULA_RENDERING.md).
+
+Optional bounded star paths and collision-limited labels preserve stored geometry. Recent discoveries, random-word exploration and previous/next detail navigation follow the current atlas result order or recent order, with concealed meanings and identity clearing. Instrument Serif hero emphasis and Lucide utilities extend the existing palette.
+
+Complete local **154 unit / 128 full-suite browser tests (6.9 min) plus 15 final layout/discovery checks**, lint/types/build/format/release, zero audit vulnerabilities,24 Go assertions and doctor pass. Native Chrome155 captures24 isolated synthetic views across390/1024/1280/1440/1920 widths, including600px height and four flight depths. Stored records and18 pre-existing modified historical PNGs remain unchanged. [Quality evidence](evidence/2026-10-15-observatory-quality.json), [capture manifest](evidence/2026-10-15-observatory/PROVENANCE.json).
+
+The same 240-star automatic route yields native GPU p95 **1.61→0.94ms**, native RAF p95 **7.1→7.1ms**, and SwiftShader RAF p95 **90.4→48.7ms**. Intermediate resolutions differ deliberately; these short results measure the adaptive strategy, not equal-resolution throughput or all hardware. User visual acceptance remains open. Prior1.24 [source CI](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38633114408) succeeds;1.25 source CI awaits its push. Production remains the preserved1.23 deployment below.
+
+## Verified1.24.0 learning interface
+
+The atlas, entry form, detail view, recall and native account/card dialogs now share the home palette, Space Grotesk/DM Sans typography, quieter borders, readable supporting text and consistent action/focus surfaces. Forms use a tighter vertical rhythm and equal-height translated entry choices. Empty results, loading copy, graphics fallback, toast and profile totals follow the same surfaces. Reduced motion removes the learning-panel transitions.
+
+Ready personal skies expose **home recall** for the active galaxy; empty/showcase skies hide it. Meanings remain concealed until revealed. Atlas navigation displays its `/` shortcut on wide screens; `/` and Control/Meta+K open search outside editing. Repeated Control/Meta+K in search retains focus and its query; forms and native dialogs retain their context. Labeled modal side panels cycle Tab/Shift+Tab and restore their opener. Delayed autofocus checks the current panel and respects focus already placed inside it.
+
+Complete local validation: **147unit/122browser(12.0m)**, lint/types/build/format/release, zero audit vulnerabilities and24 Go assertions pass. Five added browser cases cover translated home recall, hidden answers, unchanged records, focus return/cycling, search shortcuts, draft protection, fast close and empty state. Native Chrome155 captures29 isolated synthetic views at390/768/1024/1280/1440/1920 widths, including600px height. Record/menu/bounds checks pass with no captured console errors. [Visual manifest](evidence/2026-10-14-learning-design/PROVENANCE.json), [quality evidence](evidence/2026-10-14-learning-quality.json), [interface foundations](../DESIGN_SYSTEM.md).
+
+Test screenshots now go to isolated Playwright output paths;18 pre-existing modified historical PNGs remain byte-for-byte preserved and outside this source checkpoint. The local planning prompt/list stays outside Git. Exact-source1.24.0 CI38633114408 succeeds; its historical preview is not a1.25 deployment. Production remains the verified1.23.0 below. User visual acceptance and broad hardware/audio acceptance remain open.
+
+## Verified1.23.0 production delivery
+
+Runtime **cd97c62** passed [exact-source CI](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376):147 unit/117 browser tests, lint/types/build/format/release, zero audit vulnerabilities and24 Go assertions. The user requested the latest work be deployed on2026-10-13. A clean detached worktree was built with production environment variables, staged, verified and promoted to [the public application](https://wordverse-galaxy.vercel.app).
+
+Production **dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc** is READY; the public alias resolves to that deployment. Ten public HTML/JS/CSS/social requests return HTTP200 and SHA256 matches the verified local build. Native Chrome loads the candidate scene without captured console errors and opens the public alias with the redesigned shell. Bounded deployment error logs returned no entries; this is not an account or broad hardware acceptance certificate. [Delivery evidence](evidence/2026-10-13-production-1.23.0.json). Previous production **dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F** remains the rollback reference.
+
+[Documentation publication12](https://github.com/GhostFelina/wordverse-galaxy/pull/12) merged before this release. Main application code is still older; do not deploy main over this production release. Further development defaults to previews.
+
+## Current desktop shell
+
+1.23.0 rebuilds the home around an original constellation W mark, local Space Grotesk/DM Sans typography, warm ivory/copper accents and clearer vocabulary actions. First-visit, empty and populated states share the same hierarchy in TR/EN/ES. Navigation sits by the wordmark; galaxy, language and account actions form the other header group. View, sky, sound and immersion share one toolbar with upward menus; Orion entry and zoom remain separate clear actions. Forms/galaxy selections use the same surfaces and keyboard focus.
+
+The compact existing layout retains access. Immersion hides the welcome layer; the compact status badge is separated from scene controls. UI wheel targets are isolated from camera gestures. Renderer, audio, records, coordinates, dates and ownership are unchanged. Dedicated mobile design and account rollout remain deferred.
+
+47 focused browser checks pass. Ten isolated native Chrome states cover three desktop sizes/locales, first visit, empty home and stable menus/forms; records remain unchanged. [Capture provenance](../images/home-design/PROVENANCE.json). Complete final release checks and exact-source production verification passed as recorded above. The1.22.1 delivery below remains historical scene evidence.
+
+## Scene baseline implementation
+
+Personal vocabulary stars share procedural photospheres, continuous creation-date spectra and independently phased distant scintillation.1.22.1 uses unsaturated optical alpha so the visible core breathes with its halo over Orion. Light retains a nonzero minimum and fades with projected size. Device/full/reduced animation is explicit and persistent; reduced motion freezes the material clock directly. Stored coordinates/dates and owner isolation remain unchanged.
+
+Direct Orion entry presents every active-galaxy word in a reversible exploration frame. Focus, wheel travel, depth slider and return remain coherent. The finite seven-lobe gas has native1254 guidance, mip-filtered physical-space density, porous erosion and fixed march spacing without the earlier nested cube-exit sampling artifacts. Interior automatic/high rays are bounded at128/192 samples; photographic ridge weight fades during immersion.
+
+The session-only living director shuffles finite meteor, supernova, distant black-hole, neutron-star-merger, comet and pulsar illustrations with random calm intervals, safe positions, scales and directions. Manual selection has priority; quiet sky stops automatic direction. Learning panels/focus defer new events and hidden tabs pause the clock. The small distant disk uses bounded144-step midpoint strong-field integration, dense red/copper emission, fast differential flow and local gas-buffer distortion. Personal stars render independently in front. This is an artistic Schwarzschild-like approximation, not a calibrated Kerr solver or film asset.
+
+Original gesture-enabled spatial/stereo audio follows depth and event position. Durable creation/edit/deletion have distinct cues with identity/revision guards; failed or muted operations remain silent. Comet and pulsar cues use no external recordings. Searchable atlas, short ephemeral recall and local1080px square/portrait cards complete the learning/sharing flow. Dedicated mobile design, account rollout, persistent recall scheduling and broader catalogs remain deferred.
+
+## Verified1.22.1 scene delivery
+
+Runtime **b06b9d0** is committed/pushed. Complete local147 unit/117 browser tests(8.5m), lint/types/build/format/release, zero audit vulnerabilities and24 Go assertions pass. [Remote runtime CI](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38284875605) succeeds on the exact source. Its display test covers final ACES/sRGB output at0.75/3.5/10px, bounded light, stationary centroids and still/close states. Native65-frame compositor evidence over six old synthetic stars shows52–85 display-luminance variation with zero position drift and unchanged records. High-quality synthetic gallery and optional native animation have no console errors. [Patch evidence](evidence/2026-10-12-scintillation-quality-manifest.json).
+
+[Exact-source preview](https://wordverse-galaxy-521vy0zo4-mustafas-projects-92e683a9.vercel.app) is READY. Authenticated HTML/JS/CSS/social return HTTP200; asset SHA256 matches the verified local build. Interactive cloud/account acceptance is not claimed. The earlier1.22 native sound and frame evidence remains historical; audio source is unchanged, but prior frame timing is not a patch performance certificate.
+
+[Professional GitHub publication](https://github.com/GhostFelina/wordverse-galaxy/pull/11) merged56 documentation/gallery paths into main **25bba71**. Latest PRCI38285737384 and [main CI](https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38285963419) pass. Native Chrome verifies the public page and loaded720x380 animated starlight gallery. Repository description/topics, guide, credits and current synthetic imagery are published. Main application code remains1.11; never deploy it over the preserved production build.
+
+## Next acceptance
+
+0. Review local1.26.0's three added nebulae, distant/interior flight,22 cosmic phenomena, home and language menu; verify its source CI before publication. Prior1.25 exact-source CI succeeds. The deployed1.23.0 acceptance also remains open. Do not restart completed rendering phases.
+1. Review distant core scintillation, gas passage and the small red disk in the actual user browser. Source/display checks are complete; user visual acceptance remains open.
+2. Extend isolated hardware/large-archive review and physical headphone/speaker listening. No universal GPU, calibrated astronomy or Dolby/IMAX certification claim.
+3. Separate GitHub social-preview settings upload remains unverified; the branded PNG is ready. Preserve production dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc/sourcecd97c62 and retain the prior production deployment as rollback reference.
+
+## Boundaries
+
+PR7 remains a development draft with current behavior, validation and preview. Current files contain technical specifications and synthetic evidence only. No personal records, browser data, credentials, private screenshots or conversation transcripts enter Git. Historical obsolete briefs remain in old Git revisions; no force push or history rewrite.
+
+Read [product](../PRODUCT_SPEC.md), [visual](../VISUAL_SPEC.md), [issues](KNOWN_ISSUES.md), [tasks](TASKS.md) and [device setup](CROSS_DEVICE.md).
+
+Final layout follow-up: hero type responds to viewport height; recent discoveries hide at short heights. A16px minimum gap to footer statistics passes at1920×855 and2560×900. All15 affected layout/discovery cases pass after this CSS change (130 distinct browser scenarios across the full and focused runs).
+
+Final footer-badge adjustment: five home-composition cases pass; the visible1920×855 browser reports a38px recent-to-statistics gap with the decorative badge hidden.

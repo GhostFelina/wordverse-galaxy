@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-12",
+  "sourceCommit": "5a00d0116a103ab250a63eb33e3133b70cf854e1",
+  "browser": "153.0.8010.12",
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "rendering": "software",
+  "viewport": "1440x900",
+  "durationPerShotMs": 5000,
+  "warmupMs": 2000,
+  "scene": "Production modules in isolated synthetic word-star fixture, moving gas, general12stars/close1star; no user records",
+  "metric": "RAF frame interval; includes scheduler/display pacing, not GPU timer-query execution time",
+  "samples": [
+    {
+      "shot": "general",
+      "frames": 300,
+      "p50Ms": 16.699999999999818,
+      "p95Ms": 16.800000000000182,
+      "p99Ms": 16.800000000000182,
+      "averageFps": 60.00240009600382
+    },
+    {
+      "shot": "close",
+      "frames": 256,
+      "p50Ms": 16.700000000000728,
+      "p95Ms": 33.399999999999636,
+      "p99Ms": 33.400000000001455,
+      "averageFps": 51.032613029264034
+    },
+    {
+      "shot": "nebula-angle",
+      "frames": 301,
+      "p50Ms": 16.700000000000728,
+      "p95Ms": 16.799999999999272,
+      "p99Ms": 16.80000000000291,
+      "averageFps": 60.00079735278876
+    }
+  ],
+  "errors": [],
+  "storageKeys": 0,
+  "limits": "Headless Chromium fixture; not visible user Chrome acceptance, user-universe benchmark or 5000-star budget"
+}

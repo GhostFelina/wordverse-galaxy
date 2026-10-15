@@ -1,0 +1,244 @@
+{
+  "version": "1.24.0",
+  "date": "2026-10-14T20:27:50.638Z",
+  "browser": "155.0.8059.40",
+  "renderer": "Fresh native Chrome; ANGLE D3D11 requested",
+  "quality": "Reduced motion; high-quality seeded personal views, default quality for fresh first-visit/empty views. No canvas substitutions.",
+  "privacy": "Synthetic vocabulary only, isolated ephemeral localhost. Existing user profiles and records are never accessed.",
+  "checks": "TR/EN/ES desktop states, empty state, menu bounds, Escape focus restoration and unchanged synthetic records",
+  "captures": [
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-1440-en.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "526b25ed53232a0ae47bbbf177b60f3a54b0083761b03a4e15a0f2291205ba67"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-1440-tr.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "b6db1b00f63df80a976ec3f84795b9a33688c6f01387acdad065b8fd6f5a926c"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-1280-es.png",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "ca898fee65c79ade1ae447de2226b12b8b781c9d5d43557d9fc2c896fb54ecdd"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-1024-en.png",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "e1e06c11fa3a21a1ac35ea142fe2fa11bc9e0602fdae46f61fe5fcad6df69295"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/view-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "06f39e991c5e04f674fc6ed15480952685970380df6b0767843df630cdab5276"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/sky-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "d9a4c99b6962fd6b862094b03bc1ed51de375ef6c05a847ac33d3ff1b93aeb41"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/galaxy-menu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "5bed73a649441522df57d2fd6c4d2d51cdfd460b073d187ecab3bf404058d7fd"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/add-panel.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "e5cfa7257d460339c342477a030ddbe1bca91c83354462e984f9a436663fee4e"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/atlas.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "cd08e6017795f58808d9156ab99250848863fb22d2df08991ac8eed994495d11"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/detail.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "4f0821ecc86fb8829f3bca1acf58a79102bba8d4524a8d6589e2d09e72586860"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/recall.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "a78e708bf6ea87f3c9b00fd4d79882602fe2d0134bbbf5ca99351d8a9ae32c6a"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/first-visit.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "1bf068e07470a28923a1f90d6cd04b19c2b0d0c9bcfa22dfec428a4877839607"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/empty-home.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "883b22f0269ca65ea09a47401ac50db03fe142231d02296012e0f10d300306f0"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-390-844-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f21d3de43669d833deb3c8690ab8bba06b7bcebb6cce62bb2d126a6657dadd2f"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/form-390-844-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "a0bbf45ef26c79a783573d13794012f07551badcd186686468b6749256a6bc90"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/atlas-390-844-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "b1811d743d2c8249da92dbcf349a8c2deb3a00e066a8b026148548a5b6a0bffa"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/recall-390-844-es.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "00bca0130a471f623033169f46230dead0cdf7298323697011d50076ba348048"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-768-1024-en.png",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "1167bf89834c6d77bddc2112c7ba41c5bbf11f681d5863c086500c02afe237c5"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/form-768-1024-en.png",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "1a41fb6ee9eb31575311fa23c8b39bdda9672b02e307c114e935ea2e4f66ab04"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/atlas-768-1024-en.png",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "daf832b13946c64362bccff93d17dac50ae9f13fa253dc2cb819d6eb35ed845e"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/recall-768-1024-en.png",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "78781fff50f5f0d18962e05351daadcd4fc14b012496000c7d2ed6091cbd5141"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "7a67899fd1cf206e585f8b4fb9602343233297cc4fdd1fcacfac60cc5fb2e55a"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/form-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "c7e55445235f2fbf9bd2348a00897a91c5b2bc11d25aac2dc3a7196509c1da21"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/atlas-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "780825618930ade2d3a4a41f6cedbc461198176ce6ed2c70ee6cae4398c6f353"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/recall-1280-600-tr.png",
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "sha256": "24addd81d501c609f9b29e263b1b39646f04e3f2d46dac837442d3e1c1696ce7"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/home-1920-1080-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "1e340207c4add90f8825573b7a97c33d4b9cf4cdccab36abef04020bcf49abaf"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/form-1920-1080-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "bda955e12a91058bb8ca51060b04864dcc61b0c36d4fe065073f352056a23b00"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/atlas-1920-1080-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "ce839606da83e5579eedc454ebdf17195bb5106e1776ae2fb704e7f8ce3e5f40"
+    },
+    {
+      "file": "docs/handoff/evidence/2026-10-14-learning-design/recall-1920-1080-en.png",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "e10aa309eacb4b8b8772f65be0cf05a78acf6cc6e197b56afd5592995e01e113"
+    }
+  ],
+  "errors": []
+}

@@ -1,9 +1,12 @@
-# Wordverse
+# Repository development
 
-Başlangıç noktası: [docs/handoff/HANDOFF.md](docs/handoff/HANDOFF.md). Ardından `MASTER_PROMPT.md`, `KNOWN_ISSUES.md` ve `TASKS.md` dosyalarını oku. Kullanıcıyla Türkçe konuş; mevcut veriyi koru.
+Read [engineering status](docs/handoff/HANDOFF.md), [product specification](docs/PRODUCT_SPEC.md), [visual specification](docs/VISUAL_SPEC.md) and [contributing](CONTRIBUTING.md).
 
-“Wordverse projemize kaldığımız yerden devam et” (kısa biçimi de geçerli) bu repodaki güncel görevi sürdürmek demektir. Codex/Claude sırayla aynı HANDOFF ve Git dalını kullanır. Önce gerçek OS/kabuk ve git durumunu kontrol et; temiz ağaçta `git pull --ff-only`, aktif dal [STATE.json](docs/handoff/STATE.json). `npm run doctor` eksik kurulum/giriş adımını gösterir; rutin eksikleri tamamla. Bitmiş fazları tekrarlama. Cihaz/ajan devri: [CROSS_DEVICE.md](docs/handoff/CROSS_DEVICE.md); servis erişimi: [SERVICE_ACCESS.md](docs/handoff/SERVICE_ACCESS.md). Yerel uygulamayı `127.0.0.1:5360` üzerinde görünür tarayıcıda aç.
-
-## Durum Analiz komutu
-
-Kullanıcı “Durum Analiz” dediğinde anlık Git/devir/test/CI durumunu kontrol edip Türkçe tablo göster: `| Durum | İş | Sonuç / kalan adım |` ve `|---|---|---|`. Bitenler, devam edenler ve yapılacakları somut sonuç/kalan adımla belirt; eski yüzde veya test sonucunu güncel diye sunma. Durum isteği aktif geliştirmeyi iptal etmez; kısa güncellemeden sonra göreve devam et.
+- Preserve existing records, coordinates, dates and owner isolation. No destructive migrations or Git history rewrites.
+- Verify the actual OS/shell. Use portable UTF-8 paths and project-local dependencies.
+- Active development branch is recorded in docs/handoff/STATE.json. Preserve local changes; clean updates use git pull --ff-only.
+- Current implementation targets desktop browsers. Keep existing mobile behavior compatible.
+- The primary scene defaults to Orion and personal word stars. Three original gas volumes and ten observation-guided popular nebula experiences are available through the shared searchable preview/flight atlas. Alternate GPU/CPU volume caches are bounded to three. Artistic sky experiences are ephemeral: a session-only director shuffles 22 phenomena with restrained intervals, manual selection has priority and quiet mode stops automatic events. Deferred observational catalog layers remain disabled.
+- Validate behavior with unit/integration/browser tests and synthetic visual evidence. Never add personal records, private screenshots, conversation transcripts, credentials or internal task briefs to Git.
+- Application deployments from development target previews. Documentation publication must preserve the existing production build.
+- Local development preview: http://127.0.0.1:5360/. Tooling health: npm run doctor.

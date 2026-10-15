@@ -1,13 +1,98 @@
-# Değişiklik kaydı
+# Changelog
 
-## [Unreleased] — Faz 2 / 1.12.0 hazırlığı
+## [1.27.0] — Development · 2026-10-15
 
-- Üç dilde erişilebilir hesap penceresi, e-posta giriş/kayıt/sıfırlama ve yerel çıkış; gizlilik/koşullar statik taslakları. Google ve bulut senkron kabulü bekliyor.
-- Sayfalı bulut okuma ve hesap başına atomik IndexedDB evren/kuyruk çekirdeği eklendi; UI ve bulut yazma motoruna bağlantı sürüyor.
+- Unified the visible preview gallery and nebula atlas: fourteen scenes, genuine rendered/observational thumbnails, translated name/catalog search, a ten-popular-nebula filter and shared dive/loading/retry behavior.
+- Added Carina, Eagle, Horsehead, Helix, Crab, Ring, Rosette, Tarantula, Lagoon and Trifid. Official ESA/Hubble guides retain complete credits, source links and checksums; each has a distinct original128³ artistic depth field, never a measured tomography claim.
+- Load optional volumes/guides on selection and retain at most three alternate volume entries, disposing evicted GPU textures. Gas and stellar extinction switch atomically without moving stored records.
+- Reworked the black-hole disk with finer sheared structure, restrained warm lighting and explicit near inspection/distant return. Reduced motion and immersion exit remain reversible.
+- Added repeatable native visual captures, all-ten flight checks, search/bounds cases and cache/asset integrity validation.
 
-- Supabase CLI yerel proje yapılandırması ve kullanıcıya ait kayıtlar için RLS/senkron mimari kararı eklendi.
-- İlk girişte yerel ve bulut evrenlerini veri kaybı olmadan birleştiren saf çekirdek ve çakışma testleri eklendi; uygulama akışına bağlanması sürüyor.
-- IndexedDB birincil yerel evren deposu eklendi. localStorage eşzamanlı kurtarma kopyası olarak kalıyor; yazma yarım kalırsa sürüm numarasıyla yeni kopya seçiliyor. Eski yedek arşivi korunuyor.
+## [1.26.0] — Development · 2026-10-15
+
+- Three original128³ nebula volumes join Orion: turquoise Ion Veil, crimson Ember Reach and Tidal Blue's wind shell. Explicit distant previews, gas-layer flight, density/light controls, retryable optional loading and reversible return preserve vocabulary geometry.
+- Expanded the shuffled living sky from6 to22 distinct astronomical illustrations. New evolving protostars, jets, shocks, dust structures, binaries and light echoes appear during flight with manual priority, quiet mode and reduced-motion stills.
+- Refined the home navigation and action surfaces. The interface-language menu uses native names, selected marks, keyboard navigation and independent locale links, with a native fallback. Compact flight depth/return controls remain reachable and menu scrolling is isolated from camera input.
+- Added payload-integrity, selection-race and visual shader checks, translated menu/flight browser scenarios and reproducible synthetic native-GPU captures.
+
+## [1.23.0] — Development · 2026-10-12
+
+- Original constellation W mark and favicon; a rebuilt desktop home with local geometric typography, warm ivory/copper accents, clearer learning copy and consistent first-visit/empty/populated states in TR/EN/ES.
+- Restructured navigation, galaxy/language actions, word creation, compact statistics and a unified scene toolbar. View and sky menus anchor above the toolbar; Orion flight controls remain reachable in immersion.
+- Consistent form, selection and galaxy surfaces, visible keyboard focus, accessible compact add action and wheel isolation over interface controls. Existing scene geometry, audio and vocabulary storage remain unchanged.
+- Reproducible isolated native-browser home captures and stronger navigation-bound/overlap checks.
+
+## [1.22.1] — Development · 2026-10-12
+
+- Unsaturated distant optical alpha makes the visible core breathe with its halo, including old white-dwarf records over Orion. Smooth independent rhythms retain a nonzero minimum and fade with projected size.
+- Reduced motion freezes the stellar material clock directly. Pixel validation covers the final ACES/sRGB display output at subpixel, home and approaching sizes, stationary centroids and still/close states.
+- Hosted sky-selection checks use native keyboard activation; close-target convergence retains its150px assertion with a software-GPU wait budget.
+
+## [1.22.0] — Development · 2026-10-12
+
+- Randomized safe positions, scales and directions for finite sky experiences; comet and pulsar scenes with original position-aware sound cues.
+- Rebuilt distant black-hole illustration with bounded bent-ray integration, a dense red/copper disk, faster differential flow and local gas-background distortion. Personal stars and record coordinates remain independent.
+- More visible distant light modulation and minute spectra, with an explicit device/full/reduced animation preference.
+- Mip-filtered physical-space gas noise, stronger porous lobes, fixed physical march spacing with up to192 high-quality interior samples and fading photographic guidance during immersion.
+- Scene settings hide competing sky overlays while open. Hosted wheel/navigation test keeps its assertions with a longer overall software-GPU budget.
+
+## [1.21.0] — Development · 2026-10-12
+
+- Session-only living sky: shuffled finite meteor, supernova, distant black-hole and neutron-star merger events, calm gaps and soft envelopes. Manual choices take priority; quiet mode stops automatic direction and hidden tabs pause its clock.
+- Distinct original word-edit and deletion cues follow durable storage and current identity checks. Creation retains its separate birth cue; failed operations and muted audio remain silent.
+- Compact finite interior gas lobes/cavity and lower stride-filtered microfrequencies reduce elongated streaks.
+- Precise hosted software-GPU camera/startup checks retain their accuracy with longer convergence waits.
+
+## [1.20.0] — Development · 2026-10-12
+
+- Every active-galaxy word star participates in a reversible Orion exploration frame; selection, close approach, wheel reversal and return remain coherent without changing stored coordinates.
+- Wider and longer gas volume, additional overlapping lobes and stride-filtered interior microstructure. High quality uses up to64 settled interior samples.
+- A visible sky-experience launcher also works in immersive mode. Direct Orion entry opens the unobstructed scene.
+- Original spatial headphone birth/event cues, stereo speaker mode, longer filtered reverberation with predelay and bounded output headroom. No external recordings or certification claims.
+- Synthetic interior galleries and native offline spatial-audio/hardware evidence.
+
+## [1.19.0] — Development · 2026-10-12
+
+- Continuous creation-date stellar colors, accelerated visual stages and subtle minute tone changes across scene, detail and cards.
+- Direct Orion entry during immersive stellar focus and stable wheel-driven depth travel.
+- An explicit neutron-star merger illustration: binary inspiral, turbulent ejecta, synthesized chirp and reduced-motion still.
+- Synthetic stellar-life and merger-phase galleries; stored learning records remain unchanged.
+
+## [1.18.0] — Development · 2026-10-12
+
+- Independent, slow distant scintillation with stable record-derived phases; the core stays visible and the effect fades on approach.
+- Hot, detailed stellar convection with a tapered perspective corona and a restrained birth pulse.
+- Compact volumetric gas lobes, a clearer interior cavity and higher settled interior sampling.
+- A small distant black-hole illustration with turbulent disk detail, asymmetric light and camera parallax; personal stars render in front.
+- Refined meteor trails and expanding supernova filaments.
+- Original opt-in stereo soundscape, scene-dependent depth and stellar focus, volume control and tab suspension. Saved word creation has a distinct synthesized cue; edits and duplicate submissions do not trigger it.
+
+## [1.17.0] — Development · 2026-10-12
+
+- Warm multi-scale stellar convection, refined gas fibers and locally hosted licensed fonts.
+- Stable Orion cruise with shared wheel/button scaling, depth slider and direct return.
+- Opt-in meteor, supernova and illustrative black-hole experiences; reduced-motion stills, no vocabulary writes.
+- Local1080px square/portrait PNG star cards; meanings omitted by default.
+- Initial auth refresh cannot indefinitely block guest learning. Late identity resolution remains authoritative.
+- Current bilingual repository guides, synthetic gallery, community templates and technical specifications.
+
+## [1.16.1] — Development · 2026-10-12
+
+- Cursor-local wheel zoom, hover-star focus and reversal without implicit Orion flight.
+- Visible startup, shader warmup, retained volume buffers and failed-asset atlas fallback.
+
+## [1.16.0] — Development · 2026-10-12
+
+- Atlas filtering, natural/date sorting, dated records, return-to-list state and graphics fallback.
+
+## [1.15.0–1.15.1] — Development · 2026-10-12
+
+- Perspective camera gestures, keyboard navigation, adaptive quality and ephemeral recall.
+- Shared granular stellar surfaces, desktop detail preview and volumetric microfibers.
+
+## [1.14.1] — Production
+
+- Orion volume and personal word-star presentation. Subsequent desktop work remains in development previews pending release acceptance.
 
 ## [1.11.0] - 2026-10-02
 

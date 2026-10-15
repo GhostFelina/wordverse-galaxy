@@ -1,4 +1,5 @@
 import { mergeRecords } from './record-merge.js';
+export { stellarEvolution as starAge } from './stellar-evolution.js';
 
 export const UNIVERSE_KEY = 'wordverse.universe.v4';
 export const PREVIOUS_UNIVERSE_KEY = 'wordverse.universe.v3';
@@ -65,16 +66,6 @@ export function loadUniverse(storage) {
   const spanish = secondGalaxy();
   events.push({ id: 'seed-galaxy-spanish', type: 'galaxy.seeded', galaxyId: spanish.id, wordId: null, at: spanish.createdAt, before: null, after: { ...spanish } });
   return { version: SCHEMA_VERSION, galaxies: [galaxy, spanish], activeGalaxyId: galaxy.id, words, events };
-}
-
-export function starAge(createdAt, now = Date.now()) {
-  const age = Math.max(0, (now - new Date(createdAt).getTime()) / 86400000);
-  if (!Number.isFinite(age) || age < 1) return { stageId: 'newborn', color: '#ffffff', glow: '#dceaff', size: 1, ageDays: 0 };
-  if (age < 7) return { stageId: 'young', color: '#f8fbff', glow: '#c5ddff', size: 1.02, ageDays: Math.floor(age) };
-  if (age < 30) return { stageId: 'mature', color: '#fff3d6', glow: '#ffe3a2', size: 1.05, ageDays: Math.floor(age) };
-  if (age < 90) return { stageId: 'aging', color: '#ffd9ac', glow: '#ffad6c', size: 1.15, ageDays: Math.floor(age) };
-  if (age < 365) return { stageId: 'redGiant', color: '#ffb09b', glow: '#ef795d', size: 1.36, ageDays: Math.floor(age) };
-  return { stageId: 'whiteDwarf', color: '#e9f5ff', glow: '#a6c9ec', size: .78, ageDays: Math.floor(age) };
 }
 
 export function appendEvent(universe, type, galaxyId, wordId = null, before = null, after = null) {

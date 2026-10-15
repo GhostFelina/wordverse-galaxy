@@ -1,15 +1,338 @@
 {
   "project": "wordverse",
   "repository": "GhostFelina/wordverse-galaxy",
-  "activeBranch": "phase/3-profile",
-  "activePhase": 3,
+  "activeBranch": "phase/4-universe",
+  "activePhase": 4,
   "completedPhases": [
     0,
     1
   ],
+  "deferredPhases": [
+    2,
+    3
+  ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "deferredPhases": [
-    2
-  ]
+  "developmentVersion": "1.27.0",
+  "activeWork": "Fourteen-scene searchable nebula atlas, ten popular observation-guided volumes, bounded cache and reversible black-hole inspection verified locally:160unit/142browser cases,37 native synthetic captures. Checkpoint source CI and user visual review follow; production1.23.0 preserved.",
+  "pausedVisualLayers": [
+    "other-observed-nebula-catalog",
+    "galaxies",
+    "planets",
+    "asteroids",
+    "meteors",
+    "background-stars",
+    "gaia-points",
+    "trapezium-points",
+    "demo-star"
+  ],
+  "upgrade": {
+    "currentPhase": "U2",
+    "phaseStatus": "implementation-in-progress",
+    "completedPhases": [],
+    "nextPhase": "U3",
+    "lastVerifiedCommit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
+    "lastRemoteCI": {
+      "run": 38713062693,
+      "status": "success",
+      "unitTests": 158,
+      "browserTests": 138,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693",
+      "commit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
+      "version": "1.26.0"
+    },
+    "localUnitTests": 160,
+    "suiteBrowserTests": 142,
+    "userVisualAcceptance": "pending",
+    "preview": {
+      "version": "1.23.0",
+      "url": "https://wordverse-galaxy-fyqg0fqrh-mustafas-projects-92e683a9.vercel.app",
+      "deployment": "dpl_65Xuywzto3VwMU2m9c14AKZanS8s",
+      "target": "preview",
+      "status": "READY",
+      "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+      "interactiveAcceptance": false,
+      "runtime": "Exact-source Vercel preview metadata verified; production asset and browser evidence recorded separately."
+    },
+    "zoomStartup": {
+      "version": "1.16.1",
+      "plainWheel": "explicit nebula flight only, hover word target, matched damping",
+      "opening": "static Orion/loading, no global window-load gate, preserve unresolved owner isolation",
+      "graphics": "compile scene/composite before visible draw; two persistent gas targets; failed assets atlas fallback",
+      "hardwareEvidence": "docs/handoff/evidence/2026-10-12-first-wheel-d3d11.json",
+      "remoteStatus": "superseded by final1.17.0 local complete pass; remote pending",
+      "firstRemote": {
+        "run": 38223259818,
+        "status": "failure",
+        "passed": 93,
+        "failed": 9,
+        "reason": "Obsolete star-cosmos expects auto-flight <90; updated to exact local capped wheel pose. Runtime unchanged."
+      }
+    },
+    "desktopQuality": {
+      "version": "1.17.0",
+      "localGate": "132unit/107browser/lint/types/build/format/release/audit/24Go pass",
+      "evidence": "docs/handoff/evidence/2026-10-12-desktop-quality-manifest.json",
+      "sky": "Explicit ephemeral meteor/supernova/black-hole illustrations, reduced-motion stills",
+      "navigation": "Shared wheel/button scale, no auto descent tilt, depth slider and return",
+      "cards": "1080px square/portrait local PNG, default meaning omitted, allowlisted content, invalidated on selection/owner change",
+      "privacy": "Current tree has technical specifications only; historical Git copies persist. No force/history rewrite",
+      "remoteStatus": "pending",
+      "publication": {
+        "main": "b39a0b6f7d52d7653a15a999680bd9ebc40b561f",
+        "pr": 10,
+        "ci": 38242976114,
+        "status": "merged with successful CI; main38243359773 also success; production unchanged"
+      }
+    },
+    "sceneSound": {
+      "version": "1.18.0",
+      "status": "136unit/111browser and complete local quality gates pass; source checkpoint follows",
+      "visualEvidence": "docs/handoff/evidence/2026-10-12-plasma-after",
+      "hardwareEvidence": "docs/handoff/evidence/2026-10-12-plasma-d3d11-frame-times.json",
+      "audioEvidence": "docs/handoff/evidence/2026-10-12-soundscape-native-audio.json",
+      "audio": "Original gesture-enabled stereo synthesis, depth/focus mixes, word creation cue, volume, tab suspension; no recording or vocabulary input",
+      "blackhole": "Small distant bounded artistic projection, turbulent asymmetric disk, foreground word stars",
+      "production": "Unchanged1.14.1",
+      "twinkle": "Independent record-stable far-light phases, bounded core/halo modulation, projected-size fade and reduced-motion stills",
+      "persistence": "Birth cues wait for durable local storage; quota failures, retries, edits and identity changes do not replay creation"
+    },
+    "stellarLife": {
+      "version": "1.19.0",
+      "status": "139 unit tests, lint, types, build and 13 affected browser tests pass; earlier remaining affected tests pass",
+      "timeline": "Continuous compressed creation-date spectrum; minute modulation; no physical lifetime prediction",
+      "events": "Explicit 22-second neutron-star merger, reduced-motion still and original chirp",
+      "navigation": "Direct Orion entry available during immersive stellar focus; wheel reversal and return preserve records",
+      "fullBrowserGate": "Last complete gate: 1.18.0, 111 tests",
+      "remote": {
+        "run": 38254972082,
+        "commit": "4eaa37608b66e59608021dbad45bdeb983041ee1",
+        "status": "failure:112/113 browser, software-GPU convergence exceeded5s; precise assertion preserved and wait adjustment follows"
+      }
+    },
+    "orionSpatial": {
+      "version": "1.20.0",
+      "status": "Complete local check141unit/115browser7.2m; lint/types/build/format/release/audit/24Go pass",
+      "stars": "All active-galaxy words in reversible Orion presentation; stored coordinates unchanged",
+      "gas": "Width1.02/depth3.6, finite seven lobes, three-scale periodic noise, stride-filtered microstructure, up to64 high-quality settled samples",
+      "audio": "Original HRTF birth/event cues, stereo speakers,4.8s filtered reverb/predelay, bounded output",
+      "navigation": "Visible immersive sky launcher; direct entry opens unobstructed scene",
+      "evidence": "docs/handoff/evidence/2026-10-12-orion-quality-manifest.json",
+      "remote": {
+        "run": 38257361858,
+        "commit": "20981735f0f03bc0bd60c8fef875fa6521c2f115",
+        "status": "failure:113/115 browser, software-GPU focus/startup exceeded5s; precise assertions preserved and waits extended in1.21"
+      }
+    },
+    "livingSky": {
+      "version": "1.21.0",
+      "status": "Complete local144unit/115browser10.1m, format/release/audit/24Go pass",
+      "evidence": "docs/handoff/evidence/2026-10-12-living-quality-manifest.json",
+      "remote": {
+        "run": 38275707330,
+        "commit": "694d10245f93092dd5e4e2f1d3f8a2f66f7d5236",
+        "status": "failure:114/115 browser; repeated wheel-button flow exceeded30s; same assertions retain60s total budget in1.22"
+      },
+      "director": "Session-only randomized timing/shuffled finite events, manual priority, quiet mode",
+      "audio": "Distinct durable edit/delete cues; original birth retained"
+    },
+    "skyVariety": {
+      "version": "1.22.0",
+      "status": "Complete local147unit/117browser7.3m and quality gates pass; native flow/audio, synthetic gallery and isolated hardware evidence recorded",
+      "sky": "Random safe positions/scale/angle, shuffled finite comet and pulsar with original positional cues",
+      "blackhole": "Bounded144-step midpoint strong-field approximation, differential red disk and local gas distortion; no calibrated Kerr claim",
+      "gas": "Fixed physical march spacing avoids nested box-exit sampling planes; mip-filtered density and up to192 high-quality samples",
+      "motion": "Device/full/reduced preference; stronger bounded distant light and minute spectra",
+      "evidence": "docs/handoff/evidence/2026-10-12-variety-quality-manifest.json",
+      "remote": {
+        "run": 38281683299,
+        "commit": "e5fb7590a27c787f1092e3c8ea3dadfc2870775c",
+        "status": "failure:115/117 browser; six native pointer selections exhausted60s and focused body reached148.17px before5s.1.22.1 uses accessible keyboard selection and15s convergence without changing assertions."
+      }
+    },
+    "scintillation": {
+      "version": "1.22.1",
+      "status": "Complete local147unit/117browser8.5m, lint/types/build/format/release/audit/24Go pass; native visible cores and gallery verified",
+      "display": "Unsaturated distant optical alpha; independently phased visible cores/halos, nonzero minimum and size fade",
+      "reducedMotion": "Material animation clock frozen directly",
+      "nativeEvidence": "docs/handoff/evidence/2026-10-12-scintillation-native.json",
+      "animation": "docs/images/wordverse-scintillation.gif",
+      "limits": "Native synthetic framing and display measurements; user visual acceptance remains open",
+      "runtimeCommit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+      "remote": {
+        "run": 38284875605,
+        "commit": "b06b9d0a1b75aee723e8f2ac4a626d79e59a7103",
+        "status": "success",
+        "version": "1.22.1",
+        "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38284875605",
+        "unitTests": 147,
+        "browserTests": 117
+      },
+      "publication": {
+        "main": "25bba71be7679df115c78a284dae520cc23c005b",
+        "pr": 11,
+        "prCI": 38285737384,
+        "mainCI": 38285963419,
+        "status": "Merged documentation-only; latest PR and main CI successful; native GitHub page and720x380 animated gallery verified",
+        "url": "https://github.com/GhostFelina/wordverse-galaxy/pull/11",
+        "productionDeploymentUnchanged": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F"
+      }
+    }
+  },
+  "checkpoint": {
+    "version": "1.23.0",
+    "applicationCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "deploymentTarget": "production",
+    "date": "2026-10-13"
+  },
+  "production": {
+    "version": "1.23.0",
+    "url": "https://wordverse-galaxy.vercel.app",
+    "deployment": "https://wordverse-galaxy-3x4wsox8g-mustafas-projects-92e683a9.vercel.app",
+    "deploymentId": "dpl_CrNsJzMiM5eGGAwWjyi7tj75qqmc",
+    "target": "production",
+    "status": "READY",
+    "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "buildDurationSeconds": 27.618,
+    "httpStatus": 200,
+    "assetsMatchLocal": true,
+    "date": "2026-10-13",
+    "verifiedAt": "2026-10-13T05:18:02.451Z",
+    "rollbackDeployment": "wordverse-galaxy-pnriruli7-mustafas-projects-92e683a9.vercel.app",
+    "rollbackDeploymentId": "dpl_Ga8x44fgEn8dX2pPHBb2N4eYbJ5F",
+    "evidence": "docs/handoff/evidence/2026-10-13-production-1.23.0.json",
+    "runtime": "Public alias resolves to READY production; ten unauthenticated HTTP200 responses and SHA256 match verified local build. Native Chrome candidate scene/public shell verified; error query returned no entries."
+  },
+  "homeDesign": {
+    "version": "1.23.0",
+    "status": "released-production-verified",
+    "scope": "Desktop first-visit, empty and populated home; constellation W, local fonts, ivory/copper actions, grouped navigation and scene toolbar, upward menus, Orion entry, learning forms",
+    "locales": [
+      "tr",
+      "en",
+      "es"
+    ],
+    "focusedBrowserTests": 47,
+    "evidence": "docs/images/home-design/PROVENANCE.json",
+    "capture": "10 isolated native Chrome synthetic states; stable panels, menu bounds, keyboard return and unchanged records",
+    "local": "Local build/release pass; exact-source remote full gate147unit/117browser, lint/types/format/audit/24Go pass",
+    "sourceCommit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+    "remoteCI": {
+      "run": 38292465376,
+      "status": "success",
+      "unitTests": 147,
+      "browserTests": 117,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38292465376",
+      "commit": "cd97c62a3e135d5905e9238e71831de86b93b8a3",
+      "version": "1.23.0"
+    },
+    "next": "Obtain user visual acceptance of deployed home, first-visit flow, menus and scene. Future development uses previews; preserve production1.23.0.",
+    "publication": {
+      "pr": 12,
+      "main": "6023083",
+      "status": "Documentation-only merged2026-10-12 before requested production release"
+    }
+  },
+  "learningDesign": {
+    "version": "1.24.0",
+    "status": "remote-CI-verified-user-acceptance-open",
+    "scope": "Shared warm learning/dialog surfaces, home recall, atlas shortcuts and modal focus management",
+    "unitTests": 147,
+    "browserTests": 122,
+    "browserDurationMinutes": 12,
+    "gates": "lint/types/build/format/release/audit/24Go pass",
+    "evidence": "docs/handoff/evidence/2026-10-14-learning-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-14-learning-design/PROVENANCE.json",
+    "nativeCaptures": 29,
+    "browser": "Chrome155; fresh isolated synthetic origins; D3D11 requested",
+    "production": "Preserved1.23.0; no production release in this checkpoint",
+    "next": "User acceptance remains open; current development is1.25.0.",
+    "remoteCI": {
+      "run": 38633114408,
+      "status": "success",
+      "unitTests": 147,
+      "browserTests": 122,
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38633114408",
+      "commit": "29c04d581d7e267904df6727d8e71ccf16f51b3a",
+      "version": "1.24.0"
+    }
+  },
+  "observatory": {
+    "version": "1.25.0",
+    "status": "local-verified-awaiting-source-CI-and-user-review",
+    "scope": "Finite baked gas, HDR display/fallback, adaptive motion/rest budgets, bounded cruise, atmosphere controls, optional paths/labels and record discovery/navigation",
+    "unitTests": 154,
+    "browserTests": 128,
+    "browserDurationMinutes": 6.9,
+    "evidence": "docs/handoff/evidence/2026-10-15-observatory-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-15-observatory/PROVENANCE.json",
+    "nativeCaptures": 24,
+    "production": "Preserved1.23.0",
+    "next": "Check pushed source CI; obtain user review of actual high-quality interior, flight, density/light and discovery controls. No production release requested.",
+    "finalLayoutBrowserTests": 15,
+    "distinctBrowserScenarios": 130,
+    "layout": "Viewport-height type cap and recent section hidden below800px;16px footer gap passes at1920x855/2560x900.",
+    "finalHomeCompositionTests": 5,
+    "remoteCI": {
+      "run": 38643136937,
+      "status": "success",
+      "commit": "ed196860e31a4e67c585d3d1b422833b9d9a86f1",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38643136937",
+      "version": "1.25.0"
+    }
+  },
+  "nebulaExperiences": {
+    "version": "1.26.0",
+    "status": "verified-source-CI-user-review-pending",
+    "scenes": [
+      "orion",
+      "ion-veil",
+      "ember-reach",
+      "tidal-shell"
+    ],
+    "addedVolumes": 3,
+    "cosmicPhenomena": 22,
+    "unitTests": 158,
+    "browserTests": 138,
+    "browserDurationMinutes": 6.4,
+    "nativeCaptures": 17,
+    "evidence": "docs/handoff/evidence/2026-10-15-nebula-experiences-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-15-nebula-experiences/PROVENANCE.json",
+    "next": "Verify checkpoint source CI; review distant/interior gas,22 phenomena and home/language controls in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0.",
+    "remoteCI": {
+      "run": 38713062693,
+      "status": "success",
+      "commit": "243fd9e47978df1e1b5bde6525df3fe889498df4",
+      "url": "https://github.com/GhostFelina/wordverse-galaxy/actions/runs/38713062693"
+    }
+  },
+  "nebulaAtlas": {
+    "version": "1.27.0",
+    "status": "local-verified-source-CI-user-review-pending",
+    "scenes": [
+      "carina",
+      "eagle",
+      "horsehead",
+      "helix",
+      "crab",
+      "ring",
+      "rosette",
+      "tarantula",
+      "lagoon",
+      "trifid"
+    ],
+    "sceneCount": 14,
+    "addedPopularVolumes": 10,
+    "alternateCacheLimit": 3,
+    "previewBytes": 271348,
+    "popularVolumeBytes": 32275440,
+    "blackHole": "176-step warm disk with explicit close inspection and return",
+    "unitTests": 160,
+    "browserTests": 142,
+    "evidence": "docs/handoff/evidence/2026-10-15-nebula-atlas-quality.json",
+    "visualManifest": "docs/handoff/evidence/2026-10-15-nebula-atlas/PROVENANCE.json",
+    "next": "Verify checkpoint source CI and review all14 scenes and near black-hole inspection in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0.",
+    "nativeCaptures": 37,
+    "browserValidation": "140 pass in full8.6m run; two legacy gallery-covered wheel points fixed in test setup, then all5 zoom/startup cases pass in11.6s. All142 scenarios covered."
+  }
 }

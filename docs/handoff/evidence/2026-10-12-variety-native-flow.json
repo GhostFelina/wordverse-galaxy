@@ -1,0 +1,26 @@
+{
+  "source": "1.22.0 working tree",
+  "method": "Fresh isolated native Chrome, hardware ANGLE request, production app, one synthetic word",
+  "browser": "154.0.8037.98",
+  "firstAutomaticEvent": "pulsar",
+  "observedOpeningMs": 12073,
+  "positions": [
+    {
+      "kind": "blackhole",
+      "position": "0.516,-0.039"
+    },
+    {
+      "kind": "comet",
+      "position": "0.112,0.593"
+    },
+    {
+      "kind": "pulsar",
+      "position": "0.500,-0.025"
+    }
+  ],
+  "manualPriority": "pass",
+  "quietMode": "pass",
+  "recordsUnchanged": true,
+  "errors": [],
+  "limits": "One randomized opening, not the complete shuffle distribution or all-device timing guarantee"
+}

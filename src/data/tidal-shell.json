@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "kind": "Original artistic gas volume; no observed object or tomography claim.",
+  "generator": "scripts/build-nebula-experiences.mjs",
+  "assets": [
+    {
+      "texture": "/assets/nebulae/tidal-shell-v1.wvz",
+      "dimensions": [128, 128, 128],
+      "channels": 4,
+      "encoding": "gzip uint8",
+      "bytes": 8388608,
+      "compressedBytes": 5300641,
+      "sha256": "d245f62fd1860a3e1e5b698d4a4b715af34fbee58e472dd9ccad966b425b9c79"
+    },
+    {
+      "texture": "/assets/nebulae/orion-detail-v1.wvz",
+      "dimensions": [64, 64, 64],
+      "channels": 1,
+      "encoding": "gzip uint8",
+      "bytes": 262144,
+      "compressedBytes": 246841,
+      "sha256": "f4f05f96ac474a3393ad95719f2bf03883d7e24eed693e73e1c3c69ee462cbd6"
+    }
+  ]
+}
