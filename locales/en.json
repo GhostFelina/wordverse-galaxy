@@ -42,6 +42,11 @@
       "new": "Not reviewed yet.",
       "due": "Ready to review now.",
       "next": "Next review {when} · reviewed {reps}×"
+    },
+    "sync": {
+      "syncing": "Syncing with your account…",
+      "synced": "Progress synced with your account.",
+      "failed": "Could not sync with your account; progress is safe on this device and will retry at your next review."
     }
   },
   "scene": {

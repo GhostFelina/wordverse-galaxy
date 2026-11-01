@@ -813,3 +813,16 @@ button:disabled {
     12px/1.6 'DM Sans',
     sans-serif;
 }
+.recall-sync {
+  margin: 18px 0 0;
+  color: var(--atlas-secondary);
+  font:
+    11px/1.6 'DM Sans',
+    sans-serif;
+}
+.recall-sync-synced {
+  color: var(--atlas-light);
+}
+.recall-sync-failed {
+  color: #e7b6a8;
+}

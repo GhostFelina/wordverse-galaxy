@@ -1065,6 +1065,7 @@ accountSync = mountAccountSync({
 profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
 recallUI = mountRecallUI({ locale: uiLocale, getRecords: () => words,
   getOwnerRecordIds: () => universe.words.map(w => w.id),
+  getCloud: async () => { const state = experience.snapshot(); if (state.mode !== 'personal' || !state.ownerId) return null; const client = await getSupabaseClient(); return client ? { client, ownerId: state.ownerId } : null; },
   getIdentity: () => { const state = experience.snapshot(); return state.ready && state.mode !== 'showcase-demo' ? `${state.mode}:${state.ownerId || 'guest'}:${universe.activeGalaxyId}` : null; },
   beforeOpen: closePanels,
 });

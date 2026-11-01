@@ -26,9 +26,11 @@
 - [x] Add1.28.0 persistent FSRS-4.5 spaced repetition: owner-isolated progress, due/new queue, four previewed grades, keyboard rating, streak/lasting statistics, backup export/import and free practice fallback.
 - [x] Fix the broken format script; complete1.28.0 local174unit and recall browser scenarios.
 - [x] Verify1.28.0 full local browser suite (144 scenarios; affected specs rerun clean).
-- [ ] Verify1.28.0 source CI and user acceptance on feat/spaced-repetition.
+- [x] Add1.29.0 account review sync: wordverse_reviews migration with owner RLS and conditional RPC, client merge/retry, recall open/close sync, unit/e2e and local PostgreSQL checks.
+- [ ] Restore the paused Wordverse Supabase project, apply20261101120000_review_progress.sql and run review-isolation.sql.
+- [ ] Verify source CI (PR16) and user acceptance on feat/spaced-repetition.
 - [ ] Verify1.27.0 checkpoint source CI.
 - [ ] User visual acceptance before publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
-Deferred: review-progress account sync, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.
+Deferred: broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.

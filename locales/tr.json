@@ -42,6 +42,11 @@
       "new": "Henüz tekrar edilmedi.",
       "due": "Tekrar zamanı geldi.",
       "next": "Sonraki tekrar {when} · toplam {reps} tekrar"
+    },
+    "sync": {
+      "syncing": "Hesabınla eşitleniyor…",
+      "synced": "İlerleme hesabınla eşitlendi.",
+      "failed": "Hesapla eşitlenemedi; ilerleme bu cihazda güvende ve sonraki tekrarda yeniden denenecek."
     }
   },
   "scene": {

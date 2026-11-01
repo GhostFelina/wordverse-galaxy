@@ -1,6 +1,10 @@
 # Engineering status
 
-Active branch: feat/spaced-repetition (from phase/4-universe b66098c). Development 1.28.0; production 1.23.0 remains unchanged.
+Active branch: feat/spaced-repetition (from phase/4-universe b66098c). Development 1.29.0; production 1.23.0 remains unchanged.
+
+## 1.29.0 review progress account sync
+
+src/review-sync.js reads `wordverse_reviews`, merges through the review store (latest review per card, larger daily count) and writes with `wordverse_write_reviews(p_owner_id, p_payload, p_expected_updated_at)`; conflicts merge the returned row and retry (4 attempts). recall-ui syncs on open (background; restarts an untouched session when progress arrives) and on close when reviews were made. Only `personal` mode with an owner syncs; guest progress is never uploaded. Unit tests (4) cover upload, two-device merge, concurrent conflict and account mismatch; e2e `account recall merges review progress…` covers the browser flow with the mock backend. Migration and checks pass on local PostgreSQL 16 with an auth shim (avatars migration skipped there: no storage schema). Remote: the Wordverse Supabase project was INACTIVE; restore it and apply the migration (then run supabase/checks/review-isolation.sql) before account review sync is live.
 
 ## 1.28.0 spaced repetition
 

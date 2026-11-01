@@ -3,6 +3,7 @@ import { createRecallSession } from './recall-session.js';
 import { createReviewSession, DEFAULT_NEW_LIMIT } from './review-session.js';
 import { createReviewStore } from './review-store.js';
 import { durationParts } from './review-schedule.js';
+import { syncReviewProgress } from './review-sync.js';
 import './recall.css';
 
 const LANGUAGE_TAGS = { tr: 'tr-TR', en: 'en-US', es: 'es-ES' };
@@ -25,6 +26,7 @@ export function mountRecallUI({
   getIdentity,
   beforeOpen,
   getOwnerRecordIds,
+  getCloud,
   storage = browserStorage(),
 }) {
   const t = (key, params) => translate(locale, `recall.${key}`, params);
@@ -63,7 +65,11 @@ export function mountRecallUI({
     mode = null,
     identity = null,
     returnTarget = null,
-    saveFailed = false;
+    saveFailed = false,
+    syncState = null,
+    dirty = false,
+    reviewCount = 0,
+    syncing = null;
   const memoryStorage = () => {
     const data = new Map();
     return { getItem: (key) => data.get(key) ?? null, setItem: (key, value) => data.set(key, String(value)) };
@@ -229,6 +235,12 @@ export function mountRecallUI({
     dialog.append(node('p', t('sessionOnly'), 'recall-note'));
   }
   function footer() {
+    if (syncState) {
+      const status = node('p', t(`sync.${syncState}`), `recall-sync recall-sync-${syncState}`);
+      status.id = 'recall-sync';
+      status.setAttribute('aria-live', 'polite');
+      dialog.append(status);
+    }
     dialog.append(
       node(
         'p',
@@ -266,6 +278,71 @@ export function mountRecallUI({
     if (dialog.open) dialog.close();
     dialog.replaceChildren();
   }
+  // Account sync runs only around recall use, never on page load, so other
+  // account traffic is unchanged. Local progress is always kept on failure.
+  async function syncProgress(store) {
+    if (!getCloud) return;
+    if (syncing) return syncing;
+    syncing = (async () => {
+      let cloud;
+      try {
+        cloud = await getCloud();
+      } catch {
+        cloud = null;
+      }
+      if (!cloud || reviewOwnerKey(getIdentity()) !== store.ownerKey) return;
+      const sessionIdentity = identity;
+      const countAtStart = reviewCount;
+      syncState = 'syncing';
+      if (dialog.open) renderSyncState();
+      try {
+        const result = await syncReviewProgress({ client: cloud.client, ownerId: cloud.ownerId, store });
+        dirty = reviewCount !== countAtStart;
+        syncState = 'synced';
+        // Fresh progress from another device: restart an untouched session.
+        const state = session?.snapshot();
+        if (
+          result.merged &&
+          dialog.open &&
+          identity === sessionIdentity &&
+          mode !== 'practice' &&
+          state &&
+          !state.completed &&
+          !state.revealed &&
+          !state.grades.again
+        ) {
+          openSession(store);
+          render();
+          focusPrimary();
+        }
+      } catch {
+        syncState = 'failed';
+      }
+      if (dialog.open) renderSyncState();
+      refresh();
+    })().finally(() => {
+      syncing = null;
+      // Reviews made while a sync was in flight are pushed once it settles.
+      if (dirty && syncState === 'synced' && !dialog.open) syncProgress(store);
+    });
+    return syncing;
+  }
+  function renderSyncState() {
+    const current = dialog.querySelector('#recall-sync');
+    if (current) current.textContent = t(`sync.${syncState}`);
+    else if (mode !== 'practice') render();
+  }
+  function openSession(store) {
+    session = createReviewSession(getRecords(), {
+      getCard: store.card,
+      onReview: (id, card, grade) => {
+        dirty = true;
+        reviewCount++;
+        if (!store.record(id, card, grade)) saveFailed = true;
+      },
+    });
+    mode = session.snapshot().total ? 'review' : 'caught-up';
+  }
   function start(event) {
     const store = currentStore();
     if (!store) return;
@@ -273,17 +350,13 @@ export function mountRecallUI({
     identity = getIdentity();
     saveFailed = false;
     if (getOwnerRecordIds) store.prune(getOwnerRecordIds());
-    session = createReviewSession(getRecords(), {
-      getCard: store.card,
-      onReview: (id, card, grade) => {
-        if (!store.record(id, card, grade)) saveFailed = true;
-      },
-    });
-    mode = session.snapshot().total ? 'review' : 'caught-up';
+    syncState = null;
+    openSession(store);
     beforeOpen();
     render();
     dialog.showModal();
     focusPrimary();
+    syncProgress(store);
   }
   dialog.addEventListener('keydown', (event) => {
     if (mode !== 'review' || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -296,6 +369,8 @@ export function mountRecallUI({
   trigger.addEventListener('click', start);
   homeTrigger.addEventListener('click', start);
   dialog.addEventListener('close', () => {
+    const store = currentStore();
+    if (dirty && store) syncProgress(store);
     session = null;
     mode = null;
     identity = null;

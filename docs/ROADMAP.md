@@ -6,7 +6,7 @@ Complete the Orion/stars visual review, camera reliability, useful atlas/recall 
 
 ## Next product work
 
-- Synchronize review progress across account devices; optional parameter personalization once enough reviews exist.
+- Optional FSRS parameter personalization once enough reviews exist.
 - Broader real-browser/GPU coverage, longer sessions and large vocabulary collections.
 - Account synchronization acceptance across two devices, with recoverable conflicts.
 - A dedicated mobile design and touch performance review.

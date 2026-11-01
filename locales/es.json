@@ -42,6 +42,11 @@
       "new": "Aún sin repasar.",
       "due": "Lista para repasar.",
       "next": "Próximo repaso {when} · repasada {reps}×"
+    },
+    "sync": {
+      "syncing": "Sincronizando con tu cuenta…",
+      "synced": "Progreso sincronizado con tu cuenta.",
+      "failed": "No se pudo sincronizar con tu cuenta; el progreso está a salvo en este dispositivo y se reintentará en tu próximo repaso."
     }
   },
   "scene": {

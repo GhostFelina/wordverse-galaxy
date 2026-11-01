@@ -1,6 +1,6 @@
 # Known issues
 
-- 1.28.0 review progress is local to one browser profile and site address, per owner. It is exported in JSON backups but is not yet synchronized through accounts. FSRS uses published default parameters; intervals are not personalized.
+- 1.29.0 account review sync requires migration `20261101120000_review_progress.sql` on the Wordverse Supabase project (mrkmtcpzyvooreeokmkp). The project was INACTIVE (paused) on 2026-11-01, so the migration is not applied; until it is, signed-in recall shows a sync failure note and keeps progress locally. Guest progress stays local. FSRS uses published default parameters; intervals are not personalized.
 - Development1.27.0 adds the searchable fourteen-scene atlas and explicit near black-hole inspection. Local160unit/142browser scenarios and required static/build/security/template gates pass, with37 native synthetic captures. Two legacy wheel coordinates required collapsing the now-visible gallery in test setup; all5 focused zoom/startup cases pass. Source CI follows checkpoint push. Prior1.26 exact-source CI succeeds. User visual acceptance remains open; production stays1.23.0.
 - Ten popular observation-guided fields add32.3MB compressed, independently selected; ten WebP previews total271KB. Full guides load on selection and at most three alternate volumes stay cached. Source photos are1280px wide on1536-square guide canvases; no native8K or measured depth claim.
 - The three original optional density payloads total17.3MB compressed and load only on explicit selection. They are original artistic128³ fields, not measured objects or tomography. Texture fidelity, broader GPU/network and large-archive acceptance remain open.
@@ -10,5 +10,5 @@
 - Main branch application is older than the promoted production build. Documentation-only changes must not trigger a production downgrade.
 - Account/network failures can delay identity resolution; content isolation is preserved. Account rollout and new mobile design are outside the current desktop presentation work.
 - Current Orion guidance is native1254, artistic depth. Do not claim true8K or measured gas tomography.
-- Review-progress account sync and offline account reconciliation remain future work.
+- Offline account reconciliation remains future work.
 - Historical Git revisions may contain obsolete internal briefs. Current source cleanup does not rewrite repository history.

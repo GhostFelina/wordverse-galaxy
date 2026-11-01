@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.29.0] — Development · 2026-11-01
+
+- Account sync for review progress. Signed-in recall reads, merges and writes progress in a new owner-isolated `wordverse_reviews` table. The merge keeps the latest review of each word and the larger daily count, so two devices never lose reviews; a conditional write retries after another device writes first.
+- Sync runs only when recall is opened or closed, never on page load, so record-sync traffic is unchanged. Fresh progress from another device restarts an untouched session. Failures keep local progress and say so in the dialog.
+- New additive migration `20261101120000_review_progress.sql` (table, owner RLS, `wordverse_write_reviews` SECURITY INVOKER RPC) and `supabase/checks/review-isolation.sql`. Both, plus the existing RLS check, pass on a local PostgreSQL 16 with an auth shim. Guest progress is never uploaded.
+
 ## [1.28.0] — Development · 2026-11-01
 
 - Persistent spaced repetition. Recall now schedules each word with the published FSRS-4.5 memory model (default parameters, 90% target retention): due words first, most overdue first, then up to ten new words per session.
