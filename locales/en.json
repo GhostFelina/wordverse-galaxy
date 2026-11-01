@@ -526,7 +526,17 @@
     "oldest": "Oldest record",
     "recent": "Recently added",
     "empty": "No dated records yet.",
-    "reviewPending": "Recall and review statistics will appear when the review system is available."
+    "reviewTitle": "Review",
+    "reviewUnavailable": "Review statistics appear once this universe is open.",
+    "reviewCount": "Reviews in 30 days",
+    "retention": "Recall rate",
+    "mature": "Lasting words",
+    "streak": "Day streak",
+    "reviewEmpty": "No reviews yet. Start your first session from the home screen.",
+    "historyLabel": "Daily reviews over the last 30 days",
+    "historyDay": "{day}: {count} reviews",
+    "forecastTitle": "Words coming due in the next 7 days",
+    "today": "Today"
   },
   "catalog": {
     "title": "Sky catalog",

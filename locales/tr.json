@@ -526,7 +526,17 @@
     "oldest": "En eski kayıt",
     "recent": "Son eklenenler",
     "empty": "Henüz tarihli kayıt yok.",
-    "reviewPending": "Hatırlama ve tekrar istatistikleri, tekrar sistemi hazır olduğunda görünecek."
+    "reviewTitle": "Tekrar",
+    "reviewUnavailable": "Tekrar istatistikleri bu evren açıldığında görünür.",
+    "reviewCount": "Son 30 günde tekrar",
+    "retention": "Hatırlama oranı",
+    "mature": "Kalıcı kelime",
+    "streak": "Günlük seri",
+    "reviewEmpty": "Henüz tekrar yapmadın. İlk oturumu ana sayfadan başlatabilirsin.",
+    "historyLabel": "Son 30 günde günlük tekrar sayısı",
+    "historyDay": "{day}: {count} tekrar",
+    "forecastTitle": "Önümüzdeki 7 günde tekrar zamanı gelecek kelimeler",
+    "today": "Bugün"
   },
   "catalog": {
     "title": "Gök kataloğu",

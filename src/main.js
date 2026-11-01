@@ -1061,7 +1061,7 @@ accountSync = mountAccountSync({
     if (activePanel === 'detail' && !selectedId) closePanels();
   },
 });
-profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
+profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels, getReviewInsights: () => recallUI?.insights(universe.words) ?? null });
 recallUI = mountRecallUI({ locale: uiLocale, getRecords: () => words,
   getOwnerRecordIds: () => universe.words.map(w => w.id),
   getCloud: async () => { const state = experience.snapshot(); if (state.mode !== 'personal' || !state.ownerId) return null; const client = await getSupabaseClient(); return client ? { client, ownerId: state.ownerId } : null; },

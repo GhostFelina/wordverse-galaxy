@@ -526,7 +526,17 @@
     "oldest": "Registro más antiguo",
     "recent": "Añadidos recientemente",
     "empty": "Aún no hay registros con fecha.",
-    "reviewPending": "Las estadísticas de memoria y repaso aparecerán cuando esté disponible el sistema de repaso."
+    "reviewTitle": "Repaso",
+    "reviewUnavailable": "Las estadísticas de repaso aparecen cuando este universo está abierto.",
+    "reviewCount": "Repasos en 30 días",
+    "retention": "Tasa de recuerdo",
+    "mature": "Palabras afianzadas",
+    "streak": "Días de racha",
+    "reviewEmpty": "Aún no hay repasos. Empieza tu primera sesión desde la pantalla de inicio.",
+    "historyLabel": "Repasos diarios en los últimos 30 días",
+    "historyDay": "{day}: {count} repasos",
+    "forecastTitle": "Palabras que tocan repasar en los próximos 7 días",
+    "today": "Hoy"
   },
   "catalog": {
     "title": "Catálogo celeste",

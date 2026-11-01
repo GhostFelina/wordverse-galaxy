@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.30.0] — Development · 2026-11-01
+
+- Profile review statistics replace the "coming later" placeholder: reviews in the last 30 days, recall rate, lasting words and day streak, a 30-day daily review chart and a 7-day due forecast (overdue words count today). Values cover the open universe's existing words only and never change records.
+- Profile language labels use the shared language detection from `src/word-records.js`.
+
 ## [1.29.0] — Development · 2026-11-01
 
 - Account sync for review progress. Signed-in recall reads, merges and writes progress in a new owner-isolated `wordverse_reviews` table. The merge keeps the latest review of each word and the larger daily count, so two devices never lose reviews; a conditional write retries after another device writes first.

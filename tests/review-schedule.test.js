@@ -11,7 +11,14 @@ import {
   review,
 } from '../src/review-schedule.js';
 import { buildReviewQueue, createReviewSession } from '../src/review-session.js';
-import { createReviewStore, localDay, reviewSummary, sanitizeReviewState, streakDays } from '../src/review-store.js';
+import {
+  createReviewStore,
+  localDay,
+  reviewInsights,
+  reviewSummary,
+  sanitizeReviewState,
+  streakDays,
+} from '../src/review-store.js';
 
 const DAY = 86_400_000;
 const start = new Date('2026-11-01T09:00:00Z');
@@ -201,5 +208,37 @@ describe('review store', () => {
     );
     expect(store.record('a', review(null, 'good', start), 'good', start)).toBe(false);
     expect(store.card('a').reps).toBe(1);
+  });
+});
+
+describe('review insights', () => {
+  it('builds a 30-day history, recall rate and a 7-day forecast for active records only', () => {
+    const now = new Date(2026, 10, 10, 15);
+    const at = (days) => new Date(now.getTime() + days * DAY).toISOString();
+    const card = (due, stability = 3) => ({
+      due,
+      lastReview: at(-1),
+      stability,
+      difficulty: 5,
+      reps: 1,
+      lapses: 0,
+      state: 'review',
+    });
+    const state = sanitizeReviewState({
+      version: 1,
+      cards: { a: card(at(-3)), b: card(at(1)), c: card(at(30), 40), gone: card(at(0.1)) },
+      days: {
+        [localDay(now)]: { reviewed: 8, again: 2 },
+        [localDay(new Date(2026, 9, 1))]: { reviewed: 50, again: 0 },
+      },
+    });
+    const insights = reviewInsights(state, [{ id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'n' }], now);
+    expect(insights.history).toHaveLength(30);
+    expect(insights.history.at(-1)).toEqual({ day: localDay(now), reviewed: 8, again: 2 });
+    expect(insights.reviewed).toBe(8);
+    expect(insights.retention).toBe(0.75);
+    expect(insights.forecast.map((entry) => entry.due)).toEqual([1, 1, 0, 0, 0, 0, 0]);
+    expect(insights).toMatchObject({ reviewedWords: 3, newWords: 1, mature: 1, streak: 1 });
+    expect(reviewInsights(sanitizeReviewState(null), [], now).retention).toBeNull();
   });
 });

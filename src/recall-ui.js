@@ -1,7 +1,7 @@
 import { translate } from './i18n.js';
 import { createRecallSession } from './recall-session.js';
 import { createReviewSession, DEFAULT_NEW_LIMIT } from './review-session.js';
-import { createReviewStore } from './review-store.js';
+import { createReviewStore, reviewInsights } from './review-store.js';
 import { durationParts } from './review-schedule.js';
 import { syncReviewProgress } from './review-sync.js';
 import './recall.css';
@@ -412,6 +412,11 @@ export function mountRecallUI({
     /** Progress for the current owner, for JSON backups. */
     exportProgress: () => currentStore()?.export() ?? null,
     importProgress: (value, idMap) => currentStore()?.import(value, idMap) ?? 0,
+    /** Review insights for the current owner across the given records (profile view). */
+    insights(records) {
+      const store = currentStore();
+      return store ? reviewInsights(store.snapshot(), records) : null;
+    },
     /** One-line schedule status for a word in the current owner's progress, or null without an owner. */
     wordStatus(id) {
       const store = currentStore();

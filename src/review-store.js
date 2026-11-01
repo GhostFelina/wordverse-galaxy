@@ -136,3 +136,51 @@ export function createReviewStore(storage, ownerKey) {
     },
   };
 }
+
+/**
+ * Profile insights over an owner's records: 30-day review history, a 7-day due
+ * forecast (overdue cards count today) and 30-day recall rate. Read-only.
+ */
+export function reviewInsights(state, records, now = new Date(), { historyDays = 30, forecastDays = 7 } = {}) {
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const shift = (offset) => {
+    const day = new Date(today);
+    day.setDate(day.getDate() + offset);
+    return day;
+  };
+  const history = [];
+  let reviewed = 0,
+    again = 0;
+  for (let offset = 1 - historyDays; offset <= 0; offset++) {
+    const day = localDay(shift(offset));
+    const entry = state.days[day] || { reviewed: 0, again: 0 };
+    history.push({ day, reviewed: entry.reviewed, again: entry.again });
+    reviewed += entry.reviewed;
+    again += entry.again;
+  }
+  const forecast = Array.from({ length: forecastDays }, (_, offset) => ({ day: localDay(shift(offset)), due: 0 }));
+  const horizon = shift(forecastDays).getTime();
+  const ids = new Set(records.filter((record) => record?.id && !record.deletedAt).map((record) => record.id));
+  let reviewedWords = 0,
+    mature = 0;
+  for (const [id, card] of Object.entries(state.cards)) {
+    if (!ids.has(id)) continue;
+    reviewedWords++;
+    if (isMature(card)) mature++;
+    const due = Date.parse(card.due);
+    if (due >= horizon) continue;
+    const index = due < today.getTime() ? 0 : Math.floor((due - today.getTime()) / 86_400_000);
+    // Local midnight shifts with DST; clamp so a 23/25-hour day never escapes the window.
+    forecast[Math.min(forecastDays - 1, Math.max(0, index))].due++;
+  }
+  return {
+    history,
+    forecast,
+    reviewed,
+    retention: reviewed ? (reviewed - again) / reviewed : null,
+    reviewedWords,
+    newWords: ids.size - reviewedWords,
+    mature,
+    streak: streakDays(state.days, now),
+  };
+}

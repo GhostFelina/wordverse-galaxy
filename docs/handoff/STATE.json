@@ -13,7 +13,7 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.29.0",
+  "developmentVersion": "1.30.0",
   "activeWork": "Spaced repetition 1.28.0 and account review sync 1.29.0 on feat/spaced-repetition (PR16)",
   "pausedVisualLayers": [
     "other-observed-nebula-catalog",

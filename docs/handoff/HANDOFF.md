@@ -1,6 +1,8 @@
 # Engineering status
 
-Active branch: feat/spaced-repetition (from phase/4-universe b66098c). Development 1.29.0; production 1.23.0 remains unchanged.
+Active branch: feat/spaced-repetition (from phase/4-universe b66098c). Development 1.30.0; production 1.23.0 remains unchanged.
+
+1.30.0 adds profile review insights (`reviewInsights` in src/review-store.js, rendered by src/profile-ui.js through `recallUI.insights(universe.words)`).
 
 ## 1.29.0 review progress account sync
 
