@@ -31,6 +31,7 @@ import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { findDuplicate, languageCode, readEntryFields } from './word-records.js';
 import { createPronouncer } from './pronunciation.js';
 import { mountVocabularyImport } from './vocab-import-ui.js';
+import { registerServiceWorker } from './pwa.js';
 import { translate, formatDate, formatUnit } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountProfileUI, profileSessionListener } from './profile-ui.js';
@@ -1137,4 +1138,5 @@ recallUI.refresh();
 // Let identity/UI initialization run before expensive GPU preparation.
 requestAnimationFrame(() => { initScene(); syncRenderLoop(); });
 if (recoveredFromMirror) showToast(t('message.recovered'));
+registerServiceWorker({ notify: showToast, message: t('pwa.updateReady') });
 if (archiveFailure) showToast(t('status.archiveError'));

@@ -797,5 +797,8 @@
       "tsv": "Leído como lista separada por tabulaciones.",
       "anki": "Leído como exportación de texto de Anki."
     }
+  },
+  "pwa": {
+    "updateReady": "Hay una actualización de Wordverse lista; se aplicará la próxima vez que abras la app."
   }
 }

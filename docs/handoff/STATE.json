@@ -13,7 +13,7 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.30.0",
+  "developmentVersion": "1.31.0",
   "activeWork": "Spaced repetition 1.28.0 and account review sync 1.29.0 on feat/spaced-repetition (PR16)",
   "pausedVisualLayers": [
     "other-observed-nebula-catalog",
@@ -342,7 +342,7 @@
     "recordsChanged": false,
     "localUnitTests": 174,
     "recallBrowserTests": 6,
-    "fullBrowserSuite": "144 local scenarios: 138 first run + affected 22 rerun clean",
+    "fullBrowserSuite": "146/146 clean full run at 39b2896 (1.30.0)",
     "accountSync": "implemented 1.29.0; migration 20261101120000_review_progress.sql not applied (Supabase project INACTIVE)",
     "remoteCI": "not checked",
     "localPostgresChecks": "review-isolation and rls-isolation pass on PostgreSQL 16 shim",

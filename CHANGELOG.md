@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.31.0] — Development · 2026-11-01
+
+- Pronunciation: word details and recall cards read a word in its galaxy language with browser speech synthesis. Only on-device voices are used, so word text never goes to a remote speech service; without a matching local voice the control stays hidden.
+- Bulk word lists: the galaxy panel imports CSV, semicolon CSV, TSV and Anki plain-text exports (TR/EN/ES header detection, quoted fields, Anki HTML/media cleanup, 5,000 rows / 2 MB). A preview shows words to add, duplicates and incomplete rows before anything changes; each added word gets a stored position and its own creation event. The active galaxy downloads as UTF-8 CSV with spreadsheet-formula neutralization.
+- Installable app: web manifest, generated icons (`npm run icons`) and a generated service worker (`scripts/build-service-worker.mjs`). The ~1 MB app shell is precached; scene assets are cached on first use (bounded); cross-origin and non-GET requests are never handled. Navigation is network-first, so deployments stay fresh, and the app reopens offline with local records. Updates wait until every tab closes and the user is told one is ready.
+- New checks: `npm run test:pwa` runs the offline/installability test against the production preview and is part of `npm run check`.
+
 ## [1.30.0] — Development · 2026-11-01
 
 - Profile review statistics replace the "coming later" placeholder: reviews in the last 30 days, recall rate, lasting words and day streak, a 30-day daily review chart and a 7-day due forecast (overdue words count today). Values cover the open universe's existing words only and never change records.

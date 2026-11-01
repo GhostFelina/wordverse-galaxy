@@ -797,5 +797,8 @@
       "tsv": "Sekmeyle ayrılmış liste olarak okundu.",
       "anki": "Anki metin dışa aktarımı olarak okundu."
     }
+  },
+  "pwa": {
+    "updateReady": "Wordverse güncellemesi hazır; bir sonraki açılışta etkin olacak."
   }
 }

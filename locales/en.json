@@ -797,5 +797,8 @@
       "tsv": "Read as a tab-separated list.",
       "anki": "Read as an Anki text export."
     }
+  },
+  "pwa": {
+    "updateReady": "A Wordverse update is ready; it applies the next time you open the app."
   }
 }
