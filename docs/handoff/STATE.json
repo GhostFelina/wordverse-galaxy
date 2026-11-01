@@ -341,8 +341,9 @@
     "storageKey": "wordverse.reviews.v1:<mode>:<owner>",
     "recordsChanged": false,
     "localUnitTests": 174,
-    "recallBrowserTests": 5,
-    "fullBrowserSuite": "pending",
-    "accountSync": "deferred"
+    "recallBrowserTests": 6,
+    "fullBrowserSuite": "144 local scenarios: 138 first run + affected 22 rerun clean",
+    "accountSync": "deferred",
+    "remoteCI": "not checked"
   }
 }

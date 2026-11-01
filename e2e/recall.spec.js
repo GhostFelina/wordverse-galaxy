@@ -194,6 +194,8 @@ test('word detail shows its review schedule after a scheduled session', async ({
   await page.locator('#collection-btn').click();
   await page.locator('.collection-item').filter({ hasText: 'Continuity' }).click();
   await expect(page.locator('#detail-review')).toHaveText('Not reviewed yet.');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#panel-backdrop')).not.toHaveClass(/open/);
   await page.locator('#collection-btn').click();
   await page.locator('#open-recall').click();
   for (let i = 0; i < 2; i++) {
@@ -201,6 +203,8 @@ test('word detail shows its review schedule after a scheduled session', async ({
     await page.keyboard.press('3');
   }
   await page.keyboard.press('Escape');
+  await expect(page.locator('#recall-dialog')).toBeHidden();
+  await page.locator('#collection-btn').click();
   await page.locator('.collection-item').filter({ hasText: 'Continuity' }).click();
   await expect(page.locator('#detail-review')).toContainText('Next review');
   await expect(page.locator('#detail-review')).toContainText('reviewed 1×');

@@ -25,7 +25,8 @@
 - [x] Complete1.27.0 local160unit/142browser scenario coverage, required gates and37 native synthetic captures.
 - [x] Add1.28.0 persistent FSRS-4.5 spaced repetition: owner-isolated progress, due/new queue, four previewed grades, keyboard rating, streak/lasting statistics, backup export/import and free practice fallback.
 - [x] Fix the broken format script; complete1.28.0 local174unit and recall browser scenarios.
-- [ ] Verify1.28.0 full browser suite and source CI on feat/spaced-repetition.
+- [x] Verify1.28.0 full local browser suite (144 scenarios; affected specs rerun clean).
+- [ ] Verify1.28.0 source CI and user acceptance on feat/spaced-repetition.
 - [ ] Verify1.27.0 checkpoint source CI.
 - [ ] User visual acceptance before publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
