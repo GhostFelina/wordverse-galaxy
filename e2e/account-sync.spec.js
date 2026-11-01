@@ -44,6 +44,7 @@ async function setupMockAccount(page, seedCloud = true) {
     wordverse_entries: seedCloud ? [row('w', { ...guest.words[0], word: 'cloud star' }, { galaxy_id: 'g' })] : [],
     wordverse_events: [],
     wordverse_settings: [],
+    wordverse_reviews: [],
   };
   const expiresAt = Math.floor(Date.now() / 1000) + 3600;
   const token = [
@@ -60,6 +61,20 @@ async function setupMockAccount(page, seedCloud = true) {
     const reply = (body) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
     if (url.pathname.endsWith('/logout')) return route.fulfill({ status: 204 });
     if (url.pathname.endsWith('/user')) return reply(user);
+    if (url.pathname.endsWith('/rest/v1/rpc/wordverse_write_reviews')) {
+      // Review progress uses its own conditional write and is not counted as record sync traffic.
+      const input = route.request().postDataJSON();
+      const current = tables.wordverse_reviews[0] || null;
+      if ((current?.updated_at || null) !== input.p_expected_updated_at)
+        return reply({ status: 'conflict', row: current });
+      const saved = {
+        user_id: input.p_owner_id,
+        payload: input.p_payload,
+        updated_at: new Date(Date.parse('2026-10-03T07:00:00Z') + ++sequence * 1000).toISOString(),
+      };
+      tables.wordverse_reviews[0] = saved;
+      return reply({ status: 'applied', row: saved });
+    }
     if (url.pathname.includes('/rest/v1/rpc/')) {
       const input = route.request().postDataJSON();
       const records = tables[input.p_table];
@@ -482,4 +497,41 @@ test('account storage write failure keeps the edit in memory without upload and 
   await page.locator('#collection-btn').click();
   await expect(page.locator('#collection-list')).toContainText('retained quota star');
   expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+});
+
+test('account recall merges review progress from another device and uploads new reviews', async ({ page }) => {
+  const backend = await setupMockAccount(page);
+  const past = new Date(Date.now() - 2 * 86_400_000).toISOString();
+  backend.tables.wordverse_reviews.push({
+    user_id: '22222222-2222-4222-8222-222222222222',
+    payload: {
+      version: 1,
+      cards: { w: { due: past, lastReview: past, stability: 2, difficulty: 5, reps: 1, lapses: 0, state: 'review' } },
+      days: {},
+    },
+    updated_at: '2026-10-03T06:30:00.000Z',
+  });
+  await page.goto('/?lang=en');
+  await page.locator('#open-account').waitFor();
+  const guestCopy = await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'));
+  await signInAndOpenMerge(page);
+  await page.locator('#sync-dialog').getByRole('button', { name: 'Open only my account universe' }).click();
+  await expect(page.locator('#sync-status')).toHaveText('Synced');
+  await expect(page.locator('#app')).toHaveAttribute('data-content-ready', 'true');
+  const writes = backend.writes();
+  await page.locator('#collection-btn').click();
+  await page.locator('#open-recall').click();
+  // The other device's review arrives: the untouched session restarts with the word due, not new.
+  await expect(page.locator('#recall-sync')).toHaveText('Progress synced with your account.');
+  await expect(page.locator('.recall-badge')).toHaveCount(0);
+  await expect(page.locator('#recall-word')).toHaveText('cloud star');
+  await page.locator('#recall-reveal').click();
+  await page.keyboard.press('3');
+  await expect(page.locator('#recall-finish')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect.poll(() => backend.tables.wordverse_reviews[0].payload.cards.w.reps).toBe(2);
+  // Guest progress and record sync traffic stay untouched.
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.reviews.v1:guest-personal:guest'))).toBeNull();
+  expect(await page.evaluate(() => localStorage.getItem('wordverse.universe.v4'))).toBe(guestCopy);
+  expect(backend.writes()).toBe(writes);
 });

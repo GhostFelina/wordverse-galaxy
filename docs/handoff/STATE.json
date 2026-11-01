@@ -1,7 +1,7 @@
 {
   "project": "wordverse",
   "repository": "GhostFelina/wordverse-galaxy",
-  "activeBranch": "phase/4-universe",
+  "activeBranch": "feat/spaced-repetition",
   "activePhase": 4,
   "completedPhases": [
     0,
@@ -13,8 +13,8 @@
   ],
   "handoff": "docs/handoff/HANDOFF.md",
   "localUrl": "http://127.0.0.1:5360/",
-  "developmentVersion": "1.27.0",
-  "activeWork": "Fourteen-scene searchable nebula atlas, ten popular observation-guided volumes, bounded cache and reversible black-hole inspection verified locally:160unit/142browser cases,37 native synthetic captures. Checkpoint source CI and user visual review follow; production1.23.0 preserved.",
+  "developmentVersion": "1.31.0",
+  "activeWork": "Spaced repetition 1.28.0 and account review sync 1.29.0 on feat/spaced-repetition (PR16)",
   "pausedVisualLayers": [
     "other-observed-nebula-catalog",
     "galaxies",
@@ -334,5 +334,18 @@
     "next": "Verify checkpoint source CI and review all14 scenes and near black-hole inspection in the ordinary local browser at127.0.0.1:5360. Production remains1.23.0.",
     "nativeCaptures": 37,
     "browserValidation": "140 pass in full8.6m run; two legacy gallery-covered wheel points fixed in test setup, then all5 zoom/startup cases pass in11.6s. All142 scenarios covered."
+  },
+  "spacedRepetition": {
+    "version": "1.28.0",
+    "model": "FSRS-4.5 default parameters, 0.9 retention",
+    "storageKey": "wordverse.reviews.v1:<mode>:<owner>",
+    "recordsChanged": false,
+    "localUnitTests": 200,
+    "recallBrowserTests": 6,
+    "fullBrowserSuite": "149/149 clean full run at 2ac9494 (1.31.0); test:pwa 1/1",
+    "accountSync": "implemented 1.29.0; migration 20261101120000_review_progress.sql not applied (Supabase project INACTIVE)",
+    "remoteCI": "not checked",
+    "localPostgresChecks": "review-isolation and rls-isolation pass on PostgreSQL 16 shim",
+    "pullRequest": 16
   }
 }

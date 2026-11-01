@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.31.0] — Development · 2026-11-01
+
+- Pronunciation: word details and recall cards read a word in its galaxy language with browser speech synthesis. Only on-device voices are used, so word text never goes to a remote speech service; without a matching local voice the control stays hidden.
+- Bulk word lists: the galaxy panel imports CSV, semicolon CSV, TSV and Anki plain-text exports (TR/EN/ES header detection, quoted fields, Anki HTML/media cleanup, 5,000 rows / 2 MB). A preview shows words to add, duplicates and incomplete rows before anything changes; each added word gets a stored position and its own creation event. The active galaxy downloads as UTF-8 CSV with spreadsheet-formula neutralization.
+- Installable app: web manifest, generated icons (`npm run icons`) and a generated service worker (`scripts/build-service-worker.mjs`). The ~1 MB app shell is precached; scene assets are cached on first use (bounded); cross-origin and non-GET requests are never handled. Navigation is network-first, so deployments stay fresh, and the app reopens offline with local records. Updates wait until every tab closes and the user is told one is ready.
+- New checks: `npm run test:pwa` runs the offline/installability test against the production preview and is part of `npm run check`.
+
+## [1.30.0] — Development · 2026-11-01
+
+- Profile review statistics replace the "coming later" placeholder: reviews in the last 30 days, recall rate, lasting words and day streak, a 30-day daily review chart and a 7-day due forecast (overdue words count today). Values cover the open universe's existing words only and never change records.
+- Profile language labels use the shared language detection from `src/word-records.js`.
+
+## [1.29.0] — Development · 2026-11-01
+
+- Account sync for review progress. Signed-in recall reads, merges and writes progress in a new owner-isolated `wordverse_reviews` table. The merge keeps the latest review of each word and the larger daily count, so two devices never lose reviews; a conditional write retries after another device writes first.
+- Sync runs only when recall is opened or closed, never on page load, so record-sync traffic is unchanged. Fresh progress from another device restarts an untouched session. Failures keep local progress and say so in the dialog.
+- Fixed duplicate-word detection: it chose case rules only for the Turkish label "İspanyolca", so Turkish-language galaxies folded "İ" incorrectly and missed duplicates, galaxies named "Spanish"/"Español" used English rules, and extra spaces or a different Unicode composition looked like a new word. Word input is now NFC-normalized with collapsed spaces, and galaxy languages typed in Turkish, English, Spanish or the native name map to the right locale.
+- Moved form normalization, language detection and duplicate rules out of `main.js` into the tested `src/word-records.js`; placeholders and language labels now use the same detection.
+- New additive migration `20261101120000_review_progress.sql` (table, owner RLS, `wordverse_write_reviews` SECURITY INVOKER RPC) and `supabase/checks/review-isolation.sql`. Both, plus the existing RLS check, pass on a local PostgreSQL 16 with an auth shim. Guest progress is never uploaded.
+
+## [1.28.0] — Development · 2026-11-01
+
+- Persistent spaced repetition. Recall now schedules each word with the published FSRS-4.5 memory model (default parameters, 90% target retention): due words first, most overdue first, then up to ten new words per session.
+- Four memory grades (Again / Hard / Good / Easy) show their next interval before you choose; keys 1–4 rate a revealed card. "Again" returns the card later in the same session, with a bounded number of repeats.
+- Atlas and home actions show how many words are due or new. Sessions end with today's reviews, the daily streak, lasting (stability ≥ 21 days) words and the next due time. When nothing is due, the previous session-only practice remains available and never changes the schedule.
+- Word details show each record's schedule: not reviewed yet, ready now, or the next review time with its review count.
+- Review progress is owner-isolated and stored beside, never inside, vocabulary records: IDs, coordinates, dates, events and sync payloads are unchanged. Progress for deleted words is pruned. JSON backups include progress and imports merge it by most recent review, following conflict copies.
+- Fixed the broken `npm run format` script; it now formats exactly the `format:check` file list.
+
 ## [1.27.0] — Development · 2026-10-15
 
 - Unified the visible preview gallery and nebula atlas: fourteen scenes, genuine rendered/observational thumbnails, translated name/catalog search, a ten-popular-nebula filter and shared dive/loading/retry behavior.

@@ -1,9 +1,11 @@
 import { translate, formatNumber, formatDate } from './i18n.js';
 import { profileStatistics } from './profile-statistics.js';
+import { languageCode } from './word-records.js';
 import './profile.css';
 
-export function mountProfileUI({ locale, getUniverse, beforeOpen }) {
-  const t = (key) => translate(locale, `profile.${key}`);
+export function mountProfileUI({ locale, getUniverse, beforeOpen, getReviewInsights }) {
+  const t = (key, params) => translate(locale, `profile.${key}`, params);
+  const tag = { tr: 'tr-TR', en: 'en-US', es: 'es-ES' }[locale] || 'tr-TR';
   const dialog = document.createElement('dialog');
   dialog.id = 'profile-dialog';
   dialog.className = 'auth-dialog profile-dialog';
@@ -37,15 +39,8 @@ export function mountProfileUI({ locale, getUniverse, beforeOpen }) {
     else {
       const list = node('ul', '', 'profile-languages');
       for (const { language, count } of statistics.languages) {
-        const aliases = new Map([
-          ['English', 'en'],
-          ['İngilizce', 'en'],
-          ['Spanish', 'es'],
-          ['İspanyolca', 'es'],
-          ['Turkish', 'tr'],
-          ['Türkçe', 'tr'],
-        ]);
-        const label = aliases.get(language);
+        const code = languageCode(language);
+        const label = ['en', 'es', 'tr'].includes(code) ? code : null;
         list.append(
           node(
             'li',
@@ -69,8 +64,55 @@ export function mountProfileUI({ locale, getUniverse, beforeOpen }) {
     for (const entry of statistics.recent)
       recent.append(node('li', `${entry.word} · ${formatDate(locale, entry.createdAt)}`));
     dialog.append(statistics.recent.length ? recent : node('p', t('empty')));
-    dialog.append(node('p', t('reviewPending'), 'auth-description'));
+    renderReview();
     dialog.showModal();
+  }
+  function renderReview() {
+    const insights = getReviewInsights?.();
+    dialog.append(node('h3', t('reviewTitle')));
+    if (!insights) {
+      dialog.append(node('p', t('reviewUnavailable'), 'auth-description'));
+      return;
+    }
+    const totals = node('dl', '', 'profile-totals profile-review-totals');
+    const percent = new Intl.NumberFormat(tag, { style: 'percent', maximumFractionDigits: 0 });
+    for (const [key, value] of [
+      ['reviewCount', formatNumber(locale, insights.reviewed)],
+      ['retention', insights.retention === null ? '—' : percent.format(insights.retention)],
+      ['mature', formatNumber(locale, insights.mature)],
+      ['streak', formatNumber(locale, insights.streak)],
+    ]) {
+      const group = node('div', '');
+      group.append(node('dt', t(key)), node('dd', value));
+      totals.append(group);
+    }
+    dialog.append(totals);
+    if (!insights.reviewed && !insights.reviewedWords) {
+      dialog.append(node('p', t('reviewEmpty'), 'auth-description'));
+      return;
+    }
+    // Thirty-day history: bar heights share one scale; the list stays readable for assistive tech.
+    const peak = Math.max(1, ...insights.history.map((entry) => entry.reviewed));
+    const chart = node('ol', '', 'profile-history');
+    chart.setAttribute('aria-label', t('historyLabel'));
+    const dayLabel = (day) => formatDate(locale, `${day}T12:00:00`, { day: 'numeric', month: 'short' });
+    for (const entry of insights.history) {
+      const bar = node('li', '');
+      bar.style.setProperty('--level', String(entry.reviewed / peak));
+      bar.title = t('historyDay', { day: dayLabel(entry.day), count: entry.reviewed });
+      bar.setAttribute('aria-label', bar.title);
+      chart.append(bar);
+    }
+    dialog.append(node('p', t('historyLabel'), 'profile-caption'), chart);
+    const forecast = node('ol', '', 'profile-forecast');
+    const weekday = new Intl.DateTimeFormat(tag, { weekday: 'short' });
+    insights.forecast.forEach((entry, index) => {
+      const item = node('li', '');
+      const name = index === 0 ? t('today') : weekday.format(new Date(`${entry.day}T12:00:00`));
+      item.append(node('span', name), node('strong', formatNumber(locale, entry.due)));
+      forecast.append(item);
+    });
+    dialog.append(node('p', t('forecastTitle'), 'profile-caption'), forecast);
   }
   return { open, close: () => dialog.close() };
 }

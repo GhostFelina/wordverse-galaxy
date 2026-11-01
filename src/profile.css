@@ -35,3 +35,57 @@
   padding: 5px 0;
   overflow-wrap: anywhere;
 }
+.profile-review-totals {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.profile-caption {
+  margin: 18px 0 8px;
+  color: #bac4d4;
+  font-size: 12px;
+}
+.profile-history {
+  display: grid;
+  grid-template-columns: repeat(30, minmax(0, 1fr));
+  align-items: end;
+  gap: 3px;
+  height: 72px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid #364256;
+}
+.profile-history li {
+  height: max(2px, calc(var(--level, 0) * 100%));
+  border-radius: 2px 2px 0 0;
+  background: #d9b68e;
+  opacity: calc(0.35 + var(--level, 0) * 0.65);
+}
+.profile-forecast {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.profile-forecast li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 2px;
+  border: 1px solid #364256;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #bac4d4;
+}
+.profile-forecast strong {
+  color: #f4efe7;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 520px) {
+  .profile-review-totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

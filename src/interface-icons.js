@@ -10,6 +10,7 @@ import {
   Minus,
   RotateCcw,
   BookOpen,
+  Volume2,
 } from 'lucide';
 
 const icons = {
@@ -23,6 +24,7 @@ const icons = {
   minus: Minus,
   reset: RotateCcw,
   book: BookOpen,
+  speak: Volume2,
 };
 
 export function icon(name) {

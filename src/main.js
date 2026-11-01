@@ -28,6 +28,10 @@ import { mountExperienceUI } from './experience-ui.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
+import { findDuplicate, languageCode, readEntryFields } from './word-records.js';
+import { createPronouncer } from './pronunciation.js';
+import { mountVocabularyImport } from './vocab-import-ui.js';
+import { registerServiceWorker } from './pwa.js';
 import { translate, formatDate, formatUnit } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountProfileUI, profileSessionListener } from './profile-ui.js';
@@ -98,6 +102,7 @@ let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
 let experienceUI;
 let recallUI;
+let vocabularyUI;
 let collectionAtlas;
 let graphicsFallback;
 let experienceKey = '';
@@ -158,7 +163,7 @@ let fpsFrames = 0;
 let fpsLast = 0;
 let drawCalls = 0;
 const MEANING_LANGUAGES = new Set(['tr', 'en', 'es']);
-const languageDisplay = value => value === 'İngilizce' || value === 'English' ? t('names.language.en') : value === 'İspanyolca' || value === 'Spanish' ? t('names.language.es') : value === 'Türkçe' || value === 'Turkish' ? t('names.language.tr') : value || t('message.languageFallback');
+const languageDisplay = value => { const code = languageCode(value); return ['en', 'es', 'tr'].includes(code) ? t(`names.language.${code}`) : value || t('message.languageFallback'); };
 const galaxyDisplay = galaxy => galaxy?.id === 'galaxy-english' && galaxy.name === 'İngilizce Galaksisi' ? t('names.defaultGalaxy.english') : galaxy?.id === 'galaxy-spanish' && galaxy.name === 'İspanyolca Galaksisi' ? t('names.defaultGalaxy.spanish') : galaxy?.name || t('message.galaxyFallback');
 const meaningLanguageLabel = galaxy => t('panel.meaningOf', { language: t(`names.language.${MEANING_LANGUAGES.has(galaxy?.meaningLanguage) ? galaxy.meaningLanguage : 'tr'}`).toLocaleUpperCase(uiLocale) });
 const typeLabel = (galaxy, kind = 'word') => t(kind === 'conjunction' ? 'panel.conjunctionType' : 'panel.wordType', { language: languageDisplay(galaxy?.language).toLocaleUpperCase(uiLocale) });
@@ -209,9 +214,10 @@ function refreshCounts() {
   $('#reveal-meaning').setAttribute('aria-label', t('message.revealMeaning', { label: meaningLanguageLabel(activeGalaxy) }));
   $('#word-language-label').textContent = typeLabel(activeGalaxy);
   $('#detail-language').textContent = typeLabel(activeGalaxy);
-  $('#word-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? t('message.wordPlaceholderSpanish') : activeGalaxy?.language === 'İngilizce' ? t('panel.wordPlaceholder') : t('message.wordPlaceholderOther');
+  const activeCode = languageCode(activeGalaxy?.language);
+  $('#word-input').placeholder = activeCode === 'es' ? t('message.wordPlaceholderSpanish') : activeCode === 'en' ? t('panel.wordPlaceholder') : t('message.wordPlaceholderOther');
   $('#meaning-input').placeholder = t(`panel.meaningPlaceholder${{ tr: 'Tr', en: 'En', es: 'Es' }[activeGalaxy?.meaningLanguage] || 'Tr'}`);
-  $('#example-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? t('message.examplePlaceholderSpanish') : activeGalaxy?.language === 'İngilizce' ? t('panel.examplePlaceholder') : t('message.examplePlaceholderOther');
+  $('#example-input').placeholder = activeCode === 'es' ? t('message.examplePlaceholderSpanish') : activeCode === 'en' ? t('panel.examplePlaceholder') : t('message.examplePlaceholderOther');
   $('#galaxy-count').textContent = String(universe.galaxies.length).padStart(2, '0');
   $('#star-count').textContent = String(words.filter(w => entryKind(w) === 'word').length).padStart(2, '0');
   $('#planet-count').textContent = String(words.filter(w => entryKind(w) === 'conjunction').length).padStart(2, '0');
@@ -222,6 +228,7 @@ function refreshCounts() {
   $('#hero-description').textContent = words.length === 0 ? t('hero.empty', { galaxy: galaxyDisplay(activeGalaxy) }) : t('hero.filled');
   $('#hero-add').firstChild.textContent = `${t(words.length ? 'action.addWord' : 'action.addFirst')} `;
   recallUI?.refresh();
+  vocabularyUI?.refresh();
   observatoryUI?.refresh();
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
 }
@@ -537,6 +544,15 @@ function openPanel(which) {
   document.documentElement.scrollLeft = document.body.scrollLeft = $('#app').scrollLeft = 0;
 }
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
+// On-device pronunciation; the control appears only when a local voice matches the galaxy language.
+const pronouncer = createPronouncer({ onVoicesChanged: () => { refreshSpeakButton(); recallUI?.refresh(); } });
+function refreshSpeakButton() {
+  const word = words.find(w => w.id === selectedId);
+  const language = universe.galaxies.find(g => g.id === word?.galaxyId)?.language;
+  const button = $('#speak-word');
+  button.hidden = !word || !pronouncer.canSpeak(language);
+  if (word) { button.setAttribute('aria-label', t('pronounce.listenWord', { word: word.word })); button.title = t('pronounce.listen'); }
+}
 function selectWord(id, keepNavigation = false) {
   wordCard.invalidate();
   const word = words.find(w => w.id === id); if (!word || !experience.snapshot().ready) return;
@@ -557,6 +573,8 @@ function selectWord(id, keepNavigation = false) {
   $('#detail-sun').classList.toggle('planet', isPlanet);
   $('#detail-number').textContent = t('message.numberLabel', { number: String(words.indexOf(word) + 1).padStart(3, '0') });
   $('#detail-word').textContent = word.word;
+  pronouncer.cancel();
+  refreshSpeakButton();
   $('#detail-meaning').textContent = word.meaning;
   $('#detail-meaning').hidden = true;
   $('#meaning-hidden').hidden = false;
@@ -569,6 +587,9 @@ function selectWord(id, keepNavigation = false) {
   $('#detail-example').textContent = word.example || '';
   $('#example-wrap').hidden = !word.example;
   $('#detail-date').textContent = t('message.joined', { date: fmtDate(word.createdAt) });
+  const reviewStatus = recallUI?.wordStatus(word.id);
+  $('#detail-review').textContent = reviewStatus || '';
+  $('#detail-review').hidden = !reviewStatus;
   $('#detail-sun').style.setProperty('--star-glow', appearance.glow);
   $('#detail-sun').style.setProperty('--star-core', appearance.color);
   for (const [starId, nodes] of starNodes) nodes.label.classList.toggle('selected', starId === id);
@@ -608,14 +629,11 @@ function createPosition(index, variation = .5, kind = 'word') {
 function saveWord(event) {
   event.preventDefault();
   if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { openPanel('galaxy'); showToast(t('sync.createGalaxy')); return; }
-  const kind = $('#word-form input[name="kind"]:checked')?.value === 'conjunction' ? 'conjunction' : 'word';
-  const word = $('#word-input').value.trim();
-  const meaning = $('#meaning-input').value.trim();
-  const example = $('#example-input').value.trim();
-  if (!word || !meaning) { $('#form-error').textContent = t('message.requiredFields'); return; }
-  const locale = universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language === 'İspanyolca' ? 'es' : 'en';
-  const duplicate = words.some(w => w.word.toLocaleLowerCase(locale) === word.toLocaleLowerCase(locale) && w.id !== editingId);
-  if (duplicate) { $('#form-error').textContent = t('message.duplicateWord'); return; }
+  const entry = readEntryFields({ kind: $('#word-form input[name="kind"]:checked')?.value, word: $('#word-input').value, meaning: $('#meaning-input').value, example: $('#example-input').value });
+  if (entry.error) { $('#form-error').textContent = t('message.requiredFields'); return; }
+  const { kind, word, meaning, example } = entry.fields;
+  const language = universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language;
+  if (findDuplicate(words, word, { language, ignoreId: editingId })) { $('#form-error').textContent = t('message.duplicateWord'); return; }
   if (editingId) {
     const editedId = editingId;
     const item = words.find(w => w.id === editedId);
@@ -800,7 +818,8 @@ function createGalaxy(event) {
 }
 
 function exportUniverse() {
-  const backup = { ...universe, exportedAt: new Date().toISOString() };
+  const reviews = recallUI?.exportProgress();
+  const backup = { ...universe, exportedAt: new Date().toISOString(), ...(reviews ? { reviews } : {}) };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a'); link.href = url; link.download = `wordverse-yedek-${new Date().toLocaleDateString('sv-SE')}.json`;
@@ -808,12 +827,30 @@ function exportUniverse() {
   showToast(t('message.exported'));
 }
 
+// Bulk word lists: entries arrive validated and de-duplicated; each gets a
+// persisted position and its own creation event, exactly like a manual add.
+function importEntries(entries) {
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) return 0;
+  const start = Date.now();
+  let added = 0;
+  for (const fields of entries) {
+    const position = createPosition(words.filter(w => entryKind(w) === 'word').length, Math.random(), 'word');
+    const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word: fields.word, meaning: fields.meaning, example: fields.example, kind: 'word', createdAt: new Date(start + added).toISOString(), ...position };
+    universe.words.push(item); words.push(item); appendEvent(universe, 'word.created', item.galaxyId, item.id, null, item);
+    added++;
+  }
+  if (added) { persist(); rebuildWordStars(); refreshCounts(); renderGalaxies(); }
+  return added;
+}
+
 async function importUniverse(event) {
   const file = event.target.files?.[0]; if (!file) return;
   try {
     if (file.size > 10_000_000) throw new Error('too-large');
     const backup = normalizeBackup(JSON.parse(await file.text()));
-    mergeUniverse(universe, backup);
+    const report = {};
+    mergeUniverse(universe, backup, report);
+    if (backup?.reviews) recallUI?.importProgress(backup.reviews, new Map((report.conflicts || []).filter(c => c.kind === 'words').map(c => [c.originalId, c.copiedId])));
     appendEvent(universe, 'universe.imported', universe.activeGalaxyId, null, null, { fileName: file.name, galaxyCount: backup.galaxies.length, wordCount: backup.words.length });
     words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
     persist(); rebuildWordStars(); refreshCounts(); renderGalaxies();
@@ -893,6 +930,11 @@ function bindUI() {
   $('#meaning-language-current').addEventListener('change', updateMeaningLanguage);
   $('#cancel-rename-galaxy').addEventListener('click', () => toggleGalaxyRename(false));
   $('#export-universe').addEventListener('click', exportUniverse);
+  $('#speak-word').replaceChildren(icon('speak'));
+  $('#speak-word').addEventListener('click', () => {
+    const word = words.find(w => w.id === selectedId);
+    if (word) pronouncer.speak(word.word, universe.galaxies.find(g => g.id === word.galaxyId)?.language);
+  });
   $('#import-universe').addEventListener('change', importUniverse);
   $('#reveal-meaning').addEventListener('click', () => {
     const reveal = $('#detail-meaning').hidden;
@@ -1056,8 +1098,18 @@ accountSync = mountAccountSync({
     if (activePanel === 'detail' && !selectedId) closePanels();
   },
 });
-profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
+vocabularyUI = mountVocabularyImport({ locale: uiLocale, anchor: $('#import-universe'),
+  getLanguage: () => universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language,
+  getGalaxyName: () => galaxyDisplay(universe.galaxies.find(g => g.id === universe.activeGalaxyId)),
+  getExisting: () => words, onImport: importEntries, notify: showToast,
+});
+vocabularyUI.refresh();
+profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels, getReviewInsights: () => recallUI?.insights(universe.words) ?? null });
 recallUI = mountRecallUI({ locale: uiLocale, getRecords: () => words,
+  getOwnerRecordIds: () => universe.words.map(w => w.id),
+  pronouncer,
+  getLanguage: () => universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language,
+  getCloud: async () => { const state = experience.snapshot(); if (state.mode !== 'personal' || !state.ownerId) return null; const client = await getSupabaseClient(); return client ? { client, ownerId: state.ownerId } : null; },
   getIdentity: () => { const state = experience.snapshot(); return state.ready && state.mode !== 'showcase-demo' ? `${state.mode}:${state.ownerId || 'guest'}:${universe.activeGalaxyId}` : null; },
   beforeOpen: closePanels,
 });
@@ -1086,4 +1138,5 @@ recallUI.refresh();
 // Let identity/UI initialization run before expensive GPU preparation.
 requestAnimationFrame(() => { initScene(); syncRenderLoop(); });
 if (recoveredFromMirror) showToast(t('message.recovered'));
+registerServiceWorker({ notify: showToast, message: t('pwa.updateReady') });
 if (archiveFailure) showToast(t('status.archiveError'));

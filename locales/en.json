@@ -15,7 +15,39 @@
     "retry": "Try the difficult words again",
     "finish": "Return to my universe",
     "sessionOnly": "This short session does not change your records. Results belong to this session only.",
-    "homeOpen": "Practice my words"
+    "homeOpen": "Practice my words",
+    "openDue": "Review time · {count} words waiting",
+    "openNew": "Start learning · {count} new words",
+    "openDone": "All done for today · free practice",
+    "homeDue": "{count} words ready to review",
+    "homeNew": "Start learning",
+    "titleReview": "Review time.",
+    "newBadge": "NEW",
+    "grade": {
+      "again": "Again",
+      "hard": "Hard",
+      "good": "Good",
+      "easy": "Easy"
+    },
+    "stats": "{today} reviews today · {streak}-day streak · {mature} lasting words",
+    "caughtUp": "All caught up for today.",
+    "nextDue": "Next review {when}.",
+    "nothingScheduled": "No reviews are scheduled yet.",
+    "practice": "Free practice",
+    "reviewResult": "You finished {total} words · asked again {again} times.",
+    "keys": "Keyboard: Space to reveal, 1–4 to rate.",
+    "scheduleNote": "Upcoming reviews are scheduled with a memory model (FSRS). Progress is stored in this browser, separately from your word records, and included in backups.",
+    "saveFailed": "Progress could not be saved in this browser. Check storage permission or free space.",
+    "wordStatus": {
+      "new": "Not reviewed yet.",
+      "due": "Ready to review now.",
+      "next": "Next review {when} · reviewed {reps}×"
+    },
+    "sync": {
+      "syncing": "Syncing with your account…",
+      "synced": "Progress synced with your account.",
+      "failed": "Could not sync with your account; progress is safe on this device and will retry at your next review."
+    }
   },
   "scene": {
     "title": "View",
@@ -494,7 +526,17 @@
     "oldest": "Oldest record",
     "recent": "Recently added",
     "empty": "No dated records yet.",
-    "reviewPending": "Recall and review statistics will appear when the review system is available."
+    "reviewTitle": "Review",
+    "reviewUnavailable": "Review statistics appear once this universe is open.",
+    "reviewCount": "Reviews in 30 days",
+    "retention": "Recall rate",
+    "mature": "Lasting words",
+    "streak": "Day streak",
+    "reviewEmpty": "No reviews yet. Start your first session from the home screen.",
+    "historyLabel": "Daily reviews over the last 30 days",
+    "historyDay": "{day}: {count} reviews",
+    "forecastTitle": "Words coming due in the next 7 days",
+    "today": "Today"
   },
   "catalog": {
     "title": "Sky catalog",
@@ -725,5 +767,38 @@
     "previous": "Previous record",
     "next": "Next record",
     "position": "Record {current} of {total}"
+  },
+  "pronounce": {
+    "listen": "Listen to pronunciation",
+    "listenWord": "Listen to {word}"
+  },
+  "bulk": {
+    "import": "Import a word list (CSV, TSV, Anki) ↑",
+    "export": "Download this galaxy as CSV ↓",
+    "close": "Close",
+    "title": "Import a word list",
+    "eyebrow": "INTO {galaxy}",
+    "ready": "To add",
+    "duplicates": "Already there",
+    "invalid": "Incomplete rows",
+    "preview": "First words",
+    "more": "… and {count} more",
+    "confirm": "Add {count} words",
+    "cancel": "Cancel",
+    "closeEmpty": "Close",
+    "done": "{count} words added to your universe.",
+    "note": "Each row needs a word and a meaning; an example sentence is optional. Duplicates are skipped and existing records stay unchanged.",
+    "tooLarge": "The file is too large (2 MB maximum).",
+    "unreadable": "The file could not be read. Try a CSV, TSV or Anki text export.",
+    "exported": "{count} words downloaded as CSV.",
+    "format": {
+      "csv": "Read as comma-separated CSV.",
+      "csv-semicolon": "Read as semicolon-separated CSV.",
+      "tsv": "Read as a tab-separated list.",
+      "anki": "Read as an Anki text export."
+    }
+  },
+  "pwa": {
+    "updateReady": "A Wordverse update is ready; it applies the next time you open the app."
   }
 }

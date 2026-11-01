@@ -15,7 +15,39 @@
     "retry": "Repasar las palabras difíciles",
     "finish": "Volver a mi universo",
     "sessionOnly": "Esta sesión no modifica tus registros. Los resultados pertenecen solo a esta sesión.",
-    "homeOpen": "Repasar mis palabras"
+    "homeOpen": "Repasar mis palabras",
+    "openDue": "Hora de repasar · {count} palabras esperan",
+    "openNew": "Empezar a aprender · {count} palabras nuevas",
+    "openDone": "Todo listo por hoy · práctica libre",
+    "homeDue": "{count} palabras para repasar",
+    "homeNew": "Empezar a aprender",
+    "titleReview": "Hora de repasar.",
+    "newBadge": "NUEVA",
+    "grade": {
+      "again": "Otra vez",
+      "hard": "Difícil",
+      "good": "Bien",
+      "easy": "Fácil"
+    },
+    "stats": "{today} repasos hoy · racha de {streak} días · {mature} palabras afianzadas",
+    "caughtUp": "Todo al día por hoy.",
+    "nextDue": "Próximo repaso {when}.",
+    "nothingScheduled": "Aún no hay repasos programados.",
+    "practice": "Práctica libre",
+    "reviewResult": "Completaste {total} palabras · pediste repetir {again} veces.",
+    "keys": "Teclado: Espacio para mostrar, 1–4 para valorar.",
+    "scheduleNote": "Los próximos repasos se programan con un modelo de memoria (FSRS). El progreso se guarda en este navegador, separado de tus palabras, y se incluye en las copias de seguridad.",
+    "saveFailed": "No se pudo guardar el progreso en este navegador. Revisa el permiso de almacenamiento o el espacio libre.",
+    "wordStatus": {
+      "new": "Aún sin repasar.",
+      "due": "Lista para repasar.",
+      "next": "Próximo repaso {when} · repasada {reps}×"
+    },
+    "sync": {
+      "syncing": "Sincronizando con tu cuenta…",
+      "synced": "Progreso sincronizado con tu cuenta.",
+      "failed": "No se pudo sincronizar con tu cuenta; el progreso está a salvo en este dispositivo y se reintentará en tu próximo repaso."
+    }
   },
   "scene": {
     "title": "Vista",
@@ -494,7 +526,17 @@
     "oldest": "Registro más antiguo",
     "recent": "Añadidos recientemente",
     "empty": "Aún no hay registros con fecha.",
-    "reviewPending": "Las estadísticas de memoria y repaso aparecerán cuando esté disponible el sistema de repaso."
+    "reviewTitle": "Repaso",
+    "reviewUnavailable": "Las estadísticas de repaso aparecen cuando este universo está abierto.",
+    "reviewCount": "Repasos en 30 días",
+    "retention": "Tasa de recuerdo",
+    "mature": "Palabras afianzadas",
+    "streak": "Días de racha",
+    "reviewEmpty": "Aún no hay repasos. Empieza tu primera sesión desde la pantalla de inicio.",
+    "historyLabel": "Repasos diarios en los últimos 30 días",
+    "historyDay": "{day}: {count} repasos",
+    "forecastTitle": "Palabras que tocan repasar en los próximos 7 días",
+    "today": "Hoy"
   },
   "catalog": {
     "title": "Catálogo celeste",
@@ -725,5 +767,38 @@
     "previous": "Registro anterior",
     "next": "Registro siguiente",
     "position": "Registro {current} de {total}"
+  },
+  "pronounce": {
+    "listen": "Escuchar la pronunciación",
+    "listenWord": "Escuchar {word}"
+  },
+  "bulk": {
+    "import": "Importar una lista de palabras (CSV, TSV, Anki) ↑",
+    "export": "Descargar esta galaxia como CSV ↓",
+    "close": "Cerrar",
+    "title": "Importar una lista de palabras",
+    "eyebrow": "EN {galaxy}",
+    "ready": "Por añadir",
+    "duplicates": "Ya existen",
+    "invalid": "Filas incompletas",
+    "preview": "Primeras palabras",
+    "more": "… y {count} más",
+    "confirm": "Añadir {count} palabras",
+    "cancel": "Cancelar",
+    "closeEmpty": "Cerrar",
+    "done": "{count} palabras añadidas a tu universo.",
+    "note": "Cada fila necesita una palabra y un significado; la frase de ejemplo es opcional. Los duplicados se omiten y los registros existentes no cambian.",
+    "tooLarge": "El archivo es demasiado grande (máximo 2 MB).",
+    "unreadable": "No se pudo leer el archivo. Prueba con CSV, TSV o una exportación de texto de Anki.",
+    "exported": "{count} palabras descargadas como CSV.",
+    "format": {
+      "csv": "Leído como CSV separado por comas.",
+      "csv-semicolon": "Leído como CSV separado por punto y coma.",
+      "tsv": "Leído como lista separada por tabulaciones.",
+      "anki": "Leído como exportación de texto de Anki."
+    }
+  },
+  "pwa": {
+    "updateReady": "Hay una actualización de Wordverse lista; se aplicará la próxima vez que abras la app."
   }
 }

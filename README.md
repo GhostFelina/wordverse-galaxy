@@ -20,7 +20,9 @@ The last verified production release is **1.23.0**. This development branch is *
 | Your word stars | Keep words in language galaxies, watch independent distant scintillation and creation-date colors, select a star and approach its granular surface. Stored positions and dates stay stable. |
 | Orion flight | Enter Orion with every word star from the active language galaxy. Explore a wider, deeper gas volume with the wheel or depth slider; focus any star inside and return in one action. |
 | A useful atlas | Search, filter words and conjunctions, sort naturally or by date, and return to the same list after opening a record. |
-| Short recall | Reveal a meaning, self-assess and revisit difficult words. Sessions are ephemeral; this is not a spaced-repetition scheduler. |
+| Spaced repetition | Review due words on a schedule from the FSRS memory model. Four grades show the next interval before you choose; see today's reviews, your streak and lasting words. Progress stays separate from your records and travels in backups. |
+| Hear and import | Listen to a word with an on-device voice. Bring an existing list from CSV, TSV or Anki in one step, preview it first, and download any galaxy as CSV. |
+| Install it | Add Wordverse to your home screen or desktop. The app shell works offline with your local records. |
 | Star cards | Download a 1080px square or portrait PNG of one chosen word. Meanings stay off until explicitly included. |
 | A living sky | A restrained shuffled sequence brings meteors, supernovae, comets, pulsars, a distant red accretion disk and neutron-star mergers into different sky positions. Choose any event yourself or switch to quiet sky; events never change your records. |
 | Sound of your universe | Enable an original cinematic atmosphere with spatial headphone cues, stereo speaker mode and depth-dependent reverberation. Creation, editing and deletion have distinct cues after durable storage. Sound starts with your gesture. |

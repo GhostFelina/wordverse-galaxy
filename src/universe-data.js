@@ -84,7 +84,7 @@ export function normalizeBackup(backup) {
   };
 }
 
-export function mergeUniverse(target, backup) {
+export function mergeUniverse(target, backup, report = null) {
   backup = normalizeBackup(backup);
   if (backup?.version === 3) backup = migrateUniverseV3(backup);
   if (backup?.version !== SCHEMA_VERSION || !Array.isArray(backup.galaxies) || !Array.isArray(backup.words) || !Array.isArray(backup.events) || backup.galaxies.length > 1000 || backup.words.length > 100000 || backup.events.length > 200000) throw new Error('Invalid Wordverse backup');
@@ -95,7 +95,8 @@ export function mergeUniverse(target, backup) {
   const words = backup.words.filter(w => typeof w?.id === 'string' && w.id && galaxyIds.has(w.galaxyId) && typeof w.word === 'string' && typeof w.meaning === 'string');
   const events = backup.events.filter(e => typeof e?.id === 'string' && e.id && typeof e.type === 'string');
   for (const records of [galaxies, words, events]) if (new Set(records.map(record => record.id)).size !== records.length) throw new Error('Duplicate backup IDs');
-  const { universe: merged } = mergeRecords(target, { ...backup, galaxies, words, events }, () => crypto.randomUUID(), true);
+  const { universe: merged, summary } = mergeRecords(target, { ...backup, galaxies, words, events }, () => crypto.randomUUID(), true);
+  if (report) report.conflicts = summary.conflicts;
   target.galaxies = merged.galaxies;
   target.words = merged.words;
   target.events = merged.events;
