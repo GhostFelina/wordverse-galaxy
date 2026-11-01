@@ -15,7 +15,34 @@
     "retry": "Repasar las palabras difíciles",
     "finish": "Volver a mi universo",
     "sessionOnly": "Esta sesión no modifica tus registros. Los resultados pertenecen solo a esta sesión.",
-    "homeOpen": "Repasar mis palabras"
+    "homeOpen": "Repasar mis palabras",
+    "openDue": "Hora de repasar · {count} palabras esperan",
+    "openNew": "Empezar a aprender · {count} palabras nuevas",
+    "openDone": "Todo listo por hoy · práctica libre",
+    "homeDue": "{count} palabras para repasar",
+    "homeNew": "Empezar a aprender",
+    "titleReview": "Hora de repasar.",
+    "newBadge": "NUEVA",
+    "grade": {
+      "again": "Otra vez",
+      "hard": "Difícil",
+      "good": "Bien",
+      "easy": "Fácil"
+    },
+    "stats": "{today} repasos hoy · racha de {streak} días · {mature} palabras afianzadas",
+    "caughtUp": "Todo al día por hoy.",
+    "nextDue": "Próximo repaso {when}.",
+    "nothingScheduled": "Aún no hay repasos programados.",
+    "practice": "Práctica libre",
+    "reviewResult": "Completaste {total} palabras · pediste repetir {again} veces.",
+    "keys": "Teclado: Espacio para mostrar, 1–4 para valorar.",
+    "scheduleNote": "Los próximos repasos se programan con un modelo de memoria (FSRS). El progreso se guarda en este navegador, separado de tus palabras, y se incluye en las copias de seguridad.",
+    "saveFailed": "No se pudo guardar el progreso en este navegador. Revisa el permiso de almacenamiento o el espacio libre.",
+    "wordStatus": {
+      "new": "Aún sin repasar.",
+      "due": "Lista para repasar.",
+      "next": "Próximo repaso {when} · repasada {reps}×"
+    }
   },
   "scene": {
     "title": "Vista",

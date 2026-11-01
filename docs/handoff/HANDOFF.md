@@ -1,6 +1,10 @@
 # Engineering status
 
-Active branch: phase/4-universe. Development1.27.0; production1.23.0.
+Active branch: feat/spaced-repetition (from phase/4-universe b66098c). Development 1.28.0; production 1.23.0 remains unchanged.
+
+## 1.28.0 spaced repetition
+
+Recall uses FSRS-4.5 (src/review-schedule.js, pure) with an owner-isolated store (src/review-store.js, key `wordverse.reviews.v1:<mode>:<owner>`) and a due-first session (src/review-session.js). Records, events and sync payloads are untouched. Backups add an optional `reviews` object; `mergeUniverse(target, backup, report)` reports conflict copies so imported progress follows them. The legacy session-only practice (src/recall-session.js) remains the caught-up fallback. Local gates: lint, types, 174 unit tests, format, release check and the 5 recall browser scenarios pass. The full browser suite and remote CI on this branch are recorded separately below. Next: account sync of review progress (new Supabase table with owner RLS), word details already show the next review.
 
 ## Current1.27.0 nebula atlas and black-hole inspection
 

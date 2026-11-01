@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.28.0] — Development · 2026-11-01
+
+- Persistent spaced repetition. Recall now schedules each word with the published FSRS-4.5 memory model (default parameters, 90% target retention): due words first, most overdue first, then up to ten new words per session.
+- Four memory grades (Again / Hard / Good / Easy) show their next interval before you choose; keys 1–4 rate a revealed card. "Again" returns the card later in the same session, with a bounded number of repeats.
+- Atlas and home actions show how many words are due or new. Sessions end with today's reviews, the daily streak, lasting (stability ≥ 21 days) words and the next due time. When nothing is due, the previous session-only practice remains available and never changes the schedule.
+- Word details show each record's schedule: not reviewed yet, ready now, or the next review time with its review count.
+- Review progress is owner-isolated and stored beside, never inside, vocabulary records: IDs, coordinates, dates, events and sync payloads are unchanged. Progress for deleted words is pruned. JSON backups include progress and imports merge it by most recent review, following conflict copies.
+- Fixed the broken `npm run format` script; it now formats exactly the `format:check` file list.
+
 ## [1.27.0] — Development · 2026-10-15
 
 - Unified the visible preview gallery and nebula atlas: fourteen scenes, genuine rendered/observational thumbnails, translated name/catalog search, a ten-popular-nebula filter and shared dive/loading/retry behavior.

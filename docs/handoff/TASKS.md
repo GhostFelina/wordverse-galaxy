@@ -23,8 +23,11 @@
 - [x] Verify1.26.0 exact-source CI38713062693.
 - [x] Unify the visible preview gallery and atlas; add ten credited popular nebula scenes, translated search, bounded cache and reversible black-hole inspection.
 - [x] Complete1.27.0 local160unit/142browser scenario coverage, required gates and37 native synthetic captures.
+- [x] Add1.28.0 persistent FSRS-4.5 spaced repetition: owner-isolated progress, due/new queue, four previewed grades, keyboard rating, streak/lasting statistics, backup export/import and free practice fallback.
+- [x] Fix the broken format script; complete1.28.0 local174unit and recall browser scenarios.
+- [ ] Verify1.28.0 full browser suite and source CI on feat/spaced-repetition.
 - [ ] Verify1.27.0 checkpoint source CI.
 - [ ] User visual acceptance before publication.
 - [ ] Broad hardware/user visual and physical audio acceptance.
 
-Deferred: persistent recall scheduling, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.
+Deferred: review-progress account sync, broader catalogs, dedicated mobile design and account/two-device rollout. Public specifications contain no private conversation transcripts; historical Git revisions remain unchanged.

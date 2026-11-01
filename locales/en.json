@@ -15,7 +15,34 @@
     "retry": "Try the difficult words again",
     "finish": "Return to my universe",
     "sessionOnly": "This short session does not change your records. Results belong to this session only.",
-    "homeOpen": "Practice my words"
+    "homeOpen": "Practice my words",
+    "openDue": "Review time · {count} words waiting",
+    "openNew": "Start learning · {count} new words",
+    "openDone": "All done for today · free practice",
+    "homeDue": "{count} words ready to review",
+    "homeNew": "Start learning",
+    "titleReview": "Review time.",
+    "newBadge": "NEW",
+    "grade": {
+      "again": "Again",
+      "hard": "Hard",
+      "good": "Good",
+      "easy": "Easy"
+    },
+    "stats": "{today} reviews today · {streak}-day streak · {mature} lasting words",
+    "caughtUp": "All caught up for today.",
+    "nextDue": "Next review {when}.",
+    "nothingScheduled": "No reviews are scheduled yet.",
+    "practice": "Free practice",
+    "reviewResult": "You finished {total} words · asked again {again} times.",
+    "keys": "Keyboard: Space to reveal, 1–4 to rate.",
+    "scheduleNote": "Upcoming reviews are scheduled with a memory model (FSRS). Progress is stored in this browser, separately from your word records, and included in backups.",
+    "saveFailed": "Progress could not be saved in this browser. Check storage permission or free space.",
+    "wordStatus": {
+      "new": "Not reviewed yet.",
+      "due": "Ready to review now.",
+      "next": "Next review {when} · reviewed {reps}×"
+    }
   },
   "scene": {
     "title": "View",

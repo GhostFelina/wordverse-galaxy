@@ -15,7 +15,34 @@
     "retry": "Zorlandıklarımı yeniden çalış",
     "finish": "Evrenime dön",
     "sessionOnly": "Bu kısa oturum kayıtlarını değiştirmez. Sonuçlar yalnızca bu oturum içindir.",
-    "homeOpen": "Kısa tekrar yap"
+    "homeOpen": "Kısa tekrar yap",
+    "openDue": "Tekrar zamanı · {count} kelime bekliyor",
+    "openNew": "Öğrenmeye başla · {count} yeni kelime",
+    "openDone": "Bugünlük tamam · serbest pratik",
+    "homeDue": "{count} kelime tekrar bekliyor",
+    "homeNew": "Öğrenmeye başla",
+    "titleReview": "Tekrar zamanı.",
+    "newBadge": "YENİ",
+    "grade": {
+      "again": "Tekrar",
+      "hard": "Zor",
+      "good": "İyi",
+      "easy": "Kolay"
+    },
+    "stats": "Bugün {today} tekrar · {streak} günlük seri · {mature} kalıcı kelime",
+    "caughtUp": "Bugünlük hepsi tamam.",
+    "nextDue": "Sıradaki tekrar {when}.",
+    "nothingScheduled": "Henüz zamanlanmış bir tekrar yok.",
+    "practice": "Serbest pratik yap",
+    "reviewResult": "{total} kelimeyi tamamladın · {again} kez tekrar istedin.",
+    "keys": "Klavye: Boşluk ile göster, 1–4 ile değerlendir.",
+    "scheduleNote": "Sonraki tekrarlar hafıza modeline (FSRS) göre zamanlanır. İlerleme kelime kayıtlarından ayrı, bu tarayıcıda saklanır ve yedek dosyasına eklenir.",
+    "saveFailed": "İlerleme bu tarayıcıya kaydedilemedi. Depolama izni veya boş alanı kontrol et.",
+    "wordStatus": {
+      "new": "Henüz tekrar edilmedi.",
+      "due": "Tekrar zamanı geldi.",
+      "next": "Sonraki tekrar {when} · toplam {reps} tekrar"
+    }
   },
   "scene": {
     "title": "Görünüm",

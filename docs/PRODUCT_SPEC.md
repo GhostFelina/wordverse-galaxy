@@ -6,7 +6,7 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 
 - Desktop Three.js scene defaulting to Orion, with three explicitly selected original gas volumes (Ion Veil, Ember Reach and Tidal Blue) and ten observation-guided popular nebula experiences, personal word stars, shared optical/stellar surface materials and stable persisted positions.
 - Searchable atlas with word/conjunction filters, chronological/natural alphabetical sorting, record dates and return-to-atlas state.
-- A short ephemeral recall session: reveal, self-assess and repeat difficult items. No persistent mastery score or spaced-repetition claims.
+- Persistent spaced repetition (1.28): FSRS-4.5 scheduling with default parameters and 90% target retention. Due words come first, then at most ten new words per session; four grades preview their next interval and keys 1–4 rate a revealed card. Progress shows today's reviews, the daily streak, lasting words (stability ≥ 21 days) and the next due time. When nothing is due, the earlier session-only practice remains and never changes the schedule. The default parameters are not personalized to one learner; no exam or fluency outcome is claimed.
 - Ready personal skies with active-galaxy records expose recall directly from home. The atlas remains its other entry point; empty and demonstration states hide the home action.
 - Atlas search supports `/` outside editing and `Control/Meta+K`; open learning panels retain a bounded keyboard focus cycle and restore their opener on close.
 - Language galaxies, editing, record history and compatible JSON import/export. Guest records remain separate from account-owned storage.
@@ -24,11 +24,11 @@ Wordverse is a personal vocabulary atlas. A learned word becomes a navigable sta
 
 ## Data invariants
 
-Existing record IDs, coordinates, createdAt, type, language, meaning and events must survive upgrades, refresh, selection, rendering and image export. No visual effect may fabricate learning records. A pending or replaced identity must not expose another owner's content or rendered frame. Migrations are versioned and old backups remain importable.
+Existing record IDs, coordinates, createdAt, type, language, meaning and events must survive upgrades, refresh, selection, rendering and image export. No visual effect may fabricate learning records. A pending or replaced identity must not expose another owner's content or rendered frame. Migrations are versioned and old backups remain importable. Review progress is stored per owner beside the records (`wordverse.reviews.v1:<mode>:<owner>`), never inside them; backups carry it as an optional `reviews` object.
 
 ## Extension boundary
 
-Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other observed nebula catalogs, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Three original artistic nebula volumes, ten observation-guided nebula experiences and22 ephemeral cosmic phenomena are explicitly available without becoming learning records. Catalog data in the repository does not imply visible features. Persistent spaced repetition, offline synchronization and broader content types are future work.
+Conjunction records remain usable in the atlas and recall flow. Independent planets, galaxies, other observed nebula catalogs, Gaia/Trapezium points, asteroids and historical meteor catalogs remain disabled. Three original artistic nebula volumes, ten observation-guided nebula experiences and22 ephemeral cosmic phenomena are explicitly available without becoming learning records. Catalog data in the repository does not imply visible features. Account synchronization of review progress, offline synchronization and broader content types are future work.
 
 Version1.27 adds the searchable fourteen-scene gallery/atlas with a ten-popular-nebula filter, on-demand guides/volumes and a three-entry alternate cache. Explicit black-hole near inspection returns safely to the distant view. Version1.26 introduced a four-scene selector with distant previews and explicit volume entry. Gas density/light and depth controls apply to every scene. The session director can run inside flight, defers during learning/focus and avoids automatic activity under reduced motion. The interface-language menu exposes native language names, selected state, keyboard navigation and locale routes independently of scene or account readiness. [Exploration specification](NEBULA_EXPERIENCES.md).
 

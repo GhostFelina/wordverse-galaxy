@@ -569,6 +569,9 @@ function selectWord(id, keepNavigation = false) {
   $('#detail-example').textContent = word.example || '';
   $('#example-wrap').hidden = !word.example;
   $('#detail-date').textContent = t('message.joined', { date: fmtDate(word.createdAt) });
+  const reviewStatus = recallUI?.wordStatus(word.id);
+  $('#detail-review').textContent = reviewStatus || '';
+  $('#detail-review').hidden = !reviewStatus;
   $('#detail-sun').style.setProperty('--star-glow', appearance.glow);
   $('#detail-sun').style.setProperty('--star-core', appearance.color);
   for (const [starId, nodes] of starNodes) nodes.label.classList.toggle('selected', starId === id);
@@ -800,7 +803,8 @@ function createGalaxy(event) {
 }
 
 function exportUniverse() {
-  const backup = { ...universe, exportedAt: new Date().toISOString() };
+  const reviews = recallUI?.exportProgress();
+  const backup = { ...universe, exportedAt: new Date().toISOString(), ...(reviews ? { reviews } : {}) };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a'); link.href = url; link.download = `wordverse-yedek-${new Date().toLocaleDateString('sv-SE')}.json`;
@@ -813,7 +817,9 @@ async function importUniverse(event) {
   try {
     if (file.size > 10_000_000) throw new Error('too-large');
     const backup = normalizeBackup(JSON.parse(await file.text()));
-    mergeUniverse(universe, backup);
+    const report = {};
+    mergeUniverse(universe, backup, report);
+    if (backup?.reviews) recallUI?.importProgress(backup.reviews, new Map((report.conflicts || []).filter(c => c.kind === 'words').map(c => [c.originalId, c.copiedId])));
     appendEvent(universe, 'universe.imported', universe.activeGalaxyId, null, null, { fileName: file.name, galaxyCount: backup.galaxies.length, wordCount: backup.words.length });
     words = universe.words.filter(w => w.galaxyId === universe.activeGalaxyId);
     persist(); rebuildWordStars(); refreshCounts(); renderGalaxies();
@@ -1058,6 +1064,7 @@ accountSync = mountAccountSync({
 });
 profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels });
 recallUI = mountRecallUI({ locale: uiLocale, getRecords: () => words,
+  getOwnerRecordIds: () => universe.words.map(w => w.id),
   getIdentity: () => { const state = experience.snapshot(); return state.ready && state.mode !== 'showcase-demo' ? `${state.mode}:${state.ownerId || 'guest'}:${universe.activeGalaxyId}` : null; },
   beforeOpen: closePanels,
 });

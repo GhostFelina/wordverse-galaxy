@@ -42,9 +42,10 @@ async function seed(page, { empty = false } = {}) {
 }
 
 for (const [locale, width, label] of [
-  ['tr', 1440, 'Kısa tekrar yap'],
-  ['en', 1024, 'Practice my words'],
-  ['es', 390, 'Repasar mis palabras'],
+  // Unreviewed words invite the first scheduled session.
+  ['tr', 1440, 'Öğrenmeye başla'],
+  ['en', 1024, 'Start learning'],
+  ['es', 390, 'Empezar a aprender'],
 ]) {
   test(`home recall is discoverable, conceals answers and returns focus at ${width}/${locale}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });

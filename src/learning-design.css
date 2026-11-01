@@ -717,3 +717,99 @@ button:disabled {
     transition: none;
   }
 }
+
+/* Scheduled review: four memory grades with their next interval, stats and badges. */
+.recall-grades {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.recall-grades .recall-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 6px;
+}
+.recall-grades .recall-action small {
+  color: var(--atlas-secondary);
+  font:
+    500 11px/1.4 'DM Sans',
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.recall-grade-again {
+  border-color: #d4aaa055;
+}
+#recall-good,
+#recall-practice {
+  background: var(--atlas-paper);
+  color: #191a20;
+  border-color: transparent;
+}
+#recall-good small {
+  color: #4a4038;
+}
+#recall-good:hover,
+#recall-practice:hover {
+  background: #ffe6c6;
+  filter: none;
+}
+.recall-badge {
+  align-self: flex-start;
+  margin-bottom: 12px;
+  padding: 2px 8px;
+  border: 1px solid #d9b68e66;
+  border-radius: 999px;
+  color: var(--atlas-light);
+  font:
+    500 10px/1.6 'DM Sans',
+    sans-serif;
+  letter-spacing: 0.14em;
+}
+.recall-stats,
+.recall-next,
+.recall-keys {
+  font:
+    13px/1.6 'DM Sans',
+    sans-serif;
+  color: var(--atlas-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.recall-stats {
+  margin: 0 0 8px;
+  color: var(--atlas-light);
+}
+.recall-next {
+  margin: 0 0 22px;
+}
+.recall-keys {
+  margin: 14px 0 0;
+  font-size: 11px;
+}
+.recall-secondary {
+  margin-top: 10px;
+}
+.recall-warning {
+  color: #e7b6a8;
+}
+.home-recall-due {
+  color: var(--atlas-paper);
+  text-decoration-color: var(--atlas-copper, #d9b68e);
+}
+@media (max-width: 520px) {
+  .recall-grades {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .recall-keys {
+    display: none;
+  }
+}
+.detail-review {
+  margin-top: 6px;
+  color: var(--atlas-light);
+  font:
+    12px/1.6 'DM Sans',
+    sans-serif;
+}
