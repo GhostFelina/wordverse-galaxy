@@ -4,6 +4,8 @@
 
 - Account sync for review progress. Signed-in recall reads, merges and writes progress in a new owner-isolated `wordverse_reviews` table. The merge keeps the latest review of each word and the larger daily count, so two devices never lose reviews; a conditional write retries after another device writes first.
 - Sync runs only when recall is opened or closed, never on page load, so record-sync traffic is unchanged. Fresh progress from another device restarts an untouched session. Failures keep local progress and say so in the dialog.
+- Fixed duplicate-word detection: it chose case rules only for the Turkish label "İspanyolca", so Turkish-language galaxies folded "İ" incorrectly and missed duplicates, galaxies named "Spanish"/"Español" used English rules, and extra spaces or a different Unicode composition looked like a new word. Word input is now NFC-normalized with collapsed spaces, and galaxy languages typed in Turkish, English, Spanish or the native name map to the right locale.
+- Moved form normalization, language detection and duplicate rules out of `main.js` into the tested `src/word-records.js`; placeholders and language labels now use the same detection.
 - New additive migration `20261101120000_review_progress.sql` (table, owner RLS, `wordverse_write_reviews` SECURITY INVOKER RPC) and `supabase/checks/review-isolation.sql`. Both, plus the existing RLS check, pass on a local PostgreSQL 16 with an auth shim. Guest progress is never uploaded.
 
 ## [1.28.0] — Development · 2026-11-01

@@ -28,6 +28,7 @@ import { mountExperienceUI } from './experience-ui.js';
 import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, starAge, appendEvent, mergeUniverse, normalizeBackup } from './universe-data.js';
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
+import { findDuplicate, languageCode, readEntryFields } from './word-records.js';
 import { translate, formatDate, formatUnit } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountProfileUI, profileSessionListener } from './profile-ui.js';
@@ -158,7 +159,7 @@ let fpsFrames = 0;
 let fpsLast = 0;
 let drawCalls = 0;
 const MEANING_LANGUAGES = new Set(['tr', 'en', 'es']);
-const languageDisplay = value => value === 'İngilizce' || value === 'English' ? t('names.language.en') : value === 'İspanyolca' || value === 'Spanish' ? t('names.language.es') : value === 'Türkçe' || value === 'Turkish' ? t('names.language.tr') : value || t('message.languageFallback');
+const languageDisplay = value => { const code = languageCode(value); return ['en', 'es', 'tr'].includes(code) ? t(`names.language.${code}`) : value || t('message.languageFallback'); };
 const galaxyDisplay = galaxy => galaxy?.id === 'galaxy-english' && galaxy.name === 'İngilizce Galaksisi' ? t('names.defaultGalaxy.english') : galaxy?.id === 'galaxy-spanish' && galaxy.name === 'İspanyolca Galaksisi' ? t('names.defaultGalaxy.spanish') : galaxy?.name || t('message.galaxyFallback');
 const meaningLanguageLabel = galaxy => t('panel.meaningOf', { language: t(`names.language.${MEANING_LANGUAGES.has(galaxy?.meaningLanguage) ? galaxy.meaningLanguage : 'tr'}`).toLocaleUpperCase(uiLocale) });
 const typeLabel = (galaxy, kind = 'word') => t(kind === 'conjunction' ? 'panel.conjunctionType' : 'panel.wordType', { language: languageDisplay(galaxy?.language).toLocaleUpperCase(uiLocale) });
@@ -209,9 +210,10 @@ function refreshCounts() {
   $('#reveal-meaning').setAttribute('aria-label', t('message.revealMeaning', { label: meaningLanguageLabel(activeGalaxy) }));
   $('#word-language-label').textContent = typeLabel(activeGalaxy);
   $('#detail-language').textContent = typeLabel(activeGalaxy);
-  $('#word-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? t('message.wordPlaceholderSpanish') : activeGalaxy?.language === 'İngilizce' ? t('panel.wordPlaceholder') : t('message.wordPlaceholderOther');
+  const activeCode = languageCode(activeGalaxy?.language);
+  $('#word-input').placeholder = activeCode === 'es' ? t('message.wordPlaceholderSpanish') : activeCode === 'en' ? t('panel.wordPlaceholder') : t('message.wordPlaceholderOther');
   $('#meaning-input').placeholder = t(`panel.meaningPlaceholder${{ tr: 'Tr', en: 'En', es: 'Es' }[activeGalaxy?.meaningLanguage] || 'Tr'}`);
-  $('#example-input').placeholder = activeGalaxy?.language === 'İspanyolca' ? t('message.examplePlaceholderSpanish') : activeGalaxy?.language === 'İngilizce' ? t('panel.examplePlaceholder') : t('message.examplePlaceholderOther');
+  $('#example-input').placeholder = activeCode === 'es' ? t('message.examplePlaceholderSpanish') : activeCode === 'en' ? t('panel.examplePlaceholder') : t('message.examplePlaceholderOther');
   $('#galaxy-count').textContent = String(universe.galaxies.length).padStart(2, '0');
   $('#star-count').textContent = String(words.filter(w => entryKind(w) === 'word').length).padStart(2, '0');
   $('#planet-count').textContent = String(words.filter(w => entryKind(w) === 'conjunction').length).padStart(2, '0');
@@ -611,14 +613,11 @@ function createPosition(index, variation = .5, kind = 'word') {
 function saveWord(event) {
   event.preventDefault();
   if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) { openPanel('galaxy'); showToast(t('sync.createGalaxy')); return; }
-  const kind = $('#word-form input[name="kind"]:checked')?.value === 'conjunction' ? 'conjunction' : 'word';
-  const word = $('#word-input').value.trim();
-  const meaning = $('#meaning-input').value.trim();
-  const example = $('#example-input').value.trim();
-  if (!word || !meaning) { $('#form-error').textContent = t('message.requiredFields'); return; }
-  const locale = universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language === 'İspanyolca' ? 'es' : 'en';
-  const duplicate = words.some(w => w.word.toLocaleLowerCase(locale) === word.toLocaleLowerCase(locale) && w.id !== editingId);
-  if (duplicate) { $('#form-error').textContent = t('message.duplicateWord'); return; }
+  const entry = readEntryFields({ kind: $('#word-form input[name="kind"]:checked')?.value, word: $('#word-input').value, meaning: $('#meaning-input').value, example: $('#example-input').value });
+  if (entry.error) { $('#form-error').textContent = t('message.requiredFields'); return; }
+  const { kind, word, meaning, example } = entry.fields;
+  const language = universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language;
+  if (findDuplicate(words, word, { language, ignoreId: editingId })) { $('#form-error').textContent = t('message.duplicateWord'); return; }
   if (editingId) {
     const editedId = editingId;
     const item = words.find(w => w.id === editedId);
