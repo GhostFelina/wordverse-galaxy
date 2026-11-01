@@ -29,6 +29,8 @@ import { PLANET_TYPES, entryKind, nextPlanetType, galaxyStyle, nextGalaxyStyle, 
 import { archiveBeforeMigration, writeUniverseMirror } from './storage-mirror.js';
 import { loadLocalUniverse, persistLocalUniverse } from './local-primary.js';
 import { findDuplicate, languageCode, readEntryFields } from './word-records.js';
+import { createPronouncer } from './pronunciation.js';
+import { mountVocabularyImport } from './vocab-import-ui.js';
 import { translate, formatDate, formatUnit } from './i18n.js';
 import { applyHomeTranslations, getHomeLocale } from './home-i18n.js';
 import { mountProfileUI, profileSessionListener } from './profile-ui.js';
@@ -99,6 +101,7 @@ let pendingGuestWrites = 0;
 let sceneWakeAt = 0;
 let experienceUI;
 let recallUI;
+let vocabularyUI;
 let collectionAtlas;
 let graphicsFallback;
 let experienceKey = '';
@@ -224,6 +227,7 @@ function refreshCounts() {
   $('#hero-description').textContent = words.length === 0 ? t('hero.empty', { galaxy: galaxyDisplay(activeGalaxy) }) : t('hero.filled');
   $('#hero-add').firstChild.textContent = `${t(words.length ? 'action.addWord' : 'action.addFirst')} `;
   recallUI?.refresh();
+  vocabularyUI?.refresh();
   observatoryUI?.refresh();
   $('#next-number').textContent = String(words.length + 1).padStart(3, '0');
 }
@@ -539,6 +543,15 @@ function openPanel(which) {
   document.documentElement.scrollLeft = document.body.scrollLeft = $('#app').scrollLeft = 0;
 }
 function closePanels() { openPanel(null); editingId = null; $('#word-form').reset(); $('#form-error').textContent = ''; }
+// On-device pronunciation; the control appears only when a local voice matches the galaxy language.
+const pronouncer = createPronouncer({ onVoicesChanged: () => { refreshSpeakButton(); recallUI?.refresh(); } });
+function refreshSpeakButton() {
+  const word = words.find(w => w.id === selectedId);
+  const language = universe.galaxies.find(g => g.id === word?.galaxyId)?.language;
+  const button = $('#speak-word');
+  button.hidden = !word || !pronouncer.canSpeak(language);
+  if (word) { button.setAttribute('aria-label', t('pronounce.listenWord', { word: word.word })); button.title = t('pronounce.listen'); }
+}
 function selectWord(id, keepNavigation = false) {
   wordCard.invalidate();
   const word = words.find(w => w.id === id); if (!word || !experience.snapshot().ready) return;
@@ -559,6 +572,8 @@ function selectWord(id, keepNavigation = false) {
   $('#detail-sun').classList.toggle('planet', isPlanet);
   $('#detail-number').textContent = t('message.numberLabel', { number: String(words.indexOf(word) + 1).padStart(3, '0') });
   $('#detail-word').textContent = word.word;
+  pronouncer.cancel();
+  refreshSpeakButton();
   $('#detail-meaning').textContent = word.meaning;
   $('#detail-meaning').hidden = true;
   $('#meaning-hidden').hidden = false;
@@ -811,6 +826,22 @@ function exportUniverse() {
   showToast(t('message.exported'));
 }
 
+// Bulk word lists: entries arrive validated and de-duplicated; each gets a
+// persisted position and its own creation event, exactly like a manual add.
+function importEntries(entries) {
+  if (!universe.galaxies.some(g => g.id === universe.activeGalaxyId)) return 0;
+  const start = Date.now();
+  let added = 0;
+  for (const fields of entries) {
+    const position = createPosition(words.filter(w => entryKind(w) === 'word').length, Math.random(), 'word');
+    const item = { id: crypto.randomUUID(), galaxyId: universe.activeGalaxyId, word: fields.word, meaning: fields.meaning, example: fields.example, kind: 'word', createdAt: new Date(start + added).toISOString(), ...position };
+    universe.words.push(item); words.push(item); appendEvent(universe, 'word.created', item.galaxyId, item.id, null, item);
+    added++;
+  }
+  if (added) { persist(); rebuildWordStars(); refreshCounts(); renderGalaxies(); }
+  return added;
+}
+
 async function importUniverse(event) {
   const file = event.target.files?.[0]; if (!file) return;
   try {
@@ -898,6 +929,11 @@ function bindUI() {
   $('#meaning-language-current').addEventListener('change', updateMeaningLanguage);
   $('#cancel-rename-galaxy').addEventListener('click', () => toggleGalaxyRename(false));
   $('#export-universe').addEventListener('click', exportUniverse);
+  $('#speak-word').replaceChildren(icon('speak'));
+  $('#speak-word').addEventListener('click', () => {
+    const word = words.find(w => w.id === selectedId);
+    if (word) pronouncer.speak(word.word, universe.galaxies.find(g => g.id === word.galaxyId)?.language);
+  });
   $('#import-universe').addEventListener('change', importUniverse);
   $('#reveal-meaning').addEventListener('click', () => {
     const reveal = $('#detail-meaning').hidden;
@@ -1061,9 +1097,17 @@ accountSync = mountAccountSync({
     if (activePanel === 'detail' && !selectedId) closePanels();
   },
 });
+vocabularyUI = mountVocabularyImport({ locale: uiLocale, anchor: $('#import-universe'),
+  getLanguage: () => universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language,
+  getGalaxyName: () => galaxyDisplay(universe.galaxies.find(g => g.id === universe.activeGalaxyId)),
+  getExisting: () => words, onImport: importEntries, notify: showToast,
+});
+vocabularyUI.refresh();
 profileUI = mountProfileUI({ locale: uiLocale, getUniverse: () => universe, beforeOpen: closePanels, getReviewInsights: () => recallUI?.insights(universe.words) ?? null });
 recallUI = mountRecallUI({ locale: uiLocale, getRecords: () => words,
   getOwnerRecordIds: () => universe.words.map(w => w.id),
+  pronouncer,
+  getLanguage: () => universe.galaxies.find(g => g.id === universe.activeGalaxyId)?.language,
   getCloud: async () => { const state = experience.snapshot(); if (state.mode !== 'personal' || !state.ownerId) return null; const client = await getSupabaseClient(); return client ? { client, ownerId: state.ownerId } : null; },
   getIdentity: () => { const state = experience.snapshot(); return state.ready && state.mode !== 'showcase-demo' ? `${state.mode}:${state.ownerId || 'guest'}:${universe.activeGalaxyId}` : null; },
   beforeOpen: closePanels,

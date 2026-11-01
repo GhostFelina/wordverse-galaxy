@@ -767,5 +767,35 @@
     "previous": "Önceki kayıt",
     "next": "Sonraki kayıt",
     "position": "{total} kayıt içinden {current}."
+  },
+  "pronounce": {
+    "listen": "Telaffuzu dinle",
+    "listenWord": "{word} telaffuzunu dinle"
+  },
+  "bulk": {
+    "import": "Kelime listesi içe aktar (CSV, TSV, Anki) ↑",
+    "export": "Bu galaksiyi CSV olarak indir ↓",
+    "close": "Kapat",
+    "title": "Kelime listesini içe aktar",
+    "eyebrow": "HEDEF · {galaxy}",
+    "ready": "Eklenecek",
+    "duplicates": "Zaten var",
+    "invalid": "Eksik satır",
+    "preview": "İlk kelimeler",
+    "more": "… ve {count} kelime daha",
+    "confirm": "{count} kelimeyi ekle",
+    "cancel": "Vazgeç",
+    "closeEmpty": "Kapat",
+    "done": "{count} kelime evrenine eklendi.",
+    "note": "Her satırda kelime ve anlam olmalı; örnek cümle isteğe bağlı. Kopyalar atlanır, mevcut kayıtlar değişmez.",
+    "tooLarge": "Dosya çok büyük (en fazla 2 MB).",
+    "unreadable": "Dosya okunamadı. CSV, TSV veya Anki metin dışa aktarımı dene.",
+    "exported": "{count} kelime CSV olarak indirildi.",
+    "format": {
+      "csv": "Virgülle ayrılmış CSV olarak okundu.",
+      "csv-semicolon": "Noktalı virgülle ayrılmış CSV olarak okundu.",
+      "tsv": "Sekmeyle ayrılmış liste olarak okundu.",
+      "anki": "Anki metin dışa aktarımı olarak okundu."
+    }
   }
 }

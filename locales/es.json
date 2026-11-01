@@ -767,5 +767,35 @@
     "previous": "Registro anterior",
     "next": "Registro siguiente",
     "position": "Registro {current} de {total}"
+  },
+  "pronounce": {
+    "listen": "Escuchar la pronunciación",
+    "listenWord": "Escuchar {word}"
+  },
+  "bulk": {
+    "import": "Importar una lista de palabras (CSV, TSV, Anki) ↑",
+    "export": "Descargar esta galaxia como CSV ↓",
+    "close": "Cerrar",
+    "title": "Importar una lista de palabras",
+    "eyebrow": "EN {galaxy}",
+    "ready": "Por añadir",
+    "duplicates": "Ya existen",
+    "invalid": "Filas incompletas",
+    "preview": "Primeras palabras",
+    "more": "… y {count} más",
+    "confirm": "Añadir {count} palabras",
+    "cancel": "Cancelar",
+    "closeEmpty": "Cerrar",
+    "done": "{count} palabras añadidas a tu universo.",
+    "note": "Cada fila necesita una palabra y un significado; la frase de ejemplo es opcional. Los duplicados se omiten y los registros existentes no cambian.",
+    "tooLarge": "El archivo es demasiado grande (máximo 2 MB).",
+    "unreadable": "No se pudo leer el archivo. Prueba con CSV, TSV o una exportación de texto de Anki.",
+    "exported": "{count} palabras descargadas como CSV.",
+    "format": {
+      "csv": "Leído como CSV separado por comas.",
+      "csv-semicolon": "Leído como CSV separado por punto y coma.",
+      "tsv": "Leído como lista separada por tabulaciones.",
+      "anki": "Leído como exportación de texto de Anki."
+    }
   }
 }

@@ -4,6 +4,7 @@ import { createReviewSession, DEFAULT_NEW_LIMIT } from './review-session.js';
 import { createReviewStore, reviewInsights } from './review-store.js';
 import { durationParts } from './review-schedule.js';
 import { syncReviewProgress } from './review-sync.js';
+import { icon } from './interface-icons.js';
 import './recall.css';
 
 const LANGUAGE_TAGS = { tr: 'tr-TR', en: 'en-US', es: 'es-ES' };
@@ -27,6 +28,8 @@ export function mountRecallUI({
   beforeOpen,
   getOwnerRecordIds,
   getCloud,
+  pronouncer,
+  getLanguage,
   storage = browserStorage(),
 }) {
   const t = (key, params) => translate(locale, `recall.${key}`, params);
@@ -123,7 +126,20 @@ export function mountRecallUI({
     const word = node('h3', state.card.word);
     word.id = 'recall-word';
     card.setAttribute('aria-labelledby', word.id);
-    card.append(word);
+    const language = getLanguage?.();
+    if (pronouncer?.canSpeak(language)) {
+      const row = node('div', '', 'recall-word-row');
+      const speak = document.createElement('button');
+      speak.type = 'button';
+      speak.id = 'recall-speak';
+      speak.className = 'speak-word';
+      speak.title = translate(locale, 'pronounce.listen');
+      speak.setAttribute('aria-label', translate(locale, 'pronounce.listenWord', { word: state.card.word }));
+      speak.append(icon('speak'));
+      speak.addEventListener('click', () => pronouncer.speak(state.card.word, language));
+      row.append(word, speak);
+      card.append(row);
+    } else card.append(word);
     if (state.revealed) {
       card.append(node('p', state.card.meaning, 'recall-meaning'));
       if (state.card.example) card.append(node('p', state.card.example, 'recall-example'));

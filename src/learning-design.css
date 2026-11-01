@@ -826,3 +826,111 @@ button:disabled {
 .recall-sync-failed {
   color: #e7b6a8;
 }
+
+/* On-device pronunciation control beside a word. */
+.detail-word-row,
+.recall-word-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.detail-word-row h2,
+.recall-word-row h3 {
+  min-width: 0;
+}
+.speak-word {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--atlas-border);
+  border-radius: 999px;
+  background: #d9b68e14;
+  color: var(--atlas-light);
+}
+.speak-word:hover {
+  background: #d9b68e2a;
+  color: var(--atlas-paper);
+}
+.speak-word[hidden] {
+  display: none;
+}
+
+/* Bulk word-list import/export in the galaxy panel and its confirmation dialog. */
+.bulk-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+.bulk-export:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.bulk-dialog {
+  width: min(560px, calc(100vw - 28px));
+}
+.bulk-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0 12px;
+}
+.bulk-summary div {
+  padding: 12px 6px;
+  border: 1px solid var(--atlas-border);
+  border-radius: 12px;
+  text-align: center;
+}
+.bulk-summary dt {
+  color: var(--atlas-secondary);
+  font:
+    12px/1.4 'DM Sans',
+    sans-serif;
+}
+.bulk-summary dd {
+  margin: 6px 0 0;
+  color: var(--atlas-paper);
+  font:
+    400 26px/1 'Space Grotesk',
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.bulk-preview {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+.bulk-preview li {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--atlas-border);
+  border-radius: 10px;
+  color: var(--atlas-secondary);
+  font:
+    13px/1.5 'DM Sans',
+    sans-serif;
+}
+.bulk-preview strong {
+  flex: none;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--atlas-paper);
+  font-weight: 500;
+}
+.bulk-preview span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bulk-preview .bulk-more {
+  border-style: dashed;
+}
